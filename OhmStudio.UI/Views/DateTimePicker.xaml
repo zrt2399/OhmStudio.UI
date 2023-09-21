@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="OhmStudio.UI.Views.DateTimePicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:OhmStudio.UI.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="24"
+             d:DesignWidth="150">
+
+    <Grid>
+        <Border BorderBrush="Silver"
+                SnapsToDevicePixels="True"
+                Background="White"
+                BorderThickness="1"
+                Name="borderMain">
+            <local:IconButton x:Name="iconButton"
+                              Margin="4"
+                              HorizontalAlignment="Right"
+                              Icon="/OhmStudio.UI;component/Images/date.png"
+                              Click="IconButton_Click"/>
+        </Border>
+        <TextBox Padding="0"
+                 Background="Transparent"
+                 BorderBrush="Transparent"
+                 BorderThickness="0"
+                 IsReadOnly="True"
+                 Style="{x:Null}"
+                 Margin="1,0,0,0"
+                   HorizontalAlignment="Left" 
+                   Name="textBlockDateTime"            
+                   VerticalAlignment="Center"
+                   Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type UserControl}},Path=DateTime,Mode=TwoWay}"/>
+        <!--<Grid x:Name="girdChioce" 
+              Background="Transparent"
+              VerticalAlignment="Top"
+              Margin="0,257,0,40">
+                           Placement="Top"-->
+        <Popup x:Name="popChioce"
+               PopupAnimation="Fade"
+               PlacementTarget="{Binding ElementName=borderMain}"
+               StaysOpen="False"
+               IsOpen="False"/>
+        <!--</Grid>-->
+    </Grid>
+</UserControl>

@@ -1,0 +1,252 @@
+﻿<Window x:Class="OhmStudio.UI.Views.MessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OhmStudio.UI.Views"
+        mc:Ignorable="d"
+        Title="系统提示"
+        ResizeMode="NoResize" 
+        SizeToContent="WidthAndHeight"
+        MinHeight="200"
+        MinWidth="340"
+        Deactivated="Window_Deactivated"
+        Activated="Window_Activated"
+        Closed="Window_Closed">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="28"
+                      GlassFrameThickness="1"
+                      ResizeBorderThickness="5"
+                      UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Margin="-2">
+                            <Border Name="borderEffect" SnapsToDevicePixels="True" Visibility="Collapsed" Margin="2" CornerRadius="2.5" Background="#FF2C84DD">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="0" Color="#FF2C84DD"/>
+                                </Border.Effect>
+                            </Border>
+                            <Border TextBlock.Foreground="White" Name="border" Margin="2"
+                                    SnapsToDevicePixels="True"
+                                    CornerRadius="2" BorderThickness="1"
+                                    Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                                    BorderBrush="#FF2C84DD" Background="#FF0078D7">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Visibility" TargetName="borderEffect" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="border" Property="Background" Value="#2E2E2E"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#2E2E2E"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="border" Property="Background" Value="#FFF6F6F6"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FFD1D5D6"/>
+                                <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FF514949"/>
+                                <Setter TargetName="borderEffect" Property="Background" Value="#FFD1D5D6"/>
+                                <Setter TargetName="borderEffect" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect ShadowDepth="0" Color="#FFD1D5D6"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="true">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#AA383838"/>
+                                <Setter Property="Visibility" TargetName="borderEffect" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CloseButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="Transparent">
+                            <Rectangle x:Name="ButtonBackground" Fill="{TemplateBinding Background}" Opacity="0"/>
+                            <Border Background="Transparent" Name="Back">
+                                <Path x:Name="PathBack" Data="M0 0 10 10M0 10 10 0" Stroke="White" StrokeThickness="2"
+                                      RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <Path.LayoutTransform>
+                                        <RotateTransform x:Name="rtf"
+										                 CenterX="0.5"
+										                 CenterY="0.5"/>
+                                    </Path.LayoutTransform>
+                                </Path>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation To="1"
+												  Duration="0:0:0.4"
+												  Storyboard.TargetProperty="Opacity"
+												  Storyboard.TargetName="ButtonBackground"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="0"
+												 To="180"
+												 Duration="0:0:0.4"
+												 Storyboard.TargetProperty="Angle"
+												 Storyboard.TargetName="rtf"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation To="0"
+												  Duration="0:0:0.4"
+												  Storyboard.TargetProperty="Opacity"
+												  Storyboard.TargetName="ButtonBackground"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Back" Property="Background" Value="#fb7373"/>
+                                <Setter TargetName="PathBack" Property="Stroke" Value="white"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Back" Property="Background" Value="#e14848"/>
+                                <Setter TargetName="PathBack" Property="Stroke" Value="lightgray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--<ControlTemplate TargetType="Button" x:Key="CloseButton">
+            <Border Background="Transparent" CornerRadius="0,2,0,0" Name="Back">
+                <Path x:Name="PathBack" Data="M0 0 10 10M0 10 10 0" Stroke="White" StrokeThickness="2"
+                      VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="Back" Property="Background" Value="#fb7373"/>
+                    <Setter TargetName="PathBack" Property="Stroke" Value="white"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="Back" Property="Background" Value="#e14848"/>
+                    <Setter TargetName="PathBack" Property="Stroke" Value="lightgray"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>-->
+
+        <!--<Storyboard x:Key="HideWindow">
+            <DoubleAnimation Duration="0:0:0.3" From="1" To="0" Storyboard.TargetProperty="Opacity" FillBehavior="Stop" />
+            <DoubleAnimation Duration="0:0:0.3" From="1" To="0.8" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleX)" FillBehavior="Stop" Storyboard.TargetName="MainGrid"/>
+            <DoubleAnimation Duration="0:0:0.3" From="1" To="0.8" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleY)" FillBehavior="Stop" Storyboard.TargetName="MainGrid"/>
+        </Storyboard>
+        <Storyboard x:Key="ShowWindow">
+            <DoubleAnimation Duration="0:0:0.2" From="0" To="1" Storyboard.TargetProperty="Opacity" FillBehavior="Stop"/>
+            <DoubleAnimation Duration="0:0:0.2" From="0.95" To="1" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleX)" FillBehavior="Stop" Storyboard.TargetName="MainGrid"/>
+            <DoubleAnimation Duration="0:0:0.2" From="0.95" To="1" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleY)" FillBehavior="Stop" Storyboard.TargetName="MainGrid"/>
+        </Storyboard>-->
+    </Window.Resources>
+
+    <!--<Window.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.3"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>-->
+
+    <Grid FocusManager.FocusedElement="{Binding ElementName=btnOK}">
+        <Grid Background="White">
+            <!--<Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    </TransformGroup>
+                </Grid.RenderTransform>-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid x:Name="title"
+                      Background="#FF0078D7"
+                      Margin="0,0,-0.4,0"/>
+                <TextBlock Margin="10,0,0,0"
+                                   x:Name="txtTitle"
+                                   FontSize="13"
+                                   Foreground="White"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center">系统提示</TextBlock>
+                <Button x:Name="btnClose"
+                        Margin="0,0,-0.4,0"
+                                Width="32"
+                                ToolTip="关闭"
+                                Focusable="False"
+                                Style="{StaticResource CloseButtonStyle}"
+                                HorizontalAlignment="Right"
+                                WindowChrome.IsHitTestVisibleInChrome="True"
+                                Click="btnClose_Click"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Image Margin="10"
+                               x:Name="imageInfo"
+                               Source="/Images/提示.png"
+                               VerticalAlignment="Top"/>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <TextBox x:Name="txtMessage"
+                                 Padding="0"
+                                     Margin="0,10,10,0"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     IsReadOnly="True"
+                                     TextWrapping="Wrap"
+                                     FontSize="12"
+                                     Style="{x:Null}"/>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="2">
+                <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right">
+                    <Button x:Name="btnOK"
+                                VerticalAlignment="Bottom"
+                                Margin="10"
+                                Height="25"
+                                Style="{StaticResource ButtonStyle}"
+                                Width="60"
+                                Click="btnOK_Click">确定</Button>
+                    <Button x:Name="btnCancel"
+                                VerticalAlignment="Bottom"
+                                Margin="10"
+                                Height="25"
+                                Style="{StaticResource ButtonStyle}"
+                                Width="60"
+                                Click="btnCancel_Click">取消</Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

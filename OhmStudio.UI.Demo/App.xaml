@@ -1,0 +1,15 @@
+﻿<Application x:Class="OhmStudio.UI.Demo.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:OhmStudio.UI.Demo"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/OhmStudio.UI;component/Themes/VisualStudio2022/BlueTheme.xaml" />
+                <ResourceDictionary Source="/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2022/BlueTheme.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application> 

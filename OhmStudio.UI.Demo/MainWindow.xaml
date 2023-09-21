@@ -1,0 +1,26 @@
+﻿<CustomChromeWindow x:Class="OhmStudio.UI.Demo.MainWindow"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:local="clr-namespace:OhmStudio.UI.Demo"
+                    mc:Ignorable="d"
+                    WindowStartupLocation="CenterScreen"
+                    Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <DockingManager x:Name="dockingManager" >
+
+            <LayoutRoot>
+                <LayoutPanel Orientation="Horizontal">
+                    <LayoutDocumentPaneGroup>
+                        <LayoutDocumentPane  >
+                            <LayoutDocument Title="123">
+                                <Button>123</Button>
+                            </LayoutDocument>
+                        </LayoutDocumentPane>
+                    </LayoutDocumentPaneGroup>
+                </LayoutPanel>
+            </LayoutRoot>
+        </DockingManager>
+    </Grid>
+</CustomChromeWindow> 

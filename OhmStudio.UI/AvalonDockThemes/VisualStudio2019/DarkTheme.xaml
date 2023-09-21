@@ -1,0 +1,6 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/OhmStudio.UI;component/AvalonDockThemes/Brushes/VisualStudio2019/DarkBrushs.xaml" />
+        <ResourceDictionary Source="/OhmStudio.UI;component/AvalonDockStyles/VS/VisualStudio2019.Templates.Styles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

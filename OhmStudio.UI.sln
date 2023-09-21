@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OhmStudio.UI", "OhmStudio.UI\OhmStudio.UI.csproj", "{E5AF42A0-54F5-4A8D-B904-B6AF90BF07B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OhmStudio.UI.Demo", "OhmStudio.UI.Demo\OhmStudio.UI.Demo.csproj", "{57A91B2C-4E8E-401F-B38F-A810C60401EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E5AF42A0-54F5-4A8D-B904-B6AF90BF07B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5AF42A0-54F5-4A8D-B904-B6AF90BF07B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5AF42A0-54F5-4A8D-B904-B6AF90BF07B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5AF42A0-54F5-4A8D-B904-B6AF90BF07B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57A91B2C-4E8E-401F-B38F-A810C60401EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57A91B2C-4E8E-401F-B38F-A810C60401EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57A91B2C-4E8E-401F-B38F-A810C60401EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57A91B2C-4E8E-401F-B38F-A810C60401EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91E1AB1D-B4C3-45DF-9A26-6A5594D161B4}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,441 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:converter="clr-namespace:OhmStudio.UI.Converters"
+                    xmlns:view="clr-namespace:OhmStudio.UI.Views"
+                    xmlns:control="clr-namespace:OhmStudio.UI.Controls">
+
+    <converter:ColorConverter x:Key="colorConverter"/>
+    <converter:AngleToPointConverter x:Key="angleToPointConverter"/>
+    <converter:AngleToIsLargeConverter x:Key="angleToIsLargeConverter"/>
+ 
+    <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
+    <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
+    <SolidColorBrush x:Key="EnabledFalse">#FFAEABAB</SolidColorBrush>
+
+    <Style x:Key="ButtonStyle" TargetType="Button">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Margin="-2">
+                        <Border Name="borderEffect" Visibility="Collapsed" Margin="2.5" CornerRadius="2" Background="{Binding ElementName=Border,Path=Background}">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=BorderBrush,Converter={StaticResource colorConverter}}"/>
+                            </Border.Effect>
+                        </Border>
+                        <Border Name="Border" Margin="2" CornerRadius="2" BorderThickness="1" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="#FFF2F4F5" BorderBrush="#FF96999C">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="borderEffect" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#FFD1CCCC"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="#FFF6F6F6"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FFD1D5D6"/>
+                            <Setter TargetName="Border" Property="TextBlock.Foreground" Value="#FF514949"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FF1D1C1C"/>
+                            <Setter TargetName="Border" Property="BorderThickness" Value="1"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FilletButton" TargetType="Button">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Margin="-2">
+                        <Border Name="borderEffect" Visibility="Collapsed" Margin="2.5" CornerRadius="2" Background="{Binding ElementName=Border,Path=Background}">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=Background,Converter={StaticResource colorConverter}}" />
+                            </Border.Effect>
+                        </Border>
+                        <Border Name="Border" Margin="2" CornerRadius="2" Background="#FF1EA973" TextBlock.Foreground="#FFFFFFFF">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Content" Value="停   止">
+                            <Setter TargetName="Border" Property="Background" Value="#FFCD5C5C" />
+                        </Trigger>
+                        <Trigger Property="Content" Value="Stop">
+                            <Setter TargetName="Border" Property="Background" Value="#FFCD5C5C" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Value="{DynamicResource Pressed}" Property="Background" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Value="{DynamicResource EnabledFalse}" Property="Background" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderThickness" Value="1"/>
+                            <Setter TargetName="Border" Value="{DynamicResource Focused}" Property="BorderBrush" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FilletButtonRed" TargetType="Button">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Margin="-2">
+                        <Border Name="borderEffect" Visibility="Collapsed" Margin="2.5" CornerRadius="2" Background="{Binding ElementName=Border,Path=Background}">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=Background,Converter={StaticResource colorConverter}}" />
+                            </Border.Effect>
+                        </Border>
+                        <Border Name="Border" Margin="2" CornerRadius="2" Background="#FFCD5C5C" TextBlock.Foreground="#FFFFFFFF">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Value="{DynamicResource Pressed}" Property="Background" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Value="{DynamicResource EnabledFalse}" Property="Background" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderThickness" Value="1"/>
+                            <Setter TargetName="Border" Value="{DynamicResource Focused}" Property="BorderBrush" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DefaultButton" TargetType="Button">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Margin="-2">
+                        <Border Name="borderEffect" Visibility="Collapsed" Margin="2.5" CornerRadius="2" Background="{Binding ElementName=Border,Path=BorderBrush}">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=BorderBrush,Converter={StaticResource colorConverter}}" />
+                            </Border.Effect>
+                        </Border>
+                        <Border Name="Border" TextBlock.Foreground="#FFFFFFFF" Margin="2" BorderBrush="#FF2C84DD" Background="#FF499FEF" CornerRadius="2" BorderThickness="1" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Value="{DynamicResource Pressed}" Property="Background" />
+                            <Setter TargetName="Border" Value="{DynamicResource Pressed}" Property="BorderBrush" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="#FFF6F6F6" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FFD1D5D6" />
+                            <Setter TargetName="Border" Property="TextBlock.Foreground" Value="#FF514949" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Value="{DynamicResource Focused}" Property="BorderBrush" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="TextBoxStyle" TargetType="TextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="Border" Background="White" BorderBrush="#FFABADB3" SnapsToDevicePixels="True" Margin="{TemplateBinding Padding}"
+                            BorderThickness="0,0,0,1">
+                        <ScrollViewer Margin="1,0,0,0" x:Name="PART_ContentHost" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!--<MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFocused" Value="True"/>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#FF569DE5"></Setter>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>-->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FF7EB4EA"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FF569DE5"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="Border" Property="TextBlock.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            <Setter TargetName="Border" Property="Background" Value="#FFF8F8F8"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+  
+    <Style x:Key="TabItemStyle" TargetType="TabItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <StackPanel Name="bbb" ClipToBounds="True">
+                        <ContentPresenter Name="contentPresenter" ContentSource="Header" Focusable="False" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" HorizontalAlignment="{Binding HorizontalContentAlignment,RelativeSource={RelativeSource AncestorType=ItemsControl}}" VerticalAlignment="{Binding VerticalContentAlignment,RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
+                        <Border Name="bottom" Height="3" Visibility="Collapsed" Background="#FF3C6EFF" />
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="contentPresenter" Property="TextBlock.Foreground" Value="#FF5B7C92" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="bottom" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="contentPresenter" Property="TextBlock.Foreground" Value="#FF4B9FD8" />
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Left">
+                            <Setter Property="LayoutTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="-90" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Right">
+                            <Setter Property="LayoutTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="90" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="control:SearchBar">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="control:SearchBar">
+                    <Border Name="Border" SnapsToDevicePixels="True" Background="White" BorderBrush="#FFABADB3" BorderThickness="0,0,0,1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="24"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="1,0" Foreground="#FF999999" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="{TemplateBinding FontSize}" Visibility="{TemplateBinding ShowMark}" Text="{TemplateBinding PlaceHolder}" />
+                            <ScrollViewer Name="PART_ContentHost" Margin="1,0,0,0" VerticalAlignment="Center"/>
+                            <Button Grid.Column="1" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}" Style="{x:Null}">
+                                <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" FontSize="14">&#xe60c;</TextBlock>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FF7EB4EA" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FF569DE5" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="#FFF8F8F8" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PageAnimation" TargetType="Page">
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <!--60FPS DesiredFrameRate="60"-->
+                        <Storyboard>
+                            <ThicknessAnimation Duration="0:0:0.3" Storyboard.TargetProperty="Margin" From="50,0,-50,0" To="0" DecelerationRatio="0.9"/>
+                            <DoubleAnimation Duration="0:0:0.3" Storyboard.TargetProperty="Opacity" From="0" To="1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border x:Name="toggleBorder" CornerRadius="13" Background="#D3D3D3" Width="44"
+                            Height="26" BorderThickness="1" Cursor="Hand"
+                            BorderBrush="Transparent" VerticalAlignment="Center">
+                        <Ellipse Name="ellipse" Height="18" Width="18" Margin="3" HorizontalAlignment="Left" Fill="White"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="toggleBorder" Property="Background" Value="#65C468"/>
+                            <Setter TargetName="ellipse" Property="HorizontalAlignment" Value="Right"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="control:CircularProgressBar">
+        <Setter Property="Maximum" Value="100"/>
+        <Setter Property="StrokeThickness" Value="10"/>
+        <Setter Property="Foreground" Value="Gray"/>
+        <Setter Property="BorderBrush" Value="#FF1FA7FC"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="100"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="control:CircularProgressBar">
+                    <Viewbox>
+                        <Canvas Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <Path Stroke="{TemplateBinding Background}"
+                                  StrokeThickness="{TemplateBinding StrokeThickness}">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathFigure StartPoint="50,0">
+                                            <ArcSegment SweepDirection="Clockwise"
+                                                        Size="50,50"
+                                                        Point="49.999127335374,7.61543361704753E-09"
+                                                        IsLargeArc="True">
+                                            </ArcSegment>
+                                        </PathFigure>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+                            <Path Stroke="{TemplateBinding BorderBrush}"
+                                  StrokeThickness="{TemplateBinding BrushStrokeThickness}">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathFigure StartPoint="50,0">
+                                            <ArcSegment SweepDirection="Clockwise"
+                                                        Size="50,50"
+                                                        Point="{Binding Path=Angle,Converter={StaticResource angleToPointConverter},RelativeSource={RelativeSource FindAncestor,AncestorType=ProgressBar}}"
+                                                        IsLargeArc="{Binding Path=Angle,Converter={StaticResource angleToIsLargeConverter},RelativeSource={RelativeSource FindAncestor,AncestorType=ProgressBar}}">
+                                            </ArcSegment>
+                                        </PathFigure>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+                            <!--<Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center"
+                                           Text="{Binding Tag,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type view:CircularProgressBar}}}"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           Grid.Row="1"/>
+                                <TextBlock Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center"
+                                           Text="{Binding Path=Value,StringFormat={}{0}%,RelativeSource={RelativeSource TemplatedParent}}"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           Grid.Row="2"/>
+                            </Grid>-->
+                            <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center"
+                                           Text="{Binding Title,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type control:CircularProgressBar}}}"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           Grid.Row="1">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="Text" Value="">
+                                                        <Setter Property="Height" Value="0"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <TextBlock Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center"
+                                           Text="{Binding Path=Value,StringFormat={}{0}%,RelativeSource={RelativeSource TemplatedParent}}"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           Grid.Row="2"/>
+                                </StackPanel>
+                            </Grid>
+                        </Canvas>
+                    </Viewbox>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ListBoxItemContainerStyle" TargetType="ListBoxItem">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Padding" Value="4,1"/>
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}" Opacity="0.7" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                        <Ellipse x:Name="ep" Width="12" Height="12" Fill="LightGray"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Fill" TargetName="ep" Value="GRAY"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <ItemsPanelTemplate x:Key="ListBoxItemsPanel">
+        <StackPanel Orientation="Horizontal"/>
+    </ItemsPanelTemplate>
+    <Style TargetType="control:RollBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="control:RollBox">
+                    <Grid ClipToBounds="True">
+                        <ListBox x:Name="PART_ListBox"
+                                     Panel.ZIndex="10"
+                                     ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"  
+                                     SelectedIndex="0"
+                                     BorderThickness="0"
+                                     ItemsPanel="{StaticResource ListBoxItemsPanel}"  
+                                     HorizontalAlignment="Right" 
+                                     VerticalAlignment="Bottom" 
+                                     Background="Transparent"
+                                     Margin="0,0,20,20"
+                                     Height="24"/>
+                        <ContentControl x:Name="PART_NEXT_Content"/>
+                        <ContentControl x:Name="PART_CURR_Content"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style> 
+</ResourceDictionary>

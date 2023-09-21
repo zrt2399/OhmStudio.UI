@@ -1,0 +1,495 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ei="clr-namespace:OhmStudio.UI.PublicMethod"
+                    x:Class="OhmStudio.UI.Themes.WindowUI"
+                    x:ClassModifier="public">
+
+    <Style x:Key="WindowButton" TargetType="Button">
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
+    </Style>
+
+    <SolidColorBrush x:Key="WindowTitleForeground" Color="#FFFBFDFE"/>
+    <SolidColorBrush x:Key="WindowTitleBackground" Color="#FF4B9FD8"/>
+    <SolidColorBrush x:Key="DefaultBorderBrush" Color="#FFD3D8DB"/>
+    <SolidColorBrush x:Key="DefaultForeground" Color="#FF252525"/>
+    <SolidColorBrush x:Key="WindowContentBackground" Color="#FFF8F8F8"/>
+
+    <Style TargetType="Button" x:Key="WindowCloseButtonStyle" BasedOn="{StaticResource WindowButton}">
+        <Setter Property="ToolTip" Value="关闭"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="bdPanel" SnapsToDevicePixels="true">
+                        <Image Name="imgContent" Source="/OhmStudio.UI;component/Images/Buttons/btnClose.png" Width="20" Height="20"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Source" TargetName="imgContent" Value="/OhmStudio.UI;component/Images/Buttons/btnClose_Hover.png"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Source" TargetName="imgContent" Value="/OhmStudio.UI;component/Images/Buttons/btnClose_Press.png"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Setter Property="Source" TargetName="imgContent" Value="/OhmStudio.UI;component/Images/Buttons/btnClose_Hover.png"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="WindowRestoreButtonStyle" BasedOn="{StaticResource WindowButton}">
+        <Setter Property="ToolTip" Value="还原"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="bdPanel" SnapsToDevicePixels="true">
+                        <Image Name="imgContent" Source="/OhmStudio.UI;component/Images/Buttons/btnRestore.png" Width="20" Height="20"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Source" TargetName="imgContent" Value="/OhmStudio.UI;component/Images/Buttons/btnRestore_Hover.png"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Source" TargetName="imgContent" Value="/OhmStudio.UI;component/Images/Buttons/btnRestore_Press.png"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Setter Property="Source" TargetName="imgContent" Value="/OhmStudio.UI;component/Images/Buttons/btnRestore_Hover.png"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="WindowMinButtonStyle" BasedOn="{StaticResource WindowButton}">
+        <Setter Property="ToolTip" Value="最小化"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="bdPanel" SnapsToDevicePixels="true">
+                        <Image Name="imgContent" Source="/OhmStudio.UI;component/Images/Buttons/btnMin.png" Width="20" Height="20"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Source" TargetName="imgContent" Value="/OhmStudio.UI;component/Images/Buttons/btnMin_Hover.png"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Source" TargetName="imgContent" Value="/OhmStudio.UI;component/Images/Buttons/btnMin_Press.png"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Setter Property="Source" TargetName="imgContent" Value="/OhmStudio.UI;component/Images/Buttons/btnMin_Hover.png"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="WindowMaxButtonStyle" BasedOn="{StaticResource WindowButton}">
+        <Setter Property="ToolTip" Value="最大化"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="bdPanel" SnapsToDevicePixels="true">
+                        <Image Name="imgContent" Source="/OhmStudio.UI;component/Images/Buttons/btnMax.png" Width="20" Height="20"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Source" TargetName="imgContent" Value="/OhmStudio.UI;component/Images/Buttons/btnMax_Hover.png"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Source" TargetName="imgContent" Value="/OhmStudio.UI;component/Images/Buttons/btnMax_Press.png"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Setter Property="Source" TargetName="imgContent" Value="/OhmStudio.UI;component/Images/Buttons/btnMax_Hover.png"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="NormalWindowStyle" TargetType="Window">
+        <Setter Property="MinHeight" Value="70"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Background" Value="{StaticResource WindowContentBackground}"/>
+        <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="AllowsTransparency" Value="True"/>
+        <!--<EventSetter Event="Initialized" Handler="Window_Initialized"/>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Window">
+                    <!--Window替换为Grid-->
+                    <Grid Background="Transparent">
+                        <Grid.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Grid.Triggers>
+                        <Grid Margin="2" Name="gridMain">
+                            <Border Background="White" CornerRadius="2">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="0" Color="DarkGray"/>
+                                </Border.Effect>
+                            </Border>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="32"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- 内容区域 -->
+                                <Border Name="bdContent" ClipToBounds="True" CornerRadius="0,0,2,2" BorderThickness="0,1,0,0" Background="{TemplateBinding Background}" Grid.Row="1" BorderBrush="{StaticResource DefaultBorderBrush}">
+                                    <ContentPresenter/>
+                                </Border>
+
+                                <!-- 标题区域 -->
+                                <Border Name="bdTitle" CornerRadius="2,2,0,0" BorderThickness="0,0,0,1" Background="{DynamicResource WindowTitleBackground}" BorderBrush="{DynamicResource WindowTitleBackground}">
+                                    <Grid Margin="10,0,5,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock x:Name="txtTitle" Text="{TemplateBinding Title}" Grid.Column="1" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource WindowTitleForeground}"/>
+
+                                        <!-- 主窗体可以放置菜单 -->
+                                        <ContentPresenter Name="menu" TextBlock.Foreground="White" Grid.Column="2" Content="{TemplateBinding Tag}" Margin="0,0,5,0"/>
+
+                                        <!--最小化按钮-->
+                                        <Button Name="btnMin" Style="{DynamicResource WindowMinButtonStyle}" Grid.Column="3" Margin="0,0,5,0">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <ei:ChangePropertyAction PropertyName="WindowState" Value="Minimized" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+
+                                        <!--还原按钮-->
+                                        <Button Name="btnRestore" Style="{DynamicResource WindowRestoreButtonStyle}" Grid.Column="4" Margin="0,0,5,0">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <ei:ChangePropertyAction PropertyName="WindowState" Value="Normal" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+
+                                        <!--最大化按钮-->
+                                        <Button Name="btnMax" Style="{DynamicResource WindowMaxButtonStyle}" Grid.Column="4" Margin="0,0,5,0">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <ei:ChangePropertyAction PropertyName="WindowState" Value="Maximized" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+
+                                        <!--关闭按钮-->
+                                        <Button Style="{DynamicResource WindowCloseButtonStyle}" Grid.Column="5">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <ei:CallMethodAction MethodName="Close" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsActive" Value="False">
+                            <Setter TargetName="txtTitle" Property="Foreground" Value="LightGray"/>
+                            <Setter TargetName="menu" Property="TextBlock.Foreground" Value="LightGray"/>
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="btnMax" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="btnRestore" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="bdTitle" Property="CornerRadius" Value="0"/>
+                            <Setter TargetName="bdContent" Property="CornerRadius" Value="0"/>
+                            <Setter TargetName="gridMain" Property="Margin" Value="0"/>
+                            <Setter Property="WindowChrome.WindowChrome">
+                                <Setter.Value>
+                                    <WindowChrome CaptionHeight="34" GlassFrameThickness="1" ResizeBorderThickness="5" UseAeroCaptionButtons="False"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter TargetName="btnMax" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="btnRestore" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ResizeMode" Value="NoResize">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="btnMin"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="btnRestore"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="btnMax"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="27" GlassFrameThickness="1" ResizeBorderThickness="5" CornerRadius="2" UseAeroCaptionButtons="False"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CustomWindowStyle" TargetType="Window">
+        <Setter Property="MinHeight" Value="70"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Background" Value="{StaticResource WindowContentBackground}"/>
+
+        <!--<EventSetter Event="Loaded" Handler="Window_Loaded"/>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Window">
+                    <!--Window替换为Grid-->
+                    <!--<Border BorderThickness="1" BorderBrush="#325064" SnapsToDevicePixels="True">-->
+                    <Border Name="host">
+                        <Grid Name="main">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!--内容区域-->
+                            <Grid Background="{TemplateBinding Background}" Grid.Row="1">
+                                <ContentPresenter/>
+                            </Grid>
+
+                            <!--标题区域-->
+                            <Grid Background="{DynamicResource WindowTitleBackground}">
+                                <Grid Margin="10,0,5,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock x:Name="txtTitle" Text="{TemplateBinding Title}" Grid.Column="1" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource WindowTitleForeground}"/>
+
+                                    <!--主窗体可以放置菜单-->
+                                    <ContentPresenter Name="menu" TextBlock.Foreground="White" Grid.Column="2" Content="{TemplateBinding Tag}" Margin="0,0,5,0"/>
+
+                                    <!--最小化按钮-->
+                                    <Button Name="btnMin" Style="{DynamicResource WindowMinButtonStyle}" Grid.Column="3" Margin="0,0,5,0">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <ei:ChangePropertyAction PropertyName="WindowState" Value="Minimized" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+
+                                    <!--还原按钮-->
+                                    <Button Name="btnRestore" Style="{DynamicResource WindowRestoreButtonStyle}" Grid.Column="4" Margin="0,0,5,0">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <ei:ChangePropertyAction PropertyName="WindowState" Value="Normal" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+
+                                    <!--最大化按钮-->
+                                    <Button Name="btnMax" Style="{DynamicResource WindowMaxButtonStyle}" Grid.Column="4" Margin="0,0,5,0">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <ei:ChangePropertyAction PropertyName="WindowState" Value="Maximized" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+
+                                    <!--关闭按钮-->
+                                    <Button Style="{DynamicResource WindowCloseButtonStyle}" Grid.Column="5">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <ei:CallMethodAction MethodName="Close" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsActive" Value="False">
+                            <Setter TargetName="txtTitle" Property="Foreground" Value="LightGray"/>
+                            <Setter TargetName="menu" Property="TextBlock.Foreground" Value="LightGray"/>
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="btnMax" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="btnRestore" Property="Visibility" Value="Visible"/>
+                            <!--<Setter TargetName="main" Property="Margin" Value="{x:Static local:WindowParameters.PaddedBorderThickness}"/>-->
+                            <Setter TargetName="main" Property="Margin" Value="{x:Static SystemParameters.WindowResizeBorderThickness}"/>
+                            <Setter TargetName="host" Property="Padding" Value="4"/>
+                            <Setter Property="WindowChrome.WindowChrome">
+                                <Setter.Value>
+                                    <WindowChrome CaptionHeight="34" GlassFrameThickness="1" ResizeBorderThickness="5" UseAeroCaptionButtons="False"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter TargetName="btnMax" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="btnRestore" Property="Visibility" Value="Collapsed"/>
+                            <!--<Setter Property="WindowChrome.WindowChrome" Value="{StaticResource WindowChromeNormal}"/>-->
+                        </Trigger>
+                        <Trigger Property="ResizeMode" Value="NoResize">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="btnMin"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="btnRestore"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="btnMax"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="27" GlassFrameThickness="1" ResizeBorderThickness="5" UseAeroCaptionButtons="False"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--<Style TargetType="Window" x:Key="ChildWindowStyle" BasedOn="{StaticResource NormalWindowStyle}">
+        <Setter Property="ResizeMode" Value="NoResize"/>
+        <Setter Property="ShowInTaskbar" Value="False"/>
+    </Style>-->
+
+    <!--<Style TargetType="Window" x:Key="Windows10Style">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Window">
+                    <Border Padding="0 40 0 0">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <Border Background="{TemplateBinding Background}"
+                                    VerticalAlignment="Top" Height="40" Margin="0 -39 0 0">
+                                <Grid>
+                                    <StackPanel Name="titleStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,3,0">
+                                        <StackPanel.Resources>
+                                            <Style  TargetType="Button">
+                                                <Setter Property="Height" Value="40"/>
+                                                <Setter Property="Width" Value="40"/>
+                                                <Setter Property="Background" Value="White"/>
+                                                <Setter Property="BorderThickness" Value="0"/>
+                                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                                <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
+                                            </Style>
+                                        </StackPanel.Resources>
+
+                                        <Button ToolTip="更多" WindowChrome.IsHitTestVisibleInChrome="True">
+                                            <Path Stroke="#212121" Data="M0 0 H12 M0 4 H12 M0 8 H12"/>
+                                        </Button>
+
+                                        <Button Name="btnMin" ToolTip="最小化" WindowChrome.IsHitTestVisibleInChrome="True">
+                                            <Path Fill="#212121" Data="M0,4 L10,4 L10,5 L0,5 z"/>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <ei:ChangePropertyAction PropertyName="WindowState" Value="Minimized" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+                                        <Button Name="btnRestore" ToolTip="向下还原" WindowChrome.IsHitTestVisibleInChrome="True">
+                                            <Path Fill="#212121" Data="M1,3 L1,9 L7,9 L7,3 z M3,1 L3,2 L8,2 L8,7 L9,7 L9,1 z M2,0 L10,0 L10,8 L8,8 L8,10 L0,10 L0,2 L2,2 z"/>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <ei:ChangePropertyAction PropertyName="WindowState" Value="Normal" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+                                        <Button Name="btnMax" ToolTip="最大化" WindowChrome.IsHitTestVisibleInChrome="True">
+                                            <Path Fill="#212121" Data="M1,1 L1,9 L9,9 L9,1 z M0,0 L10,0 L10,10 L0,10 z"/>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <ei:ChangePropertyAction PropertyName="WindowState" Value="Maximized" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+                                        <Button ToolTip="关闭" WindowChrome.IsHitTestVisibleInChrome="True">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <ei:CallMethodAction MethodName="Close" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Name="bdPanel" Background="White" BorderThickness="0">
+                                                        <Path Name="fill" Fill="#212121" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M0.7,0 L5,4.3 L9.3,0 L10,0.7 L5.7,5 L10,9.3 L9.3,10 L5,5.7 L0.7,10 L0,9.3 L4.3,5 L0,0.7 z"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="bdPanel" Property="Background" Value="#FB7373"/>
+                                                            <Setter TargetName="fill" Property="Fill" Value="White"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="true">
+                                                            <Setter TargetName="bdPanel" Property="Background" Value="#E14848"/>
+                                                            <Setter TargetName="fill" Property="Fill" Value="White"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="True">
+                                                            <Setter TargetName="bdPanel" Property="Background" Value="#FB7373"/>
+                                                            <Setter TargetName="fill" Property="Fill" Value="White"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                            <ContentPresenter Margin="3 -39 3 3"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="btnMax" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="RootGrid" Property="Margin" Value="5"/>
+                            <Setter TargetName="titleStackPanel" Property="Margin" Value="0,0,1,0"/>
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter TargetName="btnRestore" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ResizeMode" Value="NoResize">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="btnMin"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="btnRestore"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="btnMax"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="40" GlassFrameThickness="1"
+                              ResizeBorderThickness="5"
+                              UseAeroCaptionButtons="False"/>
+            </Setter.Value>
+        </Setter>
+
+        -->
+    <!--<Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome GlassFrameThickness="0 64 0 0" NonClientFrameEdges="Left,Bottom,Right" UseAeroCaptionButtons="False" ResizeBorderThickness="5"/>
+            </Setter.Value>
+        </Setter>-->
+    <!--
+    </Style>-->
+
+</ResourceDictionary>
