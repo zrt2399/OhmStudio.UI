@@ -9,13 +9,13 @@
 	<PropertyGroup>
 		<LangVersion>9.0</LangVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-		<FileVersion>1.0.0.3</FileVersion>
-		<AssemblyVersion>1.0.0.3</AssemblyVersion>
-		<Version>1.0.0.3</Version>
+		<Version>1.0.0.5</Version>
+		<FileVersion>$(Version)</FileVersion>
+		<AssemblyVersion>$(Version)</AssemblyVersion> 
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>WPFUI Library</Title>
 		<Authors>MarkWang</Authors>
-		<Copyright>Copyright © 2022 - $([System.DateTime]::Today.ToString(yyyy))</Copyright>
+		<Copyright>Copyright © 2023 - $([System.DateTime]::Today.ToString(yyyy))</Copyright>
 		<PackageTags>WPF;XAML;UI;Theme;</PackageTags>
 		<Description>WPF control styles and themes</Description>
 	</PropertyGroup>
@@ -206,10 +206,4 @@
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="AvalonDockStyles\" />
-	  <Folder Include="AvalonDockThemes\" />
-	</ItemGroup>
-
 </Project>

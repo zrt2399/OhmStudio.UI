@@ -1,0 +1,117 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="DataGridRowHeaderBaseStyle" TargetType="DataGridRowHeader">
+        <Setter Property="Padding" Value="2,1" />
+        <Setter Property="Background" Value="{DynamicResource ContextMenuBackground}" />
+        <Setter Property="BorderBrush" Value="LightGray" />
+        <Setter Property="BorderThickness" Value="0,0,1,1" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="True">
+                <Setter Property="Background" Value="{DynamicResource ProgressBarProgress}" />
+                <Setter Property="Foreground" Value="White" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="DataGridBaseStyle" TargetType="DataGrid">
+        <Setter Property="Foreground" Value="{DynamicResource CommonControlsCheckBoxText}"/>
+        <Setter Property="Background" Value="{DynamicResource GridViewBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource GridViewBorder}" />
+        <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource HeaderSeparatorLine}"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource HeaderSeparatorLine}"/>
+        <Style.Triggers>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="Background" Value="{DynamicResource GridViewFocusedBackground}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource GridViewFocusedBorder}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="DataGridRowBaseStyle" TargetType="DataGridRow">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource CommonControlsButtonHover}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="GridViewColumnHeaderGripper" TargetType="Thumb">
+        <Setter Property="Width" Value="8" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Cursor" Value="SizeWE" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Geometry x:Key="DownArrowGeometry">M 0 0 L 3.5 4 L 7 0 Z</Geometry>
+
+    <Storyboard x:Key="Ascending">
+        <DoubleAnimation From="1" To="180" Duration="0:0:0.1" Storyboard.TargetProperty="Angle" Storyboard.TargetName="rtf"/>
+    </Storyboard>
+    <Storyboard x:Key="Descending">
+        <DoubleAnimation From="180" To="0" Duration="0:0:0.1" Storyboard.TargetProperty="Angle" Storyboard.TargetName="rtf"/>
+    </Storyboard>
+
+    <Style x:Key="DataGridColumnHeaderBaseStyle" TargetType="DataGridColumnHeader">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="{DynamicResource HeaderDefault}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource HeaderSeparatorLine}" />
+        <Setter Property="BorderThickness" Value="0,0,1,1" />
+        <Setter Property="Padding" Value="6,0" />
+        <Setter Property="Foreground" Value="{DynamicResource HeaderDefaultText}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridColumnHeader">
+                    <Grid>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" Padding="{TemplateBinding Padding}">
+                            <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter RecognizesAccessKey="True" VerticalAlignment="Center" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                                <Path Grid.Column="1" Margin="4,0,0,0" Name="PathSortDirection" VerticalAlignment="Center" Fill="{TemplateBinding Foreground}" Data="{StaticResource DownArrowGeometry}">
+                                    <Path.LayoutTransform>
+                                        <RotateTransform x:Name="rtf" CenterX="0.5" CenterY="0.5"/>
+                                    </Path.LayoutTransform>
+                                </Path>
+                            </Grid>
+                        </Border>
+                        <Thumb x:Name="PART_LeftHeaderGripper" HorizontalAlignment="Left" Style="{StaticResource GridViewColumnHeaderGripper}" />
+                        <Thumb x:Name="PART_RightHeaderGripper" HorizontalAlignment="Right" Style="{StaticResource GridViewColumnHeaderGripper}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="SortDirection" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PathSortDirection" />
+                        </Trigger>
+                        <Trigger Property="SortDirection" Value="Ascending">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource Ascending}"/>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource Descending}"/>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="SortDirection" Value="Descending">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource Descending}"/>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource Ascending}"/>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

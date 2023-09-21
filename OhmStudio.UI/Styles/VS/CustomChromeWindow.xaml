@@ -26,6 +26,7 @@
                             Content="{Binding RightWindowCommands, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
                         <ctrls:WindowSystemButton x:Name="MinimizeButton" WindowSystemButtonType="Minimize" />
                         <ctrls:WindowSystemButton x:Name="MaximizeButton" WindowSystemButtonType="Maximize" />
+                        <ctrls:WindowSystemButton x:Name="RestoreButton" WindowSystemButtonType="Restore" />
                         <ctrls:WindowSystemButton x:Name="CloseButton" WindowSystemButtonType="Close" />
                     </StackPanel>
                     <Image
@@ -90,28 +91,32 @@
             <Trigger Property="ctrls:CustomChromeWindow.IsShowCloseButton" Value="False">
                 <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed" />
             </Trigger>
-            <Trigger Property="Window.WindowState" Value="Maximized">
+            <Trigger Property="WindowState" Value="Maximized">
+                <Setter TargetName="MaximizeButton" Property="Visibility" Value="Collapsed" /> 
                 <Setter TargetName="PART_Border" Property="BorderThickness" Value="0" />
                 <Setter TargetName="PART_Border" Property="Padding" Value="{Binding OnMaximizedPadding, RelativeSource={RelativeSource TemplatedParent}}" />
             </Trigger>
-            <Trigger Property="Window.ResizeMode" Value="NoResize">
+            <Trigger Property="WindowState" Value="Normal">
+                <Setter TargetName="RestoreButton" Property="Visibility" Value="Collapsed" /> 
+            </Trigger>
+            <Trigger Property="ResizeMode" Value="NoResize">
                 <Setter Property="ctrls:CustomChromeWindow.IsShowMinimizeButton" Value="False" />
                 <Setter Property="ctrls:CustomChromeWindow.IsShowMaximizeButton" Value="False" />
             </Trigger>
-            <Trigger Property="Window.ResizeMode" Value="CanMinimize">
+            <Trigger Property="ResizeMode" Value="CanMinimize">
                 <Setter TargetName="MaximizeButton" Property="IsEnabled" Value="False" />
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="Window.ResizeMode" Value="CanResizeWithGrip" />
-                    <Condition Property="Window.WindowState" Value="Normal" />
+                    <Condition Property="ResizeMode" Value="CanResizeWithGrip" />
+                    <Condition Property="WindowState" Value="Normal" />
                 </MultiTrigger.Conditions>
                 <Setter TargetName="WindowResizeGrip" Property="Visibility" Value="Visible" />
             </MultiTrigger>
-            <Trigger Property="Window.WindowStyle" Value="None">
+            <Trigger Property="WindowStyle" Value="None">
                 <Setter TargetName="PART_TitleBar" Property="Visibility" Value="Collapsed" />
             </Trigger>
-            <Trigger Property="Window.WindowStyle" Value="ToolWindow">
+            <Trigger Property="WindowStyle" Value="ToolWindow">
                 <Setter Property="ctrls:CustomChromeWindow.IsShowMinimizeButton" Value="False" />
                 <Setter Property="ctrls:CustomChromeWindow.IsShowMaximizeButton" Value="False" />
                 <Setter Property="ctrls:CustomChromeWindow.IsShowCloseButton" Value="True" />
@@ -120,7 +125,7 @@
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="Window.WindowStyle" Value="ToolWindow" />
+                    <Condition Property="WindowStyle" Value="ToolWindow" />
                     <Condition Property="ctrls:CustomChromeWindow.IsShowIcon" Value="True" />
                 </MultiTrigger.Conditions>
                 <Setter TargetName="PART_Icon" Property="Margin" Value="8,8,0,0" />
@@ -128,7 +133,7 @@
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="Window.WindowStyle" Value="ToolWindow" />
+                    <Condition Property="WindowStyle" Value="ToolWindow" />
                     <Condition Property="ctrls:CustomChromeWindow.IsShowIcon" Value="False" />
                 </MultiTrigger.Conditions>
                 <Setter TargetName="PART_Title" Property="Margin" Value="8,8,0,0" />

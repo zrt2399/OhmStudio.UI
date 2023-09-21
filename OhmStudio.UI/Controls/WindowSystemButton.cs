@@ -18,6 +18,10 @@ namespace OhmStudio.UI.Controls
         /// </summary>
         Maximize,
         /// <summary>
+        /// The restore button.
+        /// </summary>
+        Restore,
+        /// <summary>
         /// The close button.
         /// </summary>
         Close
@@ -76,14 +80,13 @@ namespace OhmStudio.UI.Controls
 
                 case WindowSystemButtonType.Maximize:
                     {
-                        if (window.WindowState == WindowState.Maximized)
-                        {
-                            SystemCommands.RestoreWindow(window);
-                        }
-                        else
-                        {
-                            SystemCommands.MaximizeWindow(window);
-                        }
+                        SystemCommands.MaximizeWindow(window);
+                    }
+                    break;
+
+                case WindowSystemButtonType.Restore:
+                    {
+                        SystemCommands.RestoreWindow(window);
                     }
                     break;
 

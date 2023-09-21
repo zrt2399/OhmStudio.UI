@@ -4,6 +4,7 @@
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/CheckBoxBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ComboBoxBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ContextMenuBase.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/DataGridBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ExpanderBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/FocusVisualBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/GridSplitterBase.xaml" />
@@ -64,6 +65,22 @@
         x:Key="{x:Type ContextMenu}"
         BasedOn="{StaticResource ContextMenuBaseStyle}"
         TargetType="{x:Type ContextMenu}" />
+
+    <Style x:Key="{x:Type DataGrid}"
+           BasedOn="{StaticResource DataGridBaseStyle}"
+           TargetType="{x:Type DataGrid}" />
+
+    <Style x:Key="{x:Type DataGridRowHeader}"
+           BasedOn="{StaticResource DataGridRowHeaderBaseStyle}"
+           TargetType="{x:Type DataGridRowHeader}" />
+
+    <Style x:Key="{x:Type DataGridRow}"
+           BasedOn="{StaticResource DataGridRowBaseStyle}"
+           TargetType="{x:Type DataGridRow}" />
+
+    <Style x:Key="{x:Type DataGridColumnHeader}"
+           BasedOn="{StaticResource DataGridColumnHeaderBaseStyle}"
+           TargetType="{x:Type DataGridColumnHeader}" />
 
     <Style x:Key="{x:Type ContentControl}" TargetType="{x:Type ContentControl}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />

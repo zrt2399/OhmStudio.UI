@@ -272,8 +272,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
+ 
     <Style x:Key="ExpanderBaseStyle" TargetType="{x:Type Expander}">
         <Setter Property="Foreground" Value="{DynamicResource SystemColorsControlText}" />
         <Setter Property="Background" Value="Transparent" />
