@@ -405,16 +405,14 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Fill" TargetName="ep" Value="GRAY"/>
+                            <Setter Property="Fill" TargetName="ep" Value="Gray"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    <ItemsPanelTemplate x:Key="ListBoxItemsPanel">
-        <StackPanel Orientation="Horizontal"/>
-    </ItemsPanelTemplate>
+  
     <Style TargetType="control:RollBox">
         <Setter Property="Template">
             <Setter.Value>
@@ -425,12 +423,17 @@
                                      ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"  
                                      SelectedIndex="0"
                                      BorderThickness="0"
-                                     ItemsPanel="{StaticResource ListBoxItemsPanel}"  
                                      HorizontalAlignment="Right" 
                                      VerticalAlignment="Bottom" 
                                      Background="Transparent"
                                      Margin="0,0,20,20"
-                                     Height="24"/>
+                                     Height="24">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
                         <ContentControl x:Name="PART_NEXT_Content"/>
                         <ContentControl x:Name="PART_CURR_Content"/>
                     </Grid>

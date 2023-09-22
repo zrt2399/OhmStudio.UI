@@ -11,7 +11,7 @@ namespace OhmStudio.UI.Automation.Peers
 
         protected override string GetClassNameCore()
         {
-            return "CustomChromeWindow";
+            return nameof(CustomChromeWindow);
         }
     }
-} 
+}

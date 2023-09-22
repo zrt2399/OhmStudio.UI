@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
+using ControlzEx.Behaviors;
 using Microsoft.Xaml.Behaviors;
 using OhmStudio.UI.Automation.Peers;
 
@@ -65,42 +66,49 @@ namespace OhmStudio.UI.Controls
         /// </summary>
         public static readonly DependencyProperty IsShowIconProperty =
             DependencyProperty.Register(nameof(IsShowIcon), typeof(bool),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(BooleanBoxes.TrueBox));
+                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="IsShowTitle"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsShowTitleProperty =
             DependencyProperty.Register(nameof(IsShowTitle), typeof(bool),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(BooleanBoxes.TrueBox));
+                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="IsShowTitleBar"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsShowTitleBarProperty =
             DependencyProperty.Register(nameof(IsShowTitleBar), typeof(bool),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(BooleanBoxes.TrueBox));
+                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="IsShowMinimizeButton"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsShowMinimizeButtonProperty =
             DependencyProperty.Register(nameof(IsShowMinimizeButton), typeof(bool),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(BooleanBoxes.TrueBox));
+                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="IsShowMaximizeButton"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsShowMaximizeButtonProperty =
             DependencyProperty.Register(nameof(IsShowMaximizeButton), typeof(bool),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(BooleanBoxes.TrueBox));
+                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(true));
+
+        /// <summary>
+        /// Identifies the <see cref="IsShowRestoreButton"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsShowRestoreButtonProperty =
+            DependencyProperty.Register(nameof(IsShowRestoreButton), typeof(bool),
+                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="IsShowCloseButton"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsShowCloseButtonProperty =
             DependencyProperty.Register(nameof(IsShowCloseButton), typeof(bool),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(BooleanBoxes.TrueBox));
+                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="OnMaximizedPadding"/> dependency property.
@@ -110,7 +118,7 @@ namespace OhmStudio.UI.Controls
                 typeof(CustomChromeWindow), new FrameworkPropertyMetadata(ObjectBoxes.ThicknessBox));
 
         /// <summary>
-        /// The glow brush of the window when activated
+        /// The glow brush of the window when activated.
         /// </summary>
         [Bindable(true)]
         public SolidColorBrush ActiveGlowBrush
@@ -120,7 +128,7 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// The glow brush of the window when deactivated
+        /// The glow brush of the window when deactivated.
         /// </summary>
         [Bindable(true)]
         public SolidColorBrush InactiveGlowBrush
@@ -158,7 +166,7 @@ namespace OhmStudio.UI.Controls
         public bool IsShowIcon
         {
             get => (bool)GetValue(IsShowIconProperty);
-            set => SetValue(IsShowIconProperty, BooleanBoxes.Box(value));
+            set => SetValue(IsShowIconProperty, value);
         }
 
         /// <summary>
@@ -170,7 +178,7 @@ namespace OhmStudio.UI.Controls
         public bool IsShowTitle
         {
             get => (bool)GetValue(IsShowTitleProperty);
-            set => SetValue(IsShowTitleProperty, BooleanBoxes.Box(value));
+            set => SetValue(IsShowTitleProperty, value);
         }
 
         /// <summary>
@@ -182,7 +190,7 @@ namespace OhmStudio.UI.Controls
         public bool IsShowTitleBar
         {
             get => (bool)GetValue(IsShowTitleBarProperty);
-            set => SetValue(IsShowTitleBarProperty, BooleanBoxes.Box(value));
+            set => SetValue(IsShowTitleBarProperty, value);
         }
 
         /// <summary>
@@ -194,11 +202,11 @@ namespace OhmStudio.UI.Controls
         public bool IsShowMinimizeButton
         {
             get => (bool)GetValue(IsShowMinimizeButtonProperty);
-            set => SetValue(IsShowMinimizeButtonProperty, BooleanBoxes.Box(value));
+            set => SetValue(IsShowMinimizeButtonProperty, value); 
         }
 
         /// <summary>
-        /// Show or hide the maximize/restore button in the title bar of the window.
+        /// Show or hide the maximize button in the title bar of the window.
         /// </summary>
         [Bindable(true)]
         [DefaultValue(true)]
@@ -206,7 +214,19 @@ namespace OhmStudio.UI.Controls
         public bool IsShowMaximizeButton
         {
             get => (bool)GetValue(IsShowMaximizeButtonProperty);
-            set => SetValue(IsShowMaximizeButtonProperty, BooleanBoxes.Box(value));
+            set => SetValue(IsShowMaximizeButtonProperty, value);
+        }
+
+        /// <summary>
+        /// Show or hide the restore button in the title bar of the window.
+        /// </summary>
+        [Bindable(true)]
+        [DefaultValue(true)]
+        [Category("Appearance")]
+        public bool IsShowRestoreButton
+        {
+            get => (bool)GetValue(IsShowRestoreButtonProperty);
+            set => SetValue(IsShowRestoreButtonProperty, value);
         }
 
         /// <summary>
@@ -218,7 +238,7 @@ namespace OhmStudio.UI.Controls
         public bool IsShowCloseButton
         {
             get => (bool)GetValue(IsShowCloseButtonProperty);
-            set => SetValue(IsShowCloseButtonProperty, BooleanBoxes.Box(value));
+            set => SetValue(IsShowCloseButtonProperty, value);
         }
 
         /// <summary>
@@ -249,30 +269,30 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// Initialize the <see cref="ControlzEx.Behaviors.GlowWindowBehavior"/> for the <see cref="CustomChromeWindow"/>.
+        /// Initialize the <see cref="GlowWindowBehavior"/> for the <see cref="CustomChromeWindow"/>.
         /// </summary>
         private void InitializeGlowWindowBehaviorEx()
         {
-            var behavior = new ControlzEx.Behaviors.GlowWindowBehavior();
+            var behavior = new GlowWindowBehavior();
 
-            BindingOperations.SetBinding(behavior, ControlzEx.Behaviors.GlowWindowBehavior.GlowColorProperty,
+            BindingOperations.SetBinding(behavior, GlowWindowBehavior.GlowColorProperty,
                 new Binding { Path = new PropertyPath("ActiveGlowBrush.Color"), Source = this });
-            BindingOperations.SetBinding(behavior, ControlzEx.Behaviors.GlowWindowBehavior.NonActiveGlowColorProperty,
+            BindingOperations.SetBinding(behavior, GlowWindowBehavior.NonActiveGlowColorProperty,
                 new Binding { Path = new PropertyPath("InactiveGlowBrush.Color"), Source = this });
 
             Interaction.GetBehaviors(this).Add(behavior);
         }
 
         /// <summary>
-        /// Initialize the <see cref="ControlzEx.Behaviors.WindowChromeBehavior"/> for the <see cref="CustomChromeWindow"/>.
+        /// Initialize the <see cref="WindowChromeBehavior"/> for the <see cref="CustomChromeWindow"/>.
         /// </summary>
         private void InitializeWindowChromeEx()
         {
-            var behavior = new ControlzEx.Behaviors.WindowChromeBehavior();
+            var behavior = new WindowChromeBehavior();
 
-            BindingOperations.SetBinding(behavior, ControlzEx.Behaviors.WindowChromeBehavior.EnableMinimizeProperty,
+            BindingOperations.SetBinding(behavior, WindowChromeBehavior.EnableMinimizeProperty,
                 new Binding { Path = new PropertyPath(IsShowMinimizeButtonProperty), Source = this });
-            BindingOperations.SetBinding(behavior, ControlzEx.Behaviors.WindowChromeBehavior.EnableMaxRestoreProperty,
+            BindingOperations.SetBinding(behavior, WindowChromeBehavior.EnableMaxRestoreProperty,
                 new Binding { Path = new PropertyPath(IsShowMaximizeButtonProperty), Source = this });
 
             Interaction.GetBehaviors(this).Add(behavior);
@@ -292,4 +312,4 @@ namespace OhmStudio.UI.Controls
             return new CustomChromeWindowAutomationPeer(this);
         }
     }
-}
+} 

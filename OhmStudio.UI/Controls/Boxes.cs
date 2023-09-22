@@ -3,22 +3,6 @@ using System.Windows.Media;
 
 namespace OhmStudio.UI.Controls
 {
-    internal static class BooleanBoxes
-    {
-        public static readonly object TrueBox = true;
-        public static readonly object FalseBox = false;
-
-        public static object Box(bool value)
-        {
-            return value ? TrueBox : FalseBox;
-        }
-
-        public static object Box(bool? value)
-        {
-            return value.HasValue ? value.Value ? TrueBox : FalseBox : null;
-        }
-    }
-
     internal static class ObjectBoxes
     {
         public static readonly object NullBox = null!;

@@ -28,10 +28,25 @@ namespace OhmStudio.UI.Controls
     }
 
     /// <summary>
-    /// A window system button. Used to minimize, maximize, restore, and close Windows
+    /// A window system button. Used to minimize, maximize, restore, and close Windows.
     /// </summary>
     public class WindowSystemButton : ButtonBase
     {
+        /// <summary>
+        /// The static class constructor of the <see cref="WindowSystemButton"/>.
+        /// </summary>
+        static WindowSystemButton()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(WindowSystemButton), new FrameworkPropertyMetadata(typeof(WindowSystemButton)));
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WindowSystemButton"/> class.
+        /// </summary>
+        public WindowSystemButton()
+        {
+        }
+
         /// <summary>
         /// Identifies the <see cref="WindowSystemButtonType"/> dependency property.
         /// </summary>
@@ -49,23 +64,12 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// The static class constructor of the <see cref="WindowSystemButton"/>.
+        /// 重写按钮点击事件。
         /// </summary>
-        static WindowSystemButton()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(WindowSystemButton), new FrameworkPropertyMetadata(typeof(WindowSystemButton)));
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WindowSystemButton"/> class.
-        /// </summary>
-        public WindowSystemButton()
-        {
-        }
-
-        /// <inheritdoc/>
+        /// <exception cref="ArgumentException"></exception>
         protected override void OnClick()
         {
+            base.OnClick();
             var window = Window.GetWindow(this);
             if (window == null)
             {
@@ -79,15 +83,11 @@ namespace OhmStudio.UI.Controls
                     break;
 
                 case WindowSystemButtonType.Maximize:
-                    {
-                        SystemCommands.MaximizeWindow(window);
-                    }
+                    SystemCommands.MaximizeWindow(window);
                     break;
 
                 case WindowSystemButtonType.Restore:
-                    {
-                        SystemCommands.RestoreWindow(window);
-                    }
+                    SystemCommands.RestoreWindow(window);
                     break;
 
                 case WindowSystemButtonType.Close:
