@@ -11,7 +11,6 @@
     <Grid>
         <Border BorderBrush="Silver"
                 SnapsToDevicePixels="True"
-                Background="White"
                 BorderThickness="1"
                 Name="borderMain">
             <local:IconButton x:Name="iconButton"
@@ -25,7 +24,6 @@
                  BorderBrush="Transparent"
                  BorderThickness="0"
                  IsReadOnly="True"
-                 Style="{x:Null}"
                  Margin="1,0,0,0"
                    HorizontalAlignment="Left" 
                    Name="textBlockDateTime"            

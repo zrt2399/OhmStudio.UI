@@ -17,15 +17,6 @@ namespace OhmStudio.UI.Views
         }
 
         /// <summary>
-        /// 构造函数。
-        /// </summary>
-        /// <param name="txt"></param>
-        public DateTimePicker(string txt) : this()
-        {
-            //this.textBox1.Text = txt;
-        }
-
-        /// <summary>
         /// 日历图标点击事件。
         /// </summary>
         /// <param name="sender"></param>

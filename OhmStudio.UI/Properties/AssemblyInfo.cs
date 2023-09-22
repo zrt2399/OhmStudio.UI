@@ -10,11 +10,13 @@ using System.Resources;
 [assembly: XmlnsPrefix("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "ohmUI")]
 [assembly: XmlnsDefinition("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "OhmStudio.UI")]
 [assembly: XmlnsDefinition("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "OhmStudio.UI.Attachs")]
+[assembly: XmlnsDefinition("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "OhmStudio.UI.Views")]
 [assembly: XmlnsDefinition("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "OhmStudio.UI.Controls")]
 [assembly: XmlnsDefinition("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "OhmStudio.UI.Converters")]
 
 [assembly: XmlnsPrefix("http://OhmStudio.UI", "ohmUI")]
 [assembly: XmlnsDefinition("http://OhmStudio.UI", "OhmStudio.UI")]
 [assembly: XmlnsDefinition("http://OhmStudio.UI", "OhmStudio.UI.Attachs")]
+[assembly: XmlnsDefinition("http://OhmStudio.UI", "OhmStudio.UI.Views")]
 [assembly: XmlnsDefinition("http://OhmStudio.UI", "OhmStudio.UI.Controls")]
 [assembly: XmlnsDefinition("http://OhmStudio.UI", "OhmStudio.UI.Converters")]
