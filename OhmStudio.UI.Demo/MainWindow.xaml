@@ -5,22 +5,46 @@
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:local="clr-namespace:OhmStudio.UI.Demo"
                     mc:Ignorable="d"
+                    IsShowTitle="True"
+                    IsShowIcon="False"
+                    Icon="/icon.ico"
                     WindowStartupLocation="CenterScreen"
-                    Title="MainWindow" Height="450" Width="800">
+                    ResizeMode="CanResizeWithGrip"
+                    UseLayoutRounding="True"
+                    SnapsToDevicePixels="True"
+                    Title="MainWindow"
+                    Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <DockingManager x:Name="dockingManager" >
 
             <LayoutRoot>
                 <LayoutPanel Orientation="Horizontal">
                     <LayoutDocumentPaneGroup>
                         <LayoutDocumentPane  >
-                            <LayoutDocument Title="123">
+                            <LayoutDocument Title="Button">
                                 <Button>123</Button>
+                            </LayoutDocument>
+                            <LayoutDocument Title="DataGrid">
+                                <DataGrid></DataGrid>
                             </LayoutDocument>
                         </LayoutDocumentPane>
                     </LayoutDocumentPaneGroup>
+                    <LayoutAnchorablePaneGroup DockWidth="Auto">
+                        <LayoutAnchorablePane>
+                            <LayoutAnchorable Title="ListView">
+                                <ListView></ListView>
+                            </LayoutAnchorable>
+                        </LayoutAnchorablePane>
+                    </LayoutAnchorablePaneGroup>
                 </LayoutPanel>
             </LayoutRoot>
         </DockingManager>
+        <StatusBar Grid.Row="1">
+            <StatusBarItem>Ready</StatusBarItem>
+        </StatusBar>
     </Grid>
 </CustomChromeWindow> 
