@@ -31,7 +31,9 @@ namespace OhmStudio.UI.Views
             dtView.DateTimeOK += (dateTimeStr) => //TDateTimeView 日期时间确定事件
             {
                 textBlockDateTime.Text = dateTimeStr;
-                DateTime = Convert.ToDateTime(dateTimeStr);
+                DateTime.TryParse(dateTimeStr, out var time);
+                DateTime = time;
+
                 popChioce.IsOpen = false;//TDateTimeView 所在pop 关闭
             };
             popChioce.Child = dtView;
@@ -48,6 +50,6 @@ namespace OhmStudio.UI.Views
         }
 
         public static readonly DependencyProperty DateTimeProperty =
-            DependencyProperty.Register("DateTime", typeof(DateTime), typeof(DateTimePicker));
+            DependencyProperty.Register("DateTime", typeof(DateTime), typeof(DateTimePicker), new PropertyMetadata(DateTime.Now));
     }
 }

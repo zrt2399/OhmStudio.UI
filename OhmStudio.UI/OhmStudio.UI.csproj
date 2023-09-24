@@ -9,15 +9,16 @@
 	<PropertyGroup>
 		<LangVersion>9.0</LangVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-		<Version>1.0.0.8</Version>
+		<Version>1.0.1.3</Version>
 		<FileVersion>$(Version)</FileVersion>
-		<AssemblyVersion>$(Version)</AssemblyVersion> 
+		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>WPFUI Library</Title>
 		<Authors>MarkWang</Authors>
 		<Copyright>Copyright © 2023 - $([System.DateTime]::Today.ToString(yyyy))</Copyright>
 		<PackageTags>WPF;XAML;UI;Theme;</PackageTags>
 		<Description>WPF control styles and themes</Description>
+		<PackageIcon>ohm.png</PackageIcon>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0-windows|AnyCPU'">
@@ -78,6 +79,7 @@
 		<None Remove="Images\info.png" />
 		<None Remove="Images\question.png" />
 		<None Remove="Images\warning.png" />
+		<None Remove="ohm.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -196,13 +198,18 @@
 		<Resource Include="Images\info.png">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
+		<Resource Include="Images\question.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
 		<Resource Include="Images\warning.png">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Images\error.png">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Images\question.png">
+		<Resource Include="ohm.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 	</ItemGroup>

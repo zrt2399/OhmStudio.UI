@@ -24,15 +24,11 @@ namespace OhmStudio.UI.Views
         {
             formerHourStr = txt;
         }
-
-        #region 全局变量
-
+         
         /// <summary>
         /// 从 TDateTimeView 传入的 小时数据 字符串
         /// </summary>
-        private string formerHourStr = string.Empty;
-
-        #endregion
+        private string formerHourStr = string.Empty; 
 
         #region  类
 
@@ -44,16 +40,16 @@ namespace OhmStudio.UI.Views
             /// <summary>
             /// 第1列 小时数据
             /// </summary>
-            public int Hour1 { get; set; }
-            public int Hour2 { get; set; }
-            public int Hour3 { get; set; }
-            public int Hour4 { get; set; }
-            public int Hour5 { get; set; }
+            public int H1 { get; set; }
+            public int H2 { get; set; }
+            public int H3 { get; set; }
+            public int H4 { get; set; }
+            public int H5 { get; set; }
 
             /// <summary>
             /// 第6列 小时数据
             /// </summary>
-            public int Hour6 { get; set; }
+            public int H6 { get; set; }
 
             /// <summary>
             /// 构造函数
@@ -66,12 +62,12 @@ namespace OhmStudio.UI.Views
             /// <param name="hour6"></param>
             public Hour(int hour1, int hour2, int hour3, int hour4, int hour5, int hour6)
             {
-                Hour1 = hour1;
-                Hour2 = hour2;
-                Hour3 = hour3;
-                Hour4 = hour4;
-                Hour5 = hour5;
-                Hour6 = hour6;
+                H1 = hour1;
+                H2 = hour2;
+                H3 = hour3;
+                H4 = hour4;
+                H5 = hour5;
+                H6 = hour6;
             }
         }
 
@@ -91,7 +87,7 @@ namespace OhmStudio.UI.Views
             hour[2] = new Hour(12, 13, 14, 15, 16, 17);
             hour[3] = new Hour(18, 19, 20, 21, 22, 23);
 
-            dgHour.Items.Clear();
+            //dgHour.Items.Clear();
             dgHour.ItemsSource = hour;
         }
 
@@ -126,34 +122,35 @@ namespace OhmStudio.UI.Views
 
             // string str = cell.Column.DisplayIndex.ToString();
 
-            string str1 = string.Empty; ;
+            string str1 = string.Empty;
             switch (cell.Column.DisplayIndex)// 通过所在列 获取类Hour的坐标 确定具体的hour数据
             {
                 case 0:
-                    str1 = hour.Hour1.ToString();
+                    str1 = hour.H1.ToString();
                     break;
 
                 case 1:
-                    str1 = hour.Hour2.ToString();
+                    str1 = hour.H2.ToString();
                     break;
 
                 case 2:
-                    str1 = hour.Hour3.ToString();
+                    str1 = hour.H3.ToString();
                     break;
 
                 case 3:
-                    str1 = hour.Hour4.ToString();
+                    str1 = hour.H4.ToString();
                     break;
 
                 case 4:
-                    str1 = hour.Hour5.ToString();
+                    str1 = hour.H5.ToString();
                     break;
 
                 case 5:
-                    str1 = hour.Hour6.ToString();
+                    str1 = hour.H6.ToString();
                     break;
 
-                default: break;
+                default:
+                    break;
             }
 
             str1 = str1.PadLeft(2, '0');
@@ -168,7 +165,7 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void iBtnCloseView_Click(object sender, RoutedEventArgs e)
         {
-            OnHourClickContentEdit(this.formerHourStr);
+            OnHourClickContentEdit(formerHourStr);
         }
 
         #endregion       

@@ -23,7 +23,7 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty PlaceHolderProperty = DependencyProperty.Register("PlaceHolder", typeof(string), typeof(SearchBar), new PropertyMetadata("请输入搜索内容"));
 
         public static readonly DependencyProperty ShowMarkProperty = DependencyProperty.Register("ShowMark", typeof(Visibility), typeof(SearchBar), new PropertyMetadata(Visibility.Visible));
-
+ 
         public ICommand Command
         {
             get => (ICommand)GetValue(CommandProperty);

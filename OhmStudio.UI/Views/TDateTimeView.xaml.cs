@@ -27,16 +27,11 @@ namespace OhmStudio.UI.Views
         {
             formerDateTimeStr = txt;
         }
-
-        #region 全局变量
-
+ 
         /// <summary>
         /// 从 DateTimePicker 传入的日期时间字符串
         /// </summary>
-        string formerDateTimeStr = string.Empty;
-
-        // private string selectDate = string.Empty;
-        #endregion   
+        string formerDateTimeStr = string.Empty; 
 
         #region 事件
 
@@ -78,16 +73,16 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
-            DateTime? dt;
+            DateTime? dateTime;
             if (calDate.SelectedDate == null)
             {
-                dt = DateTime.Now.Date;
+                dateTime = DateTime.Now.Date;
             }
             else
             {
-                dt = calDate.SelectedDate;
+                dateTime = calDate.SelectedDate;
             }
-            DateTime dtCal = Convert.ToDateTime(dt);
+            DateTime dtCal = Convert.ToDateTime(dateTime);
             string timeStr = btnhh.Content + ":" + btnmm.Content + ":" + btnss.Content;
             string dateStr = dtCal.ToString("yyyy/MM/dd");
 
@@ -108,8 +103,7 @@ namespace OhmStudio.UI.Views
                 btnhh.Content = "00";
                 btnmm.Content = "00";
                 btnss.Content = "00";
-                btnNow.Content = "当前";
-                btnNow.Background = Brushes.LightBlue;
+                btnNow.Content = "当前"; 
             }
             else
             {
@@ -117,8 +111,7 @@ namespace OhmStudio.UI.Views
                 btnhh.Content = dt.Hour.ToString().PadLeft(2, '0');
                 btnmm.Content = dt.Minute.ToString().PadLeft(2, '0');
                 btnss.Content = dt.Second.ToString().PadLeft(2, '0');
-                btnNow.Content = "零点";
-                btnNow.Background = Brushes.LightGreen;
+                btnNow.Content = "零点"; 
             }
         }
 
@@ -217,7 +210,7 @@ namespace OhmStudio.UI.Views
             }
             //秒钟 跟分钟 都是60，所有秒钟共用 分钟的窗体即可
             TMinSexView sexView = new TMinSexView(btnss.Content.ToString());//TMinSexView 构造函数 传入秒钟数据
-            sexView.textBlockTitle.Text = "秒    钟";//修改 TMinSexView 的标题名称为秒钟
+            sexView.textBlockTitle.Text = "秒   钟";//修改 TMinSexView 的标题名称为秒钟
             sexView.MinClick += (sexStr) => //TMinSexView 中 所选择确定的 秒钟数据 的传递动作
             {
                 btnss.Content = sexStr;

@@ -24,7 +24,7 @@ namespace OhmStudio.UI.Views
 
         // Using a DependencyProperty as the backing store for TbVisibility.  This enables animation,styling,binding,etc...
         public static readonly DependencyProperty TbVisibilityProperty =
-            DependencyProperty.Register("TbVisibility", typeof(Visibility), typeof(PasswordBoxControl));
+            DependencyProperty.Register("TbVisibility", typeof(Visibility), typeof(PasswordBoxControl), new PropertyMetadata(Visibility.Collapsed));
 
         /// <summary>
         /// 控制PassworBox显示或者隐藏----PasswordBox控件来显密文。
@@ -52,16 +52,16 @@ namespace OhmStudio.UI.Views
         public static readonly DependencyProperty IsCheckedProperty =
             DependencyProperty.Register("IsChecked", typeof(bool), typeof(PasswordBoxControl), new PropertyMetadata((s, e) =>
             {
-                var dp = s as PasswordBoxControl;
+                PasswordBoxControl passwordBoxControl = s as PasswordBoxControl;
                 if ((bool)e.NewValue)
                 {
-                    dp.TbVisibility = Visibility.Visible;
-                    dp.PwVisibility = Visibility.Collapsed;
+                    passwordBoxControl.TbVisibility = Visibility.Visible;
+                    passwordBoxControl.PwVisibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    dp.TbVisibility = Visibility.Collapsed;
-                    dp.PwVisibility = Visibility.Visible;
+                    passwordBoxControl.TbVisibility = Visibility.Collapsed;
+                    passwordBoxControl.PwVisibility = Visibility.Visible;
                 }
             }));
 
@@ -116,7 +116,6 @@ namespace OhmStudio.UI.Views
             }));
     }
 
-
     /// <summary>
     /// 为PasswordBox控件的Password增加绑定功能。
     /// </summary>
@@ -164,6 +163,7 @@ namespace OhmStudio.UI.Views
         {
             dp.SetValue(IsUpdatingProperty, value);
         }
+
         private static void OnPasswordPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             PasswordBox passwordBox = sender as PasswordBox;
@@ -174,6 +174,7 @@ namespace OhmStudio.UI.Views
             }
             passwordBox.PasswordChanged += PasswordChanged;
         }
+
         private static void Attach(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             if (sender is not PasswordBox passwordBox)

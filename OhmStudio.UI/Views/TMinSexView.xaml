@@ -6,56 +6,55 @@
              xmlns:local="clr-namespace:OhmStudio.UI.Views"
              xmlns:my="clr-namespace:OhmStudio.UI.Views"
              Loaded="UserControl_Loaded"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="250"
              d:DesignWidth="400">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;component/Theme/Control.xaml"/>
+                <ResourceDictionary Source="/OhmStudio.UI;component/Themes/Control.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Border BorderBrush="#FF88C1F2" 
-            BorderThickness="2">
+    <Border BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
+            BorderThickness="1">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="24"/>
-                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
             </Grid.RowDefinitions>
-            <Grid Background="#FFAFCCF8">
+            <Grid Background="{DynamicResource SystemColorsWindow}">
                 <TextBlock x:Name="textBlockTitle" 
-                           Text="分    钟"
+                           Text="分   钟"
                            VerticalAlignment="Center"
-                           HorizontalAlignment="Center"
-                           Foreground="White"/>
+                           HorizontalAlignment="Center"/>
                 <my:IconButton Margin="4"
+                               Height="16"
+                               ToolTip="关闭"
                                x:Name="iBtnCloseView"
                                HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
                                Icon="/OhmStudio.UI;component/Images/close.png" 
                                Click="iBtnCloseView_Click" />
             </Grid>
             <DataGrid Grid.Row="1"
-                      CellStyle="{StaticResource GridCellStyle}"
-            AutoGenerateColumns="True" 
-            Name="dgMinSex"
-            SelectionMode="Single"
-            AlternationCount="1"
-            RowHeaderWidth="0"
-            CanUserAddRows="False"
-            VerticalAlignment="Top"
-            RowHeight="20"
-            ColumnWidth="20"
-            FontSize="11"
-            SelectionUnit="Cell"
-            IsReadOnly="True" 
-            HeadersVisibility="Row"
-            Background="White"
-            BorderBrush="White"
-            HorizontalGridLinesBrush="#d2d2d2"
-            VerticalGridLinesBrush="#d2d2d2" SelectedCellsChanged="dgMinSex_SelectedCellsChanged"/>
+                      BorderThickness="0"
+                      CellStyle="{StaticResource GridCellCenterStyle}"
+                      AutoGenerateColumns="True" 
+                      Cursor="Hand"
+                      Name="dgMinSex"
+                      SelectionMode="Single"  
+                      CanUserAddRows="False" 
+                      SelectionUnit="Cell"
+                      IsReadOnly="True"
+                      HeadersVisibility="None" 
+                      SelectedCellsChanged="dgMinSex_SelectedCellsChanged">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow"/>
+                </DataGrid.RowStyle>
+            </DataGrid>
         </Grid>
     </Border>
 </UserControl>

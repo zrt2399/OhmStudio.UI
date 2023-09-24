@@ -85,7 +85,7 @@ namespace OhmStudio.UI.Views
             min[4] = new Min(40, 41, 42, 43, 44, 45, 46, 47, 48, 49);
             min[5] = new Min(50, 51, 52, 53, 54, 55, 56, 57, 58, 59);
 
-            dgMinSex.Items.Clear();
+            //dgMinSex.Items.Clear();
             dgMinSex.ItemsSource = min;
 
         }
@@ -178,7 +178,7 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void iBtnCloseView_Click(object sender, RoutedEventArgs e)
         {
-            OnMinClickContent(this.formerMinStr);
+            OnMinClickContent(formerMinStr);
         }
 
         #endregion
