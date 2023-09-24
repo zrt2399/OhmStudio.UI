@@ -14,7 +14,7 @@
         B="00"
         G="00"
         R="00" />
-
+    <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="White" />
 
     <SolidColorBrush x:Key="ContextMenuBackground" Color="#FFEAF0FF" />
     <SolidColorBrush x:Key="ContextMenuBorderBrush" Color="#FF9BA7B7" />

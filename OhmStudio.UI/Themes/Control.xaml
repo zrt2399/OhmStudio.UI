@@ -7,7 +7,7 @@
     <converter:ColorConverter x:Key="colorConverter"/>
     <converter:AngleToPointConverter x:Key="angleToPointConverter"/>
     <converter:AngleToIsLargeConverter x:Key="angleToIsLargeConverter"/>
- 
+
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
     <SolidColorBrush x:Key="EnabledFalse">#FFAEABAB</SolidColorBrush>
@@ -195,7 +195,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-  
+
     <Style x:Key="TabItemStyle" TargetType="TabItem">
         <Setter Property="Template">
             <Setter.Value>
@@ -232,32 +232,39 @@
         </Setter>
     </Style>
 
-    <Style TargetType="control:SearchBar">
+    <Style TargetType="control:SearchBar" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="Padding" Value="1"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="control:SearchBar">
-                    <Border Name="Border" SnapsToDevicePixels="True" Background="White" BorderBrush="#FFABADB3" BorderThickness="0,0,0,1">
+                    <Border Name="Border" BorderBrush="{DynamicResource CommonControlsTextBoxBorder}" BorderThickness="1">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
-                                <ColumnDefinition Width="24"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Margin="1,0" Foreground="#FF999999" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="{TemplateBinding FontSize}" Visibility="{TemplateBinding ShowMark}" Text="{TemplateBinding PlaceHolder}" />
-                            <ScrollViewer Name="PART_ContentHost" Margin="1,0,0,0" VerticalAlignment="Center"/>
-                            <Button Grid.Column="1" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}" Style="{x:Null}">
-                                <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" FontSize="14">&#xe60c;</TextBlock>
+                            <TextBlock Margin="2,0" Foreground="#FF999999" VerticalAlignment="Center" Visibility="{TemplateBinding ShowMark}" Text="{TemplateBinding PlaceHolder}" />
+                            <ScrollViewer Name="PART_ContentHost" Margin="{TemplateBinding Padding}" VerticalAlignment="Center"/>
+                            <Button Grid.Column="1" BorderThickness="0" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}">
+                                <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont">&#xe60c;</TextBlock>
                             </Button>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="#FF7EB4EA" />
-                        </Trigger>
-                        <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="#FF569DE5" />
-                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="#FFF8F8F8" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
+                            <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
+                            <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
+                            <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextFocused}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -412,7 +419,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-  
+
     <Style TargetType="control:RollBox">
         <Setter Property="Template">
             <Setter.Value>
@@ -440,5 +447,24 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style> 
+    </Style>
+
+    <!--自动添加时内容居中-->
+    <Style x:Key="GridCellCenterStyle" TargetType="DataGridCell">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridCell">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <!--<Style.Triggers>
+            <Trigger Property="DataGridCell.IsSelected" Value="True">
+                <Setter Property="Background" Value="#FFAAAAAA"/>
+            </Trigger>
+        </Style.Triggers>-->
+    </Style>
+
 </ResourceDictionary>

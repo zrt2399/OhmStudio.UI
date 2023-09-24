@@ -272,6 +272,8 @@
     </ControlTemplate>
 
     <Style x:Key="ComboBoxBaseStyle" TargetType="{x:Type ComboBox}">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxText}" />
         <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackground}" />
