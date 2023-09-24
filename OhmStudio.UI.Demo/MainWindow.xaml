@@ -4,9 +4,10 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:local="clr-namespace:OhmStudio.UI.Demo"
+                    xmlns:control="http://OhmStudio.UI"
                     mc:Ignorable="d"
                     IsShowTitle="True"
-                    IsShowIcon="False"
+                    IsShowIcon="True"
                     Icon="/icon.ico"
                     WindowStartupLocation="CenterScreen"
                     ResizeMode="CanResizeWithGrip"
@@ -26,10 +27,28 @@
                     <LayoutDocumentPaneGroup>
                         <LayoutDocumentPane  >
                             <LayoutDocument Title="Button">
-                                <Button>123</Button>
+                                <Button Click="Button_Click">123</Button>
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
                                 <DataGrid></DataGrid>
+                            </LayoutDocument>
+                            <LayoutDocument Title="DateTimePicker">
+                                <DateTimePicker HorizontalAlignment="Left" VerticalAlignment="Top"></DateTimePicker>
+                            </LayoutDocument>
+                            <LayoutDocument Title="SearchBar">
+                                <control:SearchBar HorizontalAlignment="Left" VerticalAlignment="Top"></control:SearchBar>
+                            </LayoutDocument>
+                            <LayoutDocument Title="PasswordBoxControl">
+                                <StackPanel  >
+                                    <TextBox Width="200" Height="28">123</TextBox>
+                                    <PasswordBox Width="200" Height="28"> </PasswordBox>
+                                    <control:PasswordBoxControl Width="200" Height="28"></control:PasswordBoxControl>
+                                    <control:PasswordBoxControl Name="ps" Width="200" Height="28"></control:PasswordBoxControl>
+                                </StackPanel>
+
+                            </LayoutDocument>
+                            <LayoutDocument Title="ComboBox">
+                                <ProgressBar Value="50"></ProgressBar>
                             </LayoutDocument>
                         </LayoutDocumentPane>
                     </LayoutDocumentPaneGroup>

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using OhmStudio.UI.Controls;
+using OhmStudio.UI.PublicMethod;
 
 namespace OhmStudio.UI.Demo
 {
@@ -11,6 +12,11 @@ namespace OhmStudio.UI.Demo
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageTip.Show("123");
         }
     }
 }

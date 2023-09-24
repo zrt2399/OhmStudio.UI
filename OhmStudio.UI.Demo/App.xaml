@@ -6,10 +6,14 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/OhmStudio.UI;component/Themes/VisualStudio2022/DarkTheme.xaml" />
-                <ResourceDictionary Source="/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2022/DarkTheme.xaml" />
-
+                <ResourceDictionary Source="/OhmStudio.UI;component/Themes/VisualStudio2022/BlueTheme.xaml" />
+                <ResourceDictionary Source="/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2022/BlueTheme.xaml" />
+                <ResourceDictionary Source="/OhmStudio.UI;component/Themes/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
+            
+            
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application> 
