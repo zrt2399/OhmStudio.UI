@@ -23,6 +23,7 @@ namespace OhmStudio.UI.Views
         public THourView(string txt) : this()
         {
             formerHourStr = txt;
+            LoadHour();
         }
          
         /// <summary>
@@ -96,16 +97,6 @@ namespace OhmStudio.UI.Views
         #region 事件
 
         /// <summary>
-        /// THourView 窗体登录事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            LoadHour();
-        }
-
-        /// <summary>
         /// dgHour控件 单元格点击（选择）事件
         /// </summary>
         /// <param name="sender"></param>
@@ -155,7 +146,6 @@ namespace OhmStudio.UI.Views
 
             str1 = str1.PadLeft(2, '0');
             OnHourClickContentEdit(str1);
-
         }
 
         /// <summary>

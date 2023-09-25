@@ -128,11 +128,7 @@ namespace OhmStudio.UI.PublicMethod
         }
 
         static bool SetWindowStartupLocation(MessageWindow messageWindow)
-        { 
-            if (Application.Current.MainWindow != messageWindow)
-            {
-                messageWindow.Owner = Application.Current.MainWindow;
-            }
+        {
             if (windows.Count < 1)
             {
                 messageWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;

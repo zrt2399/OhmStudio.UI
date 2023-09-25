@@ -1,8 +1,9 @@
-﻿using OhmStudio.UI.PublicMethod;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shell;
-using System;
+using OhmStudio.UI.PublicMethod;
 
 namespace OhmStudio.UI.Views
 {
@@ -14,6 +15,7 @@ namespace OhmStudio.UI.Views
         public MessageWindow(int id)
         {
             InitializeComponent();
+            Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
             Id = id;
             MaxHeight = SystemParameters.WorkArea.Height;
             MaxWidth = SystemParameters.WorkArea.Width - 200;
@@ -66,6 +68,7 @@ namespace OhmStudio.UI.Views
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            imageInfo.Source = null;
             MessageTip.windows.TryRemove(Id, out _);
         }
     }

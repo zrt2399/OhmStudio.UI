@@ -23,6 +23,7 @@ namespace OhmStudio.UI.Views
         public TMinSexView(string txt) : this()
         {
             formerMinStr = txt;
+            LoadMin();
         }
 
         #region 全局变量
@@ -77,7 +78,6 @@ namespace OhmStudio.UI.Views
         public void LoadMin()
         {
             Min[] min = new Min[6];
-
             min[0] = new Min(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
             min[1] = new Min(10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
             min[2] = new Min(20, 21, 22, 23, 24, 25, 26, 27, 28, 29);
@@ -93,16 +93,6 @@ namespace OhmStudio.UI.Views
         #endregion
 
         #region 事件
-
-        /// <summary>
-        /// TMinSexView 窗体登录事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            LoadMin();
-        }
 
         /// <summary>
         /// dgMinSex控件 单元格点击（选择）事件

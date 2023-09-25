@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OhmStudio.UI.Views"
              xmlns:my="clr-namespace:OhmStudio.UI.Views"
-             Loaded="UserControl_Loaded"
              mc:Ignorable="d"
              d:DesignHeight="250"
              d:DesignWidth="400">
@@ -26,8 +25,9 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Grid Background="{DynamicResource SystemColorsWindow}">
-                <TextBlock x:Name="tbTitle" 
+                <TextBlock x:Name="tbTitle"
                            Text="小   时"
+                           Margin="4"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"/>
                 <my:IconButton HorizontalAlignment="Right"

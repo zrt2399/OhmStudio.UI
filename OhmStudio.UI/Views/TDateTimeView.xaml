@@ -29,6 +29,7 @@
 
             <Grid Background="{DynamicResource SystemColorsWindow}">
                 <TextBlock x:Name="tbTitle"
+                           Margin="4"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center">日期时间</TextBlock>
                 <my:IconButton HorizontalAlignment="Right"
