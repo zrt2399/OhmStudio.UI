@@ -4,7 +4,8 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:local="clr-namespace:OhmStudio.UI.Demo"
-                    xmlns:control="http://OhmStudio.UI"
+                    xmlns:control="http://OhmStudio.UI.com"
+                    d:DataContext="{d:DesignInstance Type=local:MainWindow}"
                     mc:Ignorable="d"
                     IsShowTitle="True"
                     IsShowIcon="True"
@@ -14,7 +15,49 @@
                     UseLayoutRounding="True"
                     SnapsToDevicePixels="True"
                     Title="MainWindow"
-                    Height="450" Width="800">
+                    Height="720"
+                    Width="1280">
+
+    <CustomChromeWindow.RightWindowCommands>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+            <Border IsHitTestVisible="False" VerticalAlignment="Center">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsActive,RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource SystemColorsWindowPanel}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <TextBlock Margin="4"
+                           HorizontalAlignment="Center"
+                           FontWeight="Bold"
+                           Text="{Binding Title,RelativeSource={RelativeSource AncestorType=Window}}" >
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsActive,RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                                    <Setter Property="Foreground" Value="{DynamicResource EnvironmentMainWindowInactiveCaptionText}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Border>
+            <ComboBox ItemsSource="{Binding FontSizeList}"
+                      SelectedItem="{Binding CurrentFontSize}"
+                      Margin="6,0"/>
+            <ComboBox ItemsSource="{Binding FontFamilyList}"
+                      SelectedItem="{Binding CurrentFontFamily}"/>
+            <ComboBox DisplayMemberPath="Name"
+                      Margin="6,0"
+                      ItemsSource="{x:Static local:OhmhemeCollection.AllThemes}"
+                      SelectedItem="{Binding CurrentTheme}"/>
+        </StackPanel>
+
+    </CustomChromeWindow.RightWindowCommands>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -27,27 +70,25 @@
                     <LayoutDocumentPaneGroup>
                         <LayoutDocumentPane  >
                             <LayoutDocument Title="Button">
-                                <Button Click="Button_Click">123</Button>
+                                <Button Click="Button_Click">Click Me</Button>
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
                                 <DataGrid></DataGrid>
-                            </LayoutDocument>
-                            <LayoutDocument Title="DateTimePicker">
-                                <DateTimePicker HorizontalAlignment="Left" VerticalAlignment="Top"></DateTimePicker>
-                            </LayoutDocument>
-                            <LayoutDocument Title="SearchBar">
-                                <control:SearchBar HorizontalAlignment="Left" VerticalAlignment="Top"></control:SearchBar>
-                            </LayoutDocument>
-                            <LayoutDocument Title="PasswordBoxControl">
-                                <StackPanel  >
-                                    <TextBox Width="200" Height="28">123</TextBox>
-                                    <PasswordBox Width="200" Height="28"> </PasswordBox>
-                                    <control:PasswordBoxControl Width="200" Height="28"></control:PasswordBoxControl>
-                                    <control:PasswordBoxControl Name="ps" Width="200" Height="28"></control:PasswordBoxControl>
-                                </StackPanel>
+                            </LayoutDocument> 
+                            <LayoutDocument Title="Other" >
+                                <WrapPanel Orientation="Vertical" Name="wr">
+                                    <SearchBar VerticalAlignment="Top" Width="400"/>
+                                    <TextBox Width="400" VerticalAlignment="Top"  Margin="10" Name="te">123</TextBox>
+                                    <PasswordBox Width="400"  VerticalAlignment="Top"></PasswordBox>
+                                    <PasswordBoxControl Name="ps" Width="400"  VerticalAlignment="Top" Margin="10"></PasswordBoxControl>
+                                    <PasswordBoxControl Width="400" VerticalAlignment="Top"></PasswordBoxControl>
+                                    <DateTimePicker VerticalAlignment="Top" Width="400" Margin="10"></DateTimePicker>
+                                 
+                               
+                                </WrapPanel>
 
                             </LayoutDocument>
-                            <LayoutDocument Title="ComboBox">
+                            <LayoutDocument Title="ProgressBar">
                                 <ProgressBar Value="50"></ProgressBar>
                             </LayoutDocument>
                         </LayoutDocumentPane>
@@ -56,6 +97,13 @@
                         <LayoutAnchorablePane>
                             <LayoutAnchorable Title="ListView">
                                 <ListView></ListView>
+                            </LayoutAnchorable>
+                            <LayoutAnchorable Title="ListBox">
+                                <ListBox>
+                                    <ListBoxItem>123</ListBoxItem>
+                                    <ListBoxItem>456</ListBoxItem>
+                                    <ListBoxItem>789</ListBoxItem>
+                                </ListBox>
                             </LayoutAnchorable>
                         </LayoutAnchorablePane>
                     </LayoutAnchorablePaneGroup>
