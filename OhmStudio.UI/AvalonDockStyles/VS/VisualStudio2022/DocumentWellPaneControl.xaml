@@ -178,8 +178,8 @@
                                     </Border>
                                     <ContentPresenter
                                         x:Name="Content"
-                                        HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                                        VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                                        HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type Control}}}"
+                                        VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type Control}}}"
                                         ContentSource="Header"
                                         RecognizesAccessKey="true"
                                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
