@@ -1,7 +1,8 @@
 # OhmStudio.UI
 
-#### 介绍
-WPF UI Library，AvalonDock UI Library
+#### Introduce
+WPF UI Library
+AvalonDock UI Library
 
 ### .Net Version
 |.Net Version   | Status  |
@@ -14,16 +15,16 @@ Nuget search to download OhmStudio.UI. Please use the latest version and I will 
 
 # 🚀 Quick Start
 ``` xml
-<!--AvalonDock style, 2022 can be replaced with 2019, DarkTheme can be replaced with LightTheme and BlueTheme-->
+AvalonDock style, 2022 can be replaced with 2019, DarkTheme can be replaced with LightTheme and BlueTheme
 <ResourceDictionary Source="/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2022/DarkTheme.xaml" />
-<!--WPF control style, 2022 can be replaced with 2019, DarkTheme can be replaced with LightTheme and BlueTheme-->
+WPF control style, 2022 can be replaced with 2019, DarkTheme can be replaced with LightTheme and BlueTheme
 <ResourceDictionary Source="/OhmStudio.UI;component/Themes/VisualStudio2022/DarkTheme.xaml" />
-<!--Custom control styles outside of WPF native controls-->
+Custom control styles outside of WPF native controls
 <ResourceDictionary Source="/OhmStudio.UI;component/Themes/Styles.xaml" />
 ```
 #### Contribution
 
-- [OriginalAuthor：Wenveo](https://space.bilibili.com/176863848)
+- [OriginalAuthor：Wenveo](https://www.bilibili.com/video/BV1yW4y1N7Zq/?spm_id_from=333.999.0.0)
 - [AakStudio.Shell.UI](https://github.com/Wenveo/AakStudio.Shell.UI)
 - [AakStudio.Shell.UI.Themes.AvalonDock](https://github.com/Wenveo/AakStudio.Shell.UI.Themes.AvalonDock)
 
