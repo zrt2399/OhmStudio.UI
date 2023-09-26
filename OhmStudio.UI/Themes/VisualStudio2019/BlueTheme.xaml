@@ -228,8 +228,8 @@
     <SolidColorBrush x:Key="HeaderDisabledText" Color="#FF757575" />
     <SolidColorBrush x:Key="HeaderSeparatorLine" Color="#FFCCCEDB" />
     <SolidColorBrush x:Key="HeaderMouseDown" Color="#FF007ACC" />
-    <SolidColorBrush x:Key="HeaderMouseDownText" Color="#FF1E1E1E" />
-    <SolidColorBrush x:Key="HeaderMouseOver" Color="#FFFEFEFE" />
+    <SolidColorBrush x:Key="HeaderMouseDownText" Color="#FFFFFEFF" />
+    <SolidColorBrush x:Key="HeaderMouseOver" Color="#FFC9DEF5" />
     <SolidColorBrush x:Key="HeaderMouseOverText" Color="#FF1E1E1E" />
     <SolidColorBrush x:Key="HeaderMouseOverGlyph" Color="#FF1E1E1E" />
 

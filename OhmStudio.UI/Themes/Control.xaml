@@ -309,7 +309,8 @@
 
     <Style TargetType="control:CircularProgressBar">
         <Setter Property="Maximum" Value="100"/>
-        <Setter Property="StrokeThickness" Value="10"/>
+        <Setter Property="BrushStrokeThickness" Value="8"/>
+        <Setter Property="StrokeThickness" Value="8"/>
         <Setter Property="Foreground" Value="Gray"/>
         <Setter Property="BorderBrush" Value="#FF1FA7FC"/>
         <Setter Property="Width" Value="100"/>
@@ -340,8 +341,8 @@
                                         <PathFigure StartPoint="50,0">
                                             <ArcSegment SweepDirection="Clockwise"
                                                         Size="50,50"
-                                                        Point="{Binding Path=Angle,Converter={StaticResource angleToPointConverter},RelativeSource={RelativeSource FindAncestor,AncestorType=ProgressBar}}"
-                                                        IsLargeArc="{Binding Path=Angle,Converter={StaticResource angleToIsLargeConverter},RelativeSource={RelativeSource FindAncestor,AncestorType=ProgressBar}}">
+                                                        Point="{Binding Path=Angle,Converter={StaticResource angleToPointConverter},RelativeSource={RelativeSource AncestorType=ProgressBar}}"
+                                                        IsLargeArc="{Binding Path=Angle,Converter={StaticResource angleToIsLargeConverter},RelativeSource={RelativeSource AncestorType=ProgressBar}}">
                                             </ArcSegment>
                                         </PathFigure>
                                     </PathGeometry>
@@ -366,8 +367,7 @@
                             <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                     <TextBlock Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center"
-                                           Text="{Binding Title,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type control:CircularProgressBar}}}"
-                                           FontSize="{TemplateBinding FontSize}"
+                                           Text="{Binding Title,RelativeSource={RelativeSource AncestorType=control:CircularProgressBar}}"
                                            Grid.Row="1">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
@@ -381,7 +381,6 @@
                                     </TextBlock>
                                     <TextBlock Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center"
                                            Text="{Binding Path=Value,StringFormat={}{0}%,RelativeSource={RelativeSource TemplatedParent}}"
-                                           FontSize="{TemplateBinding FontSize}"
                                            Grid.Row="2"/>
                                 </StackPanel>
                             </Grid>
