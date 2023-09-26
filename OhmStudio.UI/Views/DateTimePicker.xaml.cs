@@ -5,10 +5,11 @@ using System.Windows.Controls;
 
 namespace OhmStudio.UI.Views
 {
-    [ToolboxBitmap(typeof(DateTimePicker), "/OhmStudio.UI;component/Images/DateTimePicker.bmp")]
+    //[ToolboxBitmap(typeof(DateTimePicker), "pack://application:,,,/OhmStudio.UI;component/Images/DateTimePicker.bmp")]
     /// <summary>
     /// DateTimePicker.xaml 的交互逻辑。
     /// </summary>    
+    [ToolboxBitmap(typeof(DatePicker))]
     public partial class DateTimePicker : UserControl
     {
         public DateTimePicker()

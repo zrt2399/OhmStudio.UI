@@ -1,37 +1,30 @@
-# DockDemo
+# OhmStudio.UI
 
 #### 介绍
-OhmStudio.UI WPF UI库 .NET4.5.2+,.NET5.0+
+WPF UI Library，AvalonDock UI Library
 
-#### 软件架构
-软件架构说明
+### .Net Version
+|.Net Version   | Status  |
+|  ----  | ----  |
+| net462  | ✅ |
+| net5.0-windows  | ✅ |
 
+# 💡 Install
+Nuget search to download OhmStudio.UI. Please use the latest version and I will update this package from time to time to fix any bugs that may occur during testing
 
-#### 安装教程
+# 🚀 Quick Start
+``` xml
+<!--AvalonDock style, 2022 can be replaced with 2019, DarkTheme can be replaced with LightTheme and BlueTheme-->
+<ResourceDictionary Source="/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2022/DarkTheme.xaml" />
+<!--WPF control style, 2022 can be replaced with 2019, DarkTheme can be replaced with LightTheme and BlueTheme-->
+<ResourceDictionary Source="/OhmStudio.UI;component/Themes/VisualStudio2022/DarkTheme.xaml" />
+<!--Custom control styles outside of WPF native controls-->
+<ResourceDictionary Source="/OhmStudio.UI;component/Themes/Styles.xaml" />
+```
+#### Contribution
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+- [OriginalAuthor：Wenveo](https://space.bilibili.com/176863848)
+- [AakStudio.Shell.UI](https://github.com/Wenveo/AakStudio.Shell.UI)
+- [AakStudio.Shell.UI.Themes.AvalonDock](https://github.com/Wenveo/AakStudio.Shell.UI.Themes.AvalonDock)
 
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+The original author is no longer maintaining the change library. I am organizing and updating this package

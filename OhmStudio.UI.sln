@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OhmStudio.UI", "OhmStudio.UI\OhmStudio.UI.csproj", "{E5AF42A0-54F5-4A8D-B904-B6AF90BF07B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OhmStudio.UI.Demo", "OhmStudio.UI.Demo\OhmStudio.UI.Demo.csproj", "{57A91B2C-4E8E-401F-B38F-A810C60401EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OhmStudio.UI.Demo", "OhmStudio.UI.Demo\OhmStudio.UI.Demo.csproj", "{57A91B2C-4E8E-401F-B38F-A810C60401EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

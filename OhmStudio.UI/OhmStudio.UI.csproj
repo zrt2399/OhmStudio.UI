@@ -15,10 +15,13 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>WPFUI Library</Title>
 		<Authors>MarkWang</Authors>
-		<Copyright>Copyright © 2023 - $([System.DateTime]::Today.ToString(yyyy))</Copyright>
+		<Copyright>Copyright © $(Authors) $([System.DateTime]::Today.ToString(yyyy))</Copyright>
 		<PackageTags>WPF;XAML;UI;Theme;</PackageTags>
 		<Description>WPF control styles and themes</Description>
 		<PackageIcon>ohm.png</PackageIcon>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0-windows|AnyCPU'">
@@ -199,7 +202,7 @@
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Images\question.png">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Images\warning.png">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -212,5 +215,13 @@
 			<PackagePath>\</PackagePath>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
+		<None Include="..\README.md">
+			<Pack>true</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\LICENSE.txt">
+			<Pack>true</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 </Project>

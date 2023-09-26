@@ -74,17 +74,17 @@
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
                                 <DataGrid></DataGrid>
-                            </LayoutDocument> 
+                            </LayoutDocument>
                             <LayoutDocument Title="Other" >
                                 <WrapPanel Orientation="Vertical" Name="wr">
                                     <SearchBar VerticalAlignment="Top" Width="400"/>
                                     <TextBox Width="400" VerticalAlignment="Top"  Margin="10" Name="te">123</TextBox>
                                     <PasswordBox Width="400"  VerticalAlignment="Top"></PasswordBox>
-                                    <PasswordBoxControl Name="ps" Width="400"  VerticalAlignment="Top" Margin="10"></PasswordBoxControl>
-                                    <PasswordBoxControl Width="400" VerticalAlignment="Top"></PasswordBoxControl>
-                                    <DateTimePicker VerticalAlignment="Top" Width="400" Margin="10"></DateTimePicker>
-                                 
-                               
+                                    <PasswordBoxControl Name="ps" Width="400"  VerticalAlignment="Top" Margin="10"/>
+                                    <PasswordBoxControl Width="400" VerticalAlignment="Top"/>
+                                    <DateTimePicker VerticalAlignment="Top" Width="400" Margin="10"/>
+
+
                                 </WrapPanel>
 
                             </LayoutDocument>
