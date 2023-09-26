@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Drawing.Text;
 using System.Linq;
 using System.Linq.Expressions;
@@ -33,6 +34,28 @@ namespace OhmStudio.UI.Demo
             //    await Task.Delay(10000); 
             //    ps.CanShowPasswordVisibility = Visibility.Collapsed;
             //};
+
+            Result.Columns.Add("Time");
+            Result.Columns.Add("V0");
+            Result.Columns.Add("V1");
+            Result.Columns.Add("RX");
+            for (int i = 0; i < 2048; i++)
+            {
+                Result.Rows.Add(DateTime.Now, i, i + 1, "44");
+            }
+            li.ItemsSource = Result.DefaultView;
+            da.ItemsSource = Result.DefaultView;
+        }
+
+        private DataTable _result = new DataTable();
+        public DataTable Result
+        {
+            get => _result;
+            set
+            {
+                _result = value;
+
+            }
         }
 
         const string DefaultFont = "默认";

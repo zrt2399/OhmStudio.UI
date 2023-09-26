@@ -73,7 +73,9 @@
                                 <Button Click="Button_Click">Click Me</Button>
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
-                                <DataGrid></DataGrid>
+                                <DataGrid x:Name="da">
+                                     
+                                </DataGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="Other" >
                                 <WrapPanel Orientation="Vertical" Name="wr">
@@ -96,7 +98,22 @@
                     <LayoutAnchorablePaneGroup DockWidth="Auto">
                         <LayoutAnchorablePane>
                             <LayoutAnchorable Title="ListView">
-                                <ListView></ListView>
+                                <ListView Name="li" >
+
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Time}"/>
+                                            <GridViewColumn Header="V0" DisplayMemberBinding="{Binding V0}"/>
+                                            <GridViewColumn Header="V1" DisplayMemberBinding="{Binding V1}"/>
+                                            <GridViewColumn Header="RX" DisplayMemberBinding="{Binding RX}"/> 
+                                        </GridView>
+                                    </ListView.View>
+                                    <ListView.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="zxc"></MenuItem>
+                                        </ContextMenu>
+                                    </ListView.ContextMenu>
+                                </ListView>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="ListBox">
                                 <ListBox>
