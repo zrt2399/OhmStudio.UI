@@ -234,14 +234,14 @@
                     <Button x:Name="btnOK"
                                 VerticalAlignment="Bottom"
                                 Margin="10"
-                                Height="26"
+                                Height="24"
                                 Style="{StaticResource ButtonStyle}"
                                 Width="60"
                                 Click="btnOK_Click">确定</Button>
                     <Button x:Name="btnCancel"
                                 VerticalAlignment="Bottom"
                                 Margin="10"
-                                Height="26"
+                                Height="24"
                                 Style="{StaticResource ButtonStyle}"
                                 Width="60"
                                 Click="btnCancel_Click">取消</Button>
