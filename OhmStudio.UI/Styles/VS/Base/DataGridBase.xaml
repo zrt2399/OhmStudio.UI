@@ -70,7 +70,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="DataGridColumnHeader">
                     <Grid>
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" Padding="{TemplateBinding Padding}">
+                        <Border Name="HeaderBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" Padding="{TemplateBinding Padding}">
                             <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -79,9 +79,9 @@
                                 <ContentPresenter RecognizesAccessKey="True" VerticalAlignment="Center" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
                                 <Path Grid.Column="1" Margin="4,0,0,0" Name="PathSortDirection" VerticalAlignment="Center" Fill="{TemplateBinding Foreground}" Data="{StaticResource DownArrowGeometry}">
-                                    <Path.LayoutTransform>
+                                    <!--<Path.LayoutTransform>
                                         <RotateTransform x:Name="rtf" CenterX="0.5" CenterY="0.5"/>
-                                    </Path.LayoutTransform>
+                                    </Path.LayoutTransform>-->
                                 </Path>
                             </Grid>
                         </Border>
@@ -89,24 +89,52 @@
                         <Thumb x:Name="PART_RightHeaderGripper" HorizontalAlignment="Right" Style="{StaticResource GridViewColumnHeaderGripper}" />
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="HeaderBorder" Property="Background" Value="{DynamicResource HeaderMouseOver}" />
+                            <Setter Property="Foreground" Value="{DynamicResource HeaderMouseOverText}" />
+                            <!--<Setter TargetName="arrowPath" Property="Fill" Value="{DynamicResource HeaderMouseOverGlyph}" />-->
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="HeaderBorder" Property="Background" Value="{DynamicResource HeaderMouseDown}" />
+                            <Setter Property="Foreground" Value="{DynamicResource HeaderMouseDownText}" />
+                        </Trigger>
+                        <Trigger Property="Height" Value="Auto">
+                            <Setter Property="MinHeight" Value="20" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource HeaderDisabledText}" />
+                        </Trigger>
+
                         <Trigger Property="SortDirection" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PathSortDirection" />
                         </Trigger>
                         <Trigger Property="SortDirection" Value="Ascending">
-                            <Trigger.EnterActions>
+                            <Setter TargetName="PathSortDirection" Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                            <Setter TargetName="PathSortDirection" Property="RenderTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="180" />
+                                </Setter.Value>
+                            </Setter>
+                            <!--<Trigger.EnterActions>
                                 <BeginStoryboard Storyboard="{StaticResource Ascending}"/>
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
                                 <BeginStoryboard Storyboard="{StaticResource Descending}"/>
-                            </Trigger.ExitActions>
+                            </Trigger.ExitActions>-->
                         </Trigger>
                         <Trigger Property="SortDirection" Value="Descending">
-                            <Trigger.EnterActions>
+                            <Setter TargetName="PathSortDirection" Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                            <Setter TargetName="PathSortDirection" Property="RenderTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="0"  />
+                                </Setter.Value>
+                            </Setter>
+                            <!--<Trigger.EnterActions>
                                 <BeginStoryboard Storyboard="{StaticResource Descending}"/>
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
                                 <BeginStoryboard Storyboard="{StaticResource Ascending}"/>
-                            </Trigger.ExitActions>
+                            </Trigger.ExitActions>-->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
