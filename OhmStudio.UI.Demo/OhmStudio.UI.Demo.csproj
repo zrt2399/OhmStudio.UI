@@ -23,6 +23,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="PropertyTools.Wpf" Version="3.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\OhmStudio.UI\OhmStudio.UI.csproj" />
 	</ItemGroup>
 

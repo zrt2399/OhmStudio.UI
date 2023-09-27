@@ -14,7 +14,7 @@
                     ResizeMode="CanResizeWithGrip"
                     UseLayoutRounding="True"
                     SnapsToDevicePixels="True"
-                    Title="MainWindow"
+                    Title="OhmStudio"
                     Height="720"
                     Width="1280">
 
@@ -74,28 +74,27 @@
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
                                 <DataGrid x:Name="da">
-                                     
+
                                 </DataGrid>
                             </LayoutDocument>
-                            <LayoutDocument Title="Other" >
+                            <LayoutDocument Title="Other" IsActive="True">
                                 <WrapPanel Orientation="Vertical" Name="wr">
-                                    <SearchBar VerticalAlignment="Top" Width="400"/>
-                                    <TextBox Width="400" VerticalAlignment="Top"  Margin="10" Name="te">123</TextBox>
-                                    <PasswordBox Width="400"  VerticalAlignment="Top"></PasswordBox>
-                                    <PasswordBoxControl Name="ps" Width="400"  VerticalAlignment="Top" Margin="10"/>
-                                    <PasswordBoxControl Width="400" VerticalAlignment="Top"/>
-                                    <DateTimePicker VerticalAlignment="Top" Width="400" Margin="10"/>
-
+                                    <SearchBar Margin="10" VerticalAlignment="Top" Width="400"/>
+                                    <TextBox Width="400" VerticalAlignment="Top" Name="te">123</TextBox>
+                                    <PasswordBox Margin="10" Width="400"  VerticalAlignment="Top"/>
+                                    <PasswordBoxControl Name="ps" Width="400"  VerticalAlignment="Top" />
+                                    <PasswordBoxControl Margin="10" Width="400" VerticalAlignment="Top"/>
+                                    <DateTimePicker VerticalAlignment="Top" Width="400" />
 
                                 </WrapPanel>
 
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
-                                <ProgressBar Value="50"></ProgressBar>
+                                <ProgressBar Value="50" IsIndeterminate="True"></ProgressBar>
                             </LayoutDocument>
                         </LayoutDocumentPane>
                     </LayoutDocumentPaneGroup>
-                    <LayoutAnchorablePaneGroup DockWidth="Auto">
+                    <LayoutAnchorablePaneGroup DockWidth="400">
                         <LayoutAnchorablePane>
                             <LayoutAnchorable Title="ListView">
                                 <ListView Name="li" >
@@ -105,7 +104,7 @@
                                             <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Time}"/>
                                             <GridViewColumn Header="V0" DisplayMemberBinding="{Binding V0}"/>
                                             <GridViewColumn Header="V1" DisplayMemberBinding="{Binding V1}"/>
-                                            <GridViewColumn Header="RX" DisplayMemberBinding="{Binding RX}"/> 
+                                            <GridViewColumn Header="RX" DisplayMemberBinding="{Binding RX}"/>
                                         </GridView>
                                     </ListView.View>
                                     <ListView.ContextMenu>
@@ -121,6 +120,9 @@
                                     <ListBoxItem>456</ListBoxItem>
                                     <ListBoxItem>789</ListBoxItem>
                                 </ListBox>
+                            </LayoutAnchorable>
+                            <LayoutAnchorable Title="PropertyTools.Wpf">
+
                             </LayoutAnchorable>
                         </LayoutAnchorablePane>
                     </LayoutAnchorablePaneGroup>

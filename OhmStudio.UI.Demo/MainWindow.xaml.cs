@@ -87,7 +87,7 @@ namespace OhmStudio.UI.Demo
             }
         }
 
-        private double currentFontSize = (double)Application.Current.Resources[GlobalFontSize];
+        private double currentFontSize = (double)Application.Current?.Resources[GlobalFontSize];
         public double CurrentFontSize
         {
             get => currentFontSize;
@@ -142,10 +142,11 @@ namespace OhmStudio.UI.Demo
             return propertyInfo.Name;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            await Task.Delay(3000);
             var assembly = Assembly.GetAssembly(typeof(CustomChromeWindow));
-            MessageTip.Show("private void Button_Click(object sender, RoutedEventArgs e)\r\npublic abstract class OhmTheme : ResourceDictionary\r\n" + assembly.GetName().Version);
+            MessageFrame.Show("private void Button_Click(object sender, RoutedEventArgs e)\r\npublic abstract class OhmTheme : ResourceDictionary\r\n" + assembly.GetName().Version);
         }
     }
 
