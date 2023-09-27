@@ -1,8 +1,10 @@
-﻿using System.Collections.Concurrent;
-using OhmStudio.UI.Views;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Media;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using System;
+using OhmStudio.UI.Views;
 
 namespace OhmStudio.UI.PublicMethod
 {
@@ -11,9 +13,9 @@ namespace OhmStudio.UI.PublicMethod
     /// </summary>
     public enum UILanguage
     {
-        zh_CN,
-        zh_TW,
-        en_US
+        Zh_CN,
+        Zh_TW,
+        En_US
     }
 
     /// <summary>
@@ -49,18 +51,18 @@ namespace OhmStudio.UI.PublicMethod
     /// <summary>
     /// 表示一个对话框类。
     /// </summary>
-    public class MessageTip
+    public static class MessageFrame
     {
-        public static ConcurrentDictionary<int, Window> windows = new ConcurrentDictionary<int, Window>();
-        public static UILanguage UILanguage { get; set; } = UILanguage.zh_CN;
+        internal static List<Window> Windows = new List<Window>();
+        public static UILanguage UILanguage { get; set; } = UILanguage.Zh_CN;
         public static bool Show(string message, string title = null, MyStyle myStyle = MyStyle.Blue, MessageButton button = MessageButton.OK, MessageImage image = MessageImage.Info)
         {
             bool flag = false;
             try
             {
-                Application.Current.Dispatcher.Invoke(delegate
+                Application.Current?.Dispatcher.Invoke(() =>
                 {
-                    MessageWindow messageWindow = new MessageWindow(windows.Count);
+                    MessageWindow messageWindow = new MessageWindow();
                     messageWindow.txtTitle.Text = messageWindow.Title = title ?? GetTitle();
                     messageWindow.txtMessage.Text = message;
                     messageWindow.btnCancel.Visibility = (button == MessageButton.OK) ? Visibility.Collapsed : Visibility.Visible;
@@ -75,16 +77,21 @@ namespace OhmStudio.UI.PublicMethod
                     {
                         case MessageImage.Info:
                             bitmapImage = GetImage("info");
-                            goto IL_F6;
+                            SystemSounds.Asterisk.Play();   
+                            break;
                         case MessageImage.Warning:
                             bitmapImage = GetImage("warning");
-                            goto IL_F6;
+                            SystemSounds.Exclamation.Play();
+                            break;
                         case MessageImage.Question:
                             bitmapImage = GetImage("question");
-                            goto IL_F6;
+                            SystemSounds.Question.Play();
+                            break;
+                        default:
+                            bitmapImage = GetImage("error");
+                            SystemSounds.Hand.Play();
+                            break;
                     }
-                    bitmapImage = GetImage("error");
-                IL_F6:
                     messageWindow.imageInfo.Source = bitmapImage;
                     flag = SetWindowStartupLocation(messageWindow);
                 });
@@ -101,42 +108,46 @@ namespace OhmStudio.UI.PublicMethod
             return new BitmapImage(new Uri("pack://application:,,,/OhmStudio.UI;component/Images/" + urlString + ".png"));
         }
 
-        public static void ShowWarning(string message, string title = "警告")
+        public static bool ShowWarning(string message, string title = "警告")
         {
-            if (UILanguage == UILanguage.zh_TW)
+            if (UILanguage == UILanguage.Zh_TW)
             {
                 title = "警告";
             }
-            else if (UILanguage == UILanguage.en_US)
+            else if (UILanguage == UILanguage.En_US)
             {
                 title = "Warning";
             }
-            ShowWindow(message, "#FFDC9B28", "警告", title, MessageButton.OK);
+            return Show(message, title, MyStyle.Yellow, MessageButton.OK, MessageImage.Warning);
         }
 
-        public static void ShowError(string message, string title = "出错了")
+        public static bool ShowError(string message, string title = "出错了")
         {
-            if (UILanguage == UILanguage.zh_TW)
+            if (UILanguage == UILanguage.Zh_TW)
             {
                 title = "出錯了";
             }
-            else if (UILanguage == UILanguage.en_US)
+            else if (UILanguage == UILanguage.En_US)
             {
                 title = "Error";
             }
-            ShowWindow(message, "#FFF03A17", "错误", title, MessageButton.OK);
+            return Show(message, title, MyStyle.Red, MessageButton.OK, MessageImage.Error);
         }
 
         static bool SetWindowStartupLocation(MessageWindow messageWindow)
         {
-            if (windows.Count < 1)
+            if (Windows.Count < 1)
             {
-                messageWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                windows.TryAdd(messageWindow.Id, messageWindow);
+                Windows.Add(messageWindow);
                 return messageWindow.ShowDialog() == true;
             }
-            var window = windows[windows.Count - 1];
-            windows.TryAdd(messageWindow.Id, messageWindow);
+            var window = Windows.Where(x => x.Owner == messageWindow.Owner).LastOrDefault();
+            if (window == null)
+            {
+                Windows.Add(messageWindow);
+                return messageWindow.ShowDialog() == true;
+            }
+            Windows.Add(messageWindow);
             messageWindow.Top = window.Top + 40;
             messageWindow.Left = window.Left + 40;
             if (messageWindow.Top > SystemParameters.WorkArea.Height - 50 || messageWindow.Left > SystemParameters.WorkArea.Width - 200)
@@ -146,34 +157,34 @@ namespace OhmStudio.UI.PublicMethod
             return messageWindow.ShowDialog() == true;
         }
 
-        private static void ShowWindow(string message, string brushString, string url, string title = null, MessageButton button = MessageButton.OK)
-        {
-            try
-            {
-                Application.Current.Dispatcher.Invoke(delegate
-                {
-                    MessageWindow messageWindow = new MessageWindow(windows.Count);
-                    messageWindow.txtTitle.Text = messageWindow.Title = title ?? GetTitle();
-                    messageWindow.title.Background = brushString.ToSolidColorBrush();
-                    messageWindow.txtMessage.Text = message;
-                    messageWindow.btnCancel.Visibility = button == MessageButton.OK ? Visibility.Collapsed : Visibility.Visible;
-                    messageWindow.imageInfo.Source = GetImage(url);
-                    SetWindowStartupLocation(messageWindow);
-                    //messageWindow.ShowDialog();
-                });
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        //private static void ShowWindow(string message, string brushString, string url, string title = null, MessageButton button = MessageButton.OK)
+        //{
+        //    try
+        //    {
+        //        Application.Current?.Dispatcher.Invoke(delegate
+        //        {
+        //            MessageWindow messageWindow = new MessageWindow();
+        //            messageWindow.txtTitle.Text = messageWindow.Title = title ?? GetTitle();
+        //            messageWindow.title.Background = brushString.ToSolidColorBrush();
+        //            messageWindow.txtMessage.Text = message;
+        //            messageWindow.btnCancel.Visibility = button == MessageButton.OK ? Visibility.Collapsed : Visibility.Visible;
+        //            messageWindow.imageInfo.Source = GetImage(url);
+        //            SetWindowStartupLocation(messageWindow);
+        //            //messageWindow.ShowDialog();
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //}
 
         private static string GetTitle()
         {
             return UILanguage switch
             {
-                UILanguage.zh_CN => "系统提示",
-                UILanguage.zh_TW => "系統提示",
+                UILanguage.Zh_CN => "系统提示",
+                UILanguage.Zh_TW => "系統提示",
                 _ => "System prompt"
             };
         }

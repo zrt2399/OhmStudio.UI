@@ -32,7 +32,7 @@ namespace OhmStudio.UI.PublicMethod
 
         public static void Show(string message, UIStyle uIStyle, int delay = Delay)
         {
-            Application.Current.Dispatcher.Invoke(async () =>
+            Application.Current?.Dispatcher.Invoke(async () =>
             {
                 Popup popup = new Popup();
                 popup.AllowsTransparency = true;
