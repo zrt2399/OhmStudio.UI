@@ -66,12 +66,12 @@ namespace OhmStudio.UI.PublicMethod
                     messageWindow.txtTitle.Text = messageWindow.Title = title ?? GetTitle();
                     messageWindow.txtMessage.Text = message;
                     messageWindow.btnCancel.Visibility = (button == MessageButton.OK) ? Visibility.Collapsed : Visibility.Visible;
-                    messageWindow.title.Background = myStyle switch
-                    {
-                        MyStyle.Blue => "#FF0078D7".ToSolidColorBrush(),
-                        MyStyle.Yellow => "#FFDC9B28".ToSolidColorBrush(),
-                        _ => "#FFF03A17".ToSolidColorBrush()
-                    };
+                    //messageWindow.title.Background = myStyle switch
+                    //{
+                    //    MyStyle.Blue => "#FF0078D7".ToSolidColorBrush(),
+                    //    MyStyle.Yellow => "#FFDC9B28".ToSolidColorBrush(),
+                    //    _ => "#FFF03A17".ToSolidColorBrush()
+                    //};
                     BitmapImage bitmapImage;
                     switch (image)
                     {
@@ -93,7 +93,7 @@ namespace OhmStudio.UI.PublicMethod
                             break;
                     }
                     messageWindow.imageInfo.Source = bitmapImage;
-                    flag = SetWindowStartupLocation(messageWindow);
+                    flag = messageWindow.ShowDialog() == true;
                 });
             }
             catch (Exception ex)
@@ -141,12 +141,13 @@ namespace OhmStudio.UI.PublicMethod
                 Windows.Add(messageWindow);
                 return messageWindow.ShowDialog() == true;
             }
-            var window = Windows.Where(x => x.Owner == messageWindow.Owner).LastOrDefault();
-            if (window == null)
-            {
-                Windows.Add(messageWindow);
-                return messageWindow.ShowDialog() == true;
-            }
+            var window = Windows .LastOrDefault();
+            //var window = Windows.Where(x => x.Owner == messageWindow.Owner).LastOrDefault();
+            //if (window == null)
+            //{
+            //    Windows.Add(messageWindow);
+            //    return messageWindow.ShowDialog() == true;
+            //}
             Windows.Add(messageWindow);
             messageWindow.Top = window.Top + 40;
             messageWindow.Left = window.Left + 40;
@@ -156,28 +157,6 @@ namespace OhmStudio.UI.PublicMethod
             }
             return messageWindow.ShowDialog() == true;
         }
-
-        //private static void ShowWindow(string message, string brushString, string url, string title = null, MessageButton button = MessageButton.OK)
-        //{
-        //    try
-        //    {
-        //        Application.Current?.Dispatcher.Invoke(delegate
-        //        {
-        //            MessageWindow messageWindow = new MessageWindow();
-        //            messageWindow.txtTitle.Text = messageWindow.Title = title ?? GetTitle();
-        //            messageWindow.title.Background = brushString.ToSolidColorBrush();
-        //            messageWindow.txtMessage.Text = message;
-        //            messageWindow.btnCancel.Visibility = button == MessageButton.OK ? Visibility.Collapsed : Visibility.Visible;
-        //            messageWindow.imageInfo.Source = GetImage(url);
-        //            SetWindowStartupLocation(messageWindow);
-        //            //messageWindow.ShowDialog();
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-        //}
 
         private static string GetTitle()
         {
