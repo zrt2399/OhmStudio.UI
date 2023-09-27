@@ -219,7 +219,7 @@
                         <TextBox x:Name="txtMessage"
                                  Padding="0"
                                  VerticalContentAlignment="Top"
-                                 Margin="0,10,10,10"
+                                 Margin="0,0,10,0"
                                  Background="Transparent"
                                  BorderBrush="Transparent"
                                  BorderThickness="0"

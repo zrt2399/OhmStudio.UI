@@ -17,8 +17,8 @@ namespace OhmStudio.UI.Views
             InitializeComponent();
             Owner = Application.Current?.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
             Owner ??= Application.Current?.MainWindow;
-            MaxHeight =40;
-            MaxWidth = 40;
+            MaxHeight = SystemParameters.WorkArea.Height;
+            MaxWidth = SystemParameters.WorkArea.Width - 200;
             if (MessageFrame.UILanguage == UILanguage.Zh_TW)
             {
                 btnOK.Content = "確定";
