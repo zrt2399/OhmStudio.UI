@@ -18,8 +18,7 @@ namespace OhmStudio.UI.Views
                 RaiseEvent(new RoutedEventArgs(ClickEvent, this));
             };
         }
-
-        #region 图标
+         
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon",
             typeof(string),
@@ -31,6 +30,7 @@ namespace OhmStudio.UI.Views
             set { SetValue(IconProperty, value); }
             get { return (string)GetValue(IconProperty); }
         }
+
         private static void OnIconChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             if (obj is not IconButton btn)
@@ -39,8 +39,7 @@ namespace OhmStudio.UI.Views
             }
             btn.icon.Source = new BitmapImage(new Uri((string)args.NewValue, UriKind.Relative));
         }
-        #endregion
-
+ 
         public static readonly DependencyProperty CommandProperty =
             DependencyProperty.Register("Command",
             typeof(ICommand),

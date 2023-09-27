@@ -45,8 +45,8 @@
                           PreviewMouseUp="calDate_PreviewMouseUp">
                     <!--<Calendar.CalendarDayButtonStyle>
                         <Style TargetType="CalendarDayButton">
-                            <Setter Property="Foreground"     Value="Red"/>
-                            <Setter Property="Template">
+                            <Setter Property="Background" Value="White"/>-->
+                            <!--<Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ContentControl">
                                         <Button Content="{TemplateBinding Content}"
@@ -56,14 +56,20 @@
                                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                     </ControlTemplate>
                                 </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
+                            </Setter>-->
+                            <!--<Style.Triggers>
                                 <Trigger Property="IsInactive" Value="True">
-                                    <Setter Property="Foreground" Value="Blue"/>
+                                    <Setter Property="Background" Value="Blue"/>
+                                    <Setter Property="TextElement.Foreground" Value="Blue"/>
                                 </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Calendar.CalendarDayButtonStyle>-->
+                                <Trigger Property="IsInactive" Value="False">
+                                    <Setter Property="Background" Value="Red"/>
+                                    <Setter Property="TextBlock.Foreground" Value="Red"/>
+                                    <Setter Property="TextElement.Foreground" Value="Red"/>
+                                </Trigger>
+                            </Style.Triggers>-->
+                        <!--</Style>
+                    </Calendar.CalendarDayButtonStyle>--> 
                 </Calendar>
             </Grid>
             <Grid Margin="4" Grid.Row="2">

@@ -35,11 +35,13 @@
             <TextBox BorderBrush="Transparent" 
                      BorderThickness="0"
                      IsReadOnly="True"
-                     Name="textBlockDateTime"
+                     Name="textBoxDateTime"
                      VerticalAlignment="Center"
                      VerticalContentAlignment="Center"
                      Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DateTime,Mode=TwoWay,StringFormat='yyyy/MM/dd HH:mm:ss'}"/>
-            <Grid MaxHeight="{Binding ElementName=textBlockDateTime,Path=ActualHeight}" Grid.Column="1">
+            <Grid MaxHeight="{Binding ElementName=textBoxDateTime,Path=ActualHeight}"
+                  Background="{Binding ElementName=textBoxDateTime,Path=Background}"
+                  Grid.Column="1">
                 <local:IconButton x:Name="iconButton" 
                                   Margin="4"
                                   ToolTip="选择时间"

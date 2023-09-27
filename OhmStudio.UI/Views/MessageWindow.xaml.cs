@@ -57,12 +57,16 @@ namespace OhmStudio.UI.Views
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            txtTitle.Foreground = Brushes.LightGray;
+            var foreground = Application.Current?.Resources["CommonControlsTextBoxTextDisabled"] as Brush;
+            txtTitle.Foreground = foreground;
+            btnClose.Foreground = foreground;
         }
 
         private void Window_Activated(object sender, EventArgs e)
         {
-            txtTitle.Foreground = Brushes.White;
+            var foreground = Application.Current?.Resources["CommonControlsTextBoxText"] as Brush;
+            txtTitle.Foreground = foreground;
+            btnClose.Foreground = foreground;
         }
 
         private void Window_Closed(object sender, EventArgs e)

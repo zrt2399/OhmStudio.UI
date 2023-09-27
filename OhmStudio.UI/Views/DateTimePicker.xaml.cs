@@ -29,10 +29,10 @@ namespace OhmStudio.UI.Views
             {
                 popChioce.IsOpen = false;
             }
-            TDateTimeView dtView = new TDateTimeView(textBlockDateTime.Text);// TDateTimeView  构造函数传入日期时间
+            TDateTimeView dtView = new TDateTimeView(textBoxDateTime.Text);// TDateTimeView  构造函数传入日期时间
             dtView.DateTimeOK += (dateTimeStr) => //TDateTimeView 日期时间确定事件
             {
-                textBlockDateTime.Text = dateTimeStr;
+                textBoxDateTime.Text = dateTimeStr;
                 DateTime.TryParse(dateTimeStr, out var time);
                 DateTime = time;
 

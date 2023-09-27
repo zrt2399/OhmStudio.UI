@@ -9,12 +9,12 @@
              d:DesignWidth="800">
     
     <UserControl.Resources>
-        <Style x:Key="ButtonEmptyStyle" TargetType="{x:Type Button}">
+        <Style x:Key="ButtonEmptyStyle" TargetType="Button">
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
+                    <ControlTemplate TargetType="Button">
                         <Border x:Name="ButtonBorder"
                                 BorderThickness="0"
                                 SnapsToDevicePixels="True"
