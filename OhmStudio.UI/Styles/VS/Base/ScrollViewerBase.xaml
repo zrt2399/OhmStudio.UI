@@ -16,14 +16,14 @@
                         SnapsToDevicePixels="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
+                                <RowDefinition />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
+                                <RowDefinition />
                             </Grid.RowDefinitions>
                             <Path
                                 x:Name="arrowPath"
@@ -246,11 +246,11 @@
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
                     <Grid x:Name="Grid" Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition x:Name="ColumnDefinitionOne" Width="*" />
+                            <ColumnDefinition x:Name="ColumnDefinitionOne" />
                             <ColumnDefinition x:Name="ColumnDefinitionTwo" Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition x:Name="RowDefinitionOne" Height="*" />
+                            <RowDefinition x:Name="RowDefinitionOne" />
                             <RowDefinition x:Name="RowDefinitionTwo" Height="Auto" />
                         </Grid.RowDefinitions>
                         <Rectangle

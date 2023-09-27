@@ -12,19 +12,19 @@ namespace OhmStudio.UI.Views
     /// </summary>
     public partial class MessageWindow : Window
     {
-        public MessageWindow(int id)
+        public MessageWindow()
         {
             InitializeComponent();
-            Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
-            Id = id;
+            Owner = Application.Current?.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+            Owner ??= Application.Current?.MainWindow;
             MaxHeight = SystemParameters.WorkArea.Height;
             MaxWidth = SystemParameters.WorkArea.Width - 200;
-            if (MessageTip.UILanguage == UILanguage.zh_TW)
+            if (MessageFrame.UILanguage == UILanguage.Zh_TW)
             {
                 btnOK.Content = "確定";
                 btnCancel.Content = "取消";
             }
-            else if (MessageTip.UILanguage == UILanguage.en_US)
+            else if (MessageFrame.UILanguage == UILanguage.En_US)
             {
                 btnOK.Content = "OK";
                 btnCancel.Content = "Cancel";
@@ -40,7 +40,6 @@ namespace OhmStudio.UI.Views
             }
         }
 
-        public int Id { get; set; }
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
@@ -69,7 +68,7 @@ namespace OhmStudio.UI.Views
         private void Window_Closed(object sender, EventArgs e)
         {
             imageInfo.Source = null;
-            MessageTip.windows.TryRemove(Id, out _);
+            MessageFrame.Windows.Remove(this);
         }
     }
 }

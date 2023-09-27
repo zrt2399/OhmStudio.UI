@@ -211,7 +211,7 @@
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" MinHeight="21" />
-                                    <RowDefinition Height="*" />
+                                    <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <ctrls:CustomizeTitleBar
                                     ContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
@@ -224,7 +224,7 @@
                                         TextElement.Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.ToolWindowCaptionInactiveText}}">
                                         <Grid UseLayoutRounding="true">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />

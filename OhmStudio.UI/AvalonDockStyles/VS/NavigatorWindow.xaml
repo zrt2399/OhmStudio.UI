@@ -107,7 +107,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="54" />
-                                <RowDefinition Height="*" />
+                                <RowDefinition />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid Margin="5">

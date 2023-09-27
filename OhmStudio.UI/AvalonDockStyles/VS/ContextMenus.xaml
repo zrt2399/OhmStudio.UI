@@ -108,7 +108,7 @@
                                     MinWidth="24"
                                     SharedSizeGroup="MenuItemIconColumnGroup" />
                                 <ColumnDefinition Width="4" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition />
                                 <ColumnDefinition Width="37" />
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup" />
                                 <ColumnDefinition Width="17" />

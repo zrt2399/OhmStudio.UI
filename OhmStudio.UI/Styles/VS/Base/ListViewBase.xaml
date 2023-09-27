@@ -9,11 +9,11 @@
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
                     <Grid Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
+                            <RowDefinition />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <DockPanel Margin="{TemplateBinding Padding}">
@@ -125,7 +125,7 @@
                                 <Border Grid.RowSpan="2" Padding="{TemplateBinding Padding}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <ContentPresenter

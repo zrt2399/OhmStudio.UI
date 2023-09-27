@@ -77,11 +77,11 @@
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
                     <Grid SnapsToDevicePixels="True">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Border Grid.Row="1" Grid.Column="0">
@@ -147,7 +147,7 @@
                                 Width="Auto"
                                 MinWidth="24"
                                 SharedSizeGroup="MenuItemIconColumnGroup" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Border
                             Grid.Column="1"
@@ -270,7 +270,7 @@
                                                 Width="Auto"
                                                 MinWidth="24"
                                                 SharedSizeGroup="MenuItemIconColumnGroup" />
-                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <ItemsPresenter
                                             Name="ItemsPresenter"
@@ -352,7 +352,7 @@
                         MinWidth="24"
                         SharedSizeGroup="MenuItemIconColumnGroup" />
                     <ColumnDefinition Width="4" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition />
                     <ColumnDefinition Width="37" />
                     <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup" />
                     <ColumnDefinition Width="17" />
@@ -434,7 +434,7 @@
                         MinWidth="24"
                         SharedSizeGroup="MenuItemIconColumnGroup" />
                     <ColumnDefinition Width="4" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition />
                     <ColumnDefinition Width="37" />
                     <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup" />
                     <ColumnDefinition Width="17" />

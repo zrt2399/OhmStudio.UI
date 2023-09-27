@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ButtonBase.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/CalendarBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/CheckBoxBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ComboBoxBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ContextMenuBase.xaml" />
@@ -45,6 +46,10 @@
         x:Key="{x:Type Button}"
         BasedOn="{StaticResource ButtonBaseStyle}"
         TargetType="{x:Type Button}" />
+
+    <Style x:Key="{x:Type Calendar}"
+         BasedOn="{StaticResource CalendarBaseStyle}"
+         TargetType="{x:Type Calendar}" />
 
     <Style
         x:Key="{x:Type CheckBox}"

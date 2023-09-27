@@ -14,8 +14,7 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
-        </Style>
-
+        </Style> 
     </UserControl.Resources>
 
     <Border BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
@@ -27,7 +26,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Grid Background="{DynamicResource SystemColorsWindow}">
+            <Grid>
                 <TextBlock x:Name="tbTitle"
                            Margin="4"
                            VerticalAlignment="Center"
@@ -42,8 +41,30 @@
                                Click="iBtnCloseView_Click"/>
             </Grid>
             <Grid Grid.Row="1">
-                <Calendar Name="calDate" Margin="0,-3"
-                          PreviewMouseUp="calDate_PreviewMouseUp"/>
+                <Calendar Name="calDate" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" 
+                          PreviewMouseUp="calDate_PreviewMouseUp">
+                    <!--<Calendar.CalendarDayButtonStyle>
+                        <Style TargetType="CalendarDayButton">
+                            <Setter Property="Foreground"     Value="Red"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ContentControl">
+                                        <Button Content="{TemplateBinding Content}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          Margin="{TemplateBinding Padding}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsInactive" Value="True">
+                                    <Setter Property="Foreground" Value="Blue"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Calendar.CalendarDayButtonStyle>-->
+                </Calendar>
             </Grid>
             <Grid Margin="4" Grid.Row="2">
                 <Grid.ColumnDefinitions>

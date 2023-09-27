@@ -10,6 +10,7 @@
         UseLayoutRounding="True"
         SnapsToDevicePixels="True"
         SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner"
         MinHeight="200"
         MinWidth="340"
         Deactivated="Window_Deactivated"

@@ -181,7 +181,7 @@
                             BorderThickness="0,0,0,1">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.ColumnSpan="2" Background="Transparent" />

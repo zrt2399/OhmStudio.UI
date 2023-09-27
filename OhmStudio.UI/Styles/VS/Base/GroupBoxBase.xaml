@@ -12,13 +12,13 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition />
                             <ColumnDefinition Width="6" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition />
                             <RowDefinition Height="6" />
                         </Grid.RowDefinitions>
                         <Border

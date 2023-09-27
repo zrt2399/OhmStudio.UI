@@ -142,7 +142,7 @@
                                 Background="Transparent">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <ToggleButton
                                     x:Name="Expander"

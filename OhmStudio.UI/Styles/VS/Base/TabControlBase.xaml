@@ -371,7 +371,7 @@
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition x:Name="RowDefinition0" Height="Auto" />
-                            <RowDefinition x:Name="RowDefinition1" Height="*" />
+                            <RowDefinition x:Name="RowDefinition1" />
                         </Grid.RowDefinitions>
                         <TabPanel
                             x:Name="headerPanel"

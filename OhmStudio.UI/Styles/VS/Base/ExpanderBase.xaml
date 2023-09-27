@@ -7,7 +7,7 @@
                         <Grid Background="Transparent" SnapsToDevicePixels="False">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="19" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Ellipse
                                 x:Name="circle"
@@ -67,7 +67,7 @@
                         <Grid Background="Transparent" SnapsToDevicePixels="False">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="19" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Grid>
                                 <Grid.LayoutTransform>
@@ -138,7 +138,7 @@
                         <Grid Background="Transparent" SnapsToDevicePixels="False">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="19" />
-                                <RowDefinition Height="*" />
+                                <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid>
                                 <Grid.LayoutTransform>
@@ -209,7 +209,7 @@
                         <Grid Background="Transparent" SnapsToDevicePixels="False">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="19" />
-                                <RowDefinition Height="*" />
+                                <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid>
                                 <Grid.LayoutTransform>

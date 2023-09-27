@@ -14,7 +14,7 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Grid Background="Transparent">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition />
                             <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxButton" />
                         </Grid.ColumnDefinitions>
                         <Border
@@ -121,7 +121,7 @@
         <Grid SnapsToDevicePixels="True">
             <Grid Grid.IsSharedSizeScope="True">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition />
                     <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxButton" />
                 </Grid.ColumnDefinitions>
                 <Border Name="Background" Background="{TemplateBinding Background}" />

@@ -15,9 +15,9 @@ namespace OhmStudio.UI.Themes
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //var window = (Window)sender;
-            //if (window != null && window.Owner != Application.Current.MainWindow)
+            //if (window != null && window.Owner != Application.Current?.MainWindow)
             //{
-            //    window.Owner = Application.Current.MainWindow;
+            //    window.Owner = Application.Current?.MainWindow;
             //}
         }
 

@@ -70,7 +70,7 @@
                         SnapsToDevicePixels="true">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <!--  Following border is required to catch mouse events  -->
                         <Border Grid.RowSpan="2" Background="Transparent" />

@@ -14,7 +14,7 @@
                         SnapsToDevicePixels="True">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Border
                             x:Name="radioButtonBorder"
