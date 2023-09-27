@@ -144,9 +144,9 @@ namespace OhmStudio.UI.Demo
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(3000);
+            await Task.Delay(1000);
             var assembly = Assembly.GetAssembly(typeof(CustomChromeWindow));
-            MessageFrame.Show("private void Button_Click(object sender, RoutedEventArgs e)\r\npublic abstract class OhmTheme : ResourceDictionary\r\n" + assembly.GetName().Version);
+            MessageFrame.Show("private void Button_Click(object sender, RoutedEventArgs e)\r\npublic abstract class OhmTheme : ResourceDictionary\r\n" + assembly.GetName().Version, null, MyStyle.Blue, MessageButton.OK, MessageImage.Warning);
         }
     }
 
