@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:OhmStudio.UI.Views"
              mc:Ignorable="d"
-             Focusable="True">
+             Focusable="True"
+             d:Height="40">
 
     <UserControl.Style>
         <Style TargetType="UserControl" BasedOn="{StaticResource {x:Type UserControl}}">
@@ -36,7 +37,7 @@
                      BorderThickness="0"
                      IsReadOnly="True"
                      Name="textBoxDateTime"
-                     VerticalAlignment="Center"
+                     VerticalAlignment="Stretch"
                      VerticalContentAlignment="Center"
                      Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DateTime,Mode=TwoWay,StringFormat='yyyy/MM/dd HH:mm:ss'}"/>
             <Grid MaxHeight="{Binding ElementName=textBoxDateTime,Path=ActualHeight}"

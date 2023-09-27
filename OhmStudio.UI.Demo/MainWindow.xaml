@@ -100,9 +100,9 @@
                                     <SearchBar Margin="10" VerticalAlignment="Top" Width="400"/>
                                     <TextBox Width="400" VerticalAlignment="Top" Name="te">123</TextBox>
                                     <PasswordBox Margin="10" Width="400"  VerticalAlignment="Top"/>
-                                    <PasswordBoxControl Name="ps" Width="400"  VerticalAlignment="Top" />
+                                    <PasswordBoxControl Name="ps" Width="400" Height="40" VerticalAlignment="Top" />
                                     <PasswordBoxControl Margin="10" Width="400" VerticalAlignment="Top"/>
-                                    <DateTimePicker VerticalAlignment="Top" Width="400" />
+                                    <DateTimePicker VerticalAlignment="Top" Width="400" Height="40"/>
 
                                 </WrapPanel>
 
