@@ -15,7 +15,7 @@ namespace OhmStudio.UI.Views
         {
             InitializeComponent();
             MaxHeight = SystemParameters.WorkArea.Height;
-            MaxWidth = SystemParameters.WorkArea.Width - 200;
+            MaxWidth = SystemParameters.WorkArea.Width;
             if (AlertDialog.UILanguage == UILanguage.Zh_TW)
             {
                 btnOK.Content = "確定";
@@ -25,7 +25,7 @@ namespace OhmStudio.UI.Views
             {
                 btnOK.Content = "OK";
                 btnCancel.Content = "Cancel";
-            } 
+            }
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -68,7 +68,7 @@ namespace OhmStudio.UI.Views
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            imageInfo.Source = null; 
+            imageInfo.Source = null;
         }
     }
 }

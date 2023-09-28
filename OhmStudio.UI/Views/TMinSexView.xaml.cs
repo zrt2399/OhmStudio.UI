@@ -110,55 +110,55 @@ namespace OhmStudio.UI.Views
 
             //string str = cell.Column.DisplayIndex.ToString();
 
-            string str1 = string.Empty; ;
+            string time = string.Empty;
             switch (cell.Column.DisplayIndex)// 通过所在列 获取类Min的坐标 确定具体的min数据
             {
                 case 0:
-                    str1 = min.C0.ToString();
+                    time = min.C0.ToString();
                     break;
 
                 case 1:
-                    str1 = min.C1.ToString();
+                    time = min.C1.ToString();
                     break;
 
                 case 2:
-                    str1 = min.C2.ToString();
+                    time = min.C2.ToString();
                     break;
 
                 case 3:
-                    str1 = min.C3.ToString();
+                    time = min.C3.ToString();
                     break;
 
                 case 4:
-                    str1 = min.C4.ToString();
+                    time = min.C4.ToString();
                     break;
 
                 case 5:
-                    str1 = min.C5.ToString();
+                    time = min.C5.ToString();
                     break;
 
                 case 6:
-                    str1 = min.C6.ToString();
+                    time = min.C6.ToString();
                     break;
 
                 case 7:
-                    str1 = min.C7.ToString();
+                    time = min.C7.ToString();
                     break;
 
                 case 8:
-                    str1 = min.C8.ToString();
+                    time = min.C8.ToString();
                     break;
 
                 case 9:
-                    str1 = min.C9.ToString();
+                    time = min.C9.ToString();
                     break;
 
                 default: break;
 
             }
 
-            str1 = str1.PadLeft(2, '0');
-            OnMinClickContent(str1);
+            time = time.PadLeft(2, '0');
+            OnMinClickContent(time);
         }
 
         /// <summary>

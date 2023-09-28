@@ -132,4 +132,14 @@ namespace OhmStudio.UI.PublicMethod
             }
         }
     }
+
+    public class PropertyGridAttribute : Attribute
+    {
+        public string DisplayName { get; set; }
+
+        public PropertyGridAttribute(string displayName)
+        {
+            DisplayName = displayName;
+        }
+    }
 }

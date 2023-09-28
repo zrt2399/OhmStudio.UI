@@ -78,10 +78,6 @@
 		<None Remove="Images\close.png" />
 		<None Remove="Images\date.png" />
 		<None Remove="Images\DateTimePicker.bmp" />
-		<None Remove="Images\error.png" />
-		<None Remove="Images\info.png" />
-		<None Remove="Images\question.png" />
-		<None Remove="Images\warning.png" />
 		<None Remove="ohm.png" />
 	</ItemGroup>
 
@@ -196,18 +192,6 @@
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Images\DateTimePicker.bmp">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\info.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\question.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\warning.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\error.png">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="ohm.png">

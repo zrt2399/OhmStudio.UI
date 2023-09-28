@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OhmStudio.UI.Views"
+        xmlns:converter="clr-namespace:OhmStudio.UI.Converters"
         mc:Ignorable="d"
         Title="系统提示"
         ResizeMode="NoResize"
@@ -11,21 +12,16 @@
         SnapsToDevicePixels="True"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
-        MinHeight="200"
-        MinWidth="340"
+        MinHeight="140"
+        MinWidth="160"
         Deactivated="Window_Deactivated"
         Activated="Window_Activated"
         Closed="Window_Closed">
 
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="28"
-                      GlassFrameThickness="1"
-                      ResizeBorderThickness="5"
-                      UseAeroCaptionButtons="False"/>
-    </WindowChrome.WindowChrome>
-
     <Window.Resources>
-
+        
+        <converter:DigitalCompensationConverter x:Key="DigitalCompensationConverter"/>
+        
         <Style x:Key="CloseButtonStyle" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -87,20 +83,27 @@
         </Style>
 
     </Window.Resources>
-
+ 
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="{Binding ElementName=gridTitle,Path=ActualHeight,Converter={StaticResource DigitalCompensationConverter},ConverterParameter=-5}"
+                      GlassFrameThickness="1"
+                      ResizeBorderThickness="6"
+                      UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+ 
     <Grid FocusManager.FocusedElement="{Binding ElementName=btnOK}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid>
-            <TextBlock Margin="10,0,0,0"
+        <Grid Name="gridTitle">
+            <TextBlock Margin="10,6,0,6"
                        x:Name="txtTitle"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center">系统提示</TextBlock>
             <Button x:Name="btnClose"
-                        Width="32"
+                    Width="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}"
                         ToolTip="关闭"
                         Focusable="False"
                         Style="{StaticResource CloseButtonStyle}"
@@ -145,20 +148,18 @@
                 </ScrollViewer>
             </Grid>
         </Grid>
-        <Grid Grid.Row="2" Background="{DynamicResource TabItemDisabledBackground}">
+        <Grid Grid.Row="2" Background="{DynamicResource MessageBoxButtonAreaBackground}">
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right">
                 <Button x:Name="btnOK"
-                            VerticalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Padding="20,4"
                             Margin="10"
-                            Height="24"
-                            Width="60"
                             Click="btnOK_Click">确定</Button>
                 <Button x:Name="btnCancel"
                         VerticalAlignment="Center"
-                                Margin="10"
-                                Height="24"
-                                Width="60"
+                        Padding="20,4"
+                                Margin="10" 
                                 Click="btnCancel_Click">取消</Button>
             </StackPanel>
         </Grid>

@@ -35,7 +35,7 @@
             </Grid.ColumnDefinitions>
             <TextBox BorderBrush="Transparent" 
                      BorderThickness="0"
-                     IsReadOnly="True"
+                     LostFocus="textBoxDateTime_LostFocus"
                      Name="textBoxDateTime"
                      VerticalAlignment="Stretch"
                      VerticalContentAlignment="Center"

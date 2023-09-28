@@ -113,39 +113,39 @@ namespace OhmStudio.UI.Views
 
             // string str = cell.Column.DisplayIndex.ToString();
 
-            string str1 = string.Empty;
+            string time = string.Empty;
             switch (cell.Column.DisplayIndex)// 通过所在列 获取类Hour的坐标 确定具体的hour数据
             {
                 case 0:
-                    str1 = hour.H1.ToString();
+                    time = hour.H1.ToString();
                     break;
 
                 case 1:
-                    str1 = hour.H2.ToString();
+                    time = hour.H2.ToString();
                     break;
 
                 case 2:
-                    str1 = hour.H3.ToString();
+                    time = hour.H3.ToString();
                     break;
 
                 case 3:
-                    str1 = hour.H4.ToString();
+                    time = hour.H4.ToString();
                     break;
 
                 case 4:
-                    str1 = hour.H5.ToString();
+                    time = hour.H5.ToString();
                     break;
 
                 case 5:
-                    str1 = hour.H6.ToString();
+                    time = hour.H6.ToString();
                     break;
 
                 default:
                     break;
             }
 
-            str1 = str1.PadLeft(2, '0');
-            OnHourClickContentEdit(str1);
+            time = time.PadLeft(2, '0');
+            OnHourClickContentEdit(time);
         }
 
         /// <summary>

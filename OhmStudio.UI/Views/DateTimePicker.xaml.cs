@@ -47,10 +47,19 @@ namespace OhmStudio.UI.Views
         public DateTime DateTime
         {
             get => (DateTime)GetValue(DateTimeProperty);
-            set => SetValue(DateTimeProperty, DateTime);
+            set => SetValue(DateTimeProperty, value);
         }
 
         public static readonly DependencyProperty DateTimeProperty =
             DependencyProperty.Register("DateTime", typeof(DateTime), typeof(DateTimePicker), new PropertyMetadata(DateTime.Now));
+
+        private void textBoxDateTime_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!DateTime.TryParse(textBoxDateTime.Text.Trim(), out _))
+            {
+                var format = textBoxDateTime.GetBindingExpression(TextBox.TextProperty)?.ParentBinding.StringFormat;
+                textBoxDateTime.Text = DateTime.ToString(format);
+            }
+        }
     }
 }
