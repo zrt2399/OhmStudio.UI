@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shell;
@@ -15,20 +14,18 @@ namespace OhmStudio.UI.Views
         public MessageWindow()
         {
             InitializeComponent();
-            Owner = Application.Current?.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
-            Owner ??= Application.Current?.MainWindow;
             MaxHeight = SystemParameters.WorkArea.Height;
             MaxWidth = SystemParameters.WorkArea.Width - 200;
-            if (MessageFrame.UILanguage == UILanguage.Zh_TW)
+            if (AlertDialog.UILanguage == UILanguage.Zh_TW)
             {
                 btnOK.Content = "確定";
                 btnCancel.Content = "取消";
             }
-            else if (MessageFrame.UILanguage == UILanguage.En_US)
+            else if (AlertDialog.UILanguage == UILanguage.En_US)
             {
                 btnOK.Content = "OK";
                 btnCancel.Content = "Cancel";
-            }
+            } 
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -71,8 +68,7 @@ namespace OhmStudio.UI.Views
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            imageInfo.Source = null;
-            MessageFrame.Windows.Remove(this);
+            imageInfo.Source = null; 
         }
     }
 }
