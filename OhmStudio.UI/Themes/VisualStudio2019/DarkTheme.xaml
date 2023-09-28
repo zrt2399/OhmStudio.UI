@@ -16,6 +16,8 @@
         R="00" />
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#FF2E2E2E" />
 
+    <SolidColorBrush x:Key="MessageBoxButtonAreaBackground" Color="#FF383838" />
+
     <SolidColorBrush x:Key="ContextMenuBackground" Color="#FF1B1B1C" />
     <SolidColorBrush x:Key="ContextMenuBorderBrush" Color="#FF333337" />
     <SolidColorBrush x:Key="ContextMenuRectangleFill" Color="#FF1B1B1C" />
