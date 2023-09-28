@@ -11,6 +11,9 @@ using System.Windows;
 using System.Windows.Media;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.PublicMethod;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 
 namespace OhmStudio.UI.Demo
 {
@@ -45,7 +48,59 @@ namespace OhmStudio.UI.Demo
             }
             li.ItemsSource = Result.DefaultView;
             da.ItemsSource = Result.DefaultView;
+            //PlotModel = new PlotModel();
+
+            //// 添加一个线性系列
+            //var series = new LineSeries();
+            //series.Points.Add(new DataPoint(0, 0));
+            //series.Points.Add(new DataPoint(1, 1));
+            //series.Points.Add(new DataPoint(2, 2));
+
+            //// 将系列添加到 PlotModel 中
+            //PlotModel.Series.Add(series);
+            PlotModel = new PlotModel();
+
+            // 创建一个数值轴
+            var xAxis = new LinearAxis
+            {
+                Position = AxisPosition.Bottom,
+                TextColor= OxyColor.Parse("#ffffff"),
+                TitleColor= OxyColor.Parse("#ffffff"),
+                 
+                MajorGridlineColor = OxyColors.Red, // 设置主刻度线颜色
+                MinorGridlineColor = OxyColors.Orange  ,
+                Title = "X"
+            };
+            PlotModel.Axes.Add(xAxis);
+
+            // 创建一个数值轴
+            var yAxis = new LinearAxis
+            {
+                Position = AxisPosition.Left,
+                Title = "Y"
+            };
+            PlotModel.Axes.Add(yAxis);
+
+            // 定义一条曲线
+            var series = new LineSeries
+            {
+                Title = "Complex Curve",
+          
+                StrokeThickness = 3
+            };
+
+            // 添加数据点
+            for (double x = -10; x <= 10; x += 0.1)
+            {
+                double y = Math.Cos(x) * Math.Exp(-x * x / 25) + Math.Sin(3 * x);
+                series.Points.Add(new DataPoint(x, y));
+            }
+
+            // 将系列添加到 PlotModel 中
+            PlotModel.Series.Add(series);
         }
+
+        public PlotModel PlotModel { get; set; }
 
         private DataTable _result = new DataTable();
         public DataTable Result
@@ -146,7 +201,7 @@ namespace OhmStudio.UI.Demo
         {
             await Task.Delay(1000);
             var assembly = Assembly.GetAssembly(typeof(CustomChromeWindow));
-            MessageFrame.Show("private void Button_Click(object sender, RoutedEventArgs e) public abstract class OhmTheme : ResourceDictionary\r\nprivate void Button_Click(object sender, RoutedEventArgs e) public abstract class OhmTheme : ResourceDictionary\r\nprivate void Button_Click(object sender, RoutedEventArgs e) public abstract class OhmTheme : ResourceDictionary\r\nprivate void Button_Click(object sender, RoutedEventArgs e) public abstract class OhmTheme : ResourceDictionary\r\nprivate void Button_Click(object sender, RoutedEventArgs e) public abstract class OhmTheme : ResourceDictionary\r\nprivate void Button_Click(object sender, RoutedEventArgs e) public abstract class OhmTheme : ResourceDictionary\r\nprivate void Button_Click(object sender, RoutedEventArgs e) public abstract class OhmTheme : ResourceDictionary\r\nprivate void Button_Click(object sender, RoutedEventArgs e) public abstract class OhmTheme : ResourceDictionary\r\n" + assembly.GetName().Version);
+            AlertDialog.Show("private void Button_Click(object sender, RoutedEventArgs e)\r\npublic abstract class OhmTheme : ResourceDictionary\r\n" + assembly.GetName().Version, "", MessageButton.OK, MessageImage.Question);
         }
     }
 
@@ -180,7 +235,6 @@ namespace OhmStudio.UI.Demo
                 {
                     yield return "/OhmStudio.UI;component/Themes/VisualStudio2019/BlueTheme.xaml";
                     yield return "/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2019/BlueTheme.xaml";
-                    //yield return "/OhmStudio;component/Themes/BlueTheme.xaml";
                 }
             }
         }
@@ -195,7 +249,6 @@ namespace OhmStudio.UI.Demo
                 {
                     yield return "/OhmStudio.UI;component/Themes/VisualStudio2019/DarkTheme.xaml";
                     yield return "/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2019/DarkTheme.xaml";
-                    //yield return "/OhmStudio;component/Themes/DarkTheme.xaml";
                 }
             }
         }
@@ -210,7 +263,6 @@ namespace OhmStudio.UI.Demo
                 {
                     yield return "/OhmStudio.UI;component/Themes/VisualStudio2019/LightTheme.xaml";
                     yield return "/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2019/LightTheme.xaml";
-                    //yield return "/OhmStudio;component/Themes/LightTheme.xaml";
                 }
             }
         }
@@ -225,7 +277,6 @@ namespace OhmStudio.UI.Demo
                 {
                     yield return "/OhmStudio.UI;component/Themes/VisualStudio2022/BlueTheme.xaml";
                     yield return "/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2022/BlueTheme.xaml";
-                    //yield return "/OhmStudio;component/Themes/BlueTheme.xaml";
                 }
             }
         }
@@ -240,7 +291,6 @@ namespace OhmStudio.UI.Demo
                 {
                     yield return "/OhmStudio.UI;component/Themes/VisualStudio2022/DarkTheme.xaml";
                     yield return "/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2022/DarkTheme.xaml";
-                    //yield return "/OhmStudio;component/Themes/DarkTheme.xaml";
                 }
             }
         }
@@ -255,7 +305,6 @@ namespace OhmStudio.UI.Demo
                 {
                     yield return "/OhmStudio.UI;component/Themes/VisualStudio2022/LightTheme.xaml";
                     yield return "/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2022/LightTheme.xaml";
-                    //yield return "/OhmStudio;component/Themes/LightTheme.xaml";
                 }
             }
         }
@@ -265,12 +314,12 @@ namespace OhmStudio.UI.Demo
         static OhmhemeCollection()
         {
             AllThemes = new List<OhmTheme>(){
-                //new OhmVS2019Blue(),
-                //new OhmVS2019Dark(),
-                //new OhmVS2019Light(),
                 new OhmVS2022Blue(),
                 new OhmVS2022Dark(),
-                new OhmVS2022Light()
+                new OhmVS2022Light(),
+                new OhmVS2019Blue(),
+                new OhmVS2019Dark(),
+                new OhmVS2019Light()
             };
         }
     }

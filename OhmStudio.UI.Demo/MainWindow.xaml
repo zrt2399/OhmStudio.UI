@@ -7,6 +7,8 @@
                     xmlns:control="http://ohmstudio.ui.com"
                     d:DataContext="{d:DesignInstance Type=local:MainWindow}"
                     xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+                    xmlns:pt="http://propertytools.org/wpf"
+                    xmlns:oxy="http://oxyplot.org/wpf"
                     mc:Ignorable="d"
                     IsShowTitle="True"
                     IsShowIcon="True"
@@ -75,8 +77,11 @@
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
                                 <DataGrid x:Name="da">
-
+                                   
                                 </DataGrid>
+                            </LayoutDocument>
+                            <LayoutDocument Title="PlotView">
+                                <oxy:PlotView Model="{Binding PlotModel}" Background="#2e2e2e" Foreground="Red"/>
                             </LayoutDocument>
                             <LayoutDocument Title="TextEditor">
                                 <TabControl>
@@ -100,9 +105,9 @@
                                     <SearchBar Margin="10" VerticalAlignment="Top" Width="400"/>
                                     <TextBox Width="400" VerticalAlignment="Top" Name="te">123</TextBox>
                                     <PasswordBox Margin="10" Width="400"  VerticalAlignment="Top"/>
-                                    <PasswordBoxControl Name="ps" Width="400" Height="40" VerticalAlignment="Top" />
+                                    <PasswordBoxControl Name="ps" Width="400" VerticalAlignment="Top" />
                                     <PasswordBoxControl Margin="10" Width="400" VerticalAlignment="Top"/>
-                                    <DateTimePicker VerticalAlignment="Top" Width="400" Height="40"/>
+                                    <DateTimePicker VerticalAlignment="Top" Width="400" />
 
                                 </WrapPanel>
 
@@ -140,7 +145,7 @@
                                 </ListBox>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="PropertyTools.Wpf">
-
+                                <pt:PropertyGrid SelectedObject="{Binding CurrentFontFamily}"/>
                             </LayoutAnchorable>
                         </LayoutAnchorablePane>
                     </LayoutAnchorablePaneGroup>
