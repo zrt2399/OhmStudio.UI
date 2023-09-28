@@ -72,7 +72,7 @@
                             <Setter Property="Height" Value="16" />
                             <Setter Property="Width" Value="16" />
                             <Setter Property="HorizontalAlignment" Value="Center" />
-                            <Setter Property="VerticalAlignment" Value="Bottom" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ToolWindowCaptionButtonInactiveGlyph}}" />
                             <Setter Property="Template">
                                 <Setter.Value>
