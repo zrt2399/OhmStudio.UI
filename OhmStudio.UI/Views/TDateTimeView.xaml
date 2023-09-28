@@ -14,7 +14,7 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
-        </Style> 
+        </Style>
     </UserControl.Resources>
 
     <Border BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
@@ -46,7 +46,7 @@
                     <!--<Calendar.CalendarDayButtonStyle>
                         <Style TargetType="CalendarDayButton">
                             <Setter Property="Background" Value="White"/>-->
-                            <!--<Setter Property="Template">
+                    <!--<Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ContentControl">
                                         <Button Content="{TemplateBinding Content}"
@@ -57,7 +57,7 @@
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>-->
-                            <!--<Style.Triggers>
+                    <!--<Style.Triggers>
                                 <Trigger Property="IsInactive" Value="True">
                                     <Setter Property="Background" Value="Blue"/>
                                     <Setter Property="TextElement.Foreground" Value="Blue"/>
@@ -68,8 +68,8 @@
                                     <Setter Property="TextElement.Foreground" Value="Red"/>
                                 </Trigger>
                             </Style.Triggers>-->
-                        <!--</Style>
-                    </Calendar.CalendarDayButtonStyle>--> 
+                    <!--</Style>
+                    </Calendar.CalendarDayButtonStyle>-->
                 </Calendar>
             </Grid>
             <Grid Margin="4" Grid.Row="2">

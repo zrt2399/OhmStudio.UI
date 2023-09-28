@@ -115,10 +115,10 @@
             </Grid.ColumnDefinitions>
             <Grid>
                 <Image Margin="10,10,0,10"
-                           Height="32"
-                           x:Name="imageInfo"
-                           Source="/Images/info.png"
-                           VerticalAlignment="Top">
+                       Height="32"
+                       x:Name="imageInfo"
+                       d:Source="/Images/info.png"
+                       VerticalAlignment="Top">
                     <Image.Style>
                         <Style TargetType="Image">
                             <Style.Triggers>

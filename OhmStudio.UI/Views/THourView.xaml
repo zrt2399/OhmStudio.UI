@@ -43,7 +43,6 @@
                       BorderThickness="0"
                       CellStyle="{StaticResource GridCellCenterStyle}"
                       AutoGenerateColumns="True"
-                      Cursor="Hand"
                       Name="dgHour"
                       SelectionMode="Single"
                       CanUserAddRows="False"
@@ -52,7 +51,9 @@
                       HeadersVisibility="None" 
                       SelectedCellsChanged="dgHour_SelectedCellsChanged">
                 <DataGrid.RowStyle>
-                    <Style TargetType="DataGridRow"/>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Cursor" Value="Hand"/>
+                    </Style>
                 </DataGrid.RowStyle>
             </DataGrid>
 

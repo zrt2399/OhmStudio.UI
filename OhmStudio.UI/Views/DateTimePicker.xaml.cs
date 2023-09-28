@@ -15,7 +15,6 @@ namespace OhmStudio.UI.Views
         public DateTimePicker()
         {
             InitializeComponent();
-            //GotKeyboardFocus += (sender,e) =>{ textBlockDateTime.Focus();e.Handled = true; };
         }
 
         /// <summary>

@@ -106,10 +106,10 @@ namespace OhmStudio.UI.Views
             }
             else
             {
-                DateTime dt = DateTime.Now;
-                btnhh.Content = dt.Hour.ToString().PadLeft(2, '0');
-                btnmm.Content = dt.Minute.ToString().PadLeft(2, '0');
-                btnss.Content = dt.Second.ToString().PadLeft(2, '0');
+                DateTime dateTime = DateTime.Now; 
+                btnhh.Content = dateTime.Hour.ToString().PadLeft(2, '0');
+                btnmm.Content = dateTime.Minute.ToString().PadLeft(2, '0');
+                btnss.Content = dateTime.Second.ToString().PadLeft(2, '0');
                 btnNow.Content = "零点"; 
             }
         }
