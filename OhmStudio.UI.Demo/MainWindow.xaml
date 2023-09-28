@@ -9,6 +9,7 @@
                     xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
                     xmlns:pt="http://propertytools.org/wpf"
                     xmlns:oxy="http://oxyplot.org/wpf"
+                    xmlns:hc="https://handyorg.github.io/handycontrol"
                     mc:Ignorable="d"
                     IsShowTitle="True"
                     IsShowIcon="True"
@@ -17,7 +18,7 @@
                     ResizeMode="CanResizeWithGrip"
                     UseLayoutRounding="True"
                     SnapsToDevicePixels="True"
-                    Title="OhmStudio"
+                    Title="{x:Static local:App.Name}"
                     Height="720"
                     Width="1280">
 
@@ -73,12 +74,36 @@
                     <LayoutDocumentPaneGroup>
                         <LayoutDocumentPane  >
                             <LayoutDocument Title="Button">
-                                <Button Click="Button_Click">Click Me</Button>
+                                <UniformGrid>
+                                    <Button Click="Button_Click">Click Me</Button>
+                                    <Button Click="Button_Click_1">Button</Button>
+                                    <Button Click="Button_Click_2">GC</Button>
+                                </UniformGrid>
+
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
                                 <DataGrid x:Name="da">
-                                   
+
                                 </DataGrid>
+                            </LayoutDocument>
+                            <LayoutDocument Title="RollBox">
+                                <hc:Carousel>
+                                    <!-- 添加轮播项 -->
+                                    <hc:CarouselItem>
+                                        <!-- 轮播项内容 -->
+                                    </hc:CarouselItem>
+                                    <hc:CarouselItem>
+                                        <Image Source="icon.ico"/>
+                                        <!-- 轮播项内容 -->
+                                    </hc:CarouselItem>
+                                    <!-- 可以添加更多轮播项 -->
+                                </hc:Carousel>
+                                <!--<RollBox >
+                                    <RollBox.Items>
+                                        <Image Source="icon.ico"/>
+                                        <Image Source="icon.ico"/>
+                                    </RollBox.Items>
+                                </RollBox>-->
                             </LayoutDocument>
                             <LayoutDocument Title="PlotView">
                                 <oxy:PlotView Model="{Binding PlotModel}" Background="#2e2e2e" Foreground="Red"/>
@@ -86,13 +111,13 @@
                             <LayoutDocument Title="TextEditor">
                                 <TabControl>
                                     <TabItem Header="XML">
-                                        <avalonEdit:TextEditor SyntaxHighlighting="XML" ShowLineNumbers="True">
+                                        <avalonEdit:TextEditor SyntaxHighlighting="XML" ShowLineNumbers="True" >
 
                                         </avalonEdit:TextEditor>
                                     </TabItem>
                                     <TabItem Header="C#">
                                         <avalonEdit:TextEditor SyntaxHighlighting="C#" ShowLineNumbers="True" >
- 
+
                                         </avalonEdit:TextEditor>
                                     </TabItem>
                                     <TabItem Header="C++">
@@ -103,11 +128,11 @@
                             <LayoutDocument Title="Other" IsSelected="True">
                                 <WrapPanel Orientation="Vertical" Name="wr">
                                     <SearchBar Margin="10" VerticalAlignment="Top" Width="400"/>
-                                    <TextBox Width="400" VerticalAlignment="Top" Name="te">123</TextBox>
+                                    <TextBox Width="400" VerticalAlignment="Top" Name="te" Text="{Binding CurrentDateTime,Mode=TwoWay}"></TextBox>
                                     <PasswordBox Margin="10" Width="400"  VerticalAlignment="Top"/>
                                     <PasswordBoxControl Name="ps" Width="400" VerticalAlignment="Top" />
                                     <PasswordBoxControl Margin="10" Width="400" VerticalAlignment="Top"/>
-                                    <DateTimePicker VerticalAlignment="Top" Width="400" />
+                                    <DateTimePicker VerticalAlignment="Top" Width="400" DateTime="{Binding CurrentDateTime,Mode=TwoWay}"/>
 
                                 </WrapPanel>
 
@@ -144,8 +169,10 @@
                                     <ListBoxItem>789</ListBoxItem>
                                 </ListBox>
                             </LayoutAnchorable>
-                            <LayoutAnchorable Title="PropertyTools.Wpf">
-                                <pt:PropertyGrid SelectedObject="{Binding CurrentFontFamily}"/>
+                            <LayoutAnchorable Title="PropertyGrid">
+
+                                <PropertyGrid  ItemsSource="{Binding Items}"/>
+
                             </LayoutAnchorable>
                         </LayoutAnchorablePane>
                     </LayoutAnchorablePaneGroup>

@@ -21,6 +21,11 @@
         <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>
     </Style>
 
+    <Style TargetType="TabControl" BasedOn="{StaticResource {x:Type TabControl}}">
+        <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
+        <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>
+    </Style>
+
     <Style TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextTrimming" Value="CharacterEllipsis"/>

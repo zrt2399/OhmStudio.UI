@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing.Text;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.PublicMethod;
@@ -64,11 +68,11 @@ namespace OhmStudio.UI.Demo
             var xAxis = new LinearAxis
             {
                 Position = AxisPosition.Bottom,
-                TextColor= OxyColor.Parse("#ffffff"),
-                TitleColor= OxyColor.Parse("#ffffff"),
-                 
+                TextColor = OxyColor.Parse("#ffffff"),
+                TitleColor = OxyColor.Parse("#ffffff"),
+
                 MajorGridlineColor = OxyColors.Red, // 设置主刻度线颜色
-                MinorGridlineColor = OxyColors.Orange  ,
+                MinorGridlineColor = OxyColors.Orange,
                 Title = "X"
             };
             PlotModel.Axes.Add(xAxis);
@@ -85,7 +89,7 @@ namespace OhmStudio.UI.Demo
             var series = new LineSeries
             {
                 Title = "Complex Curve",
-          
+
                 StrokeThickness = 3
             };
 
@@ -98,9 +102,23 @@ namespace OhmStudio.UI.Demo
 
             // 将系列添加到 PlotModel 中
             PlotModel.Series.Add(series);
+            Pro.Name = "Name";
+            Pro.Description = "Description";
+            Pro.Brush = Brushes.Red;
+
+            for (int i = 0; i < 50; i++)
+            {
+                StackPanel stackPanel = new StackPanel();
+                stackPanel.Orientation = Orientation.Horizontal;
+                stackPanel.Children.Add(new TextBlock() { Text = $"TextBlock{i + 1}:" });
+                stackPanel.Children.Add(new TextBox());
+                Items.Add(stackPanel);
+            }
         }
 
         public PlotModel PlotModel { get; set; }
+
+        public Pro Pro { get; set; } = new Pro();
 
         private DataTable _result = new DataTable();
         public DataTable Result
@@ -153,6 +171,20 @@ namespace OhmStudio.UI.Demo
             }
         }
 
+        private DateTime currentDateTime;
+        public DateTime CurrentDateTime
+        {
+            get => currentDateTime;
+            set => OnPropertyChanged(ref currentDateTime, value, nameof(CurrentDateTime));
+        }
+
+        private ObservableCollection<FrameworkElement> items=new();
+        public ObservableCollection<FrameworkElement> Items
+        {
+            get => items;
+            set => OnPropertyChanged(ref items, value, nameof(Items));
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
@@ -201,7 +233,24 @@ namespace OhmStudio.UI.Demo
         {
             await Task.Delay(1000);
             var assembly = Assembly.GetAssembly(typeof(CustomChromeWindow));
-            AlertDialog.Show("private void Button_Click(object sender, RoutedEventArgs e)\r\npublic abstract class OhmTheme : ResourceDictionary\r\n" + assembly.GetName().Version, "", MessageButton.OK, MessageImage.Question);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < 100; i++)
+            {
+                stringBuilder.Append(i + "StringBuilder" + "\r\n");
+            }
+
+            AlertDialog.Show(stringBuilder.ToString(), assembly.GetName().Version.ToString(), MessageButton.OK, MessageImage.Error);
+            //AlertDialog.Show("private void Button_Click(object sender, RoutedEventArgs e)\r\npublic abstract class OhmTheme : ResourceDictionary\r\n" + assembly.GetName().Version, "", MessageButton.OK, MessageImage.Information);
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            AlertDialog.Show(CurrentDateTime.ToString(), "ToString", MessageButton.OK, MessageImage.Error);
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            GC.Collect();
         }
     }
 
@@ -322,6 +371,13 @@ namespace OhmStudio.UI.Demo
                 new OhmVS2019Light()
             };
         }
+    }
+
+    public class Pro
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public SolidColorBrush Brush { get; set; }
     }
 
     public class OhmXamlUIResource : ResourceDictionary
