@@ -21,9 +21,10 @@
     <ControlTemplate x:Key="CalendarItemStyle" TargetType="CalendarItem">
         <ControlTemplate.Resources>
             <DataTemplate x:Key="{x:Static CalendarItem.DayTitleTemplateResourceKey}">
+                <!--Foreground="{DynamicResource CommonControlsTextBoxText}"-->
                 <TextBlock Margin="0,6"
                            Text="{Binding}"
-                           Foreground="{DynamicResource CommonControlsTextBoxText}"
+
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center" />
             </DataTemplate>
@@ -79,7 +80,7 @@
                         </Button.ContentTemplate>
                     </Button>
 
-                    <Grid x:Name="PART_MonthView"
+                    <Grid x:Name="PART_MonthView" Background="White"
                              Grid.ColumnSpan="3"
                              Grid.Row="1">
                         <Grid.ColumnDefinitions>
@@ -102,7 +103,7 @@
                         </Grid.RowDefinitions>
                     </Grid>
 
-                    <Grid x:Name="PART_YearView"
+                    <Grid x:Name="PART_YearView" Background="White"
                           Visibility="Hidden"
                           Grid.ColumnSpan="3"
                           Grid.Row="1">
