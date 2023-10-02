@@ -24,38 +24,39 @@ namespace OhmStudio.UI.Controls
             dispatcherTimer.Start();
         }
 
+        ~RollBox()
+        {
+            dispatcherTimer?.Stop();
+            dispatcherTimer = null;
+        }
+
         /// <summary>
         /// ApplyTemplate 要比XAML赋值晚。
         /// </summary>
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            CURR_Content = GetTemplateChild("PART_CURR_Content") as ContentControl;
-            NEXT_Content = GetTemplateChild("PART_NEXT_Content") as ContentControl;
+            PART_CURR_Content = GetTemplateChild("PART_CURR_Content") as ContentControl;
+            PART_NEXT_Content = GetTemplateChild("PART_NEXT_Content") as ContentControl;
             PART_ListBox = GetTemplateChild("PART_ListBox") as ListBox;
 
             for (int i = 0; i < Items.Count; i++)
             {
                 PART_ListBox.Items.Add(new ListBoxItem());
             }
-            //foreach (var item in Items)
-            //{
-            //    PART_ListBox.Items.Add(new ListBoxItem());
-            //}
-
             Binding binding = new Binding();
             binding.Path = new PropertyPath(nameof(Index));
             binding.Source = this;
             binding.Mode = BindingMode.TwoWay;
-            PART_ListBox.SetBinding(System.Windows.Controls.Primitives.Selector.SelectedIndexProperty, binding);
+            PART_ListBox.SetBinding(ListBox.SelectedIndexProperty, binding);
             Index = 0;
         }
 
         int preindex = 0;
         public event PropertyChangedEventHandler PropertyChanged;
         DispatcherTimer dispatcherTimer = new DispatcherTimer();
-        ContentControl CURR_Content;
-        ContentControl NEXT_Content;
+        ContentControl PART_CURR_Content;
+        ContentControl PART_NEXT_Content;
         ListBox PART_ListBox;
         public List<FrameworkElement> Items { get; set; } = new List<FrameworkElement>();
 
@@ -88,10 +89,13 @@ namespace OhmStudio.UI.Controls
             {
                 return;
             }
-
-            if (CURR_Content.Content == null)
+            if (PART_CURR_Content == null || PART_NEXT_Content == null || PART_ListBox == null)
             {
-                CURR_Content.Content = Items[Index];
+                return;
+            }
+            if (PART_CURR_Content.Content == null)
+            {
+                PART_CURR_Content.Content = Items[Index];
                 return;//首次不需要动画
             }
             dispatcherTimer.Stop();
@@ -102,25 +106,35 @@ namespace OhmStudio.UI.Controls
         void AnimationStart()
         {
             //System.Diagnostics.Debug.WriteLine($"next{Index}  curr{preindex}");
-            NEXT_Content.Content = Items[Index];
-            CURR_Content.Content = Items[preindex];
+            PART_NEXT_Content.Content = Items[Index];
+            PART_CURR_Content.Content = Items[preindex];
 
-            bool isNext = Index > preindex;
-            ThicknessAnimation Curr_marginAnimation = new ThicknessAnimation();
-            Curr_marginAnimation.From = new Thickness(0);
-            Curr_marginAnimation.To = new Thickness(isNext ? -ActualWidth : ActualWidth, 0, isNext ? ActualWidth : -ActualWidth, 0);
-            Curr_marginAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1000));
+            //bool isNext = Index > preindex;
+            //ThicknessAnimation Curr_marginAnimation = new ThicknessAnimation();
+            //Curr_marginAnimation.From = new Thickness(0);
+            //Curr_marginAnimation.To = new Thickness(isNext ? -ActualWidth : ActualWidth, 0, isNext ? ActualWidth : -ActualWidth, 0);
+            //Curr_marginAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1000));
 
+            //ThicknessAnimation Next_marginAnimation = new ThicknessAnimation(); 
+            //Next_marginAnimation.From = new Thickness(isNext ? ActualWidth : -ActualWidth, 0, isNext ? -ActualWidth : ActualWidth, 0);
+            //Next_marginAnimation.To = new Thickness(0);
+            //Next_marginAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1000));
 
-            ThicknessAnimation Next_marginAnimation = new ThicknessAnimation();
+            //PART_NEXT_Content.BeginAnimation(ContentControl.MarginProperty, Next_marginAnimation);
+            //PART_CURR_Content.BeginAnimation(ContentControl.MarginProperty, Curr_marginAnimation);
 
-            Next_marginAnimation.From = new Thickness(isNext ? ActualWidth : -ActualWidth, 0, isNext ? -ActualWidth : ActualWidth, 0);
-            Next_marginAnimation.To = new Thickness(0);
-            Next_marginAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1000));
+            DoubleAnimation currentAnimation = new DoubleAnimation();
+            currentAnimation.From = 1;
+            currentAnimation.To = 0;
+            currentAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(400));
 
-            NEXT_Content.BeginAnimation(MarginProperty, Next_marginAnimation);
+            DoubleAnimation nextAnimation = new DoubleAnimation();
+            nextAnimation.From = 0;
+            nextAnimation.To = 1;
+            nextAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(400));
 
-            CURR_Content.BeginAnimation(MarginProperty, Curr_marginAnimation);
+            PART_NEXT_Content.BeginAnimation(OpacityProperty, nextAnimation);
+            PART_CURR_Content.BeginAnimation(OpacityProperty, currentAnimation);
         }
     }
 }

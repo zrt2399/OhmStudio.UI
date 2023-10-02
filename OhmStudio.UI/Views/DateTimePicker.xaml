@@ -10,6 +10,7 @@
 
     <UserControl.Style>
         <Style TargetType="UserControl" BasedOn="{StaticResource {x:Type UserControl}}">
+            <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Style.Triggers>
@@ -33,15 +34,14 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox BorderBrush="Transparent" 
+            <TextBox BorderBrush="Transparent"
                      BorderThickness="0"
                      LostFocus="textBoxDateTime_LostFocus"
                      Name="textBoxDateTime"
-                     VerticalAlignment="Stretch"
+                     VerticalAlignment="Center"
                      VerticalContentAlignment="Center"
                      Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DateTime,Mode=TwoWay,StringFormat='yyyy/MM/dd HH:mm:ss'}"/>
             <Grid MaxHeight="{Binding ElementName=textBoxDateTime,Path=ActualHeight}"
-                  Background="{Binding ElementName=textBoxDateTime,Path=Background}"
                   Grid.Column="1">
                 <local:IconButton x:Name="iconButton" 
                                   Margin="4"

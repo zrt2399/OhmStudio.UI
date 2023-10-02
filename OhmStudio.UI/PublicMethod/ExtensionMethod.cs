@@ -56,6 +56,19 @@ namespace OhmStudio.UI.PublicMethod
                 };
             }
         }
+        public static T GetParentObject<T>(this DependencyObject obj) where T : FrameworkElement
+        {
+            DependencyObject parent = VisualTreeHelper.GetParent(obj);
+            while (parent != null)
+            {
+                if (parent is T t)
+                {
+                    return t;
+                }
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+            return null;
+        }
 
         public static byte[] ToBytes(this Bitmap bitmap)
         {
