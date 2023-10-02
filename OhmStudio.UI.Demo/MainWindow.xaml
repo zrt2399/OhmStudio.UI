@@ -18,7 +18,7 @@
                     ResizeMode="CanResizeWithGrip"
                     UseLayoutRounding="True"
                     SnapsToDevicePixels="True"
-                    Title="{x:Static local:App.Name}"
+                    Title="ijkIJK"
                     Height="720"
                     Width="1280">
 
@@ -87,23 +87,23 @@
                                 </DataGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="RollBox">
-                                <hc:Carousel>
-                                    <!-- 添加轮播项 -->
+                                <!--<hc:Carousel>
+                                     添加轮播项 
                                     <hc:CarouselItem>
-                                        <!-- 轮播项内容 -->
+                                         轮播项内容 
                                     </hc:CarouselItem>
                                     <hc:CarouselItem>
                                         <Image Source="icon.ico"/>
-                                        <!-- 轮播项内容 -->
+                                         轮播项内容 
                                     </hc:CarouselItem>
-                                    <!-- 可以添加更多轮播项 -->
-                                </hc:Carousel>
-                                <!--<RollBox >
+                                     可以添加更多轮播项 
+                                </hc:Carousel>-->
+                                <RollBox>
                                     <RollBox.Items>
-                                        <Image Source="icon.ico"/>
+                                        <Image Source="download.jpg"/>
                                         <Image Source="icon.ico"/>
                                     </RollBox.Items>
-                                </RollBox>-->
+                                </RollBox>
                             </LayoutDocument>
                             <LayoutDocument Title="PlotView">
                                 <oxy:PlotView Model="{Binding PlotModel}" Background="#2e2e2e" Foreground="Red"/>
@@ -128,7 +128,7 @@
                             <LayoutDocument Title="Other" IsSelected="True">
                                 <WrapPanel Orientation="Vertical" Name="wr">
                                     <SearchBar Margin="10" VerticalAlignment="Top" Width="400"/>
-                                    <TextBox Width="400" VerticalAlignment="Top" Name="te" Text="{Binding CurrentDateTime,Mode=TwoWay}"></TextBox>
+                                    <TextBox Width="400" VerticalAlignment="Top" Name="te" Text="{Binding CurrentDateTime,Mode=TwoWay}"/>
                                     <PasswordBox Margin="10" Width="400"  VerticalAlignment="Top"/>
                                     <PasswordBoxControl Name="ps" Width="400" VerticalAlignment="Top" />
                                     <PasswordBoxControl Margin="10" Width="400" VerticalAlignment="Top"/>

@@ -18,6 +18,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Remove="download.jpg" />
 		<None Remove="Fonts\OPPOSans-M.ttf" />
 		<None Remove="icon.ico" />
 	</ItemGroup>
@@ -34,6 +35,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Resource Include="download.jpg">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
 		<Resource Include="Fonts\OPPOSans-M.ttf">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
