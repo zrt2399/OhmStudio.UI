@@ -1,7 +1,8 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
+using OhmStudio.UI.PublicMethod;
 
 namespace OhmStudio.UI.Views
 {
@@ -13,60 +14,78 @@ namespace OhmStudio.UI.Views
         public PropertyGrid()
         {
             InitializeComponent();
-            Binding binding = new Binding();
-            binding.Source = this;
-            binding.Path = new PropertyPath(ItemsSourceProperty);
-            itemsControl.SetBinding(ItemsControl.ItemsSourceProperty, binding);
-
-            //for (int i = 0; i < 50; i++)
-            //{
-            //    StackPanel stackPanel = new StackPanel();
-            //    stackPanel.Orientation = Orientation.Horizontal;
-            //    stackPanel.Children.Add(new TextBlock() { Text = $"TextBlock{i + 1}:" });
-            //    stackPanel.Children.Add(new TextBox());
-            //    itemsControl.Items.Add(stackPanel);
-            //}
+            //Binding binding = new Binding();
+            //binding.Source = this;
+            //binding.Path = new PropertyPath(ItemsSourceProperty);
+            //itemsControl.SetBinding(ItemsControl.ItemsSourceProperty, binding);
         }
 
-        public static readonly DependencyProperty ItemsSourceProperty = ItemsSourceProperty =
-            DependencyProperty.Register("ItemsSource", typeof(IEnumerable), typeof(PropertyGrid));
-
-        public IEnumerable ItemsSource
-        {
-            get => (IEnumerable)GetValue(ItemsSourceProperty);
-            set
+        public static readonly DependencyProperty SelectedObjectProperty =
+            DependencyProperty.Register(nameof(SelectedObject), typeof(object), typeof(PropertyGrid), new PropertyMetadata(null, (sender, e) =>
             {
-                if (value == null)
+                if (sender is PropertyGrid propertyGrid)
                 {
-                    ClearValue(ItemsSourceProperty);
+                    propertyGrid.itemsControl.Items.Clear();
+                    Debug.WriteLine(123);
+                    if (e.NewValue != null)
+                    {
+                        propertyGrid.Create(e.NewValue, propertyGrid.itemsControl);
+                    }
+                }
+            }));
+
+        public object SelectedObject
+        {
+            get => GetValue(SelectedObjectProperty);
+            set => SetValue(SelectedObjectProperty, value);
+        }
+
+        List<double> widths = new List<double>();
+        void Create(object obj, ItemsControl itemsControl)
+        {
+            foreach (var item in obj.GetType().GetProperties())
+            {
+                string name = null;
+                var customAttributes = item.GetCustomAttributes(typeof(PropertyGridAttribute), false);
+                foreach (var customAttribute in customAttributes)
+                {
+                    if (customAttribute is PropertyGridAttribute propertyGridAttribute)
+                    {
+                        name = propertyGridAttribute.DisplayName;
+                        break;
+                    }
+                }
+                name ??= item.Name;
+
+
+                UIElement uIElement = null;
+
+                if (item.PropertyType == typeof(string))
+                {
+                    uIElement = new TextBox();
+                }
+                else if (item.PropertyType == typeof(bool))
+                {
+                    uIElement = new CheckBox();
+                }
+                else if (item.PropertyType.IsClass)
+                {
+                    Create(item.GetValue(obj), itemsControl);
                 }
                 else
                 {
-                    SetValue(ItemsSourceProperty, value);
+                    uIElement = new TextBox();
+                }
+                if (uIElement != null)
+                {
+                    DockPanel dockPanel = new DockPanel() { Margin = new Thickness(8) };
+                    TextBlock textBlock = new TextBlock() { Text = name, Margin = new Thickness(0, 0, 4, 0) };
+                    widths.Add(textBlock.Width);
+                    dockPanel.Children.Add(textBlock);
+                    dockPanel.Children.Add(uIElement);
+                    itemsControl.Items.Add(dockPanel);
                 }
             }
         }
-
-        //private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    ItemsControl itemsControl = (ItemsControl)d;
-        //    IEnumerable oldValue = (IEnumerable)e.OldValue;
-        //    IEnumerable enumerable = (IEnumerable)e.NewValue;
-        //    ((IContainItemStorage)itemsControl).Clear();
-        //    BindingExpressionBase beb = BindingOperations.GetBindingExpressionBase(d, ItemsSourceProperty);
-        //    if (beb != null)
-        //    {
-        //        itemsControl.Items.SetItemsSource(enumerable, (object x) => beb.GetSourceItem(x));
-        //    }
-        //    else if (e.NewValue != null)
-        //    {
-        //        itemsControl.Items.SetItemsSource(enumerable);
-        //    }
-        //    else
-        //    {
-        //        itemsControl.Items.ClearItemsSource();
-        //    }
-
-        //}
     }
 }

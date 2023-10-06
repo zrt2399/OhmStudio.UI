@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
@@ -48,7 +49,7 @@ namespace OhmStudio.UI.Controls
             binding.Path = new PropertyPath(nameof(Index));
             binding.Source = this;
             binding.Mode = BindingMode.TwoWay;
-            PART_ListBox.SetBinding(ListBox.SelectedIndexProperty, binding);
+            PART_ListBox.SetBinding(Selector.SelectedIndexProperty, binding);
             Index = 0;
         }
 
@@ -58,17 +59,17 @@ namespace OhmStudio.UI.Controls
         ContentControl PART_CURR_Content;
         ContentControl PART_NEXT_Content;
         ListBox PART_ListBox;
-        public List<FrameworkElement> Items { get; set; } = new List<FrameworkElement>();
+        //public List<UIElement> Items { get; set; } = new List<UIElement>();
 
-        //public ObservableCollection<FrameworkElement> Items
-        //{
-        //    get => (ObservableCollection<FrameworkElement>)GetValue(ItemsProperty);
-        //    set => SetValue(ItemsProperty, value);
-        //}
+        public ObservableCollection<UIElement> Items
+        {
+            get => (ObservableCollection<UIElement>)GetValue(ItemsProperty);
+            set => SetValue(ItemsProperty, value);
+        }
 
-        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty ItemsProperty =
-        //    DependencyProperty.Register(nameof(Items), typeof(ObservableCollection<FrameworkElement>), typeof(RollBox), new FrameworkPropertyMetadata(new ObservableCollection<FrameworkElement>()));
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemsProperty =
+            DependencyProperty.Register(nameof(Items), typeof(ObservableCollection<UIElement>), typeof(RollBox), new FrameworkPropertyMetadata(new ObservableCollection<UIElement>()));
 
         int _index = 0;
         public int Index

@@ -153,6 +153,6 @@ namespace OhmStudio.UI.PublicMethod
         public PropertyGridAttribute(string displayName)
         {
             DisplayName = displayName;
-        }
+        } 
     }
 }

@@ -104,16 +104,9 @@ namespace OhmStudio.UI.Demo
             PlotModel.Series.Add(series);
             Pro.Name = "Name";
             Pro.Description = "Description";
-            Pro.Brush = Brushes.Red;
+            //Pro.Brush = Brushes.Red;
 
-            for (int i = 0; i < 50; i++)
-            {
-                StackPanel stackPanel = new StackPanel();
-                stackPanel.Orientation = Orientation.Horizontal;
-                stackPanel.Children.Add(new TextBlock() { Text = $"TextBlock{i + 1}:" });
-                stackPanel.Children.Add(new TextBox());
-                Items.Add(stackPanel);
-            }
+            Items = Pro;
         }
 
         public PlotModel PlotModel { get; set; }
@@ -178,8 +171,8 @@ namespace OhmStudio.UI.Demo
             set => OnPropertyChanged(ref currentDateTime, value, nameof(CurrentDateTime));
         }
 
-        private ObservableCollection<FrameworkElement> items=new();
-        public ObservableCollection<FrameworkElement> Items
+        private object items = new();
+        public object Items
         {
             get => items;
             set => OnPropertyChanged(ref items, value, nameof(Items));
@@ -375,9 +368,17 @@ namespace OhmStudio.UI.Demo
 
     public class Pro
     {
+        [PropertyGrid("名字")]
         public string Name { get; set; }
         public string Description { get; set; }
-        public SolidColorBrush Brush { get; set; }
+        //public SolidColorBrush Brush { get; set; }
+        public Pro1 Pro1 { get; set; } = new Pro1();
+    }
+
+    public class Pro1
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 
     public class OhmXamlUIResource : ResourceDictionary
