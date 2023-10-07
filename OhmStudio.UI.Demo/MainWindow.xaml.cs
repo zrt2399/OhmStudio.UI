@@ -174,6 +174,13 @@ namespace OhmStudio.UI.Demo
             set => OnPropertyChanged(ref items, value, nameof(Items));
         }
 
+        private ObservableCollection<string> fileNodes = new ObservableCollection<string>() { "1", "2", "3" };
+        public ObservableCollection<string> FileNodes
+        {
+            get => fileNodes;
+            set { fileNodes = value; OnPropertyChanged(() => FileNodes); }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
@@ -387,8 +394,7 @@ namespace OhmStudio.UI.Demo
         [PropertyGrid(true)]
         public DateTime DateTime { get; set; }
 
-        public List<string> DateTimes { get; set; } = new List<string>() { "123", "456", "789", "abc" };
-
+        public List<string> DateTimes { get; set; } = new List<string>() { "123", "456", "789", "abc", "↑↓←→" };
     }
 
     public class OhmXamlUIResource : ResourceDictionary

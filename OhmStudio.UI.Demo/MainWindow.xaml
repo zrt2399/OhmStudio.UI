@@ -18,7 +18,7 @@
                     ResizeMode="CanResizeWithGrip"
                     UseLayoutRounding="True"
                     SnapsToDevicePixels="True"
-                    Title="ijkIJK"
+                    Title="{x:Static local:App.Name}"
                     Height="720"
                     Width="1280">
 
@@ -136,9 +136,12 @@
 
                                 </WrapPanel>
 
-                            </LayoutDocument>
+                            </LayoutDocument> 
                             <LayoutDocument Title="ProgressBar">
                                 <ProgressBar Value="50" IsIndeterminate="True"></ProgressBar>
+                            </LayoutDocument>
+                            <LayoutDocument Title="MultiSelectComboBox">
+                                <MultiSelectComboBox ItemsSource="{Binding FileNodes}" VerticalAlignment="Top"></MultiSelectComboBox>
                             </LayoutDocument>
                         </LayoutDocumentPane>
                     </LayoutDocumentPaneGroup>
@@ -178,7 +181,7 @@
                                     </Grid.RowDefinitions>
                                     <PropertyGrid SelectedObject="{Binding Items}"/>
                                     <Button Click="Button_Click_3" Grid.Row="1">Click</Button>
-                                    <hc:CheckComboBox  Grid.Row="2">Click</hc:CheckComboBox>
+                                    <!--<hc:CheckComboBox  Grid.Row="2">Click</hc:CheckComboBox>-->
                                 </Grid> 
 
                             </LayoutAnchorable>
