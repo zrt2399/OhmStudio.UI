@@ -251,7 +251,7 @@
                     HorizontalOffset="0"
                     IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
                     Placement="Bottom"
-                    PopupAnimation="None">
+                    PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
                     <theme:SystemDropShadowChrome Name="Shdw" Color="Transparent">
                         <Border
                             Name="SubMenuBorder"

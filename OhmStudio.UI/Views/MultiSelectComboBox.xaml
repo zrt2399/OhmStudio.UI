@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="OhmStudio.UI.Views.MultiSelectComboBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:OhmStudio.UI.Views"
+             mc:Ignorable="d"
+             Focusable="True">
+
+    <UserControl.Style>
+        <Style TargetType="UserControl" BasedOn="{StaticResource {x:Type UserControl}}">
+            <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxText}" />
+            <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorder}" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackgroundHover}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorderHover}" />
+                    <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextHover}" />
+                </Trigger>
+                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackgroundFocused}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorderFocused}" />
+                    <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextFocused}" />
+                </Trigger>
+
+                <!--<Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorderDisabled}" />
+                    <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackgroundDisabled}" />
+                    <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextDisabled}" />
+                </Trigger>
+                <Trigger Property="ComboBox.IsDropDownOpen" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackgroundPressed}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorderPressed}" />
+                    <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextPressed}" />
+                </Trigger>-->
+
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VS/Base/ComboBoxBase.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox IsReadOnly="True"
+                     BorderThickness="1,1,0,1"
+                    PreviewMouseLeftButtonDown="TextBox_PreviewMouseLeftButtonDown"
+                    Text="{Binding Text,RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            <ToggleButton  x:Name="DropDownButton"
+                           Click="DropDownButton_Click"
+                         Grid.Column="1"
+                      Background="{DynamicResource CommonControlsComboBoxGlyphBackground}"
+                      BorderBrush="{DynamicResource CommonControlsComboBoxBorder}"
+                      Foreground="{DynamicResource CommonControlsComboBoxGlyph}"
+                     
+                      Style="{StaticResource ToolBarComboBoxTransparentButtonStyle}" />
+        </Grid>
+
+        <Popup Name="popChioce"
+               AllowsTransparency="True"
+               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+               PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
+            
+               StaysOpen="False">
+            <ListBox x:Name="listBox"
+                     Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                     SelectionChanged="listBox_SelectionChanged"
+                     SelectionMode="Multiple">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding}"
+                                  IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Popup>
+    </Grid>
+</UserControl> 

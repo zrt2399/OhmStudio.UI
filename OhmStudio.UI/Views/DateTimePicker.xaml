@@ -55,9 +55,9 @@
         </Grid>
 
         <Popup x:Name="popChioce"
-               PopupAnimation="Fade"
+               AllowsTransparency="True"
+               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
-               StaysOpen="False"
-               IsOpen="False"/>
+               StaysOpen="False"/>
     </Grid>
 </UserControl>

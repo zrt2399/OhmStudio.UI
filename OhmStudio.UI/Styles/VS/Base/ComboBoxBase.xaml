@@ -178,7 +178,7 @@
                 Focusable="False"
                 IsOpen="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                 Placement="Bottom"
-                PopupAnimation="None">
+                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
                 <theme:SystemDropShadowChrome
                     Name="Shadow"
                     MinWidth="{TemplateBinding ActualWidth}"

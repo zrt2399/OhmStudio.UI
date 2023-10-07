@@ -81,7 +81,7 @@
 		<None Remove="ohm.png" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<ItemGroup> 
 		<PackageReference Include="ControlzEx" Version="6.0.0" />
 		<PackageReference Include="Dirkster.AvalonDock" Version="4.72.1" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />

@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:converter="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:view="clr-namespace:OhmStudio.UI.Views"
-                    xmlns:control="clr-namespace:OhmStudio.UI.Controls">
+                    xmlns:control="clr-namespace:OhmStudio.UI.Controls"
+                    >
 
     <converter:ColorConverter x:Key="colorConverter"/>
     <converter:AngleToPointConverter x:Key="angleToPointConverter"/>

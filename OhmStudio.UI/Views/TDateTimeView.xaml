@@ -125,10 +125,12 @@
                         Click="btnOK_Click">确定</Button>
             </Grid>
             <Popup x:Name="popChioce"
-                   PopupAnimation="Fade"
+                   AllowsTransparency="True"
+                   PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                    PlacementTarget="{Binding ElementName=textBoxDateTime}"
-                   StaysOpen="False"
-                   IsOpen="False"/>
+                   StaysOpen="False">
+                <!--<theme1:SystemDropShadowChrome Name="Shdw" Color="{DynamicResource ControlShadow}" Margin="0,0,5,5"/>-->
+            </Popup>
         </Grid>
     </Border>
 </UserControl> 
