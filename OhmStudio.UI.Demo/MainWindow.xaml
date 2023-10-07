@@ -170,8 +170,16 @@
                                 </ListBox>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="PropertyGrid">
-
-                                <PropertyGrid SelectedObject="{Binding Items}"/>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <PropertyGrid SelectedObject="{Binding Items}"/>
+                                    <Button Click="Button_Click_3" Grid.Row="1">Click</Button>
+                                    <hc:CheckComboBox  Grid.Row="2">Click</hc:CheckComboBox>
+                                </Grid> 
 
                             </LayoutAnchorable>
                         </LayoutAnchorablePane>

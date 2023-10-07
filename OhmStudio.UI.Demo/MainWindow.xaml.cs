@@ -102,9 +102,9 @@ namespace OhmStudio.UI.Demo
 
             // 将系列添加到 PlotModel 中
             PlotModel.Series.Add(series);
-            Pro.Name = "Name";
-            Pro.Description = "Description";
-            //Pro.Brush = Brushes.Red;
+            Pro.Name = 1m;
+            Pro.Description = true;
+            Pro.Brush = Brushes.Red;
 
             Items = Pro;
         }
@@ -117,11 +117,7 @@ namespace OhmStudio.UI.Demo
         public DataTable Result
         {
             get => _result;
-            set
-            {
-                _result = value;
-
-            }
+            set => _result = value;
         }
 
         const string DefaultFont = "默认";
@@ -244,6 +240,12 @@ namespace OhmStudio.UI.Demo
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             GC.Collect();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            (Items as Pro).Value = 100;
+            AlertDialog.Show((Items as Pro).BindingFlags.ToString());
         }
     }
 
@@ -368,17 +370,25 @@ namespace OhmStudio.UI.Demo
 
     public class Pro
     {
+        public BindingFlags BindingFlags { get; set; } = BindingFlags.IgnoreCase;
         [PropertyGrid("名字")]
-        public string Name { get; set; }
-        public string Description { get; set; }
-        //public SolidColorBrush Brush { get; set; }
+        public Decimal Name { get; set; }
+        public bool Description { get; set; }
+        [PropertyGrid("值")]
+        public double Value { get; set; }
+        public SolidColorBrush Brush { get; set; }
         public Pro1 Pro1 { get; set; } = new Pro1();
     }
 
     public class Pro1
     {
         public string Name { get; set; }
-        public string Description { get; set; }
+        public double Value { get; set; }
+        [PropertyGrid(true)]
+        public DateTime DateTime { get; set; }
+
+        public List<string> DateTimes { get; set; } = new List<string>() { "123", "456", "789", "abc" };
+
     }
 
     public class OhmXamlUIResource : ResourceDictionary
