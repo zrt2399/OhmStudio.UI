@@ -41,7 +41,7 @@
                                Click="iBtnCloseView_Click"/>
             </Grid>
             <Grid Grid.Row="1">
-                <Calendar Name="calDate" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" 
+                <Calendar Name="calDate"  
                           PreviewMouseUp="calDate_PreviewMouseUp">
                     <!--<Calendar.CalendarDayButtonStyle>
                         <Style TargetType="CalendarDayButton">

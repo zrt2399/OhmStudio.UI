@@ -42,6 +42,18 @@ namespace OhmStudio.UI.Views
         }
 
         /// <summary>
+        /// 日期时间文本框是否只读。
+        /// </summary>
+        public bool IsReadOnly
+        {
+            get => (bool)GetValue(IsReadOnlyProperty);
+            set => SetValue(IsReadOnlyProperty, value);
+        }
+
+        public static readonly DependencyProperty IsReadOnlyProperty =
+            DependencyProperty.Register(nameof(IsReadOnly), typeof(bool), typeof(DateTimePicker));
+
+        /// <summary>
         /// 日期时间。
         /// </summary>
         public DateTime DateTime
@@ -51,7 +63,7 @@ namespace OhmStudio.UI.Views
         }
 
         public static readonly DependencyProperty DateTimeProperty =
-            DependencyProperty.Register("DateTime", typeof(DateTime), typeof(DateTimePicker), new PropertyMetadata(DateTime.Now));
+            DependencyProperty.Register(nameof(DateTime), typeof(DateTime), typeof(DateTimePicker), new PropertyMetadata(DateTime.Now));
 
         private void textBoxDateTime_LostFocus(object sender, RoutedEventArgs e)
         {

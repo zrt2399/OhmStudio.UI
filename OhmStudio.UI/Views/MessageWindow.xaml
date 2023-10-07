@@ -29,7 +29,7 @@
                         <Grid Background="Transparent">
                             <Rectangle x:Name="ButtonBackground" Fill="{TemplateBinding Background}" Opacity="0"/>
                             <Border Background="Transparent" Name="Back">
-                                <Path x:Name="PathBack" Data="M0 0 10 10M0 10 10 0" Stroke="{TemplateBinding Foreground}" StrokeThickness="2"
+                                <Path x:Name="PathBack" Data="M0 0 10 10M0 10 10 0" Stroke="{TemplateBinding Foreground}" StrokeThickness="1"
                                       RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center" HorizontalAlignment="Center">
                                     <Path.LayoutTransform>
                                         <RotateTransform x:Name="rtf"

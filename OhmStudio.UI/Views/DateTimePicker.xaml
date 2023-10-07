@@ -41,6 +41,7 @@
                      VerticalAlignment="Center"
                      VerticalContentAlignment="Center"
                      Background="Transparent"
+                     IsReadOnly="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=IsReadOnly}"
                      Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DateTime,Mode=TwoWay,StringFormat='yyyy/MM/dd HH:mm:ss'}"/>
             <Grid MaxHeight="{Binding ElementName=textBoxDateTime,Path=ActualHeight}"
                   Grid.Column="1">

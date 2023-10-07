@@ -150,9 +150,24 @@ namespace OhmStudio.UI.PublicMethod
     {
         public string DisplayName { get; set; }
 
+        public bool IsReadOnly { get; set; }
+
+        public PropertyGridAttribute() { }
+
+        public PropertyGridAttribute(string displayName, bool isReadOnly)
+        {
+            DisplayName = displayName;
+            IsReadOnly = isReadOnly;
+        }
+
         public PropertyGridAttribute(string displayName)
         {
             DisplayName = displayName;
-        } 
+        }
+
+        public PropertyGridAttribute(bool isReadOnly)
+        {
+            IsReadOnly = isReadOnly;
+        }
     }
 }
