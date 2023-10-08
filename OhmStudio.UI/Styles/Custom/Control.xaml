@@ -472,6 +472,7 @@
     </Style>
 
     <Style x:Key="ListBoxItemCheckBoxStyle" TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemStyle}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -483,7 +484,8 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Name="Border">
                         <CheckBox IsChecked="{Binding IsSelected,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}"
-                                  Foreground="{TemplateBinding Foreground}">
+                                  Foreground="{TemplateBinding Foreground}"
+                                  Margin="0,2">
                             <CheckBox.Content>
                                 <MultiBinding Converter="{StaticResource DisplayMemberPathConverter}">
                                     <Binding Path="DisplayMemberPath" RelativeSource="{RelativeSource AncestorType=ListBox}" />
@@ -492,7 +494,7 @@
                             </CheckBox.Content>
                         </CheckBox>
                     </Border>
-                    <ControlTemplate.Triggers> 
+                    <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
@@ -501,7 +503,7 @@
                             <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemMouseOverBorder}" />
                             <Setter Property="Foreground" Value="{DynamicResource ListBoxItemMouseOverForeground}" />
                         </MultiTrigger>
-                        <MultiTrigger>
+                        <!--<MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="Selector.IsSelectionActive" Value="False" />
                                 <Condition Property="IsSelected" Value="True" />
@@ -518,7 +520,12 @@
                             <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemSelectedActiveBackground}" />
                             <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemSelectedActiveBorder}" />
                             <Setter Property="Foreground" Value="{DynamicResource ListBoxItemSelectedActiveForeground}" />
-                        </MultiTrigger>
+                        </MultiTrigger>-->
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemSelectedActiveBackground}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemSelectedActiveBorder}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ListBoxItemSelectedActiveForeground}" />
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemDisabledBackground}" />
                             <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemDisabledBorder}" />
@@ -530,7 +537,7 @@
         </Setter>
     </Style>
 
-    <DataTemplate x:Key="DataTemplate">
+    <DataTemplate x:Key="ListBoxItemCheckBoxDataTemplate">
         <CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}">
             <CheckBox.Content>
                 <MultiBinding Converter="{StaticResource DisplayMemberPathConverter}">
@@ -561,7 +568,7 @@
                                  BorderThickness="0"
                                  VerticalAlignment="Center"
                                  Text="{Binding Text,RelativeSource={RelativeSource TemplatedParent}}"
-                                 IsReadOnly="{Binding Path=IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                 IsReadOnly="{Binding Path=IsReadOnly,RelativeSource={RelativeSource TemplatedParent}}"/>
                         <ToggleButton x:Name="DropDownButton"
                                      ClickMode="Release"
                                      Grid.Column="1"
@@ -579,20 +586,60 @@
                                IsOpen="{Binding IsDropDownOpen,RelativeSource={RelativeSource TemplatedParent}}"
                                StaysOpen="False">
                             <theme:SystemDropShadowChrome Name="Shadow"
-                                                          MinWidth="{TemplateBinding ActualWidth}"
+                                                          Width="{TemplateBinding ActualWidth}"
                                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                           Color="Transparent">
-                                <ListBox x:Name="PART_ListBox"
-                                         Background="{DynamicResource CommonControlsComboBoxListBackground}"
-                                         BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
-                                         MinWidth="{Binding ActualWidth,RelativeSource={RelativeSource TemplatedParent}}"
-                                         ItemsSource="{TemplateBinding ItemsSource}"
-                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
-                                         SelectionMode="Multiple"
-                                         ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}">
-                                    <!--ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}"-->
-                                    <!--ItemTemplate="{StaticResource DataTemplate}"-->
-                                </ListBox>
+                                <Border Background="{DynamicResource CommonControlsComboBoxListBackground}"
+                                        BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Name="PART_SelectAll">
+                                                <DockPanel>
+                                                    <Viewbox Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}">
+                                                        <Path Fill="{Binding ElementName=selectAll,Path=Foreground}" Stretch="Fill"
+                                                              Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM550.15 400L903.65 753.55L832.9499999999999 824.25L550.15 541.4L408.7 682.85L338 612.15L550.15 400z">
+                                                            <Path.LayoutTransform>
+                                                                <ScaleTransform ScaleX="1" ScaleY="-1"/>
+                                                            </Path.LayoutTransform>
+                                                        </Path>
+                                                    </Viewbox>
+                                                    <TextBlock Margin="4,0,0,0" Name="selectAll">选择全部</TextBlock>
+                                                </DockPanel>
+                                            </Button>
+                                            <Button Name="PART_DeSelectAll">
+                                                <DockPanel>
+                                                    <Viewbox Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}">
+                                                        <Path Fill="{Binding ElementName=deselectAll,Path=Foreground}" Stretch="Fill"
+                                                              Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM250 950V250H950V950H250z"/>
+                                                    </Viewbox>
+                                                    <TextBlock Margin="4,0,0,0" Name="deselectAll">取消全选</TextBlock>
+                                                </DockPanel>
+                                            </Button>
+                                            <Button Name="PART_Invert">
+                                                <DockPanel >
+                                                    <Viewbox Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}">
+                                                        <Path Fill="{Binding ElementName=invert,Path=Foreground}" Stretch="Fill"
+                                                              Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM350 650V550H850V650H350z"/>
+                                                    </Viewbox>
+                                                    <TextBlock Margin="4,0,0,0" Name="invert">反选</TextBlock>
+                                                </DockPanel>
+                                            </Button>
+                                        </StackPanel>
+                                        <ListBox x:Name="PART_ListBox"
+                                                 BorderThickness="0"
+                                                 BorderBrush="Transparent"
+                                                 MinWidth="{Binding ActualWidth,RelativeSource={RelativeSource TemplatedParent}}"
+                                                 ItemsSource="{TemplateBinding ItemsSource}"
+                                                 DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                                 SelectionMode="Multiple"
+                                                 ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}">
+
+                                            <!--ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}"-->
+                                            <!--ItemTemplate="{StaticResource ListBoxItemCheckBoxDataTemplate}"-->
+                                        </ListBox>
+                                    </StackPanel>
+                                </Border>
                             </theme:SystemDropShadowChrome>
                         </Popup>
                     </Grid>

@@ -63,6 +63,10 @@ namespace OhmStudio.UI.PublicMethod
                     {
                         messageWindow.Owner = owner;
                     }
+                    if (messageWindow.Owner == null)
+                    {
+                        messageWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    }
                     messageWindow.txtTitle.Text = messageWindow.Title = title ?? GetTitle();
                     messageWindow.txtMessage.Text = message;
                     messageWindow.btnCancel.Visibility = (button == MessageButton.OK) ? Visibility.Collapsed : Visibility.Visible;

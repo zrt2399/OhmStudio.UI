@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -11,20 +10,24 @@ namespace OhmStudio.UI.Controls
 {
     public class CheckComboBox : ComboBox
     {
-        const string AllText = "(全部)";
-        private bool _stopRiseSelectionChanged = false;
+        public CheckComboBox()
+        {
+            IsReadOnly = true;
+        }
 
         ListBox PART_ListBox;
         TextBox PART_EditableTextBox;
         ToggleButton DropDownButton;
-        public CheckComboBox()
-        {
-
-        }
+        Button PART_SelectAll;
+        Button PART_DeSelectAll;
+        Button PART_Invert;
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+            PART_SelectAll = GetTemplateChild("PART_SelectAll") as Button;
+            PART_DeSelectAll = GetTemplateChild("PART_DeSelectAll") as Button;
+            PART_Invert = GetTemplateChild("PART_Invert") as Button;
             DropDownButton = GetTemplateChild("DropDownButton") as ToggleButton;
             PART_ListBox = GetTemplateChild("PART_ListBox") as ListBox;
             PART_EditableTextBox = GetTemplateChild("PART_EditableTextBox") as TextBox;
@@ -36,10 +39,101 @@ namespace OhmStudio.UI.Controls
                     PART_EditableTextBox.SelectAll();
                 }
             };
+            PART_SelectAll.Click += delegate
+            {
+                SelectElement(false, true);
+            };
+            PART_DeSelectAll.Click += delegate
+            {
+                SelectElement(false, false);
+            };
+            PART_Invert.Click += delegate
+            {
+                SelectElement(true, true);
+            };
+            PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
+        }
+
+        void SelectElement(bool isInvert, bool value)
+        {
+            PART_ListBox.SelectionChanged -= PART_ListBox_SelectionChanged;
+            for (int i = 0; i < PART_ListBox.Items.Count; i++)
+            {
+                if (PART_ListBox.ItemContainerGenerator.ContainerFromIndex(i) is ListBoxItem listBoxItem)
+                {
+                    if (isInvert)
+                    {
+                        listBoxItem.IsSelected = !listBoxItem.IsSelected;
+                    }
+                    else
+                    {
+                        listBoxItem.IsSelected = value;
+                    }
+                }
+            }
+            PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
+            //PART_ListBox_SelectionChanged(PART_ListBox, null);
+            var eventArg = new SelectionChangedEventArgs(SelectionChangedEvent, new List<object>(), new List<object>());
+            PART_ListBox.RaiseEvent(eventArg);
+        }
+
+        private void PART_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ItemsSource == null)
+            {
+                return;
+            }
+            var array = new object[PART_ListBox.SelectedItems.Count];
+            PART_ListBox.SelectedItems.CopyTo(array, 0);
+
+            if (!string.IsNullOrWhiteSpace(DisplayMemberPath))
+            {
+                for (int i = 0; i < array.Length; i++)
+                {
+                    array[i] = array[i].GetType().GetProperty(DisplayMemberPath)?.GetValue(array[i]);
+                }
+            }
+
+            IList list = new List<object>();
+            foreach (var item in array)
+            {
+                list.Add(item);
+            }
+            SelectedItems = list;
+
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (i == list.Count - 1)
+                {
+                    stringBuilder.Append(list[i].ToString());
+                }
+                else
+                {
+                    stringBuilder.Append(list[i].ToString() + ",");
+                }
+            }
+            Text = stringBuilder.ToString();
+            //Text = string.Join(",", list);
+            if (list.Count == 0)
+            {
+                Text = "(未选择)";
+            }
+            else if (list.Count == ItemsSource.Cast<object>().Count())
+            {
+                Text = "(已选择全部)";
+            }
+        }
+
+        protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+        {
+            base.OnItemsSourceChanged(oldValue, newValue);
+            SelectedItems = new List<object>();
+            Text = "(未选择)";
         }
 
         public static new readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(nameof(Text), typeof(string), typeof(CheckComboBox));
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)"));
 
         //public static readonly DependencyProperty IsDropDownOpenProperty =
         //    DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(CheckComboBox));
@@ -51,7 +145,7 @@ namespace OhmStudio.UI.Controls
         //    DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(CheckComboBox), new PropertyMetadata(null, new PropertyChangedCallback(OnItemsSourceChanged)));
 
         public static readonly DependencyProperty SelectedItemsProperty =
-            DependencyProperty.Register(nameof(SelectedItems), typeof(IEnumerable), typeof(CheckComboBox), new PropertyMetadata(null, new PropertyChangedCallback(OnSelectedItemsChanged)));
+            DependencyProperty.Register(nameof(SelectedItems), typeof(IEnumerable), typeof(CheckComboBox));
 
         public new string Text
         {
@@ -81,130 +175,6 @@ namespace OhmStudio.UI.Controls
         {
             get => (IEnumerable)GetValue(SelectedItemsProperty);
             set => SetValue(SelectedItemsProperty, value);
-        }
-
-        private static void UpdateItems(CheckComboBox control)
-        {
-            if (control.ItemsSource == null || control.PART_ListBox == null)
-            {
-                return;
-            }
-
-            control._stopRiseSelectionChanged = true;
-            control.PART_ListBox.SelectedItems.Clear();
-
-            if (control.SelectedItems == null)
-            {
-                foreach (var item in control.ItemsSource)
-                {
-                    if (!control.PART_ListBox.SelectedItems.Contains(item))
-                    {
-                        control.PART_ListBox.SelectedItems.Add(item);
-                    }
-                }
-            }
-            else
-            {
-                foreach (var item in control.SelectedItems)
-                {
-                    if (!control.PART_ListBox.SelectedItems.Contains(item))
-                    {
-                        control.PART_ListBox.SelectedItems.Add(item);
-                    }
-                }
-            }
-            control.UpdateText();
-            control._stopRiseSelectionChanged = false;
-        }
-
-        private static void OnItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-            CheckComboBox control = (CheckComboBox)obj;
-            UpdateItems(control);
-        }
-
-        private static void OnSelectedItemsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-            CheckComboBox control = (CheckComboBox)obj;
-            UpdateItems(control);
-        }
-
-        private void UpdateText()
-        {
-            if (SelectedItems != null)
-            {
-                if (SelectedItems.Cast<object>().Count() == 0)
-                {
-                    Text = "（空）";
-                }
-                else
-                {
-                    var stringBuilder = new StringBuilder();
-                    foreach (var item in SelectedItems)
-                    {
-                        if (stringBuilder.Length > 0)
-                        {
-                            stringBuilder.Append(',');
-                        }
-                        stringBuilder.Append(item.ToString());
-                    }
-                    Text = stringBuilder.ToString();
-                }
-            }
-            else
-            {
-                Text = AllText;
-            }
-        }
-
-
-        private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (_stopRiseSelectionChanged || ItemsSource == null)
-            {
-                return;
-            }
-            var array = new object[PART_ListBox.SelectedItems.Count];
-            PART_ListBox.SelectedItems.CopyTo(array, 0);
-
-            if (ItemsSource.Cast<object>().Except(array).Count() == 0)
-            {
-                SelectedItems = null;
-            }
-            else
-            {
-                IList items = (IList)Activator.CreateInstance(typeof(ObservableCollection<>).MakeGenericType(ItemsSource.GetType().GetGenericArguments()[0]));
-                if (SelectedItems != null)
-                {
-                    foreach (var item in SelectedItems)
-                    {
-                        items.Add(item);
-                    }
-                }
-
-                foreach (var item in e.AddedItems)
-                {
-                    if (item is ListBoxItem)
-                    {
-                        SelectedItems = null;
-                        return;
-                    }
-                    if (!items.Contains(item))
-                    {
-                        items.Add(item);
-                    }
-                }
-
-                foreach (var item in e.RemovedItems)
-                {
-                    if (items.Contains(item))
-                    {
-                        items.Remove(item);
-                    }
-                }
-
-                SelectedItems = items;
-            }
         }
     }
 }

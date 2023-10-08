@@ -59,7 +59,8 @@ namespace OhmStudio.UI.PublicMethod
                 };
             }
         }
-        public static T GetParentObject<T>(this DependencyObject obj) where T : FrameworkElement
+
+        public static T FindParentObject<T>(this DependencyObject obj) where T : DependencyObject
         {
             DependencyObject parent = VisualTreeHelper.GetParent(obj);
             while (parent != null)
@@ -71,6 +72,51 @@ namespace OhmStudio.UI.PublicMethod
                 parent = VisualTreeHelper.GetParent(parent);
             }
             return null;
+        }
+
+        public static T FindFirstChild<T>(this DependencyObject parent) where T : DependencyObject
+        {
+            if (parent == null)
+            {
+                return null;
+            }
+
+            int childCount = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < childCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                if (child is T matchingChild)
+                {
+                    return matchingChild;
+                }
+                // 递归查找子元素的子元素
+                var subChild = FindFirstChild<T>(child);
+                if (subChild != null)
+                {
+                    return subChild;
+                }
+            }
+            return null;
+        }
+
+        public static IEnumerable<T> FindVisualChildren<T>(this DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T t)
+                    {
+                        yield return t;
+                    }
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
         }
 
         public static byte[] ToBytes(this Bitmap bitmap)

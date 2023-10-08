@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace OhmStudio.UI.Converters
@@ -8,6 +9,10 @@ namespace OhmStudio.UI.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            if (values[1] is StackPanel stackPanel)
+            {
+                var s = stackPanel.Parent;
+            }
             object path;
             string displayMemberPath = values[0]?.ToString();
             string value = values[1]?.ToString();
