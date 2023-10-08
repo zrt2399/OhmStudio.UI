@@ -5,7 +5,7 @@ using System.Security;
 using System.Windows;
 using System.Windows.Media;
 
-namespace OhmStudio.UI.Themes
+namespace OhmStudio.UI.Styles.Custom
 {
     /// <summary>
     /// WindowUI.xaml 的交互逻辑

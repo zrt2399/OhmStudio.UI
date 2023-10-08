@@ -20,10 +20,10 @@
                         <Border
                             x:Name="Chrome"
                             Grid.Column="1"
-                            Width="14"
+                            Padding="4,0"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="1"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
                             <Path
                                 x:Name="ArrowDownPath"
@@ -50,7 +50,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
+    <!--<Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="AllowDrop" Value="True" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -80,7 +80,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 
     <Style x:Key="ComboBoxItemBaseStyle" TargetType="{x:Type ComboBoxItem}">
         <Setter Property="BorderThickness" Value="1" />
@@ -88,6 +88,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxListItemText}" />
         <Setter Property="Margin" Value="2,0" />
+        <Setter Property="Padding" Value="1,0" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -125,13 +126,12 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxButton" />
                 </Grid.ColumnDefinitions>
                 <Border Name="Background" Background="{TemplateBinding Background}" />
-                <Border
-                    Name="SelectedContentBorder"
-                    Grid.Column="0"
-                    Margin="2,2,1,2">
+                <Border Name="SelectedContentBorder"
+                        Grid.Column="0"
+                        Margin="1,1,0,1"
+                        Padding="{TemplateBinding Padding}">
                     <ContentPresenter
-                        x:Name="ContentSite"
-                        Margin="{TemplateBinding Padding}"
+                        x:Name="ContentSite" 
                         VerticalAlignment="Center"
                         Content="{TemplateBinding SelectionBoxItem}"
                         ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
@@ -150,17 +150,17 @@
                     Grid.ColumnSpan="2"
                     Background="{DynamicResource CommonControlsComboBoxGlyphBackground}"
                     BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="0,1,1,1"
+                    BorderThickness="{TemplateBinding BorderThickness}"
                     Foreground="{DynamicResource CommonControlsComboBoxGlyph}"
                     IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                     Style="{StaticResource ToolBarComboBoxTransparentButtonStyle}" />
-                <Border
+                <!--<Border
                     Name="Separator"
                     Grid.Column="1"
                     Margin="0,1,0,1"
                     BorderBrush="{DynamicResource CommonControlsComboBoxSeparator}"
                     BorderThickness="1,0,0,0"
-                    IsHitTestVisible="False" />
+                    IsHitTestVisible="False" />-->
                 <TextBox
                     x:Name="PART_EditableTextBox"
                     Grid.Column="0"
@@ -169,7 +169,8 @@
                     Padding="{TemplateBinding Padding}"
                     VerticalAlignment="Center"
                     IsReadOnly="{Binding Path=IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
-                    Style="{StaticResource ComboBoxEditableTextBox}"
+                    BorderBrush="Transparent"
+                    BorderThickness="0"
                     Visibility="Collapsed" />
             </Grid>
             <Popup
@@ -185,16 +186,13 @@
                     MaxHeight="{TemplateBinding MaxDropDownHeight}"
                     Color="Transparent">
 
-                    <Border
-                        x:Name="DropDownBorder"
-                        Margin="0,1,0,0"
+                    <Border x:Name="DropDownBorder"
                         Background="{DynamicResource CommonControlsComboBoxListBackground}"
                         BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
                         BorderThickness="1">
                         <ScrollViewer Name="DropDownScrollViewer">
-                            <Grid Margin="0,2,0,2" RenderOptions.ClearTypeHint="Enabled">
-                                <Canvas
-                                    Width="0"
+                            <Grid Margin="0,2" RenderOptions.ClearTypeHint="Enabled">
+                                <Canvas Width="0"
                                     Height="0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Top">
@@ -214,7 +212,7 @@
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="Background" Property="Grid.ColumnSpan" Value="2" />
-                <Setter TargetName="Separator" Property="BorderBrush" Value="Transparent" />
+                <!--<Setter TargetName="Separator" Property="BorderBrush" Value="Transparent" />-->
                 <Setter TargetName="DropDownButton" Property="Background" Value="{DynamicResource CommonControlsComboBoxGlyphBackgroundDisabled}" />
                 <Setter TargetName="DropDownButton" Property="Foreground" Value="{DynamicResource CommonControlsComboBoxGlyphDisabled}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorderDisabled}" />
@@ -227,7 +225,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextPressed}" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Separator" Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxSeparatorHover}" />
+                <!--<Setter TargetName="Separator" Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxSeparatorHover}" />-->
                 <Setter TargetName="DropDownButton" Property="Background" Value="{DynamicResource CommonControlsComboBoxGlyphBackgroundHover}" />
                 <Setter TargetName="DropDownButton" Property="Foreground" Value="{DynamicResource CommonControlsComboBoxGlyphHover}" />
                 <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackgroundHover}" />
@@ -235,7 +233,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextHover}" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter TargetName="Separator" Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxSeparatorFocused}" />
+                <!--<Setter TargetName="Separator" Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxSeparatorFocused}" />-->
                 <Setter TargetName="DropDownButton" Property="Background" Value="{DynamicResource CommonControlsComboBoxGlyphBackgroundFocused}" />
                 <Setter TargetName="DropDownButton" Property="Foreground" Value="{DynamicResource CommonControlsComboBoxGlyphFocused}" />
                 <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackgroundFocused}" />

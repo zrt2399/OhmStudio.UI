@@ -24,6 +24,11 @@
                     <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextFocused}" />
                     <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
+                    <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
+                </Trigger>
             </Style.Triggers>
         </Style>
     </UserControl.Style>

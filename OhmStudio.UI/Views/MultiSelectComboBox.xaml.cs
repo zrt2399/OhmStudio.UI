@@ -5,35 +5,49 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Input;
 
 namespace OhmStudio.UI.Views
 {
     /// <summary>
-    /// Interaction logic for MultiSelectComboBox.xaml
+    /// MultiSelectComboBox.xaml 的交互逻辑
     /// </summary>
     public partial class MultiSelectComboBox : UserControl
     {
         const string AllText = "(全部)";
         private bool _stopRiseSelectionChanged = false;
 
+        ListBox listBox;
+        Popup popChioce;
+
         public MultiSelectComboBox()
         {
-            InitializeComponent();
-            listBox.SetBinding(ItemsControl.ItemsSourceProperty, new Binding() { Source = this, Path = new PropertyPath(ItemsSourceProperty) });
-            LostFocus += delegate { IsDropDownOpen = false; };
+            InitializeComponent();              
         }
 
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(MultiSelectComboBox));
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            listBox = Template.FindName("listBox", this) as ListBox;
+            popChioce = Template.FindName("popChioce", this) as Popup;
+            listBox.SetBinding(ItemsControl.ItemsSourceProperty, new Binding() { Source = this, Path = new PropertyPath(ItemsSourceProperty) });
+        }
 
-        public static readonly DependencyProperty IsDropDownOpenProperty = DependencyProperty.Register("IsDropDownOpen", typeof(bool), typeof(MultiSelectComboBox));
+        public static readonly DependencyProperty TextProperty =
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(MultiSelectComboBox));
+
+        public static readonly DependencyProperty IsDropDownOpenProperty =
+            DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(MultiSelectComboBox));
+
+        public static readonly DependencyProperty IsReadOnlyProperty =
+            DependencyProperty.Register(nameof(IsReadOnly), typeof(bool), typeof(MultiSelectComboBox), new PropertyMetadata(false));
 
         public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register("ItemsSource", typeof(IEnumerable), typeof(MultiSelectComboBox), new PropertyMetadata(null, new PropertyChangedCallback(OnItemsSourceChanged)));
+            DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(MultiSelectComboBox), new PropertyMetadata(null, new PropertyChangedCallback(OnItemsSourceChanged)));
 
         public static readonly DependencyProperty SelectedItemsProperty =
-            DependencyProperty.Register("SelectedItems", typeof(IEnumerable), typeof(MultiSelectComboBox), new PropertyMetadata(null, new PropertyChangedCallback(OnSelectedItemsChanged)));
+            DependencyProperty.Register(nameof(SelectedItems), typeof(IEnumerable), typeof(MultiSelectComboBox), new PropertyMetadata(null, new PropertyChangedCallback(OnSelectedItemsChanged)));
 
         public string Text
         {
@@ -45,6 +59,12 @@ namespace OhmStudio.UI.Views
         {
             get => (bool)GetValue(IsDropDownOpenProperty);
             set => SetValue(IsDropDownOpenProperty, value);
+        }
+
+        public bool IsReadOnly
+        {
+            get => (bool)GetValue(IsReadOnlyProperty);
+            set => SetValue(IsReadOnlyProperty, value);
         }
 
         public IEnumerable ItemsSource
@@ -61,7 +81,7 @@ namespace OhmStudio.UI.Views
 
         private static void UpdateItems(MultiSelectComboBox control)
         {
-            if (control.ItemsSource == null)
+            if (control.ItemsSource == null || control.listBox == null)
             {
                 return;
             }
@@ -181,22 +201,6 @@ namespace OhmStudio.UI.Views
 
                 SelectedItems = items;
             }
-        }
-
-        private void TextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            
-        
-        }
-
-        private void DropDownButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (popChioce.IsOpen == true)
-            {
-                popChioce.IsOpen = false;
-            }
-            popChioce.Child = new Button() { Height=50,Width=50};
-            popChioce.IsOpen = true;
-        }
+        } 
     }
 }

@@ -3,8 +3,13 @@
                     xmlns:converter="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:view="clr-namespace:OhmStudio.UI.Views"
                     xmlns:control="clr-namespace:OhmStudio.UI.Controls"
-                    >
+                    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VS/Base/ListBoxBase.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <converter:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter"/>
     <converter:ColorConverter x:Key="colorConverter"/>
     <converter:AngleToPointConverter x:Key="angleToPointConverter"/>
     <converter:AngleToIsLargeConverter x:Key="angleToIsLargeConverter"/>
@@ -464,6 +469,173 @@
                 <Setter Property="Background" Value="#FFAAAAAA"/>
             </Trigger>
         </Style.Triggers>-->
+    </Style>
+
+    <Style x:Key="ListBoxItemCheckBoxStyle" TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Name="Border">
+                        <CheckBox IsChecked="{Binding IsSelected,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}"
+                                  Foreground="{TemplateBinding Foreground}">
+                            <CheckBox.Content>
+                                <MultiBinding Converter="{StaticResource DisplayMemberPathConverter}">
+                                    <Binding Path="DisplayMemberPath" RelativeSource="{RelativeSource AncestorType=ListBox}" />
+                                    <Binding Path="." />
+                                </MultiBinding>
+                            </CheckBox.Content>
+                        </CheckBox>
+                    </Border>
+                    <ControlTemplate.Triggers> 
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemMouseOverBackground}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemMouseOverBorder}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ListBoxItemMouseOverForeground}" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Selector.IsSelectionActive" Value="False" />
+                                <Condition Property="IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemSelectedInactiveBackground}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemSelectedInactiveBorder}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ListBoxItemSelectedInactiveForeground}" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Selector.IsSelectionActive" Value="True" />
+                                <Condition Property="IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemSelectedActiveBackground}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemSelectedActiveBorder}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ListBoxItemSelectedActiveForeground}" />
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemDisabledBackground}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemDisabledBorder}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ListBoxItemDisabledForeground}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <DataTemplate x:Key="DataTemplate">
+        <CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}">
+            <CheckBox.Content>
+                <MultiBinding Converter="{StaticResource DisplayMemberPathConverter}">
+                    <Binding Path="DisplayMemberPath" RelativeSource="{RelativeSource AncestorType=ListBox}" />
+                    <Binding Path="." />
+                </MultiBinding>
+            </CheckBox.Content>
+        </CheckBox>
+    </DataTemplate>
+
+    <Style TargetType="control:CheckComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="control:CheckComboBox">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.ColumnSpan="2"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" />
+                        <TextBox Padding="{TemplateBinding Padding}"
+                                 Name="PART_EditableTextBox"
+                                 Margin="1,1,0,1"
+                                 MinHeight="18"
+                                 BorderBrush="Transparent"
+                                 BorderThickness="0"
+                                 VerticalAlignment="Center"
+                                 Text="{Binding Text,RelativeSource={RelativeSource TemplatedParent}}"
+                                 IsReadOnly="{Binding Path=IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <ToggleButton x:Name="DropDownButton"
+                                     ClickMode="Release"
+                                     Grid.Column="1"
+                                     Grid.ColumnSpan="2"
+                                     BorderThickness="{TemplateBinding BorderThickness}"
+                                     Background="{DynamicResource CommonControlsComboBoxGlyphBackground}"
+                                     BorderBrush="{TemplateBinding BorderBrush}"
+                                     Foreground="{DynamicResource CommonControlsComboBoxGlyph}"
+                                     IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                                     Style="{StaticResource ToolBarComboBoxTransparentButtonStyle}"/>
+                        <Popup Name="PART_Popup"
+                               AllowsTransparency="True"
+                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                               PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                               IsOpen="{Binding IsDropDownOpen,RelativeSource={RelativeSource TemplatedParent}}"
+                               StaysOpen="False">
+                            <theme:SystemDropShadowChrome Name="Shadow"
+                                                          MinWidth="{TemplateBinding ActualWidth}"
+                                                          MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                          Color="Transparent">
+                                <ListBox x:Name="PART_ListBox"
+                                         Background="{DynamicResource CommonControlsComboBoxListBackground}"
+                                         BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
+                                         MinWidth="{Binding ActualWidth,RelativeSource={RelativeSource TemplatedParent}}"
+                                         ItemsSource="{TemplateBinding ItemsSource}"
+                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                         SelectionMode="Multiple"
+                                         ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}">
+                                    <!--ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}"-->
+                                    <!--ItemTemplate="{StaticResource DataTemplate}"-->
+                                </ListBox>
+                            </theme:SystemDropShadowChrome>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="DropDownButton" Property="Background" Value="{DynamicResource CommonControlsComboBoxGlyphBackgroundHover}" />
+                            <Setter TargetName="DropDownButton" Property="Foreground" Value="{DynamicResource CommonControlsComboBoxGlyphHover}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackgroundHover}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorderHover}" />
+                            <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextHover}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="DropDownButton" Property="Background" Value="{DynamicResource CommonControlsComboBoxGlyphBackgroundFocused}" />
+                            <Setter TargetName="DropDownButton" Property="Foreground" Value="{DynamicResource CommonControlsComboBoxGlyphFocused}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackgroundFocused}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorderFocused}" />
+                            <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextFocused}" />
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="DropDownButton" Property="Background" Value="{DynamicResource CommonControlsComboBoxGlyphBackgroundDisabled}" />
+                            <Setter TargetName="DropDownButton" Property="Foreground" Value="{DynamicResource CommonControlsComboBoxGlyphDisabled}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorderDisabled}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackgroundDisabled}" />
+                            <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextDisabled}" />
+                        </Trigger>
+                        <Trigger Property="IsDropDownOpen" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackgroundPressed}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorderPressed}" />
+                            <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextPressed}" />
+                        </Trigger>
+                        <Trigger SourceName="PART_Popup" Property="Popup.HasDropShadow" Value="True">
+                            <Setter TargetName="Shadow" Property="Margin" Value="0,0,5,5" />
+                            <Setter TargetName="Shadow" Property="SnapsToDevicePixels" Value="True" />
+                            <Setter TargetName="Shadow" Property="Color" Value="{DynamicResource ControlShadow}" />
+                        </Trigger>
+                        <Trigger Property="HasItems" Value="False">
+                            <Setter TargetName="PART_ListBox" Property="MinHeight" Value="95" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

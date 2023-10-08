@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;component/Themes/Window.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;component/Themes/Control.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;component/Styles/Custom/Window.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;component/Styles/Custom/Control.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
