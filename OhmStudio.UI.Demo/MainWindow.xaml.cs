@@ -10,8 +10,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.PublicMethod;
@@ -107,6 +105,11 @@ namespace OhmStudio.UI.Demo
             Pro.Brush = Brushes.Red;
 
             Items = Pro;
+            for (int i = 0; i < 10; i++)
+            {
+                fileNodes.Add(Pro);
+            }
+         
         }
 
         public PlotModel PlotModel { get; set; }
@@ -174,8 +177,8 @@ namespace OhmStudio.UI.Demo
             set => OnPropertyChanged(ref items, value, nameof(Items));
         }
 
-        private ObservableCollection<string> fileNodes = new ObservableCollection<string>() { "1", "2", "3" };
-        public ObservableCollection<string> FileNodes
+        private ObservableCollection<Pro> fileNodes = new ObservableCollection<Pro>() ;
+        public ObservableCollection<Pro> FileNodes
         {
             get => fileNodes;
             set { fileNodes = value; OnPropertyChanged(() => FileNodes); }

@@ -126,7 +126,7 @@
                                 </TabControl>
                             </LayoutDocument>
                             <LayoutDocument Title="Other" IsSelected="True">
-                                <WrapPanel Orientation="Vertical" Name="wr">
+                                <WrapPanel Orientation="Vertical" Name="wr"  >
                                     <SearchBar Margin="10" VerticalAlignment="Top" Width="400"/>
                                     <TextBox Width="400" VerticalAlignment="Top" Name="te" Text="{Binding CurrentDateTime,Mode=TwoWay}"/>
                                     <PasswordBox Margin="10" Width="400"  VerticalAlignment="Top"/>
@@ -136,12 +136,21 @@
 
                                 </WrapPanel>
 
-                            </LayoutDocument> 
+                            </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
                                 <ProgressBar Value="50" IsIndeterminate="True"></ProgressBar>
                             </LayoutDocument>
                             <LayoutDocument Title="MultiSelectComboBox">
-                                <MultiSelectComboBox ItemsSource="{Binding FileNodes}" VerticalAlignment="Top"></MultiSelectComboBox>
+                                <StackPanel Orientation="Horizontal">
+                                    <hc:CheckComboBox   ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
+                                    <ComboBox DisplayMemberPath="Name"  ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" IsEditable="True"/>
+                                    <CheckComboBox DisplayMemberPath="Name"  ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
+                                    <CheckBox IsChecked="{x:Null}" VerticalAlignment="Top" ></CheckBox>
+                                    <ComboBox  ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
+                                    <ComboBox Style="{x:Null}" DisplayMemberPath="Name" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
+                                    <TextBox  Width="400" VerticalAlignment="Top" Text="{Binding CurrentDateTime,Mode=TwoWay}"/>
+                                </StackPanel>
+
                             </LayoutDocument>
                         </LayoutDocumentPane>
                     </LayoutDocumentPaneGroup>
@@ -182,7 +191,7 @@
                                     <PropertyGrid SelectedObject="{Binding Items}"/>
                                     <Button Click="Button_Click_3" Grid.Row="1">Click</Button>
                                     <!--<hc:CheckComboBox  Grid.Row="2">Click</hc:CheckComboBox>-->
-                                </Grid> 
+                                </Grid>
 
                             </LayoutAnchorable>
                         </LayoutAnchorablePane>
