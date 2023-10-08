@@ -133,7 +133,10 @@
                                     <PasswordBoxControl Name="ps" Width="400" VerticalAlignment="Top" />
                                     <PasswordBoxControl Margin="10" Width="400" VerticalAlignment="Top"/>
                                     <DateTimePicker VerticalAlignment="Top" Width="400" DateTime="{Binding CurrentDateTime,Mode=TwoWay}"/>
-
+                                    <ComboBox Margin="10" Width="400" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
+                                    <ComboBox Width="400" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
+                                    <CheckComboBox  Margin="10"  Width="400" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
+                                    <Button Click="Button_Click_4">显示选中项</Button>
                                 </WrapPanel>
 
                             </LayoutDocument>
@@ -145,10 +148,10 @@
                                     <hc:CheckComboBox   ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
                                     <ComboBox DisplayMemberPath="Name"  ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" IsEditable="True"/>
                                     <CheckComboBox DisplayMemberPath="Name"  ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
-                                    <CheckBox IsChecked="{x:Null}" VerticalAlignment="Top" ></CheckBox>
-                                    <ComboBox  ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
-                                    <ComboBox Style="{x:Null}" DisplayMemberPath="Name" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
-                                    <TextBox  Width="400" VerticalAlignment="Top" Text="{Binding CurrentDateTime,Mode=TwoWay}"/>
+                                    <CheckBox IsChecked="{x:Null}" VerticalAlignment="Top" />
+                                    <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
+                                    <ComboBox DisplayMemberPath="Name" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
+                                    <TextBox Width="400" VerticalAlignment="Top" Text="{Binding CurrentDateTime}"/>
                                 </StackPanel>
 
                             </LayoutDocument>
@@ -169,7 +172,7 @@
                                     </ListView.View>
                                     <ListView.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="zxc"></MenuItem>
+                                            <MenuItem Header="Zxc"></MenuItem>
                                         </ContextMenu>
                                     </ListView.ContextMenu>
                                 </ListView>

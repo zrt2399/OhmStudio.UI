@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -100,16 +101,17 @@ namespace OhmStudio.UI.Demo
 
             // 将系列添加到 PlotModel 中
             PlotModel.Series.Add(series);
-            Pro.Name = 1m;
+
             Pro.Description = true;
             Pro.Brush = Brushes.Red;
 
             Items = Pro;
             for (int i = 0; i < 10; i++)
             {
-                fileNodes.Add(Pro);
+                Pro pro = new Pro();
+                pro.Name = 10m + i;
+                //fileNodes.Add(pro);
             }
-         
         }
 
         public PlotModel PlotModel { get; set; }
@@ -177,11 +179,18 @@ namespace OhmStudio.UI.Demo
             set => OnPropertyChanged(ref items, value, nameof(Items));
         }
 
-        private ObservableCollection<Pro> fileNodes = new ObservableCollection<Pro>() ;
-        public ObservableCollection<Pro> FileNodes
+        private ObservableCollection<string> fileNodes = new ObservableCollection<string>() { "1", "2122", "3123213" };
+        public ObservableCollection<string> FileNodes
         {
             get => fileNodes;
             set { fileNodes = value; OnPropertyChanged(() => FileNodes); }
+        }
+
+        private IList selectedItemsFileNodes;
+        public IList SelectedItemsFileNodes
+        {
+            get => selectedItemsFileNodes;
+            set { selectedItemsFileNodes = value; OnPropertyChanged(() => SelectedItemsFileNodes); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -256,6 +265,21 @@ namespace OhmStudio.UI.Demo
         {
             (Items as Pro).Value = 100;
             AlertDialog.Show((Items as Pro).BindingFlags.ToString());
+        }
+
+        //static readonly ObservableCollection<string> itemss = new ObservableCollection<string>() { "ADSDADSA", "ASDSAD", "ASDASD" };
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            if (SelectedItemsFileNodes != null)
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                foreach (var item in SelectedItemsFileNodes)
+                {
+                    stringBuilder.AppendLine(item.ToString());
+                }
+                AlertDialog.Show(stringBuilder.ToString());
+            }
+            //FileNodes = itemss;
         }
     }
 
