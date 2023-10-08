@@ -21,7 +21,7 @@ AvalonDock style, 2022 can be replaced with 2019, DarkTheme can be replaced with
 WPF control style, 2022 can be replaced with 2019, DarkTheme can be replaced with LightTheme and BlueTheme
 <ResourceDictionary Source="/OhmStudio.UI;component/Themes/VisualStudio2022/DarkTheme.xaml" />
 Custom control styles outside of WPF native controls
-<ResourceDictionary Source="/OhmStudio.UI;component/Themes/Styles.xaml" />
+<ResourceDictionary Source="/OhmStudio.UI;component/Styles/CustomStyles.xaml" />
 ```
 #### Contribution
 
