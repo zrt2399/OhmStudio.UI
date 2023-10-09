@@ -67,7 +67,7 @@ namespace OhmStudio.UI.PublicMethod
                     {
                         messageWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     }
-                    messageWindow.txtTitle.Text = messageWindow.Title = title ?? GetTitle();
+                    messageWindow.Title = title ?? GetTitle();
                     messageWindow.txtMessage.Text = message;
                     messageWindow.btnCancel.Visibility = (button == MessageButton.OK) ? Visibility.Collapsed : Visibility.Visible;
                     messageWindow.imageInfo.Source = GetImage(image);

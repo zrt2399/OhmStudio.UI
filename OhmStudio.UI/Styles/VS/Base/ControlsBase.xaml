@@ -87,9 +87,9 @@
            BasedOn="{StaticResource DataGridColumnHeaderBaseStyle}"
            TargetType="{x:Type DataGridColumnHeader}" />
 
-    <Style x:Key="{x:Type ContentControl}" TargetType="{x:Type ContentControl}">
+    <!--<Style x:Key="{x:Type ContentControl}" TargetType="{x:Type ContentControl}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-    </Style>
+    </Style>-->
 
     <Style
         x:Key="{x:Type Expander}"

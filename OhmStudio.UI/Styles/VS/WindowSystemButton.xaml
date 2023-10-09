@@ -5,7 +5,6 @@
     xmlns:ctrls="clr-namespace:OhmStudio.UI.Controls">
 
     <Style x:Key="WindowSystemButtonBaseStyle" TargetType="{x:Type ctrls:WindowSystemButton}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Background" Value="{DynamicResource EnvironmentMainWindowButtonActive}" />
         <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonActiveBorder}" />
         <Setter Property="BorderThickness" Value="1" />

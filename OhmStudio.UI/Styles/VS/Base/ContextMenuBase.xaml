@@ -34,7 +34,6 @@
                             <ScrollViewer
                                 Name="ContextMenuScrollViewer"
                                 Margin="0"
-                                FocusVisualStyle="{x:Null}"
                                 Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement},
                                                                               ResourceId=MenuScrollViewer}}">
                                 <Grid RenderOptions.ClearTypeHint="Enabled">

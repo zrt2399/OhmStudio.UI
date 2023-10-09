@@ -101,15 +101,17 @@
             <TextBlock Margin="10,6,0,6"
                        x:Name="txtTitle"
                        HorizontalAlignment="Left"
-                       VerticalAlignment="Center">系统提示</TextBlock>
+                       VerticalAlignment="Center"
+                       Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=Title}"
+                       d:Text="系统提示"/>
             <Button x:Name="btnClose"
                     Width="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}"
-                        ToolTip="关闭"
-                        Focusable="False"
-                        Style="{StaticResource CloseButtonStyle}"
-                        HorizontalAlignment="Right"
-                        WindowChrome.IsHitTestVisibleInChrome="True"
-                        Click="btnClose_Click"/>
+                    ToolTip="关闭"
+                    Focusable="False"
+                    Style="{StaticResource CloseButtonStyle}"
+                    HorizontalAlignment="Right"
+                    WindowChrome.IsHitTestVisibleInChrome="True"
+                    Click="btnClose_Click"/>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -118,7 +120,7 @@
             </Grid.ColumnDefinitions>
             <Grid>
                 <Image Margin="10,10,0,10"
-                       Height="32"
+                       Height="28"
                        x:Name="imageInfo"
                        d:Source="/Images/info.png"
                        VerticalAlignment="Top">
@@ -154,13 +156,13 @@
                 <Button x:Name="btnOK"
                         VerticalAlignment="Center"
                         Padding="20,4"
-                            Margin="10"
-                            Click="btnOK_Click">确定</Button>
+                        Margin="10"
+                        Click="btnOK_Click">确定</Button>
                 <Button x:Name="btnCancel"
                         VerticalAlignment="Center"
                         Padding="20,4"
-                                Margin="10" 
-                                Click="btnCancel_Click">取消</Button>
+                        Margin="10" 
+                        Click="btnCancel_Click">取消</Button>
             </StackPanel>
         </Grid>
     </Grid>

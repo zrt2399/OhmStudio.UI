@@ -73,7 +73,6 @@
                         </DrawingBrush>
 
                         <Style x:Key="ToolWellWindowSystemButtonBaseStyle" TargetType="{x:Type ButtonBase}">
-                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                             <Setter Property="Background" Value="Transparent" />
                             <Setter Property="BorderThickness" Value="1" />
                             <Setter Property="BorderBrush" Value="Transparent" />

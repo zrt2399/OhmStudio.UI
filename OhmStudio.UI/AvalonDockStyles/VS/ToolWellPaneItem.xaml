@@ -5,7 +5,6 @@
     xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock">
 
     <Style x:Key="ToolWellPaneItemBaseStyle" TargetType="{x:Type avalonDockControls:LayoutAnchorableTabItem}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutAnchorableTabItem}">

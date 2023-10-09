@@ -17,6 +17,7 @@
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#FF2E2E2E" />
 
     <SolidColorBrush x:Key="MessageBoxButtonAreaBackground" Color="#FF323232" />
+    <SolidColorBrush x:Key="DataGridGroupItemHeaderBackground" Color="#FF3D3D3D" />
 
     <SolidColorBrush x:Key="ContextMenuBackground" Color="#FF2E2E2E" />
     <SolidColorBrush x:Key="ContextMenuBorderBrush" Color="#FF424242" />

@@ -302,7 +302,6 @@
                                 ContentTemplate="{TemplateBinding HeaderTemplate}"
                                 ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
                                 DockPanel.Dock="Top"
-                                FocusVisualStyle="{x:Null}"
                                 FontFamily="{TemplateBinding FontFamily}"
                                 FontSize="{TemplateBinding FontSize}"
                                 FontStretch="{TemplateBinding FontStretch}"

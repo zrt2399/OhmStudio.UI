@@ -69,7 +69,6 @@
                                      ResourceId=MenuScrollViewer}"
         BasedOn="{x:Null}"
         TargetType="{x:Type ScrollViewer}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
         <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="Template">
@@ -261,7 +260,6 @@
                             <Grid>
                                 <ScrollViewer
                                     Name="SubMenuScrollViewer"
-                                    FocusVisualStyle="{x:Null}"
                                     Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement},
                                                                                   ResourceId=MenuScrollViewer}}">
                                     <Grid Grid.IsSharedSizeScope="True" RenderOptions.ClearTypeHint="Enabled">

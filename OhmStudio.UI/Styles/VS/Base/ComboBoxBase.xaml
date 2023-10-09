@@ -53,7 +53,6 @@
     <!--<Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="AllowDrop" Value="True" />
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
         <Setter Property="SelectionBrush" Value="{DynamicResource CommonControlsComboBoxTextInputSelection}" />
@@ -89,7 +88,6 @@
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxListItemText}" />
         <Setter Property="Margin" Value="2,0" />
         <Setter Property="Padding" Value="1,0" />
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -272,7 +270,6 @@
     <Style x:Key="ComboBoxBaseStyle" TargetType="{x:Type ComboBox}">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxText}" />
         <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorder}" />

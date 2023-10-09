@@ -285,8 +285,8 @@
                     <BeginStoryboard>
                         <!--60FPS DesiredFrameRate="60"-->
                         <Storyboard>
-                            <ThicknessAnimation Duration="0:0:0.3" Storyboard.TargetProperty="Margin" From="50,0,-50,0" To="0" DecelerationRatio="0.9"/>
-                            <DoubleAnimation Duration="0:0:0.3" Storyboard.TargetProperty="Opacity" From="0" To="1"/>
+                            <ThicknessAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Margin" From="50,0,-50,0" To="0" DecelerationRatio="0.9"/>
+                            <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" From="0" To="1"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -295,14 +295,18 @@
     </Style>
 
     <Style x:Key="ToggleButtonStyle" TargetType="ToggleButton">
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    <Border x:Name="toggleBorder" CornerRadius="13" Background="#D3D3D3" Width="40"
-                            Height="26" BorderThickness="1" Cursor="Hand"
-                            BorderBrush="Transparent" VerticalAlignment="Center">
-                        <Ellipse Name="ellipse" Height="18" Width="18" Margin="3" HorizontalAlignment="Left" Fill="White"/>
-                    </Border>
+                    <Viewbox>
+                        <Border x:Name="toggleBorder" CornerRadius="13" Background="#D3D3D3" Width="40"
+                                Height="26" BorderThickness="1" BorderBrush="Transparent" VerticalAlignment="Center">
+                            <Ellipse Name="ellipse" Height="18" Width="18" Margin="3" HorizontalAlignment="Left" Fill="White"/>
+                        </Border>
+                    </Viewbox>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="toggleBorder" Property="Background" Value="#65C468"/>
@@ -492,6 +496,7 @@
     </Style>
 
     <Style x:Key="ListBoxItemCheckBoxStyle" TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemStyle}">
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -700,6 +705,12 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="DataGridEditingElementStyle" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
     </Style>
 
 </ResourceDictionary>

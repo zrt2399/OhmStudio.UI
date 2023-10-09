@@ -5,7 +5,6 @@
     xmlns:reskeys="clr-namespace:OhmStudio.UI.AvalonDockThemes">
 
     <Style x:Key="ToolWellItemBaseStyle" TargetType="{x:Type avalonDockControls:LayoutAnchorableControl}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutAnchorableControl}">

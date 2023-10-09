@@ -158,7 +158,6 @@
     </Style>
 
     <Style x:Key="ToolBarTextBoxBaseStyle" TargetType="{x:Type TextBox}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
         <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}" />
@@ -463,7 +462,6 @@
                                             <ToolBarOverflowPanel
                                                 x:Name="PART_ToolBarOverflowPanel"
                                                 Margin="2"
-                                                FocusVisualStyle="{x:Null}"
                                                 Focusable="True"
                                                 KeyboardNavigation.DirectionalNavigation="Cycle"
                                                 KeyboardNavigation.TabNavigation="Cycle"

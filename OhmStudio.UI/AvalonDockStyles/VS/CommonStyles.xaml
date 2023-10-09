@@ -64,7 +64,6 @@
         TargetType="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}" />
 
     <Style x:Key="DockingManagerBaseStyle" TargetType="{x:Type avalonDock:DockingManager}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.Background}}" />
         <Setter Property="AnchorableContextMenu" Value="{StaticResource ToolWellContextMenu}" />
         <Setter Property="AnchorableHeaderTemplate" Value="{StaticResource ToolWellHeaderTemplate}" />

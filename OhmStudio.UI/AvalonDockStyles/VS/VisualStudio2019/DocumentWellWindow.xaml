@@ -38,7 +38,6 @@
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutDocumentFloatingWindowControl}">
                     <ControlTemplate.Resources>
                         <Style x:Key="DocumentFloatingWindowSystemButton" TargetType="{x:Type Button}">
-                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                             <Setter Property="Background" Value="Transparent" />
                             <Setter Property="BorderThickness" Value="1" />
                             <Setter Property="BorderBrush" Value="Transparent" />

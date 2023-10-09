@@ -7,7 +7,6 @@
     <Style x:Key="ToolWellPaneControlBaseStyle" TargetType="{x:Type avalonDockControls:LayoutAnchorablePaneControl}">
         <Setter Property="Padding" Value="0" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground" Value="{Binding Model.Root.Manager.Foreground, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.TabBackground}}" />
         <Setter Property="Template">
@@ -59,7 +58,6 @@
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type TabItem}">
-                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                     <Setter Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.TabItemStaticBackground}}" />
                     <Setter Property="BorderBrush" Value="{DynamicResource {x:Static reskeys:ResourceKeys.TabItemStaticBorder}}" />
                     <Setter Property="Foreground" Value="{DynamicResource {x:Static reskeys:ResourceKeys.TabItemStaticForeground}}" />

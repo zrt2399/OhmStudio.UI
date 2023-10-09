@@ -11,7 +11,6 @@
     </Style>
 
     <Style x:Key="GridSplitterBaseStyle" TargetType="{x:Type GridSplitter}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Background" Value="{DynamicResource GridSplitterBackground}" />
         <Setter Property="PreviewStyle" Value="{StaticResource GridSplitterPreviewStyle}" />
         <Setter Property="Template">

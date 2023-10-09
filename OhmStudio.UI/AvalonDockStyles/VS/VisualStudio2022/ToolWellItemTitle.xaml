@@ -13,7 +13,6 @@
     <Style x:Key="ToolWellItemTitleBaseStyle" TargetType="{x:Type avalonDockControls:AnchorablePaneTitle}">
         <Setter Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ToolWindowCaptionInactiveBackground}}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ToolWindowCaptionInactiveText}}" />
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -61,7 +60,6 @@
                         </DrawingBrush>
 
                         <Style x:Key="ToolWellItemTitleButtonBaseStyle" TargetType="{x:Type ButtonBase}">
-                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                             <Setter Property="Background" Value="Transparent" />
                             <Setter Property="BorderThickness" Value="1" />
                             <Setter Property="BorderBrush" Value="Transparent" />

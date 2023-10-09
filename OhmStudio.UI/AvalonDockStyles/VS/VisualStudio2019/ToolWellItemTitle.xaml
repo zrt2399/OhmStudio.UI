@@ -11,7 +11,6 @@
     <Geometry x:Key="Path_ToolWellIcon_Close">F1 M0,0 L2,0 L5,3 L8,0 L10,0 L6,4 L10,8 L8,8 L5,5 L2,8 L0,8 L4,4 L0,0</Geometry>
 
     <Style x:Key="ToolWellItemTitleBaseStyle" TargetType="{x:Type avalonDockControls:AnchorablePaneTitle}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ToolWindowCaptionInactiveBackground}}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ToolWindowCaptionInactiveText}}" />
         <Setter Property="Template">
@@ -61,7 +60,6 @@
                         </DrawingBrush>
 
                         <Style x:Key="ToolWellItemTitleButtonBaseStyle" TargetType="{x:Type ButtonBase}">
-                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                             <Setter Property="Background" Value="Transparent" />
                             <Setter Property="BorderThickness" Value="1" />
                             <Setter Property="BorderBrush" Value="Transparent" />

@@ -106,7 +106,6 @@
         Top="0" />
 
     <Style x:Key="TabItemBaseStyle" TargetType="{x:Type TabItem}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Background" Value="{DynamicResource TabItemStaticBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource TabItemStaticBorder}" />
         <Setter Property="Foreground" Value="{DynamicResource TabItemStaticForeground}" />
