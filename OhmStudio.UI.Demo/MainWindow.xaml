@@ -10,6 +10,7 @@
                     xmlns:pt="http://propertytools.org/wpf"
                     xmlns:oxy="http://oxyplot.org/wpf"
                     xmlns:hc="https://handyorg.github.io/handycontrol"
+                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
                     mc:Ignorable="d"
                     IsShowTitle="True"
                     IsShowIcon="True"
@@ -82,9 +83,91 @@
 
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
-                                <DataGrid x:Name="da">
-
-                                </DataGrid>
+                                <Grid x:Name="da">
+                                    <Grid.Resources>
+                                        <CollectionViewSource x:Key="MyCollectionViewSource"
+                                                              Source="{Binding FileNodes}">
+                                            <CollectionViewSource.GroupDescriptions>
+                                                <PropertyGroupDescription PropertyName="Name" />
+                                                
+                                            </CollectionViewSource.GroupDescriptions>
+                                            <CollectionViewSource.SortDescriptions>
+                                                <!-- Requires 'xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"' declaration. -->
+                                                <scm:SortDescription PropertyName="Name" />
+                                                <scm:SortDescription  PropertyName="Value" />
+                                                <scm:SortDescription  PropertyName="Description" />
+                                            </CollectionViewSource.SortDescriptions>
+                                        </CollectionViewSource>
+                                    </Grid.Resources>
+                                    <DataGrid ItemsSource="{Binding Source={StaticResource MyCollectionViewSource}}"
+                                              AutoGenerateColumns="False" CanUserAddRows="False" DataGridAttach.IsShowRowNumber="True">
+                                        <!-- 定义需要显示的列 -->
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" ElementStyle="{StaticResource {x:Type TextBlock}}" EditingElementStyle="{StaticResource DataGridEditingElementStyle}"/>
+                                            <DataGridTextColumn Header="Value" Binding="{Binding Value}" ElementStyle="{StaticResource {x:Type TextBlock}}" EditingElementStyle="{StaticResource DataGridEditingElementStyle}"/>
+                                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" ElementStyle="{StaticResource {x:Type TextBlock}}" EditingElementStyle="{StaticResource DataGridEditingElementStyle}"/>
+                                        </DataGrid.Columns>
+                                        <DataGrid.GroupStyle>
+                                            <GroupStyle>
+                                                <GroupStyle.ContainerStyle>
+                                                    <Style TargetType="GroupItem">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="GroupItem">
+                                                                    <Expander IsExpanded="True" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
+                                                                        <Expander.Header>
+                                                                            <DockPanel>
+                                                                                <TextBlock Text="{Binding Path=Name,StringFormat=分组：{0}}" Margin="0,0,20,0"/>
+                                                                                <TextBlock Text="{Binding Path=ItemCount,StringFormat=数量：{0}}"/>
+                                                                            </DockPanel>
+                                                                        </Expander.Header>
+                                                                        <ItemsPresenter />
+                                                                    </Expander>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </GroupStyle.ContainerStyle>
+                                            </GroupStyle>
+                                        </DataGrid.GroupStyle>
+                                        <!--<DataGrid.GroupStyle> 
+                                            <GroupStyle>
+                                                <GroupStyle.ContainerStyle>
+                                                    <Style TargetType="{x:Type GroupItem}">
+                                                        <Setter Property="Margin" Value="0,0,0,5"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                                    <Expander IsExpanded="True" Background="#FF112255" BorderBrush="#FF002255" Foreground="#FFEEEEEE" BorderThickness="1,1,1,5">
+                                                                        <Expander.Header>
+                                                                            <DockPanel>
+                                                                                <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
+                                                                                <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount}"/>
+                                                                            </DockPanel>
+                                                                        </Expander.Header>
+                                                                        <Expander.Content>
+                                                                            <ItemsPresenter />
+                                                                        </Expander.Content>
+                                                                    </Expander>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </GroupStyle.ContainerStyle>
+                                            </GroupStyle> 
+                                            <GroupStyle>
+                                                <GroupStyle.HeaderTemplate>
+                                                    <DataTemplate>
+                                                        <DockPanel Background="LightBlue">
+                                                            <TextBlock Text="{Binding Path=Name }" Foreground="Blue" Margin="30,0,0,0" Width="100"/>
+                                                            <TextBlock Text="{Binding Path=ItemCount}" Foreground="Blue"/>
+                                                        </DockPanel>
+                                                    </DataTemplate>
+                                                </GroupStyle.HeaderTemplate>
+                                            </GroupStyle>
+                                        </DataGrid.GroupStyle>-->
+                                    </DataGrid>
+                                </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="RollBox">
                                 <!--<hc:Carousel>
@@ -142,11 +225,13 @@
 
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
-                                <ProgressBar Value="50" IsIndeterminate="True"></ProgressBar>
+                                <ProgressBar Value="50" IsIndeterminate="True">
+
+                                </ProgressBar>
                             </LayoutDocument>
-                            <LayoutDocument Title="MultiSelectComboBox">
+                            <LayoutDocument Title="CheckComboBox">
                                 <StackPanel Orientation="Horizontal">
-                                    <hc:CheckComboBox   ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
+                                    <hc:CheckComboBox ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
                                     <ComboBox DisplayMemberPath="Name"  ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" IsEditable="True"/>
                                     <CheckComboBox DisplayMemberPath="Name"  ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
                                     <CheckBox IsChecked="{x:Null}" VerticalAlignment="Top" />

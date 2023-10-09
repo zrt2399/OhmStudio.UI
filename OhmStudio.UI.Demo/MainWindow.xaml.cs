@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.PublicMethod;
@@ -50,7 +51,7 @@ namespace OhmStudio.UI.Demo
                 Result.Rows.Add(DateTime.Now, i, i + 1, "44");
             }
             li.ItemsSource = Result.DefaultView;
-            da.ItemsSource = Result.DefaultView;
+            //da.ItemsSource = Result.DefaultView;
             //PlotModel = new PlotModel();
 
             //// 添加一个线性系列
@@ -109,7 +110,16 @@ namespace OhmStudio.UI.Demo
             for (int i = 0; i < 10; i++)
             {
                 Pro pro = new Pro();
-                pro.Name = 10m + i;
+                if (i % 3 == 0)
+                {
+                    pro.Name = 10m;
+                }
+                else
+                {
+                    pro.Name = 10m + i;
+                }
+                pro.Value = 100 + i;
+                pro.Description = i % 2 == 0;
                 fileNodes.Add(pro);
             }
         }
@@ -193,6 +203,12 @@ namespace OhmStudio.UI.Demo
             set { selectedItemsFileNodes = value; OnPropertyChanged(() => SelectedItemsFileNodes); }
         }
 
+        private bool isExpanded;
+        public bool IsExpanded
+        {
+            get => isExpanded;
+            set { isExpanded = value; OnPropertyChanged(() => IsExpanded); }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
@@ -279,7 +295,9 @@ namespace OhmStudio.UI.Demo
                 }
                 AlertDialog.Show(stringBuilder.ToString());
             }
-            FileNodes = new ObservableCollection<Pro>();
+            //FileNodes = new ObservableCollection<Pro>(); 
+            //foreach (var item in FileNodes)
+            //    item. IsExpanded = true;
         }
     }
 
@@ -404,9 +422,10 @@ namespace OhmStudio.UI.Demo
 
     public class Pro
     {
+        public bool IsExpanded { get; set; }
         public BindingFlags BindingFlags { get; set; } = BindingFlags.IgnoreCase;
         [PropertyGrid("名字")]
-        public Decimal Name { get; set; }
+        public decimal Name { get; set; }
         public bool Description { get; set; }
         [PropertyGrid("值")]
         public double Value { get; set; }
