@@ -12,7 +12,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/OhmStudio.UI;component/Themes/Control.xaml"/>
+                <ResourceDictionary Source="/OhmStudio.UI;component/Styles/CustomStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

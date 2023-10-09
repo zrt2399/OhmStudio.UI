@@ -95,6 +95,11 @@ namespace OhmStudio.UI.Views
             return isNumber;
         }
 
+        bool IsNotSystemClass(Type type)
+        {
+            return (type.IsClass || type.IsInterface) && !type.Namespace.StartsWith("System") && !type.Namespace.StartsWith("Microsoft");
+        }
+
         List<double> widths = new List<double>();
         void Create(object obj, ItemsControl itemsControl)
         {
@@ -105,7 +110,7 @@ namespace OhmStudio.UI.Views
             foreach (PropertyInfo item in obj.GetType().GetProperties())
             {
                 var attribute = GetAttribute(item);
-                UIElement uIElement = null;
+                UIElement uiElement = null;
                 bool isUnknown = false;
 
                 if (item.PropertyType.IsEnum)
@@ -115,28 +120,28 @@ namespace OhmStudio.UI.Views
                     Binding itemsSource = new Binding() { Source = Enum.GetValues(item.PropertyType) };
                     ComboBox.SetBinding(Selector.SelectedItemProperty, selectedItem);
                     ComboBox.SetBinding(ItemsControl.ItemsSourceProperty, itemsSource);
-                    uIElement = ComboBox;
+                    uiElement = ComboBox;
                 }
                 else if (item.PropertyType == typeof(bool))
                 {
                     var checkBox = new CheckBox();
                     Binding binding = new Binding() { Source = obj, Path = new PropertyPath(item.Name) };
                     checkBox.SetBinding(ToggleButton.IsCheckedProperty, binding);
-                    uIElement = checkBox;
+                    uiElement = checkBox;
                 }
                 else if (item.PropertyType == typeof(DateTime))
                 {
                     var dateTimePicker = new DateTimePicker();
                     Binding binding = new Binding() { Source = obj, Path = new PropertyPath(item.Name), Mode = BindingMode.TwoWay };
                     dateTimePicker.SetBinding(DateTimePicker.DateTimeProperty, binding);
-                    uIElement = dateTimePicker;
+                    uiElement = dateTimePicker;
                 }
                 else if (item.PropertyType == typeof(string) || item.PropertyType == typeof(char) || IsNumber(item))
                 {
                     var textBox = new TextBox();
                     Binding binding = new Binding() { Source = obj, Path = new PropertyPath(item.Name) };
                     textBox.SetBinding(TextBox.TextProperty, binding);
-                    uIElement = textBox;
+                    uiElement = textBox;
                 }
                 else if (typeof(IEnumerable).IsAssignableFrom(item.PropertyType))
                 {
@@ -145,22 +150,22 @@ namespace OhmStudio.UI.Views
                     ComboBox.SetBinding(ItemsControl.ItemsSourceProperty, binding);
                     VirtualizingPanel.SetIsVirtualizing(ComboBox, true);
                     VirtualizingPanel.SetVirtualizationMode(ComboBox, VirtualizationMode.Recycling);
-                    uIElement = ComboBox;
+                    uiElement = ComboBox;
                 }
-                else if ((item.PropertyType.IsClass || item.PropertyType.IsInterface) && !item.PropertyType.Namespace.StartsWith("System"))
+                else if (IsNotSystemClass(item.PropertyType))
                 {
                     Create(item.GetValue(obj), itemsControl);
                 }
                 else
                 {
-                    uIElement = new TextBox() { Text = item.GetValue(obj)?.ToString() };
+                    uiElement = new TextBox() { Text = item.GetValue(obj)?.ToString() };
                     isUnknown = true;
                 }
-                if (uIElement != null)
+                if (uiElement != null)
                 {
                     DockPanel dockPanel = new DockPanel() { Margin = new Thickness(8, 4, 8, 4) };
                     TextBlock textBlock = new TextBlock() { Text = attribute.DisplayName, Margin = new Thickness(0, 0, 4, 0) };
-                    if (uIElement is TextBox textBox)
+                    if (uiElement is TextBox textBox)
                     {
                         textBox.IsReadOnly = attribute.IsReadOnly;
                         if (isUnknown)
@@ -170,10 +175,10 @@ namespace OhmStudio.UI.Views
                     }
                     else
                     {
-                        uIElement.IsEnabled = !attribute.IsReadOnly;
+                        uiElement.IsEnabled = !attribute.IsReadOnly;
                     }
                     dockPanel.Children.Add(textBlock);
-                    dockPanel.Children.Add(uIElement);
+                    dockPanel.Children.Add(uiElement);
                     itemsControl.Items.Add(dockPanel);
                     textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                     widths.Add(textBlock.DesiredSize.Width);

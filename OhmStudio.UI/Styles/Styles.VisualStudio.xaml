@@ -9,6 +9,7 @@
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/CustomChromeWindow.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/GlyphButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/WindowSystemButton.xaml" />
+        <!--<ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;component/Styles/CustomStyles.xaml" />-->
     </ResourceDictionary.MergedDictionaries>
 
     <Style

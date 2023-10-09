@@ -18,9 +18,9 @@ namespace OhmStudio.UI.Controls
         ListBox PART_ListBox;
         TextBox PART_EditableTextBox;
         ToggleButton DropDownButton;
+        Button PART_Invert;
         Button PART_SelectAll;
         Button PART_DeSelectAll;
-        Button PART_Invert;
 
         public override void OnApplyTemplate()
         {
@@ -39,6 +39,10 @@ namespace OhmStudio.UI.Controls
                     PART_EditableTextBox.SelectAll();
                 }
             };
+            PART_Invert.Click += delegate
+            {
+                SelectElement(true, true);
+            };
             PART_SelectAll.Click += delegate
             {
                 SelectElement(false, true);
@@ -46,10 +50,6 @@ namespace OhmStudio.UI.Controls
             PART_DeSelectAll.Click += delegate
             {
                 SelectElement(false, false);
-            };
-            PART_Invert.Click += delegate
-            {
-                SelectElement(true, true);
             };
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
         }
@@ -77,10 +77,17 @@ namespace OhmStudio.UI.Controls
             PART_ListBox.RaiseEvent(eventArg);
         }
 
+        void SetEmpty()
+        {
+            SelectedItems = new List<object>();
+            SelectedText = "(未选择)";
+        }
+
         private void PART_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ItemsSource == null)
+            if (ItemsSource == null || PART_ListBox.SelectedItems.Count == 0)
             {
+                SetEmpty();
                 return;
             }
             var array = new object[PART_ListBox.SelectedItems.Count];
@@ -113,27 +120,26 @@ namespace OhmStudio.UI.Controls
                     stringBuilder.Append(list[i].ToString() + ",");
                 }
             }
-            Text = stringBuilder.ToString();
-            //Text = string.Join(",", list);
+            SelectedText = stringBuilder.ToString();
+            //SelectedText = string.Join(",", list);
             if (list.Count == 0)
             {
-                Text = "(未选择)";
+                SelectedText = "(未选择)";
             }
             else if (list.Count == ItemsSource.Cast<object>().Count())
             {
-                Text = "(已选择全部)";
+                SelectedText = "(已选择全部)";
             }
         }
 
         protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
         {
             base.OnItemsSourceChanged(oldValue, newValue);
-            SelectedItems = new List<object>();
-            Text = "(未选择)";
+            SetEmpty();
         }
 
-        public static new readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(nameof(Text), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)"));
+        public static readonly DependencyProperty SelectedTextProperty =
+            DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)"));
 
         //public static readonly DependencyProperty IsDropDownOpenProperty =
         //    DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(CheckComboBox));
@@ -147,10 +153,10 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty SelectedItemsProperty =
             DependencyProperty.Register(nameof(SelectedItems), typeof(IEnumerable), typeof(CheckComboBox));
 
-        public new string Text
+        public string SelectedText
         {
-            get => (string)GetValue(TextProperty);
-            set => SetValue(TextProperty, value);
+            get => (string)GetValue(SelectedTextProperty);
+            set => SetValue(SelectedTextProperty, value);
         }
 
         //public bool IsDropDownOpen

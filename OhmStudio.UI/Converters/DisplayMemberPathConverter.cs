@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace OhmStudio.UI.Converters
@@ -9,22 +8,20 @@ namespace OhmStudio.UI.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[1] is StackPanel stackPanel)
+            if (values?.Length > 1)
             {
-                var s = stackPanel.Parent;
+                string displayMemberPath = values[0]?.ToString();
+                string value = values[1]?.ToString();
+                if (string.IsNullOrWhiteSpace(displayMemberPath))
+                {
+                    return value;
+                }
+                else
+                {
+                    return values[1].GetType().GetProperty(displayMemberPath)?.GetValue(values[1]);
+                }
             }
-            object path;
-            string displayMemberPath = values[0]?.ToString();
-            string value = values[1]?.ToString();
-            if (string.IsNullOrWhiteSpace(displayMemberPath))
-            {
-                path = value;
-            }
-            else
-            {
-                path = values[1].GetType().GetProperty(displayMemberPath)?.GetValue(values[1]);
-            }
-            return path;
+            return default;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

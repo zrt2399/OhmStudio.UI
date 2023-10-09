@@ -7,6 +7,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VS/Base/ListBoxBase.xaml" />
+        <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VS/Base/ComboBoxBase.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <converter:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter"/>
@@ -16,7 +17,7 @@
 
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
-    <SolidColorBrush x:Key="EnabledFalse">#FFAEABAB</SolidColorBrush>
+    <SolidColorBrush x:Key="EnabledWhenFalse">#FFAEABAB</SolidColorBrush>
 
     <Style x:Key="ButtonStyle" TargetType="Button">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -84,7 +85,7 @@
                             <Setter TargetName="Border" Value="{DynamicResource Pressed}" Property="Background" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Value="{DynamicResource EnabledFalse}" Property="Background" />
+                            <Setter TargetName="Border" Value="{DynamicResource EnabledWhenFalse}" Property="Background" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
                             <Setter TargetName="Border" Property="BorderThickness" Value="1"/>
@@ -119,7 +120,7 @@
                             <Setter TargetName="Border" Value="{DynamicResource Pressed}" Property="Background" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Value="{DynamicResource EnabledFalse}" Property="Background" />
+                            <Setter TargetName="Border" Value="{DynamicResource EnabledWhenFalse}" Property="Background" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
                             <Setter TargetName="Border" Property="BorderThickness" Value="1"/>
@@ -277,7 +278,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="PageAnimation" TargetType="Page">
+    <Style x:Key="PageAnimationStyle" TargetType="Page">
         <Style.Triggers>
             <EventTrigger RoutedEvent="Loaded">
                 <EventTrigger.Actions>
@@ -293,11 +294,11 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="ToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+    <Style x:Key="ToggleButtonStyle" TargetType="ToggleButton">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border x:Name="toggleBorder" CornerRadius="13" Background="#D3D3D3" Width="44"
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="toggleBorder" CornerRadius="13" Background="#D3D3D3" Width="40"
                             Height="26" BorderThickness="1" Cursor="Hand"
                             BorderBrush="Transparent" VerticalAlignment="Center">
                         <Ellipse Name="ellipse" Height="18" Width="18" Margin="3" HorizontalAlignment="Left" Fill="White"/>
@@ -307,6 +308,25 @@
                             <Setter TargetName="toggleBorder" Property="Background" Value="#65C468"/>
                             <Setter TargetName="ellipse" Property="HorizontalAlignment" Value="Right"/>
                         </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ellipse" Property="Fill" Value="#F0F0F0"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsEnabled" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="toggleBorder" Property="Background" Value="#8FBC8F"/>
+                            <Setter TargetName="ellipse" Property="Fill" Value="LightGray"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="False" />
+                                <Condition Property="IsEnabled" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="toggleBorder" Property="Background" Value="#BEBEBE"/>
+                            <Setter TargetName="ellipse" Property="Fill" Value="LightGray"/>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -567,7 +587,7 @@
                                  BorderBrush="Transparent"
                                  BorderThickness="0"
                                  VerticalAlignment="Center"
-                                 Text="{Binding Text,RelativeSource={RelativeSource TemplatedParent}}"
+                                 Text="{Binding SelectedText,RelativeSource={RelativeSource TemplatedParent}}"
                                  IsReadOnly="{Binding Path=IsReadOnly,RelativeSource={RelativeSource TemplatedParent}}"/>
                         <ToggleButton x:Name="DropDownButton"
                                      ClickMode="Release"
@@ -586,7 +606,7 @@
                                IsOpen="{Binding IsDropDownOpen,RelativeSource={RelativeSource TemplatedParent}}"
                                StaysOpen="False">
                             <theme:SystemDropShadowChrome Name="Shadow"
-                                                          Width="{TemplateBinding ActualWidth}"
+                                                          MinWidth="{TemplateBinding ActualWidth}"
                                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                           Color="Transparent">
                                 <Border Background="{DynamicResource CommonControlsComboBoxListBackground}"
@@ -594,6 +614,15 @@
                                         BorderThickness="{TemplateBinding BorderThickness}">
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
+                                            <Button Name="PART_Invert">
+                                                <DockPanel >
+                                                    <Viewbox Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}">
+                                                        <Path Fill="{Binding ElementName=invert,Path=Foreground}" Stretch="Fill"
+                                                              Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM350 650V550H850V650H350z"/>
+                                                    </Viewbox>
+                                                    <TextBlock Margin="4,0,0,0" Name="invert">反选</TextBlock>
+                                                </DockPanel>
+                                            </Button>
                                             <Button Name="PART_SelectAll">
                                                 <DockPanel>
                                                     <Viewbox Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}">
@@ -604,7 +633,7 @@
                                                             </Path.LayoutTransform>
                                                         </Path>
                                                     </Viewbox>
-                                                    <TextBlock Margin="4,0,0,0" Name="selectAll">选择全部</TextBlock>
+                                                    <TextBlock Margin="4,0,0,0" Name="selectAll">全选</TextBlock>
                                                 </DockPanel>
                                             </Button>
                                             <Button Name="PART_DeSelectAll">
@@ -616,28 +645,16 @@
                                                     <TextBlock Margin="4,0,0,0" Name="deselectAll">取消全选</TextBlock>
                                                 </DockPanel>
                                             </Button>
-                                            <Button Name="PART_Invert">
-                                                <DockPanel >
-                                                    <Viewbox Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}">
-                                                        <Path Fill="{Binding ElementName=invert,Path=Foreground}" Stretch="Fill"
-                                                              Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM350 650V550H850V650H350z"/>
-                                                    </Viewbox>
-                                                    <TextBlock Margin="4,0,0,0" Name="invert">反选</TextBlock>
-                                                </DockPanel>
-                                            </Button>
                                         </StackPanel>
                                         <ListBox x:Name="PART_ListBox"
                                                  BorderThickness="0"
                                                  BorderBrush="Transparent"
-                                                 MinWidth="{Binding ActualWidth,RelativeSource={RelativeSource TemplatedParent}}"
                                                  ItemsSource="{TemplateBinding ItemsSource}"
                                                  DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                  SelectionMode="Multiple"
-                                                 ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}">
-
-                                            <!--ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}"-->
-                                            <!--ItemTemplate="{StaticResource ListBoxItemCheckBoxDataTemplate}"-->
-                                        </ListBox>
+                                                 ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}"/>
+                                        <!--ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}"-->
+                                        <!--ItemTemplate="{StaticResource ListBoxItemCheckBoxDataTemplate}"-->
                                     </StackPanel>
                                 </Border>
                             </theme:SystemDropShadowChrome>
