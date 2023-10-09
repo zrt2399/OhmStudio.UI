@@ -135,8 +135,9 @@
                                     <DateTimePicker VerticalAlignment="Top" Width="400" DateTime="{Binding CurrentDateTime,Mode=TwoWay}"/>
                                     <ComboBox Margin="10" Width="400" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
                                     <ComboBox Width="400" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
-                                    <CheckComboBox  Margin="10"  Width="400" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
-                                    <Button Click="Button_Click_4">显示选中项</Button>
+                                    <CheckComboBox Margin="10" Width="400" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
+                                    <Button Width="400" Click="Button_Click_4">显示选中项</Button>
+                                    <ToggleButton Margin="10" Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
                                 </WrapPanel>
 
                             </LayoutDocument>
@@ -152,6 +153,7 @@
                                     <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
                                     <ComboBox DisplayMemberPath="Name" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
                                     <TextBox Width="400" VerticalAlignment="Top" Text="{Binding CurrentDateTime}"/>
+                                    <ToggleButton Style="{StaticResource ToggleButtonStyle}"/>
                                 </StackPanel>
 
                             </LayoutDocument>

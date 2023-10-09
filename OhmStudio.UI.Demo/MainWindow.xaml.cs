@@ -110,7 +110,7 @@ namespace OhmStudio.UI.Demo
             {
                 Pro pro = new Pro();
                 pro.Name = 10m + i;
-                //fileNodes.Add(pro);
+                fileNodes.Add(pro);
             }
         }
 
@@ -179,8 +179,8 @@ namespace OhmStudio.UI.Demo
             set => OnPropertyChanged(ref items, value, nameof(Items));
         }
 
-        private ObservableCollection<string> fileNodes = new ObservableCollection<string>() { "1", "2122", "3123213" };
-        public ObservableCollection<string> FileNodes
+        private ObservableCollection<Pro> fileNodes = new();
+        public ObservableCollection<Pro> FileNodes
         {
             get => fileNodes;
             set { fileNodes = value; OnPropertyChanged(() => FileNodes); }
@@ -279,7 +279,7 @@ namespace OhmStudio.UI.Demo
                 }
                 AlertDialog.Show(stringBuilder.ToString());
             }
-            //FileNodes = itemss;
+            FileNodes = new ObservableCollection<Pro>();
         }
     }
 
