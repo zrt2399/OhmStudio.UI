@@ -122,6 +122,14 @@ namespace OhmStudio.UI.Demo
                 pro.Description = i % 2 == 0;
                 fileNodes.Add(pro);
             }
+            var viewSource = new CollectionViewSource { Source = fileNodes };
+            fileNodes.CollectionChanged += delegate
+            {
+                AlertDialog.Show("已改变");
+
+            };
+            bool res = typeof(System.Windows.FrameworkElement) == typeof(System.Windows.Controls.Image);
+
         }
 
         public PlotModel PlotModel { get; set; }

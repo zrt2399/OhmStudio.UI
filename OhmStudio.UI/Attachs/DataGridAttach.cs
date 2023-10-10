@@ -33,20 +33,20 @@ namespace OhmStudio.UI.Attachs
                     dataGrid.LoadingRow += DataGrid_LoadingRow;
                     dataGrid.ItemContainerGenerator.ItemsChanged += ItemContainerGeneratorItemsChanged;
 
-                    dataGrid.CurrentCellChanged += DataGrid_CurrentCellChanged;
+                    //dataGrid.CurrentCellChanged += DataGrid_CurrentCellChanged;
 
                 }
                 else
                 {
                     dataGrid.LoadingRow -= DataGrid_LoadingRow;
                     dataGrid.ItemContainerGenerator.ItemsChanged -= ItemContainerGeneratorItemsChanged;
-                    dataGrid.CurrentCellChanged -= DataGrid_CurrentCellChanged;
+                    //dataGrid.CurrentCellChanged -= DataGrid_CurrentCellChanged;
 
                 }
-                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(dataGrid.Items);
+                //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(dataGrid.Items);
 
-                // 监听分组规则的更改事件
-                view.GroupDescriptions.CollectionChanged += GroupDescriptions_CollectionChanged; ;
+                //// 监听分组规则的更改事件
+                //view.GroupDescriptions.CollectionChanged += GroupDescriptions_CollectionChanged;  
             }
 
 
