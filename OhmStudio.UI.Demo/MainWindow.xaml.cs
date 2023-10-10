@@ -107,7 +107,7 @@ namespace OhmStudio.UI.Demo
             Pro.Brush = Brushes.Red;
 
             Items = Pro;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 Pro pro = new Pro();
                 if (i % 3 == 0)
@@ -120,16 +120,13 @@ namespace OhmStudio.UI.Demo
                 }
                 pro.Value = 100 + i;
                 pro.Description = i % 2 == 0;
-                fileNodes.Add(pro);
+                FileNodes.Add(pro);
             }
-            var viewSource = new CollectionViewSource { Source = fileNodes };
-            fileNodes.CollectionChanged += delegate
+            var viewSource = new CollectionViewSource { Source = FileNodes };
+            FileNodes.CollectionChanged += delegate
             {
                 AlertDialog.Show("已改变");
-
             };
-            bool res = typeof(System.Windows.FrameworkElement) == typeof(System.Windows.Controls.Image);
-
         }
 
         public PlotModel PlotModel { get; set; }

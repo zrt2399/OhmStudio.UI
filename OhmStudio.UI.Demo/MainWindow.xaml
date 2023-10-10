@@ -85,11 +85,13 @@
                             <LayoutDocument Title="DataGrid">
                                 <Grid x:Name="da">
                                     <Grid.Resources>
-                                        <CollectionViewSource x:Key="MyCollectionViewSource"
+                                        <CollectionViewSource x:Key="ItemCollectionViewSource"
+                                                              IsLiveGroupingRequested="True"
+                                                              IsLiveSortingRequested="True"
                                                               Source="{Binding FileNodes}">
                                             <CollectionViewSource.GroupDescriptions>
-                                                <PropertyGroupDescription PropertyName="Name" />
-                                                
+                                                <PropertyGroupDescription PropertyName="Name"/>
+
                                             </CollectionViewSource.GroupDescriptions>
                                             <CollectionViewSource.SortDescriptions>
                                                 <!-- Requires 'xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"' declaration. -->
@@ -99,8 +101,14 @@
                                             </CollectionViewSource.SortDescriptions>
                                         </CollectionViewSource>
                                     </Grid.Resources>
-                                    <DataGrid ItemsSource="{Binding Source={StaticResource MyCollectionViewSource}}"
-                                              AutoGenerateColumns="False" CanUserAddRows="False" DataGridAttach.IsShowRowNumber="True">
+                                    <DataGrid ItemsSource="{Binding Source={StaticResource ItemCollectionViewSource}}"
+                                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                              VirtualizingPanel.IsVirtualizing="True"
+                                              VirtualizingPanel.VirtualizationMode="Recycling"
+                                              DataGridAttach.IsShowRowNumber="True"
+                                              DataGridAttach.IsSelectionChangedUpdateRowNumber="True"
+                                              AutoGenerateColumns="False"
+                                              CanUserAddRows="False" >
                                         <!-- 定义需要显示的列 -->
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" ElementStyle="{StaticResource {x:Type TextBlock}}" EditingElementStyle="{StaticResource DataGridEditingElementStyle}"/>
@@ -114,7 +122,7 @@
                                                         <Setter Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate TargetType="GroupItem">
-                                                                    <Expander IsExpanded="True" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
+                                                                    <Expander IsExpanded="False" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
                                                                         <Expander.Header>
                                                                             <DockPanel>
                                                                                 <TextBlock Text="{Binding Path=Name,StringFormat=分组：{0}}" Margin="0,0,20,0"/>
@@ -218,7 +226,13 @@
                                     <DateTimePicker VerticalAlignment="Top" Width="400" DateTime="{Binding CurrentDateTime,Mode=TwoWay}"/>
                                     <ComboBox Margin="10" Width="400" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
                                     <ComboBox Width="400" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
-                                    <CheckComboBox Margin="10" Width="400" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
+                                    <CheckComboBox Margin="10" Width="400"
+                                                   ItemsSource="{Binding FileNodes}"
+                                                   DisplayMemberPath="Name"
+                                                   VerticalAlignment="Top"
+                                                   VirtualizingPanel.IsVirtualizing="True"
+                                                   VirtualizingPanel.VirtualizationMode="Recycling"
+                                                   SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
                                     <Button Width="400" Click="Button_Click_4">显示选中项</Button>
                                     <ToggleButton Margin="10" Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
                                 </WrapPanel>
@@ -233,7 +247,9 @@
                                 <StackPanel Orientation="Horizontal">
                                     <hc:CheckComboBox ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
                                     <ComboBox DisplayMemberPath="Name"  ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" IsEditable="True"/>
-                                    <CheckComboBox DisplayMemberPath="Name"  ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
+                                    <CheckComboBox DisplayMemberPath="Name"
+                                                   ItemsSource="{Binding FileNodes}"
+                                                   VerticalAlignment="Top"/>
                                     <CheckBox IsChecked="{x:Null}" VerticalAlignment="Top" />
                                     <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
                                     <ComboBox DisplayMemberPath="Name" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
@@ -265,10 +281,16 @@
                                 </ListView>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="ListBox">
-                                <ListBox>
-                                    <ListBoxItem>123</ListBoxItem>
-                                    <ListBoxItem>456</ListBoxItem>
-                                    <ListBoxItem>789</ListBoxItem>
+                                <ListBox SelectionMode="Multiple">
+                                    <ListBoxItem>123123123</ListBoxItem>
+                                    <ListBoxItem>456456456</ListBoxItem>
+                                    <ListBoxItem>789789789</ListBoxItem>
+                                    <ListBoxItem>123123123</ListBoxItem>
+                                    <ListBoxItem>456456456</ListBoxItem>
+                                    <ListBoxItem>789789789</ListBoxItem>
+                                    <ListBoxItem>123123123</ListBoxItem>
+                                    <ListBoxItem>456456456</ListBoxItem>
+                                    <ListBoxItem>789789789</ListBoxItem>
                                 </ListBox>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="PropertyGrid">
