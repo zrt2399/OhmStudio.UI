@@ -617,17 +617,21 @@
                                 <Border Background="{DynamicResource CommonControlsComboBoxListBackground}"
                                         BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
                                         BorderThickness="{TemplateBinding BorderThickness}">
-                                    <StackPanel>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Name="PART_Invert">
-                                                <DockPanel >
+                                            <!--<Button Name="PART_Invert">
+                                                <DockPanel>
                                                     <Viewbox Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}">
                                                         <Path Fill="{Binding ElementName=invert,Path=Foreground}" Stretch="Fill"
                                                               Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM350 650V550H850V650H350z"/>
                                                     </Viewbox>
                                                     <TextBlock Margin="4,0,0,0" Name="invert">反选</TextBlock>
                                                 </DockPanel>
-                                            </Button>
+                                            </Button>-->
                                             <Button Name="PART_SelectAll">
                                                 <DockPanel>
                                                     <Viewbox Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}">
@@ -638,7 +642,7 @@
                                                             </Path.LayoutTransform>
                                                         </Path>
                                                     </Viewbox>
-                                                    <TextBlock Margin="4,0,0,0" Name="selectAll">全选</TextBlock>
+                                                    <TextBlock Margin="4,0,0,0" Name="selectAll">选择全部</TextBlock>
                                                 </DockPanel>
                                             </Button>
                                             <Button Name="PART_DeSelectAll">
@@ -652,15 +656,23 @@
                                             </Button>
                                         </StackPanel>
                                         <ListBox x:Name="PART_ListBox"
+                                                 Grid.Row="1"
                                                  BorderThickness="0"
                                                  BorderBrush="Transparent"
+                                                 VirtualizingPanel.IsVirtualizing="{Binding Path=(VirtualizingPanel.IsVirtualizing),RelativeSource={RelativeSource AncestorType=control:CheckComboBox}}"
+                                                 VirtualizingPanel.IsVirtualizingWhenGrouping="{Binding Path=(VirtualizingPanel.IsVirtualizingWhenGrouping),RelativeSource={RelativeSource TemplatedParent}}"
+                                                 VirtualizingPanel.VirtualizationMode="{Binding Path=(VirtualizingPanel.VirtualizationMode),RelativeSource={RelativeSource TemplatedParent}}"
+                                                 VirtualizingPanel.ScrollUnit="{Binding Path=(VirtualizingPanel.ScrollUnit),RelativeSource={RelativeSource TemplatedParent}}"
+                                                 VirtualizingPanel.CacheLength="{Binding Path=(VirtualizingPanel.CacheLength),RelativeSource={RelativeSource TemplatedParent}}"
+                                                 VirtualizingPanel.CacheLengthUnit="{Binding Path=(VirtualizingPanel.CacheLengthUnit),RelativeSource={RelativeSource TemplatedParent}}"
+                                                 VirtualizingPanel.IsContainerVirtualizable="{Binding Path=(VirtualizingPanel.IsContainerVirtualizable),RelativeSource={RelativeSource TemplatedParent}}"
                                                  ItemsSource="{TemplateBinding ItemsSource}"
                                                  DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                  SelectionMode="Multiple"
                                                  ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}"/>
                                         <!--ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}"-->
                                         <!--ItemTemplate="{StaticResource ListBoxItemCheckBoxDataTemplate}"-->
-                                    </StackPanel>
+                                    </Grid>
                                 </Border>
                             </theme:SystemDropShadowChrome>
                         </Popup>

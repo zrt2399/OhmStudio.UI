@@ -18,7 +18,7 @@ namespace OhmStudio.UI.Controls
         ListBox PART_ListBox;
         TextBox PART_EditableTextBox;
         ToggleButton DropDownButton;
-        Button PART_Invert;
+        //Button PART_Invert;
         Button PART_SelectAll;
         Button PART_DeSelectAll;
 
@@ -27,7 +27,7 @@ namespace OhmStudio.UI.Controls
             base.OnApplyTemplate();
             PART_SelectAll = GetTemplateChild("PART_SelectAll") as Button;
             PART_DeSelectAll = GetTemplateChild("PART_DeSelectAll") as Button;
-            PART_Invert = GetTemplateChild("PART_Invert") as Button;
+            //PART_Invert = GetTemplateChild("PART_Invert") as Button;
             DropDownButton = GetTemplateChild("DropDownButton") as ToggleButton;
             PART_ListBox = GetTemplateChild("PART_ListBox") as ListBox;
             PART_EditableTextBox = GetTemplateChild("PART_EditableTextBox") as TextBox;
@@ -39,38 +39,54 @@ namespace OhmStudio.UI.Controls
                     PART_EditableTextBox.SelectAll();
                 }
             };
-            PART_Invert.Click += delegate
-            {
-                SelectElement(true, true);
-            };
+            //PART_Invert.Click += delegate
+            //{
+            //    SelectElement(true, true);
+            //};
             PART_SelectAll.Click += delegate
             {
-                SelectElement(false, true);
+                SelectElement(true);
             };
             PART_DeSelectAll.Click += delegate
             {
-                SelectElement(false, false);
+                SelectElement(false);
             };
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
         }
 
-        void SelectElement(bool isInvert, bool value)
+        void SelectElement(bool value)
         {
             PART_ListBox.SelectionChanged -= PART_ListBox_SelectionChanged;
-            for (int i = 0; i < PART_ListBox.Items.Count; i++)
+            if (value)
             {
-                if (PART_ListBox.ItemContainerGenerator.ContainerFromIndex(i) is ListBoxItem listBoxItem)
-                {
-                    if (isInvert)
-                    {
-                        listBoxItem.IsSelected = !listBoxItem.IsSelected;
-                    }
-                    else
-                    {
-                        listBoxItem.IsSelected = value;
-                    }
-                }
+                PART_ListBox.SelectAll();
             }
+            else
+            {
+                PART_ListBox.UnselectAll();
+            }
+
+            //var rr = PART_ListBox.FindVisualChildren<ListBoxItem>();
+            //for (int i = 0; i < PART_ListBox.Items.Count; i++)
+            //{
+
+            //    var res = PART_ListBox.Items[i];
+
+            //    var res1 = res as ListBoxItem;
+            //    var obj = PART_ListBox.ItemContainerGenerator.ContainerFromIndex(i);
+            //    var listBoxItem = obj as ListBoxItem;
+            //    if (listBoxItem != null)
+            //    {
+            //        if (isInvert)
+            //        {
+            //            listBoxItem.IsSelected = !listBoxItem.IsSelected;
+            //        }
+            //        else
+            //        {
+            //            listBoxItem.IsSelected = value;
+            //        }
+            //    }
+            //}
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
             //PART_ListBox_SelectionChanged(PART_ListBox, null);
             var eventArg = new SelectionChangedEventArgs(SelectionChangedEvent, new List<object>(), new List<object>());

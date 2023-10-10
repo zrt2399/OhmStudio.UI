@@ -1,17 +1,25 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 
 namespace OhmStudio.UI.Attachs
 {
     public class DataGridAttach
     {
-        public static DependencyProperty IsShowRowNumberProperty = DependencyProperty.RegisterAttached("IsShowRowNumber", typeof(bool), typeof(DataGridAttach), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits, OnShowRowNumberChanged));
+        public static readonly DependencyProperty IsSelectionChangedUpdateRowNumberProperty =
+            DependencyProperty.RegisterAttached("IsSelectionChangedUpdateRowNumber", typeof(bool), typeof(DataGridAttach));
+        public static bool GetIsSelectionChangedUpdateRowNumber(DependencyObject target)
+        {
+            return (bool)target.GetValue(IsSelectionChangedUpdateRowNumberProperty);
+        }
+
+        public static void SetIsSelectionChangedUpdateRowNumber(DependencyObject target, bool value)
+        {
+            target.SetValue(IsSelectionChangedUpdateRowNumberProperty, value);
+        }
+
+        public static DependencyProperty IsShowRowNumberProperty =
+            DependencyProperty.RegisterAttached("IsShowRowNumber", typeof(bool), typeof(DataGridAttach), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits, OnShowRowNumberChanged));
         public static bool GetIsShowRowNumber(DependencyObject target)
         {
             return (bool)target.GetValue(IsShowRowNumberProperty);
@@ -32,7 +40,7 @@ namespace OhmStudio.UI.Attachs
                 {
                     dataGrid.LoadingRow += DataGrid_LoadingRow;
                     dataGrid.ItemContainerGenerator.ItemsChanged += ItemContainerGeneratorItemsChanged;
-
+                    dataGrid.SelectionChanged += DataGrid_SelectionChanged;
                     //dataGrid.CurrentCellChanged += DataGrid_CurrentCellChanged;
 
                 }
@@ -40,8 +48,7 @@ namespace OhmStudio.UI.Attachs
                 {
                     dataGrid.LoadingRow -= DataGrid_LoadingRow;
                     dataGrid.ItemContainerGenerator.ItemsChanged -= ItemContainerGeneratorItemsChanged;
-                    //dataGrid.CurrentCellChanged -= DataGrid_CurrentCellChanged;
-
+                    dataGrid.SelectionChanged -= DataGrid_SelectionChanged;
                 }
                 //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(dataGrid.Items);
 
@@ -50,33 +57,39 @@ namespace OhmStudio.UI.Attachs
             }
 
 
-
-            void GroupDescriptions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+            void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
             {
-                ItemContainerGeneratorItemsChanged(dataGrid, null);
+                if (GetIsSelectionChangedUpdateRowNumber(sender as DataGrid))
+                {
+                    ItemContainerGeneratorItemsChanged(sender, null);
+                }
             }
 
-            void DataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-            {
-                ICollectionView view = CollectionViewSource.GetDefaultView(dataGrid.ItemsSource);
-                ListCollectionView listCollectionView = view as ListCollectionView;
-                listCollectionView?.CommitEdit();
-            }
+            //void GroupDescriptions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+            //{
+            //    ItemContainerGeneratorItemsChanged(dataGrid, null);
+            //}
+
+            //void DataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+            //{
+            //    ICollectionView view = CollectionViewSource.GetDefaultView(dataGrid.ItemsSource);
+            //    ListCollectionView listCollectionView = view as ListCollectionView;
+            //    listCollectionView?.CommitEdit();
+            //}
 
 
-            void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-            {
+            //void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+            //{
 
-            }
+            //}
 
-            void DataGrid_CurrentCellChanged(object sender, EventArgs e)
-            {
-                //ICollectionView view = CollectionViewSource.GetDefaultView(dataGrid.ItemsSource);
-                //ListCollectionView listCollectionView = view as ListCollectionView;
-                //listCollectionView?.CommitEdit();
-                //listCollectionView?.Refresh();
-                ItemContainerGeneratorItemsChanged(dataGrid, null);
-            }
+            //void DataGrid_CurrentCellChanged(object sender, EventArgs e)
+            //{
+            //    //ICollectionView view = CollectionViewSource.GetDefaultView(dataGrid.ItemsSource);
+            //    //ListCollectionView listCollectionView = view as ListCollectionView;
+            //    //listCollectionView?.CommitEdit();
+            //    //listCollectionView?.Refresh(); 
+            //}
 
             void ItemContainerGeneratorItemsChanged(object sender, ItemsChangedEventArgs e)
             {
