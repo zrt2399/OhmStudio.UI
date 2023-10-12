@@ -1,13 +1,10 @@
-﻿using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Markup;
-using System.Resources;
+﻿using System.Windows.Markup;
 
-[assembly: ComVisible(false)]
-[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: NeutralResourcesLanguage("en", UltimateResourceFallbackLocation.MainAssembly)]
+//[assembly: ComVisible(false)]
+//[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
+//[assembly: NeutralResourcesLanguage("en", UltimateResourceFallbackLocation.MainAssembly)]
 
-[assembly: XmlnsPrefix("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "ohmui")]
+//[assembly: XmlnsPrefix("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "ohmui")]
 [assembly: XmlnsDefinition("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "OhmStudio.UI")]
 [assembly: XmlnsDefinition("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "OhmStudio.UI.Attachs")]
 [assembly: XmlnsDefinition("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "OhmStudio.UI.Views")]
