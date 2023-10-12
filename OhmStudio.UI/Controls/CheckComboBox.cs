@@ -33,7 +33,7 @@ namespace OhmStudio.UI.Controls
             PART_EditableTextBox = GetTemplateChild("PART_EditableTextBox") as TextBox;
             DropDownButton.Click += delegate
             {
-                if (!PART_EditableTextBox.IsFocused)
+                if (!PART_EditableTextBox.IsKeyboardFocusWithin)
                 {
                     PART_EditableTextBox.Focus();
                     PART_EditableTextBox.SelectAll();
