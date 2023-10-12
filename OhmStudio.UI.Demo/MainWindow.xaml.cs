@@ -187,7 +187,7 @@ namespace OhmStudio.UI.Demo
             set => OnPropertyChanged(ref currentDateTime, value, nameof(CurrentDateTime));
         }
 
-        private object items = new();
+        private object items = new object();
         public object Items
         {
             get => items;

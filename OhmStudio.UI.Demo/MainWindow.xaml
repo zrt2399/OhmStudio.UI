@@ -245,7 +245,6 @@
                             </LayoutDocument>
                             <LayoutDocument Title="CheckComboBox">
                                 <StackPanel Orientation="Horizontal">
-                                    <hc:CheckComboBox ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
                                     <ComboBox DisplayMemberPath="Name"  ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" IsEditable="True"/>
                                     <CheckComboBox DisplayMemberPath="Name"
                                                    ItemsSource="{Binding FileNodes}"
