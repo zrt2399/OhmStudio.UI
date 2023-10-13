@@ -223,7 +223,7 @@
                                     <PasswordBox Margin="10" Width="400"  VerticalAlignment="Top"/>
                                     <PasswordBoxControl Name="ps" Width="400" VerticalAlignment="Top" />
                                     <PasswordBoxControl Margin="10" Width="400" VerticalAlignment="Top"/>
-                                    <DateTimePicker VerticalAlignment="Top" Width="400" DateTime="{Binding CurrentDateTime,Mode=TwoWay}"/>
+                                    <DateTimePicker VerticalAlignment="Top" Width="400" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}"/>
                                     <ComboBox Margin="10" Width="400" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
                                     <ComboBox Width="400" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
                                     <CheckComboBox Margin="10" Width="400"

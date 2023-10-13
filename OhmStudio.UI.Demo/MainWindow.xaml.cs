@@ -180,8 +180,8 @@ namespace OhmStudio.UI.Demo
             }
         }
 
-        private DateTime currentDateTime;
-        public DateTime CurrentDateTime
+        private DateTime? currentDateTime;
+        public DateTime? CurrentDateTime
         {
             get => currentDateTime;
             set => OnPropertyChanged(ref currentDateTime, value, nameof(CurrentDateTime));
@@ -326,6 +326,7 @@ namespace OhmStudio.UI.Demo
 
     public static class OhmhemeCollection
     {
+        private static readonly string AssemblyPath = "/OhmStudio.UI;component/";
         private sealed class OhmVS2019Blue : OhmTheme
         {
             public override string Name => "2019 Blue";
@@ -334,8 +335,8 @@ namespace OhmStudio.UI.Demo
             {
                 get
                 {
-                    yield return "/OhmStudio.UI;component/Themes/VisualStudio2019/BlueTheme.xaml";
-                    yield return "/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2019/BlueTheme.xaml";
+                    yield return AssemblyPath + "Themes/VisualStudio2019/BlueTheme.xaml";
+                    yield return AssemblyPath + "AvalonDockThemes/VisualStudio2019/BlueTheme.xaml";
                 }
             }
         }
@@ -348,8 +349,8 @@ namespace OhmStudio.UI.Demo
             {
                 get
                 {
-                    yield return "/OhmStudio.UI;component/Themes/VisualStudio2019/DarkTheme.xaml";
-                    yield return "/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2019/DarkTheme.xaml";
+                    yield return AssemblyPath + "Themes/VisualStudio2019/DarkTheme.xaml";
+                    yield return AssemblyPath + "AvalonDockThemes/VisualStudio2019/DarkTheme.xaml";
                 }
             }
         }
@@ -362,8 +363,8 @@ namespace OhmStudio.UI.Demo
             {
                 get
                 {
-                    yield return "/OhmStudio.UI;component/Themes/VisualStudio2019/LightTheme.xaml";
-                    yield return "/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2019/LightTheme.xaml";
+                    yield return AssemblyPath + "Themes/VisualStudio2019/LightTheme.xaml";
+                    yield return AssemblyPath + "AvalonDockThemes/VisualStudio2019/LightTheme.xaml";
                 }
             }
         }
@@ -376,8 +377,8 @@ namespace OhmStudio.UI.Demo
             {
                 get
                 {
-                    yield return "/OhmStudio.UI;component/Themes/VisualStudio2022/BlueTheme.xaml";
-                    yield return "/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2022/BlueTheme.xaml";
+                    yield return AssemblyPath + "Themes/VisualStudio2022/BlueTheme.xaml";
+                    yield return AssemblyPath + "AvalonDockThemes/VisualStudio2022/BlueTheme.xaml";
                 }
             }
         }
@@ -390,8 +391,8 @@ namespace OhmStudio.UI.Demo
             {
                 get
                 {
-                    yield return "/OhmStudio.UI;component/Themes/VisualStudio2022/DarkTheme.xaml";
-                    yield return "/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2022/DarkTheme.xaml";
+                    yield return AssemblyPath + "Themes/VisualStudio2022/DarkTheme.xaml";
+                    yield return AssemblyPath + "AvalonDockThemes/VisualStudio2022/DarkTheme.xaml";
                 }
             }
         }
@@ -404,8 +405,8 @@ namespace OhmStudio.UI.Demo
             {
                 get
                 {
-                    yield return "/OhmStudio.UI;component/Themes/VisualStudio2022/LightTheme.xaml";
-                    yield return "/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2022/LightTheme.xaml";
+                    yield return AssemblyPath + "Themes/VisualStudio2022/LightTheme.xaml";
+                    yield return AssemblyPath + "AvalonDockThemes/VisualStudio2022/LightTheme.xaml";
                 }
             }
         }
@@ -414,7 +415,8 @@ namespace OhmStudio.UI.Demo
 
         static OhmhemeCollection()
         {
-            AllThemes = new List<OhmTheme>(){
+            AllThemes = new List<OhmTheme>()
+            {
                 new OhmVS2022Blue(),
                 new OhmVS2022Dark(),
                 new OhmVS2022Light(),
@@ -425,18 +427,40 @@ namespace OhmStudio.UI.Demo
         }
     }
 
-    public class Pro
+    [BaseObjectIgnore]
+    public class Pro : ProBase
     {
-        public bool IsExpanded { get; set; }
+        public int? Abstring1 { get; set; } = null;
+        public string Abstring { get; set; } = null;
+        public Abs? Abs { get; set; } = null;
+        //[PropertyGridIgnore]
+        public bool? IsExpanded { get; } = true;
         public BindingFlags BindingFlags { get; set; } = BindingFlags.IgnoreCase;
         [PropertyGrid("名字")]
-        public decimal Name { get; set; }
+        public decimal? Name { get; set; }
         public bool Description { get; set; }
         [PropertyGrid("值")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
+
         public SolidColorBrush Brush { get; set; }
-        public Pro1 Pro1 { get; set; } = new Pro1();
+        public Pro1 Pro1 { get; set; }
     }
+
+    public class ProBase
+    {
+        public string Base { get; set; } = "ProBase";
+    }
+
+    public struct Abs
+    {
+        public Abs()
+        {
+        }
+        [PropertyGrid("ID号")]
+        public string Id { get; set; } = "123";
+        public int Num { get; set; } = 999;
+    }
+
 
     public class Pro1
     {
