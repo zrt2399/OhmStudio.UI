@@ -59,7 +59,7 @@ namespace OhmStudio.UI.Attachs
 
             void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
             {
-                if (GetIsSelectionChangedUpdateRowNumber(sender as DataGrid))
+                if (sender is DataGrid data && GetIsSelectionChangedUpdateRowNumber(data))
                 {
                     ItemContainerGeneratorItemsChanged(sender, null);
                 }

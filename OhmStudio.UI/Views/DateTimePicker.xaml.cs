@@ -33,7 +33,7 @@ namespace OhmStudio.UI.Views
             {
                 textBoxDateTime.Text = dateTimeStr;
                 DateTime.TryParse(dateTimeStr, out var time);
-                DateTime = time;
+                DateAndTime = time;
 
                 popChioce.IsOpen = false;//TDateTimeView 所在pop 关闭
             };
@@ -54,23 +54,23 @@ namespace OhmStudio.UI.Views
             DependencyProperty.Register(nameof(IsReadOnly), typeof(bool), typeof(DateTimePicker));
 
         /// <summary>
-        /// 日期时间。
+        /// 日期和时间。
         /// </summary>
-        public DateTime DateTime
+        public DateTime? DateAndTime
         {
-            get => (DateTime)GetValue(DateTimeProperty);
-            set => SetValue(DateTimeProperty, value);
+            get => (DateTime?)GetValue(DateAndTimeProperty);
+            set => SetValue(DateAndTimeProperty, value);
         }
 
-        public static readonly DependencyProperty DateTimeProperty =
-            DependencyProperty.Register(nameof(DateTime), typeof(DateTime), typeof(DateTimePicker), new PropertyMetadata(DateTime.Now));
+        public static readonly DependencyProperty DateAndTimeProperty = 
+            DependencyProperty.Register(nameof(DateAndTime), typeof(DateTime?), typeof(DateTimePicker),new PropertyMetadata(DateTime.Now));
 
         private void textBoxDateTime_LostFocus(object sender, RoutedEventArgs e)
         {
             if (!DateTime.TryParse(textBoxDateTime.Text.Trim(), out _))
             {
                 var format = textBoxDateTime.GetBindingExpression(TextBox.TextProperty)?.ParentBinding.StringFormat;
-                textBoxDateTime.Text = DateTime.ToString(format);
+                textBoxDateTime.Text = DateAndTime?.ToString(format);
             }
         }
     }

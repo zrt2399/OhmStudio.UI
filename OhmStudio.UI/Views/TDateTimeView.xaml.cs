@@ -26,11 +26,11 @@ namespace OhmStudio.UI.Views
         {
             formerDateTimeStr = txt;
         }
- 
+
         /// <summary>
         /// 从 DateTimePicker 传入的日期时间字符串
         /// </summary>
-        string formerDateTimeStr = string.Empty; 
+        string formerDateTimeStr = string.Empty;
 
         #region 事件
 
@@ -44,15 +44,32 @@ namespace OhmStudio.UI.Views
             //当前时间
             if (DateTime.TryParse(formerDateTimeStr, out DateTime dateTime))
             {
-                btnhh.Content = dateTime.Hour.ToString().PadLeft(2, '0');
-                btnmm.Content = dateTime.Minute.ToString().PadLeft(2, '0');
-                btnss.Content = dateTime.Second.ToString().PadLeft(2, '0');
+                UpdateBtnContent(dateTime);
                 calDate.SelectedDate = dateTime;
+                calDate.DisplayDate = dateTime;
             }
-            //00:00:00
-            // btnhh.Content = "00";
-            //btnmm.Content = "00";
-            //btnss.Content = "00";
+            else
+            {
+                UpdateBtnContent(null);
+                calDate.SelectedDate = null;
+            }
+        }
+
+        void UpdateBtnContent(DateTime? dateTime)
+        {
+            if (dateTime == null)
+            {   //00:00:00
+                btnhh.Content = "00";
+                btnmm.Content = "00";
+                btnss.Content = "00";
+            }
+            else
+            {
+                DateTime time = (DateTime)dateTime;
+                btnhh.Content = time.Hour.ToString().PadLeft(2, '0');
+                btnmm.Content = time.Minute.ToString().PadLeft(2, '0');
+                btnss.Content = time.Second.ToString().PadLeft(2, '0');
+            }
         }
 
         /// <summary>
@@ -99,18 +116,14 @@ namespace OhmStudio.UI.Views
             popChioce.IsOpen = false;//THourView 或 TMinSexView 所在pop 的关闭动作
             if (btnNow.Content.ToString() == "零点")
             {
-                btnhh.Content = "00";
-                btnmm.Content = "00";
-                btnss.Content = "00";
-                btnNow.Content = "当前"; 
+                UpdateBtnContent(null);
+                btnNow.Content = "当前";
             }
             else
             {
-                DateTime dateTime = DateTime.Now; 
-                btnhh.Content = dateTime.Hour.ToString().PadLeft(2, '0');
-                btnmm.Content = dateTime.Minute.ToString().PadLeft(2, '0');
-                btnss.Content = dateTime.Second.ToString().PadLeft(2, '0');
-                btnNow.Content = "零点"; 
+                var dateTime = DateTime.Now;
+                UpdateBtnContent(dateTime); 
+                btnNow.Content = "零点";
             }
         }
 

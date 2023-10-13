@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -52,10 +53,43 @@ namespace OhmStudio.UI.Views
             set => SetValue(SelectedObjectProperty, value);
         }
 
+        public static readonly List<Type> NumericTypes = new List<Type>()
+        {
+            typeof(int),
+            typeof(uint),
+            typeof(long),
+            typeof(ulong),
+            typeof(short),
+            typeof(ushort),
+            typeof(byte),
+            typeof(sbyte),
+            typeof(float),
+            typeof(double),
+            typeof(decimal),
+            typeof(char),
+
+            typeof(int?),
+            typeof(uint?),
+            typeof(long?),
+            typeof(ulong?),
+            typeof(short?),
+            typeof(ushort?),
+            typeof(byte?),
+            typeof(sbyte?),
+            typeof(float?),
+            typeof(double?),
+            typeof(decimal?),
+            typeof(char?),
+        };
+
         PropertyGridAttribute GetAttribute(PropertyInfo propertyInfo)
         {
+            if (propertyInfo.GetCustomAttribute(typeof(PropertyGridIgnoreAttribute)) != null)
+            {
+                return null;
+            }
             PropertyGridAttribute result = new PropertyGridAttribute();
-            var customAttributes = propertyInfo.GetCustomAttributes(typeof(PropertyGridAttribute), false);
+            var customAttributes = propertyInfo.GetCustomAttributes(false);
             foreach (var customAttribute in customAttributes)
             {
                 if (customAttribute is PropertyGridAttribute propertyGridAttribute)
@@ -69,35 +103,33 @@ namespace OhmStudio.UI.Views
             return result;
         }
 
-        bool IsNumber(PropertyInfo propertyInfo)
-        {
-            bool isNumber = false;
-            //if (propertyInfo.PropertyType.IsPrimitive)
-            //{
-            TypeCode typeCode = Type.GetTypeCode(propertyInfo.PropertyType);
-            switch (typeCode)
-            {
-                case TypeCode.Byte:
-                case TypeCode.SByte:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
-                case TypeCode.Int16:
-                case TypeCode.Int32:
-                case TypeCode.Int64:
-                case TypeCode.Decimal:
-                case TypeCode.Double:
-                case TypeCode.Single:
-                    isNumber = true;
-                    break;
-            }
-            //}
-            return isNumber;
-        }
-
         bool IsNotSystemClass(Type type)
         {
-            return (type.IsClass || type.IsInterface) && !type.Namespace.StartsWith("System") && !type.Namespace.StartsWith("Microsoft");
+            bool isStruct = !type.IsPrimitive && !type.IsEnum && type.IsValueType;
+            return (type.IsClass || type.IsInterface || isStruct) && !type.Namespace.StartsWith("System") && !type.Namespace.StartsWith("Microsoft");
+        }
+
+        Binding GetBinding(object obj, PropertyInfo propertyInfo)
+        {
+            var mode = propertyInfo.CanWrite ? BindingMode.TwoWay : BindingMode.OneWay;
+            var binding = new Binding() { Source = obj, Path = new PropertyPath(propertyInfo.Name), Mode = mode };
+            if (propertyInfo.GetCustomAttribute(typeof(PropertyChangedUpdateSourceAttribute)) != null)
+            {
+                binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            }
+            return binding;
+        }
+
+        BindingFlags GetBindingFlags(Type type)
+        {
+            if (type.GetCustomAttribute(typeof(BaseObjectIgnoreAttribute)) == null)
+            {
+                return BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public;
+            }
+            else
+            {
+                return BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly;
+            }
         }
 
         List<double> widths = new List<double>();
@@ -107,46 +139,51 @@ namespace OhmStudio.UI.Views
             {
                 return;
             }
-            foreach (PropertyInfo item in obj.GetType().GetProperties())
+            var type = obj.GetType();
+            foreach (PropertyInfo item in type.GetProperties(GetBindingFlags(type)))
             {
                 var attribute = GetAttribute(item);
+                if (attribute == null)
+                {
+                    continue;
+                }
                 UIElement uiElement = null;
                 bool isUnknown = false;
 
                 if (item.PropertyType.IsEnum)
                 {
                     var ComboBox = new ComboBox();
-                    Binding selectedItem = new Binding() { Source = obj, Path = new PropertyPath(item.Name) };
+                    Binding selectedItem = GetBinding(obj, item);
                     Binding itemsSource = new Binding() { Source = Enum.GetValues(item.PropertyType) };
                     ComboBox.SetBinding(Selector.SelectedItemProperty, selectedItem);
                     ComboBox.SetBinding(ItemsControl.ItemsSourceProperty, itemsSource);
                     uiElement = ComboBox;
                 }
-                else if (item.PropertyType == typeof(bool))
+                else if (item.PropertyType == typeof(bool) || item.PropertyType == typeof(bool?))
                 {
                     var checkBox = new CheckBox();
-                    Binding binding = new Binding() { Source = obj, Path = new PropertyPath(item.Name) };
+                    Binding binding = GetBinding(obj, item);
                     checkBox.SetBinding(ToggleButton.IsCheckedProperty, binding);
                     uiElement = checkBox;
                 }
-                else if (item.PropertyType == typeof(DateTime))
+                else if (item.PropertyType == typeof(DateTime) || item.PropertyType == typeof(DateTime?))
                 {
                     var dateTimePicker = new DateTimePicker();
-                    Binding binding = new Binding() { Source = obj, Path = new PropertyPath(item.Name), Mode = BindingMode.TwoWay };
-                    dateTimePicker.SetBinding(DateTimePicker.DateTimeProperty, binding);
+                    Binding binding = GetBinding(obj, item);
+                    dateTimePicker.SetBinding(DateTimePicker.DateAndTimeProperty, binding);
                     uiElement = dateTimePicker;
                 }
-                else if (item.PropertyType == typeof(string) || item.PropertyType == typeof(char) || IsNumber(item))
+                else if (item.PropertyType == typeof(string) || NumericTypes.Contains(item.PropertyType))
                 {
                     var textBox = new TextBox();
-                    Binding binding = new Binding() { Source = obj, Path = new PropertyPath(item.Name) };
+                    Binding binding = GetBinding(obj, item);
                     textBox.SetBinding(TextBox.TextProperty, binding);
                     uiElement = textBox;
                 }
                 else if (typeof(IEnumerable).IsAssignableFrom(item.PropertyType))
                 {
                     var ComboBox = new ComboBox() { SelectedIndex = 0 };
-                    Binding binding = new Binding() { Source = obj, Path = new PropertyPath(item.Name) };
+                    Binding binding = GetBinding(obj, item);
                     ComboBox.SetBinding(ItemsControl.ItemsSourceProperty, binding);
                     VirtualizingPanel.SetIsVirtualizing(ComboBox, true);
                     VirtualizingPanel.SetVirtualizationMode(ComboBox, VirtualizationMode.Recycling);
@@ -168,7 +205,7 @@ namespace OhmStudio.UI.Views
                     if (uiElement is TextBox textBox)
                     {
                         textBox.IsReadOnly = attribute.IsReadOnly;
-                        if (isUnknown)
+                        if (isUnknown || !item.CanWrite)
                         {
                             textBox.IsReadOnly = true;
                         }
@@ -176,6 +213,10 @@ namespace OhmStudio.UI.Views
                     else
                     {
                         uiElement.IsEnabled = !attribute.IsReadOnly;
+                        if (!item.CanWrite)
+                        {
+                            uiElement.IsEnabled = false;
+                        }
                     }
                     dockPanel.Children.Add(textBlock);
                     dockPanel.Children.Add(uiElement);

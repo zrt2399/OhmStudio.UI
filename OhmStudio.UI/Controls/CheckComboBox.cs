@@ -125,16 +125,13 @@ namespace OhmStudio.UI.Controls
             SelectedItems = list;
 
             StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < list.Count - 1; i++)
             {
-                if (i == list.Count - 1)
-                {
-                    stringBuilder.Append(list[i].ToString());
-                }
-                else
-                {
-                    stringBuilder.Append(list[i].ToString() + ",");
-                }
+                stringBuilder.Append(list[i].ToString() + ",");
+            }
+            if (list.Count > 0)
+            {
+                stringBuilder.Append(list[list.Count - 1].ToString());
             }
             SelectedText = stringBuilder.ToString();
             //SelectedText = string.Join(",", list);

@@ -195,6 +195,7 @@ namespace OhmStudio.UI.PublicMethod
         }
     }
 
+    [AttributeUsage(AttributeTargets.Property)]
     public class PropertyGridAttribute : Attribute
     {
         public string DisplayName { get; set; }
@@ -218,6 +219,21 @@ namespace OhmStudio.UI.PublicMethod
         {
             IsReadOnly = isReadOnly;
         }
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyGridIgnoreAttribute : Attribute
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyChangedUpdateSourceAttribute : Attribute
+    { 
+    }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
+    public class BaseObjectIgnoreAttribute : Attribute
+    {
     }
 
     public static class DeepClone<TIn, TOut>
