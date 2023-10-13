@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.PublicMethod;
 using OxyPlot;
@@ -430,6 +431,7 @@ namespace OhmStudio.UI.Demo
     [BaseObjectIgnore]
     public class Pro : ProBase
     {
+        public ImageSource ImageSource { get; set; } = new BitmapImage(new Uri("/download.jpg", UriKind.Relative)); 
         public int? Abstring1 { get; set; } = null;
         public string Abstring { get; set; } = null;
         public Abs? Abs { get; set; } = null;
