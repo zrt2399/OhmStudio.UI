@@ -19,6 +19,15 @@
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
     <SolidColorBrush x:Key="EnabledWhenFalse">#FFAEABAB</SolidColorBrush>
 
+    <Style x:Key="PlaceHolderStyle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="{Binding Path=(TextBoxAttach.PlaceHolderMargin),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        <Setter Property="Foreground" Value="{Binding Path=(TextBoxAttach.PlaceHolderForeground),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        <Setter Property="Visibility" Value="{Binding Path=(TextBoxAttach.PlaceHolderVisibility),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        <Setter Property="Opacity" Value="{Binding Path=(TextBoxAttach.PlaceHolderOpacity),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        <Setter Property="Text" Value="{Binding Path=(TextBoxAttach.PlaceHolder),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+    </Style>
+
     <Style x:Key="ButtonStyle" TargetType="Button">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Template">
@@ -249,8 +258,13 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Margin="2,0" Foreground="#FF999999" VerticalAlignment="Center" Visibility="{TemplateBinding ShowMark}" Text="{TemplateBinding PlaceHolder}" />
-                            <ScrollViewer Name="PART_ContentHost" VerticalAlignment="Center"/>
+                            <TextBlock VerticalAlignment="Center"
+                                       Margin="{Binding Path=(TextBoxAttach.PlaceHolderMargin),RelativeSource={RelativeSource TemplatedParent}}"
+                                       Foreground="{Binding Path=(TextBoxAttach.PlaceHolderForeground),RelativeSource={RelativeSource TemplatedParent}}"
+                                       Visibility="{Binding Path=(TextBoxAttach.PlaceHolderVisibility),RelativeSource={RelativeSource TemplatedParent}}"
+                                       Opacity="{Binding Path=(TextBoxAttach.PlaceHolderOpacity),RelativeSource={RelativeSource TemplatedParent}}"
+                                       Text="{Binding Path=(TextBoxAttach.PlaceHolder),RelativeSource={RelativeSource TemplatedParent}}" />
+                            <ScrollViewer Name="PART_ContentHost" VerticalAlignment="Center" />
                             <Button Padding="4,0" Grid.Column="1" BorderThickness="0" BorderBrush="Transparent" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}">
                                 <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" ToolTip="{x:Null}">&#xe60f;</TextBlock>
                             </Button>
@@ -588,7 +602,6 @@
                         <TextBox Padding="{TemplateBinding Padding}"
                                  Name="PART_EditableTextBox"
                                  Margin="1,1,0,1"
-                                 MinHeight="18"
                                  BorderBrush="Transparent"
                                  BorderThickness="0"
                                  VerticalAlignment="Center"
@@ -724,5 +737,11 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Padding" Value="0"/>
     </Style>
+
+    <!--<Style TargetType="control:WrapTextBox" >
+        <Setter Property="">
+            
+        </Setter>
+    </Style>-->
 
 </ResourceDictionary>

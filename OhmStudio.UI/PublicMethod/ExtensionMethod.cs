@@ -5,8 +5,12 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq.Expressions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using OhmStudio.UI.Attachs;
+using OhmStudio.UI.Views;
+using Brush = System.Windows.Media.Brush;
 using Color = System.Drawing.Color;
 using Expression = System.Linq.Expressions.Expression;
 
@@ -14,6 +18,15 @@ namespace OhmStudio.UI.PublicMethod
 {
     public static class ExtensionMethod
     {
+        public static bool IsTextBoxAttach(this UIElement uIElement)
+        {
+            if (uIElement is TextBox || uIElement is DateTimePicker || uIElement is PasswordBoxControl)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static SolidColorBrush ToSolidColorBrush(this string hexString)
         {
             return new BrushConverter().ConvertFromString(hexString) as SolidColorBrush;
@@ -201,24 +214,6 @@ namespace OhmStudio.UI.PublicMethod
         public string DisplayName { get; set; }
 
         public bool IsReadOnly { get; set; }
-
-        public PropertyGridAttribute() { }
-
-        public PropertyGridAttribute(string displayName, bool isReadOnly)
-        {
-            DisplayName = displayName;
-            IsReadOnly = isReadOnly;
-        }
-
-        public PropertyGridAttribute(string displayName)
-        {
-            DisplayName = displayName;
-        }
-
-        public PropertyGridAttribute(bool isReadOnly)
-        {
-            IsReadOnly = isReadOnly;
-        }
     }
 
     [AttributeUsage(AttributeTargets.Property)]
@@ -228,7 +223,25 @@ namespace OhmStudio.UI.PublicMethod
 
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyChangedUpdateSourceAttribute : Attribute
-    { 
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PasswordAttribute : Attribute
+    {
+        public Visibility CanShowPassword { get; set; }
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyGridPlaceHolderAttribute : Attribute
+    {
+        public string PlaceHolder { get; set; } = TextBoxAttach.PlaceHolder;
+
+        public Brush PlaceHolderForeground { get; set; } = TextBoxAttach.PlaceHolderForeground;
+
+        public double PlaceHolderOpacity { get; set; } = TextBoxAttach.PlaceHolderOpacity;
+
+        public Thickness PlaceHolderMargin { get; set; } = TextBoxAttach.PlaceHolderMargin;
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
@@ -238,7 +251,7 @@ namespace OhmStudio.UI.PublicMethod
 
     public static class DeepClone<TIn, TOut>
     {
-        private static readonly Func<TIn, TOut> cache = GetFunc();
+        private static readonly Func<TIn, TOut> _cache = GetFunc();
 
         private static Func<TIn, TOut> GetFunc()
         {
@@ -268,7 +281,7 @@ namespace OhmStudio.UI.PublicMethod
 
         public static TOut Clone(TIn tIn)
         {
-            return cache(tIn);
+            return _cache(tIn);
         }
     }
 }
