@@ -185,10 +185,7 @@
                                     Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}"
                                     ContentTemplate="{Binding DocumentHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                                     ContentTemplateSelector="{Binding DocumentHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
-                                    TextBlock.Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}"
-                                    TextOptions.TextFormattingMode="Display"
-                                    TextOptions.TextHintingMode="Auto"
-                                    TextOptions.TextRenderingMode="ClearType" />
+                                    TextBlock.Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}"/>
                                 <!--  Close button should be moved out to the container style  -->
                                 <Button
                                     x:Name="DocumentCloseButton"

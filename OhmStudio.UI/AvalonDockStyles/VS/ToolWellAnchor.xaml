@@ -13,8 +13,7 @@
             Background="{DynamicResource {x:Static reskeys:ResourceKeys.AutoHideTabDefaultBackground}}"
             BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.AutoHideTabDefaultBorder}}"
             BorderThickness="0,0,0,6"
-            TextElement.Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.AutoHideTabDefaultText}}"
-            TextOptions.TextFormattingMode="Display">
+            TextElement.Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.AutoHideTabDefaultText}}">
             <ContentPresenter
                 Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}"
                 ContentTemplate="{Binding AnchorableHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
