@@ -162,7 +162,6 @@
                 <TextBox
                     x:Name="PART_EditableTextBox"
                     Grid.Column="0"
-                    MinHeight="18"
                     Margin="1,1,0,1"
                     Padding="{TemplateBinding Padding}"
                     VerticalAlignment="Center"

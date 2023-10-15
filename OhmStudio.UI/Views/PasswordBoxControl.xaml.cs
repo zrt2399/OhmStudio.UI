@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace OhmStudio.UI.Views
@@ -132,18 +133,20 @@ namespace OhmStudio.UI.Views
 
         // Using a DependencyProperty as the backing store for Password.  This enables animation,styling,binding,etc...
         public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.Register("Password", typeof(string), typeof(PasswordBoxControl), new PropertyMetadata((sender, e) =>
+            DependencyProperty.Register("Password", typeof(string), typeof(PasswordBoxControl), new PropertyMetadata(string.Empty, (sender, e) =>
             {
-                var pw = sender as PasswordBoxControl;
-                if (!string.IsNullOrEmpty(pw.Password))//根据密码框是否有内容来显示符号"x"
-                {
-                    pw.ClearVisibility = Visibility.Visible;
-                }
-                else
-                {
-                    pw.ClearVisibility = Visibility.Collapsed;
-                }
+                var passwordBox = sender as PasswordBoxControl;
+                //根据密码框是否有内容来显示符号"x"
+                passwordBox.ClearVisibility = string.IsNullOrEmpty(passwordBox.Password) ? Visibility.Collapsed : Visibility.Visible;
+                passwordBox.OnPasswordChanged(passwordBox, passwordBox.Password);
             }));
+
+        public Action<PasswordBoxControl, string> PasswordChanged;
+ 
+        protected void OnPasswordChanged(PasswordBoxControl passwordBoxControl, string password)
+        {
+            PasswordChanged?.Invoke(passwordBoxControl, password);
+        }
     }
 
     /// <summary>
@@ -164,34 +167,34 @@ namespace OhmStudio.UI.Views
            DependencyProperty.RegisterAttached("IsUpdating", typeof(bool),
            typeof(PasswordBoxHelper));
 
-        public static void SetAttach(DependencyObject dp, bool value)
+        public static void SetAttach(DependencyObject obj, bool value)
         {
-            dp.SetValue(AttachProperty, value);
+            obj.SetValue(AttachProperty, value);
         }
 
-        public static bool GetAttach(DependencyObject dp)
+        public static bool GetAttach(DependencyObject obj)
         {
-            return (bool)dp.GetValue(AttachProperty);
+            return (bool)obj.GetValue(AttachProperty);
         }
 
-        public static string GetPassword(DependencyObject dp)
+        public static string GetPassword(DependencyObject obj)
         {
-            return (string)dp.GetValue(PasswordProperty);
+            return (string)obj.GetValue(PasswordProperty);
         }
 
-        public static void SetPassword(DependencyObject dp, string value)
+        public static void SetPassword(DependencyObject obj, string value)
         {
-            dp.SetValue(PasswordProperty, value);
+            obj.SetValue(PasswordProperty, value);
         }
 
-        private static bool GetIsUpdating(DependencyObject dp)
+        private static bool GetIsUpdating(DependencyObject obj)
         {
-            return (bool)dp.GetValue(IsUpdatingProperty);
+            return (bool)obj.GetValue(IsUpdatingProperty);
         }
 
-        private static void SetIsUpdating(DependencyObject dp, bool value)
+        private static void SetIsUpdating(DependencyObject obj, bool value)
         {
-            dp.SetValue(IsUpdatingProperty, value);
+            obj.SetValue(IsUpdatingProperty, value);
         }
 
         private static void OnPasswordPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)

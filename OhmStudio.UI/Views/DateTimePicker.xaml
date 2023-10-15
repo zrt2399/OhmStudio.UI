@@ -8,6 +8,14 @@
              Focusable="True"
              d:Height="40">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/OhmStudio.UI;component/Styles/CustomStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <UserControl.Style>
         <Style TargetType="UserControl" BasedOn="{StaticResource {x:Type UserControl}}">
             <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}"/>
@@ -39,6 +47,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource PlaceHolderStyle}"/>
             <TextBox BorderBrush="Transparent"
                      BorderThickness="0"
                      LostFocus="textBoxDateTime_LostFocus"

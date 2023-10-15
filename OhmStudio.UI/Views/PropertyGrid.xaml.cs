@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using OhmStudio.UI.Attachs;
 using OhmStudio.UI.PublicMethod;
 
 namespace OhmStudio.UI.Views
@@ -29,9 +30,9 @@ namespace OhmStudio.UI.Views
                 {
                     foreach (var item in propertyGrid.itemsControl.Items.OfType<DockPanel>())
                     {
-                        foreach (var uiElement in item.Children.OfType<UIElement>())
+                        foreach (var uIElement in item.Children.OfType<UIElement>())
                         {
-                            BindingOperations.ClearAllBindings(uiElement);
+                            BindingOperations.ClearAllBindings(uIElement);
                         }
                     }
                     for (int i = 0; i < propertyGrid.itemsControl.Items.Count; i++)
@@ -81,6 +82,21 @@ namespace OhmStudio.UI.Views
             typeof(decimal?),
             typeof(char?),
         };
+
+        void SetPlaceHolder(PropertyInfo propertyInfo, UIElement uIElement)
+        {
+            if (uIElement.IsTextBoxAttach())
+            {
+                if (propertyInfo.GetCustomAttribute(typeof(PropertyGridPlaceHolderAttribute)) is not PropertyGridPlaceHolderAttribute placeHolder)
+                {
+                    return;
+                }
+                TextBoxAttach.SetPlaceHolder(uIElement, placeHolder.PlaceHolder);
+                TextBoxAttach.SetPlaceHolderForeground(uIElement, placeHolder.PlaceHolderForeground);
+                TextBoxAttach.SetPlaceHolderMargin(uIElement, placeHolder.PlaceHolderMargin);
+                TextBoxAttach.SetPlaceHolderOpacity(uIElement, placeHolder.PlaceHolderOpacity);
+            }
+        }
 
         PropertyGridAttribute GetAttribute(PropertyInfo propertyInfo)
         {
@@ -147,7 +163,7 @@ namespace OhmStudio.UI.Views
                 {
                     continue;
                 }
-                UIElement uiElement = null;
+                UIElement uIElement = null;
                 bool isUnknown = false;
 
                 if (item.PropertyType.IsEnum)
@@ -157,28 +173,40 @@ namespace OhmStudio.UI.Views
                     Binding itemsSource = new Binding() { Source = Enum.GetValues(item.PropertyType) };
                     ComboBox.SetBinding(Selector.SelectedItemProperty, selectedItem);
                     ComboBox.SetBinding(ItemsControl.ItemsSourceProperty, itemsSource);
-                    uiElement = ComboBox;
+                    uIElement = ComboBox;
                 }
                 else if (item.PropertyType == typeof(bool) || item.PropertyType == typeof(bool?))
                 {
                     var checkBox = new CheckBox();
                     Binding binding = GetBinding(obj, item);
                     checkBox.SetBinding(ToggleButton.IsCheckedProperty, binding);
-                    uiElement = checkBox;
+                    uIElement = checkBox;
                 }
                 else if (item.PropertyType == typeof(DateTime) || item.PropertyType == typeof(DateTime?))
                 {
                     var dateTimePicker = new DateTimePicker();
                     Binding binding = GetBinding(obj, item);
                     dateTimePicker.SetBinding(DateTimePicker.DateAndTimeProperty, binding);
-                    uiElement = dateTimePicker;
+                    uIElement = dateTimePicker;
                 }
                 else if (item.PropertyType == typeof(string) || NumericTypes.Contains(item.PropertyType))
                 {
-                    var textBox = new TextBox();
-                    Binding binding = GetBinding(obj, item);
-                    textBox.SetBinding(TextBox.TextProperty, binding);
-                    uiElement = textBox;
+                    var customattribute = item.GetCustomAttribute(typeof(PasswordAttribute));
+                    if (customattribute == null)
+                    {
+                        var textBox = new TextBox();
+                        Binding binding = GetBinding(obj, item);
+                        textBox.SetBinding(TextBox.TextProperty, binding);
+                        uIElement = textBox;
+                    }
+                    else
+                    {
+                        var passwordAttribute = customattribute as PasswordAttribute;
+                        var passwordBoxControl = new PasswordBoxControl() { CanShowPassword = passwordAttribute.CanShowPassword };
+                        Binding binding = GetBinding(obj, item);
+                        passwordBoxControl.SetBinding(PasswordBoxControl.PasswordProperty, binding);
+                        uIElement = passwordBoxControl;
+                    }
                 }
                 else if (typeof(IEnumerable).IsAssignableFrom(item.PropertyType))
                 {
@@ -187,7 +215,7 @@ namespace OhmStudio.UI.Views
                     ComboBox.SetBinding(ItemsControl.ItemsSourceProperty, binding);
                     VirtualizingPanel.SetIsVirtualizing(ComboBox, true);
                     VirtualizingPanel.SetVirtualizationMode(ComboBox, VirtualizationMode.Recycling);
-                    uiElement = ComboBox;
+                    uIElement = ComboBox;
                 }
                 else if (IsNotSystemClass(item.PropertyType))
                 {
@@ -195,14 +223,15 @@ namespace OhmStudio.UI.Views
                 }
                 else
                 {
-                    uiElement = new TextBox() { Text = item.GetValue(obj)?.ToString() };
+                    uIElement = new TextBox() { Text = item.GetValue(obj)?.ToString() };
                     isUnknown = true;
                 }
-                if (uiElement != null)
+                if (uIElement != null)
                 {
                     DockPanel dockPanel = new DockPanel() { Margin = new Thickness(8, 4, 8, 4) };
                     TextBlock textBlock = new TextBlock() { Text = attribute.DisplayName, Margin = new Thickness(0, 0, 4, 0) };
-                    if (uiElement is TextBox textBox)
+                    SetPlaceHolder(item, uIElement);
+                    if (uIElement is TextBox textBox)
                     {
                         textBox.IsReadOnly = attribute.IsReadOnly;
                         if (isUnknown || !item.CanWrite)
@@ -212,14 +241,14 @@ namespace OhmStudio.UI.Views
                     }
                     else
                     {
-                        uiElement.IsEnabled = !attribute.IsReadOnly;
+                        uIElement.IsEnabled = !attribute.IsReadOnly;
                         if (!item.CanWrite)
                         {
-                            uiElement.IsEnabled = false;
+                            uIElement.IsEnabled = false;
                         }
                     }
                     dockPanel.Children.Add(textBlock);
-                    dockPanel.Children.Add(uiElement);
+                    dockPanel.Children.Add(uIElement);
                     itemsControl.Items.Add(dockPanel);
                     textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                     widths.Add(textBlock.DesiredSize.Width);
