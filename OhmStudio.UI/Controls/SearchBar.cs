@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using OhmStudio.UI.PublicMethod;
 
 namespace OhmStudio.UI.Controls
 {
@@ -8,22 +10,28 @@ namespace OhmStudio.UI.Controls
     {
         public SearchBar()
         {
-            TextChanged += delegate
-            {
-                ShowMark = string.IsNullOrEmpty(Text) ? Visibility.Visible : Visibility.Collapsed;
-            };
+            //TextChanged += delegate
+            //{
+            //    PlaceHolderVisibility = string.IsNullOrEmpty(Text) ? Visibility.Visible : Visibility.Collapsed;
+            //};
         }
 
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(SearchBar));
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(SearchBar));
 
-        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(SearchBar));
+        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(SearchBar));
 
-        public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(SearchBar));
+        public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register(nameof(CommandTarget), typeof(IInputElement), typeof(SearchBar));
 
-        public static readonly DependencyProperty PlaceHolderProperty = DependencyProperty.Register("PlaceHolder", typeof(string), typeof(SearchBar), new PropertyMetadata("请输入搜索内容"));
+        //public static readonly DependencyProperty PlaceHolderProperty = DependencyProperty.Register(nameof(PlaceHolder), typeof(string), typeof(SearchBar), new PropertyMetadata("请输入搜索内容"));
 
-        public static readonly DependencyProperty ShowMarkProperty = DependencyProperty.Register("ShowMark", typeof(Visibility), typeof(SearchBar), new PropertyMetadata(Visibility.Visible));
- 
+        //public static readonly DependencyProperty PlaceHolderForegroundProperty = DependencyProperty.Register(nameof(PlaceHolderForeground), typeof(Brush), typeof(SearchBar), new PropertyMetadata("#FF999999".ToSolidColorBrush()));
+
+        //public static readonly DependencyProperty PlaceHolderOpacityProperty = DependencyProperty.Register(nameof(PlaceHolderOpacity), typeof(double), typeof(SearchBar), new PropertyMetadata(1d));
+
+        //public static readonly DependencyProperty PlaceHolderMarginProperty = DependencyProperty.Register(nameof(PlaceHolderMargin), typeof(Thickness), typeof(SearchBar), new PropertyMetadata(new Thickness(2, 0, 2, 0)));
+
+        //public static readonly DependencyProperty PlaceHolderVisibilityProperty = DependencyProperty.Register(nameof(PlaceHolderVisibility), typeof(Visibility), typeof(SearchBar), new PropertyMetadata(Visibility.Visible));
+
         public ICommand Command
         {
             get => (ICommand)GetValue(CommandProperty);
@@ -42,16 +50,34 @@ namespace OhmStudio.UI.Controls
             set => SetValue(CommandTargetProperty, value);
         }
 
-        public string PlaceHolder
-        {
-            get => GetValue(PlaceHolderProperty)?.ToString();
-            set => SetValue(PlaceHolderProperty, value);
-        }
+        //public string PlaceHolder
+        //{
+        //    get => (string)GetValue(PlaceHolderProperty);
+        //    set => SetValue(PlaceHolderProperty, value);
+        //}
 
-        public Visibility ShowMark
-        {
-            get => (Visibility)GetValue(ShowMarkProperty);
-            set => SetValue(ShowMarkProperty, value);
-        }
+        //public Brush PlaceHolderForeground
+        //{
+        //    get => (Brush)GetValue(PlaceHolderForegroundProperty);
+        //    set => SetValue(PlaceHolderForegroundProperty, value);
+        //}
+
+        //public Brush PlaceHolderOpacity
+        //{
+        //    get => (Brush)GetValue(PlaceHolderOpacityProperty);
+        //    set => SetValue(PlaceHolderOpacityProperty, value);
+        //}
+
+        //public Thickness PlaceHolderMargin
+        //{
+        //    get => (Thickness)GetValue(PlaceHolderMarginProperty);
+        //    set => SetValue(PlaceHolderMarginProperty, value);
+        //}
+
+        //public Visibility PlaceHolderVisibility
+        //{
+        //    get => (Visibility)GetValue(PlaceHolderVisibilityProperty);
+        //    set => SetValue(PlaceHolderVisibilityProperty, value);
+        //}
     }
 }
