@@ -202,46 +202,52 @@
                             <LayoutDocument Title="TextEditor">
                                 <TabControl>
                                     <TabItem Header="XML">
-                                        <avalonEdit:TextEditor SyntaxHighlighting="XML" ShowLineNumbers="True" >
-
-                                        </avalonEdit:TextEditor>
+                                        <avalonEdit:TextEditor SyntaxHighlighting="XML" ShowLineNumbers="True" />
+ 
                                     </TabItem>
                                     <TabItem Header="C#">
-                                        <avalonEdit:TextEditor SyntaxHighlighting="C#" ShowLineNumbers="True" >
-
-                                        </avalonEdit:TextEditor>
+                                        <avalonEdit:TextEditor SyntaxHighlighting="C#" ShowLineNumbers="True" />
+ 
                                     </TabItem>
                                     <TabItem Header="C++">
-                                        <avalonEdit:TextEditor SyntaxHighlighting="C++" ShowLineNumbers="True"></avalonEdit:TextEditor>
+                                        <avalonEdit:TextEditor SyntaxHighlighting="C++" ShowLineNumbers="True">
+                                            
+                                        </avalonEdit:TextEditor>
                                     </TabItem>
                                 </TabControl>
                             </LayoutDocument>
                             <LayoutDocument Title="Other" IsSelected="True">
-                                <WrapPanel Orientation="Vertical" Name="wr"  >
-                                    <SearchBar Margin="10" VerticalAlignment="Top" Width="400"/>
-                                    <TextBox Width="400" VerticalAlignment="Top" Name="te" Text="{Binding CurrentDateTime,Mode=TwoWay}"/>
-                                    <PasswordBox Margin="10" Width="400"  VerticalAlignment="Top"/>
-                                    <PasswordBoxControl Name="ps" Width="400" VerticalAlignment="Top" />
-                                    <PasswordBoxControl Margin="10" Width="400" VerticalAlignment="Top"/>
-                                    <DateTimePicker VerticalAlignment="Top" Width="400" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}"/>
-                                    <ComboBox Margin="10" Width="400" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
-                                    <ComboBox Width="400" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
-                                    <CheckComboBox Margin="10" Width="400"
+                                <StackPanel Orientation="Horizontal" Name="wr" >
+                                    <SearchBar  VerticalAlignment="Top" Width="200" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
+                                    <TextBox Width="200" VerticalAlignment="Top" TextBoxAttach.PlaceHolder="123456..."/>
+                                    <TextBox Width="200" VerticalAlignment="Top" Name="te" Text="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="time..."/>
+                                    <PasswordBox  Width="200"  VerticalAlignment="Top"/>
+                                    <PasswordBoxControl Name="ps" Width="200" VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
+                                    <PasswordBoxControl  Width="200" VerticalAlignment="Top"/>
+                                    <DateTimePicker VerticalAlignment="Top" Width="200" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
+                                    <ComboBox  Width="200" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
+                                    <ComboBox Width="200" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
+                                    <CheckComboBox Width="200"
                                                    ItemsSource="{Binding FileNodes}"
                                                    DisplayMemberPath="Name"
                                                    VerticalAlignment="Top"
                                                    VirtualizingPanel.IsVirtualizing="True"
                                                    VirtualizingPanel.VirtualizationMode="Recycling"
                                                    SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
-                                    <Button Width="400" Click="Button_Click_4">显示选中项</Button>
-                                    <ToggleButton Margin="10" Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
-                                </WrapPanel>
+                                    <Button Width="200" Click="Button_Click_4">显示选中项</Button>
+                                    <ToggleButton  Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
+                                </StackPanel>
 
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
                                 <ProgressBar Value="50" IsIndeterminate="True">
 
                                 </ProgressBar>
+                            </LayoutDocument>
+                            <LayoutDocument Title="GroupBox">
+                                <GroupBox Header="GroupBox">
+
+                                </GroupBox>
                             </LayoutDocument>
                             <LayoutDocument Title="CheckComboBox">
                                 <StackPanel Orientation="Horizontal">

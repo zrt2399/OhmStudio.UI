@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing.Text;
 using System.Linq;
 using System.Linq.Expressions;
@@ -108,7 +109,8 @@ namespace OhmStudio.UI.Demo
             Pro.Brush = Brushes.Red;
 
             Items = Pro;
-            for (int i = 0; i < 1000; i++)
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            for (int i = 0; i < 500; i++)
             {
                 Pro pro = new Pro();
                 if (i % 3 == 0)
@@ -123,6 +125,8 @@ namespace OhmStudio.UI.Demo
                 pro.Description = i % 2 == 0;
                 FileNodes.Add(pro);
             }
+            stopwatch.Stop();
+            var res2 = stopwatch.ElapsedMilliseconds;
             var viewSource = new CollectionViewSource { Source = FileNodes };
             FileNodes.CollectionChanged += delegate
             {
@@ -431,21 +435,23 @@ namespace OhmStudio.UI.Demo
     [BaseObjectIgnore]
     public class Pro : ProBase
     {
-        public ImageSource ImageSource { get; set; } = new BitmapImage(new Uri("/download.jpg", UriKind.Relative)); 
+        public ImageSource ImageSource { get; set; } = new BitmapImage(new Uri("/download.jpg", UriKind.Relative));
         public int? Abstring1 { get; set; } = null;
-        public string Abstring { get; set; } = null;
+        [PropertyGridPlaceHolder(PlaceHolder = "请输入密码")]
+        [Password]
+        public string Abstring { get; set; }
         public Abs? Abs { get; set; } = null;
         //[PropertyGridIgnore]
         public bool? IsExpanded { get; } = true;
         public BindingFlags BindingFlags { get; set; } = BindingFlags.IgnoreCase;
-        [PropertyGrid("名字")]
+        [PropertyGrid(DisplayName = "名字")]
         public decimal? Name { get; set; }
         public bool Description { get; set; }
-        [PropertyGrid("值")]
+        [PropertyGrid(DisplayName = "值")]
         public double? Value { get; set; }
 
         public SolidColorBrush Brush { get; set; }
-        public Pro1 Pro1 { get; set; }
+        public Pro1 Pro1 { get; set; } = new Pro1();
     }
 
     public class ProBase
@@ -458,7 +464,7 @@ namespace OhmStudio.UI.Demo
         public Abs()
         {
         }
-        [PropertyGrid("ID号")]
+        [PropertyGrid(DisplayName = "Id号")]
         public string Id { get; set; } = "123";
         public int Num { get; set; } = 999;
     }
@@ -468,7 +474,7 @@ namespace OhmStudio.UI.Demo
     {
         public string Name { get; set; }
         public double Value { get; set; }
-        [PropertyGrid(true)]
+        [PropertyGrid(DisplayName = "时间", IsReadOnly = false)]
         public DateTime DateTime { get; set; }
 
         public List<string> DateTimes { get; set; } = new List<string>() { "123", "456", "789", "abc", "↑↓←→" };

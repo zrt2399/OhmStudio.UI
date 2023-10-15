@@ -29,7 +29,7 @@
     <Style TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
+        <!--<Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>-->
         <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>
         <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Text}"/>
