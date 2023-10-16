@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -31,7 +26,7 @@ namespace OhmStudio.UI.Controls
                 {
                     if (item.Name == info.Name)
                     {
-                        if (info.CanWrite && info.Name != "Source" && info.Name != "Path")
+                        if (info.CanWrite && info.Name != nameof(binding.Source) && info.Name != nameof(binding.Path))
                         {
                             var value = item.GetValue(binding);
                             if (value != null)

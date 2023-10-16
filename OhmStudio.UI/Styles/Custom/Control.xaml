@@ -4,12 +4,12 @@
                     xmlns:view="clr-namespace:OhmStudio.UI.Views"
                     xmlns:control="clr-namespace:OhmStudio.UI.Controls"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
-    
-    <ResourceDictionary.MergedDictionaries>
+
+    <!--<ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VS/Base/TextBoxBase.xaml" />
         <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VS/Base/ListBoxBase.xaml" />
         <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VS/Base/ComboBoxBase.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary.MergedDictionaries>-->
 
     <converter:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter"/>
     <converter:ColorConverter x:Key="colorConverter"/>
@@ -19,7 +19,7 @@
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
     <SolidColorBrush x:Key="EnabledWhenFalse">#FFAEABAB</SolidColorBrush>
-  
+
     <Style x:Key="ButtonStyle" TargetType="Button">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Template">
@@ -244,19 +244,22 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="control:SearchBar">
-                    <Border Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Style="{StaticResource PlaceHolderWithTemplatedParent}" />
-                            <ScrollViewer Name="PART_ContentHost" VerticalAlignment="Center" />
-                            <Button Padding="4,0" Grid.Column="1" BorderThickness="0" BorderBrush="Transparent" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}">
-                                <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" ToolTip="{x:Null}">&#xe60f;</TextBlock>
-                            </Button>
-                        </Grid>
-                    </Border>
+                    <DockPanel>
+                        <TextBlock Style="{DynamicResource TitleWithTemplatedParent}"/>
+                        <Border Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
+                                <ScrollViewer Name="PART_ContentHost" VerticalAlignment="Center" />
+                                <Button Padding="4,0" Grid.Column="2" BorderThickness="0" BorderBrush="Transparent" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}">
+                                    <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" ToolTip="{x:Null}">&#xe60f;</TextBlock>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
@@ -496,7 +499,7 @@
         </Style.Triggers>-->
     </Style>
 
-    <Style x:Key="ListBoxItemCheckBoxStyle" TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemStyle}">
+    <Style x:Key="ListBoxItemCheckBoxStyle" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
@@ -603,7 +606,7 @@
                                      BorderBrush="{TemplateBinding BorderBrush}"
                                      Foreground="{DynamicResource CommonControlsComboBoxGlyph}"
                                      IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
-                                     Style="{StaticResource ToolBarComboBoxTransparentButtonStyle}"/>
+                                     Style="{DynamicResource ToolBarComboBoxTransparentButtonStyle}"/>
                         <Popup Name="PART_Popup"
                                AllowsTransparency="True"
                                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"

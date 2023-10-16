@@ -235,13 +235,13 @@ namespace OhmStudio.UI.PublicMethod
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyGridPlaceHolderAttribute : Attribute
     {
-        public string PlaceHolder { get; set; } = TextBoxPlaceholderAttach.PlaceHolder;
+        public string PlaceHolder { get; set; } = TextBoxAttach.PlaceHolder;
 
-        public Brush PlaceHolderForeground { get; set; } = TextBoxAttachBase.Foreground;
+        public Brush PlaceHolderForeground { get; set; } = TextBoxAttach.PlaceHolderForeground;
 
-        public double PlaceHolderOpacity { get; set; } = TextBoxAttachBase.Opacity;
+        public double PlaceHolderOpacity { get; set; } = TextBoxAttach.PlaceHolderOpacity;
 
-        public Thickness PlaceHolderMargin { get; set; } = TextBoxAttachBase.Margin;
+        public Thickness PlaceHolderMargin { get; set; } = TextBoxAttach.PlaceHolderMargin;
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]

@@ -90,10 +90,10 @@ namespace OhmStudio.UI.Views
                 {
                     return;
                 }
-                TextBoxPlaceholderAttach.SetPlaceHolder(uIElement, placeHolder.PlaceHolder);
-                TextBoxAttachBase.SetForeground(uIElement, placeHolder.PlaceHolderForeground);
-                TextBoxAttachBase.SetMargin(uIElement, placeHolder.PlaceHolderMargin);
-                TextBoxAttachBase.SetOpacity(uIElement, placeHolder.PlaceHolderOpacity);
+                TextBoxAttach.SetPlaceHolder(uIElement, placeHolder.PlaceHolder);
+                TextBoxAttach.SetPlaceHolderForeground(uIElement, placeHolder.PlaceHolderForeground);
+                TextBoxAttach.SetPlaceHolderMargin(uIElement, placeHolder.PlaceHolderMargin);
+                TextBoxAttach.SetPlaceHolderOpacity(uIElement, placeHolder.PlaceHolderOpacity);
             }
         }
 
