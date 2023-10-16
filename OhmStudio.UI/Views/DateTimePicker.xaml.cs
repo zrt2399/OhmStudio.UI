@@ -15,6 +15,17 @@ namespace OhmStudio.UI.Views
         public DateTimePicker()
         {
             InitializeComponent();
+            Loaded += DateTimePicker_Loaded;
+        }
+
+        private void DateTimePicker_Loaded(object sender, RoutedEventArgs e)
+        {
+            //Loaded -= DateTimePicker_Loaded; 
+            var uIElement = textBoxDateTime.Template.FindName("Border", textBoxDateTime) as UIElement;
+            if (popChioce.PlacementTarget != uIElement)
+            {
+                popChioce.PlacementTarget = uIElement;
+            }
         }
 
         /// <summary>
@@ -62,8 +73,8 @@ namespace OhmStudio.UI.Views
             set => SetValue(DateAndTimeProperty, value);
         }
 
-        public static readonly DependencyProperty DateAndTimeProperty = 
-            DependencyProperty.Register(nameof(DateAndTime), typeof(DateTime?), typeof(DateTimePicker),new PropertyMetadata(DateTime.Now));
+        public static readonly DependencyProperty DateAndTimeProperty =
+            DependencyProperty.Register(nameof(DateAndTime), typeof(DateTime?), typeof(DateTimePicker), new PropertyMetadata(DateTime.Now));
 
         private void textBoxDateTime_LostFocus(object sender, RoutedEventArgs e)
         {

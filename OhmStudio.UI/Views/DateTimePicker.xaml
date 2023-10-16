@@ -9,69 +9,69 @@
              d:Height="40">
 
     <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/OhmStudio.UI;component/Styles/CustomStyles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+
+        <Style TargetType="TextBox" x:Key="TextBoxDateTimeStyle" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <DockPanel>
+                            <TextBlock Style="{DynamicResource TitleWithUserControl}" />
+                            <Border x:Name="Border"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Background="{TemplateBinding Background}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Style="{DynamicResource PlaceHolderWithUserControl}"/>
+                                    <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center"/>
+                                    <Grid MaxHeight="{Binding ElementName=PART_ContentHost,Path=ActualHeight}" Grid.Column="1">
+                                        <local:IconButton x:Name="iconButton" 
+                                                          Margin="4"
+                                                          ToolTip="选择时间"
+                                                          HorizontalAlignment="Right"
+                                                          Icon="/OhmStudio.UI;component/Images/date.png"
+                                                          Click="IconButton_Click"/>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </DockPanel>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
+                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
+                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
+                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextFocused}" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </UserControl.Resources>
 
-    <UserControl.Style>
-        <Style TargetType="UserControl" BasedOn="{StaticResource {x:Type UserControl}}">
-            <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
-                    <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
-                </Trigger>
-                <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
-                    <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextFocused}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
-                    <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Style>
-
     <Grid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Style="{StaticResource PlaceHolderWithUserControl}"/>
-            <TextBox BorderBrush="Transparent"
-                     BorderThickness="0"
-                     LostFocus="textBoxDateTime_LostFocus"
-                     Name="textBoxDateTime"
-                     VerticalAlignment="Center"
-                     VerticalContentAlignment="Center"
-                     Background="Transparent"
-                     IsReadOnly="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=IsReadOnly}"
-                     Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DateAndTime,Mode=TwoWay,StringFormat='yyyy/MM/dd HH:mm:ss'}"/>
-            <Grid MaxHeight="{Binding ElementName=textBoxDateTime,Path=ActualHeight}"
-                  Grid.Column="1">
-                <local:IconButton x:Name="iconButton" 
-                                  Margin="4"
-                                  ToolTip="选择时间"
-                                  HorizontalAlignment="Right"
-                                  Icon="/OhmStudio.UI;component/Images/date.png"
-                                  Click="IconButton_Click"/>
-            </Grid>
-        </Grid>
-
+        <TextBox Style="{StaticResource TextBoxDateTimeStyle}"
+                 Name="textBoxDateTime"
+                 LostFocus="textBoxDateTime_LostFocus"
+                 IsReadOnly="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=IsReadOnly}"
+                 Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DateAndTime,Mode=TwoWay,StringFormat='yyyy/MM/dd HH:mm:ss'}"/>
         <Popup x:Name="popChioce"
                AllowsTransparency="True"
                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-               PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
                StaysOpen="False"/>
     </Grid>
 </UserControl>

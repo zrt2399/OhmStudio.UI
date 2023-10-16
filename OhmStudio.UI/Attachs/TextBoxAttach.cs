@@ -6,75 +6,35 @@ using OhmStudio.UI.Views;
 
 namespace OhmStudio.UI.Attachs
 {
-    public class TextBoxAttachBase
-    {
-        //public const string PlaceHolder = "";
-        public static readonly Brush Foreground = "#FF999999".ToSolidColorBrush();
-        public const double Opacity = 1d;
-        public static readonly Thickness Margin = new Thickness(2, 0, 2, 0);
-        //public const Visibility Visibility1 = Visibility.Collapsed;
-
-        public static readonly DependencyProperty ForegroundProperty =
-            DependencyProperty.RegisterAttached("Foreground", typeof(Brush), typeof(TextBoxAttachBase), new PropertyMetadata(Foreground));
-        public static Brush GetForeground(DependencyObject target)
-        {
-            return (Brush)target.GetValue(ForegroundProperty);
-        }
-
-        public static void SetForeground(DependencyObject target, Brush value)
-        {
-            target.SetValue(ForegroundProperty, value);
-        }
-
-        public static readonly DependencyProperty OpacityProperty =
-            DependencyProperty.RegisterAttached("Opacity", typeof(double), typeof(TextBoxAttachBase), new PropertyMetadata(Opacity));
-        public static double GetOpacity(DependencyObject target)
-        {
-            return (double)target.GetValue(OpacityProperty);
-        }
-
-        public static void SetOpacity(DependencyObject target, double value)
-        {
-            target.SetValue(OpacityProperty, value);
-        }
-
-        public static readonly DependencyProperty MarginProperty =
-            DependencyProperty.RegisterAttached("Margin", typeof(Thickness), typeof(TextBoxAttachBase), new PropertyMetadata(Margin));
-        public static Thickness GetMargin(DependencyObject target)
-        {
-            return (Thickness)target.GetValue(MarginProperty);
-        }
-
-        public static void SetMargin(DependencyObject target, Thickness value)
-        {
-            target.SetValue(MarginProperty, value);
-        }
-
-        public static readonly DependencyProperty VisibilityProperty =
-            DependencyProperty.RegisterAttached("Visibility", typeof(Visibility), typeof(TextBoxAttachBase), new PropertyMetadata(Visibility.Collapsed));
-        public static Visibility GetVisibility(DependencyObject target)
-        {
-            return (Visibility)target.GetValue(VisibilityProperty);
-        }
-
-        public static void SetVisibility(DependencyObject target, Visibility value)
-        {
-            target.SetValue(VisibilityProperty, value);
-        }
-    }
-
-    public class TextBoxPlaceholderAttach : TextBoxAttachBase
+    public class TextBoxAttach
     {
         public const string PlaceHolder = "";
+        public static readonly Brush PlaceHolderForeground = "#FF999999".ToSolidColorBrush();
+        public const double PlaceHolderOpacity = 1d;
+        public static readonly Thickness PlaceHolderMargin = new Thickness(2, 0, 2, 0);
+        public const string Title = "";
+
+        public static readonly DependencyProperty TitleProperty =
+           DependencyProperty.RegisterAttached("Title", typeof(string), typeof(TextBoxAttach), new PropertyMetadata(Title));
+
+        public static string GetTitle(DependencyObject target)
+        {
+            return (string)target.GetValue(TitleProperty);
+        }
+
+        public static void SetTitle(DependencyObject target, string value)
+        {
+            target.SetValue(TitleProperty, value);
+        }
 
         public static readonly DependencyProperty PlaceHolderProperty =
-            DependencyProperty.RegisterAttached("PlaceHolder", typeof(string), typeof(TextBoxPlaceholderAttach), new PropertyMetadata(PlaceHolder, (sender, e) =>
+            DependencyProperty.RegisterAttached("PlaceHolder", typeof(string), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolder, (sender, e) =>
             {
                 if (e.NewValue is string newValue)
                 {
                     if (sender.IsTextBoxAttachObject() && string.IsNullOrWhiteSpace(newValue))
                     {
-                        SetVisibility(sender, Visibility.Collapsed);
+                        SetPlaceHolderVisibility(sender, Visibility.Collapsed);
                     }
                     if (sender is TextBox textBox)
                     {
@@ -143,9 +103,8 @@ namespace OhmStudio.UI.Attachs
         {
             if (target != null)
             {
-                SetVisibility(target, string.IsNullOrEmpty(value) ? Visibility.Visible : Visibility.Collapsed);
+                SetPlaceHolderVisibility(target, string.IsNullOrEmpty(value) ? Visibility.Visible : Visibility.Collapsed);
             }
-            //var SSS = GetPlaceHolderVisibility(target); 
         }
 
         public static string GetPlaceHolder(DependencyObject target)
@@ -157,36 +116,53 @@ namespace OhmStudio.UI.Attachs
         {
             target.SetValue(PlaceHolderProperty, value);
         }
-    }
 
-    public class TextBoxTitleAttach : TextBoxAttachBase
-    {
-        public const string Title = "";
-
-        public static readonly DependencyProperty TitleProperty =
-           DependencyProperty.RegisterAttached("Title", typeof(string), typeof(TextBoxTitleAttach), new PropertyMetadata(Title, (sender, e) =>
-           {
-               if (e.NewValue is string newValue && sender.IsTextBoxAttachObject())
-               {
-                   if (string.IsNullOrEmpty(newValue))
-                   {
-                       SetVisibility(sender, Visibility.Collapsed);
-                   }
-                   else
-                   {
-                       SetVisibility(sender, Visibility.Visible);
-                   }
-               }
-           }));
-
-        public static string GetTitle(DependencyObject target)
+        public static readonly DependencyProperty PlaceHolderForegroundProperty =
+            DependencyProperty.RegisterAttached("PlaceHolderForeground", typeof(Brush), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolderForeground));
+        public static Brush GetPlaceHolderForeground(DependencyObject target)
         {
-            return (string)target.GetValue(TitleProperty);
+            return (Brush)target.GetValue(PlaceHolderForegroundProperty);
         }
 
-        public static void SetTitle(DependencyObject target, string value)
+        public static void SetPlaceHolderForeground(DependencyObject target, Brush value)
         {
-            target.SetValue(TitleProperty, value);
+            target.SetValue(PlaceHolderForegroundProperty, value);
+        }
+
+        public static readonly DependencyProperty PlaceHolderOpacityProperty =
+            DependencyProperty.RegisterAttached("PlaceHolderOpacity", typeof(double), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolderOpacity));
+        public static double GetPlaceHolderOpacity(DependencyObject target)
+        {
+            return (double)target.GetValue(PlaceHolderOpacityProperty);
+        }
+
+        public static void SetPlaceHolderOpacity(DependencyObject target, double value)
+        {
+            target.SetValue(PlaceHolderOpacityProperty, value);
+        }
+
+        public static readonly DependencyProperty PlaceHolderMarginProperty =
+            DependencyProperty.RegisterAttached("PlaceHolderMargin", typeof(Thickness), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolderMargin));
+        public static Thickness GetPlaceHolderMargin(DependencyObject target)
+        {
+            return (Thickness)target.GetValue(PlaceHolderMarginProperty);
+        }
+
+        public static void SetPlaceHolderMargin(DependencyObject target, Thickness value)
+        {
+            target.SetValue(PlaceHolderMarginProperty, value);
+        }
+
+        public static readonly DependencyProperty PlaceHolderVisibilityProperty =
+            DependencyProperty.RegisterAttached("PlaceHolderVisibility", typeof(Visibility), typeof(TextBoxAttach), new PropertyMetadata(Visibility.Collapsed));
+        public static Visibility GetPlaceHolderVisibility(DependencyObject target)
+        {
+            return (Visibility)target.GetValue(PlaceHolderVisibilityProperty);
+        }
+
+        public static void SetPlaceHolderVisibility(DependencyObject target, Visibility value)
+        {
+            target.SetValue(PlaceHolderVisibilityProperty, value);
         }
     }
 }
