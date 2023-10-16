@@ -122,7 +122,7 @@
                                                         <Setter Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate TargetType="GroupItem">
-                                                                    <Expander IsExpanded="False" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
+                                                                    <Expander IsExpanded="True" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
                                                                         <Expander.Header>
                                                                             <DockPanel>
                                                                                 <TextBlock Text="{Binding Path=Name,StringFormat=分组：{0}}" Margin="0,0,20,0"/>
@@ -217,27 +217,41 @@
                                 </TabControl>
                             </LayoutDocument>
                             <LayoutDocument Title="Other" IsSelected="True">
-                                <StackPanel Orientation="Vertical" Name="wr">
-                                    <SearchBar VerticalAlignment="Top" Width="200" TextBoxPlaceholderAttach.PlaceHolder="请输入搜索内容..."/>
-                                    <TextBox Width="200" VerticalAlignment="Top" TextBoxTitleAttach.Title="123" TextBoxPlaceholderAttach.PlaceHolder="123456..." TextBoxPlaceholderAttach.Foreground="Red"  Text="{Binding IsExpanded,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                                    <TextBox Width="200" VerticalAlignment="Top" Name="te" Text="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxPlaceholderAttach.PlaceHolder="time..."/>
-                                    <PasswordBox  Width="200"  VerticalAlignment="Top" TextBoxPlaceholderAttach.PlaceHolder="密码"/>
-                                    <PasswordBoxControl Name="ps" Width="200" VerticalAlignment="Top" TextBoxPlaceholderAttach.PlaceHolder="请输入密码..."/>
-                                    <PasswordBoxControl  Width="200" VerticalAlignment="Top"/>
-                                    <DateTimePicker VerticalAlignment="Top" Width="200" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxPlaceholderAttach.PlaceHolder="请输入日期..."/>
-                                    <ComboBox  Width="200" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
-                                    <ComboBox Width="200" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
-                                    <CheckComboBox Width="200"
-                                                   ItemsSource="{Binding FileNodes}"
-                                                   DisplayMemberPath="Name"
-                                                   VerticalAlignment="Top"
-                                                   VirtualizingPanel.IsVirtualizing="True"
-                                                   VirtualizingPanel.VirtualizationMode="Recycling"
-                                                   SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
-                                    <Button Width="200" Click="Button_Click_4">显示选中项</Button>
-                                    <ToggleButton  Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical" Name="wr">
+                                        <SearchBar VerticalAlignment="Top" Width="200" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
+                                        <TextBox Width="200" VerticalAlignment="Top" TextBoxAttach.Title="开始" TextBoxAttach.PlaceHolder="123456..." TextBoxAttach.PlaceHolderForeground="Red" Text="{Binding IsExpanded,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBox Width="200" VerticalAlignment="Top" Name="te" TextBoxAttach.Title="搜索" Text="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="time..."/>
+                                        <PasswordBox  Width="200"  VerticalAlignment="Top" TextBoxAttach.Title="技术" TextBoxAttach.PlaceHolder="密码"/>
+                                        <PasswordBoxControl Name="ps" Width="200" VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
+                                        <PasswordBoxControl  Width="200" VerticalAlignment="Top" TextBoxAttach.Title="搜索"/>
+                                        <DateTimePicker VerticalAlignment="Top" Width="200" TextBoxAttach.Title="搜索结束" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
+                                        <ComboBox  Width="200" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
+                                        <ComboBox Width="200" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
+                                        <CheckComboBox Width="200"
+                                                       ItemsSource="{Binding FileNodes}"
+                                                       DisplayMemberPath="Name"
+                                                       VerticalAlignment="Top"
+                                                       VirtualizingPanel.IsVirtualizing="True"
+                                                       VirtualizingPanel.VirtualizationMode="Recycling"
+                                                       SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
+                                        <Button Width="200" Click="Button_Click_4">显示选中项</Button>
+                                        <ToggleButton  Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical" >
+                                        <DateTimePicker VerticalAlignment="Top" Width="200" TextBoxAttach.Title="结束" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
+                                        <ComboBox  Width="200" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
+                                        <PasswordBox  Width="200"  VerticalAlignment="Top" TextBoxAttach.Title="技术" TextBoxAttach.PlaceHolder="密码"/>
+                                        <PasswordBoxControl  Width="200" VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
+                                        <PasswordBoxControl  Width="200" VerticalAlignment="Top" TextBoxAttach.Title="搜索"/>
+             
+                                        <ComboBox Width="200" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
+                                        <SearchBar VerticalAlignment="Top" Width="200" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
+                                        <TextBox Width="200" VerticalAlignment="Top" TextBoxAttach.Title="开始" TextBoxAttach.PlaceHolder="123456..." TextBoxAttach.PlaceHolderForeground="Red" Text="{Binding IsExpanded,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBox Width="200" VerticalAlignment="Top"   TextBoxAttach.Title="搜索" Text="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="time..."/>
+                                    </StackPanel>
                                 </StackPanel>
-
+                               
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
                                 <ProgressBar Value="50" IsIndeterminate="True">
