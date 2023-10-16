@@ -57,7 +57,7 @@
                       SelectedItem="{Binding CurrentFontFamily}"/>
             <ComboBox DisplayMemberPath="Name"
                       Margin="6,0"
-                      ItemsSource="{x:Static local:OhmhemeCollection.AllThemes}"
+                      ItemsSource="{x:Static local:OhmThemeCollection.AllThemes}"
                       SelectedItem="{Binding CurrentTheme}"/>
         </StackPanel>
 
@@ -217,14 +217,14 @@
                                 </TabControl>
                             </LayoutDocument>
                             <LayoutDocument Title="Other" IsSelected="True">
-                                <StackPanel Orientation="Horizontal" Name="wr" >
-                                    <SearchBar  VerticalAlignment="Top" Width="200" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
-                                    <TextBox Width="200" VerticalAlignment="Top" TextBoxAttach.PlaceHolder="123456..."/>
-                                    <TextBox Width="200" VerticalAlignment="Top" Name="te" Text="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="time..."/>
-                                    <PasswordBox  Width="200"  VerticalAlignment="Top"/>
-                                    <PasswordBoxControl Name="ps" Width="200" VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
+                                <StackPanel Orientation="Vertical" Name="wr">
+                                    <SearchBar VerticalAlignment="Top" Width="200" TextBoxPlaceholderAttach.PlaceHolder="请输入搜索内容..."/>
+                                    <TextBox Width="200" VerticalAlignment="Top" TextBoxTitleAttach.Title="123" TextBoxPlaceholderAttach.PlaceHolder="123456..." TextBoxPlaceholderAttach.Foreground="Red"  Text="{Binding IsExpanded,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox Width="200" VerticalAlignment="Top" Name="te" Text="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxPlaceholderAttach.PlaceHolder="time..."/>
+                                    <PasswordBox  Width="200"  VerticalAlignment="Top" TextBoxPlaceholderAttach.PlaceHolder="密码"/>
+                                    <PasswordBoxControl Name="ps" Width="200" VerticalAlignment="Top" TextBoxPlaceholderAttach.PlaceHolder="请输入密码..."/>
                                     <PasswordBoxControl  Width="200" VerticalAlignment="Top"/>
-                                    <DateTimePicker VerticalAlignment="Top" Width="200" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
+                                    <DateTimePicker VerticalAlignment="Top" Width="200" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxPlaceholderAttach.PlaceHolder="请输入日期..."/>
                                     <ComboBox  Width="200" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
                                     <ComboBox Width="200" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
                                     <CheckComboBox Width="200"
@@ -245,9 +245,12 @@
                                 </ProgressBar>
                             </LayoutDocument>
                             <LayoutDocument Title="GroupBox">
-                                <GroupBox Header="GroupBox">
-
+                                <GroupBox Header="Box" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0">
+                                    <TextBox BorderThickness="0"></TextBox>
                                 </GroupBox>
+                            </LayoutDocument>
+                            <LayoutDocument Title="WrapTextBox">
+                                <WrapTextBox Title="数字：" Text="{Binding CurrentFontFamily,Mode=TwoWay}" HorizontalAlignment="Center"   /> 
                             </LayoutDocument>
                             <LayoutDocument Title="CheckComboBox">
                                 <StackPanel Orientation="Horizontal">

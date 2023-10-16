@@ -329,9 +329,11 @@ namespace OhmStudio.UI.Demo
         }
     }
 
-    public static class OhmhemeCollection
+    public static class OhmThemeCollection
     {
-        private static readonly string AssemblyPath = "/OhmStudio.UI;component/";
+        private const string AssemblyPath = "/OhmStudio.UI;component/";
+        private const string ThemesPath = AssemblyPath + "Themes/";
+        private const string AvalonDockThemesPath = AssemblyPath + "AvalonDockThemes/";
         private sealed class OhmVS2019Blue : OhmTheme
         {
             public override string Name => "2019 Blue";
@@ -340,8 +342,8 @@ namespace OhmStudio.UI.Demo
             {
                 get
                 {
-                    yield return AssemblyPath + "Themes/VisualStudio2019/BlueTheme.xaml";
-                    yield return AssemblyPath + "AvalonDockThemes/VisualStudio2019/BlueTheme.xaml";
+                    yield return ThemesPath + "VisualStudio2019/BlueTheme.xaml";
+                    yield return AvalonDockThemesPath + "VisualStudio2019/BlueTheme.xaml";
                 }
             }
         }
@@ -354,8 +356,8 @@ namespace OhmStudio.UI.Demo
             {
                 get
                 {
-                    yield return AssemblyPath + "Themes/VisualStudio2019/DarkTheme.xaml";
-                    yield return AssemblyPath + "AvalonDockThemes/VisualStudio2019/DarkTheme.xaml";
+                    yield return ThemesPath + "VisualStudio2019/DarkTheme.xaml";
+                    yield return AvalonDockThemesPath + "VisualStudio2019/DarkTheme.xaml";
                 }
             }
         }
@@ -368,8 +370,8 @@ namespace OhmStudio.UI.Demo
             {
                 get
                 {
-                    yield return AssemblyPath + "Themes/VisualStudio2019/LightTheme.xaml";
-                    yield return AssemblyPath + "AvalonDockThemes/VisualStudio2019/LightTheme.xaml";
+                    yield return ThemesPath + "VisualStudio2019/LightTheme.xaml";
+                    yield return AvalonDockThemesPath + "VisualStudio2019/LightTheme.xaml";
                 }
             }
         }
@@ -382,8 +384,8 @@ namespace OhmStudio.UI.Demo
             {
                 get
                 {
-                    yield return AssemblyPath + "Themes/VisualStudio2022/BlueTheme.xaml";
-                    yield return AssemblyPath + "AvalonDockThemes/VisualStudio2022/BlueTheme.xaml";
+                    yield return ThemesPath + "VisualStudio2022/BlueTheme.xaml";
+                    yield return AvalonDockThemesPath + "VisualStudio2022/BlueTheme.xaml";
                 }
             }
         }
@@ -396,8 +398,8 @@ namespace OhmStudio.UI.Demo
             {
                 get
                 {
-                    yield return AssemblyPath + "Themes/VisualStudio2022/DarkTheme.xaml";
-                    yield return AssemblyPath + "AvalonDockThemes/VisualStudio2022/DarkTheme.xaml";
+                    yield return ThemesPath + "VisualStudio2022/DarkTheme.xaml";
+                    yield return AvalonDockThemesPath + "VisualStudio2022/DarkTheme.xaml";
                 }
             }
         }
@@ -410,15 +412,15 @@ namespace OhmStudio.UI.Demo
             {
                 get
                 {
-                    yield return AssemblyPath + "Themes/VisualStudio2022/LightTheme.xaml";
-                    yield return AssemblyPath + "AvalonDockThemes/VisualStudio2022/LightTheme.xaml";
+                    yield return ThemesPath + "VisualStudio2022/LightTheme.xaml";
+                    yield return AvalonDockThemesPath + "VisualStudio2022/LightTheme.xaml";
                 }
             }
         }
 
         public static List<OhmTheme> AllThemes { get; }
 
-        static OhmhemeCollection()
+        static OhmThemeCollection()
         {
             AllThemes = new List<OhmTheme>()
             {
@@ -485,7 +487,7 @@ namespace OhmStudio.UI.Demo
         public OhmXamlUIResource()
         {
             instance = this;
-            theme = OhmhemeCollection.AllThemes.FirstOrDefault();
+            theme = OhmThemeCollection.AllThemes.FirstOrDefault();
             InitializeThemes();
         }
 

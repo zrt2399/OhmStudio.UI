@@ -61,7 +61,8 @@
                             <EventTrigger RoutedEvent="Loaded">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="bd" Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                        <DoubleAnimation Storyboard.TargetName="bd"
+                                                         Storyboard.TargetProperty="RenderTransform.ScaleX"
                                                      From="0" To="1" Duration="0:0:0.2"/>
                                     </Storyboard>
                                 </BeginStoryboard>
@@ -72,17 +73,20 @@
                             <Border.RenderTransform>
                                 <ScaleTransform/>
                             </Border.RenderTransform>
-                            <TextBlock Foreground="OrangeRed" Text="{Binding ErrorContent,Mode=OneTime}"/>
+                            <TextBlock Foreground="{DynamicResource CommonControlsTextBoxErrorBorder}"
+                                       Text="{Binding ErrorContent,Mode=OneTime}"
+                                       IsHitTestVisible="False"
+                                       HorizontalAlignment="Left"/>
                         </Border>
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
+        <!--<Style.Triggers>
             <Trigger Property="Validation.HasError" Value="True">
                 <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxErrorBorder}" />
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
     </Style>
 
     <Style x:Key="TransparentTextBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
