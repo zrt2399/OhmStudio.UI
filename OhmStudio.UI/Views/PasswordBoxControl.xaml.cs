@@ -138,15 +138,7 @@ namespace OhmStudio.UI.Views
                 var passwordBox = sender as PasswordBoxControl;
                 //根据密码框是否有内容来显示符号"x"
                 passwordBox.ClearVisibility = string.IsNullOrEmpty(passwordBox.Password) ? Visibility.Collapsed : Visibility.Visible;
-                passwordBox.OnPasswordChanged(passwordBox, passwordBox.Password);
             }));
-
-        public Action<PasswordBoxControl, string> PasswordChanged;
- 
-        protected void OnPasswordChanged(PasswordBoxControl passwordBoxControl, string password)
-        {
-            PasswordChanged?.Invoke(passwordBoxControl, password);
-        }
     }
 
     /// <summary>

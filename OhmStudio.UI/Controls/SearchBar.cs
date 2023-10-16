@@ -1,8 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using OhmStudio.UI.PublicMethod;
 
 namespace OhmStudio.UI.Controls
 {
@@ -21,17 +19,7 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(SearchBar));
 
         public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register(nameof(CommandTarget), typeof(IInputElement), typeof(SearchBar));
-
-        //public static readonly DependencyProperty PlaceHolderProperty = DependencyProperty.Register(nameof(PlaceHolder), typeof(string), typeof(SearchBar), new PropertyMetadata("请输入搜索内容"));
-
-        //public static readonly DependencyProperty PlaceHolderForegroundProperty = DependencyProperty.Register(nameof(PlaceHolderForeground), typeof(Brush), typeof(SearchBar), new PropertyMetadata("#FF999999".ToSolidColorBrush()));
-
-        //public static readonly DependencyProperty PlaceHolderOpacityProperty = DependencyProperty.Register(nameof(PlaceHolderOpacity), typeof(double), typeof(SearchBar), new PropertyMetadata(1d));
-
-        //public static readonly DependencyProperty PlaceHolderMarginProperty = DependencyProperty.Register(nameof(PlaceHolderMargin), typeof(Thickness), typeof(SearchBar), new PropertyMetadata(new Thickness(2, 0, 2, 0)));
-
-        //public static readonly DependencyProperty PlaceHolderVisibilityProperty = DependencyProperty.Register(nameof(PlaceHolderVisibility), typeof(Visibility), typeof(SearchBar), new PropertyMetadata(Visibility.Visible));
-
+         
         public ICommand Command
         {
             get => (ICommand)GetValue(CommandProperty);
@@ -49,6 +37,16 @@ namespace OhmStudio.UI.Controls
             get => (IInputElement)GetValue(CommandTargetProperty);
             set => SetValue(CommandTargetProperty, value);
         }
+
+        //public static readonly DependencyProperty PlaceHolderProperty = DependencyProperty.Register(nameof(PlaceHolder), typeof(string), typeof(SearchBar), new PropertyMetadata("请输入搜索内容"));
+
+        //public static readonly DependencyProperty PlaceHolderForegroundProperty = DependencyProperty.Register(nameof(PlaceHolderForeground), typeof(Brush), typeof(SearchBar), new PropertyMetadata("#FF999999".ToSolidColorBrush()));
+
+        //public static readonly DependencyProperty PlaceHolderOpacityProperty = DependencyProperty.Register(nameof(PlaceHolderOpacity), typeof(double), typeof(SearchBar), new PropertyMetadata(1d));
+
+        //public static readonly DependencyProperty PlaceHolderMarginProperty = DependencyProperty.Register(nameof(PlaceHolderMargin), typeof(Thickness), typeof(SearchBar), new PropertyMetadata(new Thickness(2, 0, 2, 0)));
+
+        //public static readonly DependencyProperty PlaceHolderVisibilityProperty = DependencyProperty.Register(nameof(PlaceHolderVisibility), typeof(Visibility), typeof(SearchBar), new PropertyMetadata(Visibility.Visible));
 
         //public string PlaceHolder
         //{

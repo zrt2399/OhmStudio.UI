@@ -4,8 +4,9 @@
                     xmlns:view="clr-namespace:OhmStudio.UI.Views"
                     xmlns:control="clr-namespace:OhmStudio.UI.Controls"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
-
+    
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VS/Base/TextBoxBase.xaml" />
         <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VS/Base/ListBoxBase.xaml" />
         <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VS/Base/ComboBoxBase.xaml" />
     </ResourceDictionary.MergedDictionaries>
@@ -18,16 +19,7 @@
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
     <SolidColorBrush x:Key="EnabledWhenFalse">#FFAEABAB</SolidColorBrush>
-
-    <Style x:Key="PlaceHolderStyle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Margin" Value="{Binding Path=(TextBoxAttach.PlaceHolderMargin),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-        <Setter Property="Foreground" Value="{Binding Path=(TextBoxAttach.PlaceHolderForeground),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-        <Setter Property="Visibility" Value="{Binding Path=(TextBoxAttach.PlaceHolderVisibility),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-        <Setter Property="Opacity" Value="{Binding Path=(TextBoxAttach.PlaceHolderOpacity),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-        <Setter Property="Text" Value="{Binding Path=(TextBoxAttach.PlaceHolder),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-    </Style>
-
+  
     <Style x:Key="ButtonStyle" TargetType="Button">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Template">
@@ -252,18 +244,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="control:SearchBar">
-                    <Border Name="Border" BorderBrush="{DynamicResource CommonControlsTextBoxBorder}" BorderThickness="1">
+                    <Border Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock VerticalAlignment="Center"
-                                       Margin="{Binding Path=(TextBoxAttach.PlaceHolderMargin),RelativeSource={RelativeSource TemplatedParent}}"
-                                       Foreground="{Binding Path=(TextBoxAttach.PlaceHolderForeground),RelativeSource={RelativeSource TemplatedParent}}"
-                                       Visibility="{Binding Path=(TextBoxAttach.PlaceHolderVisibility),RelativeSource={RelativeSource TemplatedParent}}"
-                                       Opacity="{Binding Path=(TextBoxAttach.PlaceHolderOpacity),RelativeSource={RelativeSource TemplatedParent}}"
-                                       Text="{Binding Path=(TextBoxAttach.PlaceHolder),RelativeSource={RelativeSource TemplatedParent}}" />
+                            <TextBlock Style="{StaticResource PlaceHolderWithTemplatedParent}" />
                             <ScrollViewer Name="PART_ContentHost" VerticalAlignment="Center" />
                             <Button Padding="4,0" Grid.Column="1" BorderThickness="0" BorderBrush="Transparent" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}">
                                 <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" ToolTip="{x:Null}">&#xe60f;</TextBlock>

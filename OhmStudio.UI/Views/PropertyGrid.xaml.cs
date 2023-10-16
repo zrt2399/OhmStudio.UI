@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -85,16 +84,16 @@ namespace OhmStudio.UI.Views
 
         void SetPlaceHolder(PropertyInfo propertyInfo, UIElement uIElement)
         {
-            if (uIElement.IsTextBoxAttach())
+            if (uIElement.IsTextBoxAttachObject())
             {
                 if (propertyInfo.GetCustomAttribute(typeof(PropertyGridPlaceHolderAttribute)) is not PropertyGridPlaceHolderAttribute placeHolder)
                 {
                     return;
                 }
-                TextBoxAttach.SetPlaceHolder(uIElement, placeHolder.PlaceHolder);
-                TextBoxAttach.SetPlaceHolderForeground(uIElement, placeHolder.PlaceHolderForeground);
-                TextBoxAttach.SetPlaceHolderMargin(uIElement, placeHolder.PlaceHolderMargin);
-                TextBoxAttach.SetPlaceHolderOpacity(uIElement, placeHolder.PlaceHolderOpacity);
+                TextBoxPlaceholderAttach.SetPlaceHolder(uIElement, placeHolder.PlaceHolder);
+                TextBoxAttachBase.SetForeground(uIElement, placeHolder.PlaceHolderForeground);
+                TextBoxAttachBase.SetMargin(uIElement, placeHolder.PlaceHolderMargin);
+                TextBoxAttachBase.SetOpacity(uIElement, placeHolder.PlaceHolderOpacity);
             }
         }
 

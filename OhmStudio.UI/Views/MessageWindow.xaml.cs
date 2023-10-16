@@ -16,12 +16,12 @@ namespace OhmStudio.UI.Views
             InitializeComponent();
             MaxHeight = SystemParameters.WorkArea.Height;
             MaxWidth = SystemParameters.WorkArea.Width;
-            if (AlertDialog.UILanguage == UILanguage.Zh_TW)
+            if (AlertDialog.OhmUILanguage == OhmUILanguage.Zh_TW)
             {
                 btnOK.Content = "確定";
                 btnCancel.Content = "取消";
             }
-            else if (AlertDialog.UILanguage == UILanguage.En_US)
+            else if (AlertDialog.OhmUILanguage == OhmUILanguage.En_US)
             {
                 btnOK.Content = "OK";
                 btnCancel.Content = "Cancel";

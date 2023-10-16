@@ -18,9 +18,9 @@ namespace OhmStudio.UI.PublicMethod
 {
     public static class ExtensionMethod
     {
-        public static bool IsTextBoxAttach(this UIElement uIElement)
+        public static bool IsTextBoxAttachObject(this DependencyObject obj)
         {
-            if (uIElement is TextBox || uIElement is DateTimePicker || uIElement is PasswordBoxControl)
+            if (obj is TextBox || obj is DateTimePicker || obj is PasswordBox || obj is PasswordBoxControl)
             {
                 return true;
             }
@@ -235,13 +235,13 @@ namespace OhmStudio.UI.PublicMethod
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyGridPlaceHolderAttribute : Attribute
     {
-        public string PlaceHolder { get; set; } = TextBoxAttach.PlaceHolder;
+        public string PlaceHolder { get; set; } = TextBoxPlaceholderAttach.PlaceHolder;
 
-        public Brush PlaceHolderForeground { get; set; } = TextBoxAttach.PlaceHolderForeground;
+        public Brush PlaceHolderForeground { get; set; } = TextBoxAttachBase.Foreground;
 
-        public double PlaceHolderOpacity { get; set; } = TextBoxAttach.PlaceHolderOpacity;
+        public double PlaceHolderOpacity { get; set; } = TextBoxAttachBase.Opacity;
 
-        public Thickness PlaceHolderMargin { get; set; } = TextBoxAttach.PlaceHolderMargin;
+        public Thickness PlaceHolderMargin { get; set; } = TextBoxAttachBase.Margin;
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]

@@ -15,6 +15,7 @@
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
+        
     </UserControl.Resources>
 
     <Border BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
@@ -98,12 +99,12 @@
                                 Style="{StaticResource CommonButtonStyle}"
                                 Click="btnhh_Click">12</Button>
                         <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Grid.Column="1">:</TextBlock>
+                                   VerticalAlignment="Center"
+                                   Grid.Column="1">:</TextBlock>
                         <Button Name="btnmm"
-                                    Style="{StaticResource CommonButtonStyle}"
-                                    Click="btnmm_Click"
-                                    Grid.Column="2">18</Button>
+                                Style="{StaticResource CommonButtonStyle}"
+                                Click="btnmm_Click"
+                                Grid.Column="2">18</Button>
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                     Grid.Column="3">:</TextBlock>

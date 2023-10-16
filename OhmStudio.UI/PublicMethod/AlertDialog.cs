@@ -12,7 +12,7 @@ namespace OhmStudio.UI.PublicMethod
     /// <summary>
     /// 表示当前语言。
     /// </summary>
-    public enum UILanguage
+    public enum OhmUILanguage
     {
         Zh_CN,
         Zh_TW,
@@ -45,7 +45,7 @@ namespace OhmStudio.UI.PublicMethod
     /// </summary>
     public static class AlertDialog
     {
-        public static UILanguage UILanguage { get; set; } = UILanguage.Zh_CN;
+        public static OhmUILanguage OhmUILanguage { get; set; } = OhmUILanguage.Zh_CN;
         public static bool Show(string message, string title = null, MessageButton button = MessageButton.OK, MessageImage image = MessageImage.Information, Window owner = null)
         {
             bool flag = false;
@@ -109,11 +109,11 @@ namespace OhmStudio.UI.PublicMethod
 
         public static bool ShowWarning(string message, string title = "警告")
         {
-            if (UILanguage == UILanguage.Zh_TW)
+            if (OhmUILanguage == OhmUILanguage.Zh_TW)
             {
                 title = "警告";
             }
-            else if (UILanguage == UILanguage.En_US)
+            else if (OhmUILanguage == OhmUILanguage.En_US)
             {
                 title = "Warning";
             }
@@ -122,11 +122,11 @@ namespace OhmStudio.UI.PublicMethod
 
         public static bool ShowError(string message, string title = "出错了")
         {
-            if (UILanguage == UILanguage.Zh_TW)
+            if (OhmUILanguage == OhmUILanguage.Zh_TW)
             {
                 title = "出錯了";
             }
-            else if (UILanguage == UILanguage.En_US)
+            else if (OhmUILanguage == OhmUILanguage.En_US)
             {
                 title = "Error";
             }
@@ -159,10 +159,10 @@ namespace OhmStudio.UI.PublicMethod
 
         private static string GetTitle()
         {
-            return UILanguage switch
+            return OhmUILanguage switch
             {
-                UILanguage.Zh_CN => "系统提示",
-                UILanguage.Zh_TW => "系統提示",
+                OhmUILanguage.Zh_CN => "系统提示",
+                OhmUILanguage.Zh_TW => "系統提示",
                 _ => "System prompt"
             };
         }
