@@ -14,7 +14,7 @@ using Brush = System.Windows.Media.Brush;
 using Color = System.Drawing.Color;
 using Expression = System.Linq.Expressions.Expression;
 
-namespace OhmStudio.UI.PublicMethod
+namespace OhmStudio.UI.PublicMethods
 {
     public static class ExtensionMethod
     {
@@ -233,8 +233,8 @@ namespace OhmStudio.UI.PublicMethod
     }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class PropertyGridPlaceHolderAttribute : Attribute
-    {
+    public class TextBoxPlaceHolderAttribute : Attribute
+    { 
         public string PlaceHolder { get; set; } = TextBoxAttach.PlaceHolder;
 
         public Brush PlaceHolderForeground { get; set; } = TextBoxAttach.PlaceHolderForeground;

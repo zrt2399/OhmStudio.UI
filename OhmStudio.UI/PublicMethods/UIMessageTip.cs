@@ -9,7 +9,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using Point = System.Drawing.Point; 
 
-namespace OhmStudio.UI.PublicMethod
+namespace OhmStudio.UI.PublicMethods
 {
     public enum UIStyle
     {
@@ -84,6 +84,7 @@ namespace OhmStudio.UI.PublicMethod
                 popup.IsOpen = true;
                 await Task.Delay(delay);
                 popup.IsOpen = false;
+                image.Source = null;
             });
         }
     }

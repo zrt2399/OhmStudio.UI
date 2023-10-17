@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace OhmStudio.UI.PublicMethod.ImageBehavior
+namespace OhmStudio.UI.PublicMethods.ImageBehavior
 {
     internal static class GifHelpers
     {

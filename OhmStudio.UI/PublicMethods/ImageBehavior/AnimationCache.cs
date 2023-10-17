@@ -6,7 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
-namespace OhmStudio.UI.PublicMethod.ImageBehavior
+namespace OhmStudio.UI.PublicMethods.ImageBehavior
 {
     static class AnimationCache
     {

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace OhmStudio.UI.PublicMethod.ImageBehavior
+namespace OhmStudio.UI.PublicMethods.ImageBehavior
 {
     internal class GifImageDescriptor
     {

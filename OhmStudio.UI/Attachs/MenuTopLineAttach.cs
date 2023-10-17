@@ -12,7 +12,7 @@ namespace OhmStudio.UI.Attachs
     {
         private static class SystemParametersInfoHelper
         {
-            [DllImport("USER32.dll", ExactSpelling = true, EntryPoint = "SystemParametersInfoW", SetLastError = true)]
+            [DllImport("user32.dll", ExactSpelling = true, EntryPoint = "SystemParametersInfoW", SetLastError = true)]
             [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
             private static extern unsafe IntPtr SystemParametersInfo(uint uiAction, uint uiParam, [Optional] RECT* pvParam, uint fWinIni);
 
