@@ -1,6 +1,6 @@
 using System;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.PublicMethod.ImageBehavior
 {
     [Serializable]
     internal class GifDecoderException : Exception

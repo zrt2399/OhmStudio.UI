@@ -13,7 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Resources;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.PublicMethod.ImageBehavior
 {
     /// <summary>
     /// 提供在标准图像控件中显示动画GIF的附加属性。

@@ -1,7 +1,7 @@
 using System.IO;
 using System.Text;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.PublicMethod.ImageBehavior
 {
     internal class GifCommentExtension : GifExtension
     {

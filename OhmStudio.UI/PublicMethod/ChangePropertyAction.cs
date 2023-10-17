@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System;
 
-namespace OhmStudio.UI.PublicMethods
+namespace OhmStudio.UI.PublicMethod
 {
     public class ChangePropertyAction : TargetedTriggerAction<object>
     {

@@ -7,7 +7,7 @@ using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using OhmStudio.UI.Views;
 
-namespace OhmStudio.UI.PublicMethods
+namespace OhmStudio.UI.PublicMethod
 {
     /// <summary>
     /// 表示当前语言。

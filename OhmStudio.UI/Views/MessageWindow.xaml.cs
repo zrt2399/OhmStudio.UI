@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shell;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.PublicMethod;
 
 namespace OhmStudio.UI.Views
 {

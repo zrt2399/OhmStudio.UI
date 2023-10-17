@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace OhmStudio.UI.PublicMethods
+namespace OhmStudio.UI.PublicMethod
 {
     public static class Transformation
     {

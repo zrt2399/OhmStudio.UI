@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.PublicMethod.ImageBehavior
 {
     internal class GifImageData
     {

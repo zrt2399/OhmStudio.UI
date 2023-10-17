@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace OhmStudio.UI.PublicMethods
+namespace OhmStudio.UI.PublicMethod
 {
     public class FullScreenHelper
     {
@@ -62,13 +62,13 @@ namespace OhmStudio.UI.PublicMethods
             Marshal.StructureToPtr(mmi, lParam, true);
         }
 
-        [DllImport("user32.dll")]
+        [DllImport("user32")]
         internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
 
         /// <summary>
         /// 
         /// </summary>
-        [DllImport("user32.dll")]
+        [DllImport("user32")]
         internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
 
         #region Nested type: MINMAXINFO

@@ -159,10 +159,11 @@
                     BorderBrush="{DynamicResource CommonControlsComboBoxSeparator}"
                     BorderThickness="1,0,0,0"
                     IsHitTestVisible="False" />-->
-                <TextBox Padding="{TemplateBinding Padding}"
+                <TextBox
                     x:Name="PART_EditableTextBox"
                     Grid.Column="0"
                     Margin="1,1,0,1"
+                    Padding="{TemplateBinding Padding}"
                     VerticalAlignment="Center"
                     IsReadOnly="{Binding Path=IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
                     BorderBrush="Transparent"
@@ -253,10 +254,10 @@
                 <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxListItemTextHover}" />
             </MultiTrigger>
             <Trigger Property="IsEditable" Value="True">
-                <Setter TargetName="SelectedContentBorder" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="ContentSite" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
                 <Setter Property="IsTabStop" Value="False" />
-                <!--<Setter Property="Padding" Value="2" />-->
+                <Setter Property="Padding" Value="2" />
             </Trigger>
             <Trigger SourceName="DropDownScrollViewer" Property="ScrollViewer.CanContentScroll" Value="False">
                 <Setter TargetName="OpaqueRect" Property="Canvas.Top" Value="{Binding ElementName=DropDownScrollViewer, Path=VerticalOffset}" />
