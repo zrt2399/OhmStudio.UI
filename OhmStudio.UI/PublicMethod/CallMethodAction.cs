@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Windows;
 using Microsoft.Xaml.Behaviors;
 
-namespace OhmStudio.UI.PublicMethod
+namespace OhmStudio.UI.PublicMethods
 {
     public class CallMethodAction : TriggerAction<DependencyObject>
     {

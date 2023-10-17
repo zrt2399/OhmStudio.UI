@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace OhmStudio.UI.PublicMethod.ImageBehavior
+namespace OhmStudio.UI.PublicMethods.ImageBehavior
 {
     // label 0x01
     internal class GifPlainTextExtension : GifExtension

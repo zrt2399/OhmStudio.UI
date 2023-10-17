@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Attachs
 {
@@ -108,6 +109,30 @@ namespace OhmStudio.UI.Attachs
         private static void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             e.Row.Header = e.Row.GetIndex() + 1;
+        }
+
+        public static readonly DependencyProperty ExpandedItemProperty =
+          DependencyProperty.RegisterAttached("ExpandedItem", typeof(bool), typeof(DataGridAttach), new PropertyMetadata(false, (sender, e) =>
+          {
+              if (sender is DataGrid dataGrid)
+              {
+                  //dataGrid.UpdateLayout(); 
+                  var expanders = dataGrid.FindVisualChildren<Expander>();
+                  foreach (var item in expanders)
+                  {
+                      item.IsExpanded = (bool)e.NewValue;
+                  }
+              }
+          }));
+
+        public static bool GetIExpandedItem(DependencyObject target)
+        {
+            return (bool)target.GetValue(ExpandedItemProperty);
+        }
+
+        public static void SetExpandedItem(DependencyObject target, bool value)
+        {
+            target.SetValue(ExpandedItemProperty, value);
         }
     }
 }

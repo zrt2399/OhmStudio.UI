@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace OhmStudio.UI.PublicMethod.ImageBehavior
+namespace OhmStudio.UI.PublicMethods.ImageBehavior
 {
     internal abstract class GifBlock
     {

@@ -6,7 +6,7 @@ namespace OhmStudio.UI.Controls
 {
     internal static class MouseHelper
     {
-        [DllImport("USER32.dll", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", ExactSpelling = true, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern unsafe IntPtr GetCursorPos(System.Drawing.Point* lpPoint);
 

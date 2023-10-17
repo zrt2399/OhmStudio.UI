@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using OhmStudio.UI.PublicMethod;
+using OhmStudio.UI.PublicMethods;
 using OhmStudio.UI.Views;
 
 namespace OhmStudio.UI.Attachs
