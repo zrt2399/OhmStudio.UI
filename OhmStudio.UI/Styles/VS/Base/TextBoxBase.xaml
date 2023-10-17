@@ -49,7 +49,7 @@
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border BorderBrush="{DynamicResource CommonControlsTextBoxErrorBorder}" BorderThickness="1">
+                    <Border BorderBrush="{DynamicResource CommonControlsTextBoxErrorBorder}" BorderThickness="{TemplateBinding BorderThickness}">
                         <AdornedElementPlaceholder x:Name="Placeholder" />
                     </Border>
                 </ControlTemplate>

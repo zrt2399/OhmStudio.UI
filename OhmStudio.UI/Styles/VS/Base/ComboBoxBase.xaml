@@ -254,10 +254,10 @@
                 <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxListItemTextHover}" />
             </MultiTrigger>
             <Trigger Property="IsEditable" Value="True">
-                <Setter TargetName="ContentSite" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="SelectedContentBorder" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
                 <Setter Property="IsTabStop" Value="False" />
-                <Setter Property="Padding" Value="2" />
+                <!--<Setter Property="Padding" Value="2" />-->
             </Trigger>
             <Trigger SourceName="DropDownScrollViewer" Property="ScrollViewer.CanContentScroll" Value="False">
                 <Setter TargetName="OpaqueRect" Property="Canvas.Top" Value="{Binding ElementName=DropDownScrollViewer, Path=VerticalOffset}" />
