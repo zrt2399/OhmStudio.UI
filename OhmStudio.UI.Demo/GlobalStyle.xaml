@@ -29,7 +29,6 @@
     <Style TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-        <!--<Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>-->
         <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>
         <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Text}"/>
@@ -40,6 +39,8 @@
     </Style>
 
     <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+        <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
+        <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>
         <Setter Property="Padding" Value="2"/>
     </Style>
 
@@ -81,11 +82,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <!--<Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxErrorBorder}" />
-            </Trigger>
-        </Style.Triggers>-->
     </Style>
 
     <Style x:Key="TransparentTextBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">

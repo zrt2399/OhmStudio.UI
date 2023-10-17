@@ -42,8 +42,7 @@ namespace OhmStudio.UI.Demo
             //{
             //    await Task.Delay(10000); 
             //    ps.CanShowPasswordVisibility = Visibility.Collapsed;
-            //};
-
+            //}; 
             Result.Columns.Add("Time");
             Result.Columns.Add("V0");
             Result.Columns.Add("V1");
@@ -110,7 +109,7 @@ namespace OhmStudio.UI.Demo
 
             Items = Pro;
             Stopwatch stopwatch = Stopwatch.StartNew();
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 1024; i++)
             {
                 Pro pro = new Pro();
                 if (i % 3 == 0)
@@ -132,6 +131,11 @@ namespace OhmStudio.UI.Demo
             {
                 AlertDialog.Show("已改变");
             };
+        }
+
+        private   void StackPanel_Loaded(object sender, RoutedEventArgs e)
+        {
+          
         }
 
         public PlotModel PlotModel { get; set; }
@@ -296,16 +300,17 @@ namespace OhmStudio.UI.Demo
 
         //static readonly ObservableCollection<string> itemss = new ObservableCollection<string>() { "ADSDADSA", "ASDSAD", "ASDASD" };
         private void Button_Click_4(object sender, RoutedEventArgs e)
-        {
-            if (SelectedItemsFileNodes != null)
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                foreach (var item in SelectedItemsFileNodes)
-                {
-                    stringBuilder.AppendLine(item.ToString());
-                }
-                AlertDialog.Show(stringBuilder.ToString());
-            }
+        { 
+            Debug.WriteLine(se.Focus().ToString());
+            //if (SelectedItemsFileNodes != null)
+            //{
+            //    StringBuilder stringBuilder = new StringBuilder();
+            //    foreach (var item in SelectedItemsFileNodes)
+            //    {
+            //        stringBuilder.AppendLine(item.ToString());
+            //    }
+            //    AlertDialog.Show(stringBuilder.ToString());
+            //}
             //FileNodes = new ObservableCollection<Pro>(); 
             //foreach (var item in FileNodes)
             //    item. IsExpanded = true;
