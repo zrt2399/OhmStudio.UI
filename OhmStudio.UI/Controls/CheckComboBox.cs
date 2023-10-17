@@ -13,6 +13,7 @@ namespace OhmStudio.UI.Controls
         public CheckComboBox()
         {
             IsReadOnly = true;
+            Text = "(未选择)";
         }
 
         ListBox PART_ListBox;
@@ -96,7 +97,7 @@ namespace OhmStudio.UI.Controls
         void SetEmpty()
         {
             SelectedItems = new List<object>();
-            SelectedText = "(未选择)";
+            Text = "(未选择)";
         }
 
         private void PART_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -133,15 +134,15 @@ namespace OhmStudio.UI.Controls
             {
                 stringBuilder.Append(list[list.Count - 1].ToString());
             }
-            SelectedText = stringBuilder.ToString();
+            Text = stringBuilder.ToString();
             //SelectedText = string.Join(",", list);
             if (list.Count == 0)
             {
-                SelectedText = "(未选择)";
+                Text = "(未选择)";
             }
             else if (list.Count == ItemsSource.Cast<object>().Count())
             {
-                SelectedText = "(已选择全部)";
+                Text = "(已选择全部)";
             }
         }
 
@@ -151,8 +152,14 @@ namespace OhmStudio.UI.Controls
             SetEmpty();
         }
 
-        public static readonly DependencyProperty SelectedTextProperty =
-            DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)"));
+        //public string SelectedText
+        //{
+        //    get => (string)GetValue(SelectedTextProperty);
+        //    set => SetValue(SelectedTextProperty, value);
+        //}
+
+        //public static readonly DependencyProperty SelectedTextProperty =
+        //    DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)"));
 
         //public static readonly DependencyProperty IsDropDownOpenProperty =
         //    DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(CheckComboBox));
@@ -165,12 +172,6 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty SelectedItemsProperty =
             DependencyProperty.Register(nameof(SelectedItems), typeof(IEnumerable), typeof(CheckComboBox));
-
-        public string SelectedText
-        {
-            get => (string)GetValue(SelectedTextProperty);
-            set => SetValue(SelectedTextProperty, value);
-        }
 
         //public bool IsDropDownOpen
         //{

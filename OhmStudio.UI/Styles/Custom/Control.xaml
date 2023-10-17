@@ -583,24 +583,29 @@
                 <ControlTemplate TargetType="control:CheckComboBox">
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
+                        <TextBlock Style="{DynamicResource TitleWithTemplatedParent}"/>
                         <Border Grid.ColumnSpan="2"
+                                Name="Border"
+                                Grid.Column="1"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}" />
                         <TextBox Padding="{TemplateBinding Padding}"
+                                 Grid.Column="1"
                                  Name="PART_EditableTextBox"
                                  Margin="1,1,0,1"
                                  BorderBrush="Transparent"
+                                 Background="Transparent"
                                  BorderThickness="0"
                                  VerticalAlignment="Center"
-                                 Text="{Binding SelectedText,RelativeSource={RelativeSource TemplatedParent}}"
-                                 IsReadOnly="{Binding Path=IsReadOnly,RelativeSource={RelativeSource TemplatedParent}}"/>
+                                 Text="{Binding Text,RelativeSource={RelativeSource TemplatedParent}}"
+                                 IsReadOnly="{Binding IsReadOnly,RelativeSource={RelativeSource TemplatedParent}}"/>
                         <ToggleButton x:Name="DropDownButton"
                                      ClickMode="Release"
-                                     Grid.Column="1"
-                                     Grid.ColumnSpan="2"
+                                     Grid.Column="2"
                                      BorderThickness="{TemplateBinding BorderThickness}"
                                      Background="{DynamicResource CommonControlsComboBoxGlyphBackground}"
                                      BorderBrush="{TemplateBinding BorderBrush}"
@@ -610,8 +615,8 @@
                         <Popup Name="PART_Popup"
                                AllowsTransparency="True"
                                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-                               PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                               IsOpen="{Binding IsDropDownOpen,RelativeSource={RelativeSource TemplatedParent}}"
+                               PlacementTarget="{Binding ElementName=Border}"
+                               IsOpen="{Binding IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
                                StaysOpen="False">
                             <theme:SystemDropShadowChrome Name="Shadow"
                                                           MinWidth="{TemplateBinding ActualWidth}"

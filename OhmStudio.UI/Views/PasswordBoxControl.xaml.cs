@@ -12,6 +12,7 @@ namespace OhmStudio.UI.Views
         public PasswordBoxControl()
         {
             InitializeComponent();
+            //Loaded +=delegate { txtPassword.Focus(); };
             GotFocus += (sender, e) =>
             {
                 if (!txtPassword.IsKeyboardFocusWithin && txtPassword.Visibility == Visibility.Visible)
@@ -19,7 +20,7 @@ namespace OhmStudio.UI.Views
                     txtPassword.Focus();
                 }
                 else if (!txtTextBox.IsKeyboardFocusWithin && txtTextBox.Visibility == Visibility.Visible)
-                {
+                { 
                     txtTextBox.Focus();
                 }
             };

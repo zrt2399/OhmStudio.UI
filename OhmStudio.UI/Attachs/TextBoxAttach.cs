@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using OhmStudio.UI.PublicMethods;
@@ -36,7 +37,31 @@ namespace OhmStudio.UI.Attachs
                     {
                         SetPlaceHolderVisibility(sender, Visibility.Collapsed);
                     }
-                    if (sender is TextBox textBox)
+                    if (sender is ComboBox comboBox)
+                    {
+                        //if (comboBox.IsEditable)
+                        //{
+                        //    var textBox = comboBox.Template.FindName("PART_EditableTextBox", comboBox) as TextBox;
+                        //    textBox.TextChanged -= TextBox_TextChanged;
+                        //    if (!string.IsNullOrWhiteSpace(newValue))
+                        //    {
+                        //        UpdateHolderVisibility(textBox, textBox.Text);
+                        //        textBox.TextChanged += TextBox_TextChanged;
+                        //    }
+                        //}
+                        //else
+                        //{
+
+                        comboBox.Loaded += ComboBox_Loaded;
+                        //comboBox.SelectionChanged -= ComboBox_SelectionChanged;
+                        //if (!string.IsNullOrWhiteSpace(newValue))
+                        //{
+                        //    UpdateHolderVisibility(comboBox, comboBox.SelectedItem?.ToString());
+                        //    comboBox.SelectionChanged += ComboBox_SelectionChanged;
+                        //}
+                        //}
+                    }
+                    else if (sender is TextBox textBox)
                     {
                         textBox.TextChanged -= TextBox_TextChanged;
                         if (!string.IsNullOrWhiteSpace(newValue))
@@ -74,6 +99,46 @@ namespace OhmStudio.UI.Attachs
                     }
                 }
             }));
+
+        private static void ComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            comboBox.Loaded -= ComboBox_Loaded;
+            comboBox.Dispatcher.InvokeAsync(() =>
+            {
+                var textBox = comboBox.Template.FindName("PART_EditableTextBox", comboBox) as TextBox;
+                if (textBox != null)
+                {
+                    textBox.TextChanged -= TextBox_TextChanged1;
+                    comboBox.SelectionChanged -= ComboBox_SelectionChanged;
+                    if (!string.IsNullOrWhiteSpace(GetPlaceHolder(comboBox)))
+                    {
+                        UpdateHolderVisibility(comboBox, comboBox.IsEditable ? textBox.Text : comboBox.SelectionBoxItem?.ToString());
+                        textBox.TextChanged += TextBox_TextChanged1;
+                        comboBox.SelectionChanged += ComboBox_SelectionChanged;
+                    }
+                }
+            });
+        }
+
+        private static void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            if (!comboBox.IsEditable)
+            {
+                UpdateHolderVisibility(comboBox, comboBox.SelectedItem?.ToString());
+            }
+        }
+
+        private static void TextBox_TextChanged1(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            ComboBox comboBox = textBox.FindParentObject<ComboBox>();
+            if (comboBox.IsEditable)
+            {
+                UpdateHolderVisibility(textBox.FindParentObject<ComboBox>(), textBox.Text);
+            }
+        }
 
         private static void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {

@@ -111,8 +111,8 @@ namespace OhmStudio.UI.Attachs
             e.Row.Header = e.Row.GetIndex() + 1;
         }
 
-        public static readonly DependencyProperty ExpandedItemProperty =
-          DependencyProperty.RegisterAttached("ExpandedItem", typeof(bool), typeof(DataGridAttach), new PropertyMetadata(false, (sender, e) =>
+        public static readonly DependencyProperty IsExpandItemProperty =
+          DependencyProperty.RegisterAttached("IsExpandItem", typeof(bool), typeof(DataGridAttach), new PropertyMetadata(false, (sender, e) =>
           {
               if (sender is DataGrid dataGrid)
               {
@@ -125,14 +125,14 @@ namespace OhmStudio.UI.Attachs
               }
           }));
 
-        public static bool GetIExpandedItem(DependencyObject target)
+        public static bool GetIsExpandItem(DependencyObject target)
         {
-            return (bool)target.GetValue(ExpandedItemProperty);
+            return (bool)target.GetValue(IsExpandItemProperty);
         }
 
-        public static void SetExpandedItem(DependencyObject target, bool value)
+        public static void SetIsExpandItem(DependencyObject target, bool value)
         {
-            target.SetValue(ExpandedItemProperty, value);
+            target.SetValue(IsExpandItemProperty, value);
         }
     }
 }

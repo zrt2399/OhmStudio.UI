@@ -20,7 +20,7 @@ namespace OhmStudio.UI.PublicMethods
     {
         public static bool IsTextBoxAttachObject(this DependencyObject obj)
         {
-            if (obj is TextBox || obj is DateTimePicker || obj is PasswordBox || obj is PasswordBoxControl)
+            if (obj is ComboBox || obj is TextBox || obj is DateTimePicker || obj is PasswordBox || obj is PasswordBoxControl)
             {
                 return true;
             }

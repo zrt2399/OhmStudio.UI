@@ -16,6 +16,18 @@ namespace OhmStudio.UI.Views
         {
             InitializeComponent();
             Loaded += DateTimePicker_Loaded;
+            //GotFocus += (sender, e) =>
+            //{
+            //    if (!textBoxDateTime.IsKeyboardFocusWithin  )
+            //    {
+            //        textBoxDateTime.Focus();
+            //    } 
+            //};
+        }
+
+        public new bool Focus()
+        {
+            return textBoxDateTime.Focus();
         }
 
         private void DateTimePicker_Loaded(object sender, RoutedEventArgs e)
