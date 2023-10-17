@@ -13,7 +13,8 @@
         <ItemsControl Name="itemsControl">
             <ItemsControl.Template>
                 <ControlTemplate TargetType="ItemsControl">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility,RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                  VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility,RelativeSource={RelativeSource AncestorType=UserControl}}">
                         <StackPanel IsItemsHost="True" ScrollViewer.CanContentScroll="True"/>
                     </ScrollViewer>
                 </ControlTemplate>

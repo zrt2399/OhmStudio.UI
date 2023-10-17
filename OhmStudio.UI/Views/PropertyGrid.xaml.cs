@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using OhmStudio.UI.Attachs;
-using OhmStudio.UI.PublicMethod;
+using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Views
 {
@@ -20,6 +20,24 @@ namespace OhmStudio.UI.Views
         public PropertyGrid()
         {
             InitializeComponent();
+        }
+
+        public static readonly DependencyProperty HorizontalScrollBarVisibilityProperty =
+            DependencyProperty.Register(nameof(HorizontalScrollBarVisibility), typeof(ScrollBarVisibility), typeof(PropertyGrid), new PropertyMetadata(ScrollBarVisibility.Disabled));
+
+        public ScrollBarVisibility HorizontalScrollBarVisibility
+        {
+            get => (ScrollBarVisibility)GetValue(HorizontalScrollBarVisibilityProperty);
+            set => SetValue(HorizontalScrollBarVisibilityProperty, value);
+        }
+
+        public static readonly DependencyProperty VerticalScrollBarVisibilityProperty =
+            DependencyProperty.Register(nameof(VerticalScrollBarVisibility), typeof(ScrollBarVisibility), typeof(PropertyGrid), new PropertyMetadata(ScrollBarVisibility.Auto));
+
+        public ScrollBarVisibility VerticalScrollBarVisibility
+        {
+            get => (ScrollBarVisibility)GetValue(VerticalScrollBarVisibilityProperty);
+            set => SetValue(VerticalScrollBarVisibilityProperty, value);
         }
 
         public static readonly DependencyProperty SelectedObjectProperty =
@@ -86,7 +104,7 @@ namespace OhmStudio.UI.Views
         {
             if (uIElement.IsTextBoxAttachObject())
             {
-                if (propertyInfo.GetCustomAttribute(typeof(PropertyGridPlaceHolderAttribute)) is not PropertyGridPlaceHolderAttribute placeHolder)
+                if (propertyInfo.GetCustomAttribute(typeof(TextBoxPlaceHolderAttribute)) is not TextBoxPlaceHolderAttribute placeHolder)
                 {
                     return;
                 }
