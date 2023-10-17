@@ -16,7 +16,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OhmStudio.UI.Controls;
-using OhmStudio.UI.PublicMethod;
+using OhmStudio.UI.PublicMethods;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
@@ -285,6 +285,7 @@ namespace OhmStudio.UI.Demo
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             GC.Collect();
+            UIMessageTip.Show("GC完成");
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -308,6 +309,16 @@ namespace OhmStudio.UI.Demo
             //FileNodes = new ObservableCollection<Pro>(); 
             //foreach (var item in FileNodes)
             //    item. IsExpanded = true;
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            IsExpanded = true;
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            IsExpanded = false;
         }
     }
 
@@ -439,7 +450,7 @@ namespace OhmStudio.UI.Demo
     {
         public ImageSource ImageSource { get; set; } = new BitmapImage(new Uri("/download.jpg", UriKind.Relative));
         public int? Abstring1 { get; set; } = null;
-        [PropertyGridPlaceHolder(PlaceHolder = "请输入密码")]
+        [TextBoxPlaceHolder(PlaceHolder = "请输入密码")]
         [Password]
         public string Abstring { get; set; }
         public Abs? Abs { get; set; } = null;

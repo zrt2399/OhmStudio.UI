@@ -11,7 +11,7 @@
     <!--<system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">100</system:Double>
     <system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">100</system:Double>-->
 
-    <!--<Style TargetType="UserControl">
+    <!--<Style TargetType="Control">
         <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>
     </Style>-->
@@ -46,7 +46,6 @@
     <Style TargetType="PasswordBox" BasedOn="{StaticResource {x:Type PasswordBox}}">
         <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
     <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">

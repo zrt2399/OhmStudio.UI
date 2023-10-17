@@ -4,7 +4,7 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:local="clr-namespace:OhmStudio.UI.Demo"
-                    xmlns:control="http://ohmstudio.ui.com"
+                    xmlns:ohmui="http://ohmstudio.ui.com"
                     d:DataContext="{d:DesignInstance Type=local:MainWindow}"
                     xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
                     xmlns:pt="http://propertytools.org/wpf"
@@ -69,7 +69,6 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <DockingManager x:Name="dockingManager" >
-
             <LayoutRoot>
                 <LayoutPanel Orientation="Horizontal">
                     <LayoutDocumentPaneGroup>
@@ -107,6 +106,7 @@
                                               VirtualizingPanel.VirtualizationMode="Recycling"
                                               DataGridAttach.IsShowRowNumber="True"
                                               DataGridAttach.IsSelectionChangedUpdateRowNumber="True"
+                                              DataGridAttach.ExpandedItem="{Binding IsExpanded}"
                                               AutoGenerateColumns="False"
                                               CanUserAddRows="False" >
                                         <!-- 定义需要显示的列 -->
@@ -174,6 +174,12 @@
                                                 </GroupStyle.HeaderTemplate>
                                             </GroupStyle>
                                         </DataGrid.GroupStyle>-->
+                                        <DataGrid.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="全部展开" Click="MenuItem_Click"/>
+                                                <MenuItem Header="全部收缩" Click="MenuItem_Click_1"/>
+                                            </ContextMenu>
+                                        </DataGrid.ContextMenu>
                                     </DataGrid>
                                 </Grid>
                             </LayoutDocument>
@@ -203,22 +209,22 @@
                                 <TabControl>
                                     <TabItem Header="XML">
                                         <avalonEdit:TextEditor SyntaxHighlighting="XML" ShowLineNumbers="True" />
- 
+
                                     </TabItem>
                                     <TabItem Header="C#">
                                         <avalonEdit:TextEditor SyntaxHighlighting="C#" ShowLineNumbers="True" />
- 
+
                                     </TabItem>
                                     <TabItem Header="C++">
                                         <avalonEdit:TextEditor SyntaxHighlighting="C++" ShowLineNumbers="True">
-                                            
+
                                         </avalonEdit:TextEditor>
                                     </TabItem>
                                 </TabControl>
                             </LayoutDocument>
                             <LayoutDocument Title="Other" IsSelected="True">
                                 <StackPanel Orientation="Horizontal">
-                                    <StackPanel Orientation="Vertical" Name="wr">
+                                    <StackPanel Orientation="Vertical" Name="wr" IsEnabled="False">
                                         <SearchBar VerticalAlignment="Top" Width="200" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
                                         <TextBox Width="200" VerticalAlignment="Top" TextBoxAttach.Title="开始" TextBoxAttach.PlaceHolder="123456..." TextBoxAttach.PlaceHolderForeground="Red" Text="{Binding IsExpanded,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                         <TextBox Width="200" VerticalAlignment="Top" Name="te" TextBoxAttach.Title="搜索" Text="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="time..."/>
@@ -244,14 +250,14 @@
                                         <PasswordBox  Width="200"  VerticalAlignment="Top" TextBoxAttach.Title="技术" TextBoxAttach.PlaceHolder="密码"/>
                                         <PasswordBoxControl  Width="200" VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
                                         <PasswordBoxControl  Width="200" VerticalAlignment="Top" TextBoxAttach.Title="搜索"/>
-             
+
                                         <ComboBox Width="200" ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
                                         <SearchBar VerticalAlignment="Top" Width="200" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
                                         <TextBox Width="200" VerticalAlignment="Top" TextBoxAttach.Title="开始" TextBoxAttach.PlaceHolder="123456..." TextBoxAttach.PlaceHolderForeground="Red" Text="{Binding IsExpanded,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                         <TextBox Width="200" VerticalAlignment="Top"   TextBoxAttach.Title="搜索" Text="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="time..."/>
                                     </StackPanel>
                                 </StackPanel>
-                               
+
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
                                 <ProgressBar Value="50" IsIndeterminate="True">
@@ -264,7 +270,7 @@
                                 </GroupBox>
                             </LayoutDocument>
                             <LayoutDocument Title="WrapTextBox">
-                                <WrapTextBox Title="数字：" Text="{Binding CurrentFontFamily,Mode=TwoWay}" HorizontalAlignment="Center"   /> 
+                                <WrapTextBox Title="数字：" Text="{Binding CurrentFontFamily,Mode=TwoWay}" HorizontalAlignment="Center"   />
                             </LayoutDocument>
                             <LayoutDocument Title="CheckComboBox">
                                 <StackPanel Orientation="Horizontal">
