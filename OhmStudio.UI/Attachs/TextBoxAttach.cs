@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using OhmStudio.UI.PublicMethods;
@@ -84,7 +83,7 @@ namespace OhmStudio.UI.Attachs
                         passwordBoxControl.txtPassword.PasswordChanged -= PasswordBoxControl_PasswordChanged;
                         if (!string.IsNullOrWhiteSpace(newValue))
                         {
-                            UpdateHolderVisibility(passwordBoxControl, passwordBoxControl.Password);
+                            UpdateHolderVisibility(passwordBoxControl, passwordBoxControl.txtPassword.Password);
                             passwordBoxControl.txtPassword.PasswordChanged += PasswordBoxControl_PasswordChanged;
                         }
                     }
@@ -106,15 +105,15 @@ namespace OhmStudio.UI.Attachs
             comboBox.Loaded -= ComboBox_Loaded;
             comboBox.Dispatcher.InvokeAsync(() =>
             {
-                var textBox = comboBox.Template.FindName("PART_EditableTextBox", comboBox) as TextBox;
+                var textBox = comboBox.Template?.FindName("PART_EditableTextBox", comboBox) as TextBox;
                 if (textBox != null)
                 {
-                    textBox.TextChanged -= TextBox_TextChanged1;
+                    textBox.TextChanged -= ComboBoxTextBox_TextChanged;
                     comboBox.SelectionChanged -= ComboBox_SelectionChanged;
                     if (!string.IsNullOrWhiteSpace(GetPlaceHolder(comboBox)))
                     {
                         UpdateHolderVisibility(comboBox, comboBox.IsEditable ? textBox.Text : comboBox.SelectionBoxItem?.ToString());
-                        textBox.TextChanged += TextBox_TextChanged1;
+                        textBox.TextChanged += ComboBoxTextBox_TextChanged;
                         comboBox.SelectionChanged += ComboBox_SelectionChanged;
                     }
                 }
@@ -130,7 +129,7 @@ namespace OhmStudio.UI.Attachs
             }
         }
 
-        private static void TextBox_TextChanged1(object sender, TextChangedEventArgs e)
+        private static void ComboBoxTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
             ComboBox comboBox = textBox.FindParentObject<ComboBox>();
@@ -218,14 +217,14 @@ namespace OhmStudio.UI.Attachs
             target.SetValue(PlaceHolderMarginProperty, value);
         }
 
-        public static readonly DependencyProperty PlaceHolderVisibilityProperty =
+        internal static readonly DependencyProperty PlaceHolderVisibilityProperty =
             DependencyProperty.RegisterAttached("PlaceHolderVisibility", typeof(Visibility), typeof(TextBoxAttach), new PropertyMetadata(Visibility.Collapsed));
-        public static Visibility GetPlaceHolderVisibility(DependencyObject target)
+        internal static Visibility GetPlaceHolderVisibility(DependencyObject target)
         {
             return (Visibility)target.GetValue(PlaceHolderVisibilityProperty);
         }
 
-        public static void SetPlaceHolderVisibility(DependencyObject target, Visibility value)
+        internal static void SetPlaceHolderVisibility(DependencyObject target, Visibility value)
         {
             target.SetValue(PlaceHolderVisibilityProperty, value);
         }
