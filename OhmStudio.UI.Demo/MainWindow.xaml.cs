@@ -132,7 +132,7 @@ namespace OhmStudio.UI.Demo
                 AlertDialog.Show("已改变");
             };
         }
-          
+
         public PlotModel PlotModel { get; set; }
 
         public Pro Pro { get; set; } = new Pro();
@@ -295,7 +295,7 @@ namespace OhmStudio.UI.Demo
 
         //static readonly ObservableCollection<string> itemss = new ObservableCollection<string>() { "ADSDADSA", "ASDSAD", "ASDASD" };
         private void Button_Click_4(object sender, RoutedEventArgs e)
-        { 
+        {
             Debug.WriteLine(se.Focus().ToString());
             //if (SelectedItemsFileNodes != null)
             //{
