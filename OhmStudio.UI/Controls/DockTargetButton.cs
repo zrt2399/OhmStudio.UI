@@ -2,8 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using AvalonDock.Controls;
 using System.Windows.Shapes;
+using AvalonDock.Controls;
+using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
@@ -184,4 +185,4 @@ namespace OhmStudio.UI.Controls
             }
         }
     }
-}
+} 

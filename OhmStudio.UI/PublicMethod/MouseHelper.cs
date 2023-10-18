@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 
-namespace OhmStudio.UI.Controls
+namespace OhmStudio.UI.PublicMethods
 {
     internal static class MouseHelper
     {
