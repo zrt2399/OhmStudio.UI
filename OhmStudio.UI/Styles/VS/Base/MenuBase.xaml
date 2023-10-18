@@ -262,7 +262,7 @@
                                     Name="SubMenuScrollViewer"
                                     Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement},
                                                                                   ResourceId=MenuScrollViewer}}">
-                                    <Grid Grid.IsSharedSizeScope="True" RenderOptions.ClearTypeHint="Enabled">
+                                    <Grid Grid.IsSharedSizeScope="True" >
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition
                                                 Width="Auto"
@@ -503,7 +503,7 @@
                                 Grid.IsSharedSizeScope="True"
                                 KeyboardNavigation.DirectionalNavigation="Cycle"
                                 KeyboardNavigation.TabNavigation="Cycle"
-                                RenderOptions.ClearTypeHint="Enabled"
+                                
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
                     </Border>

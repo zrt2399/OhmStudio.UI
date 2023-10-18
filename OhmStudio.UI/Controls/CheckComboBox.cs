@@ -18,12 +18,20 @@ namespace OhmStudio.UI.Controls
         }
 
         private void CheckComboBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (PART_EditableTextBox != null && !PART_EditableTextBox.IsKeyboardFocusWithin)
+        { 
+            var dateTimePicker = (CheckComboBox)sender;
+            if (!e.Handled && dateTimePicker.PART_EditableTextBox != null)
             {
-                PART_EditableTextBox.Focus();
-                PART_EditableTextBox.SelectAll();
-                e.Handled = true;
+                if (Equals(e.OriginalSource, dateTimePicker))
+                {
+                    dateTimePicker.PART_EditableTextBox.Focus();
+                    e.Handled = true;
+                }
+                else if (Equals(e.OriginalSource, dateTimePicker.PART_EditableTextBox))
+                {
+                    dateTimePicker.PART_EditableTextBox.SelectAll();
+                    e.Handled = true;
+                }
             }
         }
 

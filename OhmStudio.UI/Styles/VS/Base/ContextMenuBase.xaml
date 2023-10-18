@@ -36,7 +36,7 @@
                                 Margin="0"
                                 Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement},
                                                                               ResourceId=MenuScrollViewer}}">
-                                <Grid RenderOptions.ClearTypeHint="Enabled">
+                                <Grid >
                                     <Canvas
                                         Width="0"
                                         Height="0"

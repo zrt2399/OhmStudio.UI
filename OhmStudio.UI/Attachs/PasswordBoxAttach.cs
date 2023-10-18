@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace OhmStudio.UI.Attachs
 {
     /// <summary>
-    /// 为PasswordBox控件的Password增加绑定功能。
+    /// 为WPF的PasswordBox控件的Password增加绑定功能。
     /// </summary>
     public class PasswordBoxAttach
     {

@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace OhmStudio.UI.Views
 {
@@ -21,17 +22,32 @@ namespace OhmStudio.UI.Views
 
         private void DateTimePicker_GotFocus(object sender, RoutedEventArgs e)
         {
-            textBoxDateTime.Focus();
-            e.Handled = true;
+            var dateTimePicker = (DateTimePicker)sender;
+            if (!e.Handled && dateTimePicker.textBoxDateTime != null)
+            {
+                if (Equals(e.OriginalSource, dateTimePicker))
+                {
+                    dateTimePicker.textBoxDateTime.Focus();
+                    e.Handled = true;
+                }
+                else if (Equals(e.OriginalSource, dateTimePicker.textBoxDateTime))
+                {
+                    dateTimePicker.textBoxDateTime.SelectAll();
+                    e.Handled = true;
+                }
+            }
         }
 
         private void DateTimePicker_Loaded(object sender, RoutedEventArgs e)
         {
-            //Loaded -= DateTimePicker_Loaded; 
-            if (textBoxDateTime.Template?.FindName("Border", textBoxDateTime) is UIElement uIElement && popChioce.PlacementTarget != uIElement)
+            Loaded -= DateTimePicker_Loaded;
+            Dispatcher.InvokeAsync(() =>
             {
-                popChioce.PlacementTarget = uIElement;
-            }
+                if (textBoxDateTime.Template?.FindName("Border", textBoxDateTime) is UIElement uIElement)
+                {
+                    popChioce.PlacementTarget = uIElement;
+                }
+            });
         }
 
         /// <summary>

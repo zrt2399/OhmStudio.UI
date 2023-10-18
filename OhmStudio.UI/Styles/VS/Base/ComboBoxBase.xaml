@@ -105,11 +105,17 @@
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsHighlighted" Value="True">
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxListItemBackgroundHover}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxListItemBackgroundHover}" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource CommonControlsComboBoxListItemTextHover}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxListItemBackgroundHover}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxListItemBorderHover}" />
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource CommonControlsComboBoxListItemTextHover}" />
-                        </Trigger>
+                        </Trigger> 
+                        
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -184,7 +190,7 @@
                         BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
                         BorderThickness="1">
                         <ScrollViewer Name="DropDownScrollViewer">
-                            <Grid Margin="0,2" RenderOptions.ClearTypeHint="Enabled">
+                            <Grid Margin="0,2" >
                                 <Canvas Width="0"
                                         Height="0"
                                         HorizontalAlignment="Left"
