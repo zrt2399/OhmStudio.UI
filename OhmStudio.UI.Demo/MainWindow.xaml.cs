@@ -47,7 +47,7 @@ namespace OhmStudio.UI.Demo
             Result.Columns.Add("V0");
             Result.Columns.Add("V1");
             Result.Columns.Add("RX");
-            for (int i = 0; i < 2048; i++)
+            for (int i = 0; i < 100; i++)
             {
                 Result.Rows.Add(DateTime.Now, i, i + 1, "44");
             }
@@ -109,7 +109,7 @@ namespace OhmStudio.UI.Demo
 
             Items = Pro;
             Stopwatch stopwatch = Stopwatch.StartNew();
-            for (int i = 0; i < 1024; i++)
+            for (int i = 0; i < 100; i++)
             {
                 Pro pro = new Pro();
                 if (i % 3 == 0)
@@ -132,12 +132,7 @@ namespace OhmStudio.UI.Demo
                 AlertDialog.Show("已改变");
             };
         }
-
-        private   void StackPanel_Loaded(object sender, RoutedEventArgs e)
-        {
           
-        }
-
         public PlotModel PlotModel { get; set; }
 
         public Pro Pro { get; set; } = new Pro();

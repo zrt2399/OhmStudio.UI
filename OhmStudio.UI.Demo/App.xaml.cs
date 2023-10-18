@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace OhmStudio.UI.Demo
     public partial class App : Application
     {
         public static readonly string Name = Assembly.GetExecutingAssembly().GetName().Name;
+        public static bool IsInDesignMode => (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
     }
-} 
+}
