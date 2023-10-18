@@ -16,25 +16,19 @@ namespace OhmStudio.UI.Views
         {
             InitializeComponent();
             Loaded += DateTimePicker_Loaded;
-            //GotFocus += (sender, e) =>
-            //{
-            //    if (!textBoxDateTime.IsKeyboardFocusWithin  )
-            //    {
-            //        textBoxDateTime.Focus();
-            //    } 
-            //};
+            GotFocus += DateTimePicker_GotFocus;
         }
 
-        public new bool Focus()
+        private void DateTimePicker_GotFocus(object sender, RoutedEventArgs e)
         {
-            return textBoxDateTime.Focus();
+            textBoxDateTime.Focus();
+            e.Handled = true;
         }
 
         private void DateTimePicker_Loaded(object sender, RoutedEventArgs e)
         {
             //Loaded -= DateTimePicker_Loaded; 
-            var uIElement = textBoxDateTime.Template.FindName("Border", textBoxDateTime) as UIElement;
-            if (popChioce.PlacementTarget != uIElement)
+            if (textBoxDateTime.Template?.FindName("Border", textBoxDateTime) is UIElement uIElement && popChioce.PlacementTarget != uIElement)
             {
                 popChioce.PlacementTarget = uIElement;
             }

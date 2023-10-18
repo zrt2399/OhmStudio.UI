@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace OhmStudio.UI.Views
@@ -12,18 +11,21 @@ namespace OhmStudio.UI.Views
         public PasswordBoxControl()
         {
             InitializeComponent();
-            //Loaded +=delegate { txtPassword.Focus(); };
-            GotFocus += (sender, e) =>
+            GotFocus += PasswordBoxControl_GotFocus;
+        }
+
+        private void PasswordBoxControl_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (!txtPassword.IsKeyboardFocusWithin && txtPassword.Visibility == Visibility.Visible)
             {
-                if (!txtPassword.IsKeyboardFocusWithin && txtPassword.Visibility == Visibility.Visible)
-                {
-                    txtPassword.Focus();
-                }
-                else if (!txtTextBox.IsKeyboardFocusWithin && txtTextBox.Visibility == Visibility.Visible)
-                { 
-                    txtTextBox.Focus();
-                }
-            };
+                txtPassword.Focus();
+                e.Handled = true;
+            }
+            else if (!txtTextBox.IsKeyboardFocusWithin && txtTextBox.Visibility == Visibility.Visible)
+            {
+                txtTextBox.Focus();
+                e.Handled = true;
+            }
         }
 
         /// <summary>
@@ -140,89 +142,5 @@ namespace OhmStudio.UI.Views
                 //根据密码框是否有内容来显示符号"x"
                 passwordBox.ClearVisibility = string.IsNullOrEmpty(passwordBox.Password) ? Visibility.Collapsed : Visibility.Visible;
             }));
-    }
-
-    /// <summary>
-    /// 为PasswordBox控件的Password增加绑定功能。
-    /// </summary>
-    public static class PasswordBoxHelper
-    {
-        public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.RegisterAttached("Password",
-            typeof(string), typeof(PasswordBoxHelper),
-            new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
-
-        public static readonly DependencyProperty AttachProperty =
-            DependencyProperty.RegisterAttached("Attach",
-            typeof(bool), typeof(PasswordBoxHelper), new PropertyMetadata(false, Attach));
-
-        private static readonly DependencyProperty IsUpdatingProperty =
-           DependencyProperty.RegisterAttached("IsUpdating", typeof(bool),
-           typeof(PasswordBoxHelper));
-
-        public static void SetAttach(DependencyObject obj, bool value)
-        {
-            obj.SetValue(AttachProperty, value);
-        }
-
-        public static bool GetAttach(DependencyObject obj)
-        {
-            return (bool)obj.GetValue(AttachProperty);
-        }
-
-        public static string GetPassword(DependencyObject obj)
-        {
-            return (string)obj.GetValue(PasswordProperty);
-        }
-
-        public static void SetPassword(DependencyObject obj, string value)
-        {
-            obj.SetValue(PasswordProperty, value);
-        }
-
-        private static bool GetIsUpdating(DependencyObject obj)
-        {
-            return (bool)obj.GetValue(IsUpdatingProperty);
-        }
-
-        private static void SetIsUpdating(DependencyObject obj, bool value)
-        {
-            obj.SetValue(IsUpdatingProperty, value);
-        }
-
-        private static void OnPasswordPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            PasswordBox passwordBox = sender as PasswordBox;
-            passwordBox.PasswordChanged -= PasswordChanged;
-            if (!GetIsUpdating(passwordBox))
-            {
-                passwordBox.Password = (string)e.NewValue;
-            }
-            passwordBox.PasswordChanged += PasswordChanged;
-        }
-
-        private static void Attach(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (sender is not PasswordBox passwordBox)
-            {
-                return;
-            }
-            if ((bool)e.OldValue)
-            {
-                passwordBox.PasswordChanged -= PasswordChanged;
-            }
-            if ((bool)e.NewValue)
-            {
-                passwordBox.PasswordChanged += PasswordChanged;
-            }
-        }
-
-        private static void PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            PasswordBox passwordBox = sender as PasswordBox;
-            SetIsUpdating(passwordBox, true);
-            SetPassword(passwordBox, passwordBox.Password);
-            SetIsUpdating(passwordBox, false);
-        }
     }
 }
