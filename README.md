@@ -20,7 +20,7 @@ AvalonDock style, 2022 can be replaced with 2019, DarkTheme can be replaced with
 <ResourceDictionary Source="/OhmStudio.UI;component/AvalonDockThemes/VisualStudio2022/DarkTheme.xaml" />
 WPF control style, 2022 can be replaced with 2019, DarkTheme can be replaced with LightTheme and BlueTheme
 <ResourceDictionary Source="/OhmStudio.UI;component/Themes/VisualStudio2022/DarkTheme.xaml" />
-Custom control styles outside of WPF native controls, For example SearchBar, CheckComboBox, CircularProgressBar, etc
+Custom control styles outside of WPF native controls, For example SearchBar, CheckComboBox, CircularProgressBar, etc...
 <ResourceDictionary Source="/OhmStudio.UI;component/Styles/CustomStyles.xaml" />
 ```
 #### Contribution
