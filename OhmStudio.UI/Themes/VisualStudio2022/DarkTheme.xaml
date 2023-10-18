@@ -214,8 +214,8 @@
     <SolidColorBrush x:Key="GridViewItemContainerBackground" Color="#001F1F1F" />
     <SolidColorBrush x:Key="GridViewItemContainerBorder" Color="#001F1F1F" />
     <SolidColorBrush x:Key="GridViewItemContainerForeground" Color="#FFFAFAFA" />
-    <SolidColorBrush x:Key="GridViewItemContainerHoverBackground" Color="#001F1F1F" />
-    <SolidColorBrush x:Key="GridViewItemContainerHoverBorder" Color="#001F1F1F" />
+    <SolidColorBrush x:Key="GridViewItemContainerHoverBackground" Color="#FF282828" />
+    <SolidColorBrush x:Key="GridViewItemContainerHoverBorder" Color="#FF282828" />
     <SolidColorBrush x:Key="GridViewItemContainerHoverForeground" Color="#FFFAFAFA" />
     <SolidColorBrush x:Key="GridViewItemContainerSelectedBackground" Color="#FF3D3D3D" />
     <SolidColorBrush x:Key="GridViewItemContainerSelectedBorder" Color="#FF3D3D3D" />
@@ -256,8 +256,8 @@
     <SolidColorBrush x:Key="ListBoxItemDisabledBackground" Color="#FF2E2E2E" />
     <SolidColorBrush x:Key="ListBoxItemDisabledBorder" Color="#FF2E2E2E" />
     <SolidColorBrush x:Key="ListBoxItemDisabledForeground" Color="#FF5C5C5C" />
-    <SolidColorBrush x:Key="ListBoxItemMouseOverBackground" Color="#001F1F1F" />
-    <SolidColorBrush x:Key="ListBoxItemMouseOverBorder" Color="#001F1F1F" />
+    <SolidColorBrush x:Key="ListBoxItemMouseOverBackground" Color="#FF282828" />
+    <SolidColorBrush x:Key="ListBoxItemMouseOverBorder" Color="#FF282828" />
     <SolidColorBrush x:Key="ListBoxItemMouseOverForeground" Color="#FFFAFAFA" />
     <SolidColorBrush x:Key="ListBoxItemSelectedActiveBackground" Color="#FF3D3D3D" />
     <SolidColorBrush x:Key="ListBoxItemSelectedActiveBorder" Color="#FF707070" />
