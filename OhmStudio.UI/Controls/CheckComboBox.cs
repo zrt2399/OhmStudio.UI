@@ -14,6 +14,17 @@ namespace OhmStudio.UI.Controls
         {
             IsReadOnly = true;
             Text = "(未选择)";
+            GotFocus += CheckComboBox_GotFocus;
+        }
+
+        private void CheckComboBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (PART_EditableTextBox != null && !PART_EditableTextBox.IsKeyboardFocusWithin)
+            {
+                PART_EditableTextBox.Focus();
+                PART_EditableTextBox.SelectAll();
+                e.Handled = true;
+            }
         }
 
         ListBox PART_ListBox;
@@ -23,8 +34,33 @@ namespace OhmStudio.UI.Controls
         Button PART_SelectAll;
         Button PART_DeSelectAll;
 
+        public static readonly DependencyProperty SelectedItemsProperty =
+            DependencyProperty.Register(nameof(SelectedItems), typeof(IEnumerable), typeof(CheckComboBox));
+
+        public IEnumerable SelectedItems
+        {
+            get => (IEnumerable)GetValue(SelectedItemsProperty);
+            set => SetValue(SelectedItemsProperty, value);
+        }
+
         public override void OnApplyTemplate()
         {
+            if (DropDownButton != null)
+            {
+                DropDownButton.Click -= DropDownButton_Click;
+            }
+            if (PART_SelectAll != null)
+            {
+                PART_SelectAll.Click -= PART_SelectAll_Click;
+            }
+            if (PART_DeSelectAll != null)
+            {
+                PART_DeSelectAll.Click -= PART_DeSelectAll_Click;
+            }
+            if (PART_ListBox != null)
+            {
+                PART_ListBox.SelectionChanged -= PART_ListBox_SelectionChanged;
+            }
             base.OnApplyTemplate();
             PART_SelectAll = GetTemplateChild("PART_SelectAll") as Button;
             PART_DeSelectAll = GetTemplateChild("PART_DeSelectAll") as Button;
@@ -32,27 +68,29 @@ namespace OhmStudio.UI.Controls
             DropDownButton = GetTemplateChild("DropDownButton") as ToggleButton;
             PART_ListBox = GetTemplateChild("PART_ListBox") as ListBox;
             PART_EditableTextBox = GetTemplateChild("PART_EditableTextBox") as TextBox;
-            DropDownButton.Click += delegate
-            {
-                if (!PART_EditableTextBox.IsKeyboardFocusWithin)
-                {
-                    PART_EditableTextBox.Focus();
-                    PART_EditableTextBox.SelectAll();
-                }
-            };
-            //PART_Invert.Click += delegate
-            //{
-            //    SelectElement(true, true);
-            //};
-            PART_SelectAll.Click += delegate
-            {
-                SelectElement(true);
-            };
-            PART_DeSelectAll.Click += delegate
-            {
-                SelectElement(false);
-            };
+            DropDownButton.Click += DropDownButton_Click;
+            PART_SelectAll.Click += PART_SelectAll_Click;
+            PART_DeSelectAll.Click += PART_DeSelectAll_Click;
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
+        }
+
+        private void DropDownButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!PART_EditableTextBox.IsKeyboardFocusWithin)
+            {
+                PART_EditableTextBox.Focus();
+                PART_EditableTextBox.SelectAll();
+            }
+        }
+
+        private void PART_DeSelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            SelectElement(false);
+        }
+
+        private void PART_SelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            SelectElement(true);
         }
 
         void SelectElement(bool value)
@@ -150,51 +188,6 @@ namespace OhmStudio.UI.Controls
         {
             base.OnItemsSourceChanged(oldValue, newValue);
             SetEmpty();
-        }
-
-        //public string SelectedText
-        //{
-        //    get => (string)GetValue(SelectedTextProperty);
-        //    set => SetValue(SelectedTextProperty, value);
-        //}
-
-        //public static readonly DependencyProperty SelectedTextProperty =
-        //    DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)"));
-
-        //public static readonly DependencyProperty IsDropDownOpenProperty =
-        //    DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(CheckComboBox));
-
-        //public static readonly DependencyProperty IsReadOnlyProperty =
-        //    DependencyProperty.Register(nameof(IsReadOnly), typeof(bool), typeof(CheckComboBox), new PropertyMetadata(false));
-
-        //public static readonly DependencyProperty ItemsSourceProperty =
-        //    DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(CheckComboBox), new PropertyMetadata(null, new PropertyChangedCallback(OnItemsSourceChanged)));
-
-        public static readonly DependencyProperty SelectedItemsProperty =
-            DependencyProperty.Register(nameof(SelectedItems), typeof(IEnumerable), typeof(CheckComboBox));
-
-        //public bool IsDropDownOpen
-        //{
-        //    get => (bool)GetValue(IsDropDownOpenProperty);
-        //    set => SetValue(IsDropDownOpenProperty, value);
-        //}
-
-        //public bool IsReadOnly
-        //{
-        //    get => (bool)GetValue(IsReadOnlyProperty);
-        //    set => SetValue(IsReadOnlyProperty, value);
-        //}
-
-        //public IEnumerable ItemsSource
-        //{
-        //    get => (IEnumerable)GetValue(ItemsSourceProperty);
-        //    set => SetValue(ItemsSourceProperty, value);
-        //}
-
-        public IEnumerable SelectedItems
-        {
-            get => (IEnumerable)GetValue(SelectedItemsProperty);
-            set => SetValue(SelectedItemsProperty, value);
         }
     }
 }
