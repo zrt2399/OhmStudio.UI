@@ -109,7 +109,7 @@
                                               VirtualizingPanel.VirtualizationMode="Recycling"
                                               DataGridAttach.IsShowRowNumber="True"
                                               DataGridAttach.IsSelectionChangedUpdateRowNumber="True"
-                                              DataGridAttach.IsExpandItem="{Binding IsExpanded}"
+                                        
                                               AutoGenerateColumns="False"
                                               CanUserAddRows="False" >
                                         <!-- 定义需要显示的列 -->
@@ -117,7 +117,7 @@
                                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" ElementStyle="{StaticResource {x:Type TextBlock}}" EditingElementStyle="{StaticResource DataGridEditingElementStyle}"/>
                                             <DataGridTextColumn Header="Value" Binding="{Binding Value}" ElementStyle="{StaticResource {x:Type TextBlock}}" EditingElementStyle="{StaticResource DataGridEditingElementStyle}"/>
                                             <DataGridTextColumn Header="Description" Binding="{Binding Description}" ElementStyle="{StaticResource {x:Type TextBlock}}" EditingElementStyle="{StaticResource DataGridEditingElementStyle}"/>
-                                        </DataGrid.Columns>
+                                        </DataGrid.Columns> 
                                         <DataGrid.GroupStyle>
                                             <GroupStyle>
                                                 <GroupStyle.ContainerStyle>
@@ -125,7 +125,7 @@
                                                         <Setter Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate TargetType="GroupItem">
-                                                                    <Expander IsExpanded="True" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
+                                                                    <Expander IsExpanded="{Binding DataContext.IsExpanded,Mode=Default,RelativeSource={RelativeSource AncestorType=Window}}" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
                                                                         <Expander.Header>
                                                                             <DockPanel>
                                                                                 <TextBlock Text="{Binding Path=Name,StringFormat=分组：{0}}" Margin="0,0,20,0"/>
@@ -272,7 +272,7 @@
                                     <TextBox BorderThickness="0"></TextBox>
                                 </GroupBox>
                             </LayoutDocument> 
-                            <LayoutDocument Title="CheckComboBox">
+                            <LayoutDocument Title="CheckComboBox" CanClose="False">
                                 <StackPanel Orientation="Horizontal">
                                     <ComboBox DisplayMemberPath="Name"  ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" IsEditable="True"/>
                                     <CheckComboBox DisplayMemberPath="Name"
