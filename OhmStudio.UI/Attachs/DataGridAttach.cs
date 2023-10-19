@@ -42,7 +42,6 @@ namespace OhmStudio.UI.Attachs
                     dataGrid.LoadingRow += DataGrid_LoadingRow;
                     dataGrid.ItemContainerGenerator.ItemsChanged += ItemContainerGeneratorItemsChanged;
                     dataGrid.SelectionChanged += DataGrid_SelectionChanged;
-                    //dataGrid.CurrentCellChanged += DataGrid_CurrentCellChanged;
 
                 }
                 else
@@ -51,12 +50,7 @@ namespace OhmStudio.UI.Attachs
                     dataGrid.ItemContainerGenerator.ItemsChanged -= ItemContainerGeneratorItemsChanged;
                     dataGrid.SelectionChanged -= DataGrid_SelectionChanged;
                 }
-                //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(dataGrid.Items);
-
-                //// 监听分组规则的更改事件
-                //view.GroupDescriptions.CollectionChanged += GroupDescriptions_CollectionChanged;  
             }
-
 
             void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
             {
@@ -65,32 +59,6 @@ namespace OhmStudio.UI.Attachs
                     ItemContainerGeneratorItemsChanged(sender, null);
                 }
             }
-
-            //void GroupDescriptions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-            //{
-            //    ItemContainerGeneratorItemsChanged(dataGrid, null);
-            //}
-
-            //void DataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-            //{
-            //    ICollectionView view = CollectionViewSource.GetDefaultView(dataGrid.ItemsSource);
-            //    ListCollectionView listCollectionView = view as ListCollectionView;
-            //    listCollectionView?.CommitEdit();
-            //}
-
-
-            //void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-            //{
-
-            //}
-
-            //void DataGrid_CurrentCellChanged(object sender, EventArgs e)
-            //{
-            //    //ICollectionView view = CollectionViewSource.GetDefaultView(dataGrid.ItemsSource);
-            //    //ListCollectionView listCollectionView = view as ListCollectionView;
-            //    //listCollectionView?.CommitEdit();
-            //    //listCollectionView?.Refresh(); 
-            //}
 
             void ItemContainerGeneratorItemsChanged(object sender, ItemsChangedEventArgs e)
             {
@@ -116,7 +84,6 @@ namespace OhmStudio.UI.Attachs
           {
               if (sender is DataGrid dataGrid)
               {
-                  //dataGrid.UpdateLayout(); 
                   var expanders = dataGrid.FindVisualChildren<Expander>();
                   foreach (var item in expanders)
                   {
