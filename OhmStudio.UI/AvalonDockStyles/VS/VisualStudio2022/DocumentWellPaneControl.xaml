@@ -5,7 +5,8 @@
     xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock"
     xmlns:reskeys="clr-namespace:OhmStudio.UI.AvalonDockThemes">
 
-    <PathGeometry x:Key="Path_DocumentWellPaneControl_DropDownMenu" Figures="M 352.041,32.0005L 320,0.000162761L 384,0.000162761L 352.041,32.0005 Z" />
+    <!--<PathGeometry x:Key="Path_DocumentWellPaneControl_DropDownMenu" Figures="M 352.041,32.0005L 320,0.000162761L 384,0.000162761L 352.041,32.0005 Z" />-->
+    <PathGeometry x:Key="Path_DocumentWellPaneControl_DropDownMenu" Figures="M 608,0.000223796L 640,0.000223796L 640,7.70652L 608,7.70652L 608,0.000223796 Z M 624.021,32.0002L 608,16.0001L 640,16.0001L 624.021,32.0002 Z " />
 
     <Style x:Key="DocumentWellPaneControlBaseStyle" TargetType="{x:Type avalonDockControls:LayoutDocumentPaneControl}">
         <Setter Property="BorderBrush" Value="{x:Null}" />
@@ -96,14 +97,15 @@
                             <avalonDockControls:DropDownButton
                                 x:Name="MenuDropDownButton"
                                 Grid.Column="1"
-                                Margin="0,0,0,5"
+                                Margin="0,0,0,2"
                                 DropDownContextMenu="{DynamicResource DocumentWellPaneControlChildrenContextMenu}"
                                 DropDownContextMenuDataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                 Style="{StaticResource DocumentWellPaneDropDownButtonBaseStyle}">
                                 <Path
                                     Width="8"
                                     Height="8"
-                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
                                     Data="{DynamicResource Path_DocumentWellPaneControl_DropDownMenu}"
                                     Fill="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}}}"
                                     Stretch="Uniform" />

@@ -34,7 +34,7 @@
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="ShowInTaskbar" Value="True" />
-        <Setter Property="Title" Value="{Binding Mode}" />
+        <Setter Property="Title" Value="{Binding Model.SinglePane.SelectedContent.Title,RelativeSource={RelativeSource Mode=Self}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutDocumentFloatingWindowControl}">
