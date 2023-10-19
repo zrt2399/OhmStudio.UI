@@ -1,16 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:converter="clr-namespace:OhmStudio.UI.Converters"
-                    xmlns:view="clr-namespace:OhmStudio.UI.Views"
-                    xmlns:control="clr-namespace:OhmStudio.UI.Controls"
+                    xmlns:views="clr-namespace:OhmStudio.UI.Views"
+                    xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
-
-    <!--<ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VS/Base/TextBoxBase.xaml" />
-        <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VS/Base/ListBoxBase.xaml" />
-        <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VS/Base/ComboBoxBase.xaml" />
-    </ResourceDictionary.MergedDictionaries>-->
-
+ 
     <converter:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter"/>
     <converter:ColorConverter x:Key="colorConverter"/>
     <converter:AngleToPointConverter x:Key="angleToPointConverter"/>
@@ -240,10 +234,10 @@
         </Setter>
     </Style>
 
-    <Style TargetType="control:SearchBar" BasedOn="{StaticResource {x:Type TextBox}}">
+    <Style TargetType="controls:SearchBar" BasedOn="{StaticResource {x:Type TextBox}}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="control:SearchBar">
+                <ControlTemplate TargetType="controls:SearchBar">
                     <DockPanel>
                         <TextBlock Style="{DynamicResource TitleWithTemplatedParent}"/>
                         <Border Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -341,7 +335,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="control:CircularProgressBar">
+    <Style TargetType="controls:CircularProgressBar">
         <Setter Property="Maximum" Value="100"/>
         <Setter Property="BrushStrokeThickness" Value="8"/>
         <Setter Property="StrokeThickness" Value="8"/>
@@ -351,7 +345,7 @@
         <Setter Property="Height" Value="100"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="control:CircularProgressBar">
+                <ControlTemplate TargetType="controls:CircularProgressBar">
                     <Viewbox>
                         <Canvas Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                             <Path Stroke="{TemplateBinding Background}"
@@ -401,13 +395,13 @@
                             <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                     <TextBlock Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center"
-                                           Text="{Binding Title,RelativeSource={RelativeSource AncestorType=control:CircularProgressBar}}"
+                                           Text="{Binding Title,RelativeSource={RelativeSource AncestorType=controls:CircularProgressBar}}"
                                            Grid.Row="1">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                                                 <Style.Triggers>
                                                     <Trigger Property="Text" Value="">
-                                                        <Setter Property="Height" Value="0"/>
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -452,10 +446,10 @@
         </Setter>
     </Style>
 
-    <Style TargetType="control:RollBox">
+    <Style TargetType="controls:RollBox">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="control:RollBox">
+                <ControlTemplate TargetType="controls:RollBox">
                     <Grid ClipToBounds="True">
                         <ListBox x:Name="PART_ListBox"
                                  Panel.ZIndex="10"
@@ -486,7 +480,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="DataGridCell">
-                    <Border Background="{TemplateBinding Background}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>
@@ -577,10 +572,10 @@
         </CheckBox>
     </DataTemplate>
 
-    <Style TargetType="control:CheckComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+    <Style TargetType="controls:CheckComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="control:CheckComboBox">
+                <ControlTemplate TargetType="controls:CheckComboBox">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -631,35 +626,32 @@
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
                                         <StackPanel Orientation="Horizontal">
-                                            <!--<Button Name="PART_Invert">
+                                            <Button Name="PART_Invert">
                                                 <DockPanel>
-                                                    <Viewbox Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}">
-                                                        <Path Fill="{Binding ElementName=invert,Path=Foreground}" Stretch="Fill"
-                                                              Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM350 650V550H850V650H350z"/>
-                                                    </Viewbox>
+                                                    <Path Fill="{Binding ElementName=invert,Path=Foreground}" Stretch="Uniform"
+                                                          Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}"
+                                                          Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM350 650V550H850V650H350z"/>
                                                     <TextBlock Margin="4,0,0,0" Name="invert">反选</TextBlock>
                                                 </DockPanel>
-                                            </Button>-->
+                                            </Button>
                                             <Button Name="PART_SelectAll">
                                                 <DockPanel>
-                                                    <Viewbox Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}">
-                                                        <Path Fill="{Binding ElementName=selectAll,Path=Foreground}" Stretch="Fill"
-                                                              Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM550.15 400L903.65 753.55L832.9499999999999 824.25L550.15 541.4L408.7 682.85L338 612.15L550.15 400z">
-                                                            <Path.LayoutTransform>
-                                                                <ScaleTransform ScaleX="1" ScaleY="-1"/>
-                                                            </Path.LayoutTransform>
-                                                        </Path>
-                                                    </Viewbox>
+                                                    <Path Fill="{Binding ElementName=selectAll,Path=Foreground}" Stretch="Uniform"
+                                                          Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}"
+                                                          Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM550.15 400L903.65 753.55L832.9499999999999 824.25L550.15 541.4L408.7 682.85L338 612.15L550.15 400z">
+                                                        <Path.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1" ScaleY="-1"/>
+                                                        </Path.LayoutTransform>
+                                                    </Path>
                                                     <TextBlock Margin="4,0,0,0" Name="selectAll">选择全部</TextBlock>
                                                 </DockPanel>
                                             </Button>
                                             <Button Name="PART_DeSelectAll">
                                                 <DockPanel>
-                                                    <Viewbox Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}">
-                                                        <Path Fill="{Binding ElementName=deselectAll,Path=Foreground}" Stretch="Fill"
-                                                              Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM250 950V250H950V950H250z"/>
-                                                    </Viewbox>
-                                                    <TextBlock Margin="4,0,0,0" Name="deselectAll">取消全选</TextBlock>
+                                                    <Path Fill="{Binding ElementName=deselectAll,Path=Foreground}" Stretch="Uniform"
+                                                          Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}"
+                                                          Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM250 950V250H950V950H250z"/>
+                                                    <TextBlock Margin="4,0,0,0" Name="deselectAll">取消全部</TextBlock>
                                                 </DockPanel>
                                             </Button>
                                         </StackPanel>
@@ -667,7 +659,7 @@
                                                  Grid.Row="1"
                                                  BorderThickness="0"
                                                  BorderBrush="Transparent"
-                                                 VirtualizingPanel.IsVirtualizing="{Binding Path=(VirtualizingPanel.IsVirtualizing),RelativeSource={RelativeSource AncestorType=control:CheckComboBox}}"
+                                                 VirtualizingPanel.IsVirtualizing="{Binding Path=(VirtualizingPanel.IsVirtualizing),RelativeSource={RelativeSource TemplatedParent}}"
                                                  VirtualizingPanel.IsVirtualizingWhenGrouping="{Binding Path=(VirtualizingPanel.IsVirtualizingWhenGrouping),RelativeSource={RelativeSource TemplatedParent}}"
                                                  VirtualizingPanel.VirtualizationMode="{Binding Path=(VirtualizingPanel.VirtualizationMode),RelativeSource={RelativeSource TemplatedParent}}"
                                                  VirtualizingPanel.ScrollUnit="{Binding Path=(VirtualizingPanel.ScrollUnit),RelativeSource={RelativeSource TemplatedParent}}"
@@ -731,12 +723,6 @@
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Padding" Value="0"/>
-    </Style>
-
-    <!--<Style TargetType="control:WrapTextBox" >
-        <Setter Property="">
-            
-        </Setter>
-    </Style>-->
-
+    </Style> 
+    
 </ResourceDictionary>

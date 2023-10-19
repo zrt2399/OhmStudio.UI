@@ -18,18 +18,18 @@ namespace OhmStudio.UI.Controls
         }
 
         private void CheckComboBox_GotFocus(object sender, RoutedEventArgs e)
-        { 
-            var dateTimePicker = (CheckComboBox)sender;
-            if (!e.Handled && dateTimePicker.PART_EditableTextBox != null)
+        {
+            var checkComboBox = (CheckComboBox)sender;
+            if (!e.Handled && checkComboBox.PART_EditableTextBox != null)
             {
-                if (Equals(e.OriginalSource, dateTimePicker))
+                if (Equals(e.OriginalSource, checkComboBox))
                 {
-                    dateTimePicker.PART_EditableTextBox.Focus();
+                    checkComboBox.PART_EditableTextBox.Focus();
                     e.Handled = true;
                 }
-                else if (Equals(e.OriginalSource, dateTimePicker.PART_EditableTextBox))
+                else if (Equals(e.OriginalSource, checkComboBox.PART_EditableTextBox))
                 {
-                    dateTimePicker.PART_EditableTextBox.SelectAll();
+                    checkComboBox.PART_EditableTextBox.SelectAll();
                     e.Handled = true;
                 }
             }
@@ -38,7 +38,7 @@ namespace OhmStudio.UI.Controls
         ListBox PART_ListBox;
         TextBox PART_EditableTextBox;
         ToggleButton DropDownButton;
-        //Button PART_Invert;
+        Button PART_Invert;
         Button PART_SelectAll;
         Button PART_DeSelectAll;
 
@@ -57,6 +57,10 @@ namespace OhmStudio.UI.Controls
             {
                 DropDownButton.Click -= DropDownButton_Click;
             }
+            if (PART_Invert != null)
+            {
+                PART_Invert.Click -= PART_Invert_Click;
+            }
             if (PART_SelectAll != null)
             {
                 PART_SelectAll.Click -= PART_SelectAll_Click;
@@ -72,11 +76,12 @@ namespace OhmStudio.UI.Controls
             base.OnApplyTemplate();
             PART_SelectAll = GetTemplateChild("PART_SelectAll") as Button;
             PART_DeSelectAll = GetTemplateChild("PART_DeSelectAll") as Button;
-            //PART_Invert = GetTemplateChild("PART_Invert") as Button;
+            PART_Invert = GetTemplateChild("PART_Invert") as Button;
             DropDownButton = GetTemplateChild("DropDownButton") as ToggleButton;
             PART_ListBox = GetTemplateChild("PART_ListBox") as ListBox;
             PART_EditableTextBox = GetTemplateChild("PART_EditableTextBox") as TextBox;
             DropDownButton.Click += DropDownButton_Click;
+            PART_Invert.Click += PART_Invert_Click;
             PART_SelectAll.Click += PART_SelectAll_Click;
             PART_DeSelectAll.Click += PART_DeSelectAll_Click;
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
@@ -91,6 +96,11 @@ namespace OhmStudio.UI.Controls
             }
         }
 
+        private void PART_Invert_Click(object sender, RoutedEventArgs e)
+        {
+            SelectElement(false, true);
+        }
+
         private void PART_DeSelectAll_Click(object sender, RoutedEventArgs e)
         {
             SelectElement(false);
@@ -101,38 +111,44 @@ namespace OhmStudio.UI.Controls
             SelectElement(true);
         }
 
-        void SelectElement(bool value)
+        void SelectElement(bool value, bool isInvert = false)
         {
             PART_ListBox.SelectionChanged -= PART_ListBox_SelectionChanged;
-            if (value)
+
+            if (isInvert)
             {
-                PART_ListBox.SelectAll();
+                foreach (var item in PART_ListBox.Items)
+                {
+                    if (PART_ListBox.SelectedItems.Contains(item))
+                    {
+                        PART_ListBox.SelectedItems.Remove(item);
+                    }
+                    else
+                    {
+                        PART_ListBox.SelectedItems.Add(item);
+                    }
+                }
             }
             else
             {
-                PART_ListBox.UnselectAll();
+                if (value)
+                {
+                    PART_ListBox.SelectAll();
+                }
+                else
+                {
+                    PART_ListBox.UnselectAll();
+                }
             }
-
-            //var rr = PART_ListBox.FindVisualChildren<ListBoxItem>();
             //for (int i = 0; i < PART_ListBox.Items.Count; i++)
-            //{
-
-            //    var res = PART_ListBox.Items[i];
-
-            //    var res1 = res as ListBoxItem;
+            //{  
             //    var obj = PART_ListBox.ItemContainerGenerator.ContainerFromIndex(i);
-            //    var listBoxItem = obj as ListBoxItem;
-            //    if (listBoxItem != null)
+            //    if (obj is not ListBoxItem listBoxItem)
             //    {
-            //        if (isInvert)
-            //        {
-            //            listBoxItem.IsSelected = !listBoxItem.IsSelected;
-            //        }
-            //        else
-            //        {
-            //            listBoxItem.IsSelected = value;
-            //        }
+            //        PART_ListBox.ScrollIntoView(PART_ListBox.Items[i]);
+            //        listBoxItem = PART_ListBox.ItemContainerGenerator.ContainerFromIndex(i) as ListBoxItem;
             //    }
+            //    listBoxItem.IsSelected = !listBoxItem.IsSelected;  
             //}
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
             //PART_ListBox_SelectionChanged(PART_ListBox, null);
