@@ -146,8 +146,9 @@ namespace OhmStudio.UI.Demo
 
         const string DefaultFont = "默认";
         public const string GlobalFontSize = "GlobalFontSize";
+        public const string GlobalFontFamily = "GlobalFontFamily";
         public List<string> FontFamilyList { get; set; }
-        FontFamily _defaultFontFamily = new FontFamily(new Uri("pack://application:,,,/"), "/Fonts/OPPOSans-M.ttf#OPPOSans M");
+        readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily]; /*new FontFamily(new Uri("pack://application:,,,/"), "/Fonts/OPPOSans-M.ttf#OPPOSans M");*/
         public List<double> FontSizeList { get; set; } = new List<double>();
 
         private OhmTheme currentTheme = OhmXamlUIResource.Instance.Theme;
@@ -168,7 +169,7 @@ namespace OhmStudio.UI.Demo
             set
             {
                 value ??= DefaultFont;
-                Application.Current.Resources["GlobalFontFamily"] = value == DefaultFont ? _defaultFontFamily : new FontFamily(value);
+                Application.Current.Resources[GlobalFontFamily] = value == DefaultFont ? _defaultFontFamily : new FontFamily(value);
                 OnPropertyChanged(ref currentFontFamily, value, nameof(CurrentFontFamily));
             }
         }

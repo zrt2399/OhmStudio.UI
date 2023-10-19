@@ -50,12 +50,15 @@
                     </TextBlock.Style>
                 </TextBlock>
             </Border>
-            <ComboBox ItemsSource="{Binding FontSizeList}"
+            <ComboBox TextBoxAttach.Title="字体大小："
+                      ItemsSource="{Binding FontSizeList}"
                       SelectedItem="{Binding CurrentFontSize}"
                       Margin="6,0"/>
-            <ComboBox ItemsSource="{Binding FontFamilyList}"
+            <ComboBox TextBoxAttach.Title="字体："
+                      ItemsSource="{Binding FontFamilyList}"
                       SelectedItem="{Binding CurrentFontFamily}"/>
-            <ComboBox DisplayMemberPath="Name"
+            <ComboBox TextBoxAttach.Title="主题："
+                      DisplayMemberPath="Name"
                       Margin="6,0"
                       ItemsSource="{x:Static local:OhmThemeCollection.AllThemes}"
                       SelectedItem="{Binding CurrentTheme}"/>
@@ -268,10 +271,7 @@
                                 <GroupBox Header="Box" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0">
                                     <TextBox BorderThickness="0"></TextBox>
                                 </GroupBox>
-                            </LayoutDocument>
-                            <LayoutDocument Title="WrapTextBox">
-                                <WrapTextBox Title="数字：" Text="{Binding CurrentFontFamily,Mode=TwoWay}" HorizontalAlignment="Center" />
-                            </LayoutDocument>
+                            </LayoutDocument> 
                             <LayoutDocument Title="CheckComboBox">
                                 <StackPanel Orientation="Horizontal">
                                     <ComboBox DisplayMemberPath="Name"  ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" IsEditable="True"/>
