@@ -1,14 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:converter="clr-namespace:OhmStudio.UI.Converters"
+                    xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:views="clr-namespace:OhmStudio.UI.Views"
                     xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
  
-    <converter:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter"/>
-    <converter:ColorConverter x:Key="colorConverter"/>
-    <converter:AngleToPointConverter x:Key="angleToPointConverter"/>
-    <converter:AngleToIsLargeConverter x:Key="angleToIsLargeConverter"/>
+    <converters:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter"/>
+    <converters:ColorConverter x:Key="colorConverter"/>
+    <converters:AngleToPointConverter x:Key="angleToPointConverter"/>
+    <converters:AngleToIsLargeConverter x:Key="angleToIsLargeConverter"/>
 
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
