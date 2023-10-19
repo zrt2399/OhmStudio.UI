@@ -8,11 +8,11 @@
     </Style>
 
     <Style x:Key="CalendarBaseStyle" TargetType="Calendar">
+        <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Background" Value="{DynamicResource SystemColorsWindow}"/>
         <Setter Property="CalendarItemStyle">
             <Setter.Value>
                 <Style TargetType="CalendarItem">
-                    <Setter Property="UseLayoutRounding" Value="False"/>
                     <Setter Property="Template" Value="{DynamicResource CalendarItemStyle}"/>
                 </Style>
             </Setter.Value>
@@ -34,8 +34,7 @@
         <Grid x:Name="PART_Root">
             <Border BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
-                    Background="{TemplateBinding Background}"
-                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                    Background="{TemplateBinding Background}">
                 <Grid Margin="{TemplateBinding Padding}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
