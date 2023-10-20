@@ -73,6 +73,21 @@ namespace OhmStudio.UI.PublicMethods
             }
         }
 
+        public static T FindParentFrameworkElement<T>(this FrameworkElement obj) where T : FrameworkElement
+        {
+            FrameworkElement parent = (FrameworkElement)obj.Parent;
+            while (parent != null)
+            {
+                if (parent is T t)
+                {
+                    return t;
+                }
+                parent = (FrameworkElement)parent.Parent;
+            }
+            return null;
+        }
+
+
         public static T FindParentObject<T>(this DependencyObject obj) where T : DependencyObject
         {
             DependencyObject parent = VisualTreeHelper.GetParent(obj);
@@ -237,13 +252,9 @@ namespace OhmStudio.UI.PublicMethods
     {
         public string PlaceHolder { get; set; } = TextBoxAttach.PlaceHolder;
 
-        public Brush PlaceHolderForeground { get; set; } = TextBoxAttach.PlaceHolderForeground;
-
         public double PlaceHolderOpacity { get; set; } = TextBoxAttach.PlaceHolderOpacity;
 
-        public Thickness PlaceHolderMargin { get; set; } = TextBoxAttach.PlaceHolderMargin;
-
-        public HorizontalAlignment PlaceHolderHorizontalAlignment { get; set; } = TextBoxAttach.PlaceHolderHorizontalAlignment;
+        public bool PlaceHolderIsHitTestVisible { get; set; } = TextBoxAttach.PlaceHolderIsHitTestVisible;
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]

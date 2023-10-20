@@ -138,9 +138,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}" />
-
-                <ContentControl Style="{DynamicResource PlaceHolderWithTemplatedParent}" Grid.Column="1"/>
-                
+ 
                 <Border Name="SelectedContentBorder"
                         Grid.Column="1"
                         Margin="1,1,0,1"
@@ -164,7 +162,9 @@
                          Background="Transparent"
                          BorderThickness="0"
                          Visibility="Collapsed" />
-                
+
+                <ContentControl Style="{DynamicResource PlaceHolderWithTemplatedParent}" Grid.Column="1" Margin="{TemplateBinding Padding}"/>
+
                 <ToggleButton x:Name="DropDownButton"
                               Grid.Column="1"
                               Grid.ColumnSpan="2"
@@ -280,7 +280,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorder}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="1" />
+        <Setter Property="Padding" Value="2" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="True" />

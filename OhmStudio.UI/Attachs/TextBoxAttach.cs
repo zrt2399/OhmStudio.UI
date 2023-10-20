@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using OhmStudio.UI.PublicMethods;
 using OhmStudio.UI.Views;
 
@@ -9,10 +8,8 @@ namespace OhmStudio.UI.Attachs
     public class TextBoxAttach
     {
         public const string PlaceHolder = null;
-        public static readonly Brush PlaceHolderForeground = "#FF999999".ToSolidColorBrush();
-        public const double PlaceHolderOpacity = 1d;
-        public static readonly Thickness PlaceHolderMargin = new Thickness(2, 0, 2, 0);
-        public const HorizontalAlignment PlaceHolderHorizontalAlignment = HorizontalAlignment.Left;
+        public const double PlaceHolderOpacity = 0.6;
+        public const bool PlaceHolderIsHitTestVisible = false;
 
         public static readonly DependencyProperty TitleProperty =
            DependencyProperty.RegisterAttached("Title", typeof(object), typeof(TextBoxAttach));
@@ -152,13 +149,13 @@ namespace OhmStudio.UI.Attachs
         private static void PasswordBoxControl_PasswordChanged(object sender, RoutedEventArgs e)
         {
             PasswordBox passwordBox = sender as PasswordBox;
-            UpdateHolderVisibility(passwordBox.FindParentObject<PasswordBoxControl>(), passwordBox.Password);
+            UpdateHolderVisibility(passwordBox.FindParentFrameworkElement<PasswordBoxControl>(), passwordBox.Password);
         }
 
         private static void DateTimePicker_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
-            UpdateHolderVisibility(textBox.FindParentObject<DateTimePicker>(), textBox.Text);
+            UpdateHolderVisibility(textBox.FindParentFrameworkElement<DateTimePicker>(), textBox.Text);
         }
 
         private static void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -185,16 +182,17 @@ namespace OhmStudio.UI.Attachs
             target.SetValue(PlaceHolderProperty, value);
         }
 
-        public static readonly DependencyProperty PlaceHolderForegroundProperty =
-            DependencyProperty.RegisterAttached("PlaceHolderForeground", typeof(Brush), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolderForeground));
-        public static Brush GetPlaceHolderForeground(DependencyObject target)
+        public static readonly DependencyProperty PlaceHolderIsHitTestVisibleProperty =
+           DependencyProperty.RegisterAttached("PlaceHolderIsHitTestVisible", typeof(bool), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolderIsHitTestVisible));
+
+        public static bool GetPlaceHolderIsHitTestVisible(DependencyObject target)
         {
-            return (Brush)target.GetValue(PlaceHolderForegroundProperty);
+            return (bool)target.GetValue(PlaceHolderIsHitTestVisibleProperty);
         }
 
-        public static void SetPlaceHolderForeground(DependencyObject target, Brush value)
+        public static void SetPlaceHolderIsHitTestVisible(DependencyObject target, bool value)
         {
-            target.SetValue(PlaceHolderForegroundProperty, value);
+            target.SetValue(PlaceHolderIsHitTestVisibleProperty, value);
         }
 
         public static readonly DependencyProperty PlaceHolderOpacityProperty =
@@ -207,30 +205,6 @@ namespace OhmStudio.UI.Attachs
         public static void SetPlaceHolderOpacity(DependencyObject target, double value)
         {
             target.SetValue(PlaceHolderOpacityProperty, value);
-        }
-
-        public static readonly DependencyProperty PlaceHolderMarginProperty =
-            DependencyProperty.RegisterAttached("PlaceHolderMargin", typeof(Thickness), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolderMargin));
-        public static Thickness GetPlaceHolderMargin(DependencyObject target)
-        {
-            return (Thickness)target.GetValue(PlaceHolderMarginProperty);
-        }
-
-        public static void SetPlaceHolderMargin(DependencyObject target, Thickness value)
-        {
-            target.SetValue(PlaceHolderMarginProperty, value);
-        }
-
-        public static readonly DependencyProperty PlaceHolderHorizontalAlignmentProperty =
-            DependencyProperty.RegisterAttached("PlaceHolderHorizontalAlignment", typeof(HorizontalAlignment), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolderHorizontalAlignment));
-        public static HorizontalAlignment GetPlaceHolderHorizontalAlignment(DependencyObject target)
-        {
-            return (HorizontalAlignment)target.GetValue(PlaceHolderHorizontalAlignmentProperty);
-        }
-
-        public static void SetPlaceHolderHorizontalAlignment(DependencyObject target, HorizontalAlignment value)
-        {
-            target.SetValue(PlaceHolderHorizontalAlignmentProperty, value);
         }
 
         internal static readonly DependencyProperty PlaceHolderVisibilityProperty =

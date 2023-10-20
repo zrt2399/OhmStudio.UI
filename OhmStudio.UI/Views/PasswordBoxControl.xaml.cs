@@ -41,9 +41,9 @@ namespace OhmStudio.UI.Views
         public static readonly DependencyProperty CanShowPasswordProperty =
             DependencyProperty.Register("CanShowPasswordVisibility", typeof(Visibility), typeof(PasswordBoxControl), new PropertyMetadata(Visibility.Visible, (sender, e) =>
             {
-                if ((Visibility)e.NewValue != Visibility.Visible)
+                if ((Visibility)e.NewValue != Visibility.Visible && sender is PasswordBoxControl passwordBoxControl)
                 {
-                    (sender as PasswordBoxControl).IsChecked = false;
+                    passwordBoxControl.IsChecked = false;
                 }
             }));
 
@@ -86,16 +86,18 @@ namespace OhmStudio.UI.Views
         public static readonly DependencyProperty IsCheckedProperty =
             DependencyProperty.Register("IsChecked", typeof(bool), typeof(PasswordBoxControl), new PropertyMetadata((sender, e) =>
             {
-                PasswordBoxControl passwordBoxControl = sender as PasswordBoxControl;
-                if ((bool)e.NewValue)
+                if (sender is PasswordBoxControl passwordBoxControl)
                 {
-                    passwordBoxControl.TbVisibility = Visibility.Visible;
-                    passwordBoxControl.PwVisibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    passwordBoxControl.TbVisibility = Visibility.Collapsed;
-                    passwordBoxControl.PwVisibility = Visibility.Visible;
+                    if ((bool)e.NewValue)
+                    {
+                        passwordBoxControl.TbVisibility = Visibility.Visible;
+                        passwordBoxControl.PwVisibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        passwordBoxControl.TbVisibility = Visibility.Collapsed;
+                        passwordBoxControl.PwVisibility = Visibility.Visible;
+                    }
                 }
             }));
 
@@ -110,8 +112,10 @@ namespace OhmStudio.UI.Views
         public static readonly DependencyProperty IsClearedProperty =
             DependencyProperty.Register("IsCleared", typeof(bool), typeof(PasswordBoxControl), new PropertyMetadata((sender, e) =>
             {
-                var passwordBoxControl = sender as PasswordBoxControl;
-                passwordBoxControl.Password = string.Empty;
+                if (sender is PasswordBoxControl passwordBoxControl)
+                {
+                    passwordBoxControl.Password = string.Empty;
+                }
             }));
 
         /// <summary>
@@ -138,9 +142,11 @@ namespace OhmStudio.UI.Views
         public static readonly DependencyProperty PasswordProperty =
             DependencyProperty.Register("Password", typeof(string), typeof(PasswordBoxControl), new PropertyMetadata(string.Empty, (sender, e) =>
             {
-                var passwordBox = sender as PasswordBoxControl;
                 //根据密码框是否有内容来显示符号"x"
-                passwordBox.ClearVisibility = string.IsNullOrEmpty(passwordBox.Password) ? Visibility.Collapsed : Visibility.Visible;
+                if (sender is PasswordBoxControl passwordBoxControl)
+                {
+                    passwordBoxControl.ClearVisibility = string.IsNullOrEmpty(passwordBoxControl.Password) ? Visibility.Collapsed : Visibility.Visible;
+                }
             }));
     }
 }

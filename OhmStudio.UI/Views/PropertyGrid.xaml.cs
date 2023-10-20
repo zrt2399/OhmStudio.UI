@@ -109,10 +109,8 @@ namespace OhmStudio.UI.Views
                     return;
                 }
                 TextBoxAttach.SetPlaceHolder(uIElement, placeHolder.PlaceHolder);
-                TextBoxAttach.SetPlaceHolderForeground(uIElement, placeHolder.PlaceHolderForeground);
-                TextBoxAttach.SetPlaceHolderMargin(uIElement, placeHolder.PlaceHolderMargin);
                 TextBoxAttach.SetPlaceHolderOpacity(uIElement, placeHolder.PlaceHolderOpacity);
-                TextBoxAttach.SetPlaceHolderHorizontalAlignment(uIElement, placeHolder.PlaceHolderHorizontalAlignment);
+                TextBoxAttach.SetPlaceHolderIsHitTestVisible(uIElement, placeHolder.PlaceHolderIsHitTestVisible);
             }
         }
 

@@ -53,13 +53,15 @@ namespace OhmStudio.UI.Attachs
 
         private static void OnPasswordPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            PasswordBox passwordBox = sender as PasswordBox;
-            passwordBox.PasswordChanged -= PasswordBox_PasswordChanged;
-            if (!GetIsUpdating(passwordBox))
+            if (sender is PasswordBox passwordBox)
             {
-                passwordBox.Password = (string)e.NewValue;
+                passwordBox.PasswordChanged -= PasswordBox_PasswordChanged;
+                if (!GetIsUpdating(passwordBox))
+                {
+                    passwordBox.Password = (string)e.NewValue;
+                }
+                passwordBox.PasswordChanged += PasswordBox_PasswordChanged;
             }
-            passwordBox.PasswordChanged += PasswordBox_PasswordChanged;
         }
 
         private static void OnIsEnabledChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)

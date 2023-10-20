@@ -19,14 +19,15 @@
                             <Border x:Name="Border"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                    Background="{TemplateBinding Background}">
+                                    Background="{TemplateBinding Background}"
+                                    SnapsToDevicePixels="True">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <ContentControl Style="{DynamicResource PlaceHolderWithUserControl}"/>
                                     <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center"/>
+                                    <ContentControl Style="{DynamicResource PlaceHolderWithUserControl}" Margin="{TemplateBinding Padding}"/>
                                     <Grid MaxHeight="{Binding ElementName=PART_ContentHost,Path=ActualHeight}" Grid.Column="1">
                                         <local:IconButton x:Name="iconButton" 
                                                           Margin="4"

@@ -68,13 +68,15 @@ namespace OhmStudio.UI.Views
                 DateTime.TryParse(dateTimeStr, out var time);
                 DateAndTime = time;
                 popChioce.IsOpen = false;//TDateTimeView 所在pop 关闭
+                textBoxDateTime.Focus();
             };
             dateTimeView.Close += () =>
             {
                 popChioce.IsOpen = false;//TDateTimeView 所在pop 关闭
+                textBoxDateTime.Focus();
             };
             popChioce.Child = dateTimeView;
-            popChioce.IsOpen = true;
+            popChioce.IsOpen = true;  
         }
 
         /// <summary>
