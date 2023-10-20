@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing.Text;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -15,11 +16,15 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using AvalonDock.Layout.Serialization;
+using System.Xml.Linq;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.PublicMethods;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using AvalonDock.Layout;
+using System.Windows.Controls;
 
 namespace OhmStudio.UI.Demo
 {
@@ -131,6 +136,45 @@ namespace OhmStudio.UI.Demo
             {
                 AlertDialog.Show("已改变");
             };
+
+            //string directory = Path.Combine(App.DocumentDirectory, "Layout");
+            //string path = Path.Combine(directory, "Layout.xml");
+            //Loaded += delegate
+            //{
+            //    if (File.Exists(path))
+            //    {
+            //        var serializer = new XmlLayoutSerializer(dockingManager);
+            //        serializer.Deserialize(path);
+            //    }
+            //};
+            //Closing += delegate
+            //{
+            //    try
+            //    {
+            //        int i = 0;
+            //        foreach (LayoutAnchorable item in dockingManager.AnchorablesSource)
+            //        {
+            //            item.ContentId = (++i).ToString();
+            //        }
+            //        foreach (LayoutDocument item in dockingManager.DocumentsSource)
+            //        {
+            //            item.ContentId = (++i).ToString();
+            //        }
+            //        if (!Directory.Exists(directory))
+            //        {
+            //            Directory.CreateDirectory(directory);
+            //        }
+            //        var serializer = new XmlLayoutSerializer(dockingManager);
+            //        serializer.Serialize(path);
+            //        XDocument xDoc = XDocument.Load(path);
+            //        xDoc.Descendants("Hidden").Remove();//.SingleOrDefault(x => x.Attribute("id").Value.Equals("4"))
+            //        xDoc.Save(path);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        AlertDialog.ShowWarning("在保存Layout布局xml文件时遇到异常：" + ex.Message);
+            //    }
+            //};
         }
 
         public PlotModel PlotModel { get; set; }

@@ -53,19 +53,18 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="bd"
                                                          Storyboard.TargetProperty="RenderTransform.ScaleX"
-                                                     From="0" To="1" Duration="0:0:0.2"/>
+                                                         From="0" To="1" Duration="0:0:0.2"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
                         </StackPanel.Triggers>
                         <AdornedElementPlaceholder />
-                        <Border x:Name="bd">
+                        <Border x:Name="bd" IsHitTestVisible="False">
                             <Border.RenderTransform>
                                 <ScaleTransform/>
                             </Border.RenderTransform>
                             <TextBlock Foreground="{DynamicResource CommonControlsTextBoxErrorBorder}"
                                        Text="{Binding ErrorContent,Mode=OneTime}"
-                                       IsHitTestVisible="False"
                                        HorizontalAlignment="Left"/>
                         </Border>
                     </StackPanel>

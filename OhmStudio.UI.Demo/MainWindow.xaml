@@ -117,7 +117,7 @@
                                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" ElementStyle="{StaticResource {x:Type TextBlock}}" EditingElementStyle="{StaticResource DataGridEditingElementStyle}"/>
                                             <DataGridTextColumn Header="Value" Binding="{Binding Value}" ElementStyle="{StaticResource {x:Type TextBlock}}" EditingElementStyle="{StaticResource DataGridEditingElementStyle}"/>
                                             <DataGridTextColumn Header="Description" Binding="{Binding Description}" ElementStyle="{StaticResource {x:Type TextBlock}}" EditingElementStyle="{StaticResource DataGridEditingElementStyle}"/>
-                                        </DataGrid.Columns> 
+                                        </DataGrid.Columns>
                                         <DataGrid.GroupStyle>
                                             <GroupStyle>
                                                 <GroupStyle.ContainerStyle>
@@ -271,7 +271,7 @@
                                 <GroupBox Header="Box" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0">
                                     <TextBox BorderThickness="0"></TextBox>
                                 </GroupBox>
-                            </LayoutDocument> 
+                            </LayoutDocument>
                             <LayoutDocument Title="CheckComboBox" CanClose="False">
                                 <StackPanel Orientation="Horizontal">
                                     <ComboBox DisplayMemberPath="Name"  ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" IsEditable="True"/>
@@ -414,7 +414,7 @@
                                 </ListView>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="ListBox">
-                                <ListBox SelectionMode="Multiple">
+                                <ListBox SelectionMode="Multiple" BorderBrush="Transparent" BorderThickness="0">
                                     <ListBoxItem>123123123</ListBoxItem>
                                     <ListBoxItem>456456456</ListBoxItem>
                                     <ListBoxItem>789789789</ListBoxItem>
@@ -429,9 +429,9 @@
                             <LayoutAnchorable Title="PropertyGrid">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition/>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
+                                        <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <PropertyGrid SelectedObject="{Binding Items}"/>
                                     <Button Click="Button_Click_3" Grid.Row="1">Click</Button>
@@ -448,4 +448,4 @@
             <StatusBarItem>Ready</StatusBarItem>
         </StatusBar>
     </Grid>
-</CustomChromeWindow> 
+</CustomChromeWindow>
