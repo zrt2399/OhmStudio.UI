@@ -25,6 +25,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
+	  <PackageReference Include="FluentIcons.WPF" Version="1.1.220" />
 	  <PackageReference Include="HandyControl" Version="3.4.0" />
 	  <PackageReference Include="OxyPlot.Wpf" Version="2.1.2" />
 	  <PackageReference Include="PropertyTools.Wpf" Version="3.1.0" />

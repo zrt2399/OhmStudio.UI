@@ -16,22 +16,18 @@
         <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>
     </Style>
 
-    <Style TargetType="TextBlock">
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <!--<Setter Property="VerticalAlignment" Value="Center"/>-->
+        <!--<Setter Property="TextTrimming" Value="CharacterEllipsis"/>-->
         <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>
         <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Text}"/>
     </Style>
 
     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Padding" Value="4"/>
-    </Style>
-
-    <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
         <Setter Property="Padding" Value="2"/>
     </Style>
-
+ 
     <Style TargetType="PasswordBox" BasedOn="{StaticResource {x:Type PasswordBox}}">
         <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>

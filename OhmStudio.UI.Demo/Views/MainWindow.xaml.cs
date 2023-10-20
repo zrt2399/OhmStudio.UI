@@ -229,8 +229,8 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private DateTime? currentDateTime;
-        public DateTime? CurrentDateTime
+        private DateTime  currentDateTime;
+        public DateTime  CurrentDateTime
         {
             get => currentDateTime;
             set => OnPropertyChanged(ref currentDateTime, value, nameof(CurrentDateTime));
