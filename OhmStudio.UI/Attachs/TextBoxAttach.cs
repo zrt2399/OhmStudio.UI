@@ -12,10 +12,9 @@ namespace OhmStudio.UI.Attachs
         public static readonly Brush PlaceHolderForeground = "#FF999999".ToSolidColorBrush();
         public const double PlaceHolderOpacity = 1d;
         public static readonly Thickness PlaceHolderMargin = new Thickness(2, 0, 2, 0);
-        public const string Title = "";
 
         public static readonly DependencyProperty TitleProperty =
-           DependencyProperty.RegisterAttached("Title", typeof(string), typeof(TextBoxAttach), new PropertyMetadata(Title));
+           DependencyProperty.RegisterAttached("Title", typeof(string), typeof(TextBoxAttach), new PropertyMetadata(string.Empty));
 
         public static string GetTitle(DependencyObject target)
         {
@@ -25,6 +24,19 @@ namespace OhmStudio.UI.Attachs
         public static void SetTitle(DependencyObject target, string value)
         {
             target.SetValue(TitleProperty, value);
+        }
+
+        public static readonly DependencyProperty TitleIsHitTestVisibleProperty =
+            DependencyProperty.RegisterAttached("TitleIsHitTestVisible", typeof(bool), typeof(TextBoxAttach));
+
+        public static bool GetTitleIsHitTestVisible(DependencyObject target)
+        {
+            return (bool)target.GetValue(TitleIsHitTestVisibleProperty);
+        }
+
+        public static void SetTitleIsHitTestVisible(DependencyObject target, bool value)
+        {
+            target.SetValue(TitleIsHitTestVisibleProperty, value);
         }
 
         public static readonly DependencyProperty PlaceHolderProperty =
