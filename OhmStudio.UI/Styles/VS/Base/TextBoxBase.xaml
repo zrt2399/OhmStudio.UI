@@ -27,6 +27,7 @@
     <Style x:Key="TitleWithUserControl" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Text" Value="{Binding Path=(TextBoxAttach.Title),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.TitleIsHitTestVisible),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <Style.Triggers>
             <Trigger Property="Text" Value="">
                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -36,6 +37,7 @@
 
     <Style x:Key="TitleWithTemplatedParent" TargetType="TextBlock" BasedOn="{StaticResource TitleWithUserControl}">
         <Setter Property="Text" Value="{Binding Path=(TextBoxAttach.Title),RelativeSource={RelativeSource TemplatedParent}}"/>
+        <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.TitleIsHitTestVisible),RelativeSource={RelativeSource TemplatedParent}}"/>
     </Style>
 
     <Style x:Key="TextBoxBaseStyle" BasedOn="{x:Null}" TargetType="{x:Type TextBoxBase}">

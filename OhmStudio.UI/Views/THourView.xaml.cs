@@ -14,24 +14,8 @@ namespace OhmStudio.UI.Views
         public THourView()
         {
             InitializeComponent();
-        }
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="txt"></param>
-        public THourView(string txt) : this()
-        {
-            formerHourStr = txt;
             LoadHour();
         }
-         
-        /// <summary>
-        /// 从 TDateTimeView 传入的 小时数据 字符串
-        /// </summary>
-        private string formerHourStr = string.Empty; 
-
-        #region  类
 
         /// <summary>
         /// 类：小时数据
@@ -72,10 +56,6 @@ namespace OhmStudio.UI.Views
             }
         }
 
-        #endregion    
-
-        #region 方法
-
         /// <summary>
         /// dgHour控件 绑定类Hour 加载初始化数据
         /// </summary>
@@ -91,10 +71,6 @@ namespace OhmStudio.UI.Views
             //dgHour.Items.Clear();
             dgHour.ItemsSource = hour;
         }
-
-        #endregion
-
-        #region 事件
 
         /// <summary>
         /// dgHour控件 单元格点击（选择）事件
@@ -113,37 +89,16 @@ namespace OhmStudio.UI.Views
 
             // string str = cell.Column.DisplayIndex.ToString();
 
-            string time = string.Empty;
-            switch (cell.Column.DisplayIndex)// 通过所在列 获取类Hour的坐标 确定具体的hour数据
+            string time = cell.Column.DisplayIndex switch// 通过所在列 获取类Hour的坐标 确定具体的hour数据
             {
-                case 0:
-                    time = hour.H1.ToString();
-                    break;
-
-                case 1:
-                    time = hour.H2.ToString();
-                    break;
-
-                case 2:
-                    time = hour.H3.ToString();
-                    break;
-
-                case 3:
-                    time = hour.H4.ToString();
-                    break;
-
-                case 4:
-                    time = hour.H5.ToString();
-                    break;
-
-                case 5:
-                    time = hour.H6.ToString();
-                    break;
-
-                default:
-                    break;
-            }
-
+                0 => hour.H1.ToString(),
+                1 => hour.H2.ToString(),
+                2 => hour.H3.ToString(),
+                3 => hour.H4.ToString(),
+                4 => hour.H5.ToString(),
+                5 => hour.H6.ToString(),
+                _ => string.Empty
+            };
             time = time.PadLeft(2, '0');
             OnHourClickContentEdit(time);
         }
@@ -155,14 +110,14 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void iBtnCloseView_Click(object sender, RoutedEventArgs e)
         {
-            OnHourClickContentEdit(formerHourStr);
+            Close?.Invoke();
         }
 
-        #endregion       
         /// <summary>
         /// 小时数据点击（确定）后 的传递事件
         /// </summary>
         public Action<string> HourClick;
+        public Action Close;
 
         /// <summary>
         /// 小时数据点击（确定）后 传递的时间内容

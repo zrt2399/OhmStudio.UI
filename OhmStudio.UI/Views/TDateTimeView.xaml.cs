@@ -79,7 +79,7 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void iBtnCloseView_Click(object sender, RoutedEventArgs e)
         {
-            OnDateTimeContent(formerDateTimeStr);
+            Close?.Invoke();
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace OhmStudio.UI.Views
             else
             {
                 var dateTime = DateTime.Now;
-                UpdateBtnContent(dateTime); 
+                UpdateBtnContent(dateTime);
                 btnNow.Content = "零点";
             }
         }
@@ -138,21 +138,15 @@ namespace OhmStudio.UI.Views
             {
                 popChioce.IsOpen = false;
             }
-            THourView hourView = new THourView(btnhh.Content.ToString());// THourView 构造函数传递小时数据
+            THourView hourView = new THourView();// THourView 构造函数传递小时数据
             hourView.HourClick += (hourstr) => //THourView 点击所选小时后的 传递动作
             {
                 btnhh.Content = hourstr;
                 popChioce.IsOpen = false;//THourView 所在pop 的关闭动作
             };
+            hourView.Close += () => popChioce.IsOpen = false;
             popChioce.Child = hourView;
             popChioce.IsOpen = true;
-
-            //View 退出事件
-            //HG.ViewClose += (Flag) =>
-            //{
-            //    popChioce.IsOpen = false;
-
-            //};
         }
 
         /// <summary>
@@ -162,17 +156,18 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void btnmm_Click(object sender, RoutedEventArgs e)
         {
-            if (popChioce.IsOpen == true)
+            if (popChioce.IsOpen)
             {
                 popChioce.IsOpen = false;
             }
-            TMinSexView minView = new TMinSexView(btnmm.Content.ToString());//TMinSexView 构造函数传递 分钟数据
-            minView.MinClick += (minStr) => //TMinSexView 中 点击选择的分钟数据的 传递动作
+            TMinSexView minSexView = new TMinSexView();//TMinSexView 构造函数传递 分钟数据
+            minSexView.MinClick += (minStr) => //TMinSexView 中 点击选择的分钟数据的 传递动作
             {
                 btnmm.Content = minStr;
                 popChioce.IsOpen = false;//TMinSexView 所在的 pop 关闭动作
             };
-            popChioce.Child = minView;
+            minSexView.Close += () => popChioce.IsOpen = false;
+            popChioce.Child = minSexView;
             popChioce.IsOpen = true;
         }
 
@@ -197,7 +192,7 @@ namespace OhmStudio.UI.Views
         /// 时间确定后的传递事件。
         /// </summary>
         public Action<string> DateTimeOK;
-
+        public Action Close;
         /// <summary>
         /// 时间确定后传递的时间内容。
         /// </summary>
@@ -216,19 +211,20 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void btnss_Click(object sender, RoutedEventArgs e)
         {
-            if (popChioce.IsOpen == true)
+            if (popChioce.IsOpen)
             {
                 popChioce.IsOpen = false;
             }
             //秒钟 跟分钟 都是60，所有秒钟共用 分钟的窗体即可
-            TMinSexView sexView = new TMinSexView(btnss.Content.ToString());//TMinSexView 构造函数 传入秒钟数据
-            sexView.textBlockTitle.Text = "秒   钟";//修改 TMinSexView 的标题名称为秒钟
-            sexView.MinClick += (sexStr) => //TMinSexView 中 所选择确定的 秒钟数据 的传递动作
+            TMinSexView minSexView = new TMinSexView();//TMinSexView 构造函数 传入秒钟数据
+            minSexView.textBlockTitle.Text = "秒   钟";//修改 TMinSexView 的标题名称为秒钟
+            minSexView.MinClick += (sexStr) => //TMinSexView 中 所选择确定的 秒钟数据 的传递动作
             {
                 btnss.Content = sexStr;
                 popChioce.IsOpen = false;//TMinSexView 所在的 pop 关闭动作
             };
-            popChioce.Child = sexView;
+            minSexView.Close += () => popChioce.IsOpen = false;
+            popChioce.Child = minSexView;
             popChioce.IsOpen = true;
         }
     }

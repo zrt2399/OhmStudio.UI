@@ -10,9 +10,9 @@ namespace OhmStudio.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var floatingWindow = value as LayoutDocumentFloatingWindowControl; floatingWindow.Show();
+            var floatingWindow = value as LayoutDocumentFloatingWindowControl;
 
-            var mode = floatingWindow.Model as LayoutDocumentFloatingWindow; 
+            var mode = floatingWindow.Model as LayoutDocumentFloatingWindow;
 
             return mode.SinglePane.SelectedContent.Title;
 

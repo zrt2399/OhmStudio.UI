@@ -78,10 +78,10 @@
                                 </Grid.ColumnDefinitions>
                                 <ContentPresenter RecognizesAccessKey="True" VerticalAlignment="Center" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
-                                <Path Grid.Column="1" Margin="4,0,0,0" Name="PathSortDirection" VerticalAlignment="Center" Fill="{TemplateBinding Foreground}" Data="{StaticResource DownArrowGeometry}">
-                                    <!--<Path.LayoutTransform>
-                                        <RotateTransform x:Name="rtf" CenterX="0.5" CenterY="0.5"/>
-                                    </Path.LayoutTransform>-->
+                                <Path Grid.Column="1" Margin="4,0,0,0" Name="PathSortDirection"
+                                      RenderTransformOrigin="0.5,0.5"
+                                      VerticalAlignment="Center"
+                                      Fill="{TemplateBinding Foreground}" Data="{StaticResource DownArrowGeometry}">
                                 </Path>
                             </Grid>
                         </Border>
@@ -109,7 +109,6 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PathSortDirection" />
                         </Trigger>
                         <Trigger Property="SortDirection" Value="Ascending">
-                            <Setter TargetName="PathSortDirection" Property="RenderTransformOrigin" Value="0.5, 0.5"/>
                             <Setter TargetName="PathSortDirection" Property="RenderTransform">
                                 <Setter.Value>
                                     <RotateTransform Angle="180" />
@@ -123,7 +122,6 @@
                             </Trigger.ExitActions>-->
                         </Trigger>
                         <Trigger Property="SortDirection" Value="Descending">
-                            <Setter TargetName="PathSortDirection" Property="RenderTransformOrigin" Value="0.5, 0.5"/>
                             <Setter TargetName="PathSortDirection" Property="RenderTransform">
                                 <Setter.Value>
                                     <RotateTransform Angle="0"  />

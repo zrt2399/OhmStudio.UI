@@ -61,16 +61,19 @@ namespace OhmStudio.UI.Views
             {
                 popChioce.IsOpen = false;
             }
-            TDateTimeView dtView = new TDateTimeView(textBoxDateTime.Text);// TDateTimeView  构造函数传入日期时间
-            dtView.DateTimeOK += (dateTimeStr) => //TDateTimeView 日期时间确定事件
+            TDateTimeView dateTimeView = new TDateTimeView(textBoxDateTime.Text);// TDateTimeView  构造函数传入日期时间
+            dateTimeView.DateTimeOK += (dateTimeStr) => //TDateTimeView 日期时间确定事件
             {
                 textBoxDateTime.Text = dateTimeStr;
                 DateTime.TryParse(dateTimeStr, out var time);
                 DateAndTime = time;
-
                 popChioce.IsOpen = false;//TDateTimeView 所在pop 关闭
             };
-            popChioce.Child = dtView;
+            dateTimeView.Close += () =>
+            {
+                popChioce.IsOpen = false;//TDateTimeView 所在pop 关闭
+            };
+            popChioce.Child = dateTimeView;
             popChioce.IsOpen = true;
         }
 

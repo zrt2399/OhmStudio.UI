@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
-                    xmlns:views="clr-namespace:OhmStudio.UI.Views"
                     xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
  

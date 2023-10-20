@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Shell;
 using OhmStudio.UI.PublicMethods;
 
@@ -50,21 +49,7 @@ namespace OhmStudio.UI.Views
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
-        }
-
-        private void Window_Deactivated(object sender, EventArgs e)
-        {
-            var foreground = Application.Current?.Resources["CommonControlsTextBoxTextDisabled"] as Brush;
-            txtTitle.Foreground = foreground;
-            btnClose.Foreground = foreground;
-        }
-
-        private void Window_Activated(object sender, EventArgs e)
-        {
-            var foreground = Application.Current?.Resources["CommonControlsTextBoxText"] as Brush;
-            txtTitle.Foreground = foreground;
-            btnClose.Foreground = foreground;
-        }
+        } 
 
         private void Window_Closed(object sender, EventArgs e)
         {

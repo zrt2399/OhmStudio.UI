@@ -14,28 +14,8 @@ namespace OhmStudio.UI.Views
         public TMinSexView()
         {
             InitializeComponent();
-        }
-
-        /// <summary>
-        /// 构造函数。
-        /// </summary>
-        /// <param name="txt"></param>
-        public TMinSexView(string txt) : this()
-        {
-            formerMinStr = txt;
             LoadMin();
         }
-
-        #region 全局变量
-
-        /// <summary>
-        /// 从 TDateTimeView 传入的 分钟数据 字符串
-        /// </summary>
-        public string formerMinStr = string.Empty;
-
-        #endregion
-
-        #region 类
 
         /// <summary>
         /// 类：分钟数据
@@ -67,11 +47,7 @@ namespace OhmStudio.UI.Views
                 C9 = c9;
             }
         }
-
-        #endregion
-
-        #region 方法
-
+ 
         /// <summary>
         /// dgMinSex控件 绑定类Min 加载初始化数据 
         /// </summary>
@@ -87,13 +63,8 @@ namespace OhmStudio.UI.Views
 
             //dgMinSex.Items.Clear();
             dgMinSex.ItemsSource = min;
-
         }
-
-        #endregion
-
-        #region 事件
-
+ 
         /// <summary>
         /// dgMinSex控件 单元格点击（选择）事件
         /// </summary>
@@ -107,56 +78,22 @@ namespace OhmStudio.UI.Views
                 return;
             }
             Min min = cell.Item as Min;
-
             //string str = cell.Column.DisplayIndex.ToString();
 
-            string time = string.Empty;
-            switch (cell.Column.DisplayIndex)// 通过所在列 获取类Min的坐标 确定具体的min数据
+            var time = cell.Column.DisplayIndex switch// 通过所在列 获取类Min的坐标 确定具体的min数据
             {
-                case 0:
-                    time = min.C0.ToString();
-                    break;
-
-                case 1:
-                    time = min.C1.ToString();
-                    break;
-
-                case 2:
-                    time = min.C2.ToString();
-                    break;
-
-                case 3:
-                    time = min.C3.ToString();
-                    break;
-
-                case 4:
-                    time = min.C4.ToString();
-                    break;
-
-                case 5:
-                    time = min.C5.ToString();
-                    break;
-
-                case 6:
-                    time = min.C6.ToString();
-                    break;
-
-                case 7:
-                    time = min.C7.ToString();
-                    break;
-
-                case 8:
-                    time = min.C8.ToString();
-                    break;
-
-                case 9:
-                    time = min.C9.ToString();
-                    break;
-
-                default: break;
-
-            }
-
+                0 => min.C0.ToString(),
+                1 => min.C1.ToString(),
+                2 => min.C2.ToString(),
+                3 => min.C3.ToString(),
+                4 => min.C4.ToString(),
+                5 => min.C5.ToString(),
+                6 => min.C6.ToString(),
+                7 => min.C7.ToString(),
+                8 => min.C8.ToString(),
+                9 => min.C9.ToString(),
+                _ => string.Empty
+            };
             time = time.PadLeft(2, '0');
             OnMinClickContent(time);
         }
@@ -168,15 +105,15 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void iBtnCloseView_Click(object sender, RoutedEventArgs e)
         {
-            OnMinClickContent(formerMinStr);
+            Close?.Invoke();
         }
-
-        #endregion
+ 
         /// <summary>
         /// 分钟数据点击（确定）后 的传递事件。
         /// </summary>
         public Action<string> MinClick;
 
+        public Action Close;
         /// <summary>
         /// 分钟数据点击（确定）后 传递的时间内容
         /// </summary>

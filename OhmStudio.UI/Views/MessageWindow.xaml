@@ -14,27 +14,23 @@
         WindowStartupLocation="CenterOwner"
         MinHeight="140"
         MinWidth="160"
-        Deactivated="Window_Deactivated"
-        Activated="Window_Activated"
         Closed="Window_Closed">
 
     <Window.Resources>
-        
+
         <converter:DigitalCompensationConverter x:Key="DigitalCompensationConverter"/>
-        
+
         <Style x:Key="CloseButtonStyle" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid Background="Transparent">
+                        <Grid>
                             <Rectangle x:Name="ButtonBackground" Fill="{TemplateBinding Background}" Opacity="0"/>
-                            <Border Background="Transparent" Name="Back">
+                            <Border Name="Back">
                                 <Path x:Name="PathBack" Data="M0 0 10 10M0 10 10 0" Stroke="{TemplateBinding Foreground}" StrokeThickness="1"
                                       RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center" HorizontalAlignment="Center">
                                     <Path.LayoutTransform>
-                                        <RotateTransform x:Name="rtf"
-										                 CenterX="0.5"
-										                 CenterY="0.5"/>
+                                        <RotateTransform x:Name="rtf" CenterX="0.5" CenterY="0.5"/>
                                     </Path.LayoutTransform>
                                 </Path>
                             </Border>
@@ -76,6 +72,12 @@
                                 <Setter TargetName="Back" Property="Background" Value="#e14848"/>
                                 <Setter TargetName="PathBack" Property="Stroke" Value="lightgray"/>
                             </Trigger>
+                            <DataTrigger Binding="{Binding IsActive,RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsActive,RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
+                            </DataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -83,14 +85,14 @@
         </Style>
 
     </Window.Resources>
- 
+
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="{Binding ElementName=gridTitle,Path=ActualHeight,Converter={StaticResource DigitalCompensationConverter},ConverterParameter=-5}"
                       GlassFrameThickness="1"
                       ResizeBorderThickness="6"
                       UseAeroCaptionButtons="False"/>
     </WindowChrome.WindowChrome>
- 
+
     <Grid FocusManager.FocusedElement="{Binding ElementName=btnOK}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -103,7 +105,20 @@
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"
                        Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=Title}"
-                       d:Text="系统提示"/>
+                       d:Text="系统提示">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsActive,RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsActive,RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
             <Button x:Name="btnClose"
                     Width="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}"
                     ToolTip="关闭"

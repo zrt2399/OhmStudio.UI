@@ -57,7 +57,10 @@ namespace OhmStudio.UI.PublicMethods
                     if (owner == null)
                     {
                         messageWindow.Owner = Application.Current?.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
-                        messageWindow.Owner ??= Application.Current?.MainWindow;
+                        if (messageWindow.Owner == null && messageWindow != Application.Current?.MainWindow)
+                        {
+                            messageWindow.Owner = Application.Current?.MainWindow;
+                        }
                     }
                     else
                     {
