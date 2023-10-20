@@ -29,8 +29,6 @@
     </Style>
 
     <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
-        <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
-        <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>
         <Setter Property="Padding" Value="2"/>
     </Style>
 

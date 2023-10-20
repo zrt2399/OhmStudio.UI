@@ -26,7 +26,7 @@ using OxyPlot.Series;
 using AvalonDock.Layout;
 using System.Windows.Controls;
 
-namespace OhmStudio.UI.Demo
+namespace OhmStudio.UI.Demo.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -364,6 +364,13 @@ namespace OhmStudio.UI.Demo
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
             IsExpanded = false;
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Owner = this;
+            loginWindow.ShowDialog();
         }
     }
 
