@@ -3,7 +3,7 @@
                     xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
- 
+
     <converters:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter"/>
     <converters:ColorConverter x:Key="colorConverter"/>
     <converters:AngleToPointConverter x:Key="angleToPointConverter"/>
@@ -238,14 +238,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SearchBar">
                     <DockPanel>
-                        <TextBlock Style="{DynamicResource TitleWithTemplatedParent}"/>
+                        <ContentControl Style="{DynamicResource TitleWithTemplatedParent}"/>
                         <Border Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
+                                <ContentControl Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
                                 <ScrollViewer Name="PART_ContentHost" VerticalAlignment="Center" />
                                 <Button Padding="4,0" Grid.Column="2" BorderThickness="0" BorderBrush="Transparent" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}">
                                     <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" ToolTip="{x:Null}">&#xe60f;</TextBlock>
@@ -581,7 +581,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Style="{DynamicResource TitleWithTemplatedParent}"/>
+                        <ContentControl Style="{DynamicResource TitleWithTemplatedParent}"/>
                         <Border Grid.ColumnSpan="2"
                                 Name="Border"
                                 Grid.Column="1"
@@ -722,6 +722,6 @@
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Padding" Value="0"/>
-    </Style> 
-    
+    </Style>
+
 </ResourceDictionary>

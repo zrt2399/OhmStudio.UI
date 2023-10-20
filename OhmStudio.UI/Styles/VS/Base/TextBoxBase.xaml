@@ -1,42 +1,43 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style x:Key="PlaceHolderWithUserControl" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="Text" Value="{Binding Path=(TextBoxAttach.PlaceHolder),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+    <Style x:Key="PlaceHolderWithUserControl" TargetType="ContentControl" BasedOn="{StaticResource {x:Type ContentControl}}">
+        <!--<Setter Property="VerticalAlignment" Value="Center"/>-->
+        <!--<Setter Property="HorizontalAlignment" Value="{Binding Path=(TextBoxAttach.PlaceHolderHorizontalAlignment),RelativeSource={RelativeSource AncestorType=UserControl}}"/>-->
+        <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.PlaceHolder),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <Setter Property="Margin" Value="{Binding Path=(TextBoxAttach.PlaceHolderMargin),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <Setter Property="Foreground" Value="{Binding Path=(TextBoxAttach.PlaceHolderForeground),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <Setter Property="Visibility" Value="{Binding Path=(TextBoxAttach.PlaceHolderVisibility),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <Setter Property="Opacity" Value="{Binding Path=(TextBoxAttach.PlaceHolderOpacity),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <Style.Triggers>
-            <Trigger Property="Text" Value="">
+            <Trigger Property="Content" Value="{x:Null}">
                 <Setter Property="Visibility" Value="Collapsed"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="PlaceHolderWithTemplatedParent" TargetType="TextBlock" BasedOn="{StaticResource PlaceHolderWithUserControl}">
-        <Setter Property="Text" Value="{Binding Path=(TextBoxAttach.PlaceHolder),RelativeSource={RelativeSource TemplatedParent}}"/>
+    <Style x:Key="PlaceHolderWithTemplatedParent" TargetType="ContentControl" BasedOn="{StaticResource PlaceHolderWithUserControl}">
+        <!--<Setter Property="HorizontalAlignment" Value="{Binding Path=(TextBoxAttach.PlaceHolderHorizontalAlignment),RelativeSource={RelativeSource TemplatedParent}}"/>-->
+        <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.PlaceHolder),RelativeSource={RelativeSource TemplatedParent}}"/>
         <Setter Property="Margin" Value="{Binding Path=(TextBoxAttach.PlaceHolderMargin),RelativeSource={RelativeSource TemplatedParent}}"/>
         <Setter Property="Foreground" Value="{Binding Path=(TextBoxAttach.PlaceHolderForeground),RelativeSource={RelativeSource TemplatedParent}}"/>
         <Setter Property="Visibility" Value="{Binding Path=(TextBoxAttach.PlaceHolderVisibility),RelativeSource={RelativeSource TemplatedParent}}"/>
         <Setter Property="Opacity" Value="{Binding Path=(TextBoxAttach.PlaceHolderOpacity),RelativeSource={RelativeSource TemplatedParent}}"/>
     </Style>
-
-    <Style x:Key="TitleWithUserControl" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Text" Value="{Binding Path=(TextBoxAttach.Title),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+ 
+    <Style x:Key="TitleWithUserControl" TargetType="ContentControl" BasedOn="{StaticResource {x:Type ContentControl}}">
+       
+        <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.Title),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.TitleIsHitTestVisible),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <Style.Triggers>
-            <Trigger Property="Text" Value="">
+            <Trigger Property="Content" Value="{x:Null}">
                 <Setter Property="Visibility" Value="Collapsed"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="TitleWithTemplatedParent" TargetType="TextBlock" BasedOn="{StaticResource TitleWithUserControl}">
-        <Setter Property="Text" Value="{Binding Path=(TextBoxAttach.Title),RelativeSource={RelativeSource TemplatedParent}}"/>
+    <Style x:Key="TitleWithTemplatedParent" TargetType="ContentControl" BasedOn="{StaticResource TitleWithUserControl}">
+        <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.Title),RelativeSource={RelativeSource TemplatedParent}}"/>
         <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.TitleIsHitTestVisible),RelativeSource={RelativeSource TemplatedParent}}"/>
     </Style>
 
@@ -57,7 +58,7 @@
         <Setter Property="CaretBrush" Value="{Binding RelativeSource={RelativeSource Self}, Path=Foreground}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource CommonControlsTextBoxSelection}" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="2" />
+        <Setter Property="Padding" Value="0" />
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
@@ -81,13 +82,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
                     <DockPanel>
-                        <TextBlock Style="{DynamicResource TitleWithTemplatedParent}"/>
+                        <ContentControl Style="{DynamicResource TitleWithTemplatedParent}"/>
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 SnapsToDevicePixels="True">
                             <Grid>
-                                <TextBlock Style="{DynamicResource PlaceHolderWithTemplatedParent}"/>
+                                <ContentControl Style="{DynamicResource PlaceHolderWithTemplatedParent}"/>
                                 <ScrollViewer Name="PART_ContentHost"
                                               Focusable="False"
                                               HorizontalScrollBarVisibility="Hidden"

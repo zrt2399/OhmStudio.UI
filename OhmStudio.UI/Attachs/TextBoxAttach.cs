@@ -8,20 +8,21 @@ namespace OhmStudio.UI.Attachs
 {
     public class TextBoxAttach
     {
-        public const string PlaceHolder = "";
+        public const string PlaceHolder = null;
         public static readonly Brush PlaceHolderForeground = "#FF999999".ToSolidColorBrush();
         public const double PlaceHolderOpacity = 1d;
         public static readonly Thickness PlaceHolderMargin = new Thickness(2, 0, 2, 0);
+        public const HorizontalAlignment PlaceHolderHorizontalAlignment = HorizontalAlignment.Left;
 
         public static readonly DependencyProperty TitleProperty =
-           DependencyProperty.RegisterAttached("Title", typeof(string), typeof(TextBoxAttach), new PropertyMetadata(string.Empty));
+           DependencyProperty.RegisterAttached("Title", typeof(object), typeof(TextBoxAttach));
 
-        public static string GetTitle(DependencyObject target)
+        public static object GetTitle(DependencyObject target)
         {
-            return (string)target.GetValue(TitleProperty);
+            return target.GetValue(TitleProperty);
         }
 
-        public static void SetTitle(DependencyObject target, string value)
+        public static void SetTitle(DependencyObject target, object value)
         {
             target.SetValue(TitleProperty, value);
         }
@@ -40,76 +41,67 @@ namespace OhmStudio.UI.Attachs
         }
 
         public static readonly DependencyProperty PlaceHolderProperty =
-            DependencyProperty.RegisterAttached("PlaceHolder", typeof(string), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolder, (sender, e) =>
+            DependencyProperty.RegisterAttached("PlaceHolder", typeof(object), typeof(TextBoxAttach), new PropertyMetadata(null, (sender, e) =>
             {
-                if (e.NewValue is string newValue)
+                var newValue = e.NewValue;
+                if (sender.IsTextBoxAttachObject() && CheckIsEmpty(newValue))
                 {
-                    if (sender.IsTextBoxAttachObject() && string.IsNullOrWhiteSpace(newValue))
+                    SetPlaceHolderVisibility(sender, Visibility.Collapsed);
+                }
+                if (sender is ComboBox comboBox)
+                {
+                    comboBox.Loaded += ComboBox_Loaded;
+                }
+                else if (sender is TextBox textBox)
+                {
+                    textBox.TextChanged -= TextBox_TextChanged;
+                    if (!CheckIsEmpty(newValue))
                     {
-                        SetPlaceHolderVisibility(sender, Visibility.Collapsed);
+                        UpdateHolderVisibility(textBox, textBox.Text);
+                        textBox.TextChanged += TextBox_TextChanged;
                     }
-                    if (sender is ComboBox comboBox)
+                }
+                else if (sender is PasswordBox passwordBox)
+                {
+                    passwordBox.PasswordChanged -= PasswordBox_PasswordChanged;
+                    if (!CheckIsEmpty(newValue))
                     {
-                        //if (comboBox.IsEditable)
-                        //{
-                        //    var textBox = comboBox.Template.FindName("PART_EditableTextBox", comboBox) as TextBox;
-                        //    textBox.TextChanged -= TextBox_TextChanged;
-                        //    if (!string.IsNullOrWhiteSpace(newValue))
-                        //    {
-                        //        UpdateHolderVisibility(textBox, textBox.Text);
-                        //        textBox.TextChanged += TextBox_TextChanged;
-                        //    }
-                        //}
-                        //else
-                        //{
-
-                        comboBox.Loaded += ComboBox_Loaded;
-                        //comboBox.SelectionChanged -= ComboBox_SelectionChanged;
-                        //if (!string.IsNullOrWhiteSpace(newValue))
-                        //{
-                        //    UpdateHolderVisibility(comboBox, comboBox.SelectedItem?.ToString());
-                        //    comboBox.SelectionChanged += ComboBox_SelectionChanged;
-                        //}
-                        //}
+                        UpdateHolderVisibility(passwordBox, passwordBox.Password);
+                        passwordBox.PasswordChanged += PasswordBox_PasswordChanged;
                     }
-                    else if (sender is TextBox textBox)
+                }
+                else if (sender is PasswordBoxControl passwordBoxControl)
+                {
+                    passwordBoxControl.txtPassword.PasswordChanged -= PasswordBoxControl_PasswordChanged;
+                    if (!CheckIsEmpty(newValue))
                     {
-                        textBox.TextChanged -= TextBox_TextChanged;
-                        if (!string.IsNullOrWhiteSpace(newValue))
-                        {
-                            UpdateHolderVisibility(textBox, textBox.Text);
-                            textBox.TextChanged += TextBox_TextChanged;
-                        }
+                        UpdateHolderVisibility(passwordBoxControl, passwordBoxControl.txtPassword.Password);
+                        passwordBoxControl.txtPassword.PasswordChanged += PasswordBoxControl_PasswordChanged;
                     }
-                    else if (sender is PasswordBox passwordBox)
+                }
+                else if (sender is DateTimePicker dateTimePicker)
+                {
+                    dateTimePicker.textBoxDateTime.TextChanged -= DateTimePicker_TextChanged;
+                    if (!CheckIsEmpty(newValue))
                     {
-                        passwordBox.PasswordChanged -= PasswordBox_PasswordChanged;
-                        if (!string.IsNullOrWhiteSpace(newValue))
-                        {
-                            UpdateHolderVisibility(passwordBox, passwordBox.Password);
-                            passwordBox.PasswordChanged += PasswordBox_PasswordChanged;
-                        }
-                    }
-                    else if (sender is PasswordBoxControl passwordBoxControl)
-                    {
-                        passwordBoxControl.txtPassword.PasswordChanged -= PasswordBoxControl_PasswordChanged;
-                        if (!string.IsNullOrWhiteSpace(newValue))
-                        {
-                            UpdateHolderVisibility(passwordBoxControl, passwordBoxControl.txtPassword.Password);
-                            passwordBoxControl.txtPassword.PasswordChanged += PasswordBoxControl_PasswordChanged;
-                        }
-                    }
-                    else if (sender is DateTimePicker dateTimePicker)
-                    {
-                        dateTimePicker.textBoxDateTime.TextChanged -= DateTimePicker_TextChanged;
-                        if (!string.IsNullOrWhiteSpace(newValue))
-                        {
-                            UpdateHolderVisibility(dateTimePicker, dateTimePicker.textBoxDateTime.Text);
-                            dateTimePicker.textBoxDateTime.TextChanged += DateTimePicker_TextChanged;
-                        }
+                        UpdateHolderVisibility(dateTimePicker, dateTimePicker.textBoxDateTime.Text);
+                        dateTimePicker.textBoxDateTime.TextChanged += DateTimePicker_TextChanged;
                     }
                 }
             }));
+
+        private static bool CheckIsEmpty(object obj)
+        {
+            if (obj == null)
+            {
+                return true;
+            }
+            else if (obj is string value)
+            {
+                return string.IsNullOrWhiteSpace(value);
+            }
+            return false;
+        }
 
         private static void ComboBox_Loaded(object sender, RoutedEventArgs e)
         {
@@ -122,7 +114,7 @@ namespace OhmStudio.UI.Attachs
                 {
                     textBox.TextChanged -= ComboBoxTextBox_TextChanged;
                     comboBox.SelectionChanged -= ComboBox_SelectionChanged;
-                    if (!string.IsNullOrWhiteSpace(GetPlaceHolder(comboBox)))
+                    if (!CheckIsEmpty(GetPlaceHolder(comboBox)))
                     {
                         UpdateHolderVisibility(comboBox, comboBox.IsEditable ? textBox.Text : comboBox.SelectionBoxItem?.ToString());
                         textBox.TextChanged += ComboBoxTextBox_TextChanged;
@@ -183,12 +175,12 @@ namespace OhmStudio.UI.Attachs
             }
         }
 
-        public static string GetPlaceHolder(DependencyObject target)
+        public static object GetPlaceHolder(DependencyObject target)
         {
-            return (string)target.GetValue(PlaceHolderProperty);
+            return target.GetValue(PlaceHolderProperty);
         }
 
-        public static void SetPlaceHolder(DependencyObject target, string value)
+        public static void SetPlaceHolder(DependencyObject target, object value)
         {
             target.SetValue(PlaceHolderProperty, value);
         }
@@ -227,6 +219,18 @@ namespace OhmStudio.UI.Attachs
         public static void SetPlaceHolderMargin(DependencyObject target, Thickness value)
         {
             target.SetValue(PlaceHolderMarginProperty, value);
+        }
+
+        public static readonly DependencyProperty PlaceHolderHorizontalAlignmentProperty =
+            DependencyProperty.RegisterAttached("PlaceHolderHorizontalAlignment", typeof(HorizontalAlignment), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolderHorizontalAlignment));
+        public static HorizontalAlignment GetPlaceHolderHorizontalAlignment(DependencyObject target)
+        {
+            return (HorizontalAlignment)target.GetValue(PlaceHolderHorizontalAlignmentProperty);
+        }
+
+        public static void SetPlaceHolderHorizontalAlignment(DependencyObject target, HorizontalAlignment value)
+        {
+            target.SetValue(PlaceHolderHorizontalAlignmentProperty, value);
         }
 
         internal static readonly DependencyProperty PlaceHolderVisibilityProperty =

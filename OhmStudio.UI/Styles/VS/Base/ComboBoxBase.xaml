@@ -130,7 +130,7 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxButton" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{DynamicResource TitleWithTemplatedParent}"/> 
+                <ContentControl Style="{DynamicResource TitleWithTemplatedParent}"/> 
 
                 <Border Name="Border"
                         Grid.Column="1"
@@ -138,8 +138,8 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}" />
-                
-                <TextBlock Style="{DynamicResource PlaceHolderWithTemplatedParent}" Grid.Column="1"/>
+
+                <ContentControl Style="{DynamicResource PlaceHolderWithTemplatedParent}" Grid.Column="1"/>
                 
                 <Border Name="SelectedContentBorder"
                         Grid.Column="1"

@@ -112,6 +112,7 @@ namespace OhmStudio.UI.Views
                 TextBoxAttach.SetPlaceHolderForeground(uIElement, placeHolder.PlaceHolderForeground);
                 TextBoxAttach.SetPlaceHolderMargin(uIElement, placeHolder.PlaceHolderMargin);
                 TextBoxAttach.SetPlaceHolderOpacity(uIElement, placeHolder.PlaceHolderOpacity);
+                TextBoxAttach.SetPlaceHolderHorizontalAlignment(uIElement, placeHolder.PlaceHolderHorizontalAlignment);
             }
         }
 

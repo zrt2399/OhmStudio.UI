@@ -15,7 +15,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
                         <DockPanel>
-                            <TextBlock Style="{DynamicResource TitleWithUserControl}" />
+                            <ContentControl Style="{DynamicResource TitleWithUserControl}" />
                             <Border x:Name="Border"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
@@ -25,7 +25,7 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Style="{DynamicResource PlaceHolderWithUserControl}"/>
+                                    <ContentControl Style="{DynamicResource PlaceHolderWithUserControl}"/>
                                     <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center"/>
                                     <Grid MaxHeight="{Binding ElementName=PART_ContentHost,Path=ActualHeight}" Grid.Column="1">
                                         <local:IconButton x:Name="iconButton" 
