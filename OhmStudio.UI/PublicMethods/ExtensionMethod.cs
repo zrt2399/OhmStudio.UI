@@ -242,6 +242,8 @@ namespace OhmStudio.UI.PublicMethods
         public double PlaceHolderOpacity { get; set; } = TextBoxAttach.PlaceHolderOpacity;
 
         public Thickness PlaceHolderMargin { get; set; } = TextBoxAttach.PlaceHolderMargin;
+
+        public HorizontalAlignment PlaceHolderHorizontalAlignment { get; set; } = TextBoxAttach.PlaceHolderHorizontalAlignment;
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
