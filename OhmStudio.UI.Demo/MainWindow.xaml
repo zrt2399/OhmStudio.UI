@@ -109,7 +109,7 @@
                                               VirtualizingPanel.VirtualizationMode="Recycling"
                                               DataGridAttach.IsShowRowNumber="True"
                                               DataGridAttach.IsSelectionChangedUpdateRowNumber="True"
-                                        
+                                              DataGridAttach.IsExpandItem="{Binding IsExpanded}"
                                               AutoGenerateColumns="False"
                                               CanUserAddRows="False" >
                                         <!-- 定义需要显示的列 -->
@@ -125,12 +125,12 @@
                                                         <Setter Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate TargetType="GroupItem">
-                                                                    <Expander IsExpanded="{Binding DataContext.IsExpanded,Mode=Default,RelativeSource={RelativeSource AncestorType=Window}}" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
+                                                                    <Expander IsExpanded="True" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
                                                                         <Expander.Header>
-                                                                            <DockPanel>
+                                                                            <StackPanel Orientation="Horizontal">
                                                                                 <TextBlock Text="{Binding Path=Name,StringFormat=分组：{0}}" Margin="0,0,20,0"/>
                                                                                 <TextBlock Text="{Binding Path=ItemCount,StringFormat=数量：{0}}"/>
-                                                                            </DockPanel>
+                                                                            </StackPanel>
                                                                         </Expander.Header>
                                                                         <ItemsPresenter />
                                                                     </Expander>

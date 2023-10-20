@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Windows;
 using ControlzEx.Behaviors;
 
 namespace OhmStudio.UI.Attachs
@@ -15,7 +16,7 @@ namespace OhmStudio.UI.Attachs
                 AssociatedObject.Loaded += AssociatedObject_Loaded;
             }
 
-            private void AssociatedObject_Loaded(object sender, System.Windows.RoutedEventArgs e)
+            private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
             {
                 AssociatedObject.Loaded -= AssociatedObject_Loaded;
 

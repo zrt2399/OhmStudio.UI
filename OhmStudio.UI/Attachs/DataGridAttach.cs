@@ -84,10 +84,10 @@ namespace OhmStudio.UI.Attachs
           {
               if (sender is DataGrid dataGrid)
               {
-                  var expanders = dataGrid.FindVisualChildren<Expander>();
+                  var expanders = dataGrid.FindVisualChildren<GroupItem>();
                   foreach (var item in expanders)
                   {
-                      item.IsExpanded = (bool)e.NewValue;
+
                   }
               }
           }));
