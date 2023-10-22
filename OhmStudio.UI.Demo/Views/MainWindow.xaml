@@ -6,6 +6,7 @@
                     xmlns:local="clr-namespace:OhmStudio.UI.Demo"
                     xmlns:views="clr-namespace:OhmStudio.UI.Demo.Views"
                     xmlns:ohmui="http://ohmstudio.ui.com"
+                    xmlns:converters="clr-namespace:OhmStudio.UI.Demo.Converters"
                     d:DataContext="{d:DesignInstance Type=views:MainWindow}"
                     xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
                     xmlns:pt="http://propertytools.org/wpf"
@@ -24,6 +25,10 @@
                     Title="{x:Static local:App.Name}"
                     Height="720"
                     Width="1280">
+
+    <Window.Resources>
+        <converters:GroupItemConverter x:Key="GroupItemConverter"/>
+    </Window.Resources>
 
     <CustomChromeWindow.RightWindowCommands>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
@@ -112,7 +117,6 @@
                                               VirtualizingPanel.VirtualizationMode="Recycling"
                                               DataGridAttach.IsShowRowNumber="True"
                                               DataGridAttach.IsSelectionChangedUpdateRowNumber="True"
-                                              DataGridAttach.IsExpandItem="{Binding IsExpanded}"
                                               AutoGenerateColumns="False"
                                               CanUserAddRows="False" >
                                         <!-- 定义需要显示的列 -->
@@ -128,7 +132,7 @@
                                                         <Setter Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate TargetType="GroupItem">
-                                                                    <Expander IsExpanded="True" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
+                                                                    <Expander IsExpanded="{Binding Path=Items[0].IsExpanded}" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
                                                                         <Expander.Header>
                                                                             <StackPanel Orientation="Horizontal">
                                                                                 <TextBlock Text="{Binding Path=Name,StringFormat=分组：{0}}" Margin="0,0,20,0"/>
@@ -243,7 +247,7 @@
                                             </TextBoxAttach.Title>
                                         </DateTimePicker>
                                         <SearchBar VerticalAlignment="Top" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
-                                        <TextBox VerticalAlignment="Top" TextBoxAttach.Title="开始" TextBoxAttach.PlaceHolder="123456..." Text="{Binding IsExpanded,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBox VerticalAlignment="Top" TextBoxAttach.Title="开始" TextBoxAttach.PlaceHolder="123456..."/>
                                         <TextBox IsEnabled="True" VerticalAlignment="Top" Text="{Binding CurrentDateTime,Mode=TwoWay}" >
                                             <TextBoxAttach.Title>
                                                 <TextBlock >ButtonTitle</TextBlock>
@@ -253,7 +257,7 @@
                                             </TextBoxAttach.PlaceHolder>
                                         </TextBox>
                                         <PasswordBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="密码">
-                                           
+
                                         </PasswordBox>
                                         <PasswordBoxControl VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码...">
                                             <TextBoxAttach.Title>
@@ -287,7 +291,7 @@
 
                                         <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
                                         <SearchBar VerticalAlignment="Top" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
-                                        <TextBox VerticalAlignment="Top" TextBoxAttach.Title="开始" TextBoxAttach.PlaceHolder="123456..." Text="{Binding IsExpanded}"/>
+                                        <TextBox VerticalAlignment="Top" TextBoxAttach.Title="开始"/>
                                         <TextBox VerticalAlignment="Top" TextBoxAttach.Title="搜索" Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..."/>
                                     </StackPanel>
                                 </StackPanel>
@@ -297,6 +301,21 @@
                                 <ProgressBar Value="50" IsIndeterminate="True">
 
                                 </ProgressBar>
+                            </LayoutDocument>
+                            <LayoutDocument Title="UserInfos">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <DataGrid ItemsSource="{Binding UserInfos}"
+                                       SelectorAttach.SelectedItemsAttach="True"
+                                       SelectorAttach.SelectedItems="{Binding UserInfoSelectedItems,Mode=TwoWay}">
+
+                                    </DataGrid>
+                                    <Button Grid.Row="1" Click="Button_Click_6">选中项</Button>
+                                </Grid>
+                             
                             </LayoutDocument>
                             <LayoutDocument Title="GroupBox">
                                 <GroupBox Header="Box" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0">

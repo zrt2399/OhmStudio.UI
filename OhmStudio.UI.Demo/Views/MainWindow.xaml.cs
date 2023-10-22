@@ -6,25 +6,22 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing.Text;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using AvalonDock.Layout.Serialization;
-using System.Xml.Linq;
+using CommunityToolkit.Mvvm.ComponentModel;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.PublicMethods;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
-using AvalonDock.Layout;
-using System.Windows.Controls;
 
 namespace OhmStudio.UI.Demo.Views
 {
@@ -119,11 +116,11 @@ namespace OhmStudio.UI.Demo.Views
                 Pro pro = new Pro();
                 if (i % 3 == 0)
                 {
-                    pro.Name = 10m;
+                    pro.Name = 10;
                 }
                 else
                 {
-                    pro.Name = 10m + i;
+                    pro.Name = 10 + i;
                 }
                 pro.Value = 100 + i;
                 pro.Description = i % 2 == 0;
@@ -136,7 +133,8 @@ namespace OhmStudio.UI.Demo.Views
             {
                 AlertDialog.Show("已改变");
             };
-
+            UserInfos.Add(new UserInfoModel());
+            UserInfos.Add(new UserInfoModel() { Name = "wang" });
             //string directory = Path.Combine(App.DocumentDirectory, "Layout");
             //string path = Path.Combine(directory, "Layout.xml");
             //Loaded += delegate
@@ -188,6 +186,24 @@ namespace OhmStudio.UI.Demo.Views
             set => _result = value;
         }
 
+        private ObservableCollection<UserInfoModel> _uerInfos = new ObservableCollection<UserInfoModel>();
+        public ObservableCollection<UserInfoModel> UserInfos
+        {
+            get => _uerInfos;
+            set { _uerInfos = value; OnPropertyChanged(nameof(UserInfos)); }
+        }
+
+        private IList _userInfoSelectedItems;
+        public IList UserInfoSelectedItems
+        {
+            get => _userInfoSelectedItems;
+            set
+            {
+                _userInfoSelectedItems = value;
+                OnPropertyChanged(nameof(UserInfoSelectedItems));
+            }
+        }
+
         const string DefaultFont = "默认";
         public const string GlobalFontSize = "GlobalFontSize";
         public const string GlobalFontFamily = "GlobalFontFamily";
@@ -229,8 +245,8 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private DateTime  currentDateTime;
-        public DateTime  CurrentDateTime
+        private DateTime currentDateTime;
+        public DateTime CurrentDateTime
         {
             get => currentDateTime;
             set => OnPropertyChanged(ref currentDateTime, value, nameof(CurrentDateTime));
@@ -257,12 +273,6 @@ namespace OhmStudio.UI.Demo.Views
             set { selectedItemsFileNodes = value; OnPropertyChanged(() => SelectedItemsFileNodes); }
         }
 
-        private bool isExpanded;
-        public bool IsExpanded
-        {
-            get => isExpanded;
-            set { isExpanded = value; OnPropertyChanged(() => IsExpanded); }
-        }
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
@@ -358,12 +368,18 @@ namespace OhmStudio.UI.Demo.Views
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            IsExpanded = true;
+            foreach (var item in FileNodes)
+            {
+                item.IsExpanded = true;
+            }
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            IsExpanded = false;
+            foreach (var item in FileNodes)
+            {
+                item.IsExpanded = false;
+            }
         }
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
@@ -371,6 +387,17 @@ namespace OhmStudio.UI.Demo.Views
             LoginWindow loginWindow = new LoginWindow();
             loginWindow.Owner = this;
             loginWindow.ShowDialog();
+        }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            if (UserInfoSelectedItems != null)
+            {
+                foreach (var item in UserInfoSelectedItems.OfType<UserInfoModel>())
+                {
+                    AlertDialog.Show(item.Name);
+                }
+            }
         }
     }
 
@@ -500,17 +527,29 @@ namespace OhmStudio.UI.Demo.Views
     [BaseObjectIgnore]
     public class Pro : ProBase
     {
+        public double Name { get; set; }
+
+        private bool isExpanded = true;
+        public bool IsExpanded
+        {
+            get => isExpanded;
+            set
+            {
+                isExpanded = value;
+                OnPropertyChanged(nameof(IsExpanded));
+            }
+        }
+
         public ImageSource ImageSource { get; set; } = new BitmapImage(new Uri("/download.jpg", UriKind.Relative));
         public int? Abstring1 { get; set; } = null;
         [TextBoxPlaceHolder(PlaceHolder = "请输入密码")]
         [Password]
         public string Abstring { get; set; }
         public Abs? Abs { get; set; } = null;
-        //[PropertyGridIgnore]
-        public bool? IsExpanded { get; } = true;
+
         public BindingFlags BindingFlags { get; set; } = BindingFlags.IgnoreCase;
         [PropertyGrid(DisplayName = "名字")]
-        public decimal? Name { get; set; }
+
         public bool Description { get; set; }
         [PropertyGrid(DisplayName = "值")]
         public double? Value { get; set; }
@@ -519,7 +558,7 @@ namespace OhmStudio.UI.Demo.Views
         public Pro1 Pro1 { get; set; } = new Pro1();
     }
 
-    public class ProBase
+    public class ProBase : ObservableObject
     {
         public string Base { get; set; } = "ProBase";
     }
@@ -543,6 +582,19 @@ namespace OhmStudio.UI.Demo.Views
         public DateTime DateTime { get; set; }
 
         public List<string> DateTimes { get; set; } = new List<string>() { "123", "456", "789", "abc", "↑↓←→" };
+    }
+
+    public class UserInfoModel
+    {
+        public string Name { get; set; } = "1";
+
+        public string Password { get; set; } = "1";
+
+        public string Notes { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        public DateTime LoginAt { get; set; }
     }
 
     public class OhmXamlUIResource : ResourceDictionary
