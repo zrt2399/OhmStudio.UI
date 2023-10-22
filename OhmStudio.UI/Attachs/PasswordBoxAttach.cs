@@ -13,22 +13,22 @@ namespace OhmStudio.UI.Attachs
             typeof(string), typeof(PasswordBoxAttach),
             new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
 
-        public static readonly DependencyProperty IsEnabledProperty =
-            DependencyProperty.RegisterAttached("IsEnabled",
+        public static readonly DependencyProperty PasswordAttachProperty =
+            DependencyProperty.RegisterAttached("PasswordAttach",
             typeof(bool), typeof(PasswordBoxAttach), new PropertyMetadata(false, OnIsEnabledChanged));
 
         private static readonly DependencyProperty IsUpdatingProperty =
            DependencyProperty.RegisterAttached("IsUpdating", typeof(bool),
            typeof(PasswordBoxAttach));
 
-        public static void SetIsEnabled(DependencyObject obj, bool value)
+        public static void SetPasswordAttach(DependencyObject obj, bool value)
         {
-            obj.SetValue(IsEnabledProperty, value);
+            obj.SetValue(PasswordAttachProperty, value);
         }
 
-        public static bool GetIsEnabled(DependencyObject obj)
+        public static bool GetPasswordAttach(DependencyObject obj)
         {
-            return (bool)obj.GetValue(IsEnabledProperty);
+            return (bool)obj.GetValue(PasswordAttachProperty);
         }
 
         public static string GetPassword(DependencyObject obj)
@@ -81,10 +81,12 @@ namespace OhmStudio.UI.Attachs
 
         private static void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            PasswordBox passwordBox = sender as PasswordBox;
-            SetIsUpdating(passwordBox, true);
-            SetPassword(passwordBox, passwordBox.Password);
-            SetIsUpdating(passwordBox, false);
+            if (sender is PasswordBox passwordBox)
+            {
+                SetIsUpdating(passwordBox, true);
+                SetPassword(passwordBox, passwordBox.Password);
+                SetIsUpdating(passwordBox, false);
+            }
         }
     }
 }
