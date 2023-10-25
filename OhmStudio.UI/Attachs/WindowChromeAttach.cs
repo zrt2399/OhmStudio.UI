@@ -50,51 +50,51 @@ namespace OhmStudio.UI.Attachs
                     FrameworkPropertyMetadataOptions.AffectsRender, OnResizeBorderThicknessChangedCallback));
         }
 
-        private static void OnCornerPreferenceChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnCornerPreferenceChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            if (d is Window && e.NewValue is WindowCornerPreference cornerPreference)
+            if (obj is Window && e.NewValue is WindowCornerPreference cornerPreference)
             {
-                d.GetOrAddBehavior(BehaviorFactory.CreateWindowChromeBehavior).CornerPreference = cornerPreference;
+                obj.GetOrAddBehavior(BehaviorFactory.CreateWindowChromeBehavior).CornerPreference = cornerPreference;
             }
         }
 
-        private static void OnEnableMaxRestoreChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnEnableMaxRestoreChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            if (d is Window && e.NewValue is bool b)
+            if (obj is Window && e.NewValue is bool b)
             {
-                d.GetOrAddBehavior(BehaviorFactory.CreateWindowChromeBehavior).EnableMaxRestore = b;
+                obj.GetOrAddBehavior(BehaviorFactory.CreateWindowChromeBehavior).EnableMaxRestore = b;
             }
         }
 
-        private static void OnEnableMinimizeChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnEnableMinimizeChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            if (d is Window && e.NewValue is bool b)
+            if (obj is Window && e.NewValue is bool b)
             {
-                d.GetOrAddBehavior(BehaviorFactory.CreateWindowChromeBehavior).EnableMinimize = b;
+                obj.GetOrAddBehavior(BehaviorFactory.CreateWindowChromeBehavior).EnableMinimize = b;
             }
         }
 
-        private static void OnIgnoreTaskbarOnMaximizeChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnIgnoreTaskbarOnMaximizeChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            if (d is Window && e.NewValue is bool b)
+            if (obj is Window && e.NewValue is bool b)
             {
-                d.GetOrAddBehavior(BehaviorFactory.CreateWindowChromeBehavior).IgnoreTaskbarOnMaximize = b;
+                obj.GetOrAddBehavior(BehaviorFactory.CreateWindowChromeBehavior).IgnoreTaskbarOnMaximize = b;
             }
         }
 
-        private static void OnKeepBorderOnMaximizeChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnKeepBorderOnMaximizeChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            if (d is Window && e.NewValue is bool b)
+            if (obj is Window && e.NewValue is bool b)
             {
-                d.GetOrAddBehavior(BehaviorFactory.CreateWindowChromeBehavior).KeepBorderOnMaximize = b;
+                obj.GetOrAddBehavior(BehaviorFactory.CreateWindowChromeBehavior).KeepBorderOnMaximize = b;
             }
         }
 
-        private static void OnResizeBorderThicknessChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnResizeBorderThicknessChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            if (d is Window && e.NewValue is Thickness thickness)
+            if (obj is Window && e.NewValue is Thickness thickness)
             {
-                d.GetOrAddBehavior(BehaviorFactory.CreateWindowChromeBehavior).ResizeBorderThickness = thickness;
+                obj.GetOrAddBehavior(BehaviorFactory.CreateWindowChromeBehavior).ResizeBorderThickness = thickness;
             }
         }
 
