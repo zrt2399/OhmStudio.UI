@@ -414,7 +414,7 @@ namespace OhmStudio.UI.Demo.Views
 
             await Task.Run(async () =>
             {
-                var result = await CSharpScript.RunAsync("int result = 1 + 2;  return result;");
+                var result = await CSharpScript.RunAsync(code);
                 AlertDialog.Show(result.ReturnValue.ToString());
             });
              
