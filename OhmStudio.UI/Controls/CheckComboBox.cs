@@ -51,6 +51,24 @@ namespace OhmStudio.UI.Controls
             set => SetValue(SelectedItemsProperty, value);
         }
 
+        public static readonly DependencyProperty DelimiterProperty =
+            DependencyProperty.Register(nameof(Delimiter), typeof(string), typeof(CheckComboBox), new PropertyMetadata(","));
+
+        public string Delimiter
+        {
+            get => (string)GetValue(DelimiterProperty);
+            set => SetValue(DelimiterProperty, value);
+        }
+
+        public static readonly DependencyProperty FormatProperty =
+            DependencyProperty.Register(nameof(Format), typeof(string), typeof(CheckComboBox), new PropertyMetadata("{0}"));
+
+        public string Format
+        {
+            get => (string)GetValue(FormatProperty);
+            set => SetValue(FormatProperty, value);
+        }
+
         public override void OnApplyTemplate()
         {
             if (DropDownButton != null)
@@ -190,11 +208,11 @@ namespace OhmStudio.UI.Controls
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < list.Count - 1; i++)
             {
-                stringBuilder.Append(list[i].ToString() + ",");
+                stringBuilder.Append(string.Format(Format, list[i] + Delimiter));
             }
             if (list.Count > 0)
             {
-                stringBuilder.Append(list[list.Count - 1].ToString());
+                stringBuilder.Append(string.Format(Format, list[list.Count - 1]));
             }
             Text = stringBuilder.ToString();
             //SelectedText = string.Join(",", list);

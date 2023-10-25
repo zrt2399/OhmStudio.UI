@@ -79,27 +79,27 @@ namespace OhmStudio.UI.Attachs
             e.Row.Header = e.Row.GetIndex() + 1;
         }
 
-        public static readonly DependencyProperty IsExpandItemProperty =
-          DependencyProperty.RegisterAttached("IsExpandItem", typeof(bool), typeof(DataGridAttach), new PropertyMetadata(false, (sender, e) =>
-          {
-              if (sender is DataGrid dataGrid)
-              {
-                  var expanders = dataGrid.FindVisualChildren<GroupItem>();
-                  foreach (var item in expanders)
-                  {
+        //public static readonly DependencyProperty IsExpandItemProperty =
+        //  DependencyProperty.RegisterAttached("IsExpandItem", typeof(bool), typeof(DataGridAttach), new PropertyMetadata(false, (sender, e) =>
+        //  {
+        //      if (sender is DataGrid dataGrid)
+        //      {
+        //          var expanders = dataGrid.FindVisualChildren<GroupItem>();
+        //          foreach (var item in expanders)
+        //          {
 
-                  }
-              }
-          }));
+        //          }
+        //      }
+        //  }));
 
-        public static bool GetIsExpandItem(DependencyObject target)
-        {
-            return (bool)target.GetValue(IsExpandItemProperty);
-        }
+        //public static bool GetIsExpandItem(DependencyObject target)
+        //{
+        //    return (bool)target.GetValue(IsExpandItemProperty);
+        //}
 
-        public static void SetIsExpandItem(DependencyObject target, bool value)
-        {
-            target.SetValue(IsExpandItemProperty, value);
-        }
+        //public static void SetIsExpandItem(DependencyObject target, bool value)
+        //{
+        //    target.SetValue(IsExpandItemProperty, value);
+        //}
     }
 }

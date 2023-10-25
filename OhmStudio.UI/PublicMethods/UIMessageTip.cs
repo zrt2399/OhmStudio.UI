@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
-using Point = System.Drawing.Point; 
+using Point = System.Drawing.Point;
 
 namespace OhmStudio.UI.PublicMethods
 {
