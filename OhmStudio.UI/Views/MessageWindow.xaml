@@ -11,7 +11,6 @@
         UseLayoutRounding="True"
         SnapsToDevicePixels="True"
         SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterOwner"
         MinHeight="140"
         MinWidth="160"
         Closed="Window_Closed">

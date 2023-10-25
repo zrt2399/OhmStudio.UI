@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,7 +11,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OhmStudio.UI.Attachs;
 using OhmStudio.UI.Views;
-using Brush = System.Windows.Media.Brush;
 using Color = System.Drawing.Color;
 using Expression = System.Linq.Expressions.Expression;
 
@@ -18,6 +18,24 @@ namespace OhmStudio.UI.PublicMethods
 {
     public static class ExtensionMethod
     {
+        public static void SetOwner(this Window window, Window owner = null)
+        {
+            if (owner == null)
+            {
+                window.Owner = Application.Current?.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+                if (window.Owner == null && window != Application.Current?.MainWindow)
+                {
+                    window.Owner = Application.Current?.MainWindow;
+                }
+            }
+            else
+            {
+                window.Owner = owner;
+            }
+
+            window.WindowStartupLocation = window.Owner == null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
+        }
+
         public static bool IsTextBoxAttachObject(this DependencyObject obj)
         {
             if (obj is ComboBox || obj is TextBox || obj is DateTimePicker || obj is PasswordBox || obj is PasswordBoxControl)

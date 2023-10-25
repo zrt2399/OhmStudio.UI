@@ -54,25 +54,10 @@ namespace OhmStudio.UI.PublicMethods
                 Application.Current?.Dispatcher.Invoke(() =>
                 {
                     MessageWindow messageWindow = new MessageWindow();
-                    if (owner == null)
-                    {
-                        messageWindow.Owner = Application.Current?.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
-                        if (messageWindow.Owner == null && messageWindow != Application.Current?.MainWindow)
-                        {
-                            messageWindow.Owner = Application.Current?.MainWindow;
-                        }
-                    }
-                    else
-                    {
-                        messageWindow.Owner = owner;
-                    }
-                    if (messageWindow.Owner == null)
-                    {
-                        messageWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                    }
+                    messageWindow.SetOwner(owner);
                     messageWindow.Title = title ?? GetTitle();
                     messageWindow.txtMessage.Text = message;
-                    messageWindow.btnCancel.Visibility = (button == MessageButton.OK) ? Visibility.Collapsed : Visibility.Visible;
+                    messageWindow.btnCancel.Visibility = button == MessageButton.OK ? Visibility.Collapsed : Visibility.Visible;
                     messageWindow.imageInfo.Source = GetImage(image);
                     flag = messageWindow.ShowDialog() == true;
                 });
