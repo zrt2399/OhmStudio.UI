@@ -25,8 +25,6 @@
 
 	<ItemGroup>
 	  <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
-	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
-	  <PackageReference Include="FluentIcons.WPF" Version="1.1.220" />
 	  <PackageReference Include="HandyControl" Version="3.4.0" />
 	  <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.7.0" />
 	  <PackageReference Include="OxyPlot.Wpf" Version="2.1.2" />

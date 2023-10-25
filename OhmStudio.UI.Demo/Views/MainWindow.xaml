@@ -207,8 +207,8 @@
                                 </hc:Carousel>-->
                                 <RollBox>
                                     <RollBox.Items>
-                                        <Image Source="download.jpg"/>
-                                        <Image Source="icon.ico"/>
+                                        <Image Source="/download.jpg"/>
+                                        <Image Source="/icon.ico"/>
                                     </RollBox.Items>
                                 </RollBox>
                             </LayoutDocument>
@@ -280,6 +280,8 @@
                                         <ComboBox TextBoxAttach.Title="中文" TextBoxAttach.PlaceHolder="请输入.." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
                                         <ComboBox IsEditable="True" TextBoxAttach.Title="输出" TextBoxAttach.PlaceHolder="请输入..." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top"/>
                                         <CheckComboBox TextBoxAttach.Title="搜索"
+                                                       Delimiter=";"
+                                                       Format="分组{0}"
                                                        ItemsSource="{Binding FileNodes}"
                                                        DisplayMemberPath="Name"
                                                        VerticalAlignment="Top"
@@ -314,13 +316,16 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
                                         <RowDefinition/>
+                                        <RowDefinition/>
                                     </Grid.RowDefinitions>
                                     <DataGrid ItemsSource="{Binding UserInfos}"
+                                              DataGridAttach.IsShowRowNumber="True"
                                        SelectorAttach.SelectedItemsAttach="True"
                                        SelectorAttach.SelectedItems="{Binding UserInfoSelectedItems,Mode=TwoWay}">
 
                                     </DataGrid>
-                                    <Button Grid.Row="1" Click="Button_Click_6">选中项</Button>
+                                    <Button Grid.Row="1" Command="{Binding StartCommand}">显示选中项</Button>
+                                    <Button Grid.Row="2" Click="Button_Click_6">显示选中项</Button>
                                 </Grid>
                              
                             </LayoutDocument>

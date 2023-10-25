@@ -12,13 +12,14 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using CommunityToolkit.Mvvm.ComponentModel;
+using System.Windows.Threading;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
+using OhmStudio.UI.Commands;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.PublicMethods;
 using OxyPlot;
@@ -175,6 +176,15 @@ namespace OhmStudio.UI.Demo.Views
             //        AlertDialog.ShowWarning("在保存Layout布局xml文件时遇到异常：" + ex.Message);
             //    }
             //};
+            //DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            //dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
+            //dispatcherTimer.Tick += (sender, e) =>
+            //{
+            //    Can = !Can;
+            //    CommandManager.InvalidateRequerySuggested();
+            //    Debug.WriteLine(Can);
+            //};
+            //dispatcherTimer.Start();
         }
 
         public PlotModel PlotModel { get; set; }
@@ -204,6 +214,38 @@ namespace OhmStudio.UI.Demo.Views
                 _userInfoSelectedItems = value;
                 OnPropertyChanged(nameof(UserInfoSelectedItems));
             }
+        }
+
+        private bool _can;
+        public bool Can
+        {
+            get => _can;
+            set
+            {
+                _can = value;
+                OnPropertyChanged(nameof(Can));
+            }
+        }
+
+        private RelayCommand startCommand;
+        public RelayCommand StartCommand
+        {
+            get => startCommand ??= new RelayCommand(() =>
+            {
+                if (UserInfoSelectedItems != null)
+                {
+                    foreach (var item in UserInfoSelectedItems.OfType<UserInfoModel>())
+                    {
+                        AlertDialog.Show(item.Name);
+                    }
+                }
+            }
+            , () =>
+            {
+                Debug.WriteLine(Can);
+                return Can;
+            });
+            set => startCommand = value;
         }
 
         const string DefaultFont = "默认";
@@ -335,7 +377,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            AlertDialog.Show(CurrentDateTime.ToString(), "ToString", MessageButton.OK, MessageImage.Error);
+            UIMessageTip.ShowError("发生了错误");
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -393,18 +435,19 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            if (UserInfoSelectedItems != null)
-            {
-                foreach (var item in UserInfoSelectedItems.OfType<UserInfoModel>())
-                {
-                    AlertDialog.Show(item.Name);
-                }
-            }
+            Can = true;
+        }
+
+        public class Globals
+        {
+            public string Greeting { get; set; }
         }
 
         private async void Button_Click_7(object sender, RoutedEventArgs e)
         {
-            string code = "int result = 1 + 2;  return result;";
+            int a = 1;
+
+            //string code = "int result = 1 + a;  return result;";
 
             //var options = ScriptOptions.Default.WithImports("System");
 
@@ -412,12 +455,21 @@ namespace OhmStudio.UI.Demo.Views
 
             //var result = await script.RunAsync();
 
-            await Task.Run(async () =>
-            {
-                var result = await CSharpScript.RunAsync(code);
-                AlertDialog.Show(result.ReturnValue.ToString());
-            });
-             
+            //await Task.Run(async () =>
+            //{
+            //    var result = await CSharpScript.RunAsync(code);
+            //    AlertDialog.Show(result.ReturnValue.ToString());
+            //});
+
+            string code = " return Greeting  + \"123\"  ;";
+
+            var scriptOptions = ScriptOptions.Default.WithImports("System");
+
+            var globals = new Globals { Greeting = "Hello, World!" };
+
+            var result = await CSharpScript.RunAsync(code, scriptOptions, globals);
+            AlertDialog.Show(result.ReturnValue.ToString());
+
         }
     }
 
@@ -578,7 +630,7 @@ namespace OhmStudio.UI.Demo.Views
         public Pro1 Pro1 { get; set; } = new Pro1();
     }
 
-    public class ProBase : ObservableObject
+    public class ProBase : ViewModelBase
     {
         public string Base { get; set; } = "ProBase";
     }
