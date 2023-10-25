@@ -17,6 +17,8 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.PublicMethods;
 using OxyPlot;
@@ -385,7 +387,7 @@ namespace OhmStudio.UI.Demo.Views
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
             LoginWindow loginWindow = new LoginWindow();
-            loginWindow.Owner = this;
+            loginWindow.SetOwner();
             loginWindow.ShowDialog();
         }
 
@@ -398,6 +400,24 @@ namespace OhmStudio.UI.Demo.Views
                     AlertDialog.Show(item.Name);
                 }
             }
+        }
+
+        private async void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            string code = "int result = 1 + 2;  return result;";
+
+            //var options = ScriptOptions.Default.WithImports("System");
+
+            //var script = CSharpScript.Create(code, options);
+
+            //var result = await script.RunAsync();
+
+            await Task.Run(async () =>
+            {
+                var result = await CSharpScript.RunAsync("int result = 1 + 2;  return result;");
+                AlertDialog.Show(result.ReturnValue.ToString());
+            });
+             
         }
     }
 

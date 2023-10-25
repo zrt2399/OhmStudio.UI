@@ -222,8 +222,15 @@
 
                                     </TabItem>
                                     <TabItem Header="C#">
-                                        <avalonEdit:TextEditor SyntaxHighlighting="C#" ShowLineNumbers="True" />
-
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <avalonEdit:TextEditor Name="edit" SyntaxHighlighting="C#" ShowLineNumbers="True" />
+                                            <Button Grid.Row="1" Click="Button_Click_7">执行</Button>
+                                        </Grid>
+                                       
                                     </TabItem>
                                     <TabItem Header="C++">
                                         <avalonEdit:TextEditor SyntaxHighlighting="C++" ShowLineNumbers="True">
