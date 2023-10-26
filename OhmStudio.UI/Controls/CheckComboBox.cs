@@ -51,13 +51,13 @@ namespace OhmStudio.UI.Controls
             set => SetValue(SelectedItemsProperty, value);
         }
 
-        public static readonly DependencyProperty DelimiterProperty =
-            DependencyProperty.Register(nameof(Delimiter), typeof(string), typeof(CheckComboBox), new PropertyMetadata(","));
+        public static readonly DependencyProperty SeparatorProperty =
+            DependencyProperty.Register(nameof(Separator), typeof(string), typeof(CheckComboBox), new PropertyMetadata(","));
 
-        public string Delimiter
+        public string Separator
         {
-            get => (string)GetValue(DelimiterProperty);
-            set => SetValue(DelimiterProperty, value);
+            get => (string)GetValue(SeparatorProperty);
+            set => SetValue(SeparatorProperty, value);
         }
 
         public static readonly DependencyProperty FormatProperty =
@@ -208,7 +208,7 @@ namespace OhmStudio.UI.Controls
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < list.Count - 1; i++)
             {
-                stringBuilder.Append(string.Format(Format, list[i] + Delimiter));
+                stringBuilder.Append(string.Format(Format, list[i] + Separator));
             }
             if (list.Count > 0)
             {
