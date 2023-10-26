@@ -21,11 +21,11 @@
         <!--<Setter Property="TextTrimming" Value="CharacterEllipsis"/>-->
         <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>
-        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Text}"/>
+        <!--<Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Text}"/>-->
     </Style>
 
     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Padding" Value="3"/>
     </Style>
  
     <Style TargetType="PasswordBox" BasedOn="{StaticResource {x:Type PasswordBox}}">

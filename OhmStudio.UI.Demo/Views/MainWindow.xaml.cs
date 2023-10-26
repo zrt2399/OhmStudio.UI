@@ -13,14 +13,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using OhmStudio.UI.Commands;
 using OhmStudio.UI.Controls;
+using OhmStudio.UI.Messaging;
 using OhmStudio.UI.PublicMethods;
 using OxyPlot;
 using OxyPlot.Axes;
@@ -56,7 +55,6 @@ namespace OhmStudio.UI.Demo.Views
             {
                 Result.Rows.Add(DateTime.Now, i, i + 1, "44");
             }
-            li.ItemsSource = Result.DefaultView;
             //da.ItemsSource = Result.DefaultView;
             //PlotModel = new PlotModel();
 
@@ -138,6 +136,7 @@ namespace OhmStudio.UI.Demo.Views
             };
             UserInfos.Add(new UserInfoModel());
             UserInfos.Add(new UserInfoModel() { Name = "wang" });
+            Messenger.Default.Register<string>(this, Rrecipient, msg => AlertDialog.Show(msg));
             //string directory = Path.Combine(App.DocumentDirectory, "Layout");
             //string path = Path.Combine(directory, "Layout.xml");
             //Loaded += delegate
@@ -187,6 +186,8 @@ namespace OhmStudio.UI.Demo.Views
             //dispatcherTimer.Start();
         }
 
+        const string Rrecipient = "Ohm";
+
         public PlotModel PlotModel { get; set; }
 
         public Pro Pro { get; set; } = new Pro();
@@ -216,16 +217,8 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private bool _can;
-        public bool Can
-        {
-            get => _can;
-            set
-            {
-                _can = value;
-                OnPropertyChanged(nameof(Can));
-            }
-        }
+
+        public bool Can { get; set; }
 
         private RelayCommand startCommand;
         public RelayCommand StartCommand
@@ -352,8 +345,7 @@ namespace OhmStudio.UI.Demo.Views
                 throw new ArgumentException("Invalid argument", nameof(propertyExpression.Body));
             }
 
-            PropertyInfo propertyInfo = memberExpression.Member as PropertyInfo;
-            if (propertyInfo == null)
+            if (memberExpression.Member is not PropertyInfo propertyInfo)
             {
                 throw new ArgumentException("Argument is not a property", nameof(memberExpression.Member));
             }
@@ -377,6 +369,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            Messenger.Default.Send("发送了消息", Rrecipient);
             UIMessageTip.ShowError("发生了错误");
         }
 
@@ -435,7 +428,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            Can = true;
+            Can = !Can;
         }
 
         public class Globals

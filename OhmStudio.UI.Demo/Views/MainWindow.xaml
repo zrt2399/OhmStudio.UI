@@ -280,7 +280,7 @@
                                         <ComboBox TextBoxAttach.Title="中文" TextBoxAttach.PlaceHolder="请输入.." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
                                         <ComboBox IsEditable="True" TextBoxAttach.Title="输出" TextBoxAttach.PlaceHolder="请输入..." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top"/>
                                         <CheckComboBox TextBoxAttach.Title="搜索"
-                                                       Delimiter=";"
+                                                       Separator=";"
                                                        Format="分组{0}"
                                                        ItemsSource="{Binding FileNodes}"
                                                        DisplayMemberPath="Name"
@@ -353,7 +353,7 @@
                     <LayoutAnchorablePaneGroup DockWidth="400">
                         <LayoutAnchorablePane>
                             <LayoutAnchorable Title="ListView">
-                                <ListView Name="li" >
+                                <ListView ItemsSource="{Binding Result}" >
 
                                     <ListView.View>
                                         <GridView>
