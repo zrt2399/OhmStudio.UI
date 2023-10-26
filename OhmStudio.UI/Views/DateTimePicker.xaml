@@ -30,7 +30,7 @@
                                     <ContentControl Style="{DynamicResource PlaceHolderWithUserControl}" Margin="{TemplateBinding Padding}"/>
                                     <Grid MaxHeight="{Binding ElementName=PART_ContentHost,Path=ActualHeight}" Grid.Column="1">
                                         <local:IconButton x:Name="iconButton" 
-                                                          Margin="4"
+                                                          Margin="0,4,4,4"
                                                           ToolTip="选择时间"
                                                           HorizontalAlignment="Right"
                                                           Icon="/OhmStudio.UI;component/Images/date.png"
