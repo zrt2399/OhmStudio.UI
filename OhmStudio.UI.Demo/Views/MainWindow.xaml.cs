@@ -218,7 +218,7 @@ namespace OhmStudio.UI.Demo.Views
         }
 
 
-        public bool Can { get; set; }
+        bool Can;
 
         private RelayCommand startCommand;
         public RelayCommand StartCommand
@@ -309,6 +309,8 @@ namespace OhmStudio.UI.Demo.Views
             get => selectedItemsFileNodes;
             set { selectedItemsFileNodes = value; OnPropertyChanged(() => SelectedItemsFileNodes); }
         }
+
+        public IEnumerable<UserInfoModel> FileNodesSelectedItems => SelectedItemsFileNodes.OfType<UserInfoModel>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -438,7 +440,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private async void Button_Click_7(object sender, RoutedEventArgs e)
         {
-            int a = 1;
+            //int a = 1;
 
             //string code = "int result = 1 + a;  return result;";
 
