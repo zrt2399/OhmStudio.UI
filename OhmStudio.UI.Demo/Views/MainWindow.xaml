@@ -117,13 +117,15 @@
                                               VirtualizingPanel.VirtualizationMode="Recycling"
                                               DataGridAttach.IsShowRowNumber="True"
                                               DataGridAttach.IsSelectionChangedUpdateRowNumber="True"
+                                              DataGridAttach.TextColumnElementStyle="{StaticResource {x:Type TextBlock}}"
+                                              DataGridAttach.TextColumnEditingElementStyle="{StaticResource TextColumnEditingElementStyle}"
                                               AutoGenerateColumns="False"
                                               CanUserAddRows="False" >
                                         <!-- 定义需要显示的列 -->
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" ElementStyle="{StaticResource {x:Type TextBlock}}" EditingElementStyle="{StaticResource DataGridEditingElementStyle}"/>
-                                            <DataGridTextColumn Header="Value" Binding="{Binding Value}" ElementStyle="{StaticResource {x:Type TextBlock}}" EditingElementStyle="{StaticResource DataGridEditingElementStyle}"/>
-                                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" ElementStyle="{StaticResource {x:Type TextBlock}}" EditingElementStyle="{StaticResource DataGridEditingElementStyle}"/>
+                                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                                            <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
+                                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
                                         </DataGrid.Columns>
                                         <DataGrid.GroupStyle>
                                             <GroupStyle>
