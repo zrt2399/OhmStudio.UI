@@ -719,7 +719,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DataGridEditingElementStyle" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+    <Style x:Key="TextColumnEditingElementStyle" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Padding" Value="0"/>

@@ -1,7 +1,7 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Attachs
 {
@@ -79,27 +79,75 @@ namespace OhmStudio.UI.Attachs
             e.Row.Header = e.Row.GetIndex() + 1;
         }
 
-        //public static readonly DependencyProperty IsExpandItemProperty =
-        //  DependencyProperty.RegisterAttached("IsExpandItem", typeof(bool), typeof(DataGridAttach), new PropertyMetadata(false, (sender, e) =>
-        //  {
-        //      if (sender is DataGrid dataGrid)
-        //      {
-        //          var expanders = dataGrid.FindVisualChildren<GroupItem>();
-        //          foreach (var item in expanders)
-        //          {
+        public static readonly DependencyProperty TextColumnElementStyleProperty =
+          DependencyProperty.RegisterAttached("TextColumnElementStyle", typeof(Style), typeof(DataGridAttach), new PropertyMetadata(null, (sender, e) =>
+          {
+              if (sender is DataGrid dataGrid)
+              {
+                  var style = (Style)e.NewValue;
+                  if (dataGrid.IsLoaded)
+                  {
+                      DataGrid_Loaded(dataGrid, null);
+                  }
+                  else
+                  {
+                      dataGrid.Loaded += DataGrid_Loaded;
+                  }
+                  void DataGrid_Loaded(object sender, RoutedEventArgs e)
+                  {
+                      dataGrid.Loaded -= DataGrid_Loaded;
+                      foreach (var textColumn in dataGrid.Columns.OfType<DataGridTextColumn>())
+                      {
+                          textColumn.ElementStyle = style;
+                      }
+                  }
+              }
+          }));
 
-        //          }
-        //      }
-        //  }));
 
-        //public static bool GetIsExpandItem(DependencyObject target)
-        //{
-        //    return (bool)target.GetValue(IsExpandItemProperty);
-        //}
+        public static Style GetTextColumnElementStyle(DependencyObject target)
+        {
+            return (Style)target.GetValue(TextColumnElementStyleProperty);
+        }
 
-        //public static void SetIsExpandItem(DependencyObject target, bool value)
-        //{
-        //    target.SetValue(IsExpandItemProperty, value);
-        //}
+        public static void SetTextColumnElementStyle(DependencyObject target, Style value)
+        {
+            target.SetValue(TextColumnElementStyleProperty, value);
+        }
+
+        public static readonly DependencyProperty TextColumnEditingElementStyleProperty =
+            DependencyProperty.RegisterAttached("TextColumnEditingElementStyle", typeof(Style), typeof(DataGridAttach), new PropertyMetadata(null, (sender, e) =>
+            {
+                if (sender is DataGrid dataGrid)
+                {
+                    var style = (Style)e.NewValue;
+                    if (dataGrid.IsLoaded)
+                    {
+                        DataGrid_Loaded(dataGrid, null);
+                    }
+                    else
+                    {
+                        dataGrid.Loaded += DataGrid_Loaded;
+                    }
+                    void DataGrid_Loaded(object sender, RoutedEventArgs e)
+                    {
+                        dataGrid.Loaded -= DataGrid_Loaded;
+                        foreach (var textColumn in dataGrid.Columns.OfType<DataGridTextColumn>())
+                        {
+                            textColumn.EditingElementStyle = style;
+                        }
+                    }
+                }
+            }));
+
+        public static Style GetTextColumnEditingElementStyle(DependencyObject target)
+        {
+            return (Style)target.GetValue(TextColumnEditingElementStyleProperty);
+        }
+
+        public static void SetTextColumnEditingElementStyle(DependencyObject target, Style value)
+        {
+            target.SetValue(TextColumnEditingElementStyleProperty, value);
+        }
     }
 }
