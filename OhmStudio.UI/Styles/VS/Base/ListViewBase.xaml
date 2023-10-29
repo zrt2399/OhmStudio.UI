@@ -212,7 +212,7 @@
         <Setter Property="Foreground" Value="{DynamicResource GridViewItemContainerForeground}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Margin" Value="0,0,0,1" />
-        <Setter Property="Padding" Value="5,2,5,2" />
+        <Setter Property="Padding" Value="4,2" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Style.Triggers>

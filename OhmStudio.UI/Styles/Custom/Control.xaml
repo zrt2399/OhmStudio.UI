@@ -8,6 +8,7 @@
     <converters:ColorConverter x:Key="colorConverter"/>
     <converters:AngleToPointConverter x:Key="angleToPointConverter"/>
     <converters:AngleToIsLargeConverter x:Key="angleToIsLargeConverter"/>
+    <!--<converters:TextBlockPasswordConverter x:Key="TextBlockPasswordConverter"/>-->
 
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
@@ -711,7 +712,7 @@
                             <Setter TargetName="Shadow" Property="Color" Value="{DynamicResource ControlShadow}" />
                         </Trigger>
                         <Trigger Property="HasItems" Value="False">
-                            <Setter TargetName="PART_ListBox" Property="MinHeight" Value="95" />
+                            <Setter TargetName="Shadow" Property="MinHeight" Value="95" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -723,6 +724,29 @@
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Padding" Value="0"/>
+    </Style>
+
+    <Style x:Key="TextBlockPassword" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <!--<Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Text, Converter={StaticResource TextBlockPasswordConverter}}"/>-->
+        <Setter Property="TextDecorations">
+            <Setter.Value>
+                <TextDecorationCollection>
+                    <TextDecoration>
+                        <TextDecoration.Pen>
+                            <Pen Thickness="12" Brush="Gray" EndLineCap="Round" StartLineCap="Round" DashCap="Round">
+                                <Pen.DashStyle>
+                                    <DashStyle Dashes="0.0,1.2" Offset="0.6"/>
+                                </Pen.DashStyle>
+                            </Pen>
+                        </TextDecoration.Pen>
+                        <TextDecoration.Location>
+                            <TextDecorationLocation>Strikethrough</TextDecorationLocation>
+                        </TextDecoration.Location>
+                    </TextDecoration>
+                </TextDecorationCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground" Value="Transparent"/>
     </Style>
 
 </ResourceDictionary>
