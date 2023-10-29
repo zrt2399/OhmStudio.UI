@@ -9,6 +9,7 @@ namespace OhmStudio.UI.Attachs
     {
         public static readonly DependencyProperty IsSelectionChangedUpdateRowNumberProperty =
             DependencyProperty.RegisterAttached("IsSelectionChangedUpdateRowNumber", typeof(bool), typeof(DataGridAttach));
+
         public static bool GetIsSelectionChangedUpdateRowNumber(DependencyObject target)
         {
             return (bool)target.GetValue(IsSelectionChangedUpdateRowNumberProperty);
@@ -21,6 +22,7 @@ namespace OhmStudio.UI.Attachs
 
         public static DependencyProperty IsShowRowNumberProperty =
             DependencyProperty.RegisterAttached("IsShowRowNumber", typeof(bool), typeof(DataGridAttach), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits, OnShowRowNumberChanged));
+
         public static bool GetIsShowRowNumber(DependencyObject target)
         {
             return (bool)target.GetValue(IsShowRowNumberProperty);
@@ -98,7 +100,10 @@ namespace OhmStudio.UI.Attachs
                       dataGrid.Loaded -= DataGrid_Loaded;
                       foreach (var textColumn in dataGrid.Columns.OfType<DataGridTextColumn>())
                       {
-                          textColumn.ElementStyle = style;
+                          if (!GetIsIgnoreElementStyle(textColumn))
+                          {
+                              textColumn.ElementStyle = style;
+                          }
                       }
                   }
               }
@@ -134,7 +139,10 @@ namespace OhmStudio.UI.Attachs
                         dataGrid.Loaded -= DataGrid_Loaded;
                         foreach (var textColumn in dataGrid.Columns.OfType<DataGridTextColumn>())
                         {
-                            textColumn.EditingElementStyle = style;
+                            if (!GetIsIgnoreEditingElementStyle(textColumn))
+                            {
+                                textColumn.EditingElementStyle = style;
+                            }
                         }
                     }
                 }
@@ -148,6 +156,32 @@ namespace OhmStudio.UI.Attachs
         public static void SetTextColumnEditingElementStyle(DependencyObject target, Style value)
         {
             target.SetValue(TextColumnEditingElementStyleProperty, value);
+        }
+
+        public static readonly DependencyProperty IsIgnoreElementStyleProperty =
+            DependencyProperty.RegisterAttached("IsIgnoreElementStyle", typeof(bool), typeof(DataGridAttach));
+
+        public static bool GetIsIgnoreElementStyle(DependencyObject target)
+        {
+            return (bool)target.GetValue(IsIgnoreElementStyleProperty);
+        }
+
+        public static void SetIsIgnoreElementStyle(DependencyObject target, bool value)
+        {
+            target.SetValue(IsIgnoreElementStyleProperty, value);
+        }
+
+        public static readonly DependencyProperty IsIgnoreEditingElementStyleProperty =
+            DependencyProperty.RegisterAttached("IsIgnoreEditingElementStyle", typeof(bool), typeof(DataGridAttach));
+
+        public static bool GetIsIgnoreEditingElementStyle(DependencyObject target)
+        {
+            return (bool)target.GetValue(IsIgnoreEditingElementStyleProperty);
+        }
+
+        public static void SetIsIgnoreEditingElementStyle(DependencyObject target, bool value)
+        {
+            target.SetValue(IsIgnoreEditingElementStyleProperty, value);
         }
     }
 }
