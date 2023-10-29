@@ -4,7 +4,7 @@
     xmlns:controlzEx="urn:controlzex"
     xmlns:ctrls="clr-namespace:OhmStudio.UI.Controls">
 
-    <ControlTemplate x:Key="CustomChromeWindowBaseTemplate" TargetType="{x:Type ctrls:CustomChromeWindow}">
+    <ControlTemplate x:Key="ChromeWindowBaseTemplate" TargetType="{x:Type ctrls:ChromeWindow}">
         <Border
             x:Name="PART_Border"
             Background="{TemplateBinding Background}"
@@ -73,26 +73,26 @@
                 <Setter TargetName="PART_Icon" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="PART_Title" Property="Margin" Value="8,0,0,0" />
             </Trigger>
-            <Trigger Property="ctrls:CustomChromeWindow.IsShowIcon" Value="False">
+            <Trigger Property="ctrls:ChromeWindow.IsShowIcon" Value="False">
                 <Setter TargetName="PART_Icon" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="PART_Title" Property="Margin" Value="8,0,0,0" />
             </Trigger>
-            <Trigger Property="ctrls:CustomChromeWindow.IsShowTitle" Value="False">
+            <Trigger Property="ctrls:ChromeWindow.IsShowTitle" Value="False">
                 <Setter TargetName="PART_Title" Property="Visibility" Value="Collapsed" />
             </Trigger>
-            <Trigger Property="ctrls:CustomChromeWindow.IsShowTitleBar" Value="False">
+            <Trigger Property="ctrls:ChromeWindow.IsShowTitleBar" Value="False">
                 <Setter TargetName="PART_TitleBar" Property="Visibility" Value="Collapsed" />
             </Trigger>
-            <Trigger Property="ctrls:CustomChromeWindow.IsShowMinimizeButton" Value="False">
+            <Trigger Property="ctrls:ChromeWindow.IsShowMinimizeButton" Value="False">
                 <Setter TargetName="MinimizeButton" Property="Visibility" Value="Collapsed" />
             </Trigger>
-            <Trigger Property="ctrls:CustomChromeWindow.IsShowMaximizeButton" Value="False">
+            <Trigger Property="ctrls:ChromeWindow.IsShowMaximizeButton" Value="False">
                 <Setter TargetName="MaximizeButton" Property="Visibility" Value="Collapsed" />
             </Trigger>
-            <Trigger Property="ctrls:CustomChromeWindow.IsShowRestoreButton" Value="False">
+            <Trigger Property="ctrls:ChromeWindow.IsShowRestoreButton" Value="False">
                 <Setter TargetName="RestoreButton" Property="Visibility" Value="Collapsed" />
             </Trigger>
-            <Trigger Property="ctrls:CustomChromeWindow.IsShowCloseButton" Value="False">
+            <Trigger Property="ctrls:ChromeWindow.IsShowCloseButton" Value="False">
                 <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed" />
             </Trigger>
             <Trigger Property="WindowState" Value="Maximized">
@@ -104,9 +104,9 @@
                 <Setter TargetName="RestoreButton" Property="Visibility" Value="Collapsed" />
             </Trigger>
             <Trigger Property="ResizeMode" Value="NoResize">
-                <Setter Property="ctrls:CustomChromeWindow.IsShowMinimizeButton" Value="False" />
-                <Setter Property="ctrls:CustomChromeWindow.IsShowMaximizeButton" Value="False" />
-                <Setter Property="ctrls:CustomChromeWindow.IsShowRestoreButton" Value="False" />
+                <Setter Property="ctrls:ChromeWindow.IsShowMinimizeButton" Value="False" />
+                <Setter Property="ctrls:ChromeWindow.IsShowMaximizeButton" Value="False" />
+                <Setter Property="ctrls:ChromeWindow.IsShowRestoreButton" Value="False" />
             </Trigger>
             <Trigger Property="ResizeMode" Value="CanMinimize">
                 <Setter TargetName="MaximizeButton" Property="IsEnabled" Value="False" />
@@ -122,16 +122,16 @@
                 <Setter TargetName="PART_TitleBar" Property="Visibility" Value="Collapsed" />
             </Trigger>
             <Trigger Property="WindowStyle" Value="ToolWindow">
-                <Setter Property="ctrls:CustomChromeWindow.IsShowMinimizeButton" Value="False" />
-                <Setter Property="ctrls:CustomChromeWindow.IsShowMaximizeButton" Value="False" />
-                <Setter Property="ctrls:CustomChromeWindow.IsShowCloseButton" Value="True" />
+                <Setter Property="ctrls:ChromeWindow.IsShowMinimizeButton" Value="False" />
+                <Setter Property="ctrls:ChromeWindow.IsShowMaximizeButton" Value="False" />
+                <Setter Property="ctrls:ChromeWindow.IsShowCloseButton" Value="True" />
                 <Setter TargetName="CloseButton" Property="Height" Value="30" />
                 <Setter TargetName="CloseButton" Property="Width" Value="32" />
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="WindowStyle" Value="ToolWindow" />
-                    <Condition Property="ctrls:CustomChromeWindow.IsShowIcon" Value="True" />
+                    <Condition Property="ctrls:ChromeWindow.IsShowIcon" Value="True" />
                 </MultiTrigger.Conditions>
                 <Setter TargetName="PART_Icon" Property="Margin" Value="8,0,0,0" />
                 <Setter TargetName="PART_Title" Property="Margin" Value="5,0,0,0" />
@@ -139,19 +139,19 @@
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="WindowStyle" Value="ToolWindow" />
-                    <Condition Property="ctrls:CustomChromeWindow.IsShowIcon" Value="False" />
+                    <Condition Property="ctrls:ChromeWindow.IsShowIcon" Value="False" />
                 </MultiTrigger.Conditions>
                 <Setter TargetName="PART_Title" Property="Margin" Value="8,0,0,0" />
             </MultiTrigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style x:Key="CustomChromeWindowBaseStyle" TargetType="{x:Type ctrls:CustomChromeWindow}">
+    <Style x:Key="ChromeWindowBaseStyle" TargetType="{x:Type ctrls:ChromeWindow}">
         <Setter Property="ActiveGlowBrush" Value="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />
         <Setter Property="InactiveGlowBrush" Value="{DynamicResource EnvironmentMainWindowInactiveBorder}" />
         <Setter Property="Foreground" Value="{DynamicResource SystemColorsWindowText}" />
         <Setter Property="Background" Value="{DynamicResource SystemColorsWindow}" />
         <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />
-        <Setter Property="Template" Value="{DynamicResource CustomChromeWindowBaseTemplate}" />
+        <Setter Property="Template" Value="{DynamicResource ChromeWindowBaseTemplate}" />
     </Style>
 </ResourceDictionary>

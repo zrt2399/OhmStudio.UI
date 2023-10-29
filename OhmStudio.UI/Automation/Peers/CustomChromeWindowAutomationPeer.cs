@@ -3,15 +3,15 @@ using OhmStudio.UI.Controls;
 
 namespace OhmStudio.UI.Automation.Peers
 {
-    public class CustomChromeWindowAutomationPeer : WindowAutomationPeer
+    public class ChromeWindowAutomationPeer : WindowAutomationPeer
     {
-        public CustomChromeWindowAutomationPeer(CustomChromeWindow owner) : base(owner)
+        public ChromeWindowAutomationPeer(ChromeWindow owner) : base(owner)
         {
         }
 
         protected override string GetClassNameCore()
         {
-            return nameof(CustomChromeWindow);
+            return nameof(ChromeWindow);
         }
     }
 }

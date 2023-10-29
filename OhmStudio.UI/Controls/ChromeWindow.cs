@@ -22,7 +22,7 @@ namespace OhmStudio.UI.Controls
     [TemplatePart(Name = PART_MinimizeButton, Type = typeof(ButtonBase))]
     [TemplatePart(Name = PART_MaximizeButton, Type = typeof(ButtonBase))]
     [TemplatePart(Name = PART_CloseButton, Type = typeof(ButtonBase))]
-    public class CustomChromeWindow : Window
+    public class ChromeWindow : Window
     {
         private const string PART_Icon = nameof(PART_Icon);
         private const string PART_Title = nameof(PART_Title);
@@ -38,84 +38,84 @@ namespace OhmStudio.UI.Controls
         /// </summary>
         public static readonly DependencyProperty ActiveGlowBrushProperty =
             DependencyProperty.Register(nameof(ActiveGlowBrush), typeof(SolidColorBrush),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(ObjectBoxes.TransparentBox));
+                typeof(ChromeWindow), new FrameworkPropertyMetadata(ObjectBoxes.TransparentBox));
 
         /// <summary>
         /// Identifies the <see cref="InactiveGlowBrush"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty InactiveGlowBrushProperty =
             DependencyProperty.Register(nameof(InactiveGlowBrush), typeof(SolidColorBrush),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(ObjectBoxes.TransparentBox));
+                typeof(ChromeWindow), new FrameworkPropertyMetadata(ObjectBoxes.TransparentBox));
 
         /// <summary>
         /// Identifies the <see cref="LeftWindowCommands"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty LeftWindowCommandsProperty =
             DependencyProperty.Register(nameof(LeftWindowCommands), typeof(FrameworkElement),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(ObjectBoxes.NullBox));
+                typeof(ChromeWindow), new FrameworkPropertyMetadata(ObjectBoxes.NullBox));
 
         /// <summary>
         /// Identifies the <see cref="RightWindowCommands"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty RightWindowCommandsProperty =
             DependencyProperty.Register(nameof(RightWindowCommands), typeof(FrameworkElement),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(ObjectBoxes.NullBox));
+                typeof(ChromeWindow), new FrameworkPropertyMetadata(ObjectBoxes.NullBox));
 
         /// <summary>
         /// Identifies the <see cref="IsShowIcon"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsShowIconProperty =
             DependencyProperty.Register(nameof(IsShowIcon), typeof(bool),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(true));
+                typeof(ChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="IsShowTitle"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsShowTitleProperty =
             DependencyProperty.Register(nameof(IsShowTitle), typeof(bool),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(true));
+                typeof(ChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="IsShowTitleBar"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsShowTitleBarProperty =
             DependencyProperty.Register(nameof(IsShowTitleBar), typeof(bool),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(true));
+                typeof(ChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="IsShowMinimizeButton"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsShowMinimizeButtonProperty =
             DependencyProperty.Register(nameof(IsShowMinimizeButton), typeof(bool),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(true));
+                typeof(ChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="IsShowMaximizeButton"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsShowMaximizeButtonProperty =
             DependencyProperty.Register(nameof(IsShowMaximizeButton), typeof(bool),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(true));
+                typeof(ChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="IsShowRestoreButton"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsShowRestoreButtonProperty =
             DependencyProperty.Register(nameof(IsShowRestoreButton), typeof(bool),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(true));
+                typeof(ChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="IsShowCloseButton"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsShowCloseButtonProperty =
             DependencyProperty.Register(nameof(IsShowCloseButton), typeof(bool),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(true));
+                typeof(ChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="OnMaximizedPadding"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OnMaximizedPaddingProperty =
             DependencyProperty.Register(nameof(OnMaximizedPadding), typeof(Thickness),
-                typeof(CustomChromeWindow), new FrameworkPropertyMetadata(ObjectBoxes.ThicknessBox));
+                typeof(ChromeWindow), new FrameworkPropertyMetadata(ObjectBoxes.ThicknessBox));
 
         /// <summary>
         /// The glow brush of the window when activated.
@@ -242,7 +242,7 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// The padding of the <see cref="CustomChromeWindow"/> when maximized.
+        /// The padding of the <see cref="ChromeWindow"/> when maximized.
         /// </summary>
         [Bindable(true)]
         [Category("Layout")]
@@ -253,23 +253,23 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-		/// The static class constructor of the <see cref="CustomChromeWindow"/>.
+		/// The static class constructor of the <see cref="ChromeWindow"/>.
 		/// </summary>
-        static CustomChromeWindow()
+        static ChromeWindow()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(CustomChromeWindow), new FrameworkPropertyMetadata(typeof(CustomChromeWindow)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ChromeWindow), new FrameworkPropertyMetadata(typeof(ChromeWindow)));
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomChromeWindow"/> class.
+        /// Initializes a new instance of the <see cref="ChromeWindow"/> class.
         /// </summary>
-        public CustomChromeWindow()
+        public ChromeWindow()
         {
             Loaded += OnLoaded;
         }
 
         /// <summary>
-        /// Initialize the <see cref="GlowWindowBehavior"/> for the <see cref="CustomChromeWindow"/>.
+        /// Initialize the <see cref="GlowWindowBehavior"/> for the <see cref="ChromeWindow"/>.
         /// </summary>
         private void InitializeGlowWindowBehaviorEx()
         {
@@ -284,7 +284,7 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// Initialize the <see cref="WindowChromeBehavior"/> for the <see cref="CustomChromeWindow"/>.
+        /// Initialize the <see cref="WindowChromeBehavior"/> for the <see cref="ChromeWindow"/>.
         /// </summary>
         private void InitializeWindowChromeEx()
         {
@@ -309,7 +309,7 @@ namespace OhmStudio.UI.Controls
         /// <inheritdoc/>
         protected override AutomationPeer OnCreateAutomationPeer()
         {
-            return new CustomChromeWindowAutomationPeer(this);
+            return new ChromeWindowAutomationPeer(this);
         }
     }
 } 

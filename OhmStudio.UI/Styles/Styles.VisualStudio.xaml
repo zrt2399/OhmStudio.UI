@@ -6,15 +6,15 @@
         <!--  Common Control Styles  -->
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ControlsBase.xaml" />
         <!--  Custom Controls Styles  -->
-        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/CustomChromeWindow.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/ChromeWindow.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/GlyphButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/WindowSystemButton.xaml" />
         <!--<ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;component/Styles/CustomStyles.xaml" />-->
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="{x:Type ctrls:CustomChromeWindow}"
-           BasedOn="{StaticResource CustomChromeWindowBaseStyle}"
-           TargetType="{x:Type ctrls:CustomChromeWindow}" />
+    <Style x:Key="{x:Type ctrls:ChromeWindow}"
+           BasedOn="{StaticResource ChromeWindowBaseStyle}"
+           TargetType="{x:Type ctrls:ChromeWindow}" />
 
     <Style x:Key="{x:Type ctrls:GlyphButton}"
            BasedOn="{StaticResource GlyphButtonBaseStyle}"
