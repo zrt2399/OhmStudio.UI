@@ -30,7 +30,7 @@ namespace OhmStudio.UI.Demo.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : CustomChromeWindow, INotifyPropertyChanged
+    public partial class MainWindow : ChromeWindow, INotifyPropertyChanged
     {
         public MainWindow()
         {
@@ -358,7 +358,7 @@ namespace OhmStudio.UI.Demo.Views
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             await Task.Delay(1000);
-            var assembly = Assembly.GetAssembly(typeof(CustomChromeWindow));
+            var assembly = Assembly.GetAssembly(typeof(ChromeWindow));
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 100; i++)
             {

@@ -1,36 +1,35 @@
-﻿<CustomChromeWindow x:Class="OhmStudio.UI.Demo.Views.MainWindow"
-                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                    xmlns:local="clr-namespace:OhmStudio.UI.Demo"
-                    xmlns:views="clr-namespace:OhmStudio.UI.Demo.Views"
-                    xmlns:ohmui="http://ohmstudio.ui.com"
-                    xmlns:converters="clr-namespace:OhmStudio.UI.Demo.Converters"
-                    d:DataContext="{d:DesignInstance Type=views:MainWindow}"
-                    xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
-                    xmlns:pt="http://propertytools.org/wpf"
-                    xmlns:oxy="http://oxyplot.org/wpf"
-                    xmlns:hc="https://handyorg.github.io/handycontrol"
-                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-                    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                    mc:Ignorable="d"
-                    IsShowTitle="True"
-                    IsShowIcon="True"
-                    Icon="/icon.ico"
-                    WindowStartupLocation="CenterScreen"
-                    ResizeMode="CanResizeWithGrip"
-                    UseLayoutRounding="True"
-                    SnapsToDevicePixels="True"
-                    Title="{x:Static local:App.Name}"
-                    Height="720"
-                    Width="1280">
-
+﻿<ChromeWindow x:Class="OhmStudio.UI.Demo.Views.MainWindow"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+              xmlns:oxy="http://oxyplot.org/wpf"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:local="clr-namespace:OhmStudio.UI.Demo"
+              xmlns:converters="clr-namespace:OhmStudio.UI.Demo.Converters"
+              xmlns:views="clr-namespace:OhmStudio.UI.Demo.Views"
+              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+              xmlns:hc="https://handyorg.github.io/handycontrol"
+              xmlns:pt="http://propertytools.org/wpf"
+              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+              d:DataContext="{d:DesignInstance Type=views:MainWindow}"
+              mc:Ignorable="d"
+              IsShowTitle="True"
+              IsShowIcon="True"
+              Icon="/icon.ico"
+              WindowStartupLocation="CenterScreen"
+              ResizeMode="CanResizeWithGrip"
+              UseLayoutRounding="True"
+              SnapsToDevicePixels="True"
+              Title="{x:Static local:App.Name}"
+              Height="720"
+              Width="1280">
+    
     <Window.Resources>
         <converters:GroupItemConverter x:Key="GroupItemConverter"/> 
     </Window.Resources>
 
-    <CustomChromeWindow.RightWindowCommands>
+    <ChromeWindow.RightWindowCommands>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
             <Border IsHitTestVisible="False" VerticalAlignment="Center">
                 <Border.Style>
@@ -72,7 +71,7 @@
             <Button Click="Button_Click_5">登录</Button>
         </StackPanel>
 
-    </CustomChromeWindow.RightWindowCommands>
+    </ChromeWindow.RightWindowCommands>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -519,4 +518,4 @@
             <StatusBarItem>Ready</StatusBarItem>
         </StatusBar>
     </Grid>
-</CustomChromeWindow>
+</ChromeWindow>
