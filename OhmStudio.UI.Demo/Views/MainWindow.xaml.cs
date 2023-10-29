@@ -107,7 +107,7 @@ namespace OhmStudio.UI.Demo.Views
             // 将系列添加到 PlotModel 中
             PlotModel.Series.Add(series);
 
-            Pro.Description = true;
+            Pro.Description = "1";
             Pro.Brush = Brushes.Red;
 
             Items = Pro;
@@ -124,7 +124,7 @@ namespace OhmStudio.UI.Demo.Views
                     pro.Name = 10 + i;
                 }
                 pro.Value = 100 + i;
-                pro.Description = i % 2 == 0;
+                pro.Description = "1" + i;
                 FileNodes.Add(pro);
             }
             stopwatch.Stop();
@@ -617,7 +617,7 @@ namespace OhmStudio.UI.Demo.Views
         public BindingFlags BindingFlags { get; set; } = BindingFlags.IgnoreCase;
         [PropertyGrid(DisplayName = "名字")]
 
-        public bool Description { get; set; }
+        public string Description { get; set; }
         [PropertyGrid(DisplayName = "值")]
         public double? Value { get; set; }
 

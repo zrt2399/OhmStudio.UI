@@ -27,7 +27,7 @@
                     Width="1280">
 
     <Window.Resources>
-        <converters:GroupItemConverter x:Key="GroupItemConverter"/>
+        <converters:GroupItemConverter x:Key="GroupItemConverter"/> 
     </Window.Resources>
 
     <CustomChromeWindow.RightWindowCommands>
@@ -120,12 +120,19 @@
                                               DataGridAttach.TextColumnElementStyle="{StaticResource {x:Type TextBlock}}"
                                               DataGridAttach.TextColumnEditingElementStyle="{StaticResource TextColumnEditingElementStyle}"
                                               AutoGenerateColumns="False"
-                                              CanUserAddRows="False" >
+                                              CanUserAddRows="False" > 
                                         <!-- 定义需要显示的列 -->
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                                            <!--<DataGridTemplateColumn Header="密码" >
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <PasswordBoxControl Password="{Binding Value}" BorderThickness="0"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>-->
                                             <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
-                                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" DataGridAttach.IsIgnoreElementStyle="True" ElementStyle="{StaticResource TextBlockPassword}"/>
                                         </DataGrid.Columns>
                                         <DataGrid.GroupStyle>
                                             <GroupStyle>
@@ -232,7 +239,7 @@
                                             <avalonEdit:TextEditor Name="edit" SyntaxHighlighting="C#" ShowLineNumbers="True" />
                                             <Button Grid.Row="1" Click="Button_Click_7">执行</Button>
                                         </Grid>
-                                       
+
                                     </TabItem>
                                     <TabItem Header="C++">
                                         <avalonEdit:TextEditor SyntaxHighlighting="C++" ShowLineNumbers="True">
@@ -249,7 +256,7 @@
                                                 <TextBox>123</TextBox>
                                             </TextBoxAttach.Title>
                                         </DateTimePicker>
-                                        <DateTimePicker Name="se"    TextBoxAttach.PlaceHolder="请输入密码" TextBoxAttach.PlaceHolderIsHitTestVisible="True">
+                                        <DateTimePicker Name="se" TextBoxAttach.PlaceHolder="请输入密码" TextBoxAttach.PlaceHolderIsHitTestVisible="True">
                                             <TextBoxAttach.Title>
                                                 <TextBlock>密码</TextBlock>
                                                 <!--<iconPacks:PackIconModern Kind="InterfacePassword" Margin="0,0,4,0" Height="{Binding ElementName=dateTimePickerUserPassword1,Path=ActualHeight}"  />-->
@@ -329,7 +336,7 @@
                                     <Button Grid.Row="1" Command="{Binding StartCommand}">显示选中项</Button>
                                     <Button Grid.Row="2" Click="Button_Click_6">显示选中项</Button>
                                 </Grid>
-                             
+
                             </LayoutDocument>
                             <LayoutDocument Title="GroupBox">
                                 <GroupBox Header="Box" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0">
