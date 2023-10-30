@@ -240,7 +240,7 @@
                 <ControlTemplate TargetType="controls:SearchBar">
                     <DockPanel>
                         <ContentControl Style="{DynamicResource TitleWithTemplatedParent}"/>
-                        <Border Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border Name="Border" SnapsToDevicePixels="True" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
@@ -588,7 +588,8 @@
                                 Grid.Column="1"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}"/>
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True"/>
                         <TextBox Padding="{TemplateBinding Padding}"
                                  Grid.Column="1"
                                  Name="PART_EditableTextBox"

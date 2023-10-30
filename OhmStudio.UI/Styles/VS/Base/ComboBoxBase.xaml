@@ -135,11 +135,13 @@
                 <Border Name="Border"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
+                        SnapsToDevicePixels="True"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}" />
  
                 <Border Name="SelectedContentBorder"
+                        SnapsToDevicePixels="True"
                         Grid.Column="1"
                         Margin="1,1,0,1"
                         Padding="{TemplateBinding Padding}">
@@ -187,9 +189,10 @@
                     Color="Transparent">
 
                     <Border x:Name="DropDownBorder"
-                        Background="{DynamicResource CommonControlsComboBoxListBackground}"
-                        BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
-                        BorderThickness="1">
+                            Background="{DynamicResource CommonControlsComboBoxListBackground}"
+                            BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
+                            BorderThickness="1"
+                            SnapsToDevicePixels="True">
                         <ScrollViewer Name="DropDownScrollViewer">
                             <Grid Margin="0,2" >
                                 <Canvas Width="0"
