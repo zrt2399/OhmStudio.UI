@@ -20,7 +20,7 @@
               WindowStartupLocation="CenterScreen"
               ResizeMode="CanResizeWithGrip"
               UseLayoutRounding="True"
-              SnapsToDevicePixels="True"
+              SnapsToDevicePixels="False"
               Title="{x:Static local:App.Name}"
               Height="720"
               Width="1280">
@@ -309,7 +309,7 @@
                                         <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
                                         <SearchBar VerticalAlignment="Top" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
                                         <TextBox VerticalAlignment="Top" TextBoxAttach.Title="开始"/>
-                                        <TextBox VerticalAlignment="Top" TextBoxAttach.Title="搜索" Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..."/>
+                                        <TextBox VerticalAlignment="Top" Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..."/>
                                     </StackPanel>
                                 </StackPanel>
 
