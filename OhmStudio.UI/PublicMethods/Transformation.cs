@@ -32,9 +32,9 @@ namespace OhmStudio.UI.PublicMethods
             return stringBuilder.ToString();
         }
 
-        public static string ToHexString(this List<byte> bytes)
+        public static string ToHexString(this List<byte> bytes, string separator = " ")
         {
-            return bytes?.ToArray().ToHexString();
+            return bytes?.ToArray().ToHexString(separator);
         }
 
         public static string ToHexString(this byte[] bytes, string separator = " ")
