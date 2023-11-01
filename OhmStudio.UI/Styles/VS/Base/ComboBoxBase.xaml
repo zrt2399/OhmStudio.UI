@@ -87,7 +87,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxListItemText}" />
         <Setter Property="Margin" Value="2,0" />
-        <Setter Property="Padding" Value="1,0" />
+        <Setter Property="Padding" Value="1" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -159,8 +159,10 @@
                          Grid.Column="1"
                          Margin="1,1,0,1"
                          Padding="{TemplateBinding Padding}"
-                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                         VerticalAlignment="Stretch"
+                         HorizontalAlignment="Stretch"
+                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                          IsReadOnly="{Binding Path=IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
                          BorderBrush="Transparent"
                          Background="Transparent"

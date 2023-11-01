@@ -597,8 +597,10 @@
                                  BorderBrush="Transparent"
                                  Background="Transparent"
                                  BorderThickness="0"
-                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                 VerticalAlignment="Stretch"
+                                 HorizontalAlignment="Stretch"
+                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                  Text="{Binding Text,RelativeSource={RelativeSource TemplatedParent}}"
                                  IsReadOnly="{Binding IsReadOnly,RelativeSource={RelativeSource TemplatedParent}}"/>
                         <ToggleButton x:Name="DropDownButton"
