@@ -79,7 +79,7 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void iBtnCloseView_Click(object sender, RoutedEventArgs e)
         {
-            Close?.Invoke();
+            Closed?.Invoke();
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace OhmStudio.UI.Views
                 btnhh.Content = hourstr;
                 popChioce.IsOpen = false;//THourView 所在pop 的关闭动作
             };
-            hourView.Close += () => popChioce.IsOpen = false;
+            hourView.Closed += () => popChioce.IsOpen = false;
             popChioce.Child = hourView;
             popChioce.IsOpen = true;
         }
@@ -166,7 +166,7 @@ namespace OhmStudio.UI.Views
                 btnmm.Content = minStr;
                 popChioce.IsOpen = false;//TMinSexView 所在的 pop 关闭动作
             };
-            minSexView.Close += () => popChioce.IsOpen = false;
+            minSexView.Closed += () => popChioce.IsOpen = false;
             popChioce.Child = minSexView;
             popChioce.IsOpen = true;
         }
@@ -192,7 +192,7 @@ namespace OhmStudio.UI.Views
         /// 时间确定后的传递事件。
         /// </summary>
         public Action<string> DateTimeOK;
-        public Action Close;
+        public Action Closed;
         /// <summary>
         /// 时间确定后传递的时间内容。
         /// </summary>
@@ -223,7 +223,7 @@ namespace OhmStudio.UI.Views
                 btnss.Content = sexStr;
                 popChioce.IsOpen = false;//TMinSexView 所在的 pop 关闭动作
             };
-            minSexView.Close += () => popChioce.IsOpen = false;
+            minSexView.Closed += () => popChioce.IsOpen = false;
             popChioce.Child = minSexView;
             popChioce.IsOpen = true;
         }

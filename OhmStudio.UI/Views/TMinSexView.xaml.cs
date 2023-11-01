@@ -105,7 +105,7 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void iBtnCloseView_Click(object sender, RoutedEventArgs e)
         {
-            Close?.Invoke();
+            Closed?.Invoke();
         }
  
         /// <summary>
@@ -113,7 +113,7 @@ namespace OhmStudio.UI.Views
         /// </summary>
         public Action<string> MinClick;
 
-        public Action Close;
+        public Action Closed;
         /// <summary>
         /// 分钟数据点击（确定）后 传递的时间内容
         /// </summary>

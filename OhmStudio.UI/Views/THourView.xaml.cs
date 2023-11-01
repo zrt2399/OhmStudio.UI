@@ -110,14 +110,14 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void iBtnCloseView_Click(object sender, RoutedEventArgs e)
         {
-            Close?.Invoke();
+            Closed?.Invoke();
         }
 
         /// <summary>
         /// 小时数据点击（确定）后 的传递事件
         /// </summary>
         public Action<string> HourClick;
-        public Action Close;
+        public Action Closed;
 
         /// <summary>
         /// 小时数据点击（确定）后 传递的时间内容

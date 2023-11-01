@@ -70,13 +70,13 @@ namespace OhmStudio.UI.Views
                 popChioce.IsOpen = false;//TDateTimeView 所在pop 关闭
                 textBoxDateTime.Focus();
             };
-            dateTimeView.Close += () =>
+            dateTimeView.Closed += () =>
             {
                 popChioce.IsOpen = false;//TDateTimeView 所在pop 关闭
                 textBoxDateTime.Focus();
             };
             popChioce.Child = dateTimeView;
-            popChioce.IsOpen = true;  
+            popChioce.IsOpen = true;
         }
 
         /// <summary>
