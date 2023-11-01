@@ -147,7 +147,8 @@
                         Padding="{TemplateBinding Padding}">
                     <ContentPresenter x:Name="ContentSite"
                                       Focusable="True"
-                        VerticalAlignment="Center"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                         Content="{TemplateBinding SelectionBoxItem}"
                         ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                         ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
@@ -158,7 +159,8 @@
                          Grid.Column="1"
                          Margin="1,1,0,1"
                          Padding="{TemplateBinding Padding}"
-                         VerticalAlignment="Center"
+                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                          IsReadOnly="{Binding Path=IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
                          BorderBrush="Transparent"
                          Background="Transparent"
@@ -278,6 +280,8 @@
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxText}" />
         <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorder}" />

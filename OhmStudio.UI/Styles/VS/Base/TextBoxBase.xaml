@@ -4,6 +4,9 @@
     <Thickness x:Key="InputControlPadding">2</Thickness>
     
     <Style x:Key="PlaceHolderWithUserControl" TargetType="ContentControl" BasedOn="{StaticResource {x:Type ContentControl}}">
+        <Setter Property="VerticalAlignment" Value="{Binding VerticalContentAlignment,RelativeSource={RelativeSource TemplatedParent}}"/>
+        <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment,RelativeSource={RelativeSource TemplatedParent}}"/>
+        
         <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.PlaceHolder),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <Setter Property="Opacity" Value="{Binding Path=(TextBoxAttach.PlaceHolderOpacity),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.PlaceHolderIsHitTestVisible),RelativeSource={RelativeSource AncestorType=UserControl}}"/>
@@ -15,7 +18,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="PlaceHolderWithTemplatedParent" TargetType="ContentControl" BasedOn="{StaticResource PlaceHolderWithUserControl}">
+    <Style x:Key="PlaceHolderWithTemplatedParent" TargetType="ContentControl" BasedOn="{StaticResource PlaceHolderWithUserControl}"> 
         <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.PlaceHolder),RelativeSource={RelativeSource TemplatedParent}}"/>
         <Setter Property="Opacity" Value="{Binding Path=(TextBoxAttach.PlaceHolderOpacity),RelativeSource={RelativeSource TemplatedParent}}"/>
         <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.PlaceHolderIsHitTestVisible),RelativeSource={RelativeSource TemplatedParent}}"/>
