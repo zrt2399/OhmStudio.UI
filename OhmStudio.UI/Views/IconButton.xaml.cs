@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace OhmStudio.UI.Views
 {
-    [DesignTimeVisible(false)]//在工具箱中 隐藏该窗体
+    [DesignTimeVisible(false)]//在工具箱中 隐藏该窗口
     public partial class IconButton : UserControl
     {
         public IconButton()

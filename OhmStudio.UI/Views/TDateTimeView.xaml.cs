@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace OhmStudio.UI.Views
 {
-    [DesignTimeVisible(false)]//在工具箱中 隐藏该窗体
+    [DesignTimeVisible(false)]//在工具箱中 隐藏该窗口
     /// <summary>
     /// TDateTime.xaml 的交互逻辑。
     /// </summary>
@@ -35,7 +35,7 @@ namespace OhmStudio.UI.Views
         #region 事件
 
         /// <summary>
-        /// TDateTimeView 窗体登录事件
+        /// TDateTimeView 窗口登录事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -215,7 +215,7 @@ namespace OhmStudio.UI.Views
             {
                 popChioce.IsOpen = false;
             }
-            //秒钟 跟分钟 都是60，所有秒钟共用 分钟的窗体即可
+            //秒钟 跟分钟 都是60，所有秒钟共用 分钟的窗口即可
             TMinSexView minSexView = new TMinSexView();//TMinSexView 构造函数 传入秒钟数据
             minSexView.textBlockTitle.Text = "秒   钟";//修改 TMinSexView 的标题名称为秒钟
             minSexView.MinClick += (sexStr) => //TMinSexView 中 所选择确定的 秒钟数据 的传递动作

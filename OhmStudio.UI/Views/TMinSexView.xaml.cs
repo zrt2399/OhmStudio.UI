@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace OhmStudio.UI.Views
 {
-    [DesignTimeVisible(false)]//在工具箱中 隐藏该窗体
+    [DesignTimeVisible(false)]//在工具箱中 隐藏该窗口
     /// <summary>
     /// TMinSexView.xaml 的交互逻辑。
     /// </summary>
@@ -99,7 +99,7 @@ namespace OhmStudio.UI.Views
         }
 
         /// <summary>
-        /// 窗体关闭事件
+        /// 窗口关闭事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

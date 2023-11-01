@@ -20,7 +20,7 @@ namespace OhmStudio.UI.PublicMethods
     }
 
     /// <summary>
-    /// 表示窗体显示的按钮。
+    /// 表示窗口显示的按钮。
     /// </summary>
     public enum MessageButton
     {
@@ -29,7 +29,7 @@ namespace OhmStudio.UI.PublicMethods
     }
 
     /// <summary>
-    /// 表示窗体显示的图片。
+    /// 表示窗口显示的图片。
     /// </summary>
     public enum MessageImage
     {

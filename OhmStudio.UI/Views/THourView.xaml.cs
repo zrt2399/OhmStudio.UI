@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace OhmStudio.UI.Views
 {
-    [DesignTimeVisible(false)]//在工具箱中 隐藏该窗体
+    [DesignTimeVisible(false)]//在工具箱中 隐藏该窗口
     /// <summary>
     /// THourGrid.xaml 的交互逻辑
     /// </summary>
