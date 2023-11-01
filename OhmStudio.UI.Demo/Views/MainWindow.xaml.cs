@@ -124,7 +124,7 @@ namespace OhmStudio.UI.Demo.Views
                     pro.Name = 10 + i;
                 }
                 pro.Value = 100 + i;
-                pro.Description = "1" + i;
+                pro.Description = "ABCghn" + i;
                 FileNodes.Add(pro);
             }
             stopwatch.Stop();

@@ -20,7 +20,7 @@
               WindowStartupLocation="CenterScreen"
               ResizeMode="CanResizeWithGrip"
               UseLayoutRounding="True"
-              SnapsToDevicePixels="False"
+              SnapsToDevicePixels="True"
               Title="{x:Static local:App.Name}"
               Height="720"
               Width="1280">
@@ -31,7 +31,7 @@
 
     <ChromeWindow.RightWindowCommands>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
-            <Border IsHitTestVisible="False" VerticalAlignment="Center">
+            <Border hc:BorderElement.Circular="False" IsHitTestVisible="False" VerticalAlignment="Center">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Style.Triggers>
@@ -286,12 +286,12 @@
                                         </PasswordBoxControl>
 
                                         <ComboBox TextBoxAttach.Title="中文" TextBoxAttach.PlaceHolder="请输入.." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
-                                        <ComboBox IsEditable="True" TextBoxAttach.Title="输出" TextBoxAttach.PlaceHolder="请输入..." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top"/>
-                                        <CheckComboBox TextBoxAttach.Title="搜索"
+                                        <ComboBox IsEditable="True" TextBoxAttach.Title="输出" HorizontalContentAlignment="Right" TextBoxAttach.PlaceHolder="请输入..." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top"/>
+                                        <CheckComboBox TextBoxAttach.Title="搜索" HorizontalContentAlignment="Right"
                                                        Separator=";"
                                                        Format="分组{0}"
                                                        ItemsSource="{Binding FileNodes}"
-                                                       DisplayMemberPath="Name"
+                                                       DisplayMemberPath="Description"
                                                        VerticalAlignment="Top"
                                                        VirtualizingPanel.IsVirtualizing="True"
                                                        VirtualizingPanel.VirtualizationMode="Recycling"
