@@ -19,6 +19,7 @@ using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using OhmStudio.UI.Commands;
 using OhmStudio.UI.Controls;
+using OhmStudio.UI.Converters;
 using OhmStudio.UI.Messaging;
 using OhmStudio.UI.PublicMethods;
 using OxyPlot;
@@ -384,7 +385,7 @@ namespace OhmStudio.UI.Demo.Views
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             (Items as Pro).Value = 100;
-            AlertDialog.Show((Items as Pro).BindingFlags.ToString());
+            AlertDialog.Show((Items as Pro).InstrumentType.ToString());
         }
 
         //static readonly ObservableCollection<string> itemss = new ObservableCollection<string>() { "ADSDADSA", "ASDSAD", "ASDASD" };
@@ -614,7 +615,8 @@ namespace OhmStudio.UI.Demo.Views
         public string Abstring { get; set; }
         public Abs? Abs { get; set; } = null;
 
-        public BindingFlags BindingFlags { get; set; } = BindingFlags.IgnoreCase;
+        public InstrumentType InstrumentType { get; set; }
+
         [PropertyGrid(DisplayName = "名字")]
 
         public string Description { get; set; }
@@ -649,6 +651,29 @@ namespace OhmStudio.UI.Demo.Views
         public DateTime DateTime { get; set; }
 
         public List<string> DateTimes { get; set; } = new List<string>() { "123", "456", "789", "abc", "↑↓←→" };
+    }
+
+    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
+    public enum InstrumentType
+    {
+        [Description("I/O控制单元")]
+        ControlBoard,
+        [Description("测试通道控制")]
+        MatrixBoard,
+        [Description("电压测量模块")]
+        M3054,
+        [Description("1510高压模块")]
+        M9310,
+        [Description("恒流恒压源")]
+        P8605,
+        [Description("LCR测量模块1")]
+        M2810,
+        [Description("LCR测量模块2")]
+        M2821,
+        [Description("HVM高压模块")]
+        MHVM,
+        [Description("K2400高压模块")]
+        K2400
     }
 
     public class UserInfoModel
