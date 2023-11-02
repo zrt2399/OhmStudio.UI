@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Media;
 using OhmStudio.UI.Attachs;
 using OhmStudio.UI.PublicMethods;
 
@@ -245,7 +246,18 @@ namespace OhmStudio.UI.Views
                 if (uIElement != null)
                 {
                     DockPanel dockPanel = new DockPanel() { Margin = new Thickness(8, 4, 8, 4) };
-                    TextBlock textBlock = new TextBlock() { Text = attribute.DisplayName, Margin = new Thickness(0, 0, 4, 0) };
+                    TextBox textBlock = new TextBox()
+                    {
+                        Text = attribute.DisplayName,
+                        ToolTip = attribute.DisplayName,
+                        Margin = new Thickness(0, 0, 4, 0),
+                        VerticalAlignment = VerticalAlignment.Center,
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                        IsReadOnly = true,
+                        BorderBrush = Brushes.Transparent,
+                        BorderThickness = new Thickness(0),
+                        Tag = "Describe"
+                    };
                     SetPlaceHolder(item, uIElement);
                     if (uIElement is TextBox textBox)
                     {
@@ -271,9 +283,9 @@ namespace OhmStudio.UI.Views
                     var max = widths.Max();
                     foreach (var panel in itemsControl.Items.OfType<DockPanel>())
                     {
-                        foreach (var text in panel.Children.OfType<TextBlock>())
+                        foreach (var text in panel.Children.OfType<TextBox>())
                         {
-                            if (double.IsNaN(text.Width) || text.Width < max)
+                            if (text.Tag?.ToString() == "Describe" && (double.IsNaN(text.Width) || text.Width < max))
                             {
                                 text.Width = max;
                             }
