@@ -503,7 +503,7 @@
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <PropertyGrid SelectedObject="{Binding Items}"/>
+                                    <PropertyGrid SelectedObject="{Binding Items}" HorizontalDescribeAlignment="Right"/>
                                     <Button Click="Button_Click_3" Grid.Row="1">Click</Button>
                                     <!--<hc:CheckComboBox  Grid.Row="2">Click</hc:CheckComboBox>-->
                                 </Grid>

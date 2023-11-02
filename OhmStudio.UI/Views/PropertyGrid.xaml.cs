@@ -41,22 +41,22 @@ namespace OhmStudio.UI.Views
             set => SetValue(VerticalScrollBarVisibilityProperty, value);
         }
          
-        public static readonly DependencyProperty DescribeHorizontalAlignmentProperty =
-            DependencyProperty.Register(nameof(DescribeHorizontalAlignment), typeof(HorizontalAlignment), typeof(PropertyGrid), new PropertyMetadata(HorizontalAlignment.Left));
+        public static readonly DependencyProperty HorizontalDescribeAlignmentProperty =
+            DependencyProperty.Register(nameof(HorizontalDescribeAlignment), typeof(HorizontalAlignment), typeof(PropertyGrid), new PropertyMetadata(HorizontalAlignment.Left));
 
-        public HorizontalAlignment DescribeHorizontalAlignment
+        public HorizontalAlignment HorizontalDescribeAlignment
         {
-            get => (HorizontalAlignment)GetValue(DescribeHorizontalAlignmentProperty);
-            set => SetValue(DescribeHorizontalAlignmentProperty, value);
+            get => (HorizontalAlignment)GetValue(HorizontalDescribeAlignmentProperty);
+            set => SetValue(HorizontalDescribeAlignmentProperty, value);
         } 
 
-        public static readonly DependencyProperty DescribeVerticalAlignmentProperty =
-            DependencyProperty.Register(nameof(DescribeVerticalAlignment), typeof(VerticalAlignment), typeof(PropertyGrid), new PropertyMetadata(VerticalAlignment.Center));
+        public static readonly DependencyProperty VerticalDescribeAlignmentProperty =
+            DependencyProperty.Register(nameof(VerticalDescribeAlignment), typeof(VerticalAlignment), typeof(PropertyGrid), new PropertyMetadata(VerticalAlignment.Center));
 
-        public VerticalAlignment DescribeVerticalAlignment
+        public VerticalAlignment VerticalDescribeAlignment
         {
-            get => (VerticalAlignment)GetValue(DescribeVerticalAlignmentProperty);
-            set => SetValue(DescribeVerticalAlignmentProperty, value);
+            get => (VerticalAlignment)GetValue(VerticalDescribeAlignmentProperty);
+            set => SetValue(VerticalDescribeAlignmentProperty, value);
         }
 
         public static readonly DependencyProperty SelectedObjectProperty =
@@ -269,8 +269,8 @@ namespace OhmStudio.UI.Views
                         Text = attribute.DisplayName,
                         ToolTip = attribute.DisplayName,
                         Margin = new Thickness(0, 0, 4, 0),
-                        VerticalAlignment = DescribeVerticalAlignment,
-                        HorizontalAlignment = DescribeHorizontalAlignment,
+                        VerticalContentAlignment = VerticalDescribeAlignment,
+                        HorizontalContentAlignment = HorizontalDescribeAlignment,
                         IsReadOnly = true,
                         BorderBrush = Brushes.Transparent,
                         BorderThickness = new Thickness(0),
