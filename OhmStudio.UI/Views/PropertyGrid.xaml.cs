@@ -40,6 +40,24 @@ namespace OhmStudio.UI.Views
             get => (ScrollBarVisibility)GetValue(VerticalScrollBarVisibilityProperty);
             set => SetValue(VerticalScrollBarVisibilityProperty, value);
         }
+         
+        public static readonly DependencyProperty DescribeHorizontalAlignmentProperty =
+            DependencyProperty.Register(nameof(DescribeHorizontalAlignment), typeof(HorizontalAlignment), typeof(PropertyGrid), new PropertyMetadata(HorizontalAlignment.Left));
+
+        public HorizontalAlignment DescribeHorizontalAlignment
+        {
+            get => (HorizontalAlignment)GetValue(DescribeHorizontalAlignmentProperty);
+            set => SetValue(DescribeHorizontalAlignmentProperty, value);
+        } 
+
+        public static readonly DependencyProperty DescribeVerticalAlignmentProperty =
+            DependencyProperty.Register(nameof(DescribeVerticalAlignment), typeof(VerticalAlignment), typeof(PropertyGrid), new PropertyMetadata(VerticalAlignment.Center));
+
+        public VerticalAlignment DescribeVerticalAlignment
+        {
+            get => (VerticalAlignment)GetValue(DescribeVerticalAlignmentProperty);
+            set => SetValue(DescribeVerticalAlignmentProperty, value);
+        }
 
         public static readonly DependencyProperty SelectedObjectProperty =
             DependencyProperty.Register(nameof(SelectedObject), typeof(object), typeof(PropertyGrid), new PropertyMetadata(null, (sender, e) =>
@@ -251,8 +269,8 @@ namespace OhmStudio.UI.Views
                         Text = attribute.DisplayName,
                         ToolTip = attribute.DisplayName,
                         Margin = new Thickness(0, 0, 4, 0),
-                        VerticalAlignment = VerticalAlignment.Center,
-                        HorizontalAlignment = HorizontalAlignment.Left,
+                        VerticalAlignment = DescribeVerticalAlignment,
+                        HorizontalAlignment = DescribeHorizontalAlignment,
                         IsReadOnly = true,
                         BorderBrush = Brushes.Transparent,
                         BorderThickness = new Thickness(0),
