@@ -78,7 +78,7 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <DockingManager x:Name="dockingManager" >
+        <DockingManager x:Name="dockingManager" ShowSystemMenu="False">
             <LayoutRoot>
                 <LayoutPanel Orientation="Horizontal">
                     <LayoutDocumentPaneGroup>
@@ -88,6 +88,13 @@
                                     <Button Click="Button_Click">Click Me</Button>
                                     <Button Click="Button_Click_1">Button</Button>
                                     <Button Click="Button_Click_2">GC</Button>
+                                    <Border Background="Red" Name="Border" MouseRightButtonDown="Border_MouseRightButtonDown">
+                                        <Border.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem>123</MenuItem>
+                                            </ContextMenu>
+                                        </Border.ContextMenu>
+                                    </Border>
                                 </UniformGrid>
 
                             </LayoutDocument>

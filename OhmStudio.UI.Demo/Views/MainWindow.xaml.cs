@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
@@ -380,6 +381,14 @@ namespace OhmStudio.UI.Demo.Views
         {
             GC.Collect();
             UIMessageTip.Show("GC完成");
+
+
+            var args = new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Right)
+            {
+                RoutedEvent = MouseRightButtonDownEvent,
+            };
+
+            Border.RaiseEvent(args);
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -466,6 +475,11 @@ namespace OhmStudio.UI.Demo.Views
             var result = await CSharpScript.RunAsync(code, scriptOptions, globals);
             AlertDialog.Show(result.ReturnValue.ToString());
 
+        }
+
+        private void Border_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Border.ContextMenu.IsOpen = true;
         }
     }
 
