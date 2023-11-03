@@ -40,24 +40,6 @@ namespace OhmStudio.UI.Views
             get => (ScrollBarVisibility)GetValue(VerticalScrollBarVisibilityProperty);
             set => SetValue(VerticalScrollBarVisibilityProperty, value);
         }
-         
-        public static readonly DependencyProperty HorizontalDescribeAlignmentProperty =
-            DependencyProperty.Register(nameof(HorizontalDescribeAlignment), typeof(HorizontalAlignment), typeof(PropertyGrid), new PropertyMetadata(HorizontalAlignment.Left));
-
-        public HorizontalAlignment HorizontalDescribeAlignment
-        {
-            get => (HorizontalAlignment)GetValue(HorizontalDescribeAlignmentProperty);
-            set => SetValue(HorizontalDescribeAlignmentProperty, value);
-        } 
-
-        public static readonly DependencyProperty VerticalDescribeAlignmentProperty =
-            DependencyProperty.Register(nameof(VerticalDescribeAlignment), typeof(VerticalAlignment), typeof(PropertyGrid), new PropertyMetadata(VerticalAlignment.Center));
-
-        public VerticalAlignment VerticalDescribeAlignment
-        {
-            get => (VerticalAlignment)GetValue(VerticalDescribeAlignmentProperty);
-            set => SetValue(VerticalDescribeAlignmentProperty, value);
-        }
 
         public static readonly DependencyProperty SelectedObjectProperty =
             DependencyProperty.Register(nameof(SelectedObject), typeof(object), typeof(PropertyGrid), new PropertyMetadata(null, (sender, e) =>
@@ -269,10 +251,9 @@ namespace OhmStudio.UI.Views
                         Text = attribute.DisplayName,
                         ToolTip = attribute.DisplayName,
                         Margin = new Thickness(0, 0, 4, 0),
-                        VerticalContentAlignment = VerticalDescribeAlignment,
-                        HorizontalContentAlignment = HorizontalDescribeAlignment,
                         IsReadOnly = true,
                         BorderBrush = Brushes.Transparent,
+                        Background = Brushes.Transparent,
                         BorderThickness = new Thickness(0),
                         Tag = "Describe"
                     };
