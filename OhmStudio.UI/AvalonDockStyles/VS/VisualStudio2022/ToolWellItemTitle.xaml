@@ -199,14 +199,13 @@
                                 <avalonDockControls:DropDownButton
                                     x:Name="MenuDropDownButton"
                                     Grid.Column="1"
-                                    Margin="0,0,1,0"
                                     DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
                                     DropDownContextMenuDataContext="{Binding Path=LayoutItem, RelativeSource={RelativeSource TemplatedParent}}"
                                     Style="{StaticResource ToolWellItemTitleDropDownButtonBaseStyle}"
                                     ToolTip="{x:Static avalonDockProperties:Resources.Anchorable_CxMenu_Hint}">
                                     <Path
-                                        Width="8"
-                                        Height="8"
+                                        Width="10"
+                                        Height="10"
                                         Data="{DynamicResource Path_ToolWellIcon_Menu}"
                                         Fill="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}}}"
                                         Stretch="Uniform" />
@@ -215,7 +214,6 @@
                                 <Button
                                     x:Name="PART_AutoHidePin"
                                     Grid.Column="2"
-                                    Margin="0,0,1,0"
                                     Command="{Binding Path=LayoutItem.AutoHideCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                     Style="{StaticResource ToolWellItemTitleButtonBaseStyle}"
                                     ToolTip="{x:Static avalonDockProperties:Resources.Anchorable_BtnAutoHide_Hint}"

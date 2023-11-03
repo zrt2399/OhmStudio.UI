@@ -209,7 +209,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" MinHeight="21" />
+                                    <RowDefinition Height="Auto" MinHeight="22" />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <ctrls:CustomizeTitleBar
@@ -218,7 +218,7 @@
                                     IsShowSystemMenu="{Binding Path=Model.Root.Manager.ShowSystemMenu, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
                                     <Border
                                         x:Name="Header"
-                                        Padding="3,3,4,4"
+                                        Padding="4"
                                         Background="{DynamicResource {x:Static reskeys:ResourceKeys.ToolWindowCaptionInactiveBackground}}"
                                         TextElement.Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.ToolWindowCaptionInactiveText}}">
                                         <Grid UseLayoutRounding="true">
@@ -229,19 +229,18 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <DockPanel>
-                                                <Border
-                                                    Padding="2,0,4,0"
-                                                    HorizontalAlignment="Left"
-                                                    Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={avalonDockConverters:BoolToVisibilityConverter}}">
+                                                <Border HorizontalAlignment="Left"
+                                                        Padding="0,0,4,0"
+                                                        Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={avalonDockConverters:BoolToVisibilityConverter}}">
                                                     <ContentPresenter
-                                                        Content="{Binding Model.SinglePane.SelectedContent, RelativeSource={RelativeSource TemplatedParent}}"
-                                                        ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
-                                                        ContentTemplateSelector="{Binding Model.Root.Manager.AnchorableTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}" />
+																Content="{Binding Model.SinglePane.SelectedContent, RelativeSource={RelativeSource TemplatedParent}}"
+																ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+																ContentTemplateSelector="{Binding Model.Root.Manager.AnchorableTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}" />
                                                 </Border>
                                                 <Rectangle
                                                     x:Name="DragHandleTexture"
                                                     Height="5"
-                                                    Margin="4,0,4,0"
+                                                    Margin="4,0"
                                                     VerticalAlignment="Center"
                                                     RenderOptions.BitmapScalingMode="NearestNeighbor"
                                                     UseLayoutRounding="true" />
@@ -250,7 +249,6 @@
                                             <avalonDockControls:DropDownButton
                                                 x:Name="SinglePaneContextMenu"
                                                 Grid.Column="1"
-                                                Margin="1,1,1,0"
                                                 controlz:NonClientControlProperties.ClickStrategy="MouseEvent"
                                                 controlz:NonClientControlProperties.HitTestResult="MENU"
                                                 controlz:WindowChrome.IsHitTestVisibleInChrome="true"
@@ -260,8 +258,8 @@
                                                 ToolTip="{x:Static avalonDockProperties:Resources.Anchorable_CxMenu_Hint}"
                                                 Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={avalonDockConverters:BoolToVisibilityConverter}}">
                                                 <Path
-                                                    Width="8"
-                                                    Height="8"
+                                                    Width="10"
+                                                    Height="10"
                                                     Data="{DynamicResource Path_ToolWellWindow_Menu}"
                                                     Fill="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}}}"
                                                     Stretch="Uniform" />
@@ -270,7 +268,6 @@
                                             <Button
                                                 x:Name="PART_PinMaximize"
                                                 Grid.Column="2"
-                                                Margin="0,1,1,0"
                                                 controlz:NonClientControlProperties.ClickStrategy="AutomationPeer"
                                                 controlz:NonClientControlProperties.HitTestResult="MAXBUTTON"
                                                 Command="{x:Static shell:SystemCommands.MaximizeWindowCommand}"
@@ -279,9 +276,8 @@
                                                 ToolTip="{x:Static avalonDockProperties:Resources.Window_Maximize}"
                                                 Visibility="{Binding IsMaximized, RelativeSource={RelativeSource TemplatedParent}, Converter={avalonDockConverters:InverseBoolToVisibilityConverter}}">
                                                 <Path
-                                                    Width="9"
-                                                    Height="9"
-                                                    Margin="1,1,0,0"
+                                                    Width="10"
+                                                    Height="10"
                                                     Data="{DynamicResource Path_ToolWellWindow_Maximize}"
                                                     Fill="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}}}"
                                                     Stretch="Uniform" />
@@ -290,7 +286,6 @@
                                             <Button
                                                 x:Name="PART_PinRestore"
                                                 Grid.Column="2"
-                                                Margin="0,1,1,0"
                                                 controlz:NonClientControlProperties.ClickStrategy="AutomationPeer"
                                                 controlz:NonClientControlProperties.HitTestResult="MAXBUTTON"
                                                 Command="{x:Static shell:SystemCommands.RestoreWindowCommand}"
@@ -309,7 +304,6 @@
                                             <Button
                                                 x:Name="PART_PinClose"
                                                 Grid.Column="3"
-                                                Margin="0,1,1,0"
                                                 controlz:NonClientControlProperties.ClickStrategy="AutomationPeer"
                                                 controlz:NonClientControlProperties.HitTestResult="CLOSE"
                                                 Command="{Binding HideWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"

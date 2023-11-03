@@ -4,6 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using ControlzEx;
+using ControlzEx.Behaviors;
+using ControlzEx.Native;
 using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
@@ -25,36 +28,36 @@ namespace OhmStudio.UI.Controls
         [Bindable(true), Description("Gets/sets the DataContext to set for the context menu property."), Category("Menu")]
         public object ContextMenuDataContext
         {
-            get => (object)GetValue(ContextMenuDataContextProperty);
+            get => GetValue(ContextMenuDataContextProperty);
             set => SetValue(ContextMenuDataContextProperty, value);
         }
 
         public bool IsShowSystemMenu
         {
-            get { return (bool)GetValue(IsShowSystemMenuProperty); }
-            set { SetValue(IsShowSystemMenuProperty, value); }
+            get => (bool)GetValue(IsShowSystemMenuProperty);
+            set => SetValue(IsShowSystemMenuProperty, value);
         }
 
         public bool IsWindowTitleBar
         {
-            get { return (bool)GetValue(IsWindowTitleBarProperty); }
-            set { SetValue(IsWindowTitleBarProperty, value); }
+            get => (bool)GetValue(IsWindowTitleBarProperty);
+            set => SetValue(IsWindowTitleBarProperty, value);
         }
 
         public CustomizeTitleBar()
         {
             PresentationSource.AddSourceChangedHandler(this, OnSourceChanged);
 
-            ControlzEx.WindowChrome.SetIsHitTestVisibleInChrome(this, true);
+            WindowChrome.SetIsHitTestVisibleInChrome(this, true);
             CoreceUpdateIsWindowTitleBar();
         }
 
         private void OnSourceChanged(object sender, SourceChangedEventArgs args)
         {
-            var newHwndSource = (HwndSource )args.NewSource;
+            var newHwndSource = (HwndSource)args.NewSource;
             newHwndSource?.AddHook(WndProc);
 
-            var oldHwndSource = (HwndSource )args.OldSource;
+            var oldHwndSource = (HwndSource)args.OldSource;
             oldHwndSource?.RemoveHook(WndProc);
         }
 
@@ -63,8 +66,8 @@ namespace OhmStudio.UI.Controls
             switch (msg)
             {
                 case 165:
-                    CoreceShowContextMenu();
                     handled = true;
+                    CoreceShowContextMenu();
                     break;
             }
             return IntPtr.Zero;
@@ -74,11 +77,11 @@ namespace OhmStudio.UI.Controls
         {
             if (IsWindowTitleBar)
             {
-                ControlzEx.Behaviors.NonClientControlProperties.SetHitTestResult(this, ControlzEx.Native.HT.CAPTION);
+                NonClientControlProperties.SetHitTestResult(this, HT.CAPTION);
             }
             else
             {
-                ControlzEx.Behaviors.NonClientControlProperties.SetHitTestResult(this, ControlzEx.Native.HT.TOP);
+                NonClientControlProperties.SetHitTestResult(this, HT.TOP);
             }
         }
 
@@ -89,17 +92,17 @@ namespace OhmStudio.UI.Controls
                 ReleaseMouseCapture();
             }
 
-            if (Window.GetWindow(this) is Window wnd)
+            if (Window.GetWindow(this) is Window window)
             {
                 if (IsShowSystemMenu)
                 {
 #pragma warning disable CS0618
-                    ControlzEx.SystemCommands.ShowSystemMenu(wnd, PointFromScreen(MouseHelper.GetMousePosition()));
+                    ControlzEx.SystemCommands.ShowSystemMenu(window, PointFromScreen(MouseHelper.GetMousePosition()));
 #pragma warning restore CS0618
                 }
                 else
                 {
-                    if (ContextMenu is not null)
+                    if (ContextMenu != null)
                     {
                         ContextMenu.DataContext = ContextMenuDataContext;
                         ContextMenu.IsOpen = true;
@@ -117,4 +120,4 @@ namespace OhmStudio.UI.Controls
             }
         }
     }
-} 
+}

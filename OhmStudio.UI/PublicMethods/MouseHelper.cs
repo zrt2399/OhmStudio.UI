@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace OhmStudio.UI.PublicMethods
 {
-    internal static class MouseHelper
+    public static class MouseHelper
     {
         [DllImport("user32.dll", ExactSpelling = true, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
