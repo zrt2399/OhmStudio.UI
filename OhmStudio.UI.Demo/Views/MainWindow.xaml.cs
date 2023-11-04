@@ -58,7 +58,7 @@ namespace OhmStudio.UI.Demo.Views
             for (int i = 0; i < 100; i++)
             {
                 Result.Rows.Add(DateTime.Now, i, i + 1, "44");
-            } 
+            }
             //da.ItemsSource = Result.DefaultView;
             //PlotModel = new PlotModel();
 
@@ -494,23 +494,34 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private void LoadFolders(string path, TreeViewItem parentNode)
+        private void LoadSubDirectory(TreeViewItem node, string fullPath)
         {
-            // 获取文件夹中的子文件夹
-            string[] subDirectories = Directory.GetDirectories(path);
-
-            // 遍历子文件夹
-            foreach (string directory in subDirectories)
+            //try
+            //{
+            DirectoryInfo directoryInfo = new DirectoryInfo(fullPath);
+            if (directoryInfo.Exists)
             {
-                TreeViewItem folderItem = new TreeViewItem();
-                folderItem.Header = new DirectoryInfo(directory).Name;
-
-                // 递归调用以加载子文件夹
-                LoadFolders(directory, folderItem);
-
-                // 将该子文件夹添加到父节点
-                parentNode.Items.Add(folderItem);
-            } 
+                //加载子文件夹
+                foreach (DirectoryInfo subDirInfo in directoryInfo.GetDirectories().OrderBy(x => x.Name))
+                {
+                    TreeViewItem subNode = new TreeViewItem();  
+                    subNode.Header = subDirInfo.Name; 
+                    LoadSubDirectory(subNode, subDirInfo.FullName);
+                    node.Items.Add(subNode);
+                }
+                //加载文件
+                foreach (FileInfo fileInfo in directoryInfo.GetFiles().OrderBy(x => x.Name))
+                {
+                    TreeViewItem subNode = new TreeViewItem();
+                    subNode.Header = fileInfo.Name;
+                    node.Items.Add(subNode);
+                }
+            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    AlertDialog.Show(ex.Message, "Error", MessageButton.OK, MessageImage.Error);
+            //}
         }
 
         private void LoadTreeView(string rootFolderPath)
@@ -520,7 +531,7 @@ namespace OhmStudio.UI.Demo.Views
             rootNode.Header = new DirectoryInfo(rootFolderPath).Name;
 
             // 加载根文件夹
-            LoadFolders(rootFolderPath, rootNode);
+            LoadSubDirectory(rootNode, rootFolderPath);
 
             // 将根节点添加到 TreeView
             treeView.Items.Add(rootNode);
