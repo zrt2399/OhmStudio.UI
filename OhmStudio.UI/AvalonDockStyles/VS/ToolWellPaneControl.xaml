@@ -62,7 +62,7 @@
                     <Setter Property="BorderBrush" Value="{DynamicResource {x:Static reskeys:ResourceKeys.TabItemStaticBorder}}" />
                     <Setter Property="Foreground" Value="{DynamicResource {x:Static reskeys:ResourceKeys.TabItemStaticForeground}}" />
                     <Setter Property="Margin" Value="0" />
-                    <Setter Property="Padding" Value="6,3" />
+                    <Setter Property="Padding" Value="6,2" />
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="VerticalContentAlignment" Value="Stretch" />
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />

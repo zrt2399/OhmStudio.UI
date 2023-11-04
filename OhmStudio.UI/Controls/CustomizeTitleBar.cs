@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Threading;
 using ControlzEx;
 using ControlzEx.Behaviors;
 using ControlzEx.Native;
@@ -106,7 +105,7 @@ namespace OhmStudio.UI.Controls
                     if (ContextMenu != null)
                     {
                         ContextMenu.DataContext = ContextMenuDataContext;
-                        Dispatcher.InvokeAsync(() => ContextMenu.IsOpen = true, DispatcherPriority.ApplicationIdle);
+                        ContextMenu.IsOpen = true;
                     }
                 }
             }
