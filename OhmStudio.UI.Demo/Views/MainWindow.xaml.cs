@@ -237,7 +237,7 @@ namespace OhmStudio.UI.Demo.Views
             }
             , () =>
             {
-                Debug.WriteLine(Can);
+                //Debug.WriteLine(Can);
                 return Can;
             });
             set => startCommand = value;

@@ -24,9 +24,9 @@
               Title="{x:Static local:App.Name}"
               Height="720"
               Width="1280">
-    
+
     <Window.Resources>
-        <converters:GroupItemConverter x:Key="GroupItemConverter"/> 
+        <converters:GroupItemConverter x:Key="GroupItemConverter"/>
     </Window.Resources>
 
     <ChromeWindow.RightWindowCommands>
@@ -126,7 +126,7 @@
                                               DataGridAttach.TextColumnElementStyle="{StaticResource {x:Type TextBlock}}"
                                               DataGridAttach.TextColumnEditingElementStyle="{StaticResource TextColumnEditingElementStyle}"
                                               AutoGenerateColumns="False"
-                                              CanUserAddRows="False" > 
+                                              CanUserAddRows="False" >
                                         <!-- 定义需要显示的列 -->
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
@@ -147,7 +147,7 @@
                                                         <Setter Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate TargetType="GroupItem">
-                                                                    <Expander IsExpanded="{Binding Path=Items[0].IsExpanded}" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
+                                                                    <Expander IsExpanded="{Binding Path=Items[0].IsExpanded,FallbackValue=True}" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
                                                                         <Expander.Header>
                                                                             <StackPanel Orientation="Horizontal">
                                                                                 <TextBlock Text="{Binding Path=Name,StringFormat=分组：{0}}" Margin="0,0,20,0"/>

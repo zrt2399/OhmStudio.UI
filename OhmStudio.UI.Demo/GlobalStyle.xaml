@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit">
 
     <FontFamily x:Key="GlobalFontFamily">/Fonts/OPPOSans-M.ttf#OPPOSans M</FontFamily>
 
@@ -88,6 +89,10 @@
                 </TransformGroup>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style TargetType="avalonEdit:TextArea">
+        <Setter Property="SelectionCornerRadius" Value="0" />
     </Style>
 
 </ResourceDictionary>
