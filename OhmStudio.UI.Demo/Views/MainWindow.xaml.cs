@@ -6,12 +6,14 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing.Text;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -56,7 +58,7 @@ namespace OhmStudio.UI.Demo.Views
             for (int i = 0; i < 100; i++)
             {
                 Result.Rows.Add(DateTime.Now, i, i + 1, "44");
-            }
+            } 
             //da.ItemsSource = Result.DefaultView;
             //PlotModel = new PlotModel();
 
@@ -480,6 +482,49 @@ namespace OhmStudio.UI.Demo.Views
         private void Border_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             Border.ContextMenu.IsOpen = true;
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new();
+            folderBrowserDialog.Description = "请选择文件夹";
+            if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                LoadTreeView(folderBrowserDialog.SelectedPath);
+            }
+        }
+
+        private void LoadFolders(string path, TreeViewItem parentNode)
+        {
+            // 获取文件夹中的子文件夹
+            string[] subDirectories = Directory.GetDirectories(path);
+
+            // 遍历子文件夹
+            foreach (string directory in subDirectories)
+            {
+                TreeViewItem folderItem = new TreeViewItem();
+                folderItem.Header = new DirectoryInfo(directory).Name;
+
+                // 递归调用以加载子文件夹
+                LoadFolders(directory, folderItem);
+
+                // 将该子文件夹添加到父节点
+                parentNode.Items.Add(folderItem);
+            } 
+        }
+
+        private void LoadTreeView(string rootFolderPath)
+        {
+            // 创建根节点
+            TreeViewItem rootNode = new TreeViewItem();
+            rootNode.Header = new DirectoryInfo(rootFolderPath).Name;
+
+            // 加载根文件夹
+            LoadFolders(rootFolderPath, rootNode);
+
+            // 将根节点添加到 TreeView
+            treeView.Items.Add(rootNode);
+
         }
     }
 

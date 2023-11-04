@@ -479,13 +479,6 @@
                                             <MenuItem Header="Zxc"></MenuItem>
                                             <MenuItem Header="Zxc"></MenuItem>
                                             <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
                                         </ContextMenu>
                                     </ListView.ContextMenu>
                                 </ListView>
@@ -514,7 +507,15 @@
                                     <Button Click="Button_Click_3" Grid.Row="1">Click</Button>
                                     <!--<hc:CheckComboBox  Grid.Row="2">Click</hc:CheckComboBox>-->
                                 </Grid>
-
+                            </LayoutAnchorable>
+                            <LayoutAnchorable Title="TreeView">
+                                <TreeView Name="treeView">
+                                    <TreeView.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="导入文件夹" Click="MenuItem_Click_2"/>
+                                        </ContextMenu>
+                                    </TreeView.ContextMenu>
+                                </TreeView>
                             </LayoutAnchorable>
                         </LayoutAnchorablePane>
                     </LayoutAnchorablePaneGroup>
