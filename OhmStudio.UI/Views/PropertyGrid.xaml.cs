@@ -255,7 +255,7 @@ namespace OhmStudio.UI.Views
                         BorderBrush = Brushes.Transparent,
                         Background = Brushes.Transparent,
                         BorderThickness = new Thickness(0),
-                        Tag = "Describe"
+                        Tag = "Description"
                     };
                     SetPlaceHolder(item, uIElement);
                     if (uIElement is TextBox textBox)
@@ -284,7 +284,7 @@ namespace OhmStudio.UI.Views
                     {
                         foreach (var text in panel.Children.OfType<TextBox>())
                         {
-                            if (text.Tag?.ToString() == "Describe" && (double.IsNaN(text.Width) || text.Width < max))
+                            if (text.Tag?.ToString() == "Description" && (double.IsNaN(text.Width) || text.Width < max))
                             {
                                 text.Width = max;
                             }

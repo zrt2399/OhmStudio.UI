@@ -10,7 +10,7 @@
              d:DesignWidth="800" >
 
     <Grid>
-        <ItemsControl Name="itemsControl">
+        <ItemsControl x:Name="itemsControl">
             <ItemsControl.Template>
                 <ControlTemplate TargetType="ItemsControl">
                     <ScrollViewer HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility,RelativeSource={RelativeSource AncestorType=UserControl}}"
