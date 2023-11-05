@@ -222,8 +222,12 @@
                                 </hc:Carousel>-->
                                 <RollBox>
                                     <RollBox.Items>
-                                        <Image Source="/download.jpg"/>
-                                        <Image Source="/icon.ico"/>
+                                        <Image Source="/Images/1.jpg"/>
+                                        <Image Source="/Images/1a.jpg"/>
+                                        <Image Source="/Images/2.jpg"/>
+                                        <Image Source="/Images/2a.jpg"/>
+                                        <Image Source="/Images/3.jpg"/>
+                                        <Image Source="/Images/3a.jpg"/>
                                     </RollBox.Items>
                                 </RollBox>
                             </LayoutDocument>

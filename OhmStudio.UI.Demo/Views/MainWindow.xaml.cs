@@ -504,8 +504,8 @@ namespace OhmStudio.UI.Demo.Views
                 //加载子文件夹
                 foreach (DirectoryInfo subDirInfo in directoryInfo.GetDirectories().OrderBy(x => x.Name))
                 {
-                    TreeViewItem subNode = new TreeViewItem();  
-                    subNode.Header = subDirInfo.Name; 
+                    TreeViewItem subNode = new TreeViewItem();
+                    subNode.Header = subDirInfo.Name;
                     LoadSubDirectory(subNode, subDirInfo.FullName);
                     node.Items.Add(subNode);
                 }
