@@ -24,10 +24,14 @@ namespace OhmStudio.UI.PublicMethods
         {
             if (owner == null)
             {
-                window.Owner = Application.Current?.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
-                if (window.Owner == null && window != Application.Current?.MainWindow)
+                var app = Application.Current;
+                if (app != null)
                 {
-                    window.Owner = Application.Current?.MainWindow;
+                    window.Owner = app.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive && x.IsLoaded);
+                    if (window.Owner == null && window != app.MainWindow && app.MainWindow.IsLoaded)
+                    {
+                        window.Owner = app.MainWindow;
+                    }
                 }
             }
             else
