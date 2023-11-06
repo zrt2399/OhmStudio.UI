@@ -265,7 +265,8 @@ namespace OhmStudio.UI.Controls
         /// </summary>
         public ChromeWindow()
         {
-            Loaded += OnLoaded;
+            InitializeGlowWindowBehaviorEx();
+            InitializeWindowChromeEx();
         }
 
         /// <summary>
@@ -296,15 +297,7 @@ namespace OhmStudio.UI.Controls
                 new Binding { Path = new PropertyPath(IsShowMaximizeButtonProperty), Source = this });
 
             Interaction.GetBehaviors(this).Add(behavior);
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            Loaded -= OnLoaded;
-
-            InitializeGlowWindowBehaviorEx();
-            InitializeWindowChromeEx();
-        }
+        } 
 
         /// <inheritdoc/>
         protected override AutomationPeer OnCreateAutomationPeer()

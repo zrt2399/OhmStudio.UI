@@ -24,6 +24,7 @@
         <Setter Property="WindowChrome.WindowChrome" Value="{x:Null}" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Title" Value="{Binding Model.SinglePane.SelectedContent.Title,RelativeSource={RelativeSource Mode=Self}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.FloatingToolWindowBackground}}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template">
