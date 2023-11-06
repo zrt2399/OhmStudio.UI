@@ -202,7 +202,7 @@ namespace OhmStudio.UI.Controls
         public bool IsShowMinimizeButton
         {
             get => (bool)GetValue(IsShowMinimizeButtonProperty);
-            set => SetValue(IsShowMinimizeButtonProperty, value); 
+            set => SetValue(IsShowMinimizeButtonProperty, value);
         }
 
         /// <summary>
@@ -265,6 +265,12 @@ namespace OhmStudio.UI.Controls
         /// </summary>
         public ChromeWindow()
         {
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= OnLoaded;
             InitializeGlowWindowBehaviorEx();
             InitializeWindowChromeEx();
         }
@@ -297,7 +303,7 @@ namespace OhmStudio.UI.Controls
                 new Binding { Path = new PropertyPath(IsShowMaximizeButtonProperty), Source = this });
 
             Interaction.GetBehaviors(this).Add(behavior);
-        } 
+        }
 
         /// <inheritdoc/>
         protected override AutomationPeer OnCreateAutomationPeer()
@@ -305,4 +311,4 @@ namespace OhmStudio.UI.Controls
             return new ChromeWindowAutomationPeer(this);
         }
     }
-} 
+}
