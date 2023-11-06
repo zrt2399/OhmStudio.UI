@@ -4,23 +4,23 @@ namespace OhmStudio.UI.Attachs
 {
     public class WindowAttach
     {
-        public static readonly DependencyProperty ShowDialogProperty =
-           DependencyProperty.RegisterAttached("ShowDialog", typeof(bool?), typeof(TextBoxAttach), new PropertyMetadata(null, (sender, e) =>
-           {
-               if (sender is Window window && window.IsLoaded)
-               {
-                   window.DialogResult = (bool?)e.NewValue;
-               }
-           }));
+        public static readonly DependencyProperty DialogResultProperty =
+            DependencyProperty.RegisterAttached("DialogResult", typeof(bool?), typeof(WindowAttach), new PropertyMetadata(null, (sender, e) =>
+            {
+                if (sender is Window window && window.IsLoaded)
+                {
+                    window.DialogResult = (bool?)e.NewValue;
+                }
+            }));
 
-        public static bool? GetShowDialog(DependencyObject target)
+        public static bool? GetDialogResult(DependencyObject obj)
         {
-            return (bool?)target.GetValue(ShowDialogProperty);
+            return (bool?)obj.GetValue(DialogResultProperty);
         }
 
-        public static void SetShowDialog(DependencyObject target, bool? value)
+        public static void SetDialogResult(DependencyObject obj, bool? value)
         {
-            target.SetValue(ShowDialogProperty, value);
+            obj.SetValue(DialogResultProperty, value);
         }
     }
 }
