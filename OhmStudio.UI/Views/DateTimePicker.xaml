@@ -26,7 +26,7 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center"/>
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
                                     <ContentControl Style="{DynamicResource PlaceHolderWithUserControl}" Margin="{TemplateBinding Padding}"/>
                                     <Grid MaxHeight="{Binding ElementName=PART_ContentHost,Path=ActualHeight}" Grid.Column="1">
                                         <Button Margin="0,4,4,4" Click="IconButton_Click" Padding="0" 

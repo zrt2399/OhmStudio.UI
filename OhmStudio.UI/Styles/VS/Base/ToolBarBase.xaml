@@ -180,8 +180,7 @@
                         SnapsToDevicePixels="True">
                         <ScrollViewer
                             x:Name="PART_ContentHost"
-                            MinHeight="18"
-                            VerticalAlignment="Center" />
+                            MinHeight="18"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
