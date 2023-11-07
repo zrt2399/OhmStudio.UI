@@ -272,7 +272,7 @@
                                                 <!--<iconPacks:PackIconModern Kind="InterfacePassword" Margin="0,0,4,0" Height="{Binding ElementName=dateTimePickerUserPassword1,Path=ActualHeight}"  />-->
                                             </TextBoxAttach.Title>
                                         </DateTimePicker>
-                                        <SearchBar VerticalAlignment="Top" HorizontalContentAlignment="Right" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
+                                        <SearchBar VerticalAlignment="Top" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" TextBoxAttach.Title="搜索" Height="100" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
                                         <TextBox VerticalAlignment="Top" TextBoxAttach.Title="开始" TextBoxAttach.PlaceHolder="123456..."/>
                                         <TextBox IsEnabled="True" VerticalAlignment="Top" Text="{Binding CurrentDateTime,Mode=TwoWay}" >
                                             <TextBoxAttach.Title>
