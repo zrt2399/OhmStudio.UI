@@ -58,7 +58,7 @@ namespace OhmStudio.UI.Views
                         propertyGrid.itemsControl.Items[i] = null;
                     }
                     propertyGrid.itemsControl.Items.Clear();
-                    propertyGrid.widths.Clear();
+                    propertyGrid._widths.Clear();
                     if (e.NewValue != null)
                     {
                         propertyGrid.Create(e.NewValue, propertyGrid.itemsControl);
@@ -165,7 +165,7 @@ namespace OhmStudio.UI.Views
             }
         }
 
-        List<double> widths = new List<double>();
+        List<double> _widths = new List<double>();
         void Create(object obj, ItemsControl itemsControl)
         {
             if (obj == null)
@@ -278,8 +278,8 @@ namespace OhmStudio.UI.Views
                     dockPanel.Children.Add(uIElement);
                     itemsControl.Items.Add(dockPanel);
                     textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                    widths.Add(textBlock.DesiredSize.Width);
-                    var max = widths.Max();
+                    _widths.Add(textBlock.DesiredSize.Width);
+                    var max = _widths.Max();
                     foreach (var panel in itemsControl.Items.OfType<DockPanel>())
                     {
                         foreach (var text in panel.Children.OfType<TextBox>())
