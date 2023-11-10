@@ -29,6 +29,31 @@
         <converters:GroupItemConverter x:Key="GroupItemConverter"/>
     </Window.Resources>
 
+    <ChromeWindow.LeftWindowCommands>
+        <ToolBarTray VerticalAlignment="Center">
+            <ToolBar BandIndex="1" >
+                <Button   ToolTip="新建项目" Content="1"/>
+                <TextBox>新建项目</TextBox>
+                <RadioButton>新建项目</RadioButton>
+                <CheckBox>新建项目</CheckBox>
+                <Button ToolTip="打开文件" Content="2"/>
+                <Separator></Separator>
+                <Button  ToolTip="保存当前文件" Content="3"/>
+                <Separator></Separator>
+                <Button  ToolTip="保存当前文件" Content="5"/>
+            </ToolBar>
+            <ToolBar BandIndex="2" >
+                <Button   ToolTip="新建项目" Content="3"/>
+               
+                <Button ToolTip="打开文件" Content="4"/>
+                <Separator></Separator>
+                <Button  ToolTip="保存当前文件" Content="5"/>
+                <Separator></Separator>
+                <Button  ToolTip="保存当前文件" Content="5"/>
+            </ToolBar>
+        </ToolBarTray>
+    </ChromeWindow.LeftWindowCommands>
+    
     <ChromeWindow.RightWindowCommands>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
             <Border hc:BorderElement.Circular="False" IsHitTestVisible="False" VerticalAlignment="Center">

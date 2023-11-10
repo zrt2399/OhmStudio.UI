@@ -375,8 +375,8 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Messenger.Default.Send("发送了消息", Rrecipient);
-            UIMessageTip.ShowError("发生了错误");
+            Messenger.Default.Send("发送了消息Rrecipient", Rrecipient);
+            UIMessageTip.ShowError("发生了错误Rrecipient");
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
