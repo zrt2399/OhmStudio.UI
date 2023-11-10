@@ -133,7 +133,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid>
-                <Image Margin="10,10,0,10"
+                <Image Margin="10,10,0,0"
                        Height="28"
                        x:Name="imageInfo"
                        d:Source="/Images/info.png"
@@ -150,18 +150,16 @@
                 </Image>
             </Grid>
             <Grid Grid.Column="1">
-                <ScrollViewer VerticalScrollBarVisibility="Auto"
-                              HorizontalScrollBarVisibility="Disabled">
-                    <TextBox x:Name="txtMessage"
-                                 Padding="0"
-                                 VerticalContentAlignment="Top"
-                                 Margin="10,0"
-                                 Background="Transparent"
-                                 BorderBrush="Transparent"
-                                 BorderThickness="0"
-                                 IsReadOnly="True"
-                                 TextWrapping="Wrap" />
-                </ScrollViewer>
+                <TextBox x:Name="txtMessage"
+                         VerticalScrollBarVisibility="Auto"
+                         HorizontalScrollBarVisibility="Disabled"
+                         TextWrapping="Wrap"
+                         Padding="10,0"
+                         VerticalContentAlignment="Top" 
+                         Background="Transparent"
+                         BorderBrush="Transparent"
+                         BorderThickness="0"
+                         IsReadOnly="True" />
             </Grid>
         </Grid>
         <Grid Grid.Row="2" Background="{DynamicResource MessageBoxButtonAreaBackground}">

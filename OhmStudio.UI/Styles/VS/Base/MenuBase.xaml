@@ -56,7 +56,7 @@
                             <Setter TargetName="B1" Property="Fill" Value="{DynamicResource SystemColorsControlLightLight}" />
                             <Setter TargetName="L1" Property="Fill" Value="{DynamicResource SystemColorsControlDarkDark}" />
                             <Setter TargetName="T1" Property="Fill" Value="{DynamicResource SystemColorsControlDarkDark}" />
-                            <Setter TargetName="ContentContainer" Property="Margin" Value="3,3,1,1" />
+                            <!--<Setter TargetName="ContentContainer" Property="Margin" Value="3,3,1,1" />-->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
