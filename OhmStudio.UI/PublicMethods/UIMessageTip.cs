@@ -34,7 +34,7 @@ namespace OhmStudio.UI.PublicMethods
         {
             Application.Current?.Dispatcher.Invoke(async () =>
             {
-                Popup popup = new Popup();
+                Popup popup = new Popup(); 
                 popup.AllowsTransparency = true;
                 Border borderEffect = new Border();
                 borderEffect.Background = "#FAFAFA".ToSolidColorBrush();
@@ -52,9 +52,10 @@ namespace OhmStudio.UI.PublicMethods
                 Grid grid = new Grid();
                 Grid gridContent = new Grid();
                 gridContent.ColumnDefinitions.Add(new ColumnDefinition());
-                gridContent.ColumnDefinitions.Add(new ColumnDefinition());
+                gridContent.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
 
                 TextBlock textBlock = new TextBlock();
+                textBlock.TextWrapping = TextWrapping.Wrap;
                 textBlock.VerticalAlignment = VerticalAlignment.Center;
                 textBlock.Text = message;
                 //textBlock.FontSize = 13;
@@ -62,6 +63,7 @@ namespace OhmStudio.UI.PublicMethods
                 {
                     textBlock.Margin = new Thickness(4, 0, 0, 0);
                 }
+                //textBlock.MaxWidth = SystemParameters.WorkArea.Width;
                 var image = new System.Windows.Controls.Image();
                 image.Source = PresetsResources.Icons[(int)uIStyle];
                 textBlock.SetValue(Grid.ColumnProperty, 1);
