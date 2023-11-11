@@ -23,6 +23,15 @@ namespace OhmStudio.UI.Views
             InitializeComponent();
         }
 
+        public static readonly DependencyProperty ItemSpacingProperty =
+            DependencyProperty.Register(nameof(ItemSpacing), typeof(Thickness), typeof(PropertyGrid), new PropertyMetadata(new Thickness(0, 8, 0, 0)));
+
+        public Thickness ItemSpacing
+        {
+            get => (Thickness)GetValue(ItemSpacingProperty);
+            set => SetValue(ItemSpacingProperty, value);
+        }
+
         public static readonly DependencyProperty HorizontalScrollBarVisibilityProperty =
             DependencyProperty.Register(nameof(HorizontalScrollBarVisibility), typeof(ScrollBarVisibility), typeof(PropertyGrid), new PropertyMetadata(ScrollBarVisibility.Disabled));
 
@@ -245,17 +254,17 @@ namespace OhmStudio.UI.Views
                 }
                 if (uIElement != null)
                 {
-                    DockPanel dockPanel = new DockPanel() { Margin = new Thickness(8, 4, 8, 4) };
+                    DockPanel dockPanel = new DockPanel();
                     TextBox textBlock = new TextBox()
                     {
                         Text = attribute.DisplayName,
                         ToolTip = attribute.DisplayName,
-                        Margin = new Thickness(0, 0, 4, 0),
+                        Padding = new Thickness(0),
                         IsReadOnly = true,
                         BorderBrush = Brushes.Transparent,
                         Background = Brushes.Transparent,
                         BorderThickness = new Thickness(0),
-                        Tag = "Description"
+                        Tag = "Title"
                     };
                     SetPlaceHolder(item, uIElement);
                     if (uIElement is TextBox textBox)
@@ -276,18 +285,16 @@ namespace OhmStudio.UI.Views
                     }
                     dockPanel.Children.Add(textBlock);
                     dockPanel.Children.Add(uIElement);
+                    dockPanel.Margin = itemsControl.Items.Count > 0 ? ItemSpacing : new Thickness(0);
                     itemsControl.Items.Add(dockPanel);
                     textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                    _widths.Add(textBlock.DesiredSize.Width);
+                    _widths.Add(textBlock.DesiredSize.Width + 20);
                     var max = _widths.Max();
                     foreach (var panel in itemsControl.Items.OfType<DockPanel>())
                     {
-                        foreach (var text in panel.Children.OfType<TextBox>())
+                        foreach (var text in panel.Children.OfType<TextBox>().Where(x => x.Tag?.ToString() == "Title" && (double.IsNaN(x.Width) || x.Width < max)))
                         {
-                            if (text.Tag?.ToString() == "Description" && (double.IsNaN(text.Width) || text.Width < max))
-                            {
-                                text.Width = max;
-                            }
+                            text.Width = max;
                         }
                     }
                 }
