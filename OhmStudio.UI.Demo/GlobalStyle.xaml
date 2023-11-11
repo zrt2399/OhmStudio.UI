@@ -26,8 +26,8 @@
         <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/> 
     </Style>
-
-    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+    
+    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBoxBase}}">
         <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/> 
@@ -60,7 +60,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+ 
     <Style x:Key="TransparentTextBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>

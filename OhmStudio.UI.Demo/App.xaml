@@ -8,9 +8,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <local:OhmXamlUIResource />
-                <ResourceDictionary Source="/GlobalStyle.xaml" />
+             
                 <ResourceDictionary Source="/OhmStudio.UI;component/Styles/CustomStyles.xaml" />
-          
+                <ResourceDictionary Source="/GlobalStyle.xaml" />
+                
             </ResourceDictionary.MergedDictionaries> 
         </ResourceDictionary>
     </Application.Resources>
