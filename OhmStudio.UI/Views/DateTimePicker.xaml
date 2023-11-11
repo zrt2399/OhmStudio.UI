@@ -29,7 +29,7 @@
                                     <ScrollViewer x:Name="PART_ContentHost"/>
                                     <ContentControl Style="{DynamicResource PlaceHolderWithUserControl}" Margin="{TemplateBinding Padding}"/>
                                     <Grid MaxHeight="{Binding ElementName=PART_ContentHost,Path=ActualHeight}" Grid.Column="1">
-                                        <Button Margin="0,4,4,4" Click="IconButton_Click" Padding="0" 
+                                        <Button Margin="0,4,4,4" Click="IconButton_Click" Padding="0"
                                                 BorderBrush="Transparent" BorderThickness="0" Background="Transparent">
                                             <Button.LayoutTransform>
                                                 <ScaleTransform ScaleX="1" ScaleY="-1"/>
