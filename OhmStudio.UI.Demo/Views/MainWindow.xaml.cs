@@ -648,6 +648,8 @@ namespace OhmStudio.UI.Demo.Views
 
         public static List<OhmTheme> AllThemes { get; }
 
+        public static OhmTheme InitialTheme => AllThemes.First();
+
         static OhmThemeCollection()
         {
             AllThemes = new List<OhmTheme>()
@@ -764,7 +766,6 @@ namespace OhmStudio.UI.Demo.Views
         public OhmXamlUIResource()
         {
             instance = this;
-            theme = OhmThemeCollection.AllThemes.FirstOrDefault();
             InitializeThemes();
         }
 
@@ -781,7 +782,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private OhmTheme theme;
+        private OhmTheme theme = OhmThemeCollection.InitialTheme;
         public OhmTheme Theme
         {
             get => theme;
