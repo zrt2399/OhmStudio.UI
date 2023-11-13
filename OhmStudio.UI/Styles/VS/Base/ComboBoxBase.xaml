@@ -109,7 +109,7 @@
                             <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxListItemBackgroundHover}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxListItemBackgroundHover}" />
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource CommonControlsComboBoxListItemTextHover}" />
-                        </Trigger>
+                        </Trigger> 
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxListItemBackgroundHover}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxListItemBorderHover}" />

@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
-    
+
     <UserControl.Resources>
         <Style x:Key="ButtonEmptyStyle" TargetType="Button">
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -26,11 +26,11 @@
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.4"/>
-                            </Trigger>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.6"/>
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.5"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

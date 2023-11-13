@@ -248,7 +248,7 @@
                                 </Grid.ColumnDefinitions>
                                 <ScrollViewer Name="PART_ContentHost"/>
                                 <ContentControl Style="{DynamicResource PlaceHolderWithTemplatedParent}" Margin="{TemplateBinding Padding}"/>
-                                <Button Padding="4,0" Grid.Column="2" BorderThickness="0" BorderBrush="Transparent" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}">
+                                <Button Padding="4,0" Grid.Column="1" BorderThickness="0" BorderBrush="Transparent" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}">
                                     <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" ToolTip="{x:Null}">&#xe60f;</TextBlock>
                                 </Button>
                             </Grid>

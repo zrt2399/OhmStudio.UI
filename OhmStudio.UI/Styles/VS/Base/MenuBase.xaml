@@ -172,6 +172,7 @@
                     x:Name="Icon"
                     Margin="4,0,6,0"
                     VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
                     ContentSource="Icon"
                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                 <Path
@@ -225,6 +226,7 @@
                     x:Name="Icon"
                     Margin="4,0,6,0"
                     VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
                     ContentSource="Icon"
                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                 <Path
@@ -360,6 +362,7 @@
                     x:Name="Icon"
                     Margin="1"
                     VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
                     ContentSource="Icon"
                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                 <Border
@@ -442,6 +445,7 @@
                     x:Name="Icon"
                     Margin="1"
                     VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
                     ContentSource="Icon"
                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                 <Border

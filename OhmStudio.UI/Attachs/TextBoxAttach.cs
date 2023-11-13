@@ -47,7 +47,14 @@ namespace OhmStudio.UI.Attachs
                 }
                 if (sender is ComboBox comboBox)
                 {
-                    comboBox.Loaded += ComboBox_Loaded;
+                    if (comboBox.IsLoaded)
+                    {
+                        InvokeChanged(comboBox);
+                    }
+                    else
+                    {
+                        comboBox.Loaded += ComboBox_Loaded;
+                    }
                 }
                 else if (sender is TextBox textBox)
                 {
@@ -104,10 +111,14 @@ namespace OhmStudio.UI.Attachs
         {
             ComboBox comboBox = sender as ComboBox;
             comboBox.Loaded -= ComboBox_Loaded;
+            InvokeChanged(comboBox);
+        }
+
+        static void InvokeChanged(ComboBox comboBox)
+        {
             comboBox.Dispatcher.InvokeAsync(() =>
             {
-                var textBox = comboBox.Template?.FindName("PART_EditableTextBox", comboBox) as TextBox;
-                if (textBox != null)
+                if (comboBox.Template?.FindName("PART_EditableTextBox", comboBox) is TextBox textBox)
                 {
                     textBox.TextChanged -= ComboBoxTextBox_TextChanged;
                     comboBox.SelectionChanged -= ComboBox_SelectionChanged;

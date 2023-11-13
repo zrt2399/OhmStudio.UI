@@ -28,27 +28,12 @@
                                     </Grid.ColumnDefinitions>
                                     <ScrollViewer x:Name="PART_ContentHost"/>
                                     <ContentControl Style="{DynamicResource PlaceHolderWithUserControl}" Margin="{TemplateBinding Padding}"/>
-                                    <Grid MaxHeight="{Binding ElementName=PART_ContentHost,Path=ActualHeight}" Grid.Column="1">
-                                        <Button Margin="0,4,4,4" Click="IconButton_Click" Padding="0"
-                                                BorderBrush="Transparent" BorderThickness="0" Background="Transparent">
-                                            <Button.LayoutTransform>
-                                                <ScaleTransform ScaleX="1" ScaleY="-1"/>
-                                            </Button.LayoutTransform>
-                                            <Path Stretch="Uniform" Fill="{DynamicResource CommonControlsButtonText}" 
-                                                  Data="M262.5 300H37.5A37.5 37.5 0 0 1 0 262.5V37.5A37.5 37.5 0 0 1 37.5 0H262.5A37.5 37.5 0 0 1 300 37.5V262.5A37.5 37.5 0 0 1 262.5 300zM18.75 227.68125C18.75 236.55 27.15 243.75 37.5 243.75H262.5C272.85 243.75 281.25 236.55 281.25 227.68125V34.81875C281.25 25.95 272.85 18.75 262.5 18.75H37.5C27.15 18.75 18.75 25.95 18.75 34.81875V227.68125zM121.875 168.75A18.75 18.75 0 1 1 121.875 206.25A18.75 18.75 0 0 1 121.875 168.75zM178.125 168.75A18.75 18.75 0 1 1 178.125 206.25A18.75 18.75 0 0 1 178.125 168.75zM234.375 168.75A18.75 18.75 0 1 1 234.375 206.25A18.75 18.75 0 0 1 234.375 168.75zM65.625 112.5A18.75 18.75 0 1 1 65.625 150A18.75 18.75 0 0 1 65.625 112.5zM121.875 112.5A18.75 18.75 0 1 1 121.875 150A18.75 18.75 0 0 1 121.875 112.5zM178.125 112.5A18.75 18.75 0 1 1 178.125 150A18.75 18.75 0 0 1 178.125 112.5zM234.375 112.5A18.75 18.75 0 1 1 234.375 150A18.75 18.75 0 0 1 234.375 112.5zM65.625 56.25A18.75 18.75 0 1 1 65.625 93.75A18.75 18.75 0 0 1 65.625 56.25zM121.875 56.25A18.75 18.75 0 1 1 121.875 93.75A18.75 18.75 0 0 1 121.875 56.25zM178.125 56.25A18.75 18.75 0 1 1 178.125 93.75A18.75 18.75 0 0 1 178.125 56.25z">
-                                            </Path>
-                                            <Button.Style>
-                                                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="Opacity" Value="0.7"/> 
-                                                        </Trigger>
-                                                        <Trigger Property="IsPressed" Value="True">
-                                                            <Setter Property="Opacity" Value="0.5"/> 
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
+                                    <Grid Grid.Column="1">
+                                        <Button Padding="4"
+                                                Click="IconButton_Click"
+                                                BorderBrush="Transparent"
+                                                BorderThickness="0">
+                                            <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" ToolTip="{x:Null}">&#xe606;</TextBlock>
                                         </Button>
 
                                         <!--<local:IconButton x:Name="iconButton" 
