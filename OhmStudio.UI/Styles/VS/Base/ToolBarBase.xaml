@@ -1,4 +1,6 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:attachs="clr-namespace:OhmStudio.UI.Attachs">
 
     <Style x:Key="ToolBarMainPanelBorderStyle" TargetType="{x:Type Border}">
         <Style.Triggers>
@@ -297,8 +299,8 @@
             </Setter.Value>
         </Setter>
     </Style>
- 
-    <DrawingBrush x:Key="UnActivedDragHandleDrawingBrush"
+
+    <DrawingBrush x:Key="ToolBarThumbDrawingBrush"
                   TileMode="Tile"
                   Viewbox="0,0,4,4"
                   ViewboxUnits="Absolute"
@@ -329,7 +331,7 @@
                                Width="5"
                                RenderOptions.BitmapScalingMode="NearestNeighbor"
                                UseLayoutRounding="true"
-                               Fill="{StaticResource UnActivedDragHandleDrawingBrush}"/>
+                               Fill="{StaticResource ToolBarThumbDrawingBrush}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -380,8 +382,8 @@
                                     </Popup>
                                 </ToggleButton>
 
-                                <Thumb
-                                    x:Name="ToolBarThumb"
+                                <Thumb x:Name="ToolBarThumb"
+                                    Visibility="{Binding Path=(attachs:ToolBarAttach.ToolBarThumbVisibility),RelativeSource={RelativeSource TemplatedParent}}"
                                     Width="10"
                                     Style="{StaticResource ToolBarThumbStyle}" />
 
