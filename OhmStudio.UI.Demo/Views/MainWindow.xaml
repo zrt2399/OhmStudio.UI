@@ -124,8 +124,8 @@
 
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
-                                <Grid x:Name="da">
-                                    <Grid.Resources>
+                                <UniformGrid x:Name="da" Rows="3" Columns="1">
+                                    <UniformGrid.Resources>
                                         <CollectionViewSource x:Key="ItemCollectionViewSource"
                                                               IsLiveGroupingRequested="True"
                                                               IsLiveSortingRequested="True"
@@ -141,7 +141,7 @@
                                                 <scm:SortDescription  PropertyName="Description" />
                                             </CollectionViewSource.SortDescriptions>
                                         </CollectionViewSource>
-                                    </Grid.Resources>
+                                    </UniformGrid.Resources>
                                     <DataGrid ItemsSource="{Binding Source={StaticResource ItemCollectionViewSource}}"
                                               VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                                               VirtualizingPanel.IsVirtualizing="True"
@@ -172,7 +172,7 @@
                                                         <Setter Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate TargetType="GroupItem">
-                                                                    <Expander IsExpanded="{Binding Path=Items[0].IsExpanded,FallbackValue=True}" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
+                                                                    <Expander IsExpanded="{Binding Path=Items[0].IsExpanded,FallbackValue=True,TargetNullValue=True}" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
                                                                         <Expander.Header>
                                                                             <StackPanel Orientation="Horizontal">
                                                                                 <TextBlock Text="{Binding Path=Name,StringFormat=分组：{0}}" Margin="0,0,20,0"/>
@@ -227,11 +227,30 @@
                                         <DataGrid.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Header="全部展开" Click="MenuItem_Click"/>
-                                                <MenuItem Header="全部收缩" Click="MenuItem_Click_1"/>
+                                                <MenuItem Header="全部折叠" Click="MenuItem_Click_1"/>
                                             </ContextMenu>
                                         </DataGrid.ContextMenu>
                                     </DataGrid>
-                                </Grid>
+                                    <DataGrid ItemsSource="{Binding FileNodes}" DataGridAttach.IsShowRowNumber="True"></DataGrid>
+                                    <DataGrid ItemsSource="{Binding FileNodes}"
+                                              CanUserAddRows="False"
+                                              AutoGenerateColumns="False"
+                                              DataGridAttach.IsShowRowNumber="True" 
+                                              DataGridAttach.TextColumnElementStyle="{StaticResource {x:Type TextBlock}}"
+                                              DataGridAttach.TextColumnEditingElementStyle="{StaticResource TextColumnEditingElementStyle}"
+                                              DataGridAttach.CheckBoxColumnElementStyle="{StaticResource {x:Type CheckBox}}"
+                                              DataGridAttach.CheckBoxColumnEditingElementStyle="{StaticResource {x:Type CheckBox}}"
+                                              DataGridAttach.ComboBoxColumnElementStyle="{StaticResource {x:Type ComboBox}}"
+                                              DataGridAttach.ComboBoxColumnEditingElementStyle="{StaticResource {x:Type ComboBox}}">
+                                        <DataGrid.Columns>
+                                            <!--<DataGridHyperlinkColumn Header="Header" Binding="{Binding Name}"></DataGridHyperlinkColumn>-->
+                                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                                            <DataGridCheckBoxColumn Header="Name" Binding="{Binding Name}" />
+                                            <DataGridComboBoxColumn Header="Name"  />
+                                           
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="RollBox">
                                 <!--<hc:Carousel>
