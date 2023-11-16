@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using OhmStudio.UI.Attachs;
 using OhmStudio.UI.Views;
 using Color = System.Drawing.Color;
@@ -20,6 +21,24 @@ namespace OhmStudio.UI.PublicMethods
 {
     public static class ExtensionMethod
     {
+        /// <summary>
+        /// Returns full visual ancestry, starting at the leaf.
+        /// <para>If element is not of <see cref="Visual"/> or <see cref="Visual3D"/> the
+        /// logical ancestry is used.</para>
+        /// </summary>
+        /// <param name="leaf"></param>
+        /// <returns></returns>
+        public static IEnumerable<DependencyObject> GetVisualAncestry(this DependencyObject leaf)
+        {
+            while (leaf is not null)
+            {
+                yield return leaf;
+                leaf = leaf is Visual or Visual3D
+                    ? VisualTreeHelper.GetParent(leaf)
+                    : LogicalTreeHelper.GetParent(leaf);
+            }
+        }
+
         public static void SetOwner(this Window window, Window owner = null)
         {
             if (owner == null)
