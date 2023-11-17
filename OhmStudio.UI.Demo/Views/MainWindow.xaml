@@ -281,8 +281,7 @@
                             <LayoutDocument Title="TextEditor">
                                 <TabControl>
                                     <TabItem Header="XML">
-                                        <avalonEdit:TextEditor SyntaxHighlighting="XML" ShowLineNumbers="True" />
-
+                                        <avalonEdit:TextEditor x:Name="textEditor" SyntaxHighlighting="XML" ShowLineNumbers="True" />
                                     </TabItem>
                                     <TabItem Header="C#">
                                         <Grid>
@@ -290,10 +289,9 @@
                                                 <RowDefinition/>
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
-                                            <avalonEdit:TextEditor Name="edit" SyntaxHighlighting="C#" ShowLineNumbers="True" />
+                                            <avalonEdit:TextEditor x:Name="textEditorc" SyntaxHighlighting="C#" ShowLineNumbers="True" />
                                             <Button Grid.Row="1" Click="Button_Click_7">执行</Button>
                                         </Grid>
-
                                     </TabItem>
                                     <TabItem Header="C++">
                                         <avalonEdit:TextEditor SyntaxHighlighting="C++" ShowLineNumbers="True">

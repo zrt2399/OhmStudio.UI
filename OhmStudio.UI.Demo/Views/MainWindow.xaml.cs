@@ -18,6 +18,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.Folding;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using OhmStudio.UI.Commands;
@@ -36,6 +39,8 @@ namespace OhmStudio.UI.Demo.Views
     /// </summary>
     public partial class MainWindow : ChromeWindow, INotifyPropertyChanged
     {
+        XmlFoldingStrategy xmlFoldingStrategy = new XmlFoldingStrategy();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -46,6 +51,17 @@ namespace OhmStudio.UI.Demo.Views
             {
                 FontSizeList.Add(i);
             }
+            var foldingManager = FoldingManager.Install(textEditor.TextArea);
+            FoldingManager.Install(textEditorc.TextArea);
+            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(2);
+            dispatcherTimer.Tick += delegate
+            {
+                xmlFoldingStrategy.UpdateFoldings(foldingManager, textEditor.Document);
+            };
+            dispatcherTimer.Start();
+           
+
             //Loaded += async delegate
             //{
             //    await Task.Delay(10000); 
