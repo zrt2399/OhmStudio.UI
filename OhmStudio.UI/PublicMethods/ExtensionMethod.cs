@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using OhmStudio.UI.Attachs;
+using OhmStudio.UI.Helpers;
 using OhmStudio.UI.Views;
 using Color = System.Drawing.Color;
 using Expression = System.Linq.Expressions.Expression;

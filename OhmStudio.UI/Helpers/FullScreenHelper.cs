@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace OhmStudio.UI.PublicMethods
+namespace OhmStudio.UI.Helpers
 {
     public class FullScreenHelper
     {
@@ -232,8 +232,8 @@ namespace OhmStudio.UI.PublicMethods
             /// <summary> Determine if 2 RECT are equal (deep compare)</summary>
             public static bool operator ==(RECT rect1, RECT rect2)
             {
-                return (rect1.left == rect2.left && rect1.top == rect2.top && rect1.right == rect2.right &&
-                        rect1.bottom == rect2.bottom);
+                return rect1.left == rect2.left && rect1.top == rect2.top && rect1.right == rect2.right &&
+                        rect1.bottom == rect2.bottom;
             }
 
             /// <summary> Determine if 2 RECT are different(deep compare)</summary>

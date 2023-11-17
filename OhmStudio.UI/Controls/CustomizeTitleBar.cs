@@ -7,7 +7,7 @@ using System.Windows.Interop;
 using ControlzEx;
 using ControlzEx.Behaviors;
 using ControlzEx.Native;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Helpers;
 
 namespace OhmStudio.UI.Controls
 {

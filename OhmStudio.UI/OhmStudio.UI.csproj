@@ -21,6 +21,7 @@
 		<PackageIcon>ohm.png</PackageIcon>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<!--<PackageLicenseExpression>MIT</PackageLicenseExpression>-->
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
 

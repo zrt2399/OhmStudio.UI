@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using AvalonDock.Controls;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Helpers;
 
 namespace OhmStudio.UI.Controls
 {
