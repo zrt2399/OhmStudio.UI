@@ -39,9 +39,9 @@
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static reskeys:ResourceKeys.NavigatorWindowForeground}}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Padding" Value="5,0,5,0" />
+        <Setter Property="Padding" Value="5,0" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Cursor" Value="Hand" />
+        <!--<Setter Property="Cursor" Value="Hand" />-->
         <Setter Property="AutomationProperties.Name" Value="{Binding LayoutElement.Title}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -79,6 +79,7 @@
     </Style>
 
     <Style x:Key="NavigatorWindowListBoxBaseStyle" TargetType="{x:Type ListBox}">
+        <Setter Property="IsHitTestVisible" Value="False" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="MaxHeight" Value="400" />
@@ -103,6 +104,8 @@
                     <Border
                         x:Name="WindowBorder"
                         Background="{TemplateBinding Background}"
+                        BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
+                        BorderThickness="1"
                         SnapsToDevicePixels="true">
                         <Grid>
                             <Grid.RowDefinitions>
