@@ -300,7 +300,7 @@
                                     </TabItem>
                                 </TabControl>
                             </LayoutDocument>
-                            <LayoutDocument Title="Other" IsSelected="True">
+                            <LayoutDocument Title="Other" IsSelected="True" Description="其他" ToolTip="Other">
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel Orientation="Vertical" Name="wr" IsEnabled="True" >
                                         <DateTimePicker VerticalAlignment="Top" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期...">
@@ -413,7 +413,7 @@
                     </LayoutDocumentPaneGroup>
                     <LayoutAnchorablePaneGroup DockWidth="400">
                         <LayoutAnchorablePane>
-                            <LayoutAnchorable Title="ListView">
+                            <LayoutAnchorable Title="ListView" ToolTip="ListView.ListView">
                                 <ListView ItemsSource="{Binding Result}" >
 
                                     <ListView.View>
@@ -529,7 +529,7 @@
                                     </ListView.ContextMenu>
                                 </ListView>
                             </LayoutAnchorable>
-                            <LayoutAnchorable Title="ListBox">
+                            <LayoutAnchorable Title="ListBox" ToolTip="ListBox.ListBox">
                                 <ListBox SelectionMode="Multiple" BorderBrush="Transparent" BorderThickness="0">
                                     <ListBoxItem>123123123</ListBoxItem>
                                     <ListBoxItem>456456456</ListBoxItem>
