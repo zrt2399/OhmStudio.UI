@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -34,10 +35,32 @@ namespace OhmStudio.UI.PublicMethods
             while (leaf is not null)
             {
                 yield return leaf;
-                leaf = leaf is Visual or Visual3D
-                    ? VisualTreeHelper.GetParent(leaf)
-                    : LogicalTreeHelper.GetParent(leaf);
+                leaf = leaf is Visual or Visual3D ? VisualTreeHelper.GetParent(leaf) : LogicalTreeHelper.GetParent(leaf);
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsEven(this int number)
+        {
+            return (number & 1) == 0;
+        }
+ 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsEven(this long number)
+        {
+            return (number & 1L) == 0L;
+        }
+ 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsOdd(this int number)
+        {
+            return (number & 1) == 1;
+        }
+ 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsOdd(this long number)
+        {
+            return (number & 1L) == 1L;
         }
 
         public static void SetOwner(this Window window, Window owner = null)
