@@ -365,6 +365,11 @@
                                         <SearchBar VerticalAlignment="Top" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
                                         <TextBox VerticalAlignment="Top" TextBoxAttach.Title="开始"/>
                                         <TextBox VerticalAlignment="Top" Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..."/>
+
+                                        <Button Style="{StaticResource ButtonStyle}" Padding="4" HorizontalContentAlignment="Left">ButtonStyle</Button>
+                                        <Button Style="{StaticResource DefaultButton}" Padding="4" HorizontalContentAlignment="Right">DefaultButton</Button>
+                                        <Button Style="{StaticResource FilletButton}" Padding="4" HorizontalContentAlignment="Stretch">FilletButton</Button>
+                                        <Button Style="{StaticResource FilletButtonRed}" Padding="4" HorizontalContentAlignment="Center">FilletButtonRed</Button>
                                     </StackPanel>
                                 </StackPanel>
 
@@ -408,6 +413,7 @@
                                     <ComboBox DisplayMemberPath="Name" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
                                     <TextBox Width="400" VerticalAlignment="Top" Text="{Binding CurrentDateTime}"/>
                                     <ToggleButton Style="{StaticResource ToggleButtonStyle}"/>
+                                    <CircularProgressBar Value="50" Title="abcdefg"/>
                                 </StackPanel>
 
                             </LayoutDocument>
