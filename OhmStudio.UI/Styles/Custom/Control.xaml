@@ -5,9 +5,9 @@
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
     <converters:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter"/>
-    <converters:ColorConverter x:Key="colorConverter"/>
-    <converters:AngleToPointConverter x:Key="angleToPointConverter"/>
-    <converters:AngleToIsLargeConverter x:Key="angleToIsLargeConverter"/>
+    <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
+    <converters:AngleToPointConverter x:Key="AngleToPointConverter"/>
+    <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter"/>
     <!--<converters:TextBlockPasswordConverter x:Key="TextBlockPasswordConverter"/>-->
 
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
@@ -15,18 +15,21 @@
     <SolidColorBrush x:Key="EnabledWhenFalse">#FFAEABAB</SolidColorBrush>
 
     <Style x:Key="ButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="#FFF2F4F5"/>
+        <Setter Property="BorderBrush" Value="#FF96999C"/>
+        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid Margin="-2">
-                        <Border Name="borderEffect" Visibility="Collapsed" Margin="2.5" CornerRadius="2" Background="{Binding ElementName=Border,Path=Background}">
+                        <Border Name="borderEffect" Visibility="Collapsed" Margin="2.5" CornerRadius="2" Background="{TemplateBinding BorderBrush}">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=BorderBrush,Converter={StaticResource colorConverter}}"/>
+                                <DropShadowEffect ShadowDepth="0" Color="{Binding BorderBrush,RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BrushToColorConverter}}"/>
                             </Border.Effect>
                         </Border>
-                        <Border Name="Border" Margin="2" CornerRadius="2" BorderThickness="1" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="#FFF2F4F5" BorderBrush="#FF96999C">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border Name="Border" Margin="2" CornerRadius="2" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -41,7 +44,7 @@
                             <Setter TargetName="Border" Property="BorderBrush" Value="#FFD1D5D6"/>
                             <Setter TargetName="Border" Property="TextBlock.Foreground" Value="#FF514949"/>
                         </Trigger>
-                        <Trigger Property="IsFocused" Value="True">
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter TargetName="Border" Property="BorderBrush" Value="#FF1D1C1C"/>
                             <Setter TargetName="Border" Property="BorderThickness" Value="1"/>
                         </Trigger>
@@ -51,19 +54,63 @@
         </Setter>
     </Style>
 
-    <Style x:Key="FilletButton" TargetType="Button">
+
+    <Style x:Key="DefaultButton" TargetType="Button">
+        <Setter Property="Background" Value="#FF499FEF"/>
+        <Setter Property="BorderBrush" Value="#FF2C84DD"/>
+        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid Margin="-2">
-                        <Border Name="borderEffect" Visibility="Collapsed" Margin="2.5" CornerRadius="2" Background="{Binding ElementName=Border,Path=Background}">
+                        <Border Name="borderEffect" Visibility="Collapsed" Margin="2.5" CornerRadius="2" Background="{TemplateBinding BorderBrush}">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=Background,Converter={StaticResource colorConverter}}" />
+                                <DropShadowEffect ShadowDepth="0" Color="{Binding BorderBrush,RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BrushToColorConverter}}"/>
                             </Border.Effect>
                         </Border>
-                        <Border Name="Border" Margin="2" CornerRadius="2" Background="#FF1EA973" TextBlock.Foreground="#FFFFFFFF">
-                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border Name="Border" TextBlock.Foreground="White" Margin="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="2" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Value="{DynamicResource Pressed}" Property="Background" />
+                            <Setter TargetName="Border" Value="{DynamicResource Pressed}" Property="BorderBrush" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="#FFF6F6F6" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FFD1D5D6" />
+                            <Setter TargetName="Border" Property="TextBlock.Foreground" Value="#FF514949" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="Border" Value="{DynamicResource Focused}" Property="BorderBrush" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+ 
+    <Style x:Key="FilletButton" TargetType="Button">
+        <Setter Property="Background" Value="#FF1EA973"/> 
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Margin="-2">
+                        <Border Name="borderEffect" Visibility="Collapsed" Margin="2.5" CornerRadius="2" Background="{TemplateBinding Background}">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" Color="{Binding Background,RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BrushToColorConverter}}"/>
+                            </Border.Effect>
+                        </Border>
+                        <Border Name="Border" Margin="2" CornerRadius="2" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" TextBlock.Foreground="White">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -82,7 +129,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Border" Value="{DynamicResource EnabledWhenFalse}" Property="Background" />
                         </Trigger>
-                        <Trigger Property="IsFocused" Value="True">
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter TargetName="Border" Property="BorderThickness" Value="1"/>
                             <Setter TargetName="Border" Value="{DynamicResource Focused}" Property="BorderBrush" />
                         </Trigger>
@@ -93,18 +140,20 @@
     </Style>
 
     <Style x:Key="FilletButtonRed" TargetType="Button">
+        <Setter Property="Background" Value="#FFCD5C5C"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid Margin="-2">
-                        <Border Name="borderEffect" Visibility="Collapsed" Margin="2.5" CornerRadius="2" Background="{Binding ElementName=Border,Path=Background}">
+                        <Border Name="borderEffect" Visibility="Collapsed" Margin="2.5" CornerRadius="2" Background="{TemplateBinding Background}">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=Background,Converter={StaticResource colorConverter}}" />
+                                <DropShadowEffect ShadowDepth="0" Color="{Binding Background,RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BrushToColorConverter}}"/>
                             </Border.Effect>
                         </Border>
-                        <Border Name="Border" Margin="2" CornerRadius="2" Background="#FFCD5C5C" TextBlock.Foreground="#FFFFFFFF">
-                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border Name="Border" Margin="2" CornerRadius="2" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" TextBlock.Foreground="White">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -117,7 +166,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Border" Value="{DynamicResource EnabledWhenFalse}" Property="Background" />
                         </Trigger>
-                        <Trigger Property="IsFocused" Value="True">
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter TargetName="Border" Property="BorderThickness" Value="1"/>
                             <Setter TargetName="Border" Value="{DynamicResource Focused}" Property="BorderBrush" />
                         </Trigger>
@@ -127,48 +176,12 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DefaultButton" TargetType="Button">
+    <Style x:Key="TextBoxStyle" TargetType="TextBox">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid Margin="-2">
-                        <Border Name="borderEffect" Visibility="Collapsed" Margin="2.5" CornerRadius="2" Background="{Binding ElementName=Border,Path=BorderBrush}">
-                            <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=BorderBrush,Converter={StaticResource colorConverter}}" />
-                            </Border.Effect>
-                        </Border>
-                        <Border Name="Border" TextBlock.Foreground="#FFFFFFFF" Margin="2" BorderBrush="#FF2C84DD" Background="#FF499FEF" CornerRadius="2" BorderThickness="1" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Value="{DynamicResource Pressed}" Property="Background" />
-                            <Setter TargetName="Border" Value="{DynamicResource Pressed}" Property="BorderBrush" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="#FFF6F6F6" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="#FFD1D5D6" />
-                            <Setter TargetName="Border" Property="TextBlock.Foreground" Value="#FF514949" />
-                        </Trigger>
-                        <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="Border" Value="{DynamicResource Focused}" Property="BorderBrush" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="TextBoxStyle" TargetType="TextBox">
-        <Setter Property="Template">
-            <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
-                    <Border x:Name="Border" Background="White" BorderBrush="#FFABADB3" SnapsToDevicePixels="True" Margin="{TemplateBinding Padding}"
+                    <Border x:Name="Border" Background="White" BorderBrush="#FFABADB3" Margin="{TemplateBinding Padding}"
                             BorderThickness="0,0,0,1">
                         <ScrollViewer Margin="1,0,0,0" x:Name="PART_ContentHost"/>
                     </Border>
@@ -185,7 +198,7 @@
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="Border" Property="BorderBrush" Value="#FF7EB4EA"/>
                         </Trigger>
-                        <Trigger Property="IsFocused" Value="true">
+                        <Trigger Property="IsKeyboardFocusWithin" Value="true">
                             <Setter TargetName="Border" Property="BorderBrush" Value="#FF569DE5"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
@@ -203,7 +216,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
                     <StackPanel Name="bbb" ClipToBounds="True">
-                        <ContentPresenter Name="contentPresenter" ContentSource="Header" Focusable="False" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" HorizontalAlignment="{Binding HorizontalContentAlignment,RelativeSource={RelativeSource AncestorType=ItemsControl}}" VerticalAlignment="{Binding VerticalContentAlignment,RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
+                        <ContentPresenter Name="contentPresenter" ContentSource="Header" Focusable="False"
+                                          Margin="{TemplateBinding Padding}" RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                          HorizontalAlignment="{Binding HorizontalContentAlignment,RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                          VerticalAlignment="{Binding VerticalContentAlignment,RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
                         <Border Name="bottom" Height="3" Visibility="Collapsed" Background="#FF3C6EFF" />
                     </StackPanel>
                     <ControlTemplate.Triggers>
@@ -336,10 +353,12 @@
     </Style>
 
     <Style TargetType="controls:CircularProgressBar">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource CommonControlsTextBoxText}"/>
         <Setter Property="Maximum" Value="100"/>
         <Setter Property="BrushStrokeThickness" Value="8"/>
         <Setter Property="StrokeThickness" Value="8"/>
-        <Setter Property="Foreground" Value="Gray"/>
         <Setter Property="BorderBrush" Value="#FF1FA7FC"/>
         <Setter Property="Width" Value="100"/>
         <Setter Property="Height" Value="100"/>
@@ -369,34 +388,20 @@
                                         <PathFigure StartPoint="50,0">
                                             <ArcSegment SweepDirection="Clockwise"
                                                         Size="50,50"
-                                                        Point="{Binding Path=Angle,Converter={StaticResource angleToPointConverter},RelativeSource={RelativeSource AncestorType=ProgressBar}}"
-                                                        IsLargeArc="{Binding Path=Angle,Converter={StaticResource angleToIsLargeConverter},RelativeSource={RelativeSource AncestorType=ProgressBar}}">
+                                                        Point="{Binding Path=Angle,Converter={StaticResource AngleToPointConverter},RelativeSource={RelativeSource AncestorType=ProgressBar}}"
+                                                        IsLargeArc="{Binding Path=Angle,Converter={StaticResource AngleToIsLargeConverter},RelativeSource={RelativeSource AncestorType=ProgressBar}}">
                                             </ArcSegment>
                                         </PathFigure>
                                     </PathGeometry>
                                 </Path.Data>
+                                <Path.Effect>
+                                    <DropShadowEffect ShadowDepth="0" Color="{Binding BorderBrush,RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BrushToColorConverter}}"/>
+                                </Path.Effect>
                             </Path>
-                            <!--<Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center"
-                                           Text="{Binding Tag,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type view:CircularProgressBar}}}"
-                                           FontSize="{TemplateBinding FontSize}"
-                                           Grid.Row="1"/>
-                                <TextBlock Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center"
-                                           Text="{Binding Path=Value,StringFormat={}{0}%,RelativeSource={RelativeSource TemplatedParent}}"
-                                           FontSize="{TemplateBinding FontSize}"
-                                           Grid.Row="2"/>
-                            </Grid>-->
                             <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <TextBlock Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center"
-                                           Text="{Binding Title,RelativeSource={RelativeSource AncestorType=controls:CircularProgressBar}}"
-                                           Grid.Row="1">
+                                <StackPanel VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+                                    <TextBlock Text="{Binding Title,RelativeSource={RelativeSource TemplatedParent}}"
+                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                                                 <Style.Triggers>
@@ -407,9 +412,8 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-                                    <TextBlock Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center"
-                                           Text="{Binding Path=Value,StringFormat={}{0}%,RelativeSource={RelativeSource TemplatedParent}}"
-                                           Grid.Row="2"/>
+                                    <TextBlock Text="{Binding Path=Value,StringFormat={}{0}%,RelativeSource={RelativeSource TemplatedParent}}"
+                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
                                 </StackPanel>
                             </Grid>
                         </Canvas>
