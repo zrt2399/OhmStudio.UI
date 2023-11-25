@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace OhmStudio.UI.Converters
 {
-    public class ColorConverter : IValueConverter
+    public class BrushToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
