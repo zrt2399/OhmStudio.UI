@@ -6,7 +6,7 @@ using System.Windows.Data;
 namespace OhmStudio.UI.Converters
 {
     public class VisibilityToBoolConverter : IValueConverter
-    {
+    { 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is Visibility visibility)
@@ -15,9 +15,9 @@ namespace OhmStudio.UI.Converters
             }
             if (value == null)
             {
-                if (parameter is Visibility)
+                if (parameter is Visibility visibilityParam)
                 {
-                    return parameter;
+                    return visibilityParam == Visibility.Visible;
                 }
                 return false;
             }
