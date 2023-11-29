@@ -60,7 +60,7 @@ namespace OhmStudio.UI.Demo.Views
                 xmlFoldingStrategy.UpdateFoldings(foldingManager, textEditor.Document);
             };
             dispatcherTimer.Start();
-           
+
 
             //Loaded += async delegate
             //{
@@ -391,8 +391,11 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Messenger.Default.Send("发送了消息Rrecipient", Rrecipient);
-            UIMessageTip.ShowError("发生了错误Rrecipient");
+            Task.Run(() =>
+            {
+                AlertDialog.ShowError("发生了错误Rrecipient");
+            });
+            //Messenger.Default.Send("发送了消息Rrecipient", Rrecipient);
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
