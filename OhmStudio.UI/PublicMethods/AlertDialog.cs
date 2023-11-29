@@ -68,10 +68,6 @@ namespace OhmStudio.UI.PublicMethods
             return flag;
         }
 
-        static readonly BitmapSource _error = Imaging.CreateBitmapSourceFromHIcon(SystemIcons.Error.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-        static readonly BitmapSource _information = Imaging.CreateBitmapSourceFromHIcon(SystemIcons.Information.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-        static readonly BitmapSource _warning = Imaging.CreateBitmapSourceFromHIcon(SystemIcons.Warning.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-        static readonly BitmapSource _question = Imaging.CreateBitmapSourceFromHIcon(SystemIcons.Question.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
         private static BitmapSource GetImage(MessageImage messageImage)
         {
             switch (messageImage)
@@ -80,16 +76,16 @@ namespace OhmStudio.UI.PublicMethods
                     return null;
                 case MessageImage.Information:
                     SystemSounds.Asterisk.Play();
-                    return _information;
+                    return Imaging.CreateBitmapSourceFromHIcon(SystemIcons.Information.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                 case MessageImage.Warning:
                     SystemSounds.Exclamation.Play();
-                    return _warning;
+                    return Imaging.CreateBitmapSourceFromHIcon(SystemIcons.Warning.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                 case MessageImage.Question:
                     SystemSounds.Question.Play();
-                    return _question;
+                    return Imaging.CreateBitmapSourceFromHIcon(SystemIcons.Question.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                 default:
                     SystemSounds.Hand.Play();
-                    return _error;
+                    return Imaging.CreateBitmapSourceFromHIcon(SystemIcons.Error.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             }
             //return new BitmapImage(new Uri("pack://application:,,,/OhmStudio.UI;component/Images/" + urlString + ".png"));
         }
@@ -118,31 +114,7 @@ namespace OhmStudio.UI.PublicMethods
                 title = "Error";
             }
             return Show(message, title, MessageButton.OK, MessageImage.Error);
-        }
-
-        //static bool SetWindowStartupLocation(MessageWindow messageWindow)
-        //{
-        //    //    if (Windows.Count < 1)
-        //    //    {
-        //    //        Windows.Add(messageWindow);
-        //    //        return messageWindow.ShowDialog() == true;
-        //    //    }
-        //    //    var window = Windows.LastOrDefault();
-        //    //var window = Windows.Where(x => x.Owner == messageWindow.Owner).LastOrDefault();
-        //    //if (window == null)
-        //    //{
-        //    //    Windows.Add(messageWindow);
-        //    //    return messageWindow.ShowDialog() == true;
-        //    //}
-        //    //Windows.Add(messageWindow);
-        //    messageWindow.Top = window.Top + 40;
-        //    messageWindow.Left = window.Left + 40;
-        //    if (messageWindow.Top > SystemParameters.WorkArea.Height - 50 || messageWindow.Left > SystemParameters.WorkArea.Width - 200)
-        //    {
-        //        messageWindow.Top = messageWindow.Left = 0;
-        //    }
-        //    return messageWindow.ShowDialog() == true;
-        //}
+        } 
 
         private static string GetTitle()
         {
