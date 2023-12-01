@@ -383,8 +383,9 @@
                                 </ToggleButton>
 
                                 <Thumb x:Name="ToolBarThumb"
-                                    Visibility="{Binding Path=(attachs:ToolBarAttach.ToolBarThumbVisibility),RelativeSource={RelativeSource TemplatedParent}}"
                                     Width="10"
+                                    Visibility="{Binding Path=(attachs:ToolBarAttach.ToolBarThumbVisibility),RelativeSource={RelativeSource TemplatedParent}}"
+                                    Margin="{Binding Path=(attachs:ToolBarAttach.ToolBarThumbMargin),RelativeSource={RelativeSource TemplatedParent}}"
                                     Style="{StaticResource ToolBarThumbStyle}" />
 
                                 <ContentPresenter

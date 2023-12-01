@@ -44,19 +44,19 @@ namespace OhmStudio.UI.PublicMethods
         {
             return (number & 1) == 0;
         }
- 
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsEven(this long number)
         {
             return (number & 1L) == 0L;
         }
- 
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsOdd(this int number)
         {
             return (number & 1) == 1;
         }
- 
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsOdd(this long number)
         {
@@ -87,7 +87,7 @@ namespace OhmStudio.UI.PublicMethods
 
         public static bool IsTextBoxAttachObject(this DependencyObject obj)
         {
-            if (obj is ComboBox || obj is TextBox || obj is DateTimePicker || obj is PasswordBox || obj is PasswordBoxControl)
+            if (obj is ComboBox || obj is TextBox || obj is DateTimePicker || obj is PasswordBox || obj is PasswordTextBox)
             {
                 return true;
             }
@@ -142,7 +142,7 @@ namespace OhmStudio.UI.PublicMethods
 
         public static T FindParentFrameworkElement<T>(this FrameworkElement obj) where T : FrameworkElement
         {
-            FrameworkElement parent = (FrameworkElement)obj.Parent;
+            FrameworkElement parent = obj.Parent as FrameworkElement;
             while (parent != null)
             {
                 if (parent is T t)

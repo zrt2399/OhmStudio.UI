@@ -38,7 +38,7 @@ namespace OhmStudio.UI.Attachs
         }
 
         public static readonly DependencyProperty PlaceHolderProperty =
-            DependencyProperty.RegisterAttached("PlaceHolder", typeof(object), typeof(TextBoxAttach), new PropertyMetadata(null, (sender, e) =>
+            DependencyProperty.RegisterAttached("PlaceHolder", typeof(object), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolder, (sender, e) =>
             {
                 var newValue = e.NewValue;
                 if (sender.IsTextBoxAttachObject() && CheckIsEmpty(newValue))
@@ -74,13 +74,13 @@ namespace OhmStudio.UI.Attachs
                         passwordBox.PasswordChanged += PasswordBox_PasswordChanged;
                     }
                 }
-                else if (sender is PasswordBoxControl passwordBoxControl)
+                else if (sender is PasswordTextBox passwordTextBox)
                 {
-                    passwordBoxControl.txtPassword.PasswordChanged -= PasswordBoxControl_PasswordChanged;
+                    passwordTextBox.txtPassword.PasswordChanged -= PasswordTextBox_PasswordChanged;
                     if (!CheckIsEmpty(newValue))
                     {
-                        UpdateHolderVisibility(passwordBoxControl, passwordBoxControl.txtPassword.Password);
-                        passwordBoxControl.txtPassword.PasswordChanged += PasswordBoxControl_PasswordChanged;
+                        UpdateHolderVisibility(passwordTextBox, passwordTextBox.txtPassword.Password);
+                        passwordTextBox.txtPassword.PasswordChanged += PasswordTextBox_PasswordChanged;
                     }
                 }
                 else if (sender is DateTimePicker dateTimePicker)
@@ -157,10 +157,10 @@ namespace OhmStudio.UI.Attachs
             UpdateHolderVisibility(passwordBox, passwordBox.Password);
         }
 
-        private static void PasswordBoxControl_PasswordChanged(object sender, RoutedEventArgs e)
+        private static void PasswordTextBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             PasswordBox passwordBox = sender as PasswordBox;
-            UpdateHolderVisibility(passwordBox.FindParentFrameworkElement<PasswordBoxControl>(), passwordBox.Password);
+            UpdateHolderVisibility(passwordBox.FindParentFrameworkElement<PasswordTextBox>(), passwordBox.Password);
         }
 
         private static void DateTimePicker_TextChanged(object sender, TextChangedEventArgs e)
