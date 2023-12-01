@@ -4,11 +4,11 @@ using System.Windows.Controls;
 namespace OhmStudio.UI.Views
 {
     /// <summary>
-    /// PasswordBoxControl.xaml 的交互逻辑
+    /// PasswordTextBox.xaml 的交互逻辑
     /// </summary>
-    public partial class PasswordBoxControl : UserControl
+    public partial class PasswordTextBox : UserControl
     {
-        public PasswordBoxControl()
+        public PasswordTextBox()
         {
             InitializeComponent();
             GotFocus += PasswordBoxControl_GotFocus;
@@ -29,7 +29,7 @@ namespace OhmStudio.UI.Views
         }
 
         /// <summary>
-        /// 控制PasswordBoxControl显示或者隐藏CheckBox，来控制是否可以显示和隐藏密码。
+        /// 控制PasswordTextBox显示或者隐藏CheckBox，来控制是否可以显示和隐藏密码。
         /// </summary>
         public Visibility CanShowPassword
         {
@@ -39,11 +39,11 @@ namespace OhmStudio.UI.Views
 
         // Using a DependencyProperty as the backing store for CanShowPasswordVisibility.  This enables animation,styling,binding,etc...
         public static readonly DependencyProperty CanShowPasswordProperty =
-            DependencyProperty.Register("CanShowPasswordVisibility", typeof(Visibility), typeof(PasswordBoxControl), new PropertyMetadata(Visibility.Visible, (sender, e) =>
+            DependencyProperty.Register("CanShowPasswordVisibility", typeof(Visibility), typeof(PasswordTextBox), new PropertyMetadata(Visibility.Visible, (sender, e) =>
             {
-                if ((Visibility)e.NewValue != Visibility.Visible && sender is PasswordBoxControl passwordBoxControl)
+                if ((Visibility)e.NewValue != Visibility.Visible && sender is PasswordTextBox passwordTextBox)
                 {
-                    passwordBoxControl.IsChecked = false;
+                    passwordTextBox.IsChecked = false;
                 }
             }));
 
@@ -58,7 +58,7 @@ namespace OhmStudio.UI.Views
 
         // Using a DependencyProperty as the backing store for TbVisibility.  This enables animation,styling,binding,etc...
         public static readonly DependencyProperty TbVisibilityProperty =
-            DependencyProperty.Register("TbVisibility", typeof(Visibility), typeof(PasswordBoxControl), new PropertyMetadata(Visibility.Collapsed));
+            DependencyProperty.Register("TbVisibility", typeof(Visibility), typeof(PasswordTextBox), new PropertyMetadata(Visibility.Collapsed));
 
         /// <summary>
         /// 控制PassworBox显示或者隐藏----PasswordBox控件来显密文。
@@ -71,7 +71,7 @@ namespace OhmStudio.UI.Views
 
         // Using a DependencyProperty as the backing store for PwVisibility.  This enables animation,styling,binding,etc...
         public static readonly DependencyProperty PwVisibilityProperty =
-            DependencyProperty.Register("PwVisibility", typeof(Visibility), typeof(PasswordBoxControl));
+            DependencyProperty.Register("PwVisibility", typeof(Visibility), typeof(PasswordTextBox));
 
         /// <summary>
         /// 和"眼睛"进行绑定。
@@ -84,19 +84,19 @@ namespace OhmStudio.UI.Views
 
         // Using a DependencyProperty as the backing store for Check.  This enables animation,styling,binding,etc...
         public static readonly DependencyProperty IsCheckedProperty =
-            DependencyProperty.Register("IsChecked", typeof(bool), typeof(PasswordBoxControl), new PropertyMetadata((sender, e) =>
+            DependencyProperty.Register("IsChecked", typeof(bool), typeof(PasswordTextBox), new PropertyMetadata((sender, e) =>
             {
-                if (sender is PasswordBoxControl passwordBoxControl)
+                if (sender is PasswordTextBox passwordTextBox)
                 {
                     if ((bool)e.NewValue)
                     {
-                        passwordBoxControl.TbVisibility = Visibility.Visible;
-                        passwordBoxControl.PwVisibility = Visibility.Collapsed;
+                        passwordTextBox.TbVisibility = Visibility.Visible;
+                        passwordTextBox.PwVisibility = Visibility.Collapsed;
                     }
                     else
                     {
-                        passwordBoxControl.TbVisibility = Visibility.Collapsed;
-                        passwordBoxControl.PwVisibility = Visibility.Visible;
+                        passwordTextBox.TbVisibility = Visibility.Collapsed;
+                        passwordTextBox.PwVisibility = Visibility.Visible;
                     }
                 }
             }));
@@ -110,11 +110,11 @@ namespace OhmStudio.UI.Views
             set => SetValue(IsClearedProperty, value);
         }
         public static readonly DependencyProperty IsClearedProperty =
-            DependencyProperty.Register("IsCleared", typeof(bool), typeof(PasswordBoxControl), new PropertyMetadata((sender, e) =>
+            DependencyProperty.Register("IsCleared", typeof(bool), typeof(PasswordTextBox), new PropertyMetadata((sender, e) =>
             {
-                if (sender is PasswordBoxControl passwordBoxControl)
+                if (sender is PasswordTextBox passwordTextBox)
                 {
-                    passwordBoxControl.Password = string.Empty;
+                    passwordTextBox.Password = string.Empty;
                 }
             }));
 
@@ -127,7 +127,7 @@ namespace OhmStudio.UI.Views
             set => SetValue(ClearVisibilityProperty, value);
         }
         public static readonly DependencyProperty ClearVisibilityProperty =
-            DependencyProperty.Register("ClearVisibility", typeof(Visibility), typeof(PasswordBoxControl), new PropertyMetadata(Visibility.Collapsed));
+            DependencyProperty.Register("ClearVisibility", typeof(Visibility), typeof(PasswordTextBox), new PropertyMetadata(Visibility.Collapsed));
 
         /// <summary>
         /// 密码。
@@ -140,12 +140,12 @@ namespace OhmStudio.UI.Views
 
         // Using a DependencyProperty as the backing store for Password.  This enables animation,styling,binding,etc...
         public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.Register("Password", typeof(string), typeof(PasswordBoxControl), new PropertyMetadata(string.Empty, (sender, e) =>
+            DependencyProperty.Register("Password", typeof(string), typeof(PasswordTextBox), new PropertyMetadata(string.Empty, (sender, e) =>
             {
                 //根据密码框是否有内容来显示符号"x"
-                if (sender is PasswordBoxControl passwordBoxControl)
+                if (sender is PasswordTextBox passwordTextBox)
                 {
-                    passwordBoxControl.ClearVisibility = string.IsNullOrEmpty(passwordBoxControl.Password) ? Visibility.Collapsed : Visibility.Visible;
+                    passwordTextBox.ClearVisibility = string.IsNullOrEmpty(passwordTextBox.Password) ? Visibility.Collapsed : Visibility.Visible;
                 }
             }));
     }

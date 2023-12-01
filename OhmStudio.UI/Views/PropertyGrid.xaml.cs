@@ -228,10 +228,10 @@ namespace OhmStudio.UI.Views
                     else
                     {
                         var passwordAttribute = customattribute as PasswordAttribute;
-                        var passwordBoxControl = new PasswordBoxControl() { CanShowPassword = passwordAttribute.CanShowPassword };
+                        var passwordTextBox = new PasswordTextBox() { CanShowPassword = passwordAttribute.CanShowPassword };
                         Binding binding = GetBinding(obj, item);
-                        passwordBoxControl.SetBinding(PasswordBoxControl.PasswordProperty, binding);
-                        uIElement = passwordBoxControl;
+                        passwordTextBox.SetBinding(PasswordTextBox.PasswordProperty, binding);
+                        uIElement = passwordTextBox;
                     }
                 }
                 else if (typeof(IEnumerable).IsAssignableFrom(item.PropertyType))
