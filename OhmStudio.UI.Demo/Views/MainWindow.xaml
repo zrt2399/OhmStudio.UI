@@ -160,7 +160,7 @@
                                             <!--<DataGridTemplateColumn Header="密码" >
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <PasswordBoxControl Password="{Binding Value}" BorderThickness="0"/>
+                                                        <PasswordTextBox Password="{Binding Value}" BorderThickness="0"/>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>-->
@@ -329,16 +329,16 @@
                                         <PasswordBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="密码">
 
                                         </PasswordBox>
-                                        <PasswordBoxControl VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码...">
+                                        <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码...">
                                             <TextBoxAttach.Title>
                                                 <TextBlock >ButtonTitle</TextBlock>
                                             </TextBoxAttach.Title>
-                                        </PasswordBoxControl>
-                                        <PasswordBoxControl VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码1...">
+                                        </PasswordTextBox>
+                                        <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码1...">
                                             <TextBoxAttach.Title>
                                                 <TextBlock >搜索</TextBlock>
                                             </TextBoxAttach.Title>
-                                        </PasswordBoxControl>
+                                        </PasswordTextBox>
 
                                         <ComboBox TextBoxAttach.Title="中文" TextBoxAttach.PlaceHolder="请输入.." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
                                         <ComboBox IsEditable="True" TextBoxAttach.Title="输出" HorizontalContentAlignment="Right" TextBoxAttach.PlaceHolder="请输入..." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top"/>
@@ -358,8 +358,8 @@
                                         <DateTimePicker VerticalAlignment="Top" TextBoxAttach.Title="结束：" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
                                         <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" TextBoxAttach.Title="搜索" VerticalAlignment="Top" />
                                         <PasswordBox  VerticalAlignment="Top" TextBoxAttach.Title="技术" TextBoxAttach.PlaceHolder="密码"/>
-                                        <PasswordBoxControl VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
-                                        <PasswordBoxControl VerticalAlignment="Top" TextBoxAttach.Title="搜索"/>
+                                        <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
+                                        <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.Title="搜索"/>
 
                                         <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
                                         <SearchBar VerticalAlignment="Top" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>

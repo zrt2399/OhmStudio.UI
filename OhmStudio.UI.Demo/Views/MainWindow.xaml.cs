@@ -54,7 +54,7 @@ namespace OhmStudio.UI.Demo.Views
             var foldingManager = FoldingManager.Install(textEditor.TextArea);
             FoldingManager.Install(textEditorc.TextArea);
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Interval = TimeSpan.FromSeconds(2);
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
             dispatcherTimer.Tick += delegate
             {
                 xmlFoldingStrategy.UpdateFoldings(foldingManager, textEditor.Document);
