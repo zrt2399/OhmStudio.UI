@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Windows; 
 using Microsoft.Xaml.Behaviors;
 
-namespace OhmStudio.UI.Attachs
+namespace OhmStudio.UI.Attaches
 {
     internal static class BehaviorExtensions
     {

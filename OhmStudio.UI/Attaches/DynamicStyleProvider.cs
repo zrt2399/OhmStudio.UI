@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace OhmStudio.UI.Attachs
+namespace OhmStudio.UI.Attaches
 {
     public static class DynamicStyleProvider
     {

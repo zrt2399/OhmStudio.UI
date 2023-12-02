@@ -6,7 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using OhmStudio.UI.PublicMethods;
 
-namespace OhmStudio.UI.Attachs
+namespace OhmStudio.UI.Attaches
 {
     public class DataGridAttach
     {

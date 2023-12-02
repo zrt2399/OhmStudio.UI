@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using OhmStudio.UI.PublicMethods;
 using OhmStudio.UI.Views;
 
-namespace OhmStudio.UI.Attachs
+namespace OhmStudio.UI.Attaches
 {
     public class TextBoxAttach
     {

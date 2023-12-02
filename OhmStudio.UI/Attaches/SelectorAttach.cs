@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace OhmStudio.UI.Attachs
+namespace OhmStudio.UI.Attaches
 {
     public class SelectorAttach
     {

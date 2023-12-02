@@ -2,7 +2,7 @@
 using System.Windows;
 using ControlzEx.Behaviors;
 
-namespace OhmStudio.UI.Attachs
+namespace OhmStudio.UI.Attaches
 {
     internal static class BehaviorFactory
     {

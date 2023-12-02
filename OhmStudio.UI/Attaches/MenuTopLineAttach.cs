@@ -6,7 +6,7 @@ using System.Windows.Controls.Primitives;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.Helpers;
 
-namespace OhmStudio.UI.Attachs
+namespace OhmStudio.UI.Attaches
 {
     public sealed class MenuTopLineAttach
     {

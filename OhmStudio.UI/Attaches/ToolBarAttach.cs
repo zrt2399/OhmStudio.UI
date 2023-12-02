@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace OhmStudio.UI.Attachs
+namespace OhmStudio.UI.Attaches
 {
     public class ToolBarAttach
     {
@@ -15,18 +15,6 @@ namespace OhmStudio.UI.Attachs
         public static void SetToolBarThumbVisibility(DependencyObject obj, Visibility value)
         {
             obj.SetValue(ToolBarThumbVisibilityProperty, value);
-        }
-
-        public static readonly DependencyProperty ToolBarThumbMarginProperty =
-            DependencyProperty.RegisterAttached("ToolBarThumbMargin", typeof(Thickness), typeof(ToolBarAttach), new PropertyMetadata(new Thickness(0, 2, 0, 2)));
-        public static Thickness GetToolBarThumbMargin(DependencyObject obj)
-        {
-            return (Thickness)obj.GetValue(ToolBarThumbMarginProperty);
-        }
-
-        public static void SetToolBarThumbMargin(DependencyObject obj, Thickness value)
-        {
-            obj.SetValue(ToolBarThumbMarginProperty, value);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:attachs="clr-namespace:OhmStudio.UI.Attachs"
+    xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
     xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
     xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock"
     xmlns:avalonDockProperties="clr-namespace:AvalonDock.Properties;assembly=AvalonDock"
@@ -15,7 +15,7 @@
     <PathGeometry x:Key="Path_DocumentWellWindow_Minimize" Figures="M14 8v1H3V8h11z" />
 
     <Style x:Key="DocumentWellWindowBaseStyle" TargetType="{x:Type avalonDockControls:LayoutDocumentFloatingWindowControl}">
-        <Setter Property="attachs:WindowChromeAttach.EnableMinimize" Value="{Binding RelativeSource={RelativeSource Self}, Path=AllowMinimize}" />
+        <Setter Property="attaches:WindowChromeAttach.EnableMinimize" Value="{Binding RelativeSource={RelativeSource Self}, Path=AllowMinimize}" />
         <!--
             Use the customize active glow window, Because this will show the active color when displayed.
             Bacause GlowWindowAttach can't do that (The activated color is shown for the first time).
@@ -24,9 +24,9 @@
             (The floating window display without notifying the activation event?)
             But it will work in MainWindow (GlowWindowAttach) (no drag)
         -->
-        <Setter Property="attachs:CustomizeGlowWindowAttach.IsActive" Value="{Binding RelativeSource={RelativeSource Self}, Path=IsActive}" />
-        <Setter Property="attachs:CustomizeGlowWindowAttach.GlowBrush" Value="{DynamicResource {x:Static reskeys:ResourceKeys.FloatingDocumentWindowBorder}}" />
-        <Setter Property="attachs:CustomizeGlowWindowAttach.NonActiveGlowBrush" Value="{DynamicResource {x:Static reskeys:ResourceKeys.FloatingDocumentWindowBorderInactive}}" />
+        <Setter Property="attaches:CustomizeGlowWindowAttach.IsActive" Value="{Binding RelativeSource={RelativeSource Self}, Path=IsActive}" />
+        <Setter Property="attaches:CustomizeGlowWindowAttach.GlowBrush" Value="{DynamicResource {x:Static reskeys:ResourceKeys.FloatingDocumentWindowBorder}}" />
+        <Setter Property="attaches:CustomizeGlowWindowAttach.NonActiveGlowBrush" Value="{DynamicResource {x:Static reskeys:ResourceKeys.FloatingDocumentWindowBorderInactive}}" />
         <Setter Property="shell:WindowChrome.WindowChrome" Value="{x:Null}" />
         <Setter Property="WindowChrome.WindowChrome" Value="{x:Null}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.FloatingDocumentWindowBackground}}" />

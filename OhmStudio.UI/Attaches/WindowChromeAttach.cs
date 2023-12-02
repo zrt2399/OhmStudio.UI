@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using ControlzEx.Behaviors;
 
-namespace OhmStudio.UI.Attachs
+namespace OhmStudio.UI.Attaches
 {
     public sealed class WindowChromeAttach
     {
