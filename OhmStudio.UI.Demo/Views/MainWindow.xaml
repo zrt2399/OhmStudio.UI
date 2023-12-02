@@ -303,79 +303,206 @@
                                 </TabControl>
                             </LayoutDocument>
                             <LayoutDocument Title="Other" IsSelected="True" Description="其他" ToolTip="Other">
-                                <StackPanel Orientation="Horizontal">
-                                    <StackPanel Orientation="Vertical" Name="wr" IsEnabled="True" >
-                                        <DateTimePicker VerticalAlignment="Top" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期...">
-                                            <TextBoxAttach.Title>
-                                                <TextBox>123</TextBox>
-                                            </TextBoxAttach.Title>
-                                        </DateTimePicker>
-                                        <DateTimePicker Name="se" TextBoxAttach.PlaceHolder="请输入密码" TextBoxAttach.PlaceHolderIsHitTestVisible="True">
-                                            <TextBoxAttach.Title>
-                                                <TextBlock>密码</TextBlock>
-                                                <!--<iconPacks:PackIconModern Kind="InterfacePassword" Margin="0,0,4,0" Height="{Binding ElementName=dateTimePickerUserPassword1,Path=ActualHeight}"  />-->
-                                            </TextBoxAttach.Title>
-                                        </DateTimePicker>
-                                        <SearchBar VerticalAlignment="Top" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
-                                        <TextBox VerticalAlignment="Top" TextBoxAttach.Title="开始" TextBoxAttach.PlaceHolder="123456..."/>
-                                        <TextBox IsEnabled="True" VerticalAlignment="Top" Text="{Binding CurrentDateTime,Mode=TwoWay}" >
-                                            <TextBoxAttach.Title>
-                                                <TextBlock >ButtonTitle</TextBlock>
-                                            </TextBoxAttach.Title>
-                                            <TextBoxAttach.PlaceHolder>
-                                                <TextBlock >ButtonPlaceHolder</TextBlock>
-                                            </TextBoxAttach.PlaceHolder>
-                                        </TextBox>
-                                        <PasswordBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="密码">
+                                <Grid>
+                                    <!--<Grid>
+                                        <Rectangle>
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0.499,1"
+                                 EndPoint="0.5,1"
+                                 x:Name="BasicBrush">
+                                                    <GradientStop Color="#08000000"
+                              Offset="0.0" />
+                                                    <GradientStop Color="#03000000"
+                              Offset="1.0" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                            <Rectangle.Triggers>
+                                                <EventTrigger RoutedEvent="Rectangle.Loaded">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <PointAnimation Storyboard.TargetName="BasicBrush"
+                                        Storyboard.TargetProperty="StartPoint"
+                                        From="0.0,1"
+                                        To="1,1"
+                                        Duration="0:0:40"
+                                        FillBehavior="HoldEnd"
+                                        AutoReverse="True"
+                                        RepeatBehavior="Forever" />
+                                                            <PointAnimation Storyboard.TargetName="BasicBrush"
+                                        Storyboard.TargetProperty="EndPoint"
+                                        From="0.001,1"
+                                        To="1,1"
+                                        Duration="0:0:40"
+                                        FillBehavior="HoldEnd"
+                                        AutoReverse="True"
+                                        RepeatBehavior="Forever" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Rectangle.Triggers>
+                                        </Rectangle>
+                                        <Rectangle>
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0.499,1"
+                                 EndPoint="0.5,1"
+                                 x:Name="ThirdBrush">
+                                                    <GradientStop Color="#08000000"
+                              Offset="0.0" />
+                                                    <GradientStop Color="#03000000"
+                              Offset="1.0" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                            <Rectangle.Triggers>
+                                                <EventTrigger RoutedEvent="Rectangle.Loaded">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <PointAnimation Storyboard.TargetName="ThirdBrush"
+                                        Storyboard.TargetProperty="StartPoint"
+                                        From="1,1"
+                                        To="0.0,1"
+                                        Duration="0:0:15"
+                                        FillBehavior="HoldEnd"
+                                        RepeatBehavior="Forever" />
+                                                            <PointAnimation Storyboard.TargetName="ThirdBrush"
+                                        Storyboard.TargetProperty="EndPoint"
+                                        From="1,1"
+                                        To="0.001,1"
+                                        Duration="0:0:15"
+                                        FillBehavior="HoldEnd"
+                                        RepeatBehavior="Forever" />
+                                                            <PointAnimation Storyboard.TargetName="ThirdBrush"
+                                        Storyboard.TargetProperty="EndPoint"
+                                        From="1,1"
+                                        To="0.0,1"
+                                        BeginTime="0:0:15"
+                                        Duration="0:0:15"
+                                        FillBehavior="HoldEnd"
+                                        RepeatBehavior="Forever" />
+                                                            <PointAnimation Storyboard.TargetName="ThirdBrush"
+                                        Storyboard.TargetProperty="StartPoint"
+                                        From="1,1"
+                                        To="0.001,1"
+                                        BeginTime="0:0:15"
+                                        Duration="0:0:15"
+                                        FillBehavior="HoldEnd"
+                                        RepeatBehavior="Forever" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Rectangle.Triggers>
+                                        </Rectangle>
+                                        <Rectangle>
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="1,0.499"
+                                 EndPoint="1,0.5"
+                                 x:Name="SecondBrush">
+                                                    <GradientStop Color="#02000000"
+                              Offset="0.0" />
+                                                    <GradientStop Color="#07000000"
+                              Offset="1.0" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                            <Rectangle.Triggers>
+                                                <EventTrigger RoutedEvent="Rectangle.Loaded">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <PointAnimation Storyboard.TargetName="SecondBrush"
+                                        Storyboard.TargetProperty="StartPoint"
+                                        From="1,1"
+                                        To="1,0"
+                                        Duration="0:0:20"
+                                        FillBehavior="HoldEnd"
+                                        AutoReverse="True"
+                                        RepeatBehavior="Forever" />
+                                                            <PointAnimation Storyboard.TargetName="SecondBrush"
+                                        Storyboard.TargetProperty="EndPoint"
+                                        From="1,1"
+                                        To="1,0.001"
+                                        Duration="0:0:20"
+                                        FillBehavior="HoldEnd"
+                                        AutoReverse="True"
+                                        RepeatBehavior="Forever" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Rectangle.Triggers>
+                                        </Rectangle>
+                                    </Grid>-->
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel Orientation="Vertical" Name="wr" IsEnabled="True" >
+                                            <DateTimePicker VerticalAlignment="Top" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期...">
+                                                <TextBoxAttach.Title>
+                                                    <TextBox>123</TextBox>
+                                                </TextBoxAttach.Title>
+                                            </DateTimePicker>
+                                            <DateTimePicker Name="se" TextBoxAttach.PlaceHolder="请输入密码" TextBoxAttach.PlaceHolderIsHitTestVisible="True">
+                                                <TextBoxAttach.Title>
+                                                    <TextBlock>密码</TextBlock>
+                                                    <!--<iconPacks:PackIconModern Kind="InterfacePassword" Margin="0,0,4,0" Height="{Binding ElementName=dateTimePickerUserPassword1,Path=ActualHeight}"  />-->
+                                                </TextBoxAttach.Title>
+                                            </DateTimePicker>
+                                            <SearchBar VerticalAlignment="Top" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
+                                            <TextBox VerticalAlignment="Top" TextBoxAttach.Title="开始" TextBoxAttach.PlaceHolder="123456..."/>
+                                            <TextBox IsEnabled="True" VerticalAlignment="Top" Text="{Binding CurrentDateTime,Mode=TwoWay}" >
+                                                <TextBoxAttach.Title>
+                                                    <TextBlock >ButtonTitle</TextBlock>
+                                                </TextBoxAttach.Title>
+                                                <TextBoxAttach.PlaceHolder>
+                                                    <TextBlock >ButtonPlaceHolder</TextBlock>
+                                                </TextBoxAttach.PlaceHolder>
+                                            </TextBox>
+                                            <PasswordBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="密码">
 
-                                        </PasswordBox>
-                                        <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码...">
-                                            <TextBoxAttach.Title>
-                                                <TextBlock >ButtonTitle</TextBlock>
-                                            </TextBoxAttach.Title>
-                                        </PasswordTextBox>
-                                        <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码1...">
-                                            <TextBoxAttach.Title>
-                                                <TextBlock >搜索</TextBlock>
-                                            </TextBoxAttach.Title>
-                                        </PasswordTextBox>
+                                            </PasswordBox>
+                                            <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码...">
+                                                <TextBoxAttach.Title>
+                                                    <TextBlock >ButtonTitle</TextBlock>
+                                                </TextBoxAttach.Title>
+                                            </PasswordTextBox>
+                                            <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码1...">
+                                                <TextBoxAttach.Title>
+                                                    <TextBlock >搜索</TextBlock>
+                                                </TextBoxAttach.Title>
+                                            </PasswordTextBox>
 
-                                        <ComboBox TextBoxAttach.Title="中文" TextBoxAttach.PlaceHolder="请输入.." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
-                                        <ComboBox IsEditable="True" TextBoxAttach.Title="输出" HorizontalContentAlignment="Right" TextBoxAttach.PlaceHolder="请输入..." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top"/>
-                                        <CheckComboBox TextBoxAttach.Title="搜索" HorizontalContentAlignment="Right"
-                                                       Separator=";"
-                                                       Format="分组{0}"
-                                                       ItemsSource="{Binding FileNodes}"
-                                                       DisplayMemberPath="Description"
-                                                       VerticalAlignment="Top"
-                                                       VirtualizingPanel.IsVirtualizing="True"
-                                                       VirtualizingPanel.VirtualizationMode="Recycling"
-                                                       SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
-                                        <Button Click="Button_Click_4">显示选中项</Button>
-                                        <ToggleButton  Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
+                                            <ComboBox TextBoxAttach.Title="中文" TextBoxAttach.PlaceHolder="请输入.." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
+                                            <ComboBox IsEditable="True" TextBoxAttach.Title="输出" HorizontalContentAlignment="Right" TextBoxAttach.PlaceHolder="请输入..." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top"/>
+                                            <CheckComboBox TextBoxAttach.Title="搜索" HorizontalContentAlignment="Right" BorderAttach.CornerRadius="4"
+                                                Separator=";"
+                                                Format="分组{0}"
+                                                ItemsSource="{Binding FileNodes}"
+                                                DisplayMemberPath="Description"
+                                                VerticalAlignment="Top"
+                                                VirtualizingPanel.IsVirtualizing="True"
+                                                VirtualizingPanel.VirtualizationMode="Recycling"
+                                                SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
+                                            <Button Click="Button_Click_4" BorderAttach.CornerRadius="4">显示选中项</Button>
+                                            <ToggleButton  Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Vertical" >
+                                            <DateTimePicker BorderAttach.CornerRadius="4" VerticalAlignment="Top" TextBoxAttach.Title="结束：" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
+                                            <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" TextBoxAttach.Title="搜索" VerticalAlignment="Top" />
+                                            <PasswordBox BorderAttach.CornerRadius="4" VerticalAlignment="Top" TextBoxAttach.Title="技术" TextBoxAttach.PlaceHolder="密码"/>
+                                            <PasswordTextBox BorderAttach.CornerRadius="4" VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
+                                            <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.Title="搜索"/>
+
+                                            <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
+                                            <SearchBar BorderAttach.CornerRadius="4" VerticalAlignment="Top" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
+                                            <TextBox VerticalAlignment="Top" TextBoxAttach.Title="开始"/>
+                                            <TextBox VerticalAlignment="Top" Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..."/>
+
+                                            <Button Style="{StaticResource ClassicButton}" Padding="4" HorizontalContentAlignment="Left">ClassicButton</Button>
+                                            <Button Style="{StaticResource DefaultButton}" Padding="4" HorizontalContentAlignment="Right">DefaultButton</Button>
+                                            <Button Style="{StaticResource FlatButtonGreen}" Padding="4" HorizontalContentAlignment="Stretch">FlatButtonGreen</Button>
+                                            <Button Style="{StaticResource FlatButtonRed}" Padding="4" HorizontalContentAlignment="Center">FlatButtonRed</Button>
+                                            <TextBox BorderAttach.CornerRadius="4" Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..."/>
+                                        </StackPanel>
                                     </StackPanel>
-                                    <StackPanel Orientation="Vertical" >
-                                        <DateTimePicker VerticalAlignment="Top" TextBoxAttach.Title="结束：" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
-                                        <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" TextBoxAttach.Title="搜索" VerticalAlignment="Top" />
-                                        <PasswordBox  VerticalAlignment="Top" TextBoxAttach.Title="技术" TextBoxAttach.PlaceHolder="密码"/>
-                                        <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
-                                        <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.Title="搜索"/>
 
-                                        <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
-                                        <SearchBar VerticalAlignment="Top" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
-                                        <TextBox VerticalAlignment="Top" TextBoxAttach.Title="开始"/>
-                                        <TextBox VerticalAlignment="Top" Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..."/>
-
-                                        <Button Style="{StaticResource ButtonStyle}" Padding="4" HorizontalContentAlignment="Left">ButtonStyle</Button>
-                                        <Button Style="{StaticResource DefaultButton}" Padding="4" HorizontalContentAlignment="Right">DefaultButton</Button>
-                                        <Button Style="{StaticResource FilletButton}" Padding="4" HorizontalContentAlignment="Stretch">FilletButton</Button>
-                                        <Button Style="{StaticResource FilletButtonRed}" Padding="4" HorizontalContentAlignment="Center">FilletButtonRed</Button>
-                                    </StackPanel>
-                                </StackPanel>
-
+                                </Grid> 
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
-                                <ProgressBar Value="50" IsIndeterminate="True">
+                                <ProgressBar Value="50" BorderAttach.CornerRadius="10" IsIndeterminate="True" Height="100" Width="300" VerticalAlignment="Center">
 
                                 </ProgressBar>
                             </LayoutDocument>
@@ -398,8 +525,8 @@
 
                             </LayoutDocument>
                             <LayoutDocument Title="GroupBox">
-                                <GroupBox Header="Box" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0">
-                                    <TextBox BorderThickness="0"></TextBox>
+                                <GroupBox Background="Orange" Header="Box" HorizontalAlignment="Center" BorderAttach.CornerRadius="14" VerticalAlignment="Center" Padding="0">
+                                    <TextBox BorderThickness="0"/>
                                 </GroupBox>
                             </LayoutDocument>
                             <LayoutDocument Title="CheckComboBox" CanClose="False">
@@ -408,7 +535,9 @@
                                     <CheckComboBox DisplayMemberPath="Name"
                                                    ItemsSource="{Binding FileNodes}"
                                                    VerticalAlignment="Top"/>
-                                    <CheckBox IsChecked="{x:Null}" VerticalAlignment="Top" />
+                                    <RadioButton>123</RadioButton>
+                                    <RadioButton>456</RadioButton>
+                                    <CheckBox IsChecked="{x:Null}" VerticalAlignment="Top" BorderAttach.CornerRadius="4"/>
                                     <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
                                     <ComboBox DisplayMemberPath="Name" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
                                     <TextBox Width="400" VerticalAlignment="Top" Text="{Binding CurrentDateTime}"/>
@@ -421,7 +550,7 @@
                     </LayoutDocumentPaneGroup>
                     <LayoutAnchorablePaneGroup DockWidth="400">
                         <LayoutAnchorablePane>
-                            <LayoutAnchorable Title="ListView" ToolTip="ListView.ListView">
+                            <LayoutAnchorable Title="数据网格" ToolTip="ListView.ListView">
                                 <ListView ItemsSource="{Binding Result}" >
 
                                     <ListView.View>

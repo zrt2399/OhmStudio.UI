@@ -19,7 +19,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Folding;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
@@ -51,7 +50,7 @@ namespace OhmStudio.UI.Demo.Views
             {
                 FontSizeList.Add(i);
             }
-            var foldingManager = FoldingManager.Install(textEditor.TextArea);
+            var foldingManager = FoldingManager.Install(textEditor.TextArea); 
             FoldingManager.Install(textEditorc.TextArea);
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
