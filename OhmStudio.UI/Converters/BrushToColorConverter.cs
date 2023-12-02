@@ -9,11 +9,11 @@ namespace OhmStudio.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null || value is not SolidColorBrush solidColorBrush)
+            if (value is SolidColorBrush solidColorBrush)
             {
-                return default;
+                return solidColorBrush.Color;
             }
-            return solidColorBrush.Color;
+            return Brushes.Transparent.Color;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
