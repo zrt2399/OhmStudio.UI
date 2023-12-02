@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OhmStudio.UI.Views"
              xmlns:my="clr-namespace:OhmStudio.UI.Views"
+             xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
+             xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
              Loaded="UserControl_Loaded"
              mc:Ignorable="d">
 
@@ -86,6 +88,7 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Left"
                         BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
+                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource AncestorType=UserControl}}"
                         BorderThickness="1">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -130,7 +133,7 @@
                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                    PlacementTarget="{Binding ElementName=textBoxDateTime}"
                    StaysOpen="False">
-                <!--<theme1:SystemDropShadowChrome Name="Shdw" Color="{DynamicResource ControlShadow}" Margin="0,0,5,5"/>-->
+                <controls:SystemDropShadowChrome Color="{DynamicResource ControlShadow}" x:Name="content" Margin="0,0,5,5"/>
             </Popup>
         </Grid>
     </Border>

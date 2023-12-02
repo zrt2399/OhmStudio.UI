@@ -1,4 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches">
+    
     <Style x:Key="ToolTipBaseStyle" TargetType="{x:Type ToolTip}">
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{DynamicResource ToolTipBorderBrush}" />
@@ -27,12 +30,14 @@
                         -->
                         <Border
                             Background="{TemplateBinding Background}"
+                            CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
                             BorderThickness="0"
                             SnapsToDevicePixels="True" />
                         <Border
                             Name="Border"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
                             SnapsToDevicePixels="True">
                             <ContentPresenter
                                 Margin="{TemplateBinding Padding}"

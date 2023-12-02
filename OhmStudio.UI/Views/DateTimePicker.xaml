@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:OhmStudio.UI.Views"
+             xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
+             xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
              mc:Ignorable="d"
              Focusable="True"
              d:Height="40">
@@ -20,6 +22,7 @@
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     Background="{TemplateBinding Background}"
+                                    CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
                                     SnapsToDevicePixels="True">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -80,6 +83,8 @@
         <Popup x:Name="popChioce"
                AllowsTransparency="True"
                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-               StaysOpen="False"/>
+               StaysOpen="False">
+            <controls:SystemDropShadowChrome Color="{DynamicResource ControlShadow}" x:Name="content" Margin="0,0,5,5"/> 
+        </Popup>
     </Grid>
 </UserControl>

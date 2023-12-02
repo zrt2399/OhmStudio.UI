@@ -31,9 +31,7 @@ namespace OhmStudio.UI.Views
         /// 从 DateTimePicker 传入的日期时间字符串
         /// </summary>
         string formerDateTimeStr = string.Empty;
-
-        #region 事件
-
+ 
         /// <summary>
         /// TDateTimeView 窗口登录事件
         /// </summary>
@@ -145,7 +143,7 @@ namespace OhmStudio.UI.Views
                 popChioce.IsOpen = false;//THourView 所在pop 的关闭动作
             };
             hourView.Closed += () => popChioce.IsOpen = false;
-            popChioce.Child = hourView;
+            content.Child = hourView;
             popChioce.IsOpen = true;
         }
 
@@ -167,43 +165,10 @@ namespace OhmStudio.UI.Views
                 popChioce.IsOpen = false;//TMinSexView 所在的 pop 关闭动作
             };
             minSexView.Closed += () => popChioce.IsOpen = false;
-            popChioce.Child = minSexView;
+            content.Child = minSexView;
             popChioce.IsOpen = true;
         }
-
-        /// <summary>
-        /// 解除calendar点击后 影响其他按钮首次点击无效的问题
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void calDate_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            if (Mouse.Captured is CalendarItem)
-            {
-                Mouse.Capture(null);
-            }
-        }
-
-        #endregion
-
-        #region Action交互
-
-        /// <summary>
-        /// 时间确定后的传递事件。
-        /// </summary>
-        public Action<string> DateTimeOK;
-        public Action Closed;
-        /// <summary>
-        /// 时间确定后传递的时间内容。
-        /// </summary>
-        /// <param name="dateTimeStr"></param>
-        protected void OnDateTimeContent(string dateTimeStr)
-        {
-            DateTimeOK?.Invoke(dateTimeStr);
-        }
-
-        #endregion
-
+         
         /// <summary>
         /// 秒钟点击事件。
         /// </summary>
@@ -224,8 +189,35 @@ namespace OhmStudio.UI.Views
                 popChioce.IsOpen = false;//TMinSexView 所在的 pop 关闭动作
             };
             minSexView.Closed += () => popChioce.IsOpen = false;
-            popChioce.Child = minSexView;
+            content.Child = minSexView;
             popChioce.IsOpen = true;
+        }
+  
+        /// <summary>
+        /// 时间确定后的传递事件。
+        /// </summary>
+        public Action<string> DateTimeOK;
+        public Action Closed;
+        /// <summary>
+        /// 时间确定后传递的时间内容。
+        /// </summary>
+        /// <param name="dateTimeStr"></param>
+        protected void OnDateTimeContent(string dateTimeStr)
+        {
+            DateTimeOK?.Invoke(dateTimeStr);
+        }
+
+        /// <summary>
+        /// 解除calendar点击后 影响其他按钮首次点击无效的问题
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void calDate_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (Mouse.Captured is CalendarItem)
+            {
+                Mouse.Capture(null);
+            }
         }
     }
 }
