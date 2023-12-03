@@ -19,8 +19,8 @@
               Icon="/icon.ico"
               WindowStartupLocation="CenterScreen"
               ResizeMode="CanResizeWithGrip"
-              UseLayoutRounding="True"
-              SnapsToDevicePixels="True"
+              UseLayoutRounding="False"
+              SnapsToDevicePixels="False"
               Title="{x:Static local:App.Name}"
               Height="720"
               Width="1280">
@@ -88,7 +88,7 @@
             <ComboBox TextBoxAttach.Title="字体："
                       ItemsSource="{Binding FontFamilyList}"
                       SelectedItem="{Binding CurrentFontFamily}"/>
-            <ComboBox TextBoxAttach.Title="主题："
+            <ComboBox TextBoxAttach.Title="主题：" BorderAttach.CornerRadius="8"
                       DisplayMemberPath="Name"
                       Margin="6,0"
                       ItemsSource="{x:Static views:OhmThemeCollection.AllThemes}"
