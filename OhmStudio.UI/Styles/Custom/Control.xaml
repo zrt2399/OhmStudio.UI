@@ -9,7 +9,7 @@
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <converters:AngleToPointConverter x:Key="AngleToPointConverter"/>
     <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter"/>
-
+    
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
     <SolidColorBrush x:Key="Disabled">#FFAEABAB</SolidColorBrush>
@@ -19,6 +19,7 @@
         <Setter Property="BorderBrush" Value="#FF96999C"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="BorderAttach.CornerRadius" Value="2"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -28,7 +29,8 @@
                                 <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=BorderBrush,Converter={StaticResource BrushToColorConverter}}"/>
                             </Border.Effect>
                         </Border>
-                        <Border Name="Border" Margin="2" CornerRadius="2" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <Border Name="Border" Margin="2" CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
+                                BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </Grid>
@@ -59,6 +61,7 @@
         <Setter Property="BorderBrush" Value="#FF2C84DD"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="BorderAttach.CornerRadius" Value="2"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -68,8 +71,8 @@
                                 <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=BorderBrush,Converter={StaticResource BrushToColorConverter}}"/>
                             </Border.Effect>
                         </Border>
-                        <Border Name="Border" TextBlock.Foreground="White" Margin="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                CornerRadius="2" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border Name="Border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" TextBlock.Foreground="White" Margin="2">
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </Grid>
@@ -100,6 +103,7 @@
         <Setter Property="BorderBrush" Value="#FF1EA973"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="BorderAttach.CornerRadius" Value="2"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -110,7 +114,7 @@
                             </Border.Effect>
                         </Border>
                         <Border Name="Border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                CornerRadius="2" TextElement.Foreground="White" Margin="2">
+                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" TextElement.Foreground="White" Margin="2">
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </Grid>
@@ -147,6 +151,7 @@
         <Setter Property="BorderBrush" Value="#FFCD5C5C"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="BorderAttach.CornerRadius" Value="2"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -157,7 +162,7 @@
                             </Border.Effect>
                         </Border>
                         <Border Name="Border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                CornerRadius="2" TextElement.Foreground="White" Margin="2">
+                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" TextElement.Foreground="White" Margin="2">
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </Grid>
@@ -569,6 +574,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
+                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
                                 SnapsToDevicePixels="True"/>
                         <TextBox Padding="{TemplateBinding Padding}"
                                  Grid.Column="1"
