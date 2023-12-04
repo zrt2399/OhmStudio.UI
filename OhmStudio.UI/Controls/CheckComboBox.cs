@@ -60,13 +60,13 @@ namespace OhmStudio.UI.Controls
             set => SetValue(SeparatorProperty, value);
         }
 
-        public static readonly DependencyProperty FormatProperty =
-            DependencyProperty.Register(nameof(Format), typeof(string), typeof(CheckComboBox), new PropertyMetadata("{0}"));
+        public static readonly DependencyProperty StringFormatProperty =
+            DependencyProperty.Register(nameof(StringFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("{0}"));
 
-        public string Format
+        public string StringFormat
         {
-            get => (string)GetValue(FormatProperty);
-            set => SetValue(FormatProperty, value);
+            get => (string)GetValue(StringFormatProperty);
+            set => SetValue(StringFormatProperty, value);
         }
 
         public override void OnApplyTemplate()
@@ -208,11 +208,11 @@ namespace OhmStudio.UI.Controls
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < list.Count - 1; i++)
             {
-                stringBuilder.Append(string.Format(Format, list[i] + Separator));
+                stringBuilder.Append(string.Format(StringFormat, list[i] + Separator));
             }
             if (list.Count > 0)
             {
-                stringBuilder.Append(string.Format(Format, list[list.Count - 1]));
+                stringBuilder.Append(string.Format(StringFormat, list[list.Count - 1]));
             }
             Text = stringBuilder.ToString();
             //SelectedText = string.Join(",", list);
