@@ -17,7 +17,7 @@
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
-        
+
     </UserControl.Resources>
 
     <Border BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
@@ -67,7 +67,6 @@
                                 </Trigger>
                                 <Trigger Property="IsInactive" Value="False">
                                     <Setter Property="Background" Value="Red"/>
-                                    <Setter Property="TextBlock.Foreground" Value="Red"/>
                                     <Setter Property="TextElement.Foreground" Value="Red"/>
                                 </Trigger>
                             </Style.Triggers>-->

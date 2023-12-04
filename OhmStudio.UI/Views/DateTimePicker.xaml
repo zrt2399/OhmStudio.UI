@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:OhmStudio.UI.Views"
              xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
              xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
+             xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
              mc:Ignorable="d"
              Focusable="True"
              d:Height="40">
@@ -35,7 +36,8 @@
                                         <Button Padding="4"
                                                 Click="IconButton_Click"
                                                 BorderBrush="Transparent"
-                                                BorderThickness="0">
+                                                BorderThickness="0"
+                                                attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BorderCornerRadiusConverter}}">
                                             <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" ToolTip="{x:Null}">&#xe606;</TextBlock>
                                         </Button>
 
