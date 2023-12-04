@@ -697,9 +697,9 @@
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="pt">
                                 <StackPanel>
-                                    <pt:DataGrid x:Name="datagrid" ItemsSource="{Binding UserInfos}">
+                                    <!--<pt:DataGrid x:Name="datagrid" ItemsSource="{Binding UserInfos}">
 
-                                    </pt:DataGrid>
+                                    </pt:DataGrid>-->
                                     <pt:DirectoryPicker >
                                         
                                     </pt:DirectoryPicker>
