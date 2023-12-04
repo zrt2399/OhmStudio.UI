@@ -26,7 +26,7 @@
               Width="1280">
 
     <Window.LayoutTransform>
-        <ScaleTransform ScaleX="{Binding WindowScale}" ScaleY="{Binding WindowScale}" />
+        <ScaleTransform ScaleX="2" ScaleY="2" />
     </Window.LayoutTransform>
 
     <Window.Resources>
