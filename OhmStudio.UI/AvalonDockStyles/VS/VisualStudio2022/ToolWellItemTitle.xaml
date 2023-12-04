@@ -13,7 +13,6 @@
     <Style x:Key="ToolWellItemTitleBaseStyle" TargetType="{x:Type avalonDockControls:AnchorablePaneTitle}">
         <Setter Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ToolWindowCaptionInactiveBackground}}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ToolWindowCaptionInactiveText}}" />
-        <Setter Property="ToolTip" Value="{Binding ToolTip}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
