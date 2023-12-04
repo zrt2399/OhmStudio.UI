@@ -20,16 +20,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using ICSharpCode.AvalonEdit.Folding;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
+using ICSharpCode.AvalonEdit.Search;
 using OhmStudio.UI.Commands;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.Converters;
 using OhmStudio.UI.Messaging;
 using OhmStudio.UI.PublicMethods;
-using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Series;
 
 namespace OhmStudio.UI.Demo.Views
 {
@@ -50,17 +46,21 @@ namespace OhmStudio.UI.Demo.Views
             {
                 FontSizeList.Add(i);
             }
-            var foldingManager = FoldingManager.Install(textEditor.TextArea); 
-            FoldingManager.Install(textEditorc.TextArea);
+            var text = textEditor;
+            var searchPanel = SearchPanel.Install(text);
+            searchPanel.MarkerBrush = "#BEAA46".ToSolidColorBrush();
+
+            var foldingManager = FoldingManager.Install(text.TextArea);
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
             dispatcherTimer.Tick += delegate
             {
-                xmlFoldingStrategy.UpdateFoldings(foldingManager, textEditor.Document);
+                xmlFoldingStrategy.UpdateFoldings(foldingManager, text.Document);
             };
             dispatcherTimer.Start();
 
-
+            ZoomInCommand = new RelayCommand(ZoomIn);
+            ZoomOutCommand = new RelayCommand(ZoomOut);
             //Loaded += async delegate
             //{
             //    await Task.Delay(10000); 
@@ -75,56 +75,6 @@ namespace OhmStudio.UI.Demo.Views
                 Result.Rows.Add(DateTime.Now, i, i + 1, "44");
             }
             //da.ItemsSource = Result.DefaultView;
-            //PlotModel = new PlotModel();
-
-            //// 添加一个线性系列
-            //var series = new LineSeries();
-            //series.Points.Add(new DataPoint(0, 0));
-            //series.Points.Add(new DataPoint(1, 1));
-            //series.Points.Add(new DataPoint(2, 2));
-
-            //// 将系列添加到 PlotModel 中
-            //PlotModel.Series.Add(series);
-            PlotModel = new PlotModel();
-
-            // 创建一个数值轴
-            var xAxis = new LinearAxis
-            {
-                Position = AxisPosition.Bottom,
-                TextColor = OxyColor.Parse("#ffffff"),
-                TitleColor = OxyColor.Parse("#ffffff"),
-
-                MajorGridlineColor = OxyColors.Red, // 设置主刻度线颜色
-                MinorGridlineColor = OxyColors.Orange,
-                Title = "X"
-            };
-            PlotModel.Axes.Add(xAxis);
-
-            // 创建一个数值轴
-            var yAxis = new LinearAxis
-            {
-                Position = AxisPosition.Left,
-                Title = "Y"
-            };
-            PlotModel.Axes.Add(yAxis);
-
-            // 定义一条曲线
-            var series = new LineSeries
-            {
-                Title = "Complex Curve",
-
-                StrokeThickness = 3
-            };
-
-            // 添加数据点
-            for (double x = -10; x <= 10; x += 0.1)
-            {
-                double y = Math.Cos(x) * Math.Exp(-x * x / 25) + Math.Sin(3 * x);
-                series.Points.Add(new DataPoint(x, y));
-            }
-
-            // 将系列添加到 PlotModel 中
-            PlotModel.Series.Add(series);
 
             Pro.Description = "1";
             Pro.Brush = Brushes.Red;
@@ -206,8 +156,6 @@ namespace OhmStudio.UI.Demo.Views
         }
 
         const string Rrecipient = "Ohm";
-
-        public PlotModel PlotModel { get; set; }
 
         public Pro Pro { get; set; } = new Pro();
 
@@ -315,6 +263,20 @@ namespace OhmStudio.UI.Demo.Views
             set => OnPropertyChanged(ref items, value, nameof(Items));
         }
 
+        public ICommand ZoomInCommand { get; }
+        public ICommand ZoomOutCommand { get; }
+
+        private double _windowScale = 1;
+        public double WindowScale
+        {
+            get => _windowScale;
+            set
+            {
+                _windowScale = value;
+                OnPropertyChanged(() => WindowScale);
+            }
+        }
+
         private ObservableCollection<Pro> fileNodes = new();
         public ObservableCollection<Pro> FileNodes
         {
@@ -372,6 +334,26 @@ namespace OhmStudio.UI.Demo.Views
             }
 
             return propertyInfo.Name;
+        }
+
+        void ZoomIn()
+        {
+            if (WindowScale <= 0.2)
+            {
+                return;
+            }
+            WindowScale -= 0.1;
+            WindowScale = Math.Round(WindowScale, 1);
+        }
+
+        void ZoomOut()
+        {
+            if (WindowScale >= 4)
+            {
+                return;
+            }
+            WindowScale += 0.1;
+            WindowScale = Math.Round(WindowScale, 1);
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -468,7 +450,7 @@ namespace OhmStudio.UI.Demo.Views
             public string Greeting { get; set; }
         }
 
-        private async void Button_Click_7(object sender, RoutedEventArgs e)
+        private void Button_Click_7(object sender, RoutedEventArgs e)
         {
             //int a = 1;
 
@@ -486,14 +468,14 @@ namespace OhmStudio.UI.Demo.Views
             //    AlertDialog.Show(result.ReturnValue.ToString());
             //});
 
-            string code = " return Greeting  + \"123\"  ;";
+            //string code = " return Greeting  + \"123\"  ;";
 
-            var scriptOptions = ScriptOptions.Default.WithImports("System");
+            //var scriptOptions = ScriptOptions.Default.WithImports("System");
 
-            var globals = new Globals { Greeting = "Hello, World!" };
+            //var globals = new Globals { Greeting = "Hello, World!" };
 
-            var result = await CSharpScript.RunAsync(code, scriptOptions, globals);
-            AlertDialog.Show(result.ReturnValue.ToString());
+            //var result = await CSharpScript.RunAsync(code, scriptOptions, globals);
+            //AlertDialog.Show(result.ReturnValue.ToString());
 
         }
 

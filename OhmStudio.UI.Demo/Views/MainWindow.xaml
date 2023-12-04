@@ -19,11 +19,15 @@
               Icon="/icon.ico"
               WindowStartupLocation="CenterScreen"
               ResizeMode="CanResizeWithGrip"
-              UseLayoutRounding="False"
-              SnapsToDevicePixels="False"
+              UseLayoutRounding="True"
+              SnapsToDevicePixels="True"
               Title="{x:Static local:App.Name}"
               Height="720"
               Width="1280">
+
+    <Window.LayoutTransform>
+        <ScaleTransform ScaleX="{Binding WindowScale}" ScaleY="{Binding WindowScale}" />
+    </Window.LayoutTransform>
 
     <Window.Resources>
         <converters:GroupItemConverter x:Key="GroupItemConverter"/>
@@ -88,7 +92,7 @@
             <ComboBox TextBoxAttach.Title="字体："
                       ItemsSource="{Binding FontFamilyList}"
                       SelectedItem="{Binding CurrentFontFamily}"/>
-            <ComboBox TextBoxAttach.Title="主题：" BorderAttach.CornerRadius="8"
+            <ComboBox TextBoxAttach.Title="主题：" BorderAttach.CornerRadius="2"
                       DisplayMemberPath="Name"
                       Margin="6,0"
                       ItemsSource="{x:Static views:OhmThemeCollection.AllThemes}"
@@ -278,7 +282,7 @@
                                 </RollBox>
                             </LayoutDocument>
                             <LayoutDocument Title="PlotView">
-                                <oxy:PlotView Model="{Binding PlotModel}" Background="#2e2e2e" Foreground="Red"/>
+                               
                             </LayoutDocument>
                             <LayoutDocument Title="TextEditor">
                                 <TabControl>
@@ -291,12 +295,12 @@
                                                 <RowDefinition/>
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
-                                            <avalonEdit:TextEditor x:Name="textEditorc" SyntaxHighlighting="C#" ShowLineNumbers="True" />
+                                            <avalonEdit:TextEditor x:Name="textEditorcs" SyntaxHighlighting="C#" ShowLineNumbers="True" />
                                             <Button Grid.Row="1" Click="Button_Click_7">执行</Button>
                                         </Grid>
                                     </TabItem>
                                     <TabItem Header="C++">
-                                        <avalonEdit:TextEditor SyntaxHighlighting="C++" ShowLineNumbers="True">
+                                        <avalonEdit:TextEditor x:Name="textEditorcp" SyntaxHighlighting="C++" ShowLineNumbers="True">
 
                                         </avalonEdit:TextEditor>
                                     </TabItem>
@@ -467,27 +471,27 @@
 
                                             <ComboBox TextBoxAttach.Title="中文" TextBoxAttach.PlaceHolder="请输入.." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
                                             <ComboBox IsEditable="True" TextBoxAttach.Title="输出" HorizontalContentAlignment="Right" TextBoxAttach.PlaceHolder="请输入..." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top"/>
-                                            <CheckComboBox TextBoxAttach.Title="搜索" HorizontalContentAlignment="Right" BorderAttach.CornerRadius="4"
+                                            <CheckComboBox TextBoxAttach.Title="搜索" HorizontalContentAlignment="Right" BorderAttach.CornerRadius="2"
                                                 Separator=";"
-                                                Format="分组{0}"
+                                                StringFormat="分组{0}"
                                                 ItemsSource="{Binding FileNodes}"
                                                 DisplayMemberPath="Description"
                                                 VerticalAlignment="Top"
                                                 VirtualizingPanel.IsVirtualizing="True"
                                                 VirtualizingPanel.VirtualizationMode="Recycling"
                                                 SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
-                                            <Button Click="Button_Click_4" BorderAttach.CornerRadius="4">显示选中项</Button>
+                                            <Button Click="Button_Click_4" BorderAttach.CornerRadius="2">显示选中项</Button>
                                             <ToggleButton  Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" >
-                                            <DateTimePicker BorderAttach.CornerRadius="4" VerticalAlignment="Top" TextBoxAttach.Title="结束：" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
+                                            <DateTimePicker BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.Title="结束：" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
                                             <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" TextBoxAttach.Title="搜索" VerticalAlignment="Top" />
-                                            <PasswordBox BorderAttach.CornerRadius="4" VerticalAlignment="Top" TextBoxAttach.Title="技术" TextBoxAttach.PlaceHolder="密码"/>
-                                            <PasswordTextBox BorderAttach.CornerRadius="4" VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
+                                            <PasswordBox BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.Title="技术" TextBoxAttach.PlaceHolder="密码"/>
+                                            <PasswordTextBox BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
                                             <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.Title="搜索"/>
 
                                             <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
-                                            <SearchBar BorderAttach.CornerRadius="4" VerticalAlignment="Top" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
+                                            <SearchBar BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
                                             <TextBox VerticalAlignment="Top" TextBoxAttach.Title="开始"/>
                                             <TextBox VerticalAlignment="Top" Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..."/>
 
@@ -495,7 +499,7 @@
                                             <Button Style="{StaticResource DefaultButton}" Padding="4" HorizontalContentAlignment="Right">DefaultButton</Button>
                                             <Button Style="{StaticResource FlatButtonGreen}" Padding="4" HorizontalContentAlignment="Stretch">FlatButtonGreen</Button>
                                             <Button Style="{StaticResource FlatButtonRed}" Padding="4" HorizontalContentAlignment="Center">FlatButtonRed</Button>
-                                            <TextBox BorderAttach.CornerRadius="4" Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..."/>
+                                            <TextBox BorderAttach.CornerRadius="2" Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..."/>
                                         </StackPanel>
                                     </StackPanel>
 
@@ -537,7 +541,7 @@
                                                    VerticalAlignment="Top"/>
                                     <RadioButton>123</RadioButton>
                                     <RadioButton>456</RadioButton>
-                                    <CheckBox IsChecked="{x:Null}" VerticalAlignment="Top" BorderAttach.CornerRadius="4"/>
+                                    <CheckBox IsChecked="{x:Null}" VerticalAlignment="Top" BorderAttach.CornerRadius="2"/>
                                     <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
                                     <ComboBox DisplayMemberPath="Name" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
                                     <TextBox Width="400" VerticalAlignment="Top" Text="{Binding CurrentDateTime}"/>
@@ -691,6 +695,22 @@
                                     <!--<hc:CheckComboBox  Grid.Row="2">Click</hc:CheckComboBox>-->
                                 </Grid>
                             </LayoutAnchorable>
+                            <LayoutAnchorable Title="pt">
+                                <StackPanel>
+                                    <pt:DataGrid x:Name="datagrid" ItemsSource="{Binding UserInfos}">
+
+                                    </pt:DataGrid>
+                                    <pt:DirectoryPicker >
+                                        
+                                    </pt:DirectoryPicker>
+                                    <!--<pt:ColorPicker></pt:ColorPicker>
+                                    <pt:ColorSlider></pt:ColorSlider>--> 
+                                    <pt:FilePicker Multiselect="True"></pt:FilePicker>
+                                    <!--<pt:PropertyGrid SelectedObject="{Binding Items}"/>-->  
+                                    <!--<pt:HsvControl></pt:HsvControl>
+                                    <pt:CheckMark ></pt:CheckMark>-->
+                                </StackPanel> 
+                            </LayoutAnchorable>
                             <LayoutAnchorable Title="TreeView">
                                 <TreeView Name="treeView">
                                     <TreeView.ContextMenu>
@@ -706,7 +726,31 @@
             </LayoutRoot>
         </DockingManager>
         <StatusBar Grid.Row="1">
-            <StatusBarItem>Ready</StatusBarItem>
+            <StatusBar>
+               
+
+                <StatusBarItem Content="Ready" Padding="0"/>
+                <StatusBarItem HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="-"  Padding="0" BorderThickness="1" Command="{Binding ZoomInCommand}"/>
+                        <TextBlock Margin="4,0" Text="{Binding WindowScale,StringFormat={}{0:P1}}" />
+                        <Button Content="+"   Padding="0" BorderThickness="1" Command="{Binding ZoomOutCommand}"/>
+                         
+                    </StackPanel>
+                    <StatusBarItem.Style>
+                        <Style TargetType="StatusBarItem">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WindowState,RelativeSource={RelativeSource AncestorType=Window}}" Value="Minimized">
+                                    <Setter Property="Margin" Value="0,0,16,0" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding WindowState,RelativeSource={RelativeSource AncestorType=Window}}" Value="Normal">
+                                    <Setter Property="Margin" Value="0,0,16,0" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StatusBarItem.Style>
+                </StatusBarItem>
+            </StatusBar>
         </StatusBar>
     </Grid>
 </ChromeWindow>
