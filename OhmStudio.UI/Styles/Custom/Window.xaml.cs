@@ -8,9 +8,9 @@ using System.Windows.Media;
 namespace OhmStudio.UI.Styles.Custom
 {
     /// <summary>
-    /// WindowUI.xaml 的交互逻辑
+    /// WindowDictionary.xaml 的交互逻辑
     /// </summary>
-    public partial class WindowUI : ResourceDictionary
+    public partial class WindowDictionary : ResourceDictionary
     {
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {

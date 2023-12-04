@@ -9,12 +9,14 @@
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <converters:AngleToPointConverter x:Key="AngleToPointConverter"/>
     <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter"/>
+    <converters:BorderCornerRadiusConverter x:Key="BorderCornerRadiusConverter"/>
     
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
     <SolidColorBrush x:Key="Disabled">#FFAEABAB</SolidColorBrush>
 
     <Style x:Key="ClassicButton" TargetType="Button">
+        <Setter Property="Foreground" Value="Black"/>
         <Setter Property="Background" Value="#FFF2F4F5"/>
         <Setter Property="BorderBrush" Value="#FF96999C"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -29,8 +31,8 @@
                                 <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=BorderBrush,Converter={StaticResource BrushToColorConverter}}"/>
                             </Border.Effect>
                         </Border>
-                        <Border Name="Border" Margin="2" CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
-                                BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <Border Name="Border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                Margin="2" CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </Grid>
@@ -48,15 +50,16 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Border" Property="Background" Value="#FFF6F6F6"/>
                             <Setter TargetName="Border" Property="BorderBrush" Value="#FFD1D5D6"/>
-                            <Setter TargetName="Border" Property="TextBlock.Foreground" Value="#FF514949"/>
+                            <Setter TargetName="Border" Property="TextElement.Foreground" Value="#FF514949"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
- 
+
     <Style x:Key="DefaultButton" TargetType="Button">
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="Background" Value="#FF499FEF"/>
         <Setter Property="BorderBrush" Value="#FF2C84DD"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -72,7 +75,7 @@
                             </Border.Effect>
                         </Border>
                         <Border Name="Border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" TextBlock.Foreground="White" Margin="2">
+                                Margin="2" CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </Grid>
@@ -90,7 +93,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Border" Property="Background" Value="#FFF6F6F6" />
                             <Setter TargetName="Border" Property="BorderBrush" Value="#FFD1D5D6" />
-                            <Setter TargetName="Border" Property="TextBlock.Foreground" Value="#FF514949" />
+                            <Setter TargetName="Border" Property="TextElement.Foreground" Value="#FF514949" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -99,6 +102,7 @@
     </Style>
 
     <Style x:Key="FlatButtonGreen" TargetType="Button">
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="Background" Value="#FF1EA973"/>
         <Setter Property="BorderBrush" Value="#FF1EA973"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -114,7 +118,7 @@
                             </Border.Effect>
                         </Border>
                         <Border Name="Border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" TextElement.Foreground="White" Margin="2">
+                                Margin="2" CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </Grid>
@@ -147,6 +151,7 @@
     </Style>
 
     <Style x:Key="FlatButtonRed" TargetType="Button">
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="Background" Value="#FFCD5C5C"/>
         <Setter Property="BorderBrush" Value="#FFCD5C5C"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -162,7 +167,7 @@
                             </Border.Effect>
                         </Border>
                         <Border Name="Border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" TextElement.Foreground="White" Margin="2">
+                                Margin="2" CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </Grid>
@@ -202,11 +207,11 @@
                     </StackPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="contentPresenter" Property="TextBlock.Foreground" Value="#FF5B7C92" />
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="#FF5B7C92" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="bottom" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="contentPresenter" Property="TextBlock.Foreground" Value="#FF4B9FD8" />
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="#FF4B9FD8" />
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Left">
                             <Setter Property="LayoutTransform">
@@ -246,7 +251,8 @@
                                 </Grid.ColumnDefinitions>
                                 <ScrollViewer Name="PART_ContentHost"/>
                                 <ContentControl Style="{DynamicResource PlaceHolderWithTemplatedParent}" Margin="{TemplateBinding Padding}"/>
-                                <Button Padding="4,0" Grid.Column="1" BorderThickness="0" BorderBrush="Transparent" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}">
+                                <Button Padding="4,0" Grid.Column="1" BorderThickness="0" BorderBrush="Transparent" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}"
+                                        attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BorderCornerRadiusConverter}}">
                                     <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" ToolTip="{x:Null}">&#xe60f;</TextBlock>
                                 </Button>
                             </Grid>

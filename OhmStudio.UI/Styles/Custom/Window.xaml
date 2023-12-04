@@ -1,8 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    x:Class="OhmStudio.UI.Styles.Custom.WindowUI"
+                    x:Class="OhmStudio.UI.Styles.Custom.WindowDictionary"
                     x:ClassModifier="public">
+
+    <SolidColorBrush x:Key="WindowTitleForeground" Color="#FFFBFDFE"/>
+    <SolidColorBrush x:Key="WindowTitleBackground" Color="#FF4B9FD8"/>
+    <SolidColorBrush x:Key="DefaultBorderBrush" Color="#FFD3D8DB"/>
+    <SolidColorBrush x:Key="DefaultForeground" Color="#FF252525"/>
+    <SolidColorBrush x:Key="WindowContentBackground" Color="#FFF8F8F8"/>
 
     <Style x:Key="WindowButton" TargetType="Button">
         <Setter Property="Width" Value="20"/>
@@ -11,12 +17,6 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
     </Style>
-
-    <SolidColorBrush x:Key="WindowTitleForeground" Color="#FFFBFDFE"/>
-    <SolidColorBrush x:Key="WindowTitleBackground" Color="#FF4B9FD8"/>
-    <SolidColorBrush x:Key="DefaultBorderBrush" Color="#FFD3D8DB"/>
-    <SolidColorBrush x:Key="DefaultForeground" Color="#FF252525"/>
-    <SolidColorBrush x:Key="WindowContentBackground" Color="#FFF8F8F8"/>
 
     <Style TargetType="Button" x:Key="WindowCloseButtonStyle" BasedOn="{StaticResource WindowButton}">
         <Setter Property="ToolTip" Value="关闭"/>
@@ -114,7 +114,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="NormalWindowStyle" TargetType="Window">
+    <Style x:Key="DefaultWindow" TargetType="Window">
         <Setter Property="MinHeight" Value="70"/>
         <Setter Property="Margin" Value="0"/>
         <Setter Property="Padding" Value="0"/>
@@ -168,7 +168,7 @@
                                         <TextBlock x:Name="txtTitle" Text="{TemplateBinding Title}" Grid.Column="1" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource WindowTitleForeground}"/>
 
                                         <!-- 主窗口可以放置菜单 -->
-                                        <ContentPresenter Name="menu" TextBlock.Foreground="White" Grid.Column="2" Content="{TemplateBinding Tag}" Margin="0,0,5,0"/>
+                                        <ContentPresenter Name="menu" TextElement.Foreground="White" Grid.Column="2" Content="{TemplateBinding Tag}" Margin="0,0,5,0"/>
 
                                         <!--最小化按钮-->
                                         <Button Name="btnMin" Style="{StaticResource WindowMinButtonStyle}" Grid.Column="3" Margin="0,0,5,0">
@@ -213,7 +213,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsActive" Value="False">
                             <Setter TargetName="txtTitle" Property="Foreground" Value="LightGray"/>
-                            <Setter TargetName="menu" Property="TextBlock.Foreground" Value="LightGray"/>
+                            <Setter TargetName="menu" Property="TextElement.Foreground" Value="LightGray"/>
                         </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="btnMax" Property="Visibility" Value="Collapsed"/>
@@ -248,7 +248,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="CustomWindowStyle" TargetType="Window">
+    <Style x:Key="CustomWindow" TargetType="Window">
         <Setter Property="MinHeight" Value="70"/>
         <Setter Property="Margin" Value="0"/>
         <Setter Property="Padding" Value="0"/>
@@ -287,7 +287,7 @@
                                     <TextBlock x:Name="txtTitle" Text="{TemplateBinding Title}" Grid.Column="1" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource WindowTitleForeground}"/>
 
                                     <!--主窗口可以放置菜单-->
-                                    <ContentPresenter Name="menu" TextBlock.Foreground="White" Grid.Column="2" Content="{TemplateBinding Tag}" Margin="0,0,5,0"/>
+                                    <ContentPresenter Name="menu" TextElement.Foreground="White" Grid.Column="2" Content="{TemplateBinding Tag}" Margin="0,0,5,0"/>
 
                                     <!--最小化按钮-->
                                     <Button Name="btnMin" Style="{StaticResource WindowMinButtonStyle}" Grid.Column="3" Margin="0,0,5,0">
@@ -331,7 +331,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsActive" Value="False">
                             <Setter TargetName="txtTitle" Property="Foreground" Value="LightGray"/>
-                            <Setter TargetName="menu" Property="TextBlock.Foreground" Value="LightGray"/>
+                            <Setter TargetName="menu" Property="TextElement.Foreground" Value="LightGray"/>
                         </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="btnMax" Property="Visibility" Value="Collapsed"/>
