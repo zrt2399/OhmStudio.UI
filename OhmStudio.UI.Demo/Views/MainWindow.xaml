@@ -25,9 +25,9 @@
               Height="720"
               Width="1280">
 
-    <Window.LayoutTransform>
+    <!--<Window.LayoutTransform>
         <ScaleTransform ScaleX="2" ScaleY="2" />
-    </Window.LayoutTransform>
+    </Window.LayoutTransform>-->
 
     <Window.Resources>
         <converters:GroupItemConverter x:Key="GroupItemConverter"/>
