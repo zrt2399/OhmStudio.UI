@@ -47,7 +47,7 @@ namespace OhmStudio.UI.Views
                 {
                     popChioce.PlacementTarget = uIElement;
                 }
-            });
+            }, DispatcherPriority.Render);
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using OhmStudio.UI.PublicMethods;
 using OhmStudio.UI.Views;
 
@@ -129,7 +130,7 @@ namespace OhmStudio.UI.Attaches
                         comboBox.SelectionChanged += ComboBox_SelectionChanged;
                     }
                 }
-            });
+            }, DispatcherPriority.Render);
         }
 
         private static void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
