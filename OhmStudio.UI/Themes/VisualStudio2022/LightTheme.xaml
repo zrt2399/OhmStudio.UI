@@ -8,12 +8,13 @@
 
     <sys:Double x:Key="TopLevelMenuPopupTopOpenedVerticalOffset">-4</sys:Double>
 
-    <Color
-        x:Key="ControlShadow"
-        A="71"
-        B="00"
-        G="00"
-        R="00" />
+    <Color x:Key="ControlShadow" A="71" B="00" G="00" R="00" />
+
+    <Color x:Key="DefaultStatusBarBackground">#FF006CBE</Color>
+    <Color x:Key="DefaultWindowBorderBrush">#FF9B9FB9</Color>
+    <Color x:Key="RunningStatusBarBackground">#FFCA5100</Color>
+    <Color x:Key="RunningWindowBorderBrush">#FF9B9FB9</Color>
+
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="#FF1E1E1E" />
     <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="#FF1E1E1E" />
