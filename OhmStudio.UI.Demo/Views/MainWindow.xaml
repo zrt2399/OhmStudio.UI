@@ -95,7 +95,7 @@
             <ComboBox TextBoxAttach.Title="主题：" BorderAttach.CornerRadius="2"
                       DisplayMemberPath="Name"
                       Margin="6,0"
-                      ItemsSource="{x:Static views:OhmThemeCollection.AllThemes}"
+                      ItemsSource="{x:Static views:ThemeCollection.AllThemes}"
                       SelectedItem="{Binding CurrentTheme}"/>
             <Button Click="Button_Click_5">登录</Button>
         </StackPanel>

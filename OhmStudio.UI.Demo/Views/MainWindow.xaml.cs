@@ -60,7 +60,7 @@ namespace OhmStudio.UI.Demo.Views
             dispatcherTimer.Start();
 
             ZoomInCommand = new RelayCommand(ZoomIn);
-            ZoomOutCommand = new RelayCommand(ZoomOut); 
+            ZoomOutCommand = new RelayCommand(ZoomOut);
             Result.Columns.Add("Time");
             Result.Columns.Add("V0");
             Result.Columns.Add("V1");
@@ -210,13 +210,13 @@ namespace OhmStudio.UI.Demo.Views
         readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily]; /*new FontFamily(new Uri("pack://application:,,,/"), "/Fonts/OPPOSans-M.ttf#OPPOSans M");*/
         public List<double> FontSizeList { get; set; } = new List<double>();
 
-        private OhmTheme currentTheme = OhmXamlUIResource.Instance.Theme;
+        private OhmTheme currentTheme = XamlUIResource.Instance.Theme;
         public OhmTheme CurrentTheme
         {
             get => currentTheme;
             set
             {
-                OhmXamlUIResource.Instance.Theme = value;
+                XamlUIResource.Instance.Theme = value;
                 OnPropertyChanged(ref currentTheme, value, nameof(CurrentTheme));
             }
         }
@@ -552,12 +552,22 @@ namespace OhmStudio.UI.Demo.Views
         }
     }
 
-    public static class OhmThemeCollection
+    public static class ThemeCollection
     {
+        static ThemeCollection()
+        {
+            AllThemes = new List<OhmTheme>() { new VS2022Blue(), new VS2022Dark(), new VS2022Light(), new VS2019Blue(), new VS2019Dark(), new VS2019Light() };
+        }
+
+        public static List<OhmTheme> AllThemes { get; }
+
+        public static OhmTheme InitialTheme => AllThemes.First();
+
         private const string AssemblyPath = "/OhmStudio.UI;component/";
         private const string ThemesPath = AssemblyPath + "Themes/";
         private const string AvalonDockThemesPath = AssemblyPath + "AvalonDockThemes/";
-        private sealed class OhmVS2019Blue : OhmTheme
+
+        private sealed class VS2019Blue : OhmTheme
         {
             public override string Name => "2019 Blue";
 
@@ -571,7 +581,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private sealed class OhmVS2019Dark : OhmTheme
+        private sealed class VS2019Dark : OhmTheme
         {
             public override string Name => "2019 Dark";
 
@@ -585,7 +595,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private sealed class OhmVS2019Light : OhmTheme
+        private sealed class VS2019Light : OhmTheme
         {
             public override string Name => "2019 Light";
 
@@ -599,7 +609,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private sealed class OhmVS2022Blue : OhmTheme
+        private sealed class VS2022Blue : OhmTheme
         {
             public override string Name => "2022 Blue";
 
@@ -613,7 +623,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private sealed class OhmVS2022Dark : OhmTheme
+        private sealed class VS2022Dark : OhmTheme
         {
             public override string Name => "2022 Dark";
 
@@ -627,7 +637,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private sealed class OhmVS2022Light : OhmTheme
+        private sealed class VS2022Light : OhmTheme
         {
             public override string Name => "2022 Light";
 
@@ -640,22 +650,44 @@ namespace OhmStudio.UI.Demo.Views
                 }
             }
         }
+    }
 
-        public static List<OhmTheme> AllThemes { get; }
-
-        public static OhmTheme InitialTheme => AllThemes.First();
-
-        static OhmThemeCollection()
+    public class XamlUIResource : ResourceDictionary
+    {
+        public XamlUIResource()
         {
-            AllThemes = new List<OhmTheme>()
-            {    new OhmVS2022Dark(),
-                new OhmVS2022Blue(),
-            
-                new OhmVS2022Light(),
-                new OhmVS2019Blue(),
-                new OhmVS2019Dark(),
-                new OhmVS2019Light()
-            };
+            instance = this;
+            InitializeThemes();
+        }
+
+        private static XamlUIResource instance;
+        public static XamlUIResource Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    throw new InvalidOperationException("The XamlUIResource is not loaded!");
+                }
+                return instance;
+            }
+        }
+
+        private OhmTheme theme = ThemeCollection.InitialTheme;
+        public OhmTheme Theme
+        {
+            get => theme;
+            set => UpdateOhmTheme(theme = value);
+        }
+
+        private void InitializeThemes()
+        {
+            MergedDictionaries.Add(Theme);
+        }
+
+        private void UpdateOhmTheme(OhmTheme theme)
+        {
+            MergedDictionaries[0] = theme;
         }
     }
 
@@ -754,44 +786,5 @@ namespace OhmStudio.UI.Demo.Views
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public DateTime LoginAt { get; set; }
-    }
-
-    public class OhmXamlUIResource : ResourceDictionary
-    {
-        public OhmXamlUIResource()
-        {
-            instance = this;
-            InitializeThemes();
-        }
-
-        private static OhmXamlUIResource instance;
-        public static OhmXamlUIResource Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    throw new InvalidOperationException("The OhmXamlUIResource is not loaded!");
-                }
-                return instance;
-            }
-        }
-
-        private OhmTheme theme = OhmThemeCollection.InitialTheme;
-        public OhmTheme Theme
-        {
-            get => theme;
-            set => UpdateOhmTheme(theme = value);
-        }
-
-        private void InitializeThemes()
-        {
-            MergedDictionaries.Add(Theme);
-        }
-
-        private void UpdateOhmTheme(OhmTheme theme)
-        {
-            MergedDictionaries[0] = theme;
-        }
     }
 }
