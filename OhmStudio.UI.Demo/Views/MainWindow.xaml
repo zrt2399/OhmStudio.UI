@@ -48,7 +48,7 @@
             </ToolBar>
             <ToolBar BandIndex="2" >
                 <Button   ToolTip="新建项目" Content="3"/>
-               
+
                 <Button ToolTip="打开文件" Content="4"/>
                 <Separator></Separator>
                 <Button  ToolTip="保存当前文件" Content="5"/>
@@ -57,7 +57,7 @@
             </ToolBar>
         </ToolBarTray>
     </ChromeWindow.LeftWindowCommands>
-    
+
     <ChromeWindow.RightWindowCommands>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
             <Border hc:BorderElement.Circular="False" IsHitTestVisible="False" VerticalAlignment="Center">
@@ -253,7 +253,7 @@
                                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                                             <DataGridCheckBoxColumn Header="Name" Binding="{Binding Name}" />
                                             <DataGridComboBoxColumn Header="Name"  />
-                                           
+
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </UniformGrid>
@@ -282,7 +282,7 @@
                                 </RollBox>
                             </LayoutDocument>
                             <LayoutDocument Title="PlotView">
-                               
+
                             </LayoutDocument>
                             <LayoutDocument Title="TextEditor">
                                 <TabControl>
@@ -503,7 +503,7 @@
                                         </StackPanel>
                                     </StackPanel>
 
-                                </Grid> 
+                                </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
                                 <ProgressBar Value="50" BorderAttach.CornerRadius="10" IsIndeterminate="True" Height="100" Width="300" VerticalAlignment="Center">
@@ -701,15 +701,15 @@
 
                                     </pt:DataGrid>-->
                                     <pt:DirectoryPicker >
-                                        
+
                                     </pt:DirectoryPicker>
                                     <!--<pt:ColorPicker></pt:ColorPicker>
-                                    <pt:ColorSlider></pt:ColorSlider>--> 
+                                    <pt:ColorSlider></pt:ColorSlider>-->
                                     <pt:FilePicker Multiselect="True"></pt:FilePicker>
-                                    <!--<pt:PropertyGrid SelectedObject="{Binding Items}"/>-->  
+                                    <!--<pt:PropertyGrid SelectedObject="{Binding Items}"/>-->
                                     <!--<pt:HsvControl></pt:HsvControl>
                                     <pt:CheckMark ></pt:CheckMark>-->
-                                </StackPanel> 
+                                </StackPanel>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="TreeView">
                                 <TreeView Name="treeView">
@@ -727,15 +727,12 @@
         </DockingManager>
         <StatusBar Grid.Row="1">
             <StatusBar>
-               
-
-                <StatusBarItem Content="Ready" Padding="0"/>
+                <StatusBarItem Content="Ready"/>
                 <StatusBarItem HorizontalAlignment="Right">
                     <StackPanel Orientation="Horizontal">
-                        <Button Content="-"  Padding="0" BorderThickness="1" Command="{Binding ZoomInCommand}"/>
+                        <!--<Button Content="-"  Padding="0" BorderThickness="1" Command="{Binding ZoomInCommand}"/>-->
                         <TextBlock Margin="4,0" Text="{Binding WindowScale,StringFormat={}{0:P1}}" />
-                        <Button Content="+"   Padding="0" BorderThickness="1" Command="{Binding ZoomOutCommand}"/>
-                         
+                        <!--<Button Content="+"   Padding="0" BorderThickness="1" Command="{Binding ZoomOutCommand}"/>-->
                     </StackPanel>
                     <StatusBarItem.Style>
                         <Style TargetType="StatusBarItem">

@@ -10,6 +10,6 @@
         Title="LoginWindow" Height="450" Width="800">
     
     <Grid>
-        
+        <TextBox>TextBlock</TextBox>
     </Grid>
 </Window> 
