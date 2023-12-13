@@ -9,7 +9,7 @@
 	<PropertyGroup>
 		<LangVersion>9.0</LangVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-		<Version>1.0.9.2</Version>
+		<Version>1.0.9.4</Version>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -40,50 +40,18 @@
 
 	<ItemGroup>
 		<None Remove="Fonts\iconfont.ttf" />
-		<None Remove="Images\Buttons\btnClose.png" />
-		<None Remove="Images\Buttons\btnClose_Hover.png" />
-		<None Remove="Images\Buttons\btnClose_Press.png" />
-		<None Remove="Images\Buttons\btnDeleteKeywords.png" />
-		<None Remove="Images\Buttons\btnDeleteKeywords_Disabled.png" />
-		<None Remove="Images\Buttons\btnDeleteKeywords_Hover.png" />
-		<None Remove="Images\Buttons\btnDeleteKeywords_Press.png" />
-		<None Remove="Images\Buttons\btnHideProperty.png" />
-		<None Remove="Images\Buttons\btnHideProperty_Hover.png" />
-		<None Remove="Images\Buttons\btnHideProperty_Press.png" />
-		<None Remove="Images\Buttons\btnHistory.png" />
-		<None Remove="Images\Buttons\btnHistory_Disabled.png" />
-		<None Remove="Images\Buttons\btnHistory_Hover.png" />
-		<None Remove="Images\Buttons\btnHistory_Press.png" />
-		<None Remove="Images\Buttons\btnMax.png" />
-		<None Remove="Images\Buttons\btnMax_Hover.png" />
-		<None Remove="Images\Buttons\btnMax_Press.png" />
-		<None Remove="Images\Buttons\btnMin.png" />
-		<None Remove="Images\Buttons\btnMin_Hover.png" />
-		<None Remove="Images\Buttons\btnMin_Press.png" />
-		<None Remove="Images\Buttons\btnRestore.png" />
-		<None Remove="Images\Buttons\btnRestore_Hover.png" />
-		<None Remove="Images\Buttons\btnRestore_Press.png" />
-		<None Remove="Images\Buttons\btnSearch.png" />
-		<None Remove="Images\Buttons\btnSearch_Disabled.png" />
-		<None Remove="Images\Buttons\btnSearch_Hover.png" />
-		<None Remove="Images\Buttons\btnSearch_Press.png" />
-		<None Remove="Images\Buttons\btnShowProperty.png" />
-		<None Remove="Images\Buttons\btnShowProperty_Hover.png" />
-		<None Remove="Images\Buttons\btnShowProperty_Press.png" />
-		<None Remove="Images\close.png" />
-		<None Remove="Images\date.png" />
-		<None Remove="Images\DateTimePicker.bmp" />
+		<None Remove="Images\**" />
 		<None Remove="ohm.png" />
 	</ItemGroup>
 
-	<ItemGroup> 
+	<ItemGroup>
 		<PackageReference Include="ControlzEx" Version="6.0.0" />
 		<PackageReference Include="Dirkster.AvalonDock" Version="4.72.1" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(DefineConstants.Contains(NETCOREAPP)) == false">
-		<Reference Include="PresentationFramework.Aero" />    
+		<Reference Include="PresentationFramework.Aero" />
 		<Reference Include="System.ComponentModel.DataAnnotations" />
 	</ItemGroup>
 
@@ -95,97 +63,7 @@
 		<Resource Include="Fonts\iconfont.ttf">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Images\Buttons\btnClose.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnClose_Hover.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnClose_Press.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnDeleteKeywords.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnDeleteKeywords_Disabled.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnDeleteKeywords_Hover.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnDeleteKeywords_Press.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnHideProperty.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnHideProperty_Hover.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnHistory.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnHistory_Hover.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnHistory_Press.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnMax.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnMax_Hover.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnMax_Press.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnMin.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnMin_Hover.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnMin_Press.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnRestore.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnRestore_Hover.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnRestore_Press.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnSearch.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnSearch_Disabled.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnSearch_Hover.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnSearch_Press.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnShowProperty.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnShowProperty_Hover.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\Buttons\btnShowProperty_Press.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\close.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\date.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\DateTimePicker.bmp">
+		<Resource Include="Images\**">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="ohm.png">
