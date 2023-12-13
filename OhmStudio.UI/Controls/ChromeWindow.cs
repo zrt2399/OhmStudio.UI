@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
@@ -265,7 +266,15 @@ namespace OhmStudio.UI.Controls
         /// </summary>
         public ChromeWindow()
         {
-            Loaded += OnLoaded;
+            //Loaded += OnLoaded;
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            InitializeGlowWindowBehaviorEx();
+            InitializeWindowChromeEx();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
