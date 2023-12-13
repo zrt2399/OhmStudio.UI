@@ -20,26 +20,9 @@
 	<ItemGroup>
 		<None Remove="Fonts\OPPOSans-M.ttf" />
 		<None Remove="icon.ico" />
-		<None Remove="Images\1.jpg" />
-		<None Remove="Images\1a.jpg" />
-		<None Remove="Images\2.jpg" />
-		<None Remove="Images\2a.jpg" />
-		<None Remove="Images\3.jpg" />
-		<None Remove="Images\3a.jpg" />
+		<None Remove="Images\**" /> 
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Resource Include="Images\3.jpg">
-	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-	  </Resource>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Resource Include="Images\2.jpg">
-	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-	  </Resource>
-	</ItemGroup>
-
+ 
 	<ItemGroup>
 	  <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
 	  <PackageReference Include="HandyControl" Version="3.4.0" />
@@ -57,18 +40,9 @@
 		<Resource Include="icon.ico">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Images\1.jpg">
+		<Resource Include="Images\**">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\1a.jpg">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\2a.jpg">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Images\3a.jpg">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
+		</Resource> 
 	</ItemGroup>
 
 </Project>

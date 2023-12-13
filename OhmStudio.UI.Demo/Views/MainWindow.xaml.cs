@@ -60,12 +60,7 @@ namespace OhmStudio.UI.Demo.Views
             dispatcherTimer.Start();
 
             ZoomInCommand = new RelayCommand(ZoomIn);
-            ZoomOutCommand = new RelayCommand(ZoomOut);
-            //Loaded += async delegate
-            //{
-            //    await Task.Delay(10000); 
-            //    ps.CanShowPasswordVisibility = Visibility.Collapsed;
-            //}; 
+            ZoomOutCommand = new RelayCommand(ZoomOut); 
             Result.Columns.Add("Time");
             Result.Columns.Add("V0");
             Result.Columns.Add("V1");
@@ -653,9 +648,9 @@ namespace OhmStudio.UI.Demo.Views
         static OhmThemeCollection()
         {
             AllThemes = new List<OhmTheme>()
-            {
+            {    new OhmVS2022Dark(),
                 new OhmVS2022Blue(),
-                new OhmVS2022Dark(),
+            
                 new OhmVS2022Light(),
                 new OhmVS2019Blue(),
                 new OhmVS2019Dark(),
