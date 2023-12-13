@@ -217,6 +217,7 @@ namespace OhmStudio.UI.Demo.Views
             set
             {
                 XamlUIResource.Instance.Theme = value;
+                StatusManager.Update();
                 OnPropertyChanged(ref currentTheme, value, nameof(CurrentTheme));
             }
         }
@@ -397,7 +398,7 @@ namespace OhmStudio.UI.Demo.Views
         //static readonly ObservableCollection<string> itemss = new ObservableCollection<string>() { "ADSDADSA", "ASDSAD", "ASDASD" };
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine(se.Focus().ToString());
+            StatusManager.IsRunning = !StatusManager.IsRunning;
             //if (SelectedItemsFileNodes != null)
             //{
             //    StringBuilder stringBuilder = new StringBuilder();
@@ -530,6 +531,11 @@ namespace OhmStudio.UI.Demo.Views
 
             // 将根节点添加到 TreeView
             treeView.Items.Add(rootNode);
+
+        }
+
+        private void Button_Click_8(object sender, RoutedEventArgs e)
+        {
 
         }
     }
