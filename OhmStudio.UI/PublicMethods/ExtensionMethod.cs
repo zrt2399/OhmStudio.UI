@@ -315,6 +315,12 @@ namespace OhmStudio.UI.PublicMethods
     }
 
     [AttributeUsage(AttributeTargets.Property)]
+    public class ToolTipAttribute : Attribute
+    {
+        public string ToolTip { get; set; }
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
     public class TextBoxPlaceHolderAttribute : Attribute
     {
         public string PlaceHolder { get; set; } = TextBoxAttach.PlaceHolder;

@@ -112,12 +112,8 @@ namespace OhmStudio.UI.Views
 
         void SetPlaceHolder(PropertyInfo propertyInfo, UIElement uIElement)
         {
-            if (uIElement.IsTextBoxAttachObject())
+            if (uIElement.IsTextBoxAttachObject() && propertyInfo.GetCustomAttribute<TextBoxPlaceHolderAttribute>() is TextBoxPlaceHolderAttribute placeHolder)
             {
-                if (propertyInfo.GetCustomAttribute(typeof(TextBoxPlaceHolderAttribute)) is not TextBoxPlaceHolderAttribute placeHolder)
-                {
-                    return;
-                }
                 TextBoxAttach.SetPlaceHolder(uIElement, placeHolder.PlaceHolder);
                 TextBoxAttach.SetPlaceHolderOpacity(uIElement, placeHolder.PlaceHolderOpacity);
                 TextBoxAttach.SetPlaceHolderIsHitTestVisible(uIElement, placeHolder.PlaceHolderIsHitTestVisible);
@@ -126,7 +122,7 @@ namespace OhmStudio.UI.Views
 
         PropertyGridAttribute GetAttribute(PropertyInfo propertyInfo)
         {
-            if (propertyInfo.GetCustomAttribute(typeof(PropertyGridIgnoreAttribute)) != null)
+            if (propertyInfo.GetCustomAttribute<PropertyGridIgnoreAttribute>() != null)
             {
                 return null;
             }
@@ -155,7 +151,7 @@ namespace OhmStudio.UI.Views
         {
             var mode = propertyInfo.CanWrite ? BindingMode.TwoWay : BindingMode.OneWay;
             var binding = new Binding() { Source = obj, Path = new PropertyPath(propertyInfo.Name), Mode = mode };
-            if (propertyInfo.GetCustomAttribute(typeof(PropertyChangedUpdateSourceAttribute)) != null)
+            if (propertyInfo.GetCustomAttribute<PropertyChangedUpdateSourceAttribute>() != null)
             {
                 binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             }
@@ -164,7 +160,7 @@ namespace OhmStudio.UI.Views
 
         BindingFlags GetBindingFlags(Type type)
         {
-            if (type.GetCustomAttribute(typeof(BaseObjectIgnoreAttribute)) == null)
+            if (type.GetCustomAttribute<BaseObjectIgnoreAttribute>() == null)
             {
                 return BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public;
             }
@@ -217,8 +213,8 @@ namespace OhmStudio.UI.Views
                 }
                 else if (item.PropertyType == typeof(string) || NumericTypes.Contains(item.PropertyType))
                 {
-                    var customattribute = item.GetCustomAttribute(typeof(PasswordAttribute));
-                    if (customattribute == null)
+                    var passwordAttribute = item.GetCustomAttribute<PasswordAttribute>();
+                    if (passwordAttribute == null)
                     {
                         var textBox = new TextBox();
                         Binding binding = GetBinding(obj, item);
@@ -227,7 +223,6 @@ namespace OhmStudio.UI.Views
                     }
                     else
                     {
-                        var passwordAttribute = customattribute as PasswordAttribute;
                         var passwordTextBox = new PasswordTextBox() { CanShowPassword = passwordAttribute.CanShowPassword };
                         Binding binding = GetBinding(obj, item);
                         passwordTextBox.SetBinding(PasswordTextBox.PasswordProperty, binding);
@@ -254,11 +249,13 @@ namespace OhmStudio.UI.Views
                 }
                 if (uIElement != null)
                 {
+                    var toolTipAttribute = item.GetCustomAttribute<ToolTipAttribute>();
+                    string toolTip = toolTipAttribute == null ? attribute.DisplayName : toolTipAttribute.ToolTip;
                     DockPanel dockPanel = new DockPanel();
                     TextBox textBlock = new TextBox()
                     {
                         Text = attribute.DisplayName,
-                        ToolTip = attribute.DisplayName,
+                        ToolTip = toolTip,
                         Padding = new Thickness(0),
                         IsReadOnly = true,
                         BorderBrush = Brushes.Transparent,
