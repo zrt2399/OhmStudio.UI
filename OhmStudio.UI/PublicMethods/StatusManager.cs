@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media;
 
 namespace OhmStudio.UI.PublicMethods
@@ -9,6 +10,8 @@ namespace OhmStudio.UI.PublicMethods
         static SolidColorBrush RunningWindowBorderBrush => (SolidColorBrush)Application.Current.Resources["RunningWindowBorderBrush"];
         static SolidColorBrush DefaultStatusBarBackground => (SolidColorBrush)Application.Current.Resources["DefaultStatusBarBackground"];
         static SolidColorBrush DefaultWindowBorderBrush => (SolidColorBrush)Application.Current.Resources["DefaultWindowBorderBrush"];
+
+        public static event EventHandler IsRunningChanged;
 
         private static bool _isRunning;
         public static bool IsRunning
@@ -30,6 +33,7 @@ namespace OhmStudio.UI.PublicMethods
                         Application.Current.Resources["EnvironmentMainWindowActiveDefaultBorder"] = DefaultWindowBorderBrush;
                     }
                 }
+                IsRunningChanged?.Invoke(_isRunning, EventArgs.Empty);
             }
         }
 
