@@ -21,6 +21,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Search;
+using Microsoft.Win32;
 using OhmStudio.UI.Commands;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.Converters;
@@ -101,6 +102,7 @@ namespace OhmStudio.UI.Demo.Views
             UserInfos.Add(new UserInfoModel());
             UserInfos.Add(new UserInfoModel() { Name = "wang" });
             Messenger.Default.Register<string>(this, Rrecipient, msg => AlertDialog.Show(msg));
+            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
             //string directory = Path.Combine(App.DocumentDirectory, "Layout");
             //string path = Path.Combine(directory, "Layout.xml");
             //Loaded += delegate
@@ -148,6 +150,11 @@ namespace OhmStudio.UI.Demo.Views
             //    Debug.WriteLine(Can);
             //};
             //dispatcherTimer.Start();
+        }
+
+        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        {
+            AlertDialog.Show(e.Category.ToString());
         }
 
         const string Rrecipient = "Ohm";
