@@ -726,7 +726,7 @@
             </LayoutRoot>
         </DockingManager>
         <StatusBar Grid.Row="1">
-            <StatusBar>
+            <StatusBar Padding="4,0">
                 <StatusBarItem Content="Ready"/>
                 <StatusBarItem HorizontalAlignment="Right">
                     <StackPanel Orientation="Horizontal">
