@@ -562,16 +562,14 @@ namespace OhmStudio.UI.Demo.Views
     {
         static ThemeCollection()
         {
-            AllThemes = new List<OhmTheme>() { new VS2022Blue(), new VS2022Dark(), new VS2022Light(), new VS2019Blue(), new VS2019Dark(), new VS2019Light() };
+            AllThemes = new() { new VS2022Blue(), new VS2022Dark(), new VS2022Light(), new VS2019Blue(), new VS2019Dark(), new VS2019Light() };
         }
 
         public static List<OhmTheme> AllThemes { get; }
 
         public static OhmTheme InitialTheme => AllThemes.First();
 
-        private const string AssemblyPath = "/OhmStudio.UI;component/";
-        private const string ThemesPath = AssemblyPath + "Themes/";
-        private const string AvalonDockThemesPath = AssemblyPath + "AvalonDockThemes/";
+        private const string ThemesPath = "/OhmStudio.UI;component/Themes/";
 
         private sealed class VS2019Blue : OhmTheme
         {
@@ -582,7 +580,6 @@ namespace OhmStudio.UI.Demo.Views
                 get
                 {
                     yield return ThemesPath + "VisualStudio2019/BlueTheme.xaml";
-                    yield return AvalonDockThemesPath + "VisualStudio2019/BlueTheme.xaml";
                 }
             }
         }
@@ -596,7 +593,6 @@ namespace OhmStudio.UI.Demo.Views
                 get
                 {
                     yield return ThemesPath + "VisualStudio2019/DarkTheme.xaml";
-                    yield return AvalonDockThemesPath + "VisualStudio2019/DarkTheme.xaml";
                 }
             }
         }
@@ -610,7 +606,6 @@ namespace OhmStudio.UI.Demo.Views
                 get
                 {
                     yield return ThemesPath + "VisualStudio2019/LightTheme.xaml";
-                    yield return AvalonDockThemesPath + "VisualStudio2019/LightTheme.xaml";
                 }
             }
         }
@@ -624,7 +619,6 @@ namespace OhmStudio.UI.Demo.Views
                 get
                 {
                     yield return ThemesPath + "VisualStudio2022/BlueTheme.xaml";
-                    yield return AvalonDockThemesPath + "VisualStudio2022/BlueTheme.xaml";
                 }
             }
         }
@@ -638,7 +632,6 @@ namespace OhmStudio.UI.Demo.Views
                 get
                 {
                     yield return ThemesPath + "VisualStudio2022/DarkTheme.xaml";
-                    yield return AvalonDockThemesPath + "VisualStudio2022/DarkTheme.xaml";
                 }
             }
         }
@@ -652,7 +645,6 @@ namespace OhmStudio.UI.Demo.Views
                 get
                 {
                     yield return ThemesPath + "VisualStudio2022/LightTheme.xaml";
-                    yield return AvalonDockThemesPath + "VisualStudio2022/LightTheme.xaml";
                 }
             }
         }
