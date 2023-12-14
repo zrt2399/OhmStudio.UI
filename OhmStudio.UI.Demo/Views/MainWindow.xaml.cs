@@ -563,7 +563,7 @@ namespace OhmStudio.UI.Demo.Views
     {
         static ThemeCollection()
         {
-            AllThemes = new() { new VS2022Blue(), new VS2022Dark(), new VS2022Light(), new VS2019Blue(), new VS2019Dark(), new VS2019Light() };
+            AllThemes = new() { new VisualStudio2022Blue(), new VisualStudio2022Dark(), new VisualStudio2022Light(), new VisualStudio2019Blue(), new VisualStudio2019Dark(), new VisualStudio2019Light() };
         }
 
         public static List<OhmTheme> AllThemes { get; }
@@ -572,7 +572,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private const string ThemesPath = "/OhmStudio.UI;component/Themes/";
 
-        private sealed class VS2019Blue : OhmTheme
+        private sealed class VisualStudio2019Blue : OhmTheme
         {
             public override string Name => "2019 Blue";
 
@@ -585,7 +585,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private sealed class VS2019Dark : OhmTheme
+        private sealed class VisualStudio2019Dark : OhmTheme
         {
             public override string Name => "2019 Dark";
 
@@ -598,7 +598,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private sealed class VS2019Light : OhmTheme
+        private sealed class VisualStudio2019Light : OhmTheme
         {
             public override string Name => "2019 Light";
 
@@ -611,7 +611,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private sealed class VS2022Blue : OhmTheme
+        private sealed class VisualStudio2022Blue : OhmTheme
         {
             public override string Name => "2022 Blue";
 
@@ -624,7 +624,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private sealed class VS2022Dark : OhmTheme
+        private sealed class VisualStudio2022Dark : OhmTheme
         {
             public override string Name => "2022 Dark";
 
@@ -637,7 +637,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private sealed class VS2022Light : OhmTheme
+        private sealed class VisualStudio2022Light : OhmTheme
         {
             public override string Name => "2022 Light";
 
