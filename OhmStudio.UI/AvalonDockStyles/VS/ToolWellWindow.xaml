@@ -17,8 +17,8 @@
 
     <Style x:Key="ToolWellWindowBaseStyle" TargetType="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}">
         <Setter Property="attaches:WindowChromeAttach.EnableMinimize" Value="{Binding RelativeSource={RelativeSource Self}, Path=AllowMinimize}" />
-        <Setter Property="attaches:CustomizeGlowWindowAttach.GlowBrush" Value="{DynamicResource {x:Static reskeys:ResourceKeys.FloatingToolWindowBorder}}" />
-        <Setter Property="attaches:CustomizeGlowWindowAttach.NonActiveGlowBrush" Value="{DynamicResource {x:Static reskeys:ResourceKeys.FloatingToolWindowBorderInactive}}" />
+        <Setter Property="attaches:CustomizeGlowWindowAttach.GlowBrush" Value="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />
+        <Setter Property="attaches:CustomizeGlowWindowAttach.NonActiveGlowBrush" Value="{DynamicResource EnvironmentMainWindowInactiveBorder}" />
         <Setter Property="attaches:CustomizeGlowWindowAttach.IsActive" Value="{Binding RelativeSource={RelativeSource Self}, Path=IsActive}" />
         <Setter Property="shell:WindowChrome.WindowChrome" Value="{x:Null}" />
         <Setter Property="WindowChrome.WindowChrome" Value="{x:Null}" />

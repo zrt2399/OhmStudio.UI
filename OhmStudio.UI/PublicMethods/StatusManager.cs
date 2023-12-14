@@ -6,10 +6,10 @@ namespace OhmStudio.UI.PublicMethods
 {
     public static class StatusManager
     {
-        static SolidColorBrush RunningStatusBarBackground => (SolidColorBrush)Application.Current.Resources["RunningStatusBarBackground"];
-        static SolidColorBrush RunningWindowBorderBrush => (SolidColorBrush)Application.Current.Resources["RunningWindowBorderBrush"];
-        static SolidColorBrush DefaultStatusBarBackground => (SolidColorBrush)Application.Current.Resources["DefaultStatusBarBackground"];
-        static SolidColorBrush DefaultWindowBorderBrush => (SolidColorBrush)Application.Current.Resources["DefaultWindowBorderBrush"];
+        static SolidColorBrush StatusBarBackgroundRunning => (SolidColorBrush)Application.Current.Resources[nameof(StatusBarBackgroundRunning)];
+        static SolidColorBrush WindowBorderBrushRunning => (SolidColorBrush)Application.Current.Resources[nameof(WindowBorderBrushRunning)];
+        static SolidColorBrush StatusBarBackgroundDefault => (SolidColorBrush)Application.Current.Resources[nameof(StatusBarBackgroundDefault)];
+        static SolidColorBrush WindowBorderBrushDefault => (SolidColorBrush)Application.Current.Resources[nameof(WindowBorderBrushDefault)];
 
         public static event EventHandler IsRunningChanged;
 
@@ -24,13 +24,13 @@ namespace OhmStudio.UI.PublicMethods
                 {
                     if (value)
                     {
-                        Application.Current.Resources["StatusBarBackground"] = RunningStatusBarBackground;
-                        Application.Current.Resources["EnvironmentMainWindowActiveDefaultBorder"] = RunningWindowBorderBrush;
+                        Application.Current.Resources["StatusBarBackground"] = StatusBarBackgroundRunning;
+                        Application.Current.Resources["EnvironmentMainWindowActiveDefaultBorder"] = WindowBorderBrushRunning;
                     }
                     else
                     {
-                        Application.Current.Resources["StatusBarBackground"] = DefaultStatusBarBackground;
-                        Application.Current.Resources["EnvironmentMainWindowActiveDefaultBorder"] = DefaultWindowBorderBrush;
+                        Application.Current.Resources["StatusBarBackground"] = StatusBarBackgroundDefault;
+                        Application.Current.Resources["EnvironmentMainWindowActiveDefaultBorder"] = WindowBorderBrushDefault;
                     }
                 }
                 IsRunningChanged?.Invoke(_isRunning, EventArgs.Empty);

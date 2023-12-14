@@ -25,8 +25,8 @@
             But it will work in MainWindow (GlowWindowAttach) (no drag)
         -->
         <Setter Property="attaches:CustomizeGlowWindowAttach.IsActive" Value="{Binding RelativeSource={RelativeSource Self}, Path=IsActive}" />
-        <Setter Property="attaches:CustomizeGlowWindowAttach.GlowBrush" Value="{DynamicResource {x:Static reskeys:ResourceKeys.FloatingDocumentWindowBorder}}" />
-        <Setter Property="attaches:CustomizeGlowWindowAttach.NonActiveGlowBrush" Value="{DynamicResource {x:Static reskeys:ResourceKeys.FloatingDocumentWindowBorderInactive}}" />
+        <Setter Property="attaches:CustomizeGlowWindowAttach.GlowBrush" Value="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />
+        <Setter Property="attaches:CustomizeGlowWindowAttach.NonActiveGlowBrush" Value="{DynamicResource EnvironmentMainWindowInactiveBorder}" />
         <Setter Property="shell:WindowChrome.WindowChrome" Value="{x:Null}" />
         <Setter Property="WindowChrome.WindowChrome" Value="{x:Null}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.FloatingDocumentWindowBackground}}" />

@@ -4,21 +4,22 @@
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/Styles.VisualStudio.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/AvalonDockThemes/VisualStudio2019/DarkTheme.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <sys:Double x:Key="TopLevelMenuPopupTopOpenedVerticalOffset">0</sys:Double>
 
     <Color x:Key="ControlShadow" A="71" B="00" G="00" R="00" />
 
-    <Color x:Key="DefaultStatusBarBackgroundColor">#FF007ACC</Color>
-    <Color x:Key="DefaultWindowBorderBrushColor">#FF007ACC</Color>
-    <Color x:Key="RunningStatusBarBackgroundColor">#FFCA5100</Color>
-    <Color x:Key="RunningWindowBorderBrushColor">#FFC95000</Color>
+    <Color x:Key="StatusBarBackgroundDefaultColor">#FF007ACC</Color>
+    <Color x:Key="WindowBorderBrushDefaultColor">#FF007ACC</Color>
+    <Color x:Key="StatusBarBackgroundRunningColor">#FFCA5100</Color>
+    <Color x:Key="WindowBorderBrushRunningColor">#FFC95000</Color>
 
-    <SolidColorBrush x:Key="DefaultStatusBarBackground" Color="{StaticResource DefaultStatusBarBackgroundColor}"/>
-    <SolidColorBrush x:Key="DefaultWindowBorderBrush" Color="{StaticResource DefaultWindowBorderBrushColor}"/>
-    <SolidColorBrush x:Key="RunningStatusBarBackground" Color="{StaticResource RunningStatusBarBackgroundColor}"/>
-    <SolidColorBrush x:Key="RunningWindowBorderBrush" Color="{StaticResource RunningWindowBorderBrushColor}"/>
+    <SolidColorBrush x:Key="StatusBarBackgroundDefault" Color="{StaticResource StatusBarBackgroundDefaultColor}"/>
+    <SolidColorBrush x:Key="WindowBorderBrushDefault" Color="{StaticResource WindowBorderBrushDefaultColor}"/>
+    <SolidColorBrush x:Key="StatusBarBackgroundRunning" Color="{StaticResource StatusBarBackgroundRunningColor}"/>
+    <SolidColorBrush x:Key="WindowBorderBrushRunning" Color="{StaticResource WindowBorderBrushRunningColor}"/>
     
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#FF252525" />
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="#FFF1F1F1" />
@@ -155,7 +156,7 @@
     <SolidColorBrush x:Key="EnvironmentCommandBarToolBarSeparatorHighlight" Color="#FF222222" />
 
 
-    <SolidColorBrush x:Key="EnvironmentMainWindowActiveDefaultBorder" Color="{StaticResource DefaultWindowBorderBrushColor}" />
+    <SolidColorBrush x:Key="EnvironmentMainWindowActiveDefaultBorder" Color="{StaticResource WindowBorderBrushDefaultColor}" />
     <SolidColorBrush x:Key="EnvironmentMainWindowInactiveBorder" Color="#FF434346" />
     <SolidColorBrush x:Key="EnvironmentMainWindowInactiveCaptionText" Color="#99999999" />
     <SolidColorBrush x:Key="EnvironmentMainWindowButtonActive" Color="#00FFFFFF" />
@@ -400,7 +401,7 @@
     <SolidColorBrush x:Key="ToolTipForeground" Color="#FFDCDCDC" />
 
 
-    <SolidColorBrush x:Key="StatusBarBackground" Color="{StaticResource DefaultStatusBarBackgroundColor}" />
+    <SolidColorBrush x:Key="StatusBarBackground" Color="{StaticResource StatusBarBackgroundDefaultColor}" />
     <SolidColorBrush x:Key="StatusBarForeground" Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="StatusBarSeparatorFill" Color="#FFEEEEF2" />
 
