@@ -101,8 +101,7 @@ namespace OhmStudio.UI.Demo.Views
             };
             UserInfos.Add(new UserInfoModel());
             UserInfos.Add(new UserInfoModel() { Name = "wang" });
-            Messenger.Default.Register<string>(this, Rrecipient, msg => AlertDialog.Show(msg));
-            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+            Messenger.Default.Register<string>(this, Rrecipient, msg => AlertDialog.Show(msg)); 
             //string directory = Path.Combine(App.DocumentDirectory, "Layout");
             //string path = Path.Combine(directory, "Layout.xml");
             //Loaded += delegate
@@ -151,12 +150,7 @@ namespace OhmStudio.UI.Demo.Views
             //};
             //dispatcherTimer.Start();
         }
-
-        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
-        {
-            AlertDialog.Show(e.Category.ToString());
-        }
-
+          
         const string Rrecipient = "Ohm";
 
         public Pro Pro { get; set; } = new Pro();
@@ -217,13 +211,13 @@ namespace OhmStudio.UI.Demo.Views
         readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily]; /*new FontFamily(new Uri("pack://application:,,,/"), "/Fonts/OPPOSans-M.ttf#OPPOSans M");*/
         public List<double> FontSizeList { get; set; } = new List<double>();
 
-        private OhmTheme currentTheme = XamlUIResource.Instance.Theme;
+        private OhmTheme currentTheme = XamlThemeResource.Instance.Theme;
         public OhmTheme CurrentTheme
         {
             get => currentTheme;
             set
             {
-                XamlUIResource.Instance.Theme = value;
+                XamlThemeResource.Instance.Theme = value;
                 StatusManager.Update();
                 OnPropertyChanged(ref currentTheme, value, nameof(CurrentTheme));
             }
@@ -657,22 +651,22 @@ namespace OhmStudio.UI.Demo.Views
         }
     }
 
-    public class XamlUIResource : ResourceDictionary
+    public class XamlThemeResource : ResourceDictionary
     {
-        public XamlUIResource()
+        public XamlThemeResource()
         {
             instance = this;
             InitializeThemes();
         }
 
-        private static XamlUIResource instance;
-        public static XamlUIResource Instance
+        private static XamlThemeResource instance;
+        public static XamlThemeResource Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    throw new InvalidOperationException("The XamlUIResource is not loaded!");
+                    throw new InvalidOperationException("The XamlThemeResource is not loaded!");
                 }
                 return instance;
             }

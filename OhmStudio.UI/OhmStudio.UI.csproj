@@ -9,14 +9,14 @@
 	<PropertyGroup>
 		<LangVersion>9.0</LangVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-		<Version>1.0.9.6</Version>
+		<Version>1.0.9.8</Version>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>WPFUI Library</Title>
 		<Authors>MarkWang</Authors>
 		<Copyright>Copyright © $(Authors) $([System.DateTime]::Today.ToString(yyyy))</Copyright>
-		<PackageTags>WPF;XAML;UI;Theme;</PackageTags>
+		<PackageTags>WPF;XAML;UI;Theme</PackageTags>
 		<Description>WPF control styles and themes</Description>
 		<PackageIcon>ohm.png</PackageIcon>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>

@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <local:XamlUIResource />
+                <local:XamlThemeResource />
              
                 <ResourceDictionary Source="/OhmStudio.UI;component/Styles/CustomStyles.xaml" />
                 <ResourceDictionary Source="/GlobalStyle.xaml" />
