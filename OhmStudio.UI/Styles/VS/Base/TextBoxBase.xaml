@@ -92,10 +92,7 @@
                                 CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
                                 SnapsToDevicePixels="True">
                             <Grid>
-                                <ScrollViewer Name="PART_ContentHost"
-                                              Focusable="False"
-                                              HorizontalScrollBarVisibility="Hidden"
-                                              VerticalScrollBarVisibility="Hidden" />
+                                <ScrollViewer Name="PART_ContentHost"/>
                                 <ContentControl Style="{DynamicResource PlaceHolderWithTemplatedParent}" Margin="{TemplateBinding Padding}"/>
                             </Grid>
                         </Border>
