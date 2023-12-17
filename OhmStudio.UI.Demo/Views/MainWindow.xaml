@@ -529,9 +529,23 @@
 
                             </LayoutDocument>
                             <LayoutDocument Title="GroupBox">
-                                <GroupBox Background="Orange" Header="Box" HorizontalAlignment="Center" BorderAttach.CornerRadius="14" VerticalAlignment="Center" Padding="0">
-                                    <TextBox BorderThickness="0"/>
-                                </GroupBox>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <GroupBox Background="Orange" Header="Box" HorizontalAlignment="Center" BorderAttach.CornerRadius="14" VerticalAlignment="Top" Padding="0">
+                                        <TextBox BorderThickness="0"/>
+                                    </GroupBox>
+                                    <DropShadowControl Background="IndianRed" CornerRadius="10" BorderThickness="1" BorderBrush="Gray" 
+                                                       BlurRadius="40" ShadowColor="IndianRed" ShadowDepth="0"
+                                                       Margin="10" Grid.Row="1" >
+                                        <TextBox >TextBox</TextBox>
+                                    </DropShadowControl>
+                                    <Border Background="Green" Margin="10" Grid.Row="2"></Border>
+                                </Grid>
+
                             </LayoutDocument>
                             <LayoutDocument Title="CheckComboBox" CanClose="False">
                                 <StackPanel Orientation="Horizontal">
