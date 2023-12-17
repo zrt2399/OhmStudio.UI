@@ -10,10 +10,44 @@
     <converters:AngleToPointConverter x:Key="AngleToPointConverter"/>
     <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter"/>
     <converters:BorderCornerRadiusConverter x:Key="BorderCornerRadiusConverter"/>
-    
+    <converters:DropShadowMarginConverter x:Key="DropShadowMarginConverter"/>
+
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
     <SolidColorBrush x:Key="Disabled">#FFAEABAB</SolidColorBrush>
+
+    <Style TargetType="controls:DropShadowControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:DropShadowControl">
+                    <Grid Margin="{Binding Margin,RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource DropShadowMarginConverter}}">
+                        <Border CornerRadius="{TemplateBinding CornerRadius}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Margin="{TemplateBinding Margin}">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="{Binding ShadowDepth,RelativeSource={RelativeSource TemplatedParent}}"
+                                                  BlurRadius="{Binding BlurRadius,RelativeSource={RelativeSource TemplatedParent}}"
+                                                  Color="{Binding ShadowColor,RelativeSource={RelativeSource TemplatedParent}}"
+                                                  Opacity="{Binding Opacity,RelativeSource={RelativeSource TemplatedParent}}"
+                                                  RenderingBias="{Binding RenderingBias,RelativeSource={RelativeSource TemplatedParent}}"
+                                                  Direction="{Binding ShadowDirection,RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Border.Effect>
+                        </Border>
+                        <Border Name="Border"
+                                Margin="{TemplateBinding Margin}"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="{TemplateBinding CornerRadius}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Key="ClassicButton" TargetType="Button">
         <Setter Property="Foreground" Value="Black"/>
@@ -171,7 +205,7 @@
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </Grid>
-                    <ControlTemplate.Triggers> 
+                    <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
                         </Trigger>
