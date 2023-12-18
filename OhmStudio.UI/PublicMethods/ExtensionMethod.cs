@@ -63,7 +63,7 @@ namespace OhmStudio.UI.PublicMethods
             return (number & 1L) == 1L;
         }
 
-        public static void SetOwner(this Window window, Window owner = null)
+        public static Window SetOwner(this Window window, Window owner = null)
         {
             if (owner == null)
             {
@@ -83,6 +83,7 @@ namespace OhmStudio.UI.PublicMethods
             }
 
             window.WindowStartupLocation = window.Owner == null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
+            return window;
         }
 
         public static bool IsTextBoxAttachObject(this DependencyObject obj)
