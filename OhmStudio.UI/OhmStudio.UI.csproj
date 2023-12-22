@@ -4,6 +4,7 @@
 		<TargetFrameworks>net5.0-windows;net462</TargetFrameworks>
 		<Nullable>disable</Nullable>
 		<UseWPF>true</UseWPF>
+		<DebugType>embedded</DebugType>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -24,20 +25,7 @@
 		<!--<PackageLicenseExpression>MIT</PackageLicenseExpression>-->
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0-windows|AnyCPU'">
-		<DebugType>embedded</DebugType>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net5.0-windows|AnyCPU'">
-		<DebugType>embedded</DebugType>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net462|AnyCPU'">
-		<DebugType>embedded</DebugType>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462|AnyCPU'">
-		<DebugType>embedded</DebugType>
-	</PropertyGroup>
-
+ 
 	<ItemGroup>
 		<None Remove="Fonts\iconfont.ttf" />
 		<None Remove="Images\**" />
