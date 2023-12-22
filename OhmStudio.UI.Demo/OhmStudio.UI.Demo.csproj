@@ -9,11 +9,11 @@
 		<LangVersion>10.0</LangVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DebugType>embedded</DebugType>
+	<PropertyGroup Condition="'$(TargetFramework.StartsWith(net4))' == true">
+		<DebugType>pdbonly</DebugType>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	<PropertyGroup Condition="'$(TargetFramework.StartsWith(net4))' == false">
 		<DebugType>embedded</DebugType>
 	</PropertyGroup>
 
