@@ -61,12 +61,10 @@ namespace OhmStudio.UI.Views
             {
                 popChioce.IsOpen = false;
             }
-            TDateTimeView dateTimeView = new TDateTimeView(textBoxDateTime.Text);// TDateTimeView  构造函数传入日期时间
-            dateTimeView.DateTimeOK += (dateTimeStr) => //TDateTimeView 日期时间确定事件
+            TDateTimeView dateTimeView = new TDateTimeView(SelectedDateTime);// TDateTimeView  构造函数传入日期时间
+            dateTimeView.DateTimeOK += (datetime) => //TDateTimeView 日期时间确定事件
             {
-                textBoxDateTime.Text = dateTimeStr;
-                DateTime.TryParse(dateTimeStr, out var time);
-                DateAndTime = time;
+                SelectedDateTime = datetime;
                 popChioce.IsOpen = false;//TDateTimeView 所在pop 关闭
                 textBoxDateTime.Focus();
             };
@@ -78,6 +76,22 @@ namespace OhmStudio.UI.Views
             content.Child = dateTimeView;
             popChioce.IsOpen = true;
         }
+
+        public string SelectedDateTimeFormat
+        {
+            get => (string)GetValue(SelectedDateTimeFormatProperty);
+            set => SetValue(SelectedDateTimeFormatProperty, value);
+        }
+
+        public static readonly DependencyProperty SelectedDateTimeFormatProperty =
+            DependencyProperty.Register(nameof(SelectedDateTimeFormat), typeof(string), typeof(DateTimePicker), new PropertyMetadata("yyyy/MM/dd HH:mm:ss", (sender, e) =>
+            {
+                if (sender is DateTimePicker dateTimePicker)
+                {
+                    var format = e.NewValue as string;
+                    dateTimePicker.textBoxDateTime.Text = dateTimePicker.SelectedDateTime?.ToString(format ?? string.Empty);
+                }
+            }));
 
         /// <summary>
         /// 日期时间文本框是否只读。
@@ -94,21 +108,28 @@ namespace OhmStudio.UI.Views
         /// <summary>
         /// 日期和时间。
         /// </summary>
-        public DateTime? DateAndTime
+        public DateTime? SelectedDateTime
         {
-            get => (DateTime?)GetValue(DateAndTimeProperty);
-            set => SetValue(DateAndTimeProperty, value);
+            get => (DateTime?)GetValue(SelectedDateTimeProperty);
+            set => SetValue(SelectedDateTimeProperty, value);
         }
 
-        public static readonly DependencyProperty DateAndTimeProperty =
-            DependencyProperty.Register(nameof(DateAndTime), typeof(DateTime?), typeof(DateTimePicker), new PropertyMetadata(DateTime.Now));
+        public static readonly DependencyProperty SelectedDateTimeProperty =
+            DependencyProperty.Register(nameof(SelectedDateTime), typeof(DateTime?), typeof(DateTimePicker), new PropertyMetadata(null, (sender, e) =>
+            {
+                if (sender is DateTimePicker dateTimePicker)
+                {
+                    var datetime = e.NewValue as DateTime?;
+                    dateTimePicker.textBoxDateTime.Text = datetime?.ToString(dateTimePicker.SelectedDateTimeFormat);
+                }
+            }));
 
         private void textBoxDateTime_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (!DateTime.TryParse(textBoxDateTime.Text.Trim(), out _))
+            if (!DateTime.TryParse(textBoxDateTime.Text.Trim(), out _) )
             {
-                var format = textBoxDateTime.GetBindingExpression(TextBox.TextProperty)?.ParentBinding.StringFormat;
-                textBoxDateTime.Text = DateAndTime?.ToString(format);
+                //var format = textBoxDateTime.GetBindingExpression(TextBox.TextProperty)?.ParentBinding.StringFormat;
+                textBoxDateTime.Text = SelectedDateTime?.ToString(SelectedDateTimeFormat);
             }
         }
     }

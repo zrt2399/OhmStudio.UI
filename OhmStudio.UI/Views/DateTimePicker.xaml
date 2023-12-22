@@ -80,8 +80,7 @@
         <TextBox Style="{StaticResource TextBoxDateTimeStyle}"
                  Name="textBoxDateTime"
                  LostFocus="textBoxDateTime_LostFocus"
-                 IsReadOnly="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=IsReadOnly}"
-                 Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DateAndTime,Mode=TwoWay,StringFormat='yyyy/MM/dd HH:mm:ss'}"/>
+                 IsReadOnly="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=IsReadOnly}"/>
         <Popup x:Name="popChioce"
                AllowsTransparency="True"
                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"

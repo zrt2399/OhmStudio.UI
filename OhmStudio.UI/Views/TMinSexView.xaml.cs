@@ -95,7 +95,7 @@ namespace OhmStudio.UI.Views
                 _ => string.Empty
             };
             time = time.PadLeft(2, '0');
-            OnMinClickContent(time);
+            MinClick?.Invoke(time);
         }
 
         /// <summary>
@@ -111,16 +111,8 @@ namespace OhmStudio.UI.Views
         /// <summary>
         /// 分钟数据点击（确定）后 的传递事件。
         /// </summary>
-        public Action<string> MinClick;
+        public event Action<string> MinClick;
 
-        public Action Closed;
-        /// <summary>
-        /// 分钟数据点击（确定）后 传递的时间内容
-        /// </summary>
-        /// <param name="minStr"></param>
-        protected void OnMinClickContent(string minStr)
-        {
-            MinClick?.Invoke(minStr);
-        }
+        public event Action Closed; 
     }
 }

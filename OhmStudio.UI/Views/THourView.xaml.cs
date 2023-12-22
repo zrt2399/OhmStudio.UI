@@ -30,10 +30,6 @@ namespace OhmStudio.UI.Views
             public int H3 { get; set; }
             public int H4 { get; set; }
             public int H5 { get; set; }
-
-            /// <summary>
-            /// 第6列 小时数据
-            /// </summary>
             public int H6 { get; set; }
 
             /// <summary>
@@ -68,7 +64,6 @@ namespace OhmStudio.UI.Views
             hour[2] = new Hour(12, 13, 14, 15, 16, 17);
             hour[3] = new Hour(18, 19, 20, 21, 22, 23);
 
-            //dgHour.Items.Clear();
             dgHour.ItemsSource = hour;
         }
 
@@ -100,7 +95,7 @@ namespace OhmStudio.UI.Views
                 _ => string.Empty
             };
             time = time.PadLeft(2, '0');
-            OnHourClickContentEdit(time);
+            HourClick?.Invoke(time);
         }
 
         /// <summary>
@@ -116,16 +111,7 @@ namespace OhmStudio.UI.Views
         /// <summary>
         /// 小时数据点击（确定）后 的传递事件
         /// </summary>
-        public Action<string> HourClick;
-        public Action Closed;
-
-        /// <summary>
-        /// 小时数据点击（确定）后 传递的时间内容
-        /// </summary>
-        /// <param name="hourstr"></param>
-        protected void OnHourClickContentEdit(string hourstr)
-        {
-            HourClick?.Invoke(hourstr);
-        }
+        public event Action<string> HourClick;
+        public event Action Closed; 
     }
 }

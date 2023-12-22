@@ -208,7 +208,7 @@ namespace OhmStudio.UI.Views
                 {
                     var dateTimePicker = new DateTimePicker();
                     Binding binding = GetBinding(obj, item);
-                    dateTimePicker.SetBinding(DateTimePicker.DateAndTimeProperty, binding);
+                    dateTimePicker.SetBinding(DateTimePicker.SelectedDateTimeProperty, binding);
                     uIElement = dateTimePicker;
                 }
                 else if (item.PropertyType == typeof(string) || NumericTypes.Contains(item.PropertyType))

@@ -13,25 +13,14 @@ namespace OhmStudio.UI.Views
     /// </summary>
     public partial class TDateTimeView : UserControl
     {
-        public TDateTimeView()
+        public TDateTimeView(DateTime? dateTime)
         {
             InitializeComponent();
+            _initialDateTime = dateTime;
         }
 
-        /// <summary>
-        /// 构造函数。
-        /// </summary>
-        /// <param name="txt"></param>
-        public TDateTimeView(string txt) : this()
-        {
-            formerDateTimeStr = txt;
-        }
+        readonly DateTime? _initialDateTime;
 
-        /// <summary>
-        /// 从 DateTimePicker 传入的日期时间字符串
-        /// </summary>
-        string formerDateTimeStr = string.Empty;
- 
         /// <summary>
         /// TDateTimeView 窗口登录事件
         /// </summary>
@@ -39,18 +28,16 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            //当前时间
-            if (DateTime.TryParse(formerDateTimeStr, out DateTime dateTime))
+            if (_initialDateTime == null)
             {
-                UpdateBtnContent(dateTime);
-                calDate.SelectedDate = dateTime;
-                calDate.DisplayDate = dateTime;
+                calDate.DisplayDate = DateTime.MinValue.Date;
             }
             else
             {
-                UpdateBtnContent(null);
-                calDate.SelectedDate = null;
+                calDate.DisplayDate = (DateTime)_initialDateTime;
             }
+            calDate.SelectedDate = _initialDateTime;
+            UpdateBtnContent(_initialDateTime);
         }
 
         void UpdateBtnContent(DateTime? dateTime)
@@ -87,21 +74,20 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
-            DateTime? dateTime;
-            if (calDate.SelectedDate == null)
+            var date = calDate.SelectedDate == null ? DateTime.MinValue.Date : calDate.SelectedDate;
+            DateTime dateTime = Convert.ToDateTime(date).Date;
+            string timeStr = btnhh.Content + ":" + btnmm.Content + ":" + btnss.Content;
+
+            var time = Convert.ToDateTime(timeStr).TimeOfDay;
+
+            if (time == TimeSpan.Zero)
             {
-                dateTime = DateTime.Now.Date;
+                DateTimeOK?.Invoke(dateTime);
             }
             else
             {
-                dateTime = calDate.SelectedDate;
+                DateTimeOK?.Invoke(dateTime.Add(Convert.ToDateTime(timeStr).TimeOfDay));
             }
-            DateTime dtCal = Convert.ToDateTime(dateTime);
-            string timeStr = btnhh.Content + ":" + btnmm.Content + ":" + btnss.Content;
-            string dateStr = dtCal.ToString("yyyy/MM/dd");
-
-            string dateTimeStr = dateStr + " " + timeStr;
-            OnDateTimeContent(dateTimeStr);
         }
 
         /// <summary>
@@ -168,7 +154,7 @@ namespace OhmStudio.UI.Views
             content.Child = minSexView;
             popChioce.IsOpen = true;
         }
-         
+
         /// <summary>
         /// 秒钟点击事件。
         /// </summary>
@@ -192,20 +178,12 @@ namespace OhmStudio.UI.Views
             content.Child = minSexView;
             popChioce.IsOpen = true;
         }
-  
+
         /// <summary>
         /// 时间确定后的传递事件。
         /// </summary>
-        public Action<string> DateTimeOK;
-        public Action Closed;
-        /// <summary>
-        /// 时间确定后传递的时间内容。
-        /// </summary>
-        /// <param name="dateTimeStr"></param>
-        protected void OnDateTimeContent(string dateTimeStr)
-        {
-            DateTimeOK?.Invoke(dateTimeStr);
-        }
+        public event Action<DateTime> DateTimeOK;
+        public event Action Closed;
 
         /// <summary>
         /// 解除calendar点击后 影响其他按钮首次点击无效的问题

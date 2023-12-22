@@ -19,8 +19,8 @@
               Icon="/icon.ico"
               WindowStartupLocation="CenterScreen"
               ResizeMode="CanResizeWithGrip"
-              UseLayoutRounding="False"
-              SnapsToDevicePixels="False"
+              UseLayoutRounding="True"
+              SnapsToDevicePixels="True"
               Title="{x:Static local:App.Name}"
               Height="720"
               Width="1280">
@@ -434,7 +434,7 @@
                                     </Grid>-->
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel Orientation="Vertical" Name="wr" IsEnabled="True" >
-                                            <DateTimePicker VerticalAlignment="Top" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期...">
+                                            <DateTimePicker VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入日期...">
                                                 <TextBoxAttach.Title>
                                                     <TextBox>123</TextBox>
                                                 </TextBoxAttach.Title>
@@ -484,7 +484,7 @@
                                             <ToggleButton  Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" >
-                                            <DateTimePicker BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.Title="结束：" DateAndTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
+                                            <DateTimePicker BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.Title="结束：" SelectedDateTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
                                             <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" TextBoxAttach.Title="搜索" VerticalAlignment="Top" />
                                             <PasswordBox BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.Title="技术" TextBoxAttach.PlaceHolder="密码"/>
                                             <PasswordTextBox BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
@@ -529,13 +529,14 @@
 
                             </LayoutDocument>
                             <LayoutDocument Title="GroupBox">
-                                <Grid>
+                                <Grid> 
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <GroupBox Background="Orange" Header="Box" HorizontalAlignment="Center" BorderAttach.CornerRadius="14" VerticalAlignment="Top" Padding="0">
+                                    <GroupBox Background="Orange" Header="Box" HorizontalAlignment="Center" BorderAttach.CornerRadius="4" VerticalAlignment="Top" Padding="0"
+                                              DropShadowAttach.ShadowColor="Orange" BorderBrush="Blue">
                                         <TextBox BorderThickness="0"/>
                                     </GroupBox>
                                     <DropShadowControl Background="OrangeRed" CornerRadius="10" BorderThickness="2" BorderBrush="Gray" 
@@ -708,23 +709,7 @@
                                     <Button Click="Button_Click_3" Grid.Row="1">Click</Button>
                                     <!--<hc:CheckComboBox  Grid.Row="2">Click</hc:CheckComboBox>-->
                                 </Grid>
-                            </LayoutAnchorable>
-                            <LayoutAnchorable Title="pt">
-                                <StackPanel>
-                                    <!--<pt:DataGrid x:Name="datagrid" ItemsSource="{Binding UserInfos}">
-
-                                    </pt:DataGrid>-->
-                                    <pt:DirectoryPicker >
-
-                                    </pt:DirectoryPicker>
-                                    <!--<pt:ColorPicker></pt:ColorPicker>
-                                    <pt:ColorSlider></pt:ColorSlider>-->
-                                    <pt:FilePicker Multiselect="True"></pt:FilePicker>
-                                    <!--<pt:PropertyGrid SelectedObject="{Binding Items}"/>-->
-                                    <!--<pt:HsvControl></pt:HsvControl>
-                                    <pt:CheckMark ></pt:CheckMark>-->
-                                </StackPanel>
-                            </LayoutAnchorable>
+                            </LayoutAnchorable> 
                             <LayoutAnchorable Title="TreeView">
                                 <TreeView Name="treeView">
                                     <TreeView.ContextMenu>

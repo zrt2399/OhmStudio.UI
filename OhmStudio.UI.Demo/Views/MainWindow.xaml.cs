@@ -21,7 +21,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Search;
-using Microsoft.Win32;
 using OhmStudio.UI.Commands;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.Converters;
@@ -246,8 +245,8 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private DateTime currentDateTime;
-        public DateTime CurrentDateTime
+        private DateTime? currentDateTime;
+        public DateTime? CurrentDateTime
         {
             get => currentDateTime;
             set => OnPropertyChanged(ref currentDateTime, value, nameof(CurrentDateTime));
@@ -364,6 +363,7 @@ namespace OhmStudio.UI.Demo.Views
             }
 
             AlertDialog.Show(stringBuilder.ToString(), assembly.GetName().Version.ToString(), MessageButton.OK, MessageImage.Error);
+            //MessageBox.Show(stringBuilder.ToString(), assembly.GetName().Version.ToString(), MessageBoxButton.OK , MessageBoxImage.Question);
             //AlertDialog.Show("private void Button_Click(object sender, RoutedEventArgs e)\r\npublic abstract class OhmTheme : ResourceDictionary\r\n" + assembly.GetName().Version, "", MessageButton.OK, MessageImage.Information);
         }
 

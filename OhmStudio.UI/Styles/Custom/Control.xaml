@@ -21,23 +21,21 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:DropShadowControl">
-                    <Grid Margin="{Binding Margin,RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource DropShadowMarginConverter}}">
+                    <Grid>
                         <Border CornerRadius="{TemplateBinding CornerRadius}"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="Transparent"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Margin="{TemplateBinding Margin}">
+                                BorderThickness="{TemplateBinding BorderThickness}">
                             <Border.Effect>
                                 <DropShadowEffect ShadowDepth="{Binding ShadowDepth,RelativeSource={RelativeSource TemplatedParent}}"
                                                   BlurRadius="{Binding BlurRadius,RelativeSource={RelativeSource TemplatedParent}}"
                                                   Color="{Binding ShadowColor,RelativeSource={RelativeSource TemplatedParent}}"
-                                                  Opacity="{Binding Opacity,RelativeSource={RelativeSource TemplatedParent}}"
+                                                  Opacity="{Binding ShadowOpacity,RelativeSource={RelativeSource TemplatedParent}}"
                                                   RenderingBias="{Binding RenderingBias,RelativeSource={RelativeSource TemplatedParent}}"
                                                   Direction="{Binding ShadowDirection,RelativeSource={RelativeSource TemplatedParent}}"/>
                             </Border.Effect>
                         </Border>
-                        <Border Margin="{TemplateBinding Margin}"
-                                Background="{TemplateBinding Background}"
+                        <Border Background="{TemplateBinding Background}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 CornerRadius="{TemplateBinding CornerRadius}">
@@ -520,11 +518,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <!--<Style.Triggers>
-            <Trigger Property="DataGridCell.IsSelected" Value="True">
-                <Setter Property="Background" Value="#FFAAAAAA"/>
+        <Style.Triggers>
+            <Trigger Property="DataGridCell.IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource CommonControlsButtonHover}"/>
             </Trigger>
-        </Style.Triggers>-->
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="ListBoxItemCheckBoxStyle" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">

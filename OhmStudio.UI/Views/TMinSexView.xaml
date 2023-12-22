@@ -44,17 +44,12 @@
                       CellStyle="{StaticResource GridCellCenterStyle}"
                       AutoGenerateColumns="True"
                       Name="dgMinSex"
-                      SelectionMode="Single"  
-                      CanUserAddRows="False" 
+                      SelectionMode="Single"
+                      CanUserAddRows="False"
                       SelectionUnit="Cell"
                       IsReadOnly="True"
-                      HeadersVisibility="None" 
+                      HeadersVisibility="None"
                       SelectedCellsChanged="dgMinSex_SelectedCellsChanged">
-                <DataGrid.RowStyle>
-                    <Style TargetType="DataGridRow">
-                        <Setter Property="Cursor" Value="Hand"/>
-                    </Style>
-                </DataGrid.RowStyle>
             </DataGrid>
         </Grid>
     </Border>

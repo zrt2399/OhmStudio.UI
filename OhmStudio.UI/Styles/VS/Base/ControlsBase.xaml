@@ -79,9 +79,9 @@
            BasedOn="{StaticResource DataGridRowHeaderBaseStyle}"
            TargetType="{x:Type DataGridRowHeader}" />
 
-    <Style x:Key="{x:Type DataGridRow}"
-           BasedOn="{StaticResource DataGridRowBaseStyle}"
-           TargetType="{x:Type DataGridRow}" />
+    <Style x:Key="{x:Type DataGridCell}"
+           BasedOn="{StaticResource DataGridCellBaseStyle}"
+           TargetType="{x:Type DataGridCell}" />
 
     <Style x:Key="{x:Type DataGridColumnHeader}"
            BasedOn="{StaticResource DataGridColumnHeaderBaseStyle}"

@@ -22,6 +22,9 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty ShadowDirectionProperty =
             DependencyProperty.Register(nameof(ShadowDirection), typeof(double), typeof(DropShadowControl), new FrameworkPropertyMetadata(315d, FrameworkPropertyMetadataOptions.AffectsRender));
 
+        public static readonly DependencyProperty ShadowOpacityProperty =
+          DependencyProperty.Register(nameof(ShadowOpacity), typeof(double), typeof(DropShadowControl), new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender));
+
         public static readonly DependencyProperty RenderingBiasProperty =
             DependencyProperty.Register(nameof(RenderingBias), typeof(RenderingBias), typeof(DropShadowControl), new FrameworkPropertyMetadata(RenderingBias.Performance, FrameworkPropertyMetadataOptions.AffectsRender));
 
@@ -55,10 +58,16 @@ namespace OhmStudio.UI.Controls
             set => SetValue(ShadowDirectionProperty, value);
         }
 
+        public double ShadowOpacity
+        {
+            get => (double)GetValue(ShadowOpacityProperty);
+            set => SetValue(ShadowOpacityProperty, value);
+        }
+
         public RenderingBias RenderingBias
         {
             get => (RenderingBias)GetValue(RenderingBiasProperty);
-            set => SetValue(RenderingBiasProperty, value);
+            set => SetValue(RenderingBiasProperty, value); 
         }
     }
 }

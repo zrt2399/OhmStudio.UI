@@ -1,8 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches">
+                    xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
+                    xmlns:controls="clr-namespace:OhmStudio.UI.Controls">
 
     <BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
+    
     <Style x:Key="GroupBoxBaseStyle" TargetType="{x:Type GroupBox}">
         <Setter Property="Background" Value="{DynamicResource GroupBoxBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource GroupBoxBorderBrush}" />
@@ -23,14 +25,20 @@
                             <RowDefinition />
                             <RowDefinition Height="6" />
                         </Grid.RowDefinitions>
-                        <Border Grid.Row="1"
-                                Grid.RowSpan="3"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="4"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="Transparent"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <controls:DropShadowControl Grid.Row="1" 
+                                                    Grid.RowSpan="3"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="4"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="Transparent"
+                                                    ShadowColor="{Binding Path=(attaches:DropShadowAttach.ShadowColor),RelativeSource={RelativeSource TemplatedParent}}"
+                                                    ShadowDepth="{Binding Path=(attaches:DropShadowAttach.ShadowDepth),RelativeSource={RelativeSource TemplatedParent}}"
+                                                    ShadowDirection="{Binding Path=(attaches:DropShadowAttach.ShadowDirection),RelativeSource={RelativeSource TemplatedParent}}"
+                                                    ShadowOpacity="{Binding Path=(attaches:DropShadowAttach.ShadowOpacity),RelativeSource={RelativeSource TemplatedParent}}"
+                                                    BlurRadius="{Binding Path=(attaches:DropShadowAttach.BlurRadius),RelativeSource={RelativeSource TemplatedParent}}"
+                                                    RenderingBias="{Binding Path=(attaches:DropShadowAttach.RenderingBias),RelativeSource={RelativeSource TemplatedParent}}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"/>
 
                         <Border Grid.Row="1"
                                 Grid.RowSpan="3"
