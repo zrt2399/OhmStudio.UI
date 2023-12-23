@@ -126,7 +126,11 @@ namespace OhmStudio.UI.Views
 
         private void textBoxDateTime_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (!DateTime.TryParse(textBoxDateTime.Text.Trim(), out _) )
+            if (DateTime.TryParse(textBoxDateTime.Text.Trim(), out var result))
+            {
+                SelectedDateTime = result;
+            }
+            else
             {
                 //var format = textBoxDateTime.GetBindingExpression(TextBox.TextProperty)?.ParentBinding.StringFormat;
                 textBoxDateTime.Text = SelectedDateTime?.ToString(SelectedDateTimeFormat);
