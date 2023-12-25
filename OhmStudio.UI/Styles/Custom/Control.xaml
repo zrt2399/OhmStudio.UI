@@ -668,7 +668,7 @@
                                                     <!--<Path Fill="{Binding ElementName=invert,Path=Foreground}" Stretch="Uniform"
                                                           Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}"
                                                           Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM350 650V550H850V650H350z"/>-->
-                                                    <CheckBox IsChecked="{x:Null}"/>
+                                                    <CheckBox IsChecked="{x:Null}" IsHitTestVisible="False" Focusable="False"/>
                                                     <TextBlock Margin="4,0,0,0" Name="invert">反选</TextBlock>
                                                 </DockPanel>
                                             </Button>
@@ -681,7 +681,7 @@
                                                             <ScaleTransform ScaleX="1" ScaleY="-1"/>
                                                         </Path.LayoutTransform>
                                                     </Path>-->
-                                                    <CheckBox IsChecked="True"/>
+                                                    <CheckBox IsChecked="True" IsHitTestVisible="False" Focusable="False"/>
                                                     <TextBlock Margin="4,0,0,0" Name="selectAll">选择全部</TextBlock>
                                                 </DockPanel>
                                             </Button>
@@ -690,7 +690,7 @@
                                                     <!--<Path Fill="{Binding ElementName=deselectAll,Path=Foreground}" Stretch="Uniform"
                                                           Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}"
                                                           Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM250 950V250H950V950H250z"/>-->
-                                                    <CheckBox IsChecked="False"/>
+                                                    <CheckBox IsChecked="False" IsHitTestVisible="False" Focusable="False"/>
                                                     <TextBlock Margin="4,0,0,0" Name="deselectAll">取消全部</TextBlock>
                                                 </DockPanel>
                                             </Button>
