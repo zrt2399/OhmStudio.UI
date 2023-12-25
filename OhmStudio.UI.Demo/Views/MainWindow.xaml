@@ -491,8 +491,8 @@
 
                                             <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
                                             <SearchBar BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
-                                            <TextBox VerticalAlignment="Top" TextBoxAttach.Title="开始"/>
-                                            <TextBox VerticalAlignment="Top" Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..."/>
+                                            <TextBox BorderAttach.CornerRadius="2" BorderThickness="0,0,0,2" VerticalAlignment="Top" TextBoxAttach.Title="开始"/>
+                                            <TextBox VerticalAlignment="Top" Text="{Binding CurrentDateTime}" Margin="4" TextBoxAttach.PlaceHolder="time..."/>
 
                                             <Button Style="{StaticResource ClassicButton}" Padding="4" Margin="4" HorizontalContentAlignment="Left">ClassicButton</Button>
                                             <Button Style="{StaticResource DefaultButton}" Padding="4" Margin="4" HorizontalContentAlignment="Center">DefaultButton</Button>
