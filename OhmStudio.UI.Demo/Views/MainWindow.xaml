@@ -236,7 +236,8 @@
                                             </ContextMenu>
                                         </DataGrid.ContextMenu>
                                     </DataGrid>
-                                    <DataGrid ItemsSource="{Binding FileNodes}" DataGridAttach.IsShowRowNumber="True"></DataGrid>
+                                    <DataGrid ItemsSource="{Binding FileNodes}" DataGridAttach.IsShowRowNumber="True"
+                                              SelectionUnit="CellOrRowHeader" />
                                     <DataGrid ItemsSource="{Binding FileNodes}"
                                               CanUserAddRows="False"
                                               AutoGenerateColumns="False"

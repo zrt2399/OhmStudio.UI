@@ -665,29 +665,32 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Button Name="PART_Invert">
                                                 <DockPanel>
-                                                    <Path Fill="{Binding ElementName=invert,Path=Foreground}" Stretch="Uniform"
+                                                    <!--<Path Fill="{Binding ElementName=invert,Path=Foreground}" Stretch="Uniform"
                                                           Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}"
-                                                          Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM350 650V550H850V650H350z"/>
+                                                          Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM350 650V550H850V650H350z"/>-->
+                                                    <CheckBox IsChecked="{x:Null}"/>
                                                     <TextBlock Margin="4,0,0,0" Name="invert">反选</TextBlock>
                                                 </DockPanel>
                                             </Button>
                                             <Button Name="PART_SelectAll">
                                                 <DockPanel>
-                                                    <Path Fill="{Binding ElementName=selectAll,Path=Foreground}" Stretch="Uniform"
+                                                    <!--<Path Fill="{Binding ElementName=selectAll,Path=Foreground}" Stretch="Uniform"
                                                           Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}"
                                                           Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM550.15 400L903.65 753.55L832.9499999999999 824.25L550.15 541.4L408.7 682.85L338 612.15L550.15 400z">
                                                         <Path.LayoutTransform>
                                                             <ScaleTransform ScaleX="1" ScaleY="-1"/>
                                                         </Path.LayoutTransform>
-                                                    </Path>
+                                                    </Path>-->
+                                                    <CheckBox IsChecked="True"/>
                                                     <TextBlock Margin="4,0,0,0" Name="selectAll">选择全部</TextBlock>
                                                 </DockPanel>
                                             </Button>
                                             <Button Name="PART_DeSelectAll">
                                                 <DockPanel>
-                                                    <Path Fill="{Binding ElementName=deselectAll,Path=Foreground}" Stretch="Uniform"
+                                                    <!--<Path Fill="{Binding ElementName=deselectAll,Path=Foreground}" Stretch="Uniform"
                                                           Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}"
-                                                          Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM250 950V250H950V950H250z"/>
+                                                          Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM250 950V250H950V950H250z"/>-->
+                                                    <CheckBox IsChecked="False"/>
                                                     <TextBlock Margin="4,0,0,0" Name="deselectAll">取消全部</TextBlock>
                                                 </DockPanel>
                                             </Button>

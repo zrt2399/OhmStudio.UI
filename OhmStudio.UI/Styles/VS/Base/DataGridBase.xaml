@@ -81,9 +81,18 @@
 
     <Style x:Key="DataGridCellBaseStyle" TargetType="DataGridCell">
         <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True"/>
+                    <Condition Property="IsSelected" Value="False"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="Background" Value="{DynamicResource CommonControlsButtonHover}"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <!--<Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource CommonControlsButtonHover}"/>
-            </Trigger>
+            </Trigger>-->
         </Style.Triggers>
     </Style>
 

@@ -418,8 +418,8 @@ namespace OhmStudio.UI.Demo.Views
         }
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new();
+        { 
+            var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             folderBrowserDialog.Description = "请选择文件夹";
             if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
