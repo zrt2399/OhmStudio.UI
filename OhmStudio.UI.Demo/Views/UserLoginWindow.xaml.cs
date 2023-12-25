@@ -3,11 +3,11 @@
 namespace OhmStudio.UI.Demo.Views
 {
     /// <summary>
-    /// LoginWindow.xaml 的交互逻辑
+    /// UserLoginWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class LoginWindow : Window
+    public partial class UserLoginWindow : Window
     {
-        public LoginWindow()
+        public UserLoginWindow()
         {
             InitializeComponent();
         }

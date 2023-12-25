@@ -10,7 +10,6 @@
               xmlns:views="clr-namespace:OhmStudio.UI.Demo.Views"
               xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
               xmlns:hc="https://handyorg.github.io/handycontrol"
-              xmlns:pt="http://propertytools.org/wpf"
               xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
               d:DataContext="{d:DesignInstance Type=views:MainWindow}"
               mc:Ignorable="d"

@@ -69,7 +69,6 @@ namespace OhmStudio.UI.Demo.Views
             {
                 Result.Rows.Add(DateTime.Now, i, i + 1, "44");
             }
-            //da.ItemsSource = Result.DefaultView;
 
             Pro.Description = "1";
             Pro.Brush = Brushes.Red;
@@ -92,7 +91,6 @@ namespace OhmStudio.UI.Demo.Views
                 FileNodes.Add(pro);
             }
             stopwatch.Stop();
-            var res2 = stopwatch.ElapsedMilliseconds;
             var viewSource = new CollectionViewSource { Source = FileNodes };
             FileNodes.CollectionChanged += delegate
             {
@@ -100,56 +98,9 @@ namespace OhmStudio.UI.Demo.Views
             };
             UserInfos.Add(new UserInfoModel());
             UserInfos.Add(new UserInfoModel() { Name = "wang" });
-            Messenger.Default.Register<string>(this, Rrecipient, msg => AlertDialog.Show(msg)); 
-            //string directory = Path.Combine(App.DocumentDirectory, "Layout");
-            //string path = Path.Combine(directory, "Layout.xml");
-            //Loaded += delegate
-            //{
-            //    if (File.Exists(path))
-            //    {
-            //        var serializer = new XmlLayoutSerializer(dockingManager);
-            //        serializer.Deserialize(path);
-            //    }
-            //};
-            //Closing += delegate
-            //{
-            //    try
-            //    {
-            //        int i = 0;
-            //        foreach (LayoutAnchorable item in dockingManager.AnchorablesSource)
-            //        {
-            //            item.ContentId = (++i).ToString();
-            //        }
-            //        foreach (LayoutDocument item in dockingManager.DocumentsSource)
-            //        {
-            //            item.ContentId = (++i).ToString();
-            //        }
-            //        if (!Directory.Exists(directory))
-            //        {
-            //            Directory.CreateDirectory(directory);
-            //        }
-            //        var serializer = new XmlLayoutSerializer(dockingManager);
-            //        serializer.Serialize(path);
-            //        XDocument xDoc = XDocument.Load(path);
-            //        xDoc.Descendants("Hidden").Remove();//.SingleOrDefault(x => x.Attribute("id").Value.Equals("4"))
-            //        xDoc.Save(path);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        AlertDialog.ShowWarning("在保存Layout布局xml文件时遇到异常：" + ex.Message);
-            //    }
-            //};
-            //DispatcherTimer dispatcherTimer = new DispatcherTimer();
-            //dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
-            //dispatcherTimer.Tick += (sender, e) =>
-            //{
-            //    Can = !Can;
-            //    CommandManager.InvalidateRequerySuggested();
-            //    Debug.WriteLine(Can);
-            //};
-            //dispatcherTimer.Start();
+            Messenger.Default.Register<string>(this, Rrecipient, msg => AlertDialog.Show(msg));
         }
-          
+
         const string Rrecipient = "Ohm";
 
         public Pro Pro { get; set; } = new Pro();
@@ -179,7 +130,6 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-
         bool Can;
 
         private RelayCommand startCommand;
@@ -194,8 +144,7 @@ namespace OhmStudio.UI.Demo.Views
                         AlertDialog.Show(item.Name);
                     }
                 }
-            }
-            , () =>
+            }, () =>
             {
                 //Debug.WriteLine(Can);
                 return Can;
@@ -204,10 +153,10 @@ namespace OhmStudio.UI.Demo.Views
         }
 
         const string DefaultFont = "默认";
-        public const string GlobalFontSize = "GlobalFontSize";
-        public const string GlobalFontFamily = "GlobalFontFamily";
+        public const string GlobalFontSize = nameof(GlobalFontSize);
+        public const string GlobalFontFamily = nameof(GlobalFontFamily);
         public List<string> FontFamilyList { get; set; }
-        readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily]; /*new FontFamily(new Uri("pack://application:,,,/"), "/Fonts/OPPOSans-M.ttf#OPPOSans M");*/
+        readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily];
         public List<double> FontSizeList { get; set; } = new List<double>();
 
         private OhmTheme currentTheme = XamlThemeResource.Instance.Theme;
@@ -364,14 +313,13 @@ namespace OhmStudio.UI.Demo.Views
 
             AlertDialog.Show(stringBuilder.ToString(), assembly.GetName().Version.ToString(), MessageButton.OK, MessageImage.Error);
             //MessageBox.Show(stringBuilder.ToString(), assembly.GetName().Version.ToString(), MessageBoxButton.OK , MessageBoxImage.Question);
-            //AlertDialog.Show("private void Button_Click(object sender, RoutedEventArgs e)\r\npublic abstract class OhmTheme : ResourceDictionary\r\n" + assembly.GetName().Version, "", MessageButton.OK, MessageImage.Information);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Task.Run(() =>
             {
-                AlertDialog.ShowError("发生了错误Rrecipient");
+                AlertDialog.ShowError("发生了错误Button_Click_1");
             });
             //Messenger.Default.Send("发送了消息Rrecipient", Rrecipient);
         }
@@ -396,22 +344,11 @@ namespace OhmStudio.UI.Demo.Views
             AlertDialog.Show((Items as Pro).InstrumentType.ToString());
         }
 
-        //static readonly ObservableCollection<string> itemss = new ObservableCollection<string>() { "ADSDADSA", "ASDSAD", "ASDASD" };
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
+            var button = sender as Button;
             StatusManager.IsRunning = !StatusManager.IsRunning;
-            //if (SelectedItemsFileNodes != null)
-            //{
-            //    StringBuilder stringBuilder = new StringBuilder();
-            //    foreach (var item in SelectedItemsFileNodes)
-            //    {
-            //        stringBuilder.AppendLine(item.ToString());
-            //    }
-            //    AlertDialog.Show(stringBuilder.ToString());
-            //}
-            //FileNodes = new ObservableCollection<Pro>(); 
-            //foreach (var item in FileNodes)
-            //    item. IsExpanded = true;
+            button.Content = StatusManager.IsRunning;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -432,9 +369,8 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            LoginWindow loginWindow = new LoginWindow();
-            loginWindow.SetOwner();
-            loginWindow.ShowDialog();
+            UserLoginWindow userLoginWindow = new UserLoginWindow();
+            userLoginWindow.SetOwner().ShowDialog();
         }
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
@@ -532,11 +468,6 @@ namespace OhmStudio.UI.Demo.Views
 
             // 将根节点添加到 TreeView
             treeView.Items.Add(rootNode);
-
-        }
-
-        private void Button_Click_8(object sender, RoutedEventArgs e)
-        {
 
         }
     }
@@ -707,10 +638,13 @@ namespace OhmStudio.UI.Demo.Views
         }
 
         public ImageSource ImageSource { get; set; } = new BitmapImage(new Uri("/download.jpg", UriKind.Relative));
+
         public int? Abstring1 { get; set; } = null;
-        [TextBoxPlaceHolder(PlaceHolder = "请输入密码")]
+
         [Password]
+        [TextBoxPlaceHolder(PlaceHolder = "请输入密码")]
         public string Abstring { get; set; }
+
         public Abs? Abs { get; set; } = null;
 
         public InstrumentType InstrumentType { get; set; }
@@ -718,10 +652,12 @@ namespace OhmStudio.UI.Demo.Views
         [PropertyGrid(DisplayName = "名字")]
 
         public string Description { get; set; }
+
         [PropertyGrid(DisplayName = "值")]
         public double? Value { get; set; }
 
         public SolidColorBrush Brush { get; set; }
+
         public Pro1 Pro1 { get; set; } = new Pro1();
     }
 
@@ -735,16 +671,20 @@ namespace OhmStudio.UI.Demo.Views
         public Abs()
         {
         }
+
         [PropertyGrid(DisplayName = "Id号")]
         public string Id { get; set; } = "123";
+
         public int Num { get; set; } = 999;
     }
-
 
     public class Pro1
     {
         public string Name { get; set; }
+
         public double Value { get; set; }
+
+        [ToolTip(ToolTip = "123456")]
         [PropertyGrid(DisplayName = "时间", IsReadOnly = false)]
         public DateTime DateTime { get; set; }
 
@@ -769,8 +709,8 @@ namespace OhmStudio.UI.Demo.Views
         [Description("LCR测量模块2")]
         M2821,
         [Description("HVM高压模块")]
-        MHVM,
-        [Description("K2400高压模块")]
+        HVM,
+        [Description("K2400测试仪")]
         K2400
     }
 
