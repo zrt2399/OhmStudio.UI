@@ -26,6 +26,7 @@
 	<ItemGroup>
 	  <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
 	  <PackageReference Include="HandyControl" Version="3.4.0" />
+	  <PackageReference Include="Microsoft.Win32.SystemEvents" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

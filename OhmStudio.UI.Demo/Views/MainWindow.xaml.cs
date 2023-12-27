@@ -21,6 +21,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Search;
+using Microsoft.Win32;
 using OhmStudio.UI.Commands;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.Converters;
@@ -99,6 +100,12 @@ namespace OhmStudio.UI.Demo.Views
             UserInfos.Add(new UserInfoModel());
             UserInfos.Add(new UserInfoModel() { Name = "wang" });
             Messenger.Default.Register<string>(this, Rrecipient, msg => AlertDialog.Show(msg));
+            SystemEvents.InstalledFontsChanged += SystemEvents_InstalledFontsChanged;
+        }
+
+        private void SystemEvents_InstalledFontsChanged(object sender, EventArgs e)
+        {
+            FontFamilyList = new InstalledFontCollection().Families.Select(x => x.Name).ToList();
         }
 
         const string Rrecipient = "Ohm";
@@ -418,7 +425,7 @@ namespace OhmStudio.UI.Demo.Views
         }
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
-        { 
+        {
             var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             folderBrowserDialog.Description = "请选择文件夹";
             if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)

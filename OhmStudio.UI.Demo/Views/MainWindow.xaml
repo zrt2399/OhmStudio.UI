@@ -472,16 +472,15 @@
                                             <ComboBox TextBoxAttach.Title="中文" TextBoxAttach.PlaceHolder="请输入.." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
                                             <ComboBox IsEditable="True" TextBoxAttach.Title="输出" HorizontalContentAlignment="Right" TextBoxAttach.PlaceHolder="请输入..." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top"/>
                                             <CheckComboBox TextBoxAttach.Title="搜索" HorizontalContentAlignment="Right" BorderAttach.CornerRadius="2"
-                                                Separator=";"
-                                                StringFormat="分组{0}"
-                                                ItemsSource="{Binding FileNodes}"
-                                                DisplayMemberPath="Description"
-                                                VerticalAlignment="Top"
-                                                VirtualizingPanel.IsVirtualizing="True"
-                                                VirtualizingPanel.VirtualizationMode="Recycling"
-                                                SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
+                                                 Separator=";"
+                                                 StringFormat="分组{0}"
+                                                 ItemsSource="{Binding FileNodes}"
+                                                 DisplayMemberPath="Description"
+                                                 VerticalAlignment="Top"
+                                                 VirtualizingPanel.ScrollUnit="Pixel"
+                                                 SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
                                             <Button Click="Button_Click_4" BorderAttach.CornerRadius="2">显示选中项</Button>
-                                            <ToggleButton  Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
+                                            <ToggleButton Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" >
                                             <DateTimePicker BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.Title="结束：" SelectedDateTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
@@ -492,7 +491,7 @@
 
                                             <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
                                             <SearchBar BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
-                                            <TextBox BorderAttach.CornerRadius="2" BorderThickness="0,0,0,2" VerticalAlignment="Top" TextBoxAttach.Title="开始"/>
+                                            <TextBox BorderAttach.CornerRadius="2" BorderThickness="0,0,0,2" Margin="4" VerticalAlignment="Top" TextBoxAttach.Title="开始"/>
                                             <TextBox VerticalAlignment="Top" Text="{Binding CurrentDateTime}" Margin="4" TextBoxAttach.PlaceHolder="time..."/>
 
                                             <Button Style="{StaticResource ClassicButton}" Padding="4" Margin="4" HorizontalContentAlignment="Left">ClassicButton</Button>
@@ -711,7 +710,7 @@
                                 </Grid>
                             </LayoutAnchorable> 
                             <LayoutAnchorable Title="TreeView">
-                                <TreeView Name="treeView">
+                                <TreeView Name="treeView" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling">
                                     <TreeView.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem Header="导入文件夹" Click="MenuItem_Click_2"/>
