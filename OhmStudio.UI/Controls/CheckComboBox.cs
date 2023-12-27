@@ -13,7 +13,7 @@ namespace OhmStudio.UI.Controls
         public CheckComboBox()
         {
             IsReadOnly = true;
-            Text = "(未选择)";
+            SetEmpty();
             GotFocus += CheckComboBox_GotFocus;
         }
 
@@ -67,6 +67,24 @@ namespace OhmStudio.UI.Controls
         {
             get => (string)GetValue(StringFormatProperty);
             set => SetValue(StringFormatProperty, value);
+        }
+
+        public static readonly DependencyProperty UnSelectedStringFormatProperty =
+            DependencyProperty.Register(nameof(UnSelectedStringFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)"));
+
+        public string UnSelectedStringFormat
+        {
+            get => (string)GetValue(UnSelectedStringFormatProperty);
+            set => SetValue(UnSelectedStringFormatProperty, value);
+        }
+
+        public static readonly DependencyProperty SelectedAllStringFormatProperty =
+            DependencyProperty.Register(nameof(SelectedAllStringFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(已选择全部)"));
+
+        public string SelectedAllStringFormat
+        {
+            get => (string)GetValue(SelectedAllStringFormatProperty);
+            set => SetValue(SelectedAllStringFormatProperty, value);
         }
 
         public override void OnApplyTemplate()
@@ -177,7 +195,7 @@ namespace OhmStudio.UI.Controls
         void SetEmpty()
         {
             SelectedItems = new List<object>();
-            Text = "(未选择)";
+            Text = UnSelectedStringFormat;
         }
 
         private void PART_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -218,11 +236,11 @@ namespace OhmStudio.UI.Controls
             //SelectedText = string.Join(",", list);
             if (list.Count == 0)
             {
-                Text = "(未选择)";
+                Text = UnSelectedStringFormat;
             }
             else if (list.Count == ItemsSource.Cast<object>().Count())
             {
-                Text = "(已选择全部)";
+                Text = SelectedAllStringFormat;
             }
         }
 

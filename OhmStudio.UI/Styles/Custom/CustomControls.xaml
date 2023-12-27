@@ -5,11 +5,17 @@
                     xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
+    <ResourceDictionary.MergedDictionaries>
+        <!--  Common Control Styles  -->
+        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ControlsBase.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <converters:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter"/>
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <converters:AngleToPointConverter x:Key="AngleToPointConverter"/>
     <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter"/>
     <converters:DropShadowMarginConverter x:Key="DropShadowMarginConverter"/>
+    <converters:BorderCornerRadiusConverter x:Key="BorderCornerRadiusConverter"/>
 
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
@@ -120,11 +126,11 @@
                             <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Value="{DynamicResource Focused}" Property="BorderBrush" />
+                            <Setter TargetName="Border" Value="{StaticResource Focused}" Property="BorderBrush" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Value="{DynamicResource Pressed}" Property="Background" />
-                            <Setter TargetName="Border" Value="{DynamicResource Pressed}" Property="BorderBrush" />
+                            <Setter TargetName="Border" Value="{StaticResource Pressed}" Property="Background" />
+                            <Setter TargetName="Border" Value="{StaticResource Pressed}" Property="BorderBrush" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Border" Property="Background" Value="#FFF6F6F6" />
@@ -171,15 +177,15 @@
                             <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Focused}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Focused}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Pressed}"/>
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Pressed}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Pressed}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Pressed}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Disabled}"/>
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Disabled}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Disabled}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Disabled}"/>
                             <Setter TargetName="borderEffect" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -216,15 +222,15 @@
                             <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Focused}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Focused}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Pressed}"/>
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Pressed}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Pressed}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Pressed}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Disabled}"/>
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Disabled}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Disabled}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Disabled}"/>
                             <Setter TargetName="borderEffect" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -273,17 +279,17 @@
         </Setter>
     </Style>
 
-    <Style TargetType="controls:SearchBar" BasedOn="{StaticResource {x:Type TextBox}}">
+    <Style x:Key="SearchBarBaseStyle" TargetType="controls:SearchBar">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SearchBar">
                     <DockPanel>
                         <ContentControl Style="{DynamicResource TitleWithTemplatedParent}"/>
                         <Border Name="Border" SnapsToDevicePixels="True"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
@@ -292,7 +298,7 @@
                                 <ScrollViewer Name="PART_ContentHost"/>
                                 <ContentControl Style="{DynamicResource PlaceHolderWithTemplatedParent}" Margin="{TemplateBinding Padding}"/>
                                 <Button Padding="4,0" Grid.Column="1" BorderThickness="0" BorderBrush="Transparent" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}"
-                                        attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BorderCornerRadiusConverter}}">
+                                attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BorderCornerRadiusConverter}}">
                                     <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" ToolTip="{x:Null}">&#xe60f;</TextBlock>
                                 </Button>
                             </Grid>
@@ -318,6 +324,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style TargetType="controls:SearchBar">
+        <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type TextBox}}" />
+        <Setter Property="DynamicStyleProvider.Derived" Value="{DynamicResource SearchBarBaseStyle}" />
     </Style>
 
     <Style x:Key="PageAnimationStyle" TargetType="Page">
@@ -427,15 +438,21 @@
                             </Path>
                             <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                                 <StackPanel VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+                                    <StackPanel.Resources>
+                                        <Style x:Key="TextBlockCollapsedStyle" TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Resources>
                                     <TextBlock Text="{Binding Title,RelativeSource={RelativeSource TemplatedParent}}"
                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
                                         <TextBlock.Style>
-                                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                                <Style.Triggers>
-                                                    <Trigger Property="Text" Value="">
-                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type TextBlock}}" />
+                                                <Setter Property="DynamicStyleProvider.Derived" Value="{DynamicResource TextBlockCollapsedStyle}" />
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
@@ -461,7 +478,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="Bd" Background="{TemplateBinding Background}" Opacity="0.7" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}" Opacity="0.7" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}">
                         <Ellipse x:Name="ep" Width="12" Height="12" Fill="LightGray" Cursor="Hand"/>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -525,7 +542,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="ListBoxItemCheckBoxStyle" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+    <Style x:Key="ListBoxItemCheckBoxBaseStyle" TargetType="ListBoxItem">
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
@@ -558,24 +575,6 @@
                             <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemMouseOverBorder}" />
                             <Setter Property="Foreground" Value="{DynamicResource ListBoxItemMouseOverForeground}" />
                         </MultiTrigger>
-                        <!--<MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="Selector.IsSelectionActive" Value="False" />
-                                <Condition Property="IsSelected" Value="True" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemSelectedInactiveBackground}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemSelectedInactiveBorder}" />
-                            <Setter Property="Foreground" Value="{DynamicResource ListBoxItemSelectedInactiveForeground}" />
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="Selector.IsSelectionActive" Value="True" />
-                                <Condition Property="IsSelected" Value="True" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemSelectedActiveBackground}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemSelectedActiveBorder}" />
-                            <Setter Property="Foreground" Value="{DynamicResource ListBoxItemSelectedActiveForeground}" />
-                        </MultiTrigger>-->
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemSelectedActiveBackground}" />
                             <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemSelectedActiveBorder}" />
@@ -592,6 +591,11 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ListBoxItemCheckBoxStyle" TargetType="ListBoxItem">
+        <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type ListBoxItem}}" />
+        <Setter Property="DynamicStyleProvider.Derived" Value="{DynamicResource ListBoxItemCheckBoxBaseStyle}" />
+    </Style>
+
     <DataTemplate x:Key="ListBoxItemCheckBoxDataTemplate">
         <CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}">
             <CheckBox.Content>
@@ -603,7 +607,7 @@
         </CheckBox>
     </DataTemplate>
 
-    <Style TargetType="controls:CheckComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+    <Style x:Key="CheckComboBoxBaseStyle" TargetType="controls:CheckComboBox">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:CheckComboBox">
@@ -651,9 +655,9 @@
                                IsOpen="{Binding IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
                                StaysOpen="False">
                             <theme:SystemDropShadowChrome Name="Shadow"
-                                                          MinWidth="{TemplateBinding ActualWidth}"
-                                                          MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                          Color="Transparent">
+                                                  MinWidth="{TemplateBinding ActualWidth}"
+                                                  MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                  Color="Transparent">
                                 <Border Background="{DynamicResource CommonControlsComboBoxListBackground}"
                                         BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
                                         BorderThickness="{TemplateBinding BorderThickness}">
@@ -665,31 +669,18 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Button Name="PART_Invert">
                                                 <DockPanel>
-                                                    <!--<Path Fill="{Binding ElementName=invert,Path=Foreground}" Stretch="Uniform"
-                                                          Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}"
-                                                          Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM350 650V550H850V650H350z"/>-->
                                                     <CheckBox IsChecked="{x:Null}" IsHitTestVisible="False" Focusable="False"/>
                                                     <TextBlock Margin="4,0,0,0" Name="invert">反选</TextBlock>
                                                 </DockPanel>
                                             </Button>
                                             <Button Name="PART_SelectAll">
                                                 <DockPanel>
-                                                    <!--<Path Fill="{Binding ElementName=selectAll,Path=Foreground}" Stretch="Uniform"
-                                                          Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}"
-                                                          Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM550.15 400L903.65 753.55L832.9499999999999 824.25L550.15 541.4L408.7 682.85L338 612.15L550.15 400z">
-                                                        <Path.LayoutTransform>
-                                                            <ScaleTransform ScaleX="1" ScaleY="-1"/>
-                                                        </Path.LayoutTransform>
-                                                    </Path>-->
                                                     <CheckBox IsChecked="True" IsHitTestVisible="False" Focusable="False"/>
                                                     <TextBlock Margin="4,0,0,0" Name="selectAll">选择全部</TextBlock>
                                                 </DockPanel>
                                             </Button>
                                             <Button Name="PART_DeSelectAll">
                                                 <DockPanel>
-                                                    <!--<Path Fill="{Binding ElementName=deselectAll,Path=Foreground}" Stretch="Uniform"
-                                                          Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel},Path=ActualHeight}"
-                                                          Data="M200 1050H1000A50 50 0 0 0 1050 1000V200A50 50 0 0 0 1000 150H200A50 50 0 0 0 150 200V1000A50 50 0 0 0 200 1050zM250 950V250H950V950H250z"/>-->
                                                     <CheckBox IsChecked="False" IsHitTestVisible="False" Focusable="False"/>
                                                     <TextBlock Margin="4,0,0,0" Name="deselectAll">取消全部</TextBlock>
                                                 </DockPanel>
@@ -699,17 +690,18 @@
                                                  Grid.Row="1"
                                                  BorderThickness="0"
                                                  BorderBrush="Transparent"
-                                                 VirtualizingPanel.IsVirtualizing="{Binding Path=(VirtualizingPanel.IsVirtualizing),RelativeSource={RelativeSource TemplatedParent}}"
-                                                 VirtualizingPanel.IsVirtualizingWhenGrouping="{Binding Path=(VirtualizingPanel.IsVirtualizingWhenGrouping),RelativeSource={RelativeSource TemplatedParent}}"
-                                                 VirtualizingPanel.VirtualizationMode="{Binding Path=(VirtualizingPanel.VirtualizationMode),RelativeSource={RelativeSource TemplatedParent}}"
                                                  VirtualizingPanel.ScrollUnit="{Binding Path=(VirtualizingPanel.ScrollUnit),RelativeSource={RelativeSource TemplatedParent}}"
-                                                 VirtualizingPanel.CacheLength="{Binding Path=(VirtualizingPanel.CacheLength),RelativeSource={RelativeSource TemplatedParent}}"
-                                                 VirtualizingPanel.CacheLengthUnit="{Binding Path=(VirtualizingPanel.CacheLengthUnit),RelativeSource={RelativeSource TemplatedParent}}"
-                                                 VirtualizingPanel.IsContainerVirtualizable="{Binding Path=(VirtualizingPanel.IsContainerVirtualizable),RelativeSource={RelativeSource TemplatedParent}}"
+                                                 
                                                  ItemsSource="{TemplateBinding ItemsSource}"
                                                  DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                  SelectionMode="Multiple"
-                                                 ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}"/>
+                                                 ItemContainerStyle="{DynamicResource ListBoxItemCheckBoxStyle}"/>
+                                        <!--VirtualizingPanel.IsVirtualizing="{Binding Path=(VirtualizingPanel.IsVirtualizing),RelativeSource={RelativeSource TemplatedParent}}"
+                                            VirtualizingPanel.IsVirtualizingWhenGrouping="{Binding Path=(VirtualizingPanel.IsVirtualizingWhenGrouping),RelativeSource={RelativeSource TemplatedParent}}"
+                                            VirtualizingPanel.VirtualizationMode="{Binding Path=(VirtualizingPanel.VirtualizationMode),RelativeSource={RelativeSource TemplatedParent}}"
+                                            VirtualizingPanel.CacheLength="{Binding Path=(VirtualizingPanel.CacheLength),RelativeSource={RelativeSource TemplatedParent}}"
+                                            VirtualizingPanel.CacheLengthUnit="{Binding Path=(VirtualizingPanel.CacheLengthUnit),RelativeSource={RelativeSource TemplatedParent}}"
+                                            VirtualizingPanel.IsContainerVirtualizable="{Binding Path=(VirtualizingPanel.IsContainerVirtualizable),RelativeSource={RelativeSource TemplatedParent}}"-->
                                         <!--ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}"-->
                                         <!--ItemTemplate="{StaticResource ListBoxItemCheckBoxDataTemplate}"-->
                                     </Grid>
@@ -757,6 +749,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style TargetType="controls:CheckComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+        <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type ComboBox}}" />
+        <Setter Property="DynamicStyleProvider.Derived" Value="{DynamicResource CheckComboBoxBaseStyle}" />
     </Style>
 
     <Style x:Key="TextColumnEditingElementStyle" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
