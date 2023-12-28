@@ -131,7 +131,7 @@
 
     <Style
         x:Key="{x:Type ListBoxItem}"
-        BasedOn="{StaticResource ListBoxItemStyle}"
+        BasedOn="{StaticResource ListBoxItemBaseStyle}"
         TargetType="{x:Type ListBoxItem}" />
 
     <Style

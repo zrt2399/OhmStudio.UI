@@ -45,7 +45,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+    <Style x:Key="ListBoxItemBaseStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Padding" Value="2,0" />
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />

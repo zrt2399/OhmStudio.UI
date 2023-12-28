@@ -17,7 +17,7 @@ namespace OhmStudio.UI.Attaches
 
         private static void OnStyleChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is not FrameworkElement elem)
+            if (sender is not FrameworkElement frameworkElement)
             {
                 return;
             }
@@ -27,25 +27,25 @@ namespace OhmStudio.UI.Attaches
             {
                 newStyle = new Style();
 
-                var baseStyle = GetBasedOn(elem);
+                var baseStyle = GetBasedOn(frameworkElement);
                 if (baseStyle is not null)
                 {
                     MergeStyle(baseStyle, newStyle);
                 }
 
-                var derivedStyle = GetDerived(elem);
+                var derivedStyle = GetDerived(frameworkElement);
                 if (derivedStyle is not null)
                 {
                     MergeStyle(derivedStyle, newStyle);
                 }
 
-                if (elem.Style is not null)
+                if (frameworkElement.Style is not null)
                 {
-                    MergeAttachProperties(elem.Style, newStyle);
+                    MergeAttachProperties(frameworkElement.Style, newStyle);
                 }
             }
-
-            elem.SetValue(FrameworkElement.StyleProperty, newStyle);
+            frameworkElement.Style = newStyle;
+            //frameworkElement.SetValue(FrameworkElement.StyleProperty, newStyle);
         }
 
         private static void MergeAttachProperties(Style source, Style target)
