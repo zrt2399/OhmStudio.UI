@@ -13,22 +13,22 @@ namespace OhmStudio.UI.Attaches
             typeof(string), typeof(PasswordBoxAttach),
             new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
 
-        public static readonly DependencyProperty IsPasswordAttachProperty =
-            DependencyProperty.RegisterAttached("IsPasswordAttach",
+        public static readonly DependencyProperty PasswordAttachProperty =
+            DependencyProperty.RegisterAttached("PasswordAttach",
             typeof(bool), typeof(PasswordBoxAttach), new PropertyMetadata(false, OnIsEnabledChanged));
 
         private static readonly DependencyProperty IsUpdatingProperty =
            DependencyProperty.RegisterAttached("IsUpdating", typeof(bool),
            typeof(PasswordBoxAttach));
 
-        public static void SetIsPasswordAttach(DependencyObject obj, bool value)
+        public static void SetPasswordAttach(DependencyObject obj, bool value)
         {
-            obj.SetValue(IsPasswordAttachProperty, value);
+            obj.SetValue(PasswordAttachProperty, value);
         }
 
-        public static bool GetIsPasswordAttach(DependencyObject obj)
+        public static bool GetPasswordAttach(DependencyObject obj)
         {
-            return (bool)obj.GetValue(IsPasswordAttachProperty);
+            return (bool)obj.GetValue(PasswordAttachProperty);
         }
 
         public static string GetPassword(DependencyObject obj)
