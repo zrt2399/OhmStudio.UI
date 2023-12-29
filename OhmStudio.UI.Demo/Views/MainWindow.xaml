@@ -13,7 +13,7 @@
               xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
               d:DataContext="{d:DesignInstance Type=views:MainWindow}"
               mc:Ignorable="d"
-              IsShowTitle="True"
+              IsShowTitle="True" BorderAttach.CornerRadius="2"
               IsShowIcon="True"
               Icon="/icon.ico"
               WindowStartupLocation="CenterScreen"
@@ -96,7 +96,7 @@
             <ComboBox TextBoxAttach.Title="字体："
                       ItemsSource="{Binding FontFamilyList}"
                       SelectedItem="{Binding CurrentFontFamily}"/>
-            <ComboBox TextBoxAttach.Title="主题：" BorderAttach.CornerRadius="2"
+            <ComboBox TextBoxAttach.Title="主题："
                       DisplayMemberPath="Name"
                       Margin="6,0"
                       ItemsSource="{x:Static views:ThemeCollection.AllThemes}"
@@ -476,8 +476,8 @@
                                             </PasswordTextBox>
 
                                             <ComboBox TextBoxAttach.Title="中文" TextBoxAttach.PlaceHolder="请输入.." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
-                                            <ComboBox IsEditable="True" TextBoxAttach.Title="输出" HorizontalContentAlignment="Right" TextBoxAttach.PlaceHolder="请输入..." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top"/>
-                                            <CheckComboBox TextBoxAttach.Title="搜索" HorizontalContentAlignment="Right" BorderAttach.CornerRadius="2"
+                                            <ComboBox IsEditable="True" TextBoxAttach.Title="输出" HorizontalContentAlignment="Right" TextBoxAttach.PlaceHolder="请输入..." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name"/>
+                                            <CheckComboBox TextBoxAttach.Title="搜索" HorizontalContentAlignment="Right"
                                                  Separator=";"
                                                  StringFormat="分组{0}"
                                                  ItemsSource="{Binding FileNodes}"
@@ -485,33 +485,33 @@
                                                  VerticalAlignment="Top"
                                                  VirtualizingPanel.ScrollUnit="Pixel"
                                                  SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
-                                            <Button Click="Button_Click_4" BorderAttach.CornerRadius="2">显示选中项</Button>
+                                            <Button Click="Button_Click_4">显示选中项</Button>
                                             <ToggleButton Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" >
-                                            <DateTimePicker BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.Title="结束：" SelectedDateTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
+                                            <DateTimePicker VerticalAlignment="Top" TextBoxAttach.Title="结束：" SelectedDateTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
                                             <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" TextBoxAttach.Title="搜索" VerticalAlignment="Top" />
-                                            <PasswordBox BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.Title="技术" TextBoxAttach.PlaceHolder="密码"/>
-                                            <PasswordTextBox BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
+                                            <PasswordBox VerticalAlignment="Top" TextBoxAttach.Title="技术" TextBoxAttach.PlaceHolder="密码"/>
+                                            <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
                                             <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.Title="搜索"/>
 
                                             <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
-                                            <SearchBar BorderAttach.CornerRadius="2" VerticalAlignment="Top" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
-                                            <TextBox BorderAttach.CornerRadius="2" BorderThickness="0,0,0,2" Margin="4" VerticalAlignment="Top" TextBoxAttach.Title="开始"/>
+                                            <SearchBar VerticalAlignment="Top" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
+                                            <TextBox BorderThickness="0,0,0,2" Margin="4" VerticalAlignment="Top" TextBoxAttach.Title="开始"/>
                                             <TextBox VerticalAlignment="Top" Text="{Binding CurrentDateTime}" Margin="4" TextBoxAttach.PlaceHolder="time..."/>
 
                                             <Button Style="{StaticResource ClassicButton}" Padding="4" Margin="4" HorizontalContentAlignment="Left">ClassicButton</Button>
                                             <Button Style="{StaticResource DefaultButton}" Padding="4" Margin="4" HorizontalContentAlignment="Center">DefaultButton</Button>
                                             <Button Style="{StaticResource FlatButtonGreen}" Padding="4" Margin="4" HorizontalContentAlignment="Right">FlatButtonGreen</Button>
                                             <Button Style="{StaticResource FlatButtonRed}" Padding="4" Margin="4" HorizontalContentAlignment="Center">FlatButtonRed</Button>
-                                            <TextBox BorderAttach.CornerRadius="2" Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..."/>
+                                            <TextBox Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..."/>
                                         </StackPanel>
                                     </StackPanel>
 
                                 </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
-                                <ProgressBar Value="50" BorderAttach.CornerRadius="10" IsIndeterminate="True" Height="100" Width="300" VerticalAlignment="Center">
+                                <ProgressBar Value="50" IsIndeterminate="True" Height="100" Width="300" VerticalAlignment="Center">
 
                                 </ProgressBar>
                             </LayoutDocument>
@@ -540,7 +540,7 @@
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <GroupBox Background="Orange" Header="Box" HorizontalAlignment="Center" BorderAttach.CornerRadius="4" VerticalAlignment="Top" Padding="0"
+                                    <GroupBox Background="Orange" Header="Box" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
                                               DropShadowAttach.ShadowColor="Orange" BorderBrush="Blue">
                                         <TextBox BorderThickness="0"/>
                                     </GroupBox>
@@ -561,7 +561,7 @@
                                                    VerticalAlignment="Top"/>
                                     <RadioButton>123</RadioButton>
                                     <RadioButton>456</RadioButton>
-                                    <CheckBox IsChecked="{x:Null}" VerticalAlignment="Top" BorderAttach.CornerRadius="2"/>
+                                    <CheckBox IsChecked="{x:Null}" VerticalAlignment="Top"/>
                                     <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
                                     <ComboBox DisplayMemberPath="Name" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
                                     <TextBox Width="400" VerticalAlignment="Top" Text="{Binding CurrentDateTime}"/>

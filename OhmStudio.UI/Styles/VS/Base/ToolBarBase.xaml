@@ -61,6 +61,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
                         SnapsToDevicePixels="True">
                         <ContentPresenter
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -111,6 +112,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
                         SnapsToDevicePixels="True">
                         <ContentPresenter
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -180,6 +182,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
                         SnapsToDevicePixels="True">
                         <ScrollViewer
                             x:Name="PART_ContentHost"
