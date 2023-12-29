@@ -10,15 +10,15 @@
 	<PropertyGroup>
 		<LangVersion>9.0</LangVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-		<Version>1.1.1.3</Version>
+		<Version>1.1.1.4</Version>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>WPFUI Library</Title>
 		<Authors>MarkWang</Authors>
 		<Copyright>Copyright © $(Authors) $([System.DateTime]::Today.ToString(yyyy))</Copyright>
-		<PackageTags>WPF;XAML;UI;Theme</PackageTags>
-		<Description>WPF control styles and themes</Description>
+		<PackageTags>WPF;XAML;AvalonDock;UI;Theme</PackageTags>
+		<Description>WPF control&amp;AvalonDock styles and themes</Description>
 		<PackageIcon>ohm.png</PackageIcon>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
