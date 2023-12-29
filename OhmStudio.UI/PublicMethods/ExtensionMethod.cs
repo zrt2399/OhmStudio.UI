@@ -155,10 +155,9 @@ namespace OhmStudio.UI.PublicMethods
             return null;
         }
 
-
         public static T FindParentObject<T>(this DependencyObject obj) where T : DependencyObject
         {
-            DependencyObject parent = VisualTreeHelper.GetParent(obj);
+            DependencyObject parent = obj is Visual or Visual3D ? VisualTreeHelper.GetParent(obj) : LogicalTreeHelper.GetParent(obj);
             while (parent != null)
             {
                 if (parent is T t)
@@ -170,47 +169,119 @@ namespace OhmStudio.UI.PublicMethods
             return null;
         }
 
-        public static T FindFirstChild<T>(this DependencyObject parent) where T : DependencyObject
+        /// <summary>
+        /// Finds a Child of a given item in the visual tree.
+        /// </summary>
+        /// <typeparam name="T">The type of the queried item.</typeparam>
+        /// <param name="parent">A direct parent of the queried item.</param>
+        /// <param name="childName">x:Name or Name of child.</param>
+        /// <returns>The first parent item that matches the submitted type parameter. If not matching item can be found, a null parent is being returned.</returns>
+        public static T FindChild<T>(this DependencyObject parent, string childName = null) where T : DependencyObject
         {
             if (parent == null)
             {
                 return null;
             }
 
-            int childCount = VisualTreeHelper.GetChildrenCount(parent);
-            for (int i = 0; i < childCount; i++)
+            T val = null;
+            int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < childrenCount; i++)
             {
-                var child = VisualTreeHelper.GetChild(parent, i);
+                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
+                if (child is not T)
+                {
+                    val = child.FindChild<T>(childName);
+                    if (val != null)
+                    {
+                        break;
+                    }
 
-                if (child is T matchingChild)
-                {
-                    return matchingChild;
+                    continue;
                 }
-                // 递归查找子元素的子元素
-                var subChild = FindFirstChild<T>(child);
-                if (subChild != null)
+
+                if (!string.IsNullOrEmpty(childName))
                 {
-                    return subChild;
+                    if (child is IFrameworkInputElement frameworkInputElement && frameworkInputElement.Name == childName)
+                    {
+                        val = (T)child;
+                        break;
+                    }
+
+                    val = child.FindChild<T>(childName);
+                    if (val != null)
+                    {
+                        break;
+                    }
+
+                    continue;
                 }
+
+                val = (T)child;
+                break;
             }
-            return null;
+
+            return val;
         }
 
-        public static IEnumerable<T> FindVisualChildren<T>(this DependencyObject depObj) where T : DependencyObject
+        /// <summary>
+        /// Analyzes both visual and logical tree in order to find all elements of a given type that are descendants of the source item.
+        /// </summary>
+        /// <typeparam name="T">The type of the queried items.</typeparam>
+        /// <param name="source">The root element that marks the source of the search. If the source is already of the requested type, it will not be included in the result.</param>
+        /// <param name="forceUsingTheVisualTreeHelper">Sometimes it's better to search in the VisualTree (e.g. in tests)</param>
+        /// <returns>All descendants of source that match the requested type.</returns>
+        public static IEnumerable<T> FindChildren<T>(this DependencyObject source, bool forceUsingTheVisualTreeHelper = false) where T : DependencyObject
         {
-            if (depObj != null)
+            if (source == null)
             {
-                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                yield break;
+            }
+
+            IEnumerable<DependencyObject> childObjects = source.GetChildObjects(forceUsingTheVisualTreeHelper);
+            foreach (DependencyObject child in childObjects)
+            {
+                if (child != null && child is T)
                 {
-                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
-                    if (child != null && child is T t)
+                    yield return (T)child;
+                }
+
+                foreach (T item in child.FindChildren<T>(forceUsingTheVisualTreeHelper))
+                {
+                    yield return item;
+                }
+            }
+        }
+
+        /// <summary>
+        /// This method is an alternative to WPF's System.Windows.Media.VisualTreeHelper.GetChild(System.Windows.DependencyObject,System.Int32)
+        /// method, which also supports content elements.Keep in mind that for content elements, this method falls back to the logical tree of the element.
+        /// </summary>
+        /// <param name="parent">The item to be processed.</param>
+        /// <param name="forceUsingTheVisualTreeHelper">Sometimes it's better to search in the VisualTree (e.g. in tests)</param>
+        /// <returns>The submitted item's child elements, if available.</returns>
+        public static IEnumerable<DependencyObject> GetChildObjects(this DependencyObject parent, bool forceUsingTheVisualTreeHelper = false)
+        {
+            if (parent == null)
+            {
+                yield break;
+            }
+
+            if (!forceUsingTheVisualTreeHelper && (parent is ContentElement || parent is FrameworkElement))
+            {
+                foreach (object child in LogicalTreeHelper.GetChildren(parent))
+                {
+                    if (child is DependencyObject dependencyObject)
                     {
-                        yield return t;
+                        yield return dependencyObject;
                     }
-                    foreach (T childOfChild in FindVisualChildren<T>(child))
-                    {
-                        yield return childOfChild;
-                    }
+                }
+            }
+            else if (parent is Visual || parent is Visual3D)
+            {
+                int count = VisualTreeHelper.GetChildrenCount(parent);
+                for (int i = 0; i < count; i++)
+                {
+                    yield return VisualTreeHelper.GetChild(parent, i);
                 }
             }
         }
