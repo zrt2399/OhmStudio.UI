@@ -105,8 +105,7 @@ namespace OhmStudio.UI.Views
             }
             else
             {
-                var dateTime = DateTime.Now;
-                UpdateBtnContent(dateTime);
+                UpdateBtnContent(DateTime.Now);
                 btnNow.Content = "零点";
             }
         }

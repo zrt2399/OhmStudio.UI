@@ -58,7 +58,7 @@ namespace OhmStudio.UI.Views
         public void LoadHour()
         {
             Hour[] hour = new Hour[4];
-
+ 
             hour[0] = new Hour(0, 1, 2, 3, 4, 5);
             hour[1] = new Hour(6, 7, 8, 9, 10, 11);
             hour[2] = new Hour(12, 13, 14, 15, 16, 17);

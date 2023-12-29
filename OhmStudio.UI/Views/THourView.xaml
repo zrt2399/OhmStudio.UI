@@ -4,19 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OhmStudio.UI.Views"
-             xmlns:my="clr-namespace:OhmStudio.UI.Views"
              mc:Ignorable="d"
              d:DesignHeight="250"
              d:DesignWidth="400">
-
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/OhmStudio.UI;component/Styles/CustomStyles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
-
+ 
     <Border BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
             BorderThickness="1">
         <Grid>
@@ -30,18 +21,18 @@
                            Margin="4"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"/>
-                <my:IconButton HorizontalAlignment="Right"
-                               VerticalAlignment="Center"
-                               ToolTip="关闭"
-                               Margin="4"
-                               Height="16"
-                               x:Name="iBtnCloseView"
-                               Icon="/OhmStudio.UI;component/Images/close.png" 
-                               Click="iBtnCloseView_Click" />
+                <local:IconButton HorizontalAlignment="Right"
+                                  VerticalAlignment="Center"
+                                  ToolTip="关闭"
+                                  Margin="4"
+                                  Height="16"
+                                  x:Name="iBtnCloseView"
+                                  Icon="/OhmStudio.UI;component/Images/close.png" 
+                                  Click="iBtnCloseView_Click" />
             </Grid>
             <DataGrid Grid.Row="1"
                       BorderThickness="0"
-                      CellStyle="{StaticResource GridCellCenterStyle}"
+                      CellStyle="{DynamicResource GridCellCenterStyle}"
                       AutoGenerateColumns="True"
                       Name="dgHour"
                       SelectionMode="Single"

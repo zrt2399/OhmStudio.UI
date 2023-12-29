@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OhmStudio.UI.Views"
-             xmlns:my="clr-namespace:OhmStudio.UI.Views"
              xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
              xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
              Loaded="UserControl_Loaded"
@@ -34,14 +33,14 @@
                            Margin="4"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center">日期时间</TextBlock>
-                <my:IconButton HorizontalAlignment="Right"
-                               VerticalAlignment="Center"
-                               ToolTip="关闭"
-                               x:Name="iBtnCloseView"
-                               Margin="4"
-                               Height="16"
-                               Icon="/OhmStudio.UI;component/Images/close.png"
-                               Click="iBtnCloseView_Click"/>
+                <local:IconButton HorizontalAlignment="Right"
+                                  VerticalAlignment="Center"
+                                  ToolTip="关闭"
+                                  x:Name="iBtnCloseView"
+                                  Margin="4"
+                                  Height="16"
+                                  Icon="/OhmStudio.UI;component/Images/close.png"
+                                  Click="iBtnCloseView_Click"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Calendar Name="calDate"
