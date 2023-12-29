@@ -27,6 +27,7 @@ using OhmStudio.UI.Controls;
 using OhmStudio.UI.Converters;
 using OhmStudio.UI.Messaging;
 using OhmStudio.UI.PublicMethods;
+using PropertyChanged;
 
 namespace OhmStudio.UI.Demo.Views
 {
@@ -41,7 +42,7 @@ namespace OhmStudio.UI.Demo.Views
         {
             InitializeComponent();
             DataContext = this;
-            FontFamilyList = new InstalledFontCollection().Families.Select(x => x.Name).ToList();
+            FontFamilyList = new ObservableCollection<string>(new InstalledFontCollection().Families.Select(x => x.Name));
             FontFamilyList.Insert(0, DefaultFont);
             for (double i = 10; i <= 20; i++)
             {
@@ -88,7 +89,7 @@ namespace OhmStudio.UI.Demo.Views
                     pro.Name = 10 + i;
                 }
                 pro.Value = 100 + i;
-                pro.Description = "ABCghn" + i;
+                pro.Description = "Description" + i;
                 FileNodes.Add(pro);
             }
             stopwatch.Stop();
@@ -105,39 +106,16 @@ namespace OhmStudio.UI.Demo.Views
 
         private void SystemEvents_InstalledFontsChanged(object sender, EventArgs e)
         {
-            FontFamilyList = new InstalledFontCollection().Families.Select(x => x.Name).ToList();
+            FontFamilyList = new ObservableCollection<string>(new InstalledFontCollection().Families.Select(x => x.Name));
+            FontFamilyList.Insert(0, DefaultFont);
         }
-
-        const string Rrecipient = "Ohm";
 
         public Pro Pro { get; set; } = new Pro();
 
-        private DataTable _result = new DataTable();
-        public DataTable Result
-        {
-            get => _result;
-            set => _result = value;
-        }
+        public DataTable Result { get; set; } = new DataTable();
 
-        private ObservableCollection<UserInfoModel> _uerInfos = new ObservableCollection<UserInfoModel>();
-        public ObservableCollection<UserInfoModel> UserInfos
-        {
-            get => _uerInfos;
-            set { _uerInfos = value; OnPropertyChanged(nameof(UserInfos)); }
-        }
-
-        private IList _userInfoSelectedItems;
-        public IList UserInfoSelectedItems
-        {
-            get => _userInfoSelectedItems;
-            set
-            {
-                _userInfoSelectedItems = value;
-                OnPropertyChanged(nameof(UserInfoSelectedItems));
-            }
-        }
-
-        bool Can;
+        public ObservableCollection<UserInfoModel> UserInfos { get; set; } = new ObservableCollection<UserInfoModel>();
+        public IList UserInfoSelectedItems { get; set; }
 
         private RelayCommand startCommand;
         public RelayCommand StartCommand
@@ -159,26 +137,31 @@ namespace OhmStudio.UI.Demo.Views
             set => startCommand = value;
         }
 
+        bool Can;
+        const string Rrecipient = "Ohm";
         const string DefaultFont = "默认";
         public const string GlobalFontSize = nameof(GlobalFontSize);
         public const string GlobalFontFamily = nameof(GlobalFontFamily);
-        public List<string> FontFamilyList { get; set; }
         readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily];
-        public List<double> FontSizeList { get; set; } = new List<double>();
 
-        private OhmTheme currentTheme = XamlThemeResource.Instance.Theme;
+        public ObservableCollection<string> FontFamilyList { get; set; }
+
+        public List<double> FontSizeList { get; } = new List<double>();
+
+        [DoNotNotify]
         public OhmTheme CurrentTheme
         {
-            get => currentTheme;
+            get => XamlThemeResource.Instance.Theme;
             set
             {
                 XamlThemeResource.Instance.Theme = value;
                 StatusManager.Update();
-                OnPropertyChanged(ref currentTheme, value, nameof(CurrentTheme));
+                OnPropertyChanged(() => CurrentTheme);
             }
         }
 
         private string currentFontFamily = DefaultFont;
+        [DoNotNotify]
         public string CurrentFontFamily
         {
             get => currentFontFamily;
@@ -186,64 +169,36 @@ namespace OhmStudio.UI.Demo.Views
             {
                 value ??= DefaultFont;
                 Application.Current.Resources[GlobalFontFamily] = value == DefaultFont ? _defaultFontFamily : new FontFamily(value);
-                OnPropertyChanged(ref currentFontFamily, value, nameof(CurrentFontFamily));
+                currentFontFamily = value;
+                OnPropertyChanged(nameof(CurrentFontFamily));
             }
         }
 
-        private double currentFontSize = (double)Application.Current?.Resources[GlobalFontSize];
+        [DoNotNotify]
         public double CurrentFontSize
         {
-            get => currentFontSize;
+            get => (double)(Application.Current?.Resources[GlobalFontSize]);
             set
             {
                 Application.Current.Resources[GlobalFontSize] = value;
-                OnPropertyChanged(ref currentFontSize, value, nameof(CurrentFontSize));
+                OnPropertyChanged(nameof(CurrentFontSize));
             }
         }
 
-        private DateTime? currentDateTime;
-        public DateTime? CurrentDateTime
-        {
-            get => currentDateTime;
-            set => OnPropertyChanged(ref currentDateTime, value, nameof(CurrentDateTime));
-        }
+        public DateTime? CurrentDateTime { get; set; }
 
-        private object items = new object();
-        public object Items
-        {
-            get => items;
-            set => OnPropertyChanged(ref items, value, nameof(Items));
-        }
+        public object Items { get; set; }
+
+        public double WindowScale { get; set; } = 1;
+
+        public ObservableCollection<Pro> FileNodes { get; set; } = new ObservableCollection<Pro>();
+
+        public IList SelectedItemsFileNodes { get; set; }
+
+        public IEnumerable<string> FileNodesSelectedItems => SelectedItemsFileNodes?.OfType<string>();
 
         public ICommand ZoomInCommand { get; }
         public ICommand ZoomOutCommand { get; }
-
-        private double _windowScale = 1;
-        public double WindowScale
-        {
-            get => _windowScale;
-            set
-            {
-                _windowScale = value;
-                OnPropertyChanged(() => WindowScale);
-            }
-        }
-
-        private ObservableCollection<Pro> fileNodes = new();
-        public ObservableCollection<Pro> FileNodes
-        {
-            get => fileNodes;
-            set { fileNodes = value; OnPropertyChanged(() => FileNodes); }
-        }
-
-        private IList selectedItemsFileNodes;
-        public IList SelectedItemsFileNodes
-        {
-            get => selectedItemsFileNodes;
-            set { selectedItemsFileNodes = value; OnPropertyChanged(() => SelectedItemsFileNodes); }
-        }
-
-        public IEnumerable<UserInfoModel> FileNodesSelectedItems => SelectedItemsFileNodes.OfType<UserInfoModel>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -290,36 +245,36 @@ namespace OhmStudio.UI.Demo.Views
 
         void ZoomIn()
         {
-            if (WindowScale <= 0.2)
+            if (WindowScale <= 0.5)
             {
                 return;
             }
-            WindowScale -= 0.1;
-            WindowScale = Math.Round(WindowScale, 1);
+            WindowScale -= 0.25;
+            WindowScale = Math.Round(WindowScale, 2);
         }
 
         void ZoomOut()
         {
-            if (WindowScale >= 4)
+            if (WindowScale >= 3)
             {
                 return;
             }
-            WindowScale += 0.1;
-            WindowScale = Math.Round(WindowScale, 1);
+            WindowScale += 0.25;
+            WindowScale = Math.Round(WindowScale, 2);
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             await Task.Delay(1000);
-            var assembly = Assembly.GetAssembly(typeof(ChromeWindow));
+            var assembly = Assembly.GetAssembly(typeof(ChromeWindow)).GetName().Version.ToString();
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 100; i++)
             {
                 stringBuilder.Append(i + "StringBuilder" + "\r\n");
             }
 
-            AlertDialog.Show(stringBuilder.ToString(), assembly.GetName().Version.ToString(), MessageButton.OK, MessageImage.Error);
-            //MessageBox.Show(stringBuilder.ToString(), assembly.GetName().Version.ToString(), MessageBoxButton.OK , MessageBoxImage.Question);
+            AlertDialog.Show(stringBuilder.ToString(), assembly, MessageButton.OK, MessageImage.Error);
+            MessageBox.Show(stringBuilder.ToString(), assembly, MessageBoxButton.OK, MessageBoxImage.Question);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -353,6 +308,15 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
+            if (FileNodesSelectedItems != null)
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                foreach (var item in FileNodesSelectedItems)
+                {
+                    stringBuilder.Append(item.ToString() + Environment.NewLine);
+                }
+                AlertDialog.Show(stringBuilder.ToString());
+            }
             var button = sender as Button;
             StatusManager.IsRunning = !StatusManager.IsRunning;
             button.Content = StatusManager.IsRunning;
@@ -727,7 +691,7 @@ namespace OhmStudio.UI.Demo.Views
 
         public string Password { get; set; } = "1";
 
-        public string Notes { get; set; }
+        public string Remark { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 

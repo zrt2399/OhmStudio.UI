@@ -24,9 +24,9 @@
               Height="720"
               Width="1280">
 
-    <!--<Window.LayoutTransform>
-        <ScaleTransform ScaleX="2" ScaleY="2" />
-    </Window.LayoutTransform>-->
+    <Window.LayoutTransform>
+        <ScaleTransform ScaleX="{Binding WindowScale}" ScaleY="{Binding WindowScale}" />
+    </Window.LayoutTransform>
 
     <Window.Resources>
         <converters:GroupItemConverter x:Key="GroupItemConverter"/>
@@ -545,7 +545,7 @@
                                         <TextBox BorderThickness="0"/>
                                     </GroupBox>
                                     <DropShadowControl Background="OrangeRed" CornerRadius="10" BorderThickness="2" BorderBrush="Gray" 
-                                                       BlurRadius="40" ShadowColor="IndianRed" ShadowDepth="0" Opacity="0.6"
+                                                       BlurRadius="40" ShadowColor="IndianRed" ShadowDepth="0"
                                                        Margin="10" Grid.Row="1" >
                                         <TextBox Margin="10">TextBox</TextBox>
                                     </DropShadowControl>
@@ -734,9 +734,9 @@
                 <StatusBarItem Content="Ready"/>
                 <StatusBarItem HorizontalAlignment="Right">
                     <StackPanel Orientation="Horizontal">
-                        <!--<Button Content="-"  Padding="0" BorderThickness="1" Command="{Binding ZoomInCommand}"/>-->
-                        <TextBlock Margin="4,0" Text="{Binding WindowScale,StringFormat={}{0:P1}}" />
-                        <!--<Button Content="+"   Padding="0" BorderThickness="1" Command="{Binding ZoomOutCommand}"/>-->
+                        <Button Content="-" Width="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}" Padding="0" Command="{Binding ZoomInCommand}"/>
+                        <Button Content="+" Width="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}" Margin="4,0" Padding="0" Command="{Binding ZoomOutCommand}"/>
+                        <TextBlock Text="{Binding WindowScale,StringFormat={}{0:P1}}" />
                     </StackPanel>
                     <StatusBarItem.Style>
                         <Style TargetType="StatusBarItem">
