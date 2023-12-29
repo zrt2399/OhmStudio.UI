@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using OhmStudio.UI.Helpers;
-using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Attaches
 {
@@ -17,19 +16,9 @@ namespace OhmStudio.UI.Attaches
 
         private static void OnOrientationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            ScrollViewer scrollViewer;
-
-            if (sender is ScrollViewer viewer)
+            if (sender is not ScrollViewer scrollViewer)
             {
-                scrollViewer = viewer;
-            }
-            else
-            {
-                scrollViewer = sender.FindFirstChild<ScrollViewer>();
-                if (scrollViewer == null)
-                {
-                    return;
-                }
+                return;
             }
 
             if ((Orientation)e.NewValue == Orientation.Horizontal)
@@ -41,11 +30,10 @@ namespace OhmStudio.UI.Attaches
                 scrollViewer.PreviewMouseWheel -= ScrollViewerPreviewMouseWheel;
             }
 
-
             static void ScrollViewerPreviewMouseWheel(object sender, MouseWheelEventArgs args)
             {
                 ScrollViewer scrollViewer2 = (ScrollViewer)sender;
-                scrollViewer2.ScrollToHorizontalOffset(Math.Min(Math.Max(0.0, scrollViewer2.HorizontalOffset - (double)args.Delta), scrollViewer2.ScrollableWidth));
+                scrollViewer2.ScrollToHorizontalOffset(Math.Min(Math.Max(0.0, scrollViewer2.HorizontalOffset - args.Delta), scrollViewer2.ScrollableWidth));
                 args.Handled = true;
             }
         }
@@ -72,9 +60,9 @@ namespace OhmStudio.UI.Attaches
                 {
                     uIElement.PreviewMouseWheel -= ScrollViewerPreviewMouseWheel;
                 }
-            } 
+            }
         }
-         
+
         static void ScrollViewerPreviewMouseWheel(object sender, MouseWheelEventArgs args)
         {
             if (!args.Handled)
