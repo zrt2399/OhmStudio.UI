@@ -134,7 +134,7 @@
             </Grid.ColumnDefinitions>
             <Grid>
                 <Image Margin="10,10,0,0"
-                       Height="28"
+                       Height="32"
                        x:Name="imageInfo"
                        d:Source="/Images/info.png"
                        VerticalAlignment="Top">
