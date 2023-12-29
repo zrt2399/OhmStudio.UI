@@ -26,9 +26,8 @@
                                   ToolTip="关闭"
                                   Margin="4"
                                   Height="16"
-                                  x:Name="iBtnCloseView"
                                   Icon="/OhmStudio.UI;component/Images/close.png" 
-                                  Click="iBtnCloseView_Click" />
+                                  Click="IconButton_Click" />
             </Grid>
             <DataGrid Grid.Row="1"
                       BorderThickness="0"

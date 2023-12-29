@@ -97,21 +97,16 @@ namespace OhmStudio.UI.Views
             time = time.PadLeft(2, '0');
             HourClick?.Invoke(time);
         }
-
-        /// <summary>
-        /// 关闭按钮事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void iBtnCloseView_Click(object sender, RoutedEventArgs e)
-        {
-            Closed?.Invoke();
-        }
-
+ 
         /// <summary>
         /// 小时数据点击（确定）后 的传递事件
         /// </summary>
         public event Action<string> HourClick;
-        public event Action Closed; 
+        public event Action Closed;
+
+        private void IconButton_Click(object sender, RoutedEventArgs e)
+        {
+            Closed?.Invoke();
+        }
     }
 }

@@ -24,11 +24,10 @@
                 <local:IconButton Margin="4"
                                   Height="16"
                                   ToolTip="关闭"
-                                  x:Name="iBtnCloseView"
                                   HorizontalAlignment="Right"
                                   VerticalAlignment="Center"
                                   Icon="/OhmStudio.UI;component/Images/close.png" 
-                                  Click="iBtnCloseView_Click" />
+                                  Click="IconButton_Click" />
             </Grid>
             <DataGrid Grid.Row="1"
                       BorderThickness="0"

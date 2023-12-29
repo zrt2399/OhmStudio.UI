@@ -36,11 +36,10 @@
                 <local:IconButton HorizontalAlignment="Right"
                                   VerticalAlignment="Center"
                                   ToolTip="关闭"
-                                  x:Name="iBtnCloseView"
                                   Margin="4"
                                   Height="16"
                                   Icon="/OhmStudio.UI;component/Images/close.png"
-                                  Click="iBtnCloseView_Click"/>
+                                  Click="IconButton_Click"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Calendar Name="calDate"

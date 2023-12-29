@@ -56,17 +56,7 @@ namespace OhmStudio.UI.Views
                 btnss.Content = time.Second.ToString().PadLeft(2, '0');
             }
         }
-
-        /// <summary>
-        /// 关闭按钮事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void iBtnCloseView_Click(object sender, RoutedEventArgs e)
-        {
-            Closed?.Invoke();
-        }
-
+ 
         /// <summary>
         /// 确定按钮事件
         /// </summary>
@@ -195,6 +185,11 @@ namespace OhmStudio.UI.Views
             {
                 Mouse.Capture(null);
             }
+        }
+
+        private void IconButton_Click(object sender, RoutedEventArgs e)
+        {
+            Closed?.Invoke();
         }
     }
 }
