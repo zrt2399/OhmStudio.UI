@@ -59,7 +59,7 @@
             <SearchBar TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
             <ComboBox/>
             <CheckComboBox/>
-        </StackPanel> 
+        </StackPanel>
     </ChromeWindow.LeftWindowCommands>
 
     <ChromeWindow.RightWindowCommands>
@@ -242,7 +242,8 @@
                                         </DataGrid.ContextMenu>
                                     </DataGrid>
                                     <DataGrid ItemsSource="{Binding FileNodes}" DataGridAttach.IsShowRowNumber="True"
-                                              SelectionUnit="CellOrRowHeader" />
+                                              SelectionUnit="CellOrRowHeader"
+                                              ScrollViewerAttach.Orientation="Horizontal"/>
                                     <DataGrid ItemsSource="{Binding FileNodes}"
                                               CanUserAddRows="False"
                                               AutoGenerateColumns="False"
@@ -533,7 +534,7 @@
 
                             </LayoutDocument>
                             <LayoutDocument Title="GroupBox">
-                                <Grid> 
+                                <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
                                         <RowDefinition/>
@@ -713,7 +714,7 @@
                                     <Button Click="Button_Click_3" Grid.Row="1">Click</Button>
                                     <!--<hc:CheckComboBox  Grid.Row="2">Click</hc:CheckComboBox>-->
                                 </Grid>
-                            </LayoutAnchorable> 
+                            </LayoutAnchorable>
                             <LayoutAnchorable Title="TreeView">
                                 <TreeView Name="treeView" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling">
                                     <TreeView.ContextMenu>
