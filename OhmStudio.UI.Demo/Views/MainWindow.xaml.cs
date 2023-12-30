@@ -77,21 +77,23 @@ namespace OhmStudio.UI.Demo.Views
 
             Items = Pro;
             Stopwatch stopwatch = Stopwatch.StartNew();
-            for (int i = 0; i < 100; i++)
+            List<Pro> pros = new List<Pro>();
+            for (int i = 0; i < 1000; i++)
             {
                 Pro pro = new Pro();
-                if (i % 3 == 0)
+                if (i % 2 == 0)
                 {
                     pro.Name = 10;
                 }
                 else
                 {
-                    pro.Name = 10 + i;
+                    pro.Name = i;
                 }
-                pro.Value = 100 + i;
+                pro.Value = i;
                 pro.Description = "Description" + i;
-                FileNodes.Add(pro);
+                pros.Add(pro);
             }
+            FileNodes = new ObservableCollection<Pro>(pros);
             stopwatch.Stop();
             var viewSource = new CollectionViewSource { Source = FileNodes };
             FileNodes.CollectionChanged += delegate
@@ -115,6 +117,7 @@ namespace OhmStudio.UI.Demo.Views
         public DataTable Result { get; set; } = new DataTable();
 
         public ObservableCollection<UserInfoModel> UserInfos { get; set; } = new ObservableCollection<UserInfoModel>();
+
         public IList UserInfoSelectedItems { get; set; }
 
         private RelayCommand startCommand;
@@ -132,12 +135,12 @@ namespace OhmStudio.UI.Demo.Views
             }, () =>
             {
                 //Debug.WriteLine(Can);
-                return Can;
+                return _can;
             });
             set => startCommand = value;
         }
 
-        bool Can;
+        bool _can;
         const string Rrecipient = "Ohm";
         const string DefaultFont = "默认";
         public const string GlobalFontSize = nameof(GlobalFontSize);
@@ -191,7 +194,7 @@ namespace OhmStudio.UI.Demo.Views
 
         public double WindowScale { get; set; } = 1;
 
-        public ObservableCollection<Pro> FileNodes { get; set; } = new ObservableCollection<Pro>();
+        public ObservableCollection<Pro> FileNodes { get; set; }
 
         public IList SelectedItemsFileNodes { get; set; }
 
@@ -346,7 +349,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            Can = !Can;
+            _can = !_can;
         }
 
         public class Globals
@@ -597,16 +600,7 @@ namespace OhmStudio.UI.Demo.Views
     {
         public double Name { get; set; }
 
-        private bool isExpanded = true;
-        public bool IsExpanded
-        {
-            get => isExpanded;
-            set
-            {
-                isExpanded = value;
-                OnPropertyChanged(nameof(IsExpanded));
-            }
-        }
+        public bool IsExpanded { get; set; } = true;
 
         public ImageSource ImageSource { get; set; } = new BitmapImage(new Uri("/download.jpg", UriKind.Relative));
 

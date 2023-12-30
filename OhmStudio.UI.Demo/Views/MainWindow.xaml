@@ -241,12 +241,22 @@
                                             </ContextMenu>
                                         </DataGrid.ContextMenu>
                                     </DataGrid>
-                                    <DataGrid ItemsSource="{Binding FileNodes}" DataGridAttach.IsShowRowNumber="True"
-                                              SelectionUnit="CellOrRowHeader"
-                                              ScrollViewerAttach.Orientation="Horizontal"/>
+                                    <DataGrid ItemsSource="{Binding FileNodes}"
+                                              DataGridAttach.IsShowRowNumber="True"
+                                              RowDetailsVisibilityMode="VisibleWhenSelected"
+                                              ScrollViewerAttach.Orientation="Horizontal">
+                                        <DataGrid.RowDetailsTemplate>
+                                            <DataTemplate>
+                                                <DropShadowControl Background="Orange" ShadowColor="Orange" Margin="4">
+                                                    <TextBlock Text="{Binding InstrumentType}"/>
+                                                </DropShadowControl>
+                                            </DataTemplate>
+                                        </DataGrid.RowDetailsTemplate>
+                                    </DataGrid>
                                     <DataGrid ItemsSource="{Binding FileNodes}"
                                               CanUserAddRows="False"
                                               AutoGenerateColumns="False"
+                                              SelectionUnit="CellOrRowHeader"
                                               DataGridAttach.IsShowRowNumber="True" 
                                               DataGridAttach.TextColumnElementStyle="{StaticResource {x:Type TextBlock}}"
                                               DataGridAttach.TextColumnEditingElementStyle="{StaticResource TextColumnEditingElementStyle}"
