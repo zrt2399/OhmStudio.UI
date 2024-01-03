@@ -276,8 +276,9 @@ namespace OhmStudio.UI.Demo.Views
                 stringBuilder.Append(i + "StringBuilder" + "\r\n");
             }
 
-            AlertDialog.Show(stringBuilder.ToString(), assembly, MessageButton.OK, MessageImage.Error);
-            MessageBox.Show(stringBuilder.ToString(), assembly, MessageBoxButton.OK, MessageBoxImage.Question);
+            //AlertDialog.OhmUILanguage = OhmUILanguage.Zh_TW;
+            var result = AlertDialog.Show(stringBuilder.ToString(), assembly, MessageBoxButton.YesNoCancel, MessageBoxImage.Error);
+            MessageBox.Show(result.ToString());
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

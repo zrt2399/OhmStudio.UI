@@ -19,68 +19,61 @@ namespace OhmStudio.UI.PublicMethods
     }
 
     /// <summary>
-    /// 表示窗口显示的按钮。
-    /// </summary>
-    public enum MessageButton
-    {
-        OK,
-        OKCancel
-    }
-
-    /// <summary>
-    /// 表示窗口显示的图片。
-    /// </summary>
-    public enum MessageImage
-    {
-        None,
-        Information,
-        Warning,
-        Error,
-        Question
-    }
-
-    /// <summary>
     /// 表示一个消息提示框类。
     /// </summary>
     public static class AlertDialog
     {
         public static OhmUILanguage OhmUILanguage { get; set; } = OhmUILanguage.Zh_CN;
-        public static bool Show(string message, string title = null, MessageButton button = MessageButton.OK, MessageImage image = MessageImage.Information, Window owner = null)
+
+        public static MessageBoxResult Show(string message, string title = null, MessageBoxButton messageBoxButton = MessageBoxButton.OK, MessageBoxImage messageBoxImage = MessageBoxImage.Information, Window owner = null)
         {
-            bool flag = false;
+            MessageBoxResult messageBoxResult = MessageBoxResult.None;
             try
             {
                 Application.Current?.Dispatcher.Invoke(() =>
                 {
-                    MessageWindow messageWindow = new MessageWindow();
+                    MessageWindow messageWindow = new MessageWindow(messageBoxButton);
                     messageWindow.SetOwner(owner);
                     messageWindow.Title = title ?? GetTitle();
                     messageWindow.txtMessage.Text = message;
-                    messageWindow.btnCancel.Visibility = button == MessageButton.OK ? Visibility.Collapsed : Visibility.Visible;
-                    messageWindow.imageInfo.Source = GetImage(image);
-                    flag = messageWindow.ShowDialog() == true;
+                    if (messageBoxButton == MessageBoxButton.OK)
+                    {
+                        messageWindow.btnCancel.Visibility = Visibility.Collapsed;
+                    }
+                    else if (messageBoxButton == MessageBoxButton.YesNoCancel)
+                    {
+                        messageWindow.btnNo.Visibility = Visibility.Visible;
+                    }
+                    if (messageBoxButton is MessageBoxButton.YesNo or MessageBoxButton.YesNoCancel)
+                    {
+                        messageWindow.btnOK.Content = OhmUILanguage == OhmUILanguage.En_US ? "Yes" : "是";
+                    }
+
+                    messageWindow.imageInfo.Source = GetImage(messageBoxImage);
+                    messageWindow.ShowDialog();
+                    messageBoxResult = messageWindow.MessageBoxResult;
                 });
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            return flag;
+            return messageBoxResult;
         }
 
-        private static BitmapSource GetImage(MessageImage messageImage)
+        private static BitmapSource GetImage(MessageBoxImage messageBoxImage)
         {
-            switch (messageImage)
+            switch (messageBoxImage)
             {
-                case MessageImage.None:
+                case MessageBoxImage.None:
                     return null;
-                case MessageImage.Information:
+                case MessageBoxImage.Information or MessageBoxImage.Asterisk:
                     SystemSounds.Asterisk.Play();
                     return Imaging.CreateBitmapSourceFromHIcon(SystemIcons.Information.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                case MessageImage.Warning:
+                case MessageBoxImage.Warning or MessageBoxImage.Exclamation:
                     SystemSounds.Exclamation.Play();
                     return Imaging.CreateBitmapSourceFromHIcon(SystemIcons.Warning.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                case MessageImage.Question:
+                case MessageBoxImage.Question:
                     SystemSounds.Question.Play();
                     return Imaging.CreateBitmapSourceFromHIcon(SystemIcons.Question.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                 default:
@@ -100,7 +93,7 @@ namespace OhmStudio.UI.PublicMethods
             {
                 title = "Warning";
             }
-            return Show(message, title, MessageButton.OK, MessageImage.Warning);
+            return Show(message, title, MessageBoxButton.OK, MessageBoxImage.Warning) == MessageBoxResult.OK;
         }
 
         public static bool ShowError(string message, string title = "出错了")
@@ -113,8 +106,8 @@ namespace OhmStudio.UI.PublicMethods
             {
                 title = "Error";
             }
-            return Show(message, title, MessageButton.OK, MessageImage.Error);
-        } 
+            return Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK;
+        }
 
         private static string GetTitle()
         {

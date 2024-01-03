@@ -170,10 +170,16 @@
                         Padding="20,4"
                         Margin="10"
                         Click="btnOK_Click">确定</Button>
+                <Button x:Name="btnNo"
+                        VerticalAlignment="Center"
+                        Visibility="Collapsed"
+                        Padding="20,4"
+                        Margin="10"
+                        Click="btnNo_Click">否</Button>
                 <Button x:Name="btnCancel"
                         VerticalAlignment="Center"
                         Padding="20,4"
-                        Margin="10" 
+                        Margin="10"
                         Click="btnCancel_Click">取消</Button>
             </StackPanel>
         </Grid>
