@@ -104,6 +104,12 @@ namespace OhmStudio.UI.Demo.Views
             UserInfos.Add(new UserInfoModel() { Name = "wang" });
             Messenger.Default.Register<string>(this, Rrecipient, msg => AlertDialog.Show(msg));
             SystemEvents.InstalledFontsChanged += SystemEvents_InstalledFontsChanged;
+            StatusManager.IsRunningChanged += StatusManager_IsRunningChanged;
+        }
+
+        private void StatusManager_IsRunningChanged(object sender, EventArgs e)
+        {
+            status.Content = sender;
         }
 
         private void SystemEvents_InstalledFontsChanged(object sender, EventArgs e)

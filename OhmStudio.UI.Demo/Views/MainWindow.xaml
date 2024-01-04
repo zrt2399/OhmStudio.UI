@@ -757,7 +757,7 @@
         </DockingManager>
         <StatusBar Grid.Row="1">
             <StatusBar Padding="4,0">
-                <StatusBarItem Content="Ready"/>
+                <StatusBarItem x:Name="status" Content="Ready"/>
                 <StatusBarItem HorizontalAlignment="Right">
                     <StackPanel Orientation="Horizontal">
                         <Button Content="-" Width="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}" Padding="0" Command="{Binding ZoomInCommand}"/>
