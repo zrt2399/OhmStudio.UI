@@ -33,7 +33,7 @@ namespace OhmStudio.UI.PublicMethods
                         Application.Current.Resources["EnvironmentMainWindowActiveDefaultBorder"] = WindowBorderBrushDefault;
                     }
                 }
-                IsRunningChanged?.Invoke(_isRunning, EventArgs.Empty);
+                IsRunningChanged?.Invoke(value, EventArgs.Empty);
             }
         }
 
