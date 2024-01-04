@@ -526,9 +526,20 @@
                                 </ProgressBar>
                             </LayoutDocument>
                             <LayoutDocument Title="GifImage">
-                                <GifImage Source="/Images/car_chase.gif" CornerRadiusAttach.IsCircular="True"
-                                          BorderBrush="Orange" BorderThickness="10" Padding="50"
-                                          Width="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}" />
+                                <UniformGrid Rows="2" Columns="2">
+                                    <UniformGrid.Resources>
+                                        <Style TargetType="GifImage" BasedOn="{StaticResource {x:Type GifImage}}">
+                                            <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}"/>
+                                        </Style>
+                                    </UniformGrid.Resources>
+                                    <GifImage Source="/Images/car_chase.gif" CornerRadiusAttach.IsCircular="True"
+                                        BorderBrush="Yellow" BorderThickness="10"/>
+                                    <GifImage Source="https://img.lanrentuku.com/img/allimg/1206/5-120601152054-50.gif"
+                                        BorderBrush="Orange" BorderThickness="20"/>
+                                    <GifImage Source="https://img.lanrentuku.com/img/allimg/1212/5-121204193Q8.gif"
+                                        BorderBrush="YellowGreen" BorderThickness="30"/>
+                                </UniformGrid>
+
                             </LayoutDocument>
                             <LayoutDocument Title="UserInfos">
                                 <Grid>
@@ -539,8 +550,8 @@
                                     </Grid.RowDefinitions>
                                     <DataGrid ItemsSource="{Binding UserInfos}"
                                               DataGridAttach.IsShowRowNumber="True"
-                                       SelectorAttach.SelectedItemsAttach="True"
-                                       SelectorAttach.SelectedItems="{Binding UserInfoSelectedItems,Mode=TwoWay}">
+                                              SelectorAttach.SelectedItemsAttach="True"
+                                              SelectorAttach.SelectedItems="{Binding UserInfoSelectedItems,Mode=TwoWay}">
 
                                     </DataGrid>
                                     <Button Grid.Row="1" Command="{Binding StartCommand}">显示选中项</Button>
