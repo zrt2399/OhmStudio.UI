@@ -525,6 +525,11 @@
 
                                 </ProgressBar>
                             </LayoutDocument>
+                            <LayoutDocument Title="GifImage">
+                                <GifImage Source="/Images/car_chase.gif" CornerRadiusAttach.IsCircular="True"
+                                          BorderBrush="Orange" BorderThickness="10" Padding="50"
+                                          Width="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}" />
+                            </LayoutDocument>
                             <LayoutDocument Title="UserInfos">
                                 <Grid>
                                     <Grid.RowDefinitions>

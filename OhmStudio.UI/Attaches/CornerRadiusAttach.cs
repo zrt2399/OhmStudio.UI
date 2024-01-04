@@ -52,6 +52,10 @@ namespace OhmStudio.UI.Attaches
             {
                 return DropShadowControl.CornerRadiusProperty;
             }
+            else if (element is GifImage)
+            {
+                return GifImage.CornerRadiusProperty;
+            }
             else
             {
                 return null;

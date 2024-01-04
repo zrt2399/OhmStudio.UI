@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -100,29 +99,14 @@ namespace OhmStudio.UI.PublicMethods
             return new BrushConverter().ConvertFromString(hexString) as SolidColorBrush;
         }
 
-        public static BitmapImage ToBitmapImage(this Bitmap bitmap, ImageFormat imageFormat)
+        public static Bitmap ToBitmap(this BitmapImage bitmapImage)
         {
-            if (bitmap == null)
-            {
-                throw new ArgumentNullException(nameof(bitmap));
-            }
-            try
-            {
-                using MemoryStream stream = new MemoryStream();
-                bitmap.Save(stream, imageFormat);
-                stream.Position = 0;
-                BitmapImage result = new BitmapImage();
-                result.BeginInit();
-                result.CacheOption = BitmapCacheOption.OnLoad;
-                result.StreamSource = stream;
-                result.EndInit();
-                result.Freeze();
-                return result;
-            }
-            finally
-            {
-                bitmap?.Dispose();
-            }
+            return ImageHelper.BitmapImageToBitmap(bitmapImage);
+        }
+
+        public static BitmapImage ToBitmapImage(this Bitmap bitmap, ImageFormat imageFormat = null, bool isDisposeBitmap = true)
+        {
+            return ImageHelper.BitmapToBitmapImage(bitmap, imageFormat, isDisposeBitmap);
         }
 
         public static void InitCustomWindowStyle(this Window window)

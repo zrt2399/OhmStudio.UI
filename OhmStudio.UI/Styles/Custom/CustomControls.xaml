@@ -239,12 +239,13 @@
         </Setter>
     </Style>
 
-    <Style TargetType="TextBlock">
+    <Style x:Key="TextBlockBaseStyle" TargetType="TextBlock">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-    </Style>
-
+    </Style> 
+    <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBaseStyle}"/>
+ 
     <Style x:Key="TabItemStyle" TargetType="TabItem">
         <Setter Property="Template">
             <Setter.Value>
@@ -396,7 +397,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="controls:CircularProgressBar">
+    <Style x:Key="CircularProgressBarBaseStyle" TargetType="controls:CircularProgressBar">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource CommonControlsTextBoxText}"/>
@@ -472,6 +473,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="controls:CircularProgressBar" BasedOn="{StaticResource CircularProgressBarBaseStyle}"/>
 
     <Style x:Key="ListBoxItemContainerStyle" TargetType="ListBoxItem">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -500,7 +502,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="controls:RollBox">
+    <Style x:Key="RollBoxBaseStyle" TargetType="controls:RollBox">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:RollBox">
@@ -528,6 +530,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="controls:RollBox" BasedOn="{StaticResource RollBoxBaseStyle}"/>
 
     <!--自动添加时内容居中-->
     <Style x:Key="GridCellCenterStyle" TargetType="DataGridCell">
@@ -797,4 +800,28 @@
         <Setter Property="Foreground" Value="Transparent"/>
     </Style>
 
+    <Style x:Key="GifImageBaseStyle" TargetType="controls:GifImage">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:GifImage">
+                    <Border CornerRadius="{TemplateBinding CornerRadius}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border.Background>
+                            <VisualBrush>
+                                <VisualBrush.Visual>
+                                    <Image x:Name="PART_Image" Stretch="{TemplateBinding Stretch}"
+                                           Margin="{TemplateBinding Padding}"
+                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Border.Background>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="controls:GifImage" BasedOn="{StaticResource GifImageBaseStyle}"/>
+ 
 </ResourceDictionary>
