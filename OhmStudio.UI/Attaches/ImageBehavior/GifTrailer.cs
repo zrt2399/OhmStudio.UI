@@ -1,17 +1,14 @@
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     internal class GifTrailer : GifBlock
     {
-        internal const int TrailerByte = 0x3B;
-
         private GifTrailer()
         {
         }
 
-        internal override GifBlockKind Kind
-        {
-            get { return GifBlockKind.Other; }
-        }
+        internal const int TrailerByte = 0x3B;
+
+        internal override GifBlockKind Kind => GifBlockKind.Other;
 
         internal static GifTrailer ReadTrailer()
         {

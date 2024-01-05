@@ -1,22 +1,19 @@
 using System.IO;
 using System.Text;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     internal class GifCommentExtension : GifExtension
     {
-        internal const int ExtensionLabel = 0xFE;
-
-        public string Text { get; private set; }
-
         private GifCommentExtension()
         {
         }
 
-        internal override GifBlockKind Kind
-        {
-            get { return GifBlockKind.SpecialPurpose; }
-        }
+        internal const int ExtensionLabel = 0xFE;
+
+        public string Text { get; private set; }
+
+        internal override GifBlockKind Kind => GifBlockKind.SpecialPurpose;
 
         internal static GifCommentExtension ReadComment(Stream stream)
         {
@@ -31,7 +28,9 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
 
             var bytes = GifHelpers.ReadDataBlocks(stream, false);
             if (bytes != null)
+            {
                 Text = Encoding.ASCII.GetString(bytes);
+            }
         }
     }
 }

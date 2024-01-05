@@ -1,15 +1,15 @@
 using System.IO;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     internal class GifImageData
     {
-        public byte LzwMinimumCodeSize { get; set; }
-        public byte[] CompressedData { get; set; }
-
         private GifImageData()
         {
         }
+
+        public byte LzwMinimumCodeSize { get; set; }
+        public byte[] CompressedData { get; set; }
 
         internal static GifImageData ReadImageData(Stream stream, bool metadataOnly)
         {

@@ -2,10 +2,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     internal class GifFrame : GifBlock
     {
+        private GifFrame()
+        {
+        }
+
         internal const int ImageSeparator = 0x2C;
 
         public GifImageDescriptor Descriptor { get; private set; }
@@ -13,19 +17,11 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
         public IList<GifExtension> Extensions { get; private set; }
         public GifImageData ImageData { get; private set; }
 
-        private GifFrame()
-        {
-        }
-
-        internal override GifBlockKind Kind
-        {
-            get { return GifBlockKind.GraphicRendering; }
-        }
+        internal override GifBlockKind Kind => GifBlockKind.GraphicRendering;
 
         internal static GifFrame ReadFrame(Stream stream, IEnumerable<GifExtension> controlExtensions, bool metadataOnly)
         {
             var frame = new GifFrame();
-
             frame.Read(stream, controlExtensions, metadataOnly);
 
             return frame;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     /// <summary>
     /// Provides a way to pause, resume or seek a GIF animation.
@@ -15,7 +15,7 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
 
         static ImageAnimationController()
         {
-            _sourceDescriptor = DependencyPropertyDescriptor.FromProperty(Image.SourceProperty, typeof (Image));
+            _sourceDescriptor = DependencyPropertyDescriptor.FromProperty(Image.SourceProperty, typeof(Image));
         }
 
         private readonly Image _image;
@@ -55,23 +55,12 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
         /// <summary>
         /// Returns the number of frames in the image.
         /// </summary>
-        public int FrameCount
-        {
-            get { return _animation.KeyFrames.Count; }
-        }
+        public int FrameCount => _animation.KeyFrames.Count;
 
         /// <summary>
         /// Returns the duration of the animation.
         /// </summary>
-        public TimeSpan Duration
-        {
-            get
-            {
-                return _animation.Duration.HasTimeSpan
-                  ? _animation.Duration.TimeSpan
-                  : TimeSpan.Zero;
-            }
-        }
+        public TimeSpan Duration => _animation.Duration.HasTimeSpan ? _animation.Duration.TimeSpan : TimeSpan.Zero;
 
         /// <summary>
         /// Returns a value that indicates whether the animation is paused.
@@ -81,10 +70,7 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
         /// <summary>
         /// Returns a value that indicates whether the animation is complete.
         /// </summary>
-        public bool IsComplete
-        {
-            get { return _clock.CurrentState == ClockState.Filling; }
-        }
+        public bool IsComplete => _clock.CurrentState == ClockState.Filling;
 
         /// <summary>
         /// Seeks the animation to the specified frame index.
@@ -109,9 +95,7 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
                               .Cast<ObjectKeyFrame>()
                               .Select((f, i) => new { Time = f.KeyTime.TimeSpan, Index = i })
                               .FirstOrDefault(fi => fi.Time >= time);
-                if (frameAndIndex != null)
-                    return frameAndIndex.Index;
-                return -1;
+                return frameAndIndex == null ? -1 : frameAndIndex.Index;
             }
         }
 
@@ -131,14 +115,18 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
         {
             IsPaused = false;
             if (!_isSuspended)
+            {
                 _clockController.Resume();
+            }
         }
 
         private bool _isSuspended;
         internal void SetSuspended(bool isSuspended)
         {
             if (isSuspended == _isSuspended)
+            {
                 return;
+            }
 
             bool wasSuspended = _isSuspended;
             _isSuspended = isSuspended;
@@ -162,8 +150,7 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
 
         private void OnCurrentFrameChanged()
         {
-            EventHandler handler = CurrentFrameChanged;
-            if (handler != null) handler(this, EventArgs.Empty);
+            CurrentFrameChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     internal class GifLogicalScreenDescriptor
     {
@@ -32,12 +32,9 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
             HasGlobalColorTable = (packedFields & 0x80) != 0;
             ColorResolution = ((packedFields & 0x70) >> 4) + 1;
             IsGlobalColorTableSorted = (packedFields & 0x08) != 0;
-            GlobalColorTableSize = 1 << ((packedFields & 0x07) + 1);
+            GlobalColorTableSize = 1 << (packedFields & 0x07) + 1;
             BackgroundColorIndex = bytes[5];
-            PixelAspectRatio =
-                bytes[5] == 0
-                    ? 0.0
-                    : (15 + bytes[5]) / 64.0;
+            PixelAspectRatio = bytes[5] == 0 ? 0d : (15 + bytes[5]) / 64d;
         }
     }
 }

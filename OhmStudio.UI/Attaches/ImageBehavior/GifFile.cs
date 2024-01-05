@@ -2,19 +2,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     internal class GifFile
     {
+        private GifFile()
+        {
+        }
+
         public GifHeader Header { get; private set; }
         public GifColor[] GlobalColorTable { get; set; }
         public IList<GifFrame> Frames { get; set; }
         public IList<GifExtension> Extensions { get; set; }
         public ushort RepeatCount { get; set; }
-
-        private GifFile()
-        {
-        }
 
         internal static GifFile ReadGifFile(Stream stream, bool metadataOnly)
         {
@@ -38,10 +38,7 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
                                 .OfType<GifApplicationExtension>()
                                 .FirstOrDefault(GifHelpers.IsNetscapeExtension);
 
-            if (netscapeExtension != null)
-                RepeatCount = GifHelpers.GetRepeatCount(netscapeExtension);
-            else
-                RepeatCount = 1;
+            RepeatCount = netscapeExtension == null ? (ushort)1 : GifHelpers.GetRepeatCount(netscapeExtension);
         }
 
         private void ReadFrames(Stream stream, bool metadataOnly)
@@ -54,15 +51,16 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
                 var block = GifBlock.ReadBlock(stream, controlExtensions, metadataOnly);
 
                 if (block.Kind == GifBlockKind.GraphicRendering)
+                {
                     controlExtensions = new List<GifExtension>();
-
-                if (block is GifFrame)
-                {
-                    frames.Add((GifFrame)block);
                 }
-                else if (block is GifExtension)
+
+                if (block is GifFrame frame)
                 {
-                    var extension = (GifExtension)block;
+                    frames.Add(frame);
+                }
+                else if (block is GifExtension extension)
+                {
                     switch (extension.Kind)
                     {
                         case GifBlockKind.Control:
@@ -79,8 +77,8 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
                 }
             }
 
-            this.Frames = frames.AsReadOnly();
-            this.Extensions = specialExtensions.AsReadOnly();
+            Frames = frames.AsReadOnly();
+            Extensions = specialExtensions.AsReadOnly();
         }
     }
 }
