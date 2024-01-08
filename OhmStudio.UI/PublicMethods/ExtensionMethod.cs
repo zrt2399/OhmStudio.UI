@@ -224,9 +224,9 @@ namespace OhmStudio.UI.PublicMethods
             IEnumerable<DependencyObject> childObjects = source.GetChildObjects(forceUsingTheVisualTreeHelper);
             foreach (DependencyObject child in childObjects)
             {
-                if (child != null && child is T)
+                if (child != null && child is T t)
                 {
-                    yield return (T)child;
+                    yield return t;
                 }
 
                 foreach (T item in child.FindChildren<T>(forceUsingTheVisualTreeHelper))
