@@ -1,10 +1,14 @@
 using System;
 using System.IO;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     internal class GifImageDescriptor
     {
+        private GifImageDescriptor()
+        {
+        }
+
         public int Left { get; private set; }
         public int Top { get; private set; }
         public int Width { get; private set; }
@@ -13,10 +17,6 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
         public bool Interlace { get; private set; }
         public bool IsLocalColorTableSorted { get; private set; }
         public int LocalColorTableSize { get; private set; }
-
-        private GifImageDescriptor()
-        {
-        }
 
         internal static GifImageDescriptor ReadImageDescriptor(Stream stream)
         {
@@ -37,7 +37,7 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
             HasLocalColorTable = (packedFields & 0x80) != 0;
             Interlace = (packedFields & 0x40) != 0;
             IsLocalColorTableSorted = (packedFields & 0x20) != 0;
-            LocalColorTableSize = 1 << ((packedFields & 0x07) + 1);
+            LocalColorTableSize = 1 << (packedFields & 0x07) + 1;
         }
     }
 }

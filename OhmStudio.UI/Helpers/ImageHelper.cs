@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Helpers
 {
@@ -52,24 +53,23 @@ namespace OhmStudio.UI.Helpers
         /// <returns></returns>
         public static async Task<Bitmap> GetBitmapAsync(ImageSource source)
         {
-            if (source.ToString().ToLower().Contains("pack://siteoforigin:"))
-            {
-                Uri uri = new Uri(source.ToString());
+            var uriString = source.ToString();
+            Uri uri = new Uri(uriString);
+            if (uriString.IsContains("pack://siteoforigin:"))
+            { 
                 var localUri = Environment.CurrentDirectory + uri.LocalPath;
                 return new Bitmap(localUri);
             }
-            if (source.ToString().ToLower().Contains("pack://application:"))
-            {
-                Uri uri = new Uri(source.ToString());
+            if (uriString.IsContains("pack://application:"))
+            { 
                 return new Bitmap(Application.GetResourceStream(uri).Stream);
             }
-            if (source.ToString().ToLower().Contains("https:") || source.ToString().ToLower().Contains("http:"))
+            if (uriString.IsContains("http:") || uriString.IsContains("https:"))
             {
-                string https = source.ToString();
-                Stream stream = (await WebRequest.Create(https).GetResponseAsync()).GetResponseStream();
+                using Stream stream = (await WebRequest.Create(uri).GetResponseAsync()).GetResponseStream();
                 return new Bitmap(stream);
             }
-            string file = source.ToString();
+            string file = uriString;
             return new Bitmap(file);
         }
 

@@ -1,11 +1,16 @@
 using System;
 using System.IO;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     // label 0xF9
     internal class GifGraphicControlExtension : GifExtension
     {
+        private GifGraphicControlExtension()
+        {
+
+        }
+
         internal const int ExtensionLabel = 0xF9;
 
         public int BlockSize { get; private set; }
@@ -15,15 +20,7 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
         public int Delay { get; private set; }
         public int TransparencyIndex { get; private set; }
 
-        private GifGraphicControlExtension()
-        {
-
-        }
-
-        internal override GifBlockKind Kind
-        {
-            get { return GifBlockKind.Control; }
-        }
+        internal override GifBlockKind Kind => GifBlockKind.Control;
 
         internal static GifGraphicControlExtension ReadGraphicsControl(Stream stream)
         {
@@ -40,7 +37,10 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
             stream.ReadAll(bytes, 0, bytes.Length);
             BlockSize = bytes[0]; // should always be 4
             if (BlockSize != 4)
+            {
                 throw GifHelpers.InvalidBlockSizeException("Graphic Control Extension", 4, BlockSize);
+            }
+
             byte packedFields = bytes[1];
             DisposalMethod = (packedFields & 0x1C) >> 2;
             UserInput = (packedFields & 0x02) != 0;

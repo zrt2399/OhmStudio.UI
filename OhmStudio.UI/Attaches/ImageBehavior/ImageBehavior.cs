@@ -13,7 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Resources;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     /// <summary>
     /// 提供在标准图像控件中显示动画GIF的附加属性。
@@ -275,9 +275,15 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
         public static void AddAnimationLoadedHandler(Image image, RoutedEventHandler handler)
         {
             if (image == null)
-                throw new ArgumentNullException("image");
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
             if (handler == null)
-                throw new ArgumentNullException("handler");
+            {
+                throw new ArgumentNullException(nameof(handler));
+            }
+
             image.AddHandler(AnimationLoadedEvent, handler);
         }
 
@@ -289,9 +295,13 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
         public static void RemoveAnimationLoadedHandler(Image image, RoutedEventHandler handler)
         {
             if (image == null)
-                throw new ArgumentNullException("image");
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
             if (handler == null)
-                throw new ArgumentNullException("handler");
+            {
+                throw new ArgumentNullException(nameof(handler));
+            }
             image.RemoveHandler(AnimationLoadedEvent, handler);
         }
 
@@ -308,36 +318,41 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
         /// <summary>
         /// Adds a handler for the AnimationCompleted attached event.
         /// </summary>
-        /// <param name="d">The UIElement that listens to this event.</param>
+        /// <param name="obj">The UIElement that listens to this event.</param>
         /// <param name="handler">The event handler to be added.</param>
-        public static void AddAnimationCompletedHandler(Image d, RoutedEventHandler handler)
+        public static void AddAnimationCompletedHandler(Image obj, RoutedEventHandler handler)
         {
-            var element = d as UIElement;
-            if (element == null)
+            if (obj is not UIElement element)
+            {
                 return;
+            }
+
             element.AddHandler(AnimationCompletedEvent, handler);
         }
 
         /// <summary>
         /// Removes a handler for the AnimationCompleted attached event.
         /// </summary>
-        /// <param name="d">The UIElement that listens to this event.</param>
+        /// <param name="obj">The UIElement that listens to this event.</param>
         /// <param name="handler">The event handler to be removed.</param>
-        public static void RemoveAnimationCompletedHandler(Image d, RoutedEventHandler handler)
+        public static void RemoveAnimationCompletedHandler(Image obj, RoutedEventHandler handler)
         {
-            var element = d as UIElement;
-            if (element == null)
+            if (obj is not UIElement element)
+            {
                 return;
+            }
+
             element.RemoveHandler(AnimationCompletedEvent, handler);
         }
 
         #endregion
 
-        private static void AnimatedSourceChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        private static void AnimatedSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            Image imageControl = o as Image;
-            if (imageControl == null)
+            if (obj is not Image imageControl)
+            {
                 return;
+            }
 
             var oldValue = e.OldValue as ImageSource;
             var newValue = e.NewValue as ImageSource;
@@ -347,7 +362,9 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
                 {
                     var isAnimLoaded = GetIsAnimationLoaded(imageControl);
                     if (!isAnimLoaded)
+                    {
                         InitAnimationOrImage(imageControl);
+                    }
                 }
                 return;
             }
@@ -359,8 +376,7 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
 
                 AnimationCache.RemoveControlForSource(oldValue, imageControl);
                 var controller = GetAnimationController(imageControl);
-                if (controller != null)
-                    controller.Dispose();
+                controller?.Dispose();
                 imageControl.Source = null;
             }
             if (newValue != null)
@@ -370,7 +386,9 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
                 imageControl.IsVisibleChanged += VisibilityChanged;
 
                 if (imageControl.IsLoaded)
+                {
                     InitAnimationOrImage(imageControl);
+                }
             }
         }
 
@@ -389,44 +407,54 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
 
         private static void ImageControlLoaded(object sender, RoutedEventArgs e)
         {
-            Image imageControl = sender as Image;
-            if (imageControl == null)
+            if (sender is not Image imageControl)
+            {
                 return;
+            }
+
             InitAnimationOrImage(imageControl);
         }
 
         static void ImageControlUnloaded(object sender, RoutedEventArgs e)
         {
-            Image imageControl = sender as Image;
-            if (imageControl == null)
+            if (sender is not Image imageControl)
+            {
                 return;
+            }
+
             var source = GetAnimatedSource(imageControl);
             if (source != null)
+            {
                 AnimationCache.RemoveControlForSource(source, imageControl);
+            }
+
             var controller = GetAnimationController(imageControl);
-            if (controller != null)
-                controller.Dispose();
+            controller?.Dispose();
         }
 
-        private static void AnimationPropertyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        private static void AnimationPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            Image imageControl = o as Image;
-            if (imageControl == null)
+            if (obj is not Image imageControl)
+            {
                 return;
+            }
 
             ImageSource source = GetAnimatedSource(imageControl);
             if (source != null)
             {
                 if (imageControl.IsLoaded)
+                {
                     InitAnimationOrImage(imageControl);
+                }
             }
         }
 
-        private static void AnimateInDesignModeChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        private static void AnimateInDesignModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            Image imageControl = o as Image;
-            if (imageControl == null)
+            if (obj is not Image imageControl)
+            {
                 return;
+            }
 
             bool newValue = (bool)e.NewValue;
 
@@ -434,17 +462,20 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
             if (source != null && imageControl.IsLoaded)
             {
                 if (newValue)
+                {
                     InitAnimationOrImage(imageControl);
+                }
                 else
+                {
                     imageControl.BeginAnimation(Image.SourceProperty, null);
+                }
             }
         }
 
         private static void InitAnimationOrImage(Image imageControl)
         {
             var controller = GetAnimationController(imageControl);
-            if (controller != null)
-                controller.Dispose();
+            controller?.Dispose();
             SetAnimationController(imageControl, null);
             SetIsAnimationLoaded(imageControl, false);
 
@@ -584,17 +615,25 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
             var duration = GetAnimationDuration(imageControl);
 
             if (speedRatio.HasValue && duration.HasValue)
+            {
                 throw new InvalidOperationException("Cannot set both AnimationSpeedRatio and AnimationDuration");
+            }
 
             if (speedRatio.HasValue)
+            {
                 return speedRatio.Value;
+            }
 
             if (duration.HasValue)
             {
                 if (!duration.Value.HasTimeSpan)
+                {
                     throw new InvalidOperationException("AnimationDuration cannot be Automatic or Forever");
+                }
                 if (duration.Value.TimeSpan.Ticks <= 0)
+                {
                     throw new InvalidOperationException("AnimationDuration must be strictly positive");
+                }
                 return naturalDuration.TimeSpan.Ticks / (double)duration.Value.TimeSpan.Ticks;
             }
 
@@ -626,7 +665,9 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
             var result = new WriteableBitmap(bitmap);
 
             if (result.CanFreeze && !result.IsFrozen)
+            {
                 result.Freeze();
+            }
             return result;
         }
 
@@ -644,11 +685,14 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
 
         private static bool IsLoadingDeferred(BitmapSource source, Image imageControl)
         {
-            var bmp = source as BitmapImage;
-            if (bmp == null)
+            if (source is not BitmapImage bmp)
+            {
                 return false;
+            }
             if (bmp.UriSource != null && !bmp.UriSource.IsAbsoluteUri)
+            {
                 return bmp.BaseUri == null && (imageControl as IUriContext)?.BaseUri == null;
+            }
             return false;
         }
 
@@ -660,8 +704,7 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
             Uri uri = null;
             BitmapCreateOptions createOptions = BitmapCreateOptions.None;
 
-            var bmp = image as BitmapImage;
-            if (bmp != null)
+            if (image is BitmapImage bmp)
             {
                 createOptions = bmp.CreateOptions;
                 if (bmp.StreamSource != null)
@@ -675,14 +718,15 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
                     {
                         var baseUri = bmp.BaseUri ?? (imageControl as IUriContext)?.BaseUri;
                         if (baseUri != null)
+                        {
                             uri = new Uri(baseUri, uri);
+                        }
                     }
                 }
             }
             else
             {
-                BitmapFrame frame = image as BitmapFrame;
-                if (frame != null)
+                if (image is BitmapFrame frame)
                 {
                     decoder = frame.Decoder;
                     Uri.TryCreate(frame.BaseUri, frame.ToString(), out uri);
@@ -745,12 +789,18 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
             {
                 StreamResourceInfo sri;
                 if (uri.Authority == "siteoforigin:,,,")
+                {
                     sri = Application.GetRemoteStream(uri);
+                }
                 else
+                {
                     sri = Application.GetResourceStream(uri);
+                }
 
                 if (sri != null)
+                {
                     stream = sri.Stream;
+                }
             }
             else
             {
@@ -775,10 +825,7 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
                    && metadata.Height == fullSize.Height;
         }
 
-        private static BitmapSource MakeFrame(
-            Int32Size fullSize,
-            BitmapSource rawFrame, FrameMetadata metadata,
-            BitmapSource baseFrame)
+        private static BitmapSource MakeFrame(Int32Size fullSize, BitmapSource rawFrame, FrameMetadata metadata, BitmapSource baseFrame)
         {
             if (baseFrame == null && IsFullFrame(metadata, fullSize))
             {
@@ -808,7 +855,9 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
             var result = new WriteableBitmap(bitmap);
 
             if (result.CanFreeze && !result.IsFrozen)
+            {
                 result.Freeze();
+            }
             return result;
         }
 
@@ -816,11 +865,15 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
         {
             // If specified explicitly, use this value
             var repeatBehavior = GetRepeatBehavior(imageControl);
-            if (repeatBehavior != default(RepeatBehavior))
+            if (repeatBehavior != default)
+            {
                 return repeatBehavior;
+            }
 
             if (repeatCountFromMetadata == 0)
+            {
                 return RepeatBehavior.Forever;
+            }
             return new RepeatBehavior(repeatCountFromMetadata);
         }
 
@@ -837,7 +890,9 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
                 {
                     byte[] bytes = ext.GetQueryOrNull<byte[]>("/Data");
                     if (bytes != null && bytes.Length >= 4)
+                    {
                         return BitConverter.ToUInt16(bytes, 2);
+                    }
                 }
                 return 1;
             }
@@ -855,7 +910,9 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
                 {
                     string extApplication = Encoding.ASCII.GetString(bytes);
                     if (extApplication == application)
+                    {
                         return extension;
+                    }
                 }
                 query = string.Format("/[{0}]appext", ++count);
                 extension = decoder.Metadata.GetQueryOrNull<BitmapMetadata>(query);
@@ -879,7 +936,9 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
             var delay = TimeSpan.FromMilliseconds(100);
             var metadataDelay = metadata.GetQueryOrDefault("/grctlext/Delay", 10);
             if (metadataDelay != 0)
+            {
                 delay = TimeSpan.FromMilliseconds(metadataDelay * 10);
+            }
             var disposalMethod = (FrameDisposalMethod)metadata.GetQueryOrDefault("/grctlext/Disposal", 0);
             var frameMetadata = new FrameMetadata
             {
@@ -910,7 +969,9 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
             if (gce != null)
             {
                 if (gce.Delay != 0)
+                {
                     frameMetadata.Delay = TimeSpan.FromMilliseconds(gce.Delay);
+                }
                 frameMetadata.DisposalMethod = (FrameDisposalMethod)gce.DisposalMethod;
             }
             return frameMetadata;
@@ -961,15 +1022,18 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
         private static T GetQueryOrDefault<T>(this BitmapMetadata metadata, string query, T defaultValue)
         {
             if (metadata.ContainsQuery(query))
+            {
                 return (T)Convert.ChangeType(metadata.GetQuery(query), typeof(T));
+            }
             return defaultValue;
         }
 
-        private static T GetQueryOrNull<T>(this BitmapMetadata metadata, string query)
-            where T : class
+        private static T GetQueryOrNull<T>(this BitmapMetadata metadata, string query) where T : class
         {
             if (metadata.ContainsQuery(query))
+            {
                 return metadata.GetQuery(query) as T;
+            }
             return null;
         }
 

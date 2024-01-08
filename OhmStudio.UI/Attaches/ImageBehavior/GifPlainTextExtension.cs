@@ -4,11 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     // label 0x01
     internal class GifPlainTextExtension : GifExtension
     {
+        private GifPlainTextExtension()
+        {
+        }
+
         internal const int ExtensionLabel = 0x01;
 
         public int BlockSize { get; private set; }
@@ -24,14 +28,7 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
 
         public IList<GifExtension> Extensions { get; private set; }
 
-        private GifPlainTextExtension()
-        {
-        }
-
-        internal override GifBlockKind Kind
-        {
-            get { return GifBlockKind.GraphicRendering; }
-        }
+        internal override GifBlockKind Kind => GifBlockKind.GraphicRendering;
 
         internal static GifPlainTextExtension ReadPlainText(Stream stream, IEnumerable<GifExtension> controlExtensions, bool metadataOnly)
         {
@@ -45,11 +42,13 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
             // Note: at this point, the label (0x01) has already been read
 
             byte[] bytes = new byte[13];
-            stream.ReadAll(bytes,0, bytes.Length);
+            stream.ReadAll(bytes, 0, bytes.Length);
 
             BlockSize = bytes[0];
             if (BlockSize != 12)
+            {
                 throw GifHelpers.InvalidBlockSizeException("Plain Text Extension", 12, BlockSize);
+            }
 
             Left = BitConverter.ToUInt16(bytes, 1);
             Top = BitConverter.ToUInt16(bytes, 3);

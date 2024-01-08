@@ -62,6 +62,11 @@ namespace OhmStudio.UI.PublicMethods
             return (number & 1L) == 1L;
         }
 
+        public static bool IsContains(this string str, string value, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+        {
+            return str.IndexOf(value, stringComparison) >= 0;
+        }
+
         public static Window SetOwner(this Window window, Window owner = null)
         {
             if (owner == null)

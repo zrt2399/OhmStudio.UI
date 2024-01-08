@@ -6,7 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     static class AnimationCache
     {
@@ -50,7 +50,9 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
                 {
                     var uri = GetUri(image);
                     if (uri != null)
+                    {
                         return uri.GetHashCode();
+                    }
                 }
                 return 0;
             }
@@ -58,14 +60,21 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
             private static bool ImageEquals(ImageSource x, ImageSource y)
             {
                 if (Equals(x, y))
+                {
                     return true;
-                if ((x == null) != (y == null))
+                }
+
+                if (x == null != (y == null))
+                {
                     return false;
+                }
                 // They can't both be null or Equals would have returned true
                 // and if any is null, the previous would have detected it
                 // ReSharper disable PossibleNullReferenceException
                 if (x.GetType() != y.GetType())
+                {
                     return false;
+                }
                 // ReSharper restore PossibleNullReferenceException
                 var xUri = GetUri(x);
                 var yUri = GetUri(y);
@@ -74,27 +83,32 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
 
             private static Uri GetUri(ImageSource image)
             {
-                var bmp = image as BitmapImage;
-                if (bmp != null && bmp.UriSource != null)
+                if (image is BitmapImage bmp && bmp.UriSource != null)
                 {
                     if (bmp.UriSource.IsAbsoluteUri)
+                    {
                         return bmp.UriSource;
+                    }
                     if (bmp.BaseUri != null)
+                    {
                         return new Uri(bmp.BaseUri, bmp.UriSource);
+                    }
                 }
-                var frame = image as BitmapFrame;
-                if (frame != null)
+                if (image is BitmapFrame frame)
                 {
                     string s = frame.ToString();
                     if (s != frame.GetType().FullName)
                     {
-                        Uri fUri;
-                        if (Uri.TryCreate(s, UriKind.RelativeOrAbsolute, out fUri))
+                        if (Uri.TryCreate(s, UriKind.RelativeOrAbsolute, out Uri fUri))
                         {
                             if (fUri.IsAbsoluteUri)
+                            {
                                 return fUri;
+                            }
                             if (frame.BaseUri != null)
+                            {
                                 return new Uri(frame.BaseUri, fUri);
+                            }
                         }
                     }
                 }

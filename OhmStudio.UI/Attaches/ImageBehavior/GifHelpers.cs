@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     internal static class GifHelpers
     {
@@ -23,12 +23,9 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
                 {
                     byte[] bytes = new byte[len];
                     stream.ReadAll(bytes, 0, len);
-                    if (ms != null)
-                        ms.Write(bytes, 0, len);
+                    ms?.Write(bytes, 0, len);
                 }
-                if (ms != null)
-                    return ms.ToArray();
-                return null;
+                return ms?.ToArray();
             }
         }
 

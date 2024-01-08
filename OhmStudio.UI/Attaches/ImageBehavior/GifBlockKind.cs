@@ -1,4 +1,4 @@
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     internal enum GifBlockKind
     {

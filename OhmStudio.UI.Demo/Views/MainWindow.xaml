@@ -534,10 +534,12 @@
                                     </UniformGrid.Resources>
                                     <GifImage Source="/Images/car_chase.gif" CornerRadiusAttach.IsCircular="True"
                                         BorderBrush="Yellow" BorderThickness="10"/>
+                                    <!--<Image ImageBehavior.AnimatedSource="/Images/car_chase.gif"/>-->
                                     <GifImage Source="https://img.lanrentuku.com/img/allimg/1206/5-120601152054-50.gif"
                                         BorderBrush="Orange" BorderThickness="20"/>
                                     <GifImage Source="https://img.lanrentuku.com/img/allimg/1212/5-121204193Q8.gif"
                                         BorderBrush="YellowGreen" BorderThickness="30"/>
+                                    <!--<hc:GifImage Uri="/Images/car_chase.gif"  />-->
                                 </UniformGrid>
 
                             </LayoutDocument>

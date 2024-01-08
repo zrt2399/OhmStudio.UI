@@ -1,4 +1,4 @@
-namespace OhmStudio.UI.PublicMethods.ImageBehavior
+namespace OhmStudio.UI.Attaches.ImageBehavior
 {
     internal struct GifColor
     {
@@ -13,9 +13,9 @@ namespace OhmStudio.UI.PublicMethods.ImageBehavior
             _b = b;
         }
 
-        public byte R { get { return _r; } }
-        public byte G { get { return _g; } }
-        public byte B { get { return _b; } }
+        public byte R => _r;
+        public byte G => _g;
+        public byte B => _b;
 
         public override string ToString()
         {
