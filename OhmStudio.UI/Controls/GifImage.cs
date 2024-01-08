@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
@@ -15,11 +14,11 @@ namespace OhmStudio.UI.Controls
     {
         private System.Windows.Controls.Image PART_Image;
         /// <summary>
-        /// gif动画的System.Drawing.Bitmap
+        /// gif动画的<see cref="Bitmap"/>
         /// </summary>
         private Bitmap gifBitmap;
         /// <summary>
-        /// 用于显示每一帧的BitmapSource
+        /// 用于显示每一帧的<see cref="BitmapSource"/>
         /// </summary>
         private BitmapSource bitmapSource;
 
@@ -33,7 +32,7 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source", typeof(ImageSource), typeof(GifImage), new PropertyMetadata(OnSourceChanged));
 
-        private async static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             GifImage image = sender as GifImage;
             if (!image.IsLoaded)
@@ -46,7 +45,7 @@ namespace OhmStudio.UI.Controls
                 return;
             }
 
-            await image.RefreshAsync();
+            image.Refresh();
         }
 
         public CornerRadius CornerRadius
@@ -58,7 +57,7 @@ namespace OhmStudio.UI.Controls
         // Using a DependencyProperty as the backing store for CornerRadius.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CornerRadiusProperty =
             DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(GifImage));
-  
+
         public Stretch Stretch
         {
             get => (Stretch)GetValue(StretchProperty);
@@ -67,45 +66,42 @@ namespace OhmStudio.UI.Controls
 
         // Using a DependencyProperty as the backing store for Stretch.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StretchProperty =
-            DependencyProperty.Register("Stretch", typeof(Stretch), typeof(GifImage), new PropertyMetadata(Stretch.Fill));
+            DependencyProperty.Register("Stretch", typeof(Stretch), typeof(GifImage), new PropertyMetadata(Stretch.Uniform));
 
-        private Task RefreshAsync()
+        private void Refresh()
         {
-            return Task.Run(() =>
+            if (PART_Image != null)
             {
-                if (PART_Image != null)
+                Dispatcher.Invoke(async () =>
                 {
-                    Dispatcher.Invoke(async () =>
+                    //防呆置空
+                    if (Source == null)
                     {
-                        //防呆置空
-                        if (Source == null)
-                        {
-                            StopAnimate();
-                            gifBitmap?.Dispose();
-                            if (gifBitmap != null)
-                            {
-                                gifBitmap = null;
-                            }
-
-                            PART_Image.Source = null;
-                            return;
-                        }
+                        StopAnimate();
+                        gifBitmap?.Dispose();
                         if (gifBitmap != null)
                         {
-                            StopAnimate();
-                            gifBitmap?.Dispose();
+                            gifBitmap = null;
                         }
-                        gifBitmap = await ImageHelper.GetBitmapAsync(Source);
-                        bitmapSource = GetBitmapSource();
-                        PART_Image.Source = bitmapSource;
-                        StartAnimate();
-                    });
-                }
-            });
+
+                        PART_Image.Source = null;
+                        return;
+                    }
+                    if (gifBitmap != null)
+                    {
+                        StopAnimate();
+                        gifBitmap?.Dispose();
+                    }
+                    gifBitmap = await ImageHelper.GetBitmapAsync(Source);
+                    bitmapSource = GetBitmapSource();
+                    PART_Image.Source = bitmapSource;
+                    StartAnimate();
+                });
+            }
         }
 
         /// <summary>
-        /// 从System.Drawing.Bitmap中获得用于显示的那一帧图像的BitmapSource
+        /// 从<see cref="Bitmap"/>中获得用于显示的那一帧图像的<see cref="BitmapSource"/>
         /// </summary>
         /// <returns></returns>
         private BitmapSource GetBitmapSource()
@@ -157,7 +153,7 @@ namespace OhmStudio.UI.Controls
                 bitmapSource = GetBitmapSource();
                 PART_Image.Source = bitmapSource;
                 InvalidateVisual();
-            }, DispatcherPriority.Normal);
+            });
         }
 
         public override void OnApplyTemplate()
@@ -175,9 +171,9 @@ namespace OhmStudio.UI.Controls
             StopAnimate();
         }
 
-        private async void GifImage_Loaded(object sender, RoutedEventArgs e)
+        private void GifImage_Loaded(object sender, RoutedEventArgs e)
         {
-            await RefreshAsync();
+            Refresh();
         }
 
         protected virtual void Dispose(bool disposing)
