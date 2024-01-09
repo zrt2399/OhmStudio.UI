@@ -185,7 +185,8 @@
                                 <Border Grid.ColumnSpan="2" Background="Transparent" />
                                 <ContentPresenter
                                     x:Name="Title"
-                                    Margin="4,3,4,2"
+                                    Margin="4,1,0,0"
+                                    VerticalAlignment="Center"
                                     Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}"
                                     ContentTemplate="{Binding DocumentHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                                     ContentTemplateSelector="{Binding DocumentHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"

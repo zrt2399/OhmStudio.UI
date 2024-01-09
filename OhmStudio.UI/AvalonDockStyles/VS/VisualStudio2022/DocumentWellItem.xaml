@@ -181,7 +181,8 @@
                                 <Border Grid.ColumnSpan="3" Background="Transparent" />
                                 <ContentPresenter
                                     x:Name="Title"
-                                    Margin="4,4,0,0"
+                                    Margin="4,1,0,0"
+                                    VerticalAlignment="Center"
                                     Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}"
                                     ContentTemplate="{Binding DocumentHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                                     ContentTemplateSelector="{Binding DocumentHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
@@ -211,7 +212,7 @@
                         <DataTrigger Binding="{Binding Path=IsSelected}" Value="true">
                             <Setter TargetName="DocumentCloseButton" Property="Visibility" Value="Visible" />
                             <Setter TargetName="Title" Property="TextElement.FontWeight" Value="SemiBold" />
-                            <Setter TargetName="Title" Property="Margin" Value="4,4,2,0" />
+                            <!--<Setter TargetName="Title" Property="Margin" Value="4,2,0,0" />-->
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="true">
                             <Setter TargetName="DocumentCloseButton" Property="Visibility" Value="Visible" />

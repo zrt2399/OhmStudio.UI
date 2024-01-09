@@ -1,9 +1,9 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
-    xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock"
-    xmlns:reskeys="clr-namespace:OhmStudio.UI.AvalonDockThemes">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
+                    xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock"
+                    xmlns:reskeys="clr-namespace:OhmStudio.UI.AvalonDockThemes"
+                    xmlns:controls="clr-namespace:OhmStudio.UI.Controls">
 
     <!--<PathGeometry x:Key="Path_DocumentWellPaneControl_DropDownMenu" Figures="M 352.041,32.0005L 320,0.000162761L 384,0.000162761L 352.041,32.0005 Z" />-->
     <PathGeometry x:Key="Path_DocumentWellPaneControl_DropDownMenu" Figures="M 608,0.000223796L 640,0.000223796L 640,7.70652L 608,7.70652L 608,0.000223796 Z M 624.021,32.0002L 608,16.0001L 640,16.0001L 624.021,32.0002 Z " />
@@ -81,16 +81,15 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="Auto" />
+                                <!--<ColumnDefinition Width="Auto" />-->
                             </Grid.ColumnDefinitions>
                             <Border
                                 x:Name="MainBorder"
                                 Grid.ColumnSpan="2"
                                 BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentTabStateLineActive}}"
                                 BorderThickness="0,0,0,2" />
-                            <avalonDockControls:DocumentPaneTabPanel
+                            <controls:DocumentWrapPanel IsWrap="True"
                                 x:Name="HeaderPanel"
-                                Grid.Row="0"
-                                Grid.Column="0"
                                 Margin="0,0,0,2"
                                 IsItemsHost="true"
                                 KeyboardNavigation.TabIndex="1" />
@@ -110,6 +109,23 @@
                                     Fill="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}}}"
                                     Stretch="Uniform" />
                             </avalonDockControls:DropDownButton>
+                            <!--<Button Grid.Column="2" VerticalAlignment="Bottom" Background="Transparent" Margin="0,0,0,2">+
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="Button.Click">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderPanel" Storyboard.TargetProperty="IsWrap">
+                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <sys:Boolean xmlns:sys="clr-namespace:System;assembly=mscorlib">false</sys:Boolean>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>-->
                         </Grid>
                         <Border
                             x:Name="ContentPanel"
