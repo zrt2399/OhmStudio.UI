@@ -129,19 +129,19 @@ namespace OhmStudio.UI.Controls
             ItemWidthProperty = DependencyProperty.Register(nameof(ItemWidth), typeof(double), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.AffectsMeasure), IsWidthHeightValid);
             ItemHeightProperty = DependencyProperty.Register(nameof(ItemHeight), typeof(double), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.AffectsMeasure), IsWidthHeightValid);
             OrientationProperty = StackPanel.OrientationProperty.AddOwner(typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(Orientation.Horizontal, FrameworkPropertyMetadataOptions.AffectsMeasure, OnOrientationChanged));
-            IsWrapProperty = DependencyProperty.Register(nameof(IsWrap), typeof(bool), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure, IsWrapChanged));
+            IsWrapProperty = DependencyProperty.Register(nameof(IsWrap), typeof(bool), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure, OnIsWrapChanged));
             //ControlsTraceLogger.AddControl(TelemetryControls.DocumentWrapPanel);
         }
 
-        private static void IsWrapChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void OnIsWrapChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is DocumentWrapPanel uIElement && e.NewValue is bool newValue)
+            if (sender is DocumentWrapPanel documentWrapPanel && e.NewValue is bool newValue)
             {
-                //uIElement.InvalidateMeasure();
-                uIElement.InvalidateVisual();
-                foreach (var item in uIElement.Children.OfType<UIElement>())
+                //documentWrapPanel.InvalidateMeasure();
+                documentWrapPanel.InvalidateVisual();
+                if (newValue)
                 {
-                    if (newValue && item.Visibility == Visibility.Hidden)
+                    foreach (var item in documentWrapPanel.Children.OfType<UIElement>().Where(x => x.Visibility == Visibility.Hidden))
                     {
                         item.Visibility = Visibility.Visible;
                     }
