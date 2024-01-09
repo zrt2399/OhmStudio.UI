@@ -7,7 +7,26 @@ using OhmStudio.UI.Commands;
 namespace OhmStudio.UI.Messaging
 {
     public class Messenger : IMessenger
-    {
+    { 
+        private static readonly object CreationLock = new object();
+
+        private static IMessenger _defaultInstance;
+
+        private readonly object _registerLock = new object();
+
+        private Dictionary<Type, List<WeakActionAndToken>> _recipientsOfSubclassesAction;
+
+        private Dictionary<Type, List<WeakActionAndToken>> _recipientsStrictAction;
+
+        private bool _isCleanupRegistered;
+
+        private struct WeakActionAndToken
+        {
+            public WeakAction Action;
+
+            public object Token;
+        }
+
         public static IMessenger Default
         {
             get
@@ -274,29 +293,10 @@ namespace OhmStudio.UI.Messaging
                 }
                 if (list2 != null)
                 {
-                    SendToList<TMessage>(message, list2, messageTargetType, token);
+                    SendToList(message, list2, messageTargetType, token);
                 }
             }
             RequestCleanup();
-        }
-
-        private static readonly object CreationLock = new object();
-
-        private static IMessenger _defaultInstance;
-
-        private readonly object _registerLock = new object();
-
-        private Dictionary<Type, List<WeakActionAndToken>> _recipientsOfSubclassesAction;
-
-        private Dictionary<Type, List<WeakActionAndToken>> _recipientsStrictAction;
-
-        private bool _isCleanupRegistered;
-
-        private struct WeakActionAndToken
-        {
-            public WeakAction Action;
-
-            public object Token;
         }
     }
 }
