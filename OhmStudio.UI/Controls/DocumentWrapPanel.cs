@@ -135,17 +135,18 @@ namespace OhmStudio.UI.Controls
 
         private static void IsWrapChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            var uIElement = sender as DocumentWrapPanel;
-            //uIElement.InvalidateArrange();
-            uIElement.InvalidateVisual();
-            foreach (var item in uIElement.Children.OfType<UIElement>())
+            if (sender is DocumentWrapPanel uIElement && e.NewValue is bool newValue)
             {
-                if ((bool)e.NewValue && item.Visibility == Visibility.Hidden)
+                //uIElement.InvalidateMeasure();
+                uIElement.InvalidateVisual();
+                foreach (var item in uIElement.Children.OfType<UIElement>())
                 {
-                    item.Visibility = Visibility.Visible;
+                    if (newValue && item.Visibility == Visibility.Hidden)
+                    {
+                        item.Visibility = Visibility.Visible;
+                    }
                 }
             }
-            //uIElement.InvalidateVisual();
         }
 
         private static bool IsWidthHeightValid(object value)
