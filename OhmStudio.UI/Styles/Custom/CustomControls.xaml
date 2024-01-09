@@ -20,14 +20,14 @@
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
     <SolidColorBrush x:Key="Disabled">#FFAEABAB</SolidColorBrush>
-
-    <Style TargetType="controls:DropShadowControl">
+ 
+    <Style x:Key="DropShadowControlBaseStyle" TargetType="controls:DropShadowControl">
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:DropShadowControl">
-                    <Grid>
+                    <controls:SimplePanel>
                         <Border CornerRadius="{TemplateBinding CornerRadius}"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="Transparent"
@@ -47,11 +47,12 @@
                                 CornerRadius="{TemplateBinding CornerRadius}">
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
-                    </Grid>
+                    </controls:SimplePanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="controls:DropShadowControl" BasedOn="{StaticResource DropShadowControlBaseStyle}"/>
 
     <Style x:Key="ClassicButton" TargetType="Button">
         <Setter Property="Foreground" Value="Black"/>
@@ -63,7 +64,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Grid Margin="-2">
+                    <controls:SimplePanel Margin="-2">
                         <Border Name="borderEffect" Visibility="Collapsed" Background="{TemplateBinding Background}"
                                 BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding ElementName=Border,Path=CornerRadius}" Margin="{Binding ElementName=Border,Path=Margin}">
@@ -75,7 +76,7 @@
                                 Margin="2" CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
-                    </Grid>
+                    </controls:SimplePanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="borderEffect" Property="Visibility" Value="Visible"/>
@@ -108,7 +109,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Grid Margin="-2">
+                    <controls:SimplePanel Margin="-2">
                         <Border Name="borderEffect" Visibility="Collapsed" Background="{TemplateBinding Background}"
                                 BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding ElementName=Border,Path=CornerRadius}" Margin="{Binding ElementName=Border,Path=Margin}">
@@ -120,7 +121,7 @@
                                 Margin="2" CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
-                    </Grid>
+                    </controls:SimplePanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
@@ -153,7 +154,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Grid Margin="-2">
+                    <controls:SimplePanel Margin="-2">
                         <Border Name="borderEffect" Visibility="Collapsed" Background="{TemplateBinding Background}"
                                 BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding ElementName=Border,Path=CornerRadius}" Margin="{Binding ElementName=Border,Path=Margin}">
@@ -165,7 +166,7 @@
                                 Margin="2" CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
-                    </Grid>
+                    </controls:SimplePanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Content" Value="停   止">
                             <Setter TargetName="Border" Property="Background" Value="#FFCD5C5C" />
@@ -204,7 +205,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Grid Margin="-2">
+                    <controls:SimplePanel Margin="-2">
                         <Border Name="borderEffect" Visibility="Collapsed" Background="{TemplateBinding Background}"
                                 BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding ElementName=Border,Path=CornerRadius}" Margin="{Binding ElementName=Border,Path=Margin}">
@@ -216,7 +217,7 @@
                                 Margin="2" CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
-                    </Grid>
+                    </controls:SimplePanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
@@ -402,9 +403,12 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource CommonControlsTextBoxText}"/>
         <Setter Property="Maximum" Value="100"/>
+        <Setter Property="Background" Value="#FFE6E6E6"/>
+        <!--<Setter Property="Background" Value="{DynamicResource ProgressBarBackground}"/>-->
         <Setter Property="BrushStrokeThickness" Value="8"/>
         <Setter Property="StrokeThickness" Value="8"/>
         <Setter Property="BorderBrush" Value="#FF1FA7FC"/>
+        <!--<Setter Property="BorderBrush" Value="{DynamicResource ProgressBarProgress}"/>-->
         <Setter Property="Width" Value="100"/>
         <Setter Property="Height" Value="100"/>
         <Setter Property="Template">
@@ -449,6 +453,9 @@
                                         <Style x:Key="TextBlockCollapsedStyle" TargetType="TextBlock">
                                             <Style.Triggers>
                                                 <Trigger Property="Text" Value="">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="{x:Null}">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
                                                 </Trigger>
                                             </Style.Triggers>

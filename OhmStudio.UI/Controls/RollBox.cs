@@ -25,6 +25,11 @@ namespace OhmStudio.UI.Controls
             dispatcherTimer.Start();
         }
 
+        static RollBox()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(RollBox), new FrameworkPropertyMetadata(typeof(RollBox)));
+        }
+
         ~RollBox()
         {
             dispatcherTimer?.Stop();

@@ -12,6 +12,11 @@ namespace OhmStudio.UI.Controls
 {
     public class GifImage : Control, IDisposable
     {
+        static GifImage()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(GifImage), new FrameworkPropertyMetadata(typeof(GifImage)));
+        }
+
         private System.Windows.Controls.Image PART_Image;
         /// <summary>
         /// gif动画的<see cref="Bitmap"/>

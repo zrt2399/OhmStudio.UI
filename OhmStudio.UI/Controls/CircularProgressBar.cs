@@ -15,6 +15,11 @@ namespace OhmStudio.UI.Controls
             ValueChanged += CircularProgressBar_ValueChanged;
         }
 
+        static CircularProgressBar()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CircularProgressBar), new FrameworkPropertyMetadata(typeof(CircularProgressBar)));
+        }
+
         void CircularProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             CircularProgressBar bar = sender as CircularProgressBar;

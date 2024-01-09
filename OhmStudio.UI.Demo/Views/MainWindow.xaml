@@ -521,9 +521,14 @@
                                 </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
-                                <ProgressBar Value="50" IsIndeterminate="True" Height="100" Width="300" VerticalAlignment="Center">
+                                <UniformGrid Rows="2" Columns="2">
+                                    <ProgressBar Value="50" Style="{x:Null}" IsIndeterminate="True" Height="100" Width="400" VerticalAlignment="Center"/>
+ 
+                                    <ProgressBar Value="50" IsIndeterminate="True" Height="100" Width="400" VerticalAlignment="Center">
 
-                                </ProgressBar>
+                                    </ProgressBar>
+                                    <CircularProgressBar Value="50"/>
+                                </UniformGrid> 
                             </LayoutDocument>
                             <LayoutDocument Title="GifImage">
                                 <UniformGrid Rows="2" Columns="2">
@@ -583,7 +588,7 @@
                             </LayoutDocument>
                             <LayoutDocument Title="CheckComboBox" CanClose="False">
                                 <StackPanel Orientation="Horizontal">
-                                    <ComboBox DisplayMemberPath="Name"  ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" IsEditable="True"/>
+                                    <ComboBox DisplayMemberPath="Name" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" IsEditable="True"/>
                                     <CheckComboBox DisplayMemberPath="Name"
                                                    ItemsSource="{Binding FileNodes}"
                                                    VerticalAlignment="Top"/>

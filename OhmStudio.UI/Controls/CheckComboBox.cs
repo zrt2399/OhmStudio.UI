@@ -17,22 +17,9 @@ namespace OhmStudio.UI.Controls
             GotFocus += CheckComboBox_GotFocus;
         }
 
-        private void CheckComboBox_GotFocus(object sender, RoutedEventArgs e)
+        static CheckComboBox()
         {
-            var checkComboBox = (CheckComboBox)sender;
-            if (!e.Handled && checkComboBox.PART_EditableTextBox != null)
-            {
-                if (Equals(e.OriginalSource, checkComboBox))
-                {
-                    checkComboBox.PART_EditableTextBox.Focus();
-                    e.Handled = true;
-                }
-                else if (Equals(e.OriginalSource, checkComboBox.PART_EditableTextBox))
-                {
-                    checkComboBox.PART_EditableTextBox.SelectAll();
-                    e.Handled = true;
-                }
-            }
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CheckComboBox), new FrameworkPropertyMetadata(typeof(CheckComboBox)));
         }
 
         ListBox PART_ListBox;
@@ -122,7 +109,25 @@ namespace OhmStudio.UI.Controls
             PART_DeSelectAll.Click += PART_DeSelectAll_Click;
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
         }
-
+         
+        private void CheckComboBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var checkComboBox = (CheckComboBox)sender;
+            if (!e.Handled && checkComboBox.PART_EditableTextBox != null)
+            {
+                if (Equals(e.OriginalSource, checkComboBox))
+                {
+                    checkComboBox.PART_EditableTextBox.Focus();
+                    e.Handled = true;
+                }
+                else if (Equals(e.OriginalSource, checkComboBox.PART_EditableTextBox))
+                {
+                    checkComboBox.PART_EditableTextBox.SelectAll();
+                    e.Handled = true;
+                }
+            }
+        }
+         
         private void DropDownButton_Click(object sender, RoutedEventArgs e)
         {
             if (!PART_EditableTextBox.IsKeyboardFocusWithin)

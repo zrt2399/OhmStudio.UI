@@ -7,6 +7,11 @@ namespace OhmStudio.UI.Controls
 {
     public class DropShadowControl : ContentControl
     {
+        static DropShadowControl()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DropShadowControl), new FrameworkPropertyMetadata(typeof(DropShadowControl)));
+        }
+
         public static readonly DependencyProperty ShadowColorProperty =
             DependencyProperty.Register(nameof(ShadowColor), typeof(Color), typeof(DropShadowControl), new FrameworkPropertyMetadata(Brushes.DarkGray.Color, FrameworkPropertyMetadataOptions.AffectsRender));
 
@@ -67,7 +72,7 @@ namespace OhmStudio.UI.Controls
         public RenderingBias RenderingBias
         {
             get => (RenderingBias)GetValue(RenderingBiasProperty);
-            set => SetValue(RenderingBiasProperty, value); 
+            set => SetValue(RenderingBiasProperty, value);
         }
     }
 }
