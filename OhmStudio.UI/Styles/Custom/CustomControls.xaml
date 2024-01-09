@@ -401,7 +401,7 @@
     <Style x:Key="CircularProgressBarBaseStyle" TargetType="controls:CircularProgressBar">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource CommonControlsTextBoxText}"/>
+        <!--<Setter Property="TextElement.Foreground" Value="{DynamicResource CommonControlsTextBoxText}"/>-->
         <Setter Property="Maximum" Value="100"/>
         <Setter Property="Background" Value="#FFE6E6E6"/>
         <!--<Setter Property="Background" Value="{DynamicResource ProgressBarBackground}"/>-->

@@ -521,13 +521,15 @@
                                 </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
-                                <UniformGrid Rows="2" Columns="2">
+                                <UniformGrid Rows="3" Columns="2">
                                     <ProgressBar Value="50" Style="{x:Null}" IsIndeterminate="True" Height="100" Width="400" VerticalAlignment="Center"/>
  
                                     <ProgressBar Value="50" IsIndeterminate="True" Height="100" Width="400" VerticalAlignment="Center">
 
                                     </ProgressBar>
-                                    <CircularProgressBar Value="50"/>
+                                    <CircularProgressBar Value="40" BorderBrush="#FF06B025"/>
+                                    <CircularProgressBar Value="60" Title="进度" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
+                                    <CircularProgressBar Value="50" BorderBrush="{DynamicResource ProgressBarProgress}"/>
                                 </UniformGrid> 
                             </LayoutDocument>
                             <LayoutDocument Title="GifImage">
