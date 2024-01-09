@@ -9,10 +9,6 @@ namespace OhmStudio.UI.Commands
         {
         }
 
-        private readonly WeakAction _execute;
-
-        private readonly WeakFunc<bool> _canExecute;
-
         public RelayCommand(Action execute, Func<bool> canExecute)
         {
             if (execute == null)
@@ -25,6 +21,10 @@ namespace OhmStudio.UI.Commands
                 _canExecute = new WeakFunc<bool>(canExecute);
             }
         }
+
+        private readonly WeakAction _execute;
+
+        private readonly WeakFunc<bool> _canExecute;
 
         public event EventHandler CanExecuteChanged
         {
@@ -69,10 +69,6 @@ namespace OhmStudio.UI.Commands
         {
         }
 
-        private readonly WeakAction<T> _execute;
-
-        private readonly WeakFunc<T, bool> _canExecute;
-
         public RelayCommand(Action<T> execute, Func<T, bool> canExecute)
         {
             if (execute == null)
@@ -85,6 +81,10 @@ namespace OhmStudio.UI.Commands
                 _canExecute = new WeakFunc<T, bool>(canExecute);
             }
         }
+
+        private readonly WeakAction<T> _execute;
+
+        private readonly WeakFunc<T, bool> _canExecute;
 
         public event EventHandler CanExecuteChanged
         {
