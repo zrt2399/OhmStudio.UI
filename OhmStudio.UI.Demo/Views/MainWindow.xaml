@@ -267,8 +267,8 @@
                                         <DataGrid.Columns>
                                             <!--<DataGridHyperlinkColumn Header="Header" Binding="{Binding Name}"></DataGridHyperlinkColumn>-->
                                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                                            <DataGridCheckBoxColumn Header="Name" Binding="{Binding Name}" />
-                                            <DataGridComboBoxColumn Header="Name"  />
+                                            <DataGridCheckBoxColumn Header="IsExpanded" Binding="{Binding IsExpanded}" />
+                                            <DataGridComboBoxColumn Header="Name1"  />
 
                                         </DataGrid.Columns>
                                     </DataGrid>
@@ -531,6 +531,39 @@
                                     <CircularProgressBar Value="60" Title="进度" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
                                     <CircularProgressBar Value="50" BorderBrush="{DynamicResource ProgressBarProgress}"/>
                                 </UniformGrid> 
+                            </LayoutDocument>
+                            <LayoutDocument Title="DocumentWrapPanel">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Button Click="Button_Click_8">换行/不换行</Button>
+                                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                        <DocumentWrapPanel x:Name="documentWrapPanel" VerticalAlignment="Top">
+                                            <DocumentWrapPanel.Resources>
+                                                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                    <Setter Property="BorderAttach.CornerRadius" Value="50"/>
+                                                    <Setter Property="CornerRadiusAttach.IsCircular" Value="True"/>
+                                                    <Setter Property="Height" Value="100"/>
+                                                    <Setter Property="Width" Value="100"/>
+                                                    <Setter Property="Margin" Value="10"/>
+                                                </Style>
+                                            </DocumentWrapPanel.Resources>
+                                            <Button>1</Button>
+                                            <Button>2</Button>
+                                            <Button>3</Button>
+                                            <Button>4</Button>
+                                            <Button>5</Button>
+                                            <Button>6</Button>
+                                            <Button>7</Button>
+                                            <Button>8</Button>
+                                            <Button>9</Button>
+                                        </DocumentWrapPanel>
+                                    </ScrollViewer>
+                                    <TextBlock Grid.Row="2" Text="{Binding ElementName=documentWrapPanel,Path=IsWrap,StringFormat=是否换行：{0}}"/>
+                                </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="GifImage">
                                 <UniformGrid Rows="2" Columns="2">

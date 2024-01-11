@@ -1,9 +1,9 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
-    xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock"
-    xmlns:reskeys="clr-namespace:OhmStudio.UI.AvalonDockThemes">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
+                    xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock"
+                    xmlns:reskeys="clr-namespace:OhmStudio.UI.AvalonDockThemes"
+                    xmlns:controls="clr-namespace:OhmStudio.UI.Controls">
 
     <PathGeometry x:Key="Path_DocumentWellPaneControl_DropDownMenu" Figures="M 608,0.000223796L 640,0.000223796L 640,7.70652L 608,7.70652L 608,0.000223796 Z M 624.021,32.0002L 608,16.0001L 640,16.0001L 624.021,32.0002 Z " />
 
@@ -85,10 +85,8 @@
                                 Grid.ColumnSpan="2"
                                 BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentWellTabSelectedActiveBackground}}"
                                 BorderThickness="0,0,0,2" />
-                            <avalonDockControls:DocumentPaneTabPanel
+                            <controls:DocumentWrapPanel IsWrap="False"
                                 x:Name="HeaderPanel"
-                                Grid.Row="0"
-                                Grid.Column="0"
                                 Margin="0,0,0,2"
                                 IsItemsHost="true"
                                 KeyboardNavigation.TabIndex="1" />

@@ -83,11 +83,11 @@ namespace OhmStudio.UI.Demo.Views
                 Pro pro = new Pro();
                 if (i % 2 == 0)
                 {
-                    pro.Name = 10;
+                    pro.Name = "10";
                 }
                 else
                 {
-                    pro.Name = i;
+                    pro.Name = i.ToString();
                 }
                 pro.Value = i;
                 pro.Description = "Description" + i;
@@ -101,7 +101,7 @@ namespace OhmStudio.UI.Demo.Views
                 AlertDialog.Show("已改变");
             };
             UserInfos.Add(new UserInfoModel());
-            UserInfos.Add(new UserInfoModel() { Name = "wang" });
+            UserInfos.Add(new UserInfoModel() { UserName = "wang" });
             Messenger.Default.Register<string>(this, Rrecipient, msg => AlertDialog.Show(msg));
             SystemEvents.InstalledFontsChanged += SystemEvents_InstalledFontsChanged;
             StatusManager.IsRunningChanged += StatusManager_IsRunningChanged;
@@ -135,7 +135,7 @@ namespace OhmStudio.UI.Demo.Views
                 {
                     foreach (var item in UserInfoSelectedItems.OfType<UserInfoModel>())
                     {
-                        AlertDialog.Show(item.Name);
+                        AlertDialog.Show(item.UserName);
                     }
                 }
             }, () =>
@@ -189,8 +189,11 @@ namespace OhmStudio.UI.Demo.Views
             get => (double)(Application.Current?.Resources[GlobalFontSize]);
             set
             {
-                Application.Current.Resources[GlobalFontSize] = value;
-                OnPropertyChanged(nameof(CurrentFontSize));
+                if (FontSizeList.Contains(value))
+                {
+                    Application.Current.Resources[GlobalFontSize] = value;
+                    OnPropertyChanged(nameof(CurrentFontSize));
+                }
             }
         }
 
@@ -451,6 +454,11 @@ namespace OhmStudio.UI.Demo.Views
             treeView.Items.Add(rootNode);
 
         }
+
+        private void Button_Click_8(object sender, RoutedEventArgs e)
+        {
+            documentWrapPanel.IsWrap = !documentWrapPanel.IsWrap;
+        }
     }
 
     public abstract class OhmTheme : ResourceDictionary
@@ -605,11 +613,11 @@ namespace OhmStudio.UI.Demo.Views
     [BaseObjectIgnore]
     public class Pro : ProBase
     {
-        public double Name { get; set; }
+        public string Name { get; set; }
 
         public bool IsExpanded { get; set; } = true;
 
-        public ImageSource ImageSource { get; set; } = new BitmapImage(new Uri("/download.jpg", UriKind.Relative));
+        public ImageSource ImageSource { get; set; } = new BitmapImage(new Uri("/Images/1.jpg", UriKind.Relative));
 
         public int? Abstring1 { get; set; } = null;
 
@@ -621,8 +629,7 @@ namespace OhmStudio.UI.Demo.Views
 
         public InstrumentType InstrumentType { get; set; }
 
-        [PropertyGrid(DisplayName = "名字")]
-
+        [PropertyGrid(DisplayName = "描述")]
         public string Description { get; set; }
 
         [PropertyGrid(DisplayName = "值")]
@@ -688,7 +695,7 @@ namespace OhmStudio.UI.Demo.Views
 
     public class UserInfoModel
     {
-        public string Name { get; set; } = "1";
+        public string UserName { get; set; } = "1";
 
         public string Password { get; set; } = "1";
 

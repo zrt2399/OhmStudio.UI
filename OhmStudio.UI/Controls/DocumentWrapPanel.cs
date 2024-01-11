@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -116,7 +115,7 @@ namespace OhmStudio.UI.Controls
         public bool IsWrap
         {
             get => (bool)GetValue(IsWrapProperty);
-            set => SetValue(OrientationProperty, value);
+            set => SetValue(IsWrapProperty, value);
         }
 
         public DocumentWrapPanel()
@@ -129,7 +128,7 @@ namespace OhmStudio.UI.Controls
             ItemWidthProperty = DependencyProperty.Register(nameof(ItemWidth), typeof(double), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.AffectsMeasure), IsWidthHeightValid);
             ItemHeightProperty = DependencyProperty.Register(nameof(ItemHeight), typeof(double), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.AffectsMeasure), IsWidthHeightValid);
             OrientationProperty = StackPanel.OrientationProperty.AddOwner(typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(Orientation.Horizontal, FrameworkPropertyMetadataOptions.AffectsMeasure, OnOrientationChanged));
-            IsWrapProperty = DependencyProperty.Register(nameof(IsWrap), typeof(bool), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure, OnIsWrapChanged));
+            IsWrapProperty = DependencyProperty.Register(nameof(IsWrap), typeof(bool), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsMeasure, OnIsWrapChanged));
             //ControlsTraceLogger.AddControl(TelemetryControls.DocumentWrapPanel);
         }
 
@@ -287,17 +286,22 @@ namespace OhmStudio.UI.Controls
             }
             else
             {
-                IEnumerable<UIElement> enumerable = from UIElement ch in Children
-                                                    where ch.Visibility != Visibility.Collapsed
-                                                    select ch;
+                //IEnumerable<UIElement> enumerable = from UIElement ch in Children
+                //                                    where ch.Visibility != Visibility.Collapsed
+                //                                    select ch;
                 double num = 0.0;
                 bool flag = false;
-                foreach (TabItem item in enumerable.OfType<TabItem>())
+                foreach (var item in Children.OfType<UIElement>().Where(x => x.Visibility != Visibility.Collapsed))
                 {
                     if (flag || num + item.DesiredSize.Width > finalSize.Width)
                     {
                         bool isSelected = false;
-                        LayoutContent layoutContent = item.Content as LayoutContent;
+                        LayoutContent layoutContent = null;
+                        if (item is TabItem tabItem)
+                        {
+                            layoutContent = tabItem.Content as LayoutContent;
+                        }
+
                         if (layoutContent != null)
                         {
                             isSelected = layoutContent.IsSelected;
@@ -324,7 +328,14 @@ namespace OhmStudio.UI.Controls
                     {
                         item.Visibility = Visibility.Visible;
                         item.Arrange(new Rect(num, 0.0, item.DesiredSize.Width, finalSize.Height));
-                        num += item.ActualWidth + item.Margin.Left + item.Margin.Right;
+                        if (item is FrameworkElement frameworkElement)
+                        {
+                            num += frameworkElement.ActualWidth + frameworkElement.Margin.Left + frameworkElement.Margin.Right;
+                        }
+                        else
+                        {
+                            num += item.RenderSize.Width;
+                        }
                     }
                 }
 
