@@ -9,7 +9,7 @@ namespace OhmStudio.UI.Attaches
     public class CornerRadiusAttach
     {
         public static readonly DependencyProperty IsCircularProperty =
-            DependencyProperty.RegisterAttached("IsCircular", typeof(bool), typeof(BorderAttach), new PropertyMetadata(false, OnIsCircularChanged));
+            DependencyProperty.RegisterAttached("IsCircular", typeof(bool), typeof(CornerRadiusAttach), new PropertyMetadata(OnIsCircularChanged));
 
         private static void OnIsCircularChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
@@ -55,6 +55,10 @@ namespace OhmStudio.UI.Attaches
             else if (element is GifImage)
             {
                 return GifImage.CornerRadiusProperty;
+            }
+            else if (BorderAttach.GetCornerRadius(element) != default)
+            {
+                return BorderAttach.CornerRadiusProperty;
             }
             else
             {
