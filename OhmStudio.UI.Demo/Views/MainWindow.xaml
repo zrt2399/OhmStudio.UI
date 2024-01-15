@@ -10,16 +10,15 @@
               xmlns:views="clr-namespace:OhmStudio.UI.Demo.Views"
               xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
               xmlns:hc="https://handyorg.github.io/handycontrol"
-              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
               d:DataContext="{d:DesignInstance Type=views:MainWindow}"
               mc:Ignorable="d"
-              IsShowTitle="True" BorderAttach.CornerRadius="2"
+              IsShowTitle="False" BorderAttach.CornerRadius="2"
               IsShowIcon="True"
               Icon="/icon.ico"
               WindowStartupLocation="CenterScreen"
               ResizeMode="CanResizeWithGrip"
-              UseLayoutRounding="True"
-              SnapsToDevicePixels="True"
+              UseLayoutRounding="{Binding IsAntiAliasing}"
+              SnapsToDevicePixels="{Binding IsAntiAliasing}"
               Title="{x:Static local:App.Name}"
               Height="720"
               Width="1280">
@@ -36,35 +35,34 @@
         <StackPanel Orientation="Horizontal">
             <ToolBarTray VerticalAlignment="Center">
                 <ToolBar BandIndex="1" >
-                    <Button   ToolTip="新建项目" Content="1"/>
+                    <Button ToolTip="新建项目" Content="1"/>
                     <TextBox>新建项目</TextBox>
-                    <RadioButton>新建项目</RadioButton>
-                    <CheckBox>新建项目</CheckBox>
+                    <RadioButton>选择</RadioButton>
+                    <CheckBox IsChecked="{Binding IsAntiAliasing}">抗锯齿</CheckBox>
                     <Button ToolTip="打开文件" Content="2"/>
                     <Separator></Separator>
-                    <Button  ToolTip="保存当前文件" Content="3"/>
+                    <Button ToolTip="保存当前文件" Content="3"/>
                     <Separator></Separator>
-                    <Button  ToolTip="保存当前文件" Content="5"/>
+                    <Button ToolTip="保存当前文件" Content="4"/>
                 </ToolBar>
                 <ToolBar BandIndex="2" >
-                    <Button   ToolTip="新建项目" Content="3"/>
+                    <Button ToolTip="新建项目" Content="5"/>
 
-                    <Button ToolTip="打开文件" Content="4"/>
+                    <Button ToolTip="打开文件" Content="6"/>
                     <Separator></Separator>
-                    <Button  ToolTip="保存当前文件" Content="5"/>
+                    <Button ToolTip="保存当前文件" Content="7"/>
                     <Separator></Separator>
-                    <Button  ToolTip="保存当前文件" Content="5"/>
+                    <Button ToolTip="保存当前文件" Content="8"/>
                 </ToolBar>
             </ToolBarTray>
             <SearchBar TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
-            <ComboBox/>
             <CheckComboBox/>
         </StackPanel>
     </ChromeWindow.LeftWindowCommands>
 
     <ChromeWindow.RightWindowCommands>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
-            <Border hc:BorderElement.Circular="False" IsHitTestVisible="False" VerticalAlignment="Center">
+            <Border IsHitTestVisible="False" VerticalAlignment="Center">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Style.Triggers>
@@ -101,7 +99,11 @@
                       Margin="6,0"
                       ItemsSource="{x:Static views:ThemeCollection.AllThemes}"
                       SelectedItem="{Binding CurrentTheme}"/>
-            <Button Click="Button_Click_5">登录</Button>
+            <Border CornerRadiusAttach.IsCircular="True" Width="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}"
+                    Background="Purple">
+                <TextBlock Foreground="White" HorizontalAlignment="Center">ad</TextBlock>
+            </Border>
+            <Button Click="Button_Click_5" Margin="6,0,0,0">登录</Button>
         </StackPanel>
 
     </ChromeWindow.RightWindowCommands>
@@ -296,9 +298,6 @@
                                         <Image Source="/Images/3a.jpg"/>
                                     </RollBox.Items>
                                 </RollBox>
-                            </LayoutDocument>
-                            <LayoutDocument Title="PlotView">
-
                             </LayoutDocument>
                             <LayoutDocument Title="TextEditor">
                                 <TabControl>
@@ -495,7 +494,6 @@
                                                  VerticalAlignment="Top"
                                                  VirtualizingPanel.ScrollUnit="Pixel"
                                                  SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
-                                            <Button Click="Button_Click_4">显示选中项</Button>
                                             <ToggleButton Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" >
@@ -522,15 +520,15 @@
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
                                 <UniformGrid Rows="3" Columns="2">
-                                    <ProgressBar Value="50" Style="{x:Null}" IsIndeterminate="True" Height="100" Width="400" VerticalAlignment="Center"/>
- 
-                                    <ProgressBar Value="50" IsIndeterminate="True" Height="100" Width="400" VerticalAlignment="Center">
+                                    <ProgressBar Value="50" Style="{x:Null}" IsIndeterminate="True" Height="50" Width="400" VerticalAlignment="Center"/>
+
+                                    <ProgressBar Value="50" IsIndeterminate="True" Height="50" Width="400" VerticalAlignment="Center">
 
                                     </ProgressBar>
                                     <CircularProgressBar Value="40" BorderBrush="#FF06B025"/>
                                     <CircularProgressBar Value="60" Title="进度" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
                                     <CircularProgressBar Value="50" BorderBrush="{DynamicResource ProgressBarProgress}"/>
-                                </UniformGrid> 
+                                </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="DocumentWrapPanel">
                                 <Grid>
@@ -544,7 +542,6 @@
                                         <DocumentWrapPanel x:Name="documentWrapPanel" VerticalAlignment="Top">
                                             <DocumentWrapPanel.Resources>
                                                 <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                                    <Setter Property="BorderAttach.CornerRadius" Value="50"/>
                                                     <Setter Property="CornerRadiusAttach.IsCircular" Value="True"/>
                                                     <Setter Property="Height" Value="100"/>
                                                     <Setter Property="Width" Value="100"/>
@@ -570,15 +567,21 @@
                                     <UniformGrid.Resources>
                                         <Style TargetType="GifImage" BasedOn="{StaticResource {x:Type GifImage}}">
                                             <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}"/>
+                                            <Setter Property="CornerRadiusAttach.IsCircular" Value="True"/>
                                         </Style>
                                     </UniformGrid.Resources>
-                                    <GifImage Source="/Images/car_chase.gif" CornerRadiusAttach.IsCircular="True"
-                                        BorderBrush="Yellow" BorderThickness="10"/>
-                                    <!--<Image ImageBehavior.AnimatedSource="/Images/car_chase.gif"/>-->
-                                    <GifImage Source="https://img.lanrentuku.com/img/allimg/1206/5-120601152054-50.gif"
-                                        BorderBrush="Orange" BorderThickness="20"/>
-                                    <GifImage Source="https://img.lanrentuku.com/img/allimg/1212/5-121204193Q8.gif"
-                                        BorderBrush="YellowGreen" BorderThickness="30"/>
+                                    <GroupBox Header="本地">
+                                        <GifImage Source="/Images/car_chase.gif" BorderBrush="Green" BorderThickness="2"/>
+                                    </GroupBox>
+                                    <GroupBox Header="网络">
+                                        <GifImage Source="https://img.lanrentuku.com/img/allimg/1206/5-120601152054-50.gif"
+                                                  BorderBrush="Orange" BorderThickness="10"/>
+                                    </GroupBox>
+                                    <GroupBox Header="网络">
+                                        <GifImage Source="https://img.lanrentuku.com/img/allimg/1212/5-121204193Q8.gif"
+                                                  BorderBrush="YellowGreen" BorderThickness="20"/>
+                                    </GroupBox>
+                                    <!--<Image ImageBehavior.AnimatedSource="/Images/car_chase.gif"/>--> 
                                     <!--<hc:GifImage Uri="/Images/car_chase.gif"  />-->
                                 </UniformGrid>
 
@@ -597,7 +600,7 @@
 
                                     </DataGrid>
                                     <Button Grid.Row="1" Command="{Binding StartCommand}">显示选中项</Button>
-                                    <Button Grid.Row="2" Click="Button_Click_6">显示选中项</Button>
+                                    <Button Grid.Row="2" Click="Button_Click_6">禁用/启用</Button>
                                 </Grid>
 
                             </LayoutDocument>
@@ -608,7 +611,7 @@
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <GroupBox Background="Orange" Header="Box" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
+                                    <GroupBox Background="Orange" Header="GroupBox" Margin="10"
                                               DropShadowAttach.ShadowColor="Orange" BorderBrush="Blue">
                                         <TextBox BorderThickness="0"/>
                                     </GroupBox>
@@ -780,7 +783,6 @@
                                     </Grid.RowDefinitions>
                                     <PropertyGrid SelectedObject="{Binding Items}" />
                                     <Button Click="Button_Click_3" Grid.Row="1">Click</Button>
-                                    <!--<hc:CheckComboBox  Grid.Row="2">Click</hc:CheckComboBox>-->
                                 </Grid>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="TreeView">
@@ -797,29 +799,24 @@
                 </LayoutPanel>
             </LayoutRoot>
         </DockingManager>
-        <StatusBar Grid.Row="1">
-            <StatusBar Padding="4,0">
-                <StatusBarItem x:Name="status" Content="Ready"/>
-                <StatusBarItem HorizontalAlignment="Right">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="-" Width="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}" Padding="0" Command="{Binding ZoomInCommand}"/>
-                        <Button Content="+" Width="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}" Margin="4,0" Padding="0" Command="{Binding ZoomOutCommand}"/>
-                        <TextBlock Text="{Binding WindowScale,StringFormat={}{0:P1}}" />
-                    </StackPanel>
-                    <StatusBarItem.Style>
-                        <Style TargetType="StatusBarItem">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding WindowState,RelativeSource={RelativeSource AncestorType=Window}}" Value="Minimized">
-                                    <Setter Property="Margin" Value="0,0,16,0" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding WindowState,RelativeSource={RelativeSource AncestorType=Window}}" Value="Normal">
-                                    <Setter Property="Margin" Value="0,0,16,0" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </StatusBarItem.Style>
-                </StatusBarItem>
-            </StatusBar>
+        <StatusBar Grid.Row="1" Padding="4">
+            <StatusBar.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                    <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="CornerRadiusAttach.IsCircular" Value="True"/>
+                </Style>
+            </StatusBar.Resources>
+
+            <Button Click="Button_Click_4" Width="Auto">切换状态</Button>
+            <StatusBarItem x:Name="status" Content="Ready" Margin="4,0"/>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal"> 
+                    <Button Content="-" Command="{Binding ZoomInCommand}"/>
+                    <Button Content="+" Command="{Binding ZoomOutCommand}" Margin="4,0"/>
+                    <TextBlock Text="{Binding WindowScale,StringFormat={}{0:P1}}"/>
+                </StackPanel>
+            </StatusBarItem>
         </StatusBar>
     </Grid>
 </ChromeWindow>

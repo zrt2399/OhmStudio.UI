@@ -109,7 +109,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void StatusManager_IsRunningChanged(object sender, EventArgs e)
         {
-            status.Content = sender;
+            status.Content = "IsRunning:" + sender;
         }
 
         private void SystemEvents_InstalledFontsChanged(object sender, EventArgs e)
@@ -126,10 +126,12 @@ namespace OhmStudio.UI.Demo.Views
 
         public IList UserInfoSelectedItems { get; set; }
 
-        private RelayCommand startCommand;
+        public bool IsAntiAliasing { get; set; } = true;
+
+        private RelayCommand _startCommand;
         public RelayCommand StartCommand
         {
-            get => startCommand ??= new RelayCommand(() =>
+            get => _startCommand ??= new RelayCommand(() =>
             {
                 if (UserInfoSelectedItems != null)
                 {
@@ -143,7 +145,7 @@ namespace OhmStudio.UI.Demo.Views
                 //Debug.WriteLine(Can);
                 return _can;
             });
-            set => startCommand = value;
+            set => _startCommand = value;
         }
 
         bool _can;
@@ -330,9 +332,7 @@ namespace OhmStudio.UI.Demo.Views
                 }
                 AlertDialog.Show(stringBuilder.ToString());
             }
-            var button = sender as Button;
             StatusManager.IsRunning = !StatusManager.IsRunning;
-            button.Content = StatusManager.IsRunning;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
