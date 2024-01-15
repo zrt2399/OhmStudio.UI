@@ -12,7 +12,7 @@
               xmlns:hc="https://handyorg.github.io/handycontrol"
               d:DataContext="{d:DesignInstance Type=views:MainWindow}"
               mc:Ignorable="d"
-              IsShowTitle="False" BorderAttach.CornerRadius="2"
+              IsShowTitle="True" BorderAttach.CornerRadius="2"
               IsShowIcon="True"
               Icon="/icon.ico"
               WindowStartupLocation="CenterScreen"
