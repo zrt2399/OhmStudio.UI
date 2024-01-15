@@ -56,13 +56,9 @@ namespace OhmStudio.UI.Attaches
             {
                 return GifImage.CornerRadiusProperty;
             }
-            else if (BorderAttach.GetCornerRadius(element) != default)
-            {
-                return BorderAttach.CornerRadiusProperty;
-            }
             else
             {
-                return null;
+                return BorderAttach.CornerRadiusProperty;
             }
         }
 
