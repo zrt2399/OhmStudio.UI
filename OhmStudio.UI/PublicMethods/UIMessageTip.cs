@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
+using OhmStudio.UI.Controls;
 using Point = System.Drawing.Point;
 
 namespace OhmStudio.UI.PublicMethods
@@ -34,10 +34,6 @@ namespace OhmStudio.UI.PublicMethods
         {
             Application.Current?.Dispatcher.Invoke(async () =>
             {
-                Popup popup = new Popup(); 
-                popup.AllowsTransparency = true;
-                Border borderEffect = new Border();
-                borderEffect.Background = "#FAFAFA".ToSolidColorBrush();
                 var color = uIStyle switch
                 {
                     UIStyle.Info => "#8C8C8C".ToSolidColorBrush(),
@@ -45,20 +41,15 @@ namespace OhmStudio.UI.PublicMethods
                     UIStyle.Warning => "#DC9B28".ToSolidColorBrush(),
                     _ => "#E65050".ToSolidColorBrush()
                 };
-                borderEffect.CornerRadius = new CornerRadius(4);
-                borderEffect.Margin = new Thickness(4);
-                borderEffect.Effect = new DropShadowEffect() { ShadowDepth = 0, Color = color.Color };
 
-                Grid grid = new Grid();
-                Grid gridContent = new Grid();
-                gridContent.ColumnDefinitions.Add(new ColumnDefinition());
-                gridContent.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+                Grid grid = new Grid(); 
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
 
                 TextBlock textBlock = new TextBlock();
                 textBlock.TextWrapping = TextWrapping.Wrap;
                 textBlock.VerticalAlignment = VerticalAlignment.Center;
                 textBlock.Text = message;
-                //textBlock.FontSize = 13;
                 if (!string.IsNullOrEmpty(textBlock.Text))
                 {
                     textBlock.Margin = new Thickness(4, 0, 0, 0);
@@ -67,20 +58,25 @@ namespace OhmStudio.UI.PublicMethods
                 var image = new System.Windows.Controls.Image();
                 image.Source = PresetsResources.Icons[(int)uIStyle];
                 textBlock.SetValue(Grid.ColumnProperty, 1);
-                gridContent.Children.Add(image);
-                gridContent.Children.Add(textBlock);
+                grid.Children.Add(image);
+                grid.Children.Add(textBlock); 
 
-                Border border = new Border();
-                border.Child = gridContent;
-                border.BorderThickness = new Thickness(1);
-                border.BorderBrush = new System.Windows.Media.SolidColorBrush(color.Color);
-                border.Padding = new Thickness(4);
-                border.Margin = new Thickness(3.5);
-                border.CornerRadius = new CornerRadius(4);
-
-                grid.Children.Add(borderEffect);
-                grid.Children.Add(border);
-                popup.Child = grid;
+                DropShadowControl dropShadowControl = new DropShadowControl(); 
+                dropShadowControl.Background = "#FAFAFA".ToSolidColorBrush();
+                dropShadowControl.CornerRadius = new CornerRadius(4);
+                dropShadowControl.Margin = new Thickness(4);
+                dropShadowControl.ShadowDepth = 0;
+                dropShadowControl.ShadowColor = color.Color;
+                dropShadowControl.BlurRadius = 8;
+                dropShadowControl.Content = grid;
+                dropShadowControl.BorderThickness = new Thickness(1);
+                dropShadowControl.BorderBrush = color;
+                dropShadowControl.Padding = new Thickness(4);
+                 
+                Popup popup = new Popup();
+                popup.AllowsTransparency = true; 
+                popup.Child = dropShadowControl;
+                popup.MaxWidth = SystemParameters.WorkArea.Width;
                 popup.StaysOpen = true;
                 popup.Placement = PlacementMode.Mouse;
                 popup.IsOpen = true;
@@ -151,7 +147,7 @@ namespace OhmStudio.UI.PublicMethods
         /// <summary>
         /// 创建图标。
         /// </summary>
-        /// <param name="index">0=i；1=√；2=！；3=×；</param>
+        /// <param name="index">0=i；1=√；2=！；3=×</param>
         private static BitmapImage CreateIcon(int index)
         {
             if (index < 0 || index > 3)
