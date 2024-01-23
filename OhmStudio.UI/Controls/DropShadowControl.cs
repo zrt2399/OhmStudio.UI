@@ -33,42 +33,63 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty RenderingBiasProperty =
             DependencyProperty.Register(nameof(RenderingBias), typeof(RenderingBias), typeof(DropShadowControl), new FrameworkPropertyMetadata(RenderingBias.Performance, FrameworkPropertyMetadataOptions.AffectsRender));
 
+        /// <summary>
+        /// 阴影颜色。
+        /// </summary>
         public Color ShadowColor
         {
             get => (Color)GetValue(ShadowColorProperty);
             set => SetValue(ShadowColorProperty, value);
         }
 
+        /// <summary>
+        /// 圆角。
+        /// </summary>
         public CornerRadius CornerRadius
         {
             get => (CornerRadius)GetValue(CornerRadiusProperty);
             set => SetValue(CornerRadiusProperty, value);
         }
 
+        /// <summary>
+        /// 阴影偏移，默认值为5。
+        /// </summary>
         public double ShadowDepth
         {
             get => (double)GetValue(ShadowDepthProperty);
             set => SetValue(ShadowDepthProperty, value);
         }
 
+        /// <summary>
+        /// 阴影半径，默认值为5。
+        /// </summary>
         public double BlurRadius
         {
             get => (double)GetValue(BlurRadiusProperty);
             set => SetValue(BlurRadiusProperty, value);
         }
 
+        /// <summary>
+        /// 投影的方向，默认值为315。
+        /// </summary>
         public double ShadowDirection
         {
             get => (double)GetValue(ShadowDirectionProperty);
             set => SetValue(ShadowDirectionProperty, value);
         }
 
+        /// <summary>
+        /// 阴影透明度。
+        /// </summary>
         public double ShadowOpacity
         {
             get => (double)GetValue(ShadowOpacityProperty);
             set => SetValue(ShadowOpacityProperty, value);
         }
 
+        /// <summary>
+        /// 阴影呈现质量。
+        /// </summary>
         public RenderingBias RenderingBias
         {
             get => (RenderingBias)GetValue(RenderingBiasProperty);

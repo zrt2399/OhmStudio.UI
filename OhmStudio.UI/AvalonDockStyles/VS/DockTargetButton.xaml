@@ -1,8 +1,7 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ctrls="clr-namespace:OhmStudio.UI.Controls"
-    xmlns:reskeys="clr-namespace:OhmStudio.UI.AvalonDockThemes">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ctrls="clr-namespace:OhmStudio.UI.Controls"
+                    xmlns:reskeys="clr-namespace:OhmStudio.UI.AvalonDockThemes">
 
     <Style TargetType="ctrls:DockTargetButton">
         <Style.Resources>
@@ -53,21 +52,19 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ctrls:DockTargetButton">
-                            <Border
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
                                 <Canvas Width="24" Height="24">
-                                    <Border
-                                        Width="24"
-                                        Height="24"
-                                        Background="{TemplateBinding GlyphBackground}"
-                                        BorderBrush="{TemplateBinding GlyphBorderBrush}"
-                                        BorderThickness="1,3,1,1"
-                                        CornerRadius="0,0,1,1" />
+                                    <Border Width="24"
+                                            Height="24"
+                                            Background="{TemplateBinding GlyphBackground}"
+                                            BorderBrush="{TemplateBinding GlyphBorderBrush}"
+                                            BorderThickness="1,3,1,1"
+                                            CornerRadius="0,0,1,1" />
                                 </Canvas>
                             </Border>
                         </ControlTemplate>
@@ -78,34 +75,30 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ctrls:DockTargetButton">
-                            <Border
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
                                 <Canvas Width="24" Height="24">
-                                    <Border
-                                        Canvas.Left="0"
-                                        Width="12"
-                                        Height="24"
-                                        Background="{TemplateBinding GlyphBackground}"
-                                        BorderThickness="1,3,0,1" />
-                                    <Border
-                                        Width="24"
-                                        Height="24"
-                                        BorderBrush="{TemplateBinding GlyphBorderBrush}"
-                                        BorderThickness="1,3,1,1"
-                                        CornerRadius="0,0,1,1" />
-                                    <Line
-                                        Canvas.Left="11"
-                                        Stroke="{TemplateBinding GlyphBorderBrush}"
-                                        StrokeDashArray="1"
-                                        X1="0.5"
-                                        X2="0.5"
-                                        Y1="2"
-                                        Y2="23" />
+                                    <Border Canvas.Left="0"
+                                            Width="12"
+                                            Height="24"
+                                            Background="{TemplateBinding GlyphBackground}"
+                                            BorderThickness="1,3,0,1" />
+                                    <Border Width="24"
+                                            Height="24"
+                                            BorderBrush="{TemplateBinding GlyphBorderBrush}"
+                                            BorderThickness="1,3,1,1"
+                                            CornerRadius="0,0,1,1" />
+                                    <Line Canvas.Left="11"
+                                          Stroke="{TemplateBinding GlyphBorderBrush}"
+                                          StrokeDashArray="1"
+                                          X1="0.5"
+                                          X2="0.5"
+                                          Y1="2"
+                                          Y2="23" />
                                 </Canvas>
                             </Border>
                         </ControlTemplate>
@@ -116,34 +109,30 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ctrls:DockTargetButton">
-                            <Border
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
                                 <Canvas Width="24" Height="24">
-                                    <Border
-                                        Canvas.Top="0"
-                                        Width="24"
-                                        Height="12"
-                                        Background="{TemplateBinding GlyphBackground}"
-                                        BorderThickness="1,3,1,0" />
-                                    <Border
-                                        Width="24"
-                                        Height="24"
-                                        BorderBrush="{TemplateBinding GlyphBorderBrush}"
-                                        BorderThickness="1,3,1,1"
-                                        CornerRadius="0,0,1,1" />
-                                    <Line
-                                        Canvas.Top="11"
-                                        Stroke="{TemplateBinding GlyphBorderBrush}"
-                                        StrokeDashArray="1"
-                                        X1="23"
-                                        X2="1"
-                                        Y1="0.5"
-                                        Y2="0.5" />
+                                    <Border Canvas.Top="0"
+                                            Width="24"
+                                            Height="12"
+                                            Background="{TemplateBinding GlyphBackground}"
+                                            BorderThickness="1,3,1,0" />
+                                    <Border Width="24"
+                                            Height="24"
+                                            BorderBrush="{TemplateBinding GlyphBorderBrush}"
+                                            BorderThickness="1,3,1,1"
+                                            CornerRadius="0,0,1,1" />
+                                    <Line Canvas.Top="11"
+                                          Stroke="{TemplateBinding GlyphBorderBrush}"
+                                          StrokeDashArray="1"
+                                          X1="23"
+                                          X2="1"
+                                          Y1="0.5"
+                                          Y2="0.5" />
                                 </Canvas>
                             </Border>
                         </ControlTemplate>
@@ -154,34 +143,30 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ctrls:DockTargetButton">
-                            <Border
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
                                 <Canvas Width="24" Height="24">
-                                    <Border
-                                        Canvas.Right="0"
-                                        Width="12"
-                                        Height="24"
-                                        Background="{TemplateBinding GlyphBackground}"
-                                        BorderThickness="0,3,1,1" />
-                                    <Border
-                                        Width="24"
-                                        Height="24"
-                                        BorderBrush="{TemplateBinding GlyphBorderBrush}"
-                                        BorderThickness="1,3,1,1"
-                                        CornerRadius="0,0,1,1" />
-                                    <Line
-                                        Canvas.Left="12"
-                                        Stroke="{TemplateBinding GlyphBorderBrush}"
-                                        StrokeDashArray="1"
-                                        X1="0.5"
-                                        X2="0.5"
-                                        Y1="2"
-                                        Y2="23" />
+                                    <Border Canvas.Right="0"
+                                            Width="12"
+                                            Height="24"
+                                            Background="{TemplateBinding GlyphBackground}"
+                                            BorderThickness="0,3,1,1" />
+                                    <Border Width="24"
+                                            Height="24"
+                                            BorderBrush="{TemplateBinding GlyphBorderBrush}"
+                                            BorderThickness="1,3,1,1"
+                                            CornerRadius="0,0,1,1" />
+                                    <Line Canvas.Left="12"
+                                          Stroke="{TemplateBinding GlyphBorderBrush}"
+                                          StrokeDashArray="1"
+                                          X1="0.5"
+                                          X2="0.5"
+                                          Y1="2"
+                                          Y2="23" />
                                 </Canvas>
                             </Border>
                         </ControlTemplate>
@@ -192,34 +177,30 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ctrls:DockTargetButton">
-                            <Border
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
                                 <Canvas Width="24" Height="24">
-                                    <Border
-                                        Canvas.Bottom="0"
-                                        Width="24"
-                                        Height="12"
-                                        Background="{TemplateBinding GlyphBackground}"
-                                        BorderThickness="1,0,1,1" />
-                                    <Border
-                                        Width="24"
-                                        Height="24"
-                                        BorderBrush="{TemplateBinding GlyphBorderBrush}"
-                                        BorderThickness="1,3,1,1"
-                                        CornerRadius="0,0,1,1" />
-                                    <Line
-                                        Canvas.Top="12"
-                                        Stroke="{TemplateBinding GlyphBorderBrush}"
-                                        StrokeDashArray="1"
-                                        X1="23"
-                                        X2="1"
-                                        Y1="0.5"
-                                        Y2="0.5" />
+                                    <Border Canvas.Bottom="0"
+                                            Width="24"
+                                            Height="12"
+                                            Background="{TemplateBinding GlyphBackground}"
+                                            BorderThickness="1,0,1,1" />
+                                    <Border Width="24"
+                                            Height="24"
+                                            BorderBrush="{TemplateBinding GlyphBorderBrush}"
+                                            BorderThickness="1,3,1,1"
+                                            CornerRadius="0,0,1,1" />
+                                    <Line Canvas.Top="12"
+                                          Stroke="{TemplateBinding GlyphBorderBrush}"
+                                          StrokeDashArray="1"
+                                          X1="23"
+                                          X2="1"
+                                          Y1="0.5"
+                                          Y2="0.5" />
                                 </Canvas>
                             </Border>
                         </ControlTemplate>
@@ -231,23 +212,21 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ctrls:DockTargetButton">
-                            <Border
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
                                 <Canvas Width="24" Height="24">
                                     <Path Data="M22,8 L22,16 L18,12 Z" Fill="{TemplateBinding GlyphArrowBrush}" />
-                                    <Border
-                                        Canvas.Left="0"
-                                        Width="12"
-                                        Height="24"
-                                        Background="{TemplateBinding GlyphBackground}"
-                                        BorderBrush="{TemplateBinding GlyphBorderBrush}"
-                                        BorderThickness="1,3,1,1"
-                                        CornerRadius="0,0,1,1" />
+                                    <Border Canvas.Left="0"
+                                            Width="12"
+                                            Height="24"
+                                            Background="{TemplateBinding GlyphBackground}"
+                                            BorderBrush="{TemplateBinding GlyphBorderBrush}"
+                                            BorderThickness="1,3,1,1"
+                                            CornerRadius="0,0,1,1" />
                                 </Canvas>
                             </Border>
                         </ControlTemplate>
@@ -258,23 +237,21 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ctrls:DockTargetButton">
-                            <Border
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
                                 <Canvas Width="24" Height="24">
                                     <Path Data="M8,22 L16,22 L12,18 Z" Fill="{TemplateBinding GlyphArrowBrush}" />
-                                    <Border
-                                        Canvas.Top="0"
-                                        Width="24"
-                                        Height="12"
-                                        Background="{TemplateBinding GlyphBackground}"
-                                        BorderBrush="{TemplateBinding GlyphBorderBrush}"
-                                        BorderThickness="1,3,1,1"
-                                        CornerRadius="0,0,1,1" />
+                                    <Border Canvas.Top="0"
+                                            Width="24"
+                                            Height="12"
+                                            Background="{TemplateBinding GlyphBackground}"
+                                            BorderBrush="{TemplateBinding GlyphBorderBrush}"
+                                            BorderThickness="1,3,1,1"
+                                            CornerRadius="0,0,1,1" />
                                 </Canvas>
                             </Border>
                         </ControlTemplate>
@@ -285,23 +262,21 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ctrls:DockTargetButton">
-                            <Border
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
                                 <Canvas Width="24" Height="24">
                                     <Path Data="M2,8 L6,12 L2,16 Z" Fill="{TemplateBinding GlyphArrowBrush}" />
-                                    <Border
-                                        Canvas.Right="0"
-                                        Width="12"
-                                        Height="24"
-                                        Background="{TemplateBinding GlyphBackground}"
-                                        BorderBrush="{TemplateBinding GlyphBorderBrush}"
-                                        BorderThickness="1,3,1,1"
-                                        CornerRadius="0,0,1,1" />
+                                    <Border Canvas.Right="0"
+                                            Width="12"
+                                            Height="24"
+                                            Background="{TemplateBinding GlyphBackground}"
+                                            BorderBrush="{TemplateBinding GlyphBorderBrush}"
+                                            BorderThickness="1,3,1,1"
+                                            CornerRadius="0,0,1,1" />
                                 </Canvas>
                             </Border>
                         </ControlTemplate>
@@ -312,23 +287,21 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ctrls:DockTargetButton">
-                            <Border
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
                                 <Canvas Width="24" Height="24">
                                     <Path Data="M8,2 L16,2 L12,6 Z" Fill="{TemplateBinding GlyphArrowBrush}" />
-                                    <Border
-                                        Canvas.Bottom="0"
-                                        Width="24"
-                                        Height="12"
-                                        Background="{TemplateBinding GlyphBackground}"
-                                        BorderBrush="{TemplateBinding GlyphBorderBrush}"
-                                        BorderThickness="1,3,1,1"
-                                        CornerRadius="0,0,1,1" />
+                                    <Border Canvas.Bottom="0"
+                                            Width="24"
+                                            Height="12"
+                                            Background="{TemplateBinding GlyphBackground}"
+                                            BorderBrush="{TemplateBinding GlyphBorderBrush}"
+                                            BorderThickness="1,3,1,1"
+                                            CornerRadius="0,0,1,1" />
                                 </Canvas>
                             </Border>
                         </ControlTemplate>
@@ -347,31 +320,28 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ctrls:DockTargetButton">
-                                <Border
-                                    Background="{TemplateBinding OuterBackground}"
-                                    BorderBrush="{TemplateBinding OuterBorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="{TemplateBinding CornerRadius}"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
-                                    <Border
-                                        Margin="{TemplateBinding Padding}"
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                <Border Background="{TemplateBinding OuterBackground}"
+                                        BorderBrush="{TemplateBinding OuterBorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
                                         CornerRadius="{TemplateBinding CornerRadius}"
                                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                         UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                                    <Border Margin="{TemplateBinding Padding}"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="{TemplateBinding CornerRadius}"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                            UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
                                         <Canvas Width="24" Height="24">
                                             <Path Data="M22,8 L22,16 L18,12 Z" Fill="{TemplateBinding GlyphArrowBrush}" />
-                                            <Border
-                                                Canvas.Left="0"
-                                                Width="12"
-                                                Height="24"
-                                                Background="{TemplateBinding GlyphBackground}"
-                                                BorderBrush="{TemplateBinding GlyphBorderBrush}"
-                                                BorderThickness="1,3,1,1"
-                                                CornerRadius="0,0,1,1" />
+                                            <Border Canvas.Left="0"
+                                                    Width="12"
+                                                    Height="24"
+                                                    Background="{TemplateBinding GlyphBackground}"
+                                                    BorderBrush="{TemplateBinding GlyphBorderBrush}"
+                                                    BorderThickness="1,3,1,1"
+                                                    CornerRadius="0,0,1,1" />
                                         </Canvas>
                                     </Border>
                                 </Border>
@@ -391,31 +361,28 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ctrls:DockTargetButton">
-                                <Border
-                                    Background="{TemplateBinding OuterBackground}"
-                                    BorderBrush="{TemplateBinding OuterBorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="{TemplateBinding CornerRadius}"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
-                                    <Border
-                                        Margin="{TemplateBinding Padding}"
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                <Border Background="{TemplateBinding OuterBackground}"
+                                        BorderBrush="{TemplateBinding OuterBorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
                                         CornerRadius="{TemplateBinding CornerRadius}"
                                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                         UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                                    <Border Margin="{TemplateBinding Padding}"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="{TemplateBinding CornerRadius}"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                            UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
                                         <Canvas Width="24" Height="24">
                                             <Path Data="M8,22 L16,22 L12,18 Z" Fill="{TemplateBinding GlyphArrowBrush}" />
-                                            <Border
-                                                Canvas.Top="0"
-                                                Width="24"
-                                                Height="12"
-                                                Background="{TemplateBinding GlyphBackground}"
-                                                BorderBrush="{TemplateBinding GlyphBorderBrush}"
-                                                BorderThickness="1,3,1,1"
-                                                CornerRadius="0,0,1,1" />
+                                            <Border Canvas.Top="0"
+                                                    Width="24"
+                                                    Height="12"
+                                                    Background="{TemplateBinding GlyphBackground}"
+                                                    BorderBrush="{TemplateBinding GlyphBorderBrush}"
+                                                    BorderThickness="1,3,1,1"
+                                                    CornerRadius="0,0,1,1" />
                                         </Canvas>
                                     </Border>
                                 </Border>
@@ -435,31 +402,28 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ctrls:DockTargetButton">
-                                <Border
-                                    Background="{TemplateBinding OuterBackground}"
-                                    BorderBrush="{TemplateBinding OuterBorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="{TemplateBinding CornerRadius}"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
-                                    <Border
-                                        Margin="{TemplateBinding Padding}"
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                <Border Background="{TemplateBinding OuterBackground}"
+                                        BorderBrush="{TemplateBinding OuterBorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
                                         CornerRadius="{TemplateBinding CornerRadius}"
                                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                         UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                                    <Border Margin="{TemplateBinding Padding}"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="{TemplateBinding CornerRadius}"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                            UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
                                         <Canvas Width="24" Height="24">
                                             <Path Data="M2,8 L6,12 L2,16 Z" Fill="{TemplateBinding GlyphArrowBrush}" />
-                                            <Border
-                                                Canvas.Right="0"
-                                                Width="12"
-                                                Height="24"
-                                                Background="{TemplateBinding GlyphBackground}"
-                                                BorderBrush="{TemplateBinding GlyphBorderBrush}"
-                                                BorderThickness="1,3,1,1"
-                                                CornerRadius="0,0,1,1" />
+                                            <Border Canvas.Right="0"
+                                                    Width="12"
+                                                    Height="24"
+                                                    Background="{TemplateBinding GlyphBackground}"
+                                                    BorderBrush="{TemplateBinding GlyphBorderBrush}"
+                                                    BorderThickness="1,3,1,1"
+                                                    CornerRadius="0,0,1,1" />
                                         </Canvas>
                                     </Border>
                                 </Border>
@@ -479,31 +443,28 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ctrls:DockTargetButton">
-                                <Border
-                                    Background="{TemplateBinding OuterBackground}"
-                                    BorderBrush="{TemplateBinding OuterBorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="{TemplateBinding CornerRadius}"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
-                                    <Border
-                                        Margin="{TemplateBinding Padding}"
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                <Border Background="{TemplateBinding OuterBackground}"
+                                        BorderBrush="{TemplateBinding OuterBorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
                                         CornerRadius="{TemplateBinding CornerRadius}"
                                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                         UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                                    <Border Margin="{TemplateBinding Padding}"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="{TemplateBinding CornerRadius}"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                            UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
                                         <Canvas Width="24" Height="24">
                                             <Path Data="M8,2 L16,2 L12,6 Z" Fill="{TemplateBinding GlyphArrowBrush}" />
-                                            <Border
-                                                Canvas.Bottom="0"
-                                                Width="24"
-                                                Height="12"
-                                                Background="{TemplateBinding GlyphBackground}"
-                                                BorderBrush="{TemplateBinding GlyphBorderBrush}"
-                                                BorderThickness="1,3,1,1"
-                                                CornerRadius="0,0,1,1" />
+                                            <Border Canvas.Bottom="0"
+                                                    Width="24"
+                                                    Height="12"
+                                                    Background="{TemplateBinding GlyphBackground}"
+                                                    BorderBrush="{TemplateBinding GlyphBorderBrush}"
+                                                    BorderThickness="1,3,1,1"
+                                                    CornerRadius="0,0,1,1" />
                                         </Canvas>
                                     </Border>
                                 </Border>

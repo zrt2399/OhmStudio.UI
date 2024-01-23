@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib"
-                    xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit">
+                    xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <FontFamily x:Key="GlobalFontFamily">/Fonts/OPPOSans-M.ttf#OPPOSans M</FontFamily>
 
@@ -12,25 +12,25 @@
     <!--<system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">100</system:Double>
     <system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">100</system:Double>-->
 
-    <Style TargetType="ScrollViewer" BasedOn="{StaticResource {x:Type ScrollViewer}}">
-        <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
-        <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>
+    <Style BasedOn="{StaticResource {x:Type ScrollViewer}}" TargetType="ScrollViewer">
+        <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}" />
+        <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}" />
     </Style>
 
-    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}"> 
-        <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
-        <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/> 
+    <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}" />
+        <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}" />
     </Style>
- 
-    <Style TargetType="PasswordBox" BasedOn="{StaticResource {x:Type PasswordBox}}">
-        <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
-        <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/> 
+
+    <Style BasedOn="{StaticResource {x:Type PasswordBox}}" TargetType="PasswordBox">
+        <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}" />
+        <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}" />
     </Style>
- 
-    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-        <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
-        <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+    <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+        <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}" />
+        <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
@@ -39,34 +39,39 @@
                             <EventTrigger RoutedEvent="Loaded">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="sp" Storyboard.TargetProperty="RenderTransform.ScaleX"
-                                                         From="0" To="1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="sp"
+                                                         Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                                         From="0"
+                                                         To="1"
+                                                         Duration="0:0:0.2" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
                         </StackPanel.Triggers>
                         <AdornedElementPlaceholder />
-                        <StackPanel x:Name="sp" IsHitTestVisible="False" Orientation="Horizontal">
+                        <StackPanel x:Name="sp"
+                                    IsHitTestVisible="False"
+                                    Orientation="Horizontal">
                             <StackPanel.RenderTransform>
-                                <ScaleTransform/>
+                                <ScaleTransform />
                             </StackPanel.RenderTransform>
-                            <Path Fill="{Binding ElementName=ErrorContent,Path=Foreground}"
-                          Height="{Binding ElementName=ErrorContent,Path=ActualHeight}"
-                          Stretch="Uniform"
-                          Data="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm17.2 109.6l-3.1 115.1c-.2 8.2-5.9 14.8-14.1 14.8s-13.9-6.6-14.1-14.8l-3.1-115.1c-.2-9.6 7.5-17.6 17.2-17.6 9.6 0 17.4 7.9 17.2 17.6zM256 354c-10.7 0-19.1-8.1-19.1-18.4s8.4-18.4 19.1-18.4c10.7 0 19.1 8.1 19.1 18.4S266.7 354 256 354z"/>
-                            <TextBlock Foreground="{DynamicResource CommonControlsTextBoxErrorBorder}"
-                                       Text="{Binding ErrorContent,Mode=OneTime}"
+                            <Path Height="{Binding ElementName=ErrorContent, Path=ActualHeight}"
+                                  Data="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm17.2 109.6l-3.1 115.1c-.2 8.2-5.9 14.8-14.1 14.8s-13.9-6.6-14.1-14.8l-3.1-115.1c-.2-9.6 7.5-17.6 17.2-17.6 9.6 0 17.4 7.9 17.2 17.6zM256 354c-10.7 0-19.1-8.1-19.1-18.4s8.4-18.4 19.1-18.4c10.7 0 19.1 8.1 19.1 18.4S266.7 354 256 354z"
+                                  Fill="{Binding ElementName=ErrorContent, Path=Foreground}"
+                                  Stretch="Uniform" />
+                            <TextBlock Name="ErrorContent"
+                                       Margin="2,0,0,0"
                                        VerticalAlignment="Center"
-                                       Name="ErrorContent"
-                                       Margin="2,0,0,0"/>
+                                       Foreground="{DynamicResource CommonControlsTextBoxErrorBorder}"
+                                       Text="{Binding ErrorContent, Mode=OneTime}" />
                         </StackPanel>
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
- 
-    <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+
+    <Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="DataGrid">
         <Setter Property="DataGridAttach.ApplyDataGridColumnStyles" Value="True" />
         <Setter Property="DataGridAttach.AutoGeneratedTextStyle" Value="{StaticResource {x:Type TextBlock}}" />
         <Setter Property="DataGridAttach.AutoGeneratedCheckBoxStyle" Value="{StaticResource {x:Type CheckBox}}" />
@@ -76,19 +81,21 @@
         <Setter Property="DataGridAttach.AutoGeneratedEditingComboBoxStyle" Value="{StaticResource {x:Type ComboBox}}" />
         <!--<Setter Property="DataGridAttach.IsEnableEditBoxAssist" Value="True" />-->
     </Style>
- 
-    <Style x:Key="TransparentTextBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="IsReadOnly" Value="True"/>
+
+    <Style x:Key="TransparentTextBox"
+           BasedOn="{StaticResource {x:Type TextBox}}"
+           TargetType="TextBox">
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="IsReadOnly" Value="True" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Background" Value="Transparent" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Background" Value="Transparent" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -99,7 +106,7 @@
                 <TransformGroup>
                     <!--<TransformGroup.Children>
                                     <TransformCollection>-->
-                    <RotateTransform Angle="90"/>
+                    <RotateTransform Angle="90" />
                     <!--</TransformCollection>
                                 </TransformGroup.Children>-->
                 </TransformGroup>

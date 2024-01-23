@@ -11,8 +11,8 @@
 
                 <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VisualStudio.xaml" />
                 <ResourceDictionary Source="/GlobalStyle.xaml" />
-                
-            </ResourceDictionary.MergedDictionaries> 
+
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application> 

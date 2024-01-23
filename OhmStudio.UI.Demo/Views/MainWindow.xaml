@@ -1,72 +1,73 @@
 ﻿<ChromeWindow x:Class="OhmStudio.UI.Demo.Views.MainWindow"
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-              xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
-              xmlns:oxy="http://oxyplot.org/wpf"
-              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-              xmlns:local="clr-namespace:OhmStudio.UI.Demo"
+              xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
               xmlns:converters="clr-namespace:OhmStudio.UI.Demo.Converters"
-              xmlns:views="clr-namespace:OhmStudio.UI.Demo.Views"
-              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
               xmlns:hc="https://handyorg.github.io/handycontrol"
-              d:DataContext="{d:DesignInstance Type=views:MainWindow}"
-              mc:Ignorable="d"
-              IsShowTitle="True" BorderAttach.CornerRadius="2"
-              IsShowIcon="True"
-              Icon="/icon.ico"
-              WindowStartupLocation="CenterScreen"
-              ResizeMode="CanResizeWithGrip"
-              UseLayoutRounding="{Binding IsAntiAliasing}"
-              SnapsToDevicePixels="{Binding IsAntiAliasing}"
+              xmlns:local="clr-namespace:OhmStudio.UI.Demo"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:oxy="http://oxyplot.org/wpf"
+              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+              xmlns:views="clr-namespace:OhmStudio.UI.Demo.Views"
               Title="{x:Static local:App.Name}"
+              Width="1280"
               Height="720"
-              Width="1280">
+              d:DataContext="{d:DesignInstance Type=views:MainWindow}"
+              BorderAttach.CornerRadius="2"
+              Icon="/icon.ico"
+              IsShowIcon="True"
+              IsShowTitle="True"
+              ResizeMode="CanResizeWithGrip"
+              SnapsToDevicePixels="{Binding IsAntiAliasing}"
+              UseLayoutRounding="{Binding IsAntiAliasing}"
+              WindowStartupLocation="CenterScreen"
+              mc:Ignorable="d">
 
     <Window.LayoutTransform>
         <ScaleTransform ScaleX="{Binding WindowScale}" ScaleY="{Binding WindowScale}" />
     </Window.LayoutTransform>
 
     <Window.Resources>
-        <converters:GroupItemConverter x:Key="GroupItemConverter"/>
+        <converters:GroupItemConverter x:Key="GroupItemConverter" />
     </Window.Resources>
 
     <ChromeWindow.LeftWindowCommands>
         <StackPanel Orientation="Horizontal">
             <ToolBarTray VerticalAlignment="Center">
-                <ToolBar BandIndex="1" >
-                    <Button ToolTip="新建项目" Content="1"/>
+                <ToolBar BandIndex="1">
+                    <Button Content="1" ToolTip="新建项目" />
                     <TextBox>新建项目</TextBox>
                     <RadioButton>选择</RadioButton>
                     <CheckBox IsChecked="{Binding IsAntiAliasing}">抗锯齿</CheckBox>
-                    <Button ToolTip="打开文件" Content="2"/>
-                    <Separator></Separator>
-                    <Button ToolTip="保存当前文件" Content="3"/>
-                    <Separator></Separator>
-                    <Button ToolTip="保存当前文件" Content="4"/>
+                    <Button Content="2" ToolTip="打开文件" />
+                    <Separator />
+                    <Button Content="3" ToolTip="保存当前文件" />
+                    <Separator />
+                    <Button Content="4" ToolTip="保存当前文件" />
                 </ToolBar>
-                <ToolBar BandIndex="2" >
-                    <Button ToolTip="新建项目" Content="5"/>
+                <ToolBar BandIndex="2">
+                    <Button Content="5" ToolTip="新建项目" />
 
-                    <Button ToolTip="打开文件" Content="6"/>
-                    <Separator></Separator>
-                    <Button ToolTip="保存当前文件" Content="7"/>
-                    <Separator></Separator>
-                    <Button ToolTip="保存当前文件" Content="8"/>
+                    <Button Content="6" ToolTip="打开文件" />
+                    <Separator />
+                    <Button Content="7" ToolTip="保存当前文件" />
+                    <Separator />
+                    <Button Content="8" ToolTip="保存当前文件" />
                 </ToolBar>
             </ToolBarTray>
-            <SearchBar TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
-            <CheckComboBox/>
+            <SearchBar TextBoxAttach.PlaceHolder="请输入搜索内容..." TextBoxAttach.Title="搜索" />
+            <CheckComboBox />
         </StackPanel>
     </ChromeWindow.LeftWindowCommands>
 
     <ChromeWindow.RightWindowCommands>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
-            <Border IsHitTestVisible="False" VerticalAlignment="Center">
+        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+            <Border VerticalAlignment="Center" IsHitTestVisible="False">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsActive,RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                            <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
                                 <Setter Property="Background" Value="{DynamicResource SystemColorsWindowPanel}" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -75,11 +76,11 @@
                 <TextBlock Margin="4"
                            HorizontalAlignment="Center"
                            FontWeight="Bold"
-                           Text="{Binding Title,RelativeSource={RelativeSource AncestorType=Window}}" >
+                           Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}">
                     <TextBlock.Style>
-                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsActive,RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                                <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
                                     <Setter Property="Foreground" Value="{DynamicResource EnvironmentMainWindowInactiveCaptionText}" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -87,86 +88,88 @@
                     </TextBlock.Style>
                 </TextBlock>
             </Border>
-            <ComboBox TextBoxAttach.Title="字体大小："
+            <ComboBox Margin="6,0"
                       ItemsSource="{Binding FontSizeList}"
                       SelectedItem="{Binding CurrentFontSize}"
-                      Margin="6,0"/>
-            <ComboBox TextBoxAttach.Title="字体："
-                      ItemsSource="{Binding FontFamilyList}"
-                      SelectedItem="{Binding CurrentFontFamily}"/>
-            <ComboBox TextBoxAttach.Title="主题："
+                      TextBoxAttach.Title="字体大小：" />
+            <ComboBox ItemsSource="{Binding FontFamilyList}"
+                      SelectedItem="{Binding CurrentFontFamily}"
+                      TextBoxAttach.Title="字体：" />
+            <ComboBox Margin="6,0"
                       DisplayMemberPath="Name"
-                      Margin="6,0"
                       ItemsSource="{x:Static views:ThemeCollection.AllThemes}"
-                      SelectedItem="{Binding CurrentTheme}"/>
-            <Border CornerRadiusAttach.IsCircular="True" Width="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}"
-                    Background="Purple">
-                <TextBlock Foreground="White" HorizontalAlignment="Center">ad</TextBlock>
+                      SelectedItem="{Binding CurrentTheme}"
+                      TextBoxAttach.Title="主题：" />
+            <Border Width="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"
+                    Background="Purple"
+                    CornerRadiusAttach.IsCircular="True">
+                <TextBlock HorizontalAlignment="Center" Foreground="White">ad</TextBlock>
             </Border>
-            <Button Click="Button_Click_5" Margin="6,0,0,0">登录</Button>
+            <Button Margin="6,0,0,0" Click="Button_Click_5">登录</Button>
         </StackPanel>
 
     </ChromeWindow.RightWindowCommands>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <DockingManager x:Name="dockingManager"
-                        ShowSystemMenu="False"
-                        AutoHideDelay="0">
+                        AutoHideDelay="0"
+                        ShowSystemMenu="False">
             <LayoutRoot>
                 <LayoutPanel Orientation="Horizontal">
                     <LayoutDocumentPaneGroup>
-                        <LayoutDocumentPane  >
+                        <LayoutDocumentPane>
                             <LayoutDocument Title="Button">
                                 <UniformGrid>
                                     <Button Click="Button_Click">Click Me</Button>
-                                    <Button Click="Button_Click_1">Button</Button>
+                                    <Button Click="Button_Click_1">AlertDialog</Button>
                                     <Button Click="Button_Click_2">GC</Button>
-                                    <Border Background="Red" Name="Border" MouseRightButtonDown="Border_MouseRightButtonDown">
-                                        <Border.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem>123</MenuItem>
-                                            </ContextMenu>
-                                        </Border.ContextMenu>
-                                    </Border>
+                                    <UniformGrid Columns="1" Rows="5">
+                                        <Button Click="Button_Click_9">UIMessageTip.Show</Button>
+                                        <Button Click="Button_Click_10">UIMessageTip.ShowOk</Button>
+                                        <Button Click="Button_Click_11">UIMessageTip.ShowWarning</Button>
+                                        <Button Click="Button_Click_12">UIMessageTip.ShowError</Button>
+                                        <Button Click="Button_Click_13">UIMessageTip.ShowErrorMultiLine</Button>
+                                    </UniformGrid>
                                 </UniformGrid>
-
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
-                                <UniformGrid x:Name="da" Rows="3" Columns="1">
+                                <UniformGrid x:Name="da"
+                                             Columns="1"
+                                             Rows="3">
                                     <UniformGrid.Resources>
                                         <CollectionViewSource x:Key="ItemCollectionViewSource"
                                                               IsLiveGroupingRequested="True"
                                                               IsLiveSortingRequested="True"
                                                               Source="{Binding FileNodes}">
                                             <CollectionViewSource.GroupDescriptions>
-                                                <PropertyGroupDescription PropertyName="Name"/>
+                                                <PropertyGroupDescription PropertyName="Name" />
 
                                             </CollectionViewSource.GroupDescriptions>
                                             <CollectionViewSource.SortDescriptions>
-                                                <!-- Requires 'xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"' declaration. -->
+                                                <!--  Requires 'xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"' declaration.  -->
                                                 <scm:SortDescription PropertyName="Name" />
-                                                <scm:SortDescription  PropertyName="Value" />
-                                                <scm:SortDescription  PropertyName="Description" />
+                                                <scm:SortDescription PropertyName="Value" />
+                                                <scm:SortDescription PropertyName="Description" />
                                             </CollectionViewSource.SortDescriptions>
                                         </CollectionViewSource>
                                     </UniformGrid.Resources>
-                                    <DataGrid ItemsSource="{Binding Source={StaticResource ItemCollectionViewSource}}"
-                                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                                              VirtualizingPanel.IsVirtualizing="True"
-                                              VirtualizingPanel.VirtualizationMode="Recycling"
-                                              DataGridAttach.IsShowRowNumber="True"
+                                    <DataGrid AutoGenerateColumns="False"
+                                              CanUserAddRows="False"
                                               DataGridAttach.IsSelectionChangedUpdateRowNumber="True"
-                                              DataGridAttach.TextColumnElementStyle="{StaticResource {x:Type TextBlock}}"
+                                              DataGridAttach.IsShowRowNumber="True"
                                               DataGridAttach.TextColumnEditingElementStyle="{StaticResource TextColumnEditingElementStyle}"
-                                              AutoGenerateColumns="False"
-                                              CanUserAddRows="False" >
-                                        <!-- 定义需要显示的列 -->
+                                              DataGridAttach.TextColumnElementStyle="{StaticResource {x:Type TextBlock}}"
+                                              ItemsSource="{Binding Source={StaticResource ItemCollectionViewSource}}"
+                                              VirtualizingPanel.IsVirtualizing="True"
+                                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                              VirtualizingPanel.VirtualizationMode="Recycling">
+                                        <!--  定义需要显示的列  -->
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                                             <!--<DataGridTemplateColumn Header="密码" >
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
@@ -174,8 +177,11 @@
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>-->
-                                            <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
-                                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" DataGridAttach.IsIgnoreElementStyle="True" ElementStyle="{StaticResource TextBlockPassword}"/>
+                                            <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+                                            <DataGridTextColumn Binding="{Binding Description}"
+                                                                DataGridAttach.IsIgnoreElementStyle="True"
+                                                                ElementStyle="{StaticResource TextBlockPassword}"
+                                                                Header="Description" />
                                         </DataGrid.Columns>
                                         <DataGrid.GroupStyle>
                                             <GroupStyle>
@@ -184,11 +190,11 @@
                                                         <Setter Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate TargetType="GroupItem">
-                                                                    <Expander IsExpanded="{Binding Path=Items[0].IsExpanded,FallbackValue=True,TargetNullValue=True}" Background="{DynamicResource DataGridGroupItemHeaderBackground}">
+                                                                    <Expander Background="{DynamicResource DataGridGroupItemHeaderBackground}" IsExpanded="{Binding Path=Items[0].IsExpanded, FallbackValue=True, TargetNullValue=True}">
                                                                         <Expander.Header>
                                                                             <StackPanel Orientation="Horizontal">
-                                                                                <TextBlock Text="{Binding Path=Name,StringFormat=分组：{0}}" Margin="0,0,20,0"/>
-                                                                                <TextBlock Text="{Binding Path=ItemCount,StringFormat=数量：{0}}"/>
+                                                                                <TextBlock Margin="0,0,20,0" Text="{Binding Path=Name, StringFormat=分组：{0}}" />
+                                                                                <TextBlock Text="{Binding Path=ItemCount, StringFormat=数量：{0}}" />
                                                                             </StackPanel>
                                                                         </Expander.Header>
                                                                         <ItemsPresenter />
@@ -200,7 +206,7 @@
                                                 </GroupStyle.ContainerStyle>
                                             </GroupStyle>
                                         </DataGrid.GroupStyle>
-                                        <!--<DataGrid.GroupStyle> 
+                                        <!--<DataGrid.GroupStyle>
                                             <GroupStyle>
                                                 <GroupStyle.ContainerStyle>
                                                     <Style TargetType="{x:Type GroupItem}">
@@ -224,7 +230,7 @@
                                                         </Setter>
                                                     </Style>
                                                 </GroupStyle.ContainerStyle>
-                                            </GroupStyle> 
+                                            </GroupStyle>
                                             <GroupStyle>
                                                 <GroupStyle.HeaderTemplate>
                                                     <DataTemplate>
@@ -238,39 +244,41 @@
                                         </DataGrid.GroupStyle>-->
                                         <DataGrid.ContextMenu>
                                             <ContextMenu>
-                                                <MenuItem Header="全部展开" Click="MenuItem_Click"/>
-                                                <MenuItem Header="全部折叠" Click="MenuItem_Click_1"/>
+                                                <MenuItem Click="MenuItem_Click" Header="全部展开" />
+                                                <MenuItem Click="MenuItem_Click_1" Header="全部折叠" />
                                             </ContextMenu>
                                         </DataGrid.ContextMenu>
                                     </DataGrid>
-                                    <DataGrid ItemsSource="{Binding FileNodes}"
-                                              DataGridAttach.IsShowRowNumber="True"
+                                    <DataGrid DataGridAttach.IsShowRowNumber="True"
+                                              ItemsSource="{Binding FileNodes}"
                                               RowDetailsVisibilityMode="VisibleWhenSelected"
                                               ScrollViewerAttach.Orientation="Horizontal">
                                         <DataGrid.RowDetailsTemplate>
                                             <DataTemplate>
-                                                <DropShadowControl Background="Orange" ShadowColor="Orange" Margin="4">
-                                                    <TextBlock Text="{Binding InstrumentType}"/>
+                                                <DropShadowControl Margin="4"
+                                                                   Background="Orange"
+                                                                   ShadowColor="Orange">
+                                                    <TextBlock Text="{Binding InstrumentType}" />
                                                 </DropShadowControl>
                                             </DataTemplate>
                                         </DataGrid.RowDetailsTemplate>
                                     </DataGrid>
-                                    <DataGrid ItemsSource="{Binding FileNodes}"
+                                    <DataGrid AutoGenerateColumns="False"
                                               CanUserAddRows="False"
-                                              AutoGenerateColumns="False"
-                                              SelectionUnit="CellOrRowHeader"
-                                              DataGridAttach.IsShowRowNumber="True" 
-                                              DataGridAttach.TextColumnElementStyle="{StaticResource {x:Type TextBlock}}"
-                                              DataGridAttach.TextColumnEditingElementStyle="{StaticResource TextColumnEditingElementStyle}"
-                                              DataGridAttach.CheckBoxColumnElementStyle="{StaticResource {x:Type CheckBox}}"
                                               DataGridAttach.CheckBoxColumnEditingElementStyle="{StaticResource {x:Type CheckBox}}"
+                                              DataGridAttach.CheckBoxColumnElementStyle="{StaticResource {x:Type CheckBox}}"
+                                              DataGridAttach.ComboBoxColumnEditingElementStyle="{StaticResource {x:Type ComboBox}}"
                                               DataGridAttach.ComboBoxColumnElementStyle="{StaticResource {x:Type ComboBox}}"
-                                              DataGridAttach.ComboBoxColumnEditingElementStyle="{StaticResource {x:Type ComboBox}}">
+                                              DataGridAttach.IsShowRowNumber="True"
+                                              DataGridAttach.TextColumnEditingElementStyle="{StaticResource TextColumnEditingElementStyle}"
+                                              DataGridAttach.TextColumnElementStyle="{StaticResource {x:Type TextBlock}}"
+                                              ItemsSource="{Binding FileNodes}"
+                                              SelectionUnit="CellOrRowHeader">
                                         <DataGrid.Columns>
                                             <!--<DataGridHyperlinkColumn Header="Header" Binding="{Binding Name}"></DataGridHyperlinkColumn>-->
-                                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                                            <DataGridCheckBoxColumn Header="IsExpanded" Binding="{Binding IsExpanded}" />
-                                            <DataGridComboBoxColumn Header="Name1"  />
+                                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                                            <DataGridCheckBoxColumn Binding="{Binding IsExpanded}" Header="IsExpanded" />
+                                            <DataGridComboBoxColumn Header="Name1" />
 
                                         </DataGrid.Columns>
                                     </DataGrid>
@@ -278,50 +286,57 @@
                             </LayoutDocument>
                             <LayoutDocument Title="RollBox">
                                 <!--<hc:Carousel>
-                                     添加轮播项 
+                                     添加轮播项
                                     <hc:CarouselItem>
-                                         轮播项内容 
+                                         轮播项内容
                                     </hc:CarouselItem>
                                     <hc:CarouselItem>
                                         <Image Source="icon.ico"/>
-                                         轮播项内容 
+                                         轮播项内容
                                     </hc:CarouselItem>
-                                     可以添加更多轮播项 
+                                     可以添加更多轮播项
                                 </hc:Carousel>-->
                                 <RollBox>
                                     <RollBox.Items>
-                                        <Image Source="/Images/1.jpg"/>
-                                        <Image Source="/Images/1a.jpg"/>
-                                        <Image Source="/Images/2.jpg"/>
-                                        <Image Source="/Images/2a.jpg"/>
-                                        <Image Source="/Images/3.jpg"/>
-                                        <Image Source="/Images/3a.jpg"/>
+                                        <Image Source="/Images/1.jpg" />
+                                        <Image Source="/Images/1a.jpg" />
+                                        <Image Source="/Images/2.jpg" />
+                                        <Image Source="/Images/2a.jpg" />
+                                        <Image Source="/Images/3.jpg" />
+                                        <Image Source="/Images/3a.jpg" />
                                     </RollBox.Items>
                                 </RollBox>
                             </LayoutDocument>
                             <LayoutDocument Title="TextEditor">
                                 <TabControl>
                                     <TabItem Header="XML">
-                                        <avalonEdit:TextEditor x:Name="textEditor" SyntaxHighlighting="XML" ShowLineNumbers="True" />
+                                        <avalonEdit:TextEditor x:Name="textEditor"
+                                                               ShowLineNumbers="True"
+                                                               SyntaxHighlighting="XML" />
                                     </TabItem>
                                     <TabItem Header="C#">
                                         <Grid>
                                             <Grid.RowDefinitions>
-                                                <RowDefinition/>
-                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition />
+                                                <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
-                                            <avalonEdit:TextEditor x:Name="textEditorcs" SyntaxHighlighting="C#" ShowLineNumbers="True" />
+                                            <avalonEdit:TextEditor x:Name="textEditorcs"
+                                                                   ShowLineNumbers="True"
+                                                                   SyntaxHighlighting="C#" />
                                             <Button Grid.Row="1" Click="Button_Click_7">执行</Button>
                                         </Grid>
                                     </TabItem>
                                     <TabItem Header="C++">
-                                        <avalonEdit:TextEditor x:Name="textEditorcp" SyntaxHighlighting="C++" ShowLineNumbers="True">
-
-                                        </avalonEdit:TextEditor>
+                                        <avalonEdit:TextEditor x:Name="textEditorcp"
+                                                               ShowLineNumbers="True"
+                                                               SyntaxHighlighting="C++" />
                                     </TabItem>
                                 </TabControl>
                             </LayoutDocument>
-                            <LayoutDocument Title="Other" IsSelected="True" Description="其他" ToolTip="Other">
+                            <LayoutDocument Title="Other"
+                                            Description="其他"
+                                            IsSelected="True"
+                                            ToolTip="Other">
                                 <Grid>
                                     <!--<Grid>
                                         <Rectangle>
@@ -448,104 +463,175 @@
                                         </Rectangle>
                                     </Grid>-->
                                     <StackPanel Orientation="Horizontal">
-                                        <StackPanel Orientation="Vertical" Name="wr" IsEnabled="True" >
+                                        <StackPanel Name="wr"
+                                                    IsEnabled="True"
+                                                    Orientation="Vertical">
                                             <DateTimePicker VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入日期...">
                                                 <TextBoxAttach.Title>
                                                     <TextBox>123</TextBox>
                                                 </TextBoxAttach.Title>
                                             </DateTimePicker>
-                                            <DateTimePicker Name="se" TextBoxAttach.PlaceHolder="请输入密码" TextBoxAttach.PlaceHolderIsHitTestVisible="True">
+                                            <DateTimePicker Name="se"
+                                                            TextBoxAttach.PlaceHolder="请输入密码"
+                                                            TextBoxAttach.PlaceHolderIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
                                                     <TextBlock>密码</TextBlock>
                                                     <!--<iconPacks:PackIconModern Kind="InterfacePassword" Margin="0,0,4,0" Height="{Binding ElementName=dateTimePickerUserPassword1,Path=ActualHeight}"  />-->
                                                 </TextBoxAttach.Title>
                                             </DateTimePicker>
-                                            <SearchBar VerticalAlignment="Top" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
-                                            <TextBox VerticalAlignment="Top" TextBoxAttach.Title="开始" TextBoxAttach.PlaceHolder="123456..."/>
-                                            <TextBox IsEnabled="True" VerticalAlignment="Top" Text="{Binding CurrentDateTime,Mode=TwoWay}" >
+                                            <SearchBar VerticalAlignment="Top"
+                                                       HorizontalContentAlignment="Right"
+                                                       VerticalContentAlignment="Bottom"
+                                                       TextBoxAttach.PlaceHolder="请输入搜索内容..."
+                                                       TextBoxAttach.Title="搜索" />
+                                            <TextBox VerticalAlignment="Top"
+                                                     TextBoxAttach.PlaceHolder="123456..."
+                                                     TextBoxAttach.Title="开始" />
+                                            <TextBox VerticalAlignment="Top"
+                                                     IsEnabled="True"
+                                                     Text="{Binding CurrentDateTime, Mode=TwoWay}">
                                                 <TextBoxAttach.Title>
-                                                    <TextBlock >ButtonTitle</TextBlock>
+                                                    <TextBlock>ButtonTitle</TextBlock>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <TextBlock >ButtonPlaceHolder</TextBlock>
+                                                    <TextBlock>ButtonPlaceHolder</TextBlock>
                                                 </TextBoxAttach.PlaceHolder>
                                             </TextBox>
-                                            <PasswordBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="密码">
-
-                                            </PasswordBox>
+                                            <PasswordBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="密码" />
                                             <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码...">
                                                 <TextBoxAttach.Title>
-                                                    <TextBlock >ButtonTitle</TextBlock>
+                                                    <TextBlock>ButtonTitle</TextBlock>
                                                 </TextBoxAttach.Title>
                                             </PasswordTextBox>
                                             <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码1...">
                                                 <TextBoxAttach.Title>
-                                                    <TextBlock >搜索</TextBlock>
+                                                    <TextBlock>搜索</TextBlock>
                                                 </TextBoxAttach.Title>
                                             </PasswordTextBox>
 
-                                            <ComboBox TextBoxAttach.Title="中文" TextBoxAttach.PlaceHolder="请输入.." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
-                                            <ComboBox IsEditable="True" TextBoxAttach.Title="输出" HorizontalContentAlignment="Right" TextBoxAttach.PlaceHolder="请输入..." ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name"/>
-                                            <CheckComboBox TextBoxAttach.Title="搜索" HorizontalContentAlignment="Right"
-                                                 Separator=";"
-                                                 StringFormat="分组{0}"
-                                                 ItemsSource="{Binding FileNodes}"
-                                                 DisplayMemberPath="Description"
-                                                 VerticalAlignment="Top"
-                                                 VirtualizingPanel.ScrollUnit="Pixel"
-                                                 SelectedItems="{Binding SelectedItemsFileNodes,Mode=TwoWay}"/>
-                                            <ToggleButton Style="{StaticResource ToggleButtonStyle}" IsChecked="True" IsEnabled="True"/>
+                                            <ComboBox VerticalAlignment="Top"
+                                                      DisplayMemberPath="Name"
+                                                      ItemsSource="{Binding FileNodes}"
+                                                      TextBoxAttach.PlaceHolder="请输入.."
+                                                      TextBoxAttach.Title="中文" />
+                                            <ComboBox HorizontalContentAlignment="Right"
+                                                      DisplayMemberPath="Name"
+                                                      IsEditable="True"
+                                                      ItemsSource="{Binding FileNodes}"
+                                                      TextBoxAttach.PlaceHolder="请输入..."
+                                                      TextBoxAttach.Title="输出" />
+                                            <CheckComboBox VerticalAlignment="Top"
+                                                           HorizontalContentAlignment="Right"
+                                                           DisplayMemberPath="Description"
+                                                           ItemsSource="{Binding FileNodes}"
+                                                           SelectedItems="{Binding SelectedItemsFileNodes, Mode=TwoWay}"
+                                                           Separator=";"
+                                                           StringFormat="分组{0}"
+                                                           TextBoxAttach.Title="搜索"
+                                                           VirtualizingPanel.ScrollUnit="Pixel" />
+                                            <ToggleButton IsChecked="True"
+                                                          IsEnabled="True"
+                                                          Style="{StaticResource ToggleButtonStyle}" />
                                         </StackPanel>
-                                        <StackPanel Orientation="Vertical" >
-                                            <DateTimePicker VerticalAlignment="Top" TextBoxAttach.Title="结束：" SelectedDateTime="{Binding CurrentDateTime,Mode=TwoWay}" TextBoxAttach.PlaceHolder="请输入日期..."/>
-                                            <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" TextBoxAttach.Title="搜索" VerticalAlignment="Top" />
-                                            <PasswordBox VerticalAlignment="Top" TextBoxAttach.Title="技术" TextBoxAttach.PlaceHolder="密码"/>
-                                            <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..."/>
-                                            <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.Title="搜索"/>
+                                        <StackPanel Orientation="Vertical">
+                                            <DateTimePicker VerticalAlignment="Top"
+                                                            SelectedDateTime="{Binding CurrentDateTime, Mode=TwoWay}"
+                                                            TextBoxAttach.PlaceHolder="请输入日期..."
+                                                            TextBoxAttach.Title="结束：" />
+                                            <ComboBox VerticalAlignment="Top"
+                                                      DisplayMemberPath="Name"
+                                                      ItemsSource="{Binding FileNodes}"
+                                                      TextBoxAttach.Title="搜索" />
+                                            <PasswordBox VerticalAlignment="Top"
+                                                         TextBoxAttach.PlaceHolder="密码"
+                                                         TextBoxAttach.Title="技术" />
+                                            <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..." />
+                                            <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.Title="搜索" />
 
-                                            <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" IsEditable="True"/>
-                                            <SearchBar VerticalAlignment="Top" TextBoxAttach.Title="搜索" TextBoxAttach.PlaceHolder="请输入搜索内容..."/>
-                                            <TextBox BorderThickness="0,0,0,2" Margin="4" VerticalAlignment="Top" TextBoxAttach.Title="开始"/>
-                                            <TextBox VerticalAlignment="Top" Text="{Binding CurrentDateTime}" Margin="4" TextBoxAttach.PlaceHolder="time..."/>
+                                            <ComboBox VerticalAlignment="Top"
+                                                      DisplayMemberPath="Name"
+                                                      IsEditable="True"
+                                                      ItemsSource="{Binding FileNodes}" />
+                                            <SearchBar VerticalAlignment="Top"
+                                                       TextBoxAttach.PlaceHolder="请输入搜索内容..."
+                                                       TextBoxAttach.Title="搜索" />
+                                            <TextBox Margin="4"
+                                                     VerticalAlignment="Top"
+                                                     BorderThickness="0,0,0,2"
+                                                     TextBoxAttach.Title="开始" />
+                                            <TextBox Margin="4"
+                                                     VerticalAlignment="Top"
+                                                     Text="{Binding CurrentDateTime}"
+                                                     TextBoxAttach.PlaceHolder="time..." />
 
-                                            <Button Style="{StaticResource ClassicButton}" Padding="4" Margin="4" HorizontalContentAlignment="Left">ClassicButton</Button>
-                                            <Button Style="{StaticResource DefaultButton}" Padding="4" Margin="4" HorizontalContentAlignment="Center">DefaultButton</Button>
-                                            <Button Style="{StaticResource FlatButtonGreen}" Padding="4" Margin="4" HorizontalContentAlignment="Right">FlatButtonGreen</Button>
-                                            <Button Style="{StaticResource FlatButtonRed}" Padding="4" Margin="4" HorizontalContentAlignment="Center">FlatButtonRed</Button>
-                                            <TextBox Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..."/>
+                                            <Button Margin="4"
+                                                    Padding="4"
+                                                    HorizontalContentAlignment="Left"
+                                                    Style="{StaticResource ClassicButton}">
+                                                ClassicButton
+                                            </Button>
+                                            <Button Margin="4"
+                                                    Padding="4"
+                                                    HorizontalContentAlignment="Center"
+                                                    Style="{StaticResource DefaultButton}">
+                                                DefaultButton
+                                            </Button>
+                                            <Button Margin="4"
+                                                    Padding="4"
+                                                    HorizontalContentAlignment="Right"
+                                                    Style="{StaticResource FlatButtonGreen}">
+                                                FlatButtonGreen
+                                            </Button>
+                                            <Button Margin="4"
+                                                    Padding="4"
+                                                    HorizontalContentAlignment="Center"
+                                                    Style="{StaticResource FlatButtonRed}">
+                                                FlatButtonRed
+                                            </Button>
+                                            <TextBox Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..." />
                                         </StackPanel>
                                     </StackPanel>
 
                                 </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
-                                <UniformGrid Rows="3" Columns="2">
-                                    <ProgressBar Value="50" Style="{x:Null}" IsIndeterminate="True" Height="50" Width="400" VerticalAlignment="Center"/>
+                                <UniformGrid Columns="2" Rows="3">
+                                    <ProgressBar Width="400"
+                                                 Height="50"
+                                                 VerticalAlignment="Center"
+                                                 IsIndeterminate="True"
+                                                 Style="{x:Null}"
+                                                 Value="50" />
 
-                                    <ProgressBar Value="50" IsIndeterminate="True" Height="50" Width="400" VerticalAlignment="Center">
-
-                                    </ProgressBar>
-                                    <CircularProgressBar Value="40" BorderBrush="#FF06B025"/>
-                                    <CircularProgressBar Value="60" Title="进度" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
-                                    <CircularProgressBar Value="50" BorderBrush="{DynamicResource ProgressBarProgress}"/>
+                                    <ProgressBar Width="400"
+                                                 Height="50"
+                                                 VerticalAlignment="Center"
+                                                 IsIndeterminate="True"
+                                                 Value="50" />
+                                    <CircularProgressBar BorderBrush="#FF06B025" Value="40" />
+                                    <CircularProgressBar Title="进度"
+                                                         HorizontalContentAlignment="Left"
+                                                         VerticalContentAlignment="Top"
+                                                         Value="60" />
+                                    <CircularProgressBar BorderBrush="{DynamicResource ProgressBarProgress}" Value="50" />
                                 </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="DocumentWrapPanel">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Button Click="Button_Click_8">换行/不换行</Button>
                                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                                         <DocumentWrapPanel x:Name="documentWrapPanel" VerticalAlignment="Top">
                                             <DocumentWrapPanel.Resources>
-                                                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                                    <Setter Property="CornerRadiusAttach.IsCircular" Value="True"/>
-                                                    <Setter Property="Height" Value="100"/>
-                                                    <Setter Property="Width" Value="100"/>
-                                                    <Setter Property="Margin" Value="10"/>
+                                                <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                                                    <Setter Property="CornerRadiusAttach.IsCircular" Value="True" />
+                                                    <Setter Property="Height" Value="100" />
+                                                    <Setter Property="Width" Value="100" />
+                                                    <Setter Property="Margin" Value="10" />
                                                 </Style>
                                             </DocumentWrapPanel.Resources>
                                             <Button>1</Button>
@@ -559,29 +645,33 @@
                                             <Button>9</Button>
                                         </DocumentWrapPanel>
                                     </ScrollViewer>
-                                    <TextBlock Grid.Row="2" Text="{Binding ElementName=documentWrapPanel,Path=IsWrap,StringFormat=是否换行：{0}}"/>
+                                    <TextBlock Grid.Row="2" Text="{Binding ElementName=documentWrapPanel, Path=IsWrap, StringFormat=是否换行：{0}}" />
                                 </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="GifImage">
-                                <UniformGrid Rows="2" Columns="2">
+                                <UniformGrid Columns="2" Rows="2">
                                     <UniformGrid.Resources>
-                                        <Style TargetType="GifImage" BasedOn="{StaticResource {x:Type GifImage}}">
-                                            <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}"/>
-                                            <Setter Property="CornerRadiusAttach.IsCircular" Value="True"/>
+                                        <Style BasedOn="{StaticResource {x:Type GifImage}}" TargetType="GifImage">
+                                            <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}" />
+                                            <Setter Property="CornerRadiusAttach.IsCircular" Value="True" />
                                         </Style>
                                     </UniformGrid.Resources>
-                                    <GroupBox Header="本地">
-                                        <GifImage Source="/Images/car_chase.gif" BorderBrush="Green" BorderThickness="2"/>
+                                    <GroupBox Margin="10" Header="本地">
+                                        <GifImage BorderBrush="Green"
+                                                  BorderThickness="2"
+                                                  Source="/Images/car_chase.gif" />
                                     </GroupBox>
-                                    <GroupBox Header="网络">
-                                        <GifImage Source="https://img.lanrentuku.com/img/allimg/1206/5-120601152054-50.gif"
-                                                  BorderBrush="Orange" BorderThickness="10"/>
+                                    <GroupBox Margin="10" Header="网络">
+                                        <GifImage BorderBrush="Orange"
+                                                  BorderThickness="10"
+                                                  Source="https://img.lanrentuku.com/img/allimg/1206/5-120601152054-50.gif" />
                                     </GroupBox>
-                                    <GroupBox Header="网络">
-                                        <GifImage Source="https://img.lanrentuku.com/img/allimg/1212/5-121204193Q8.gif"
-                                                  BorderBrush="YellowGreen" BorderThickness="20"/>
+                                    <GroupBox Margin="10" Header="网络">
+                                        <GifImage BorderBrush="YellowGreen"
+                                                  BorderThickness="20"
+                                                  Source="https://img.lanrentuku.com/img/allimg/1212/5-121204193Q8.gif" />
                                     </GroupBox>
-                                    <!--<Image ImageBehavior.AnimatedSource="/Images/car_chase.gif"/>--> 
+                                    <!--<Image ImageBehavior.AnimatedSource="/Images/car_chase.gif"/>-->
                                     <!--<hc:GifImage Uri="/Images/car_chase.gif"  />-->
                                 </UniformGrid>
 
@@ -589,16 +679,14 @@
                             <LayoutDocument Title="UserInfos">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <DataGrid ItemsSource="{Binding UserInfos}"
-                                              DataGridAttach.IsShowRowNumber="True"
-                                              SelectorAttach.SelectedItemsAttach="True"
-                                              SelectorAttach.SelectedItems="{Binding UserInfoSelectedItems,Mode=TwoWay}">
-
-                                    </DataGrid>
+                                    <DataGrid DataGridAttach.IsShowRowNumber="True"
+                                              ItemsSource="{Binding UserInfos}"
+                                              SelectorAttach.SelectedItems="{Binding UserInfoSelectedItems, Mode=TwoWay}"
+                                              SelectorAttach.SelectedItemsAttach="True" />
                                     <Button Grid.Row="1" Command="{Binding StartCommand}">显示选中项</Button>
                                     <Button Grid.Row="2" Click="Button_Click_6">禁用/启用</Button>
                                 </Grid>
@@ -607,37 +695,57 @@
                             <LayoutDocument Title="GroupBox">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <GroupBox Background="Orange" Header="GroupBox" Margin="10"
-                                              DropShadowAttach.ShadowColor="Orange" BorderBrush="Blue">
-                                        <TextBox BorderThickness="0"/>
+                                    <GroupBox Margin="10"
+                                              Background="Orange"
+                                              BorderBrush="Blue"
+                                              DropShadowAttach.ShadowColor="Orange"
+                                              Header="GroupBox">
+                                        <TextBox BorderThickness="0" />
                                     </GroupBox>
-                                    <DropShadowControl Background="OrangeRed" CornerRadius="10" BorderThickness="2" BorderBrush="Gray" 
-                                                       BlurRadius="40" ShadowColor="IndianRed" ShadowDepth="0"
-                                                       Margin="10" Grid.Row="1" >
+                                    <DropShadowControl Grid.Row="1"
+                                                       Margin="10"
+                                                       Background="OrangeRed"
+                                                       BlurRadius="40"
+                                                       BorderBrush="Gray"
+                                                       BorderThickness="2"
+                                                       CornerRadius="10"
+                                                       ShadowColor="IndianRed"
+                                                       ShadowDepth="0">
                                         <TextBox Margin="10">TextBox</TextBox>
                                     </DropShadowControl>
-                                    <Border Background="Green" Margin="10" Grid.Row="2"/>
+                                    <Border Grid.Row="2"
+                                            Margin="10"
+                                            Background="Green" />
                                 </Grid>
 
                             </LayoutDocument>
                             <LayoutDocument Title="CheckComboBox" CanClose="False">
                                 <StackPanel Orientation="Horizontal">
-                                    <ComboBox DisplayMemberPath="Name" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" IsEditable="True"/>
-                                    <CheckComboBox DisplayMemberPath="Name"
-                                                   ItemsSource="{Binding FileNodes}"
-                                                   VerticalAlignment="Top"/>
+                                    <ComboBox VerticalAlignment="Top"
+                                              DisplayMemberPath="Name"
+                                              IsEditable="True"
+                                              ItemsSource="{Binding FileNodes}" />
+                                    <CheckComboBox VerticalAlignment="Top"
+                                                   DisplayMemberPath="Name"
+                                                   ItemsSource="{Binding FileNodes}" />
                                     <RadioButton>123</RadioButton>
                                     <RadioButton>456</RadioButton>
-                                    <CheckBox IsChecked="{x:Null}" VerticalAlignment="Top"/>
-                                    <ComboBox ItemsSource="{Binding FileNodes}" DisplayMemberPath="Name" VerticalAlignment="Top" />
-                                    <ComboBox DisplayMemberPath="Name" ItemsSource="{Binding FileNodes}" VerticalAlignment="Top" />
-                                    <TextBox Width="400" VerticalAlignment="Top" Text="{Binding CurrentDateTime}"/>
-                                    <ToggleButton Style="{StaticResource ToggleButtonStyle}"/>
-                                    <CircularProgressBar Value="50" Title="abcdefg"/>
+                                    <CheckBox VerticalAlignment="Top" IsChecked="{x:Null}" />
+                                    <ComboBox VerticalAlignment="Top"
+                                              DisplayMemberPath="Name"
+                                              ItemsSource="{Binding FileNodes}" />
+                                    <ComboBox VerticalAlignment="Top"
+                                              DisplayMemberPath="Name"
+                                              ItemsSource="{Binding FileNodes}" />
+                                    <TextBox Width="400"
+                                             VerticalAlignment="Top"
+                                             Text="{Binding CurrentDateTime}" />
+                                    <ToggleButton Style="{StaticResource ToggleButtonStyle}" />
+                                    <CircularProgressBar Title="abcdefg" Value="50" />
                                 </StackPanel>
 
                             </LayoutDocument>
@@ -646,123 +754,125 @@
                     <LayoutAnchorablePaneGroup DockWidth="400">
                         <LayoutAnchorablePane>
                             <LayoutAnchorable Title="数据网格" ToolTip="ListView.ListView">
-                                <ListView ItemsSource="{Binding Result}" >
+                                <ListView ItemsSource="{Binding Result}">
 
                                     <ListView.View>
                                         <GridView>
-                                            <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Time}"/>
-                                            <GridViewColumn Header="V0" DisplayMemberBinding="{Binding V0}"/>
-                                            <GridViewColumn Header="V1" DisplayMemberBinding="{Binding V1}"/>
-                                            <GridViewColumn Header="RX" DisplayMemberBinding="{Binding RX}"/>
+                                            <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="Time" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding V0}" Header="V0" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding V1}" Header="V1" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding RX}" Header="RX" />
                                         </GridView>
                                     </ListView.View>
                                     <ListView.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
-                                            <MenuItem Header="Zxc"></MenuItem>
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
+                                            <MenuItem Header="Zxc" />
                                         </ContextMenu>
                                     </ListView.ContextMenu>
                                 </ListView>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="ListBox" ToolTip="ListBox.ListBox">
-                                <ListBox SelectionMode="Multiple" BorderBrush="Transparent" BorderThickness="0">
+                                <ListBox BorderBrush="Transparent"
+                                         BorderThickness="0"
+                                         SelectionMode="Multiple">
                                     <ListBoxItem>123123123</ListBoxItem>
                                     <ListBoxItem>456456456</ListBoxItem>
                                     <ListBoxItem>789789789</ListBoxItem>
@@ -777,19 +887,21 @@
                             <LayoutAnchorable Title="PropertyGrid">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <PropertyGrid SelectedObject="{Binding Items}" />
-                                    <Button Click="Button_Click_3" Grid.Row="1">Click</Button>
+                                    <Button Grid.Row="1" Click="Button_Click_3">显示InstrumentType选中项</Button>
                                 </Grid>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="TreeView">
-                                <TreeView Name="treeView" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling">
+                                <TreeView Name="treeView"
+                                          VirtualizingPanel.IsVirtualizing="True"
+                                          VirtualizingPanel.VirtualizationMode="Recycling">
                                     <TreeView.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="导入文件夹" Click="MenuItem_Click_2"/>
+                                            <MenuItem Click="MenuItem_Click_2" Header="导入文件夹" />
                                         </ContextMenu>
                                     </TreeView.ContextMenu>
                                 </TreeView>
@@ -801,20 +913,24 @@
         </DockingManager>
         <StatusBar Grid.Row="1" Padding="4">
             <StatusBar.Resources>
-                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                    <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualHeight}"/>
-                    <Setter Property="Padding" Value="0"/>
-                    <Setter Property="CornerRadiusAttach.IsCircular" Value="True"/>
+                <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                    <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="CornerRadiusAttach.IsCircular" Value="True" />
                 </Style>
             </StatusBar.Resources>
 
-            <Button Click="Button_Click_4" Width="Auto">切换状态</Button>
-            <StatusBarItem x:Name="status" Content="Ready" Margin="4,0"/>
+            <Button Width="Auto" Click="Button_Click_4">切换状态</Button>
+            <StatusBarItem x:Name="status"
+                           Margin="4,0"
+                           Content="Ready" />
             <StatusBarItem>
-                <StackPanel Orientation="Horizontal"> 
-                    <Button Content="-" Command="{Binding ZoomInCommand}"/>
-                    <Button Content="+" Command="{Binding ZoomOutCommand}" Margin="4,0"/>
-                    <TextBlock Text="{Binding WindowScale,StringFormat={}{0:P1}}"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Command="{Binding ZoomInCommand}" Content="-" />
+                    <Button Margin="4,0"
+                            Command="{Binding ZoomOutCommand}"
+                            Content="+" />
+                    <TextBlock Text="{Binding WindowScale, StringFormat={}{0:P1}}" />
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

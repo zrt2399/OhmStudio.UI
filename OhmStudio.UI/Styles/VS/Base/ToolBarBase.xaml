@@ -16,7 +16,7 @@
     <Style x:Key="ToolBarSeparatorBaseStyle" TargetType="{x:Type Separator}">
         <Setter Property="MinWidth" Value="2" />
         <Setter Property="MinHeight" Value="1" />
-     
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Separator}">
@@ -25,24 +25,22 @@
                             <ColumnDefinition Width="1" />
                             <ColumnDefinition Width="1" />
                         </Grid.ColumnDefinitions>
-                        <Border
-                            Grid.Column="0"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{DynamicResource EnvironmentCommandBarToolBarSeparator}"
-                            BorderThickness="1"
-                            SnapsToDevicePixels="True" />
-                        <Border
-                            Grid.Column="1"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{DynamicResource EnvironmentCommandBarToolBarSeparatorHighlight}"
-                            BorderThickness="1"
-                            SnapsToDevicePixels="True" />
+                        <Border Grid.Column="0"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{DynamicResource EnvironmentCommandBarToolBarSeparator}"
+                                BorderThickness="1"
+                                SnapsToDevicePixels="True" />
+                        <Border Grid.Column="1"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{DynamicResource EnvironmentCommandBarToolBarSeparatorHighlight}"
+                                BorderThickness="1"
+                                SnapsToDevicePixels="True" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="ToolBarButtonBaseStyle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{DynamicResource ToolBarButton}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ToolBarButtonBorder}" />
@@ -56,17 +54,15 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border
-                        Padding="{TemplateBinding Padding}"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
-                        SnapsToDevicePixels="True">
-                        <ContentPresenter
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    <Border Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -107,17 +103,15 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border
-                        Padding="{TemplateBinding Padding}"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
-                        SnapsToDevicePixels="True">
-                        <ContentPresenter
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    <Border Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
@@ -177,16 +171,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
-                    <Border
-                        Name="Border"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
-                        SnapsToDevicePixels="True">
-                        <ScrollViewer
-                            x:Name="PART_ContentHost"
-                            MinHeight="18"/>
+                    <Border Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                            SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost" MinHeight="18" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
@@ -219,58 +210,51 @@
     <Style x:Key="ToolBarOverflowButtonStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="{DynamicResource ToolBarOverflowButtonBackground}" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
-         
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border
-                        Name="Bd"
-                        Background="{TemplateBinding Background}"
-                        SnapsToDevicePixels="True">
+                    <Border Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True">
                         <Grid>
-                            <Grid
-                                Name="Overflow"
-                                Width="6"
-                                Margin="3,4,3,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top">
-                                <Path
-                                    Width="2"
-                                    Height="4"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Data="M0,0 L2,2 L0,4"
-                                    Fill="{TemplateBinding Foreground}"
-                                    Stretch="Fill" />
-                                <Path
-                                    Width="2"
-                                    Height="4"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Data="M0,0 L2,2 L0,4"
-                                    Fill="{TemplateBinding Foreground}"
-                                    Stretch="Fill" />
+                            <Grid Name="Overflow"
+                                  Width="6"
+                                  Margin="3,4,3,0"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Top">
+                                <Path Width="2"
+                                      Height="4"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      Data="M0,0 L2,2 L0,4"
+                                      Fill="{TemplateBinding Foreground}"
+                                      Stretch="Fill" />
+                                <Path Width="2"
+                                      Height="4"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      Data="M0,0 L2,2 L0,4"
+                                      Fill="{TemplateBinding Foreground}"
+                                      Stretch="Fill" />
                             </Grid>
-                            <Grid
-                                Name="Options"
-                                Width="6"
-                                Height="6"
-                                Margin="3,0,3,4"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Bottom">
-                                <Rectangle
-                                    Width="Auto"
-                                    Height="1"
-                                    VerticalAlignment="Top"
-                                    Fill="{TemplateBinding Foreground}" />
-                                <Path
-                                    Width="6"
-                                    Height="3"
-                                    Margin="0,3,0,0"
-                                    VerticalAlignment="Top"
-                                    Data="M0,0 L6,0 L3,3"
-                                    Fill="{TemplateBinding Foreground}"
-                                    Stretch="Fill" />
+                            <Grid Name="Options"
+                                  Width="6"
+                                  Height="6"
+                                  Margin="3,0,3,4"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Bottom">
+                                <Rectangle Width="Auto"
+                                           Height="1"
+                                           VerticalAlignment="Top"
+                                           Fill="{TemplateBinding Foreground}" />
+                                <Path Width="6"
+                                      Height="3"
+                                      Margin="0,3,0,0"
+                                      VerticalAlignment="Top"
+                                      Data="M0,0 L6,0 L3,3"
+                                      Fill="{TemplateBinding Foreground}"
+                                      Stretch="Fill" />
                             </Grid>
                             <ContentPresenter />
                         </Grid>
@@ -332,14 +316,14 @@
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Rectangle x:Name="DragHandleTexture"
                                Width="5"
+                               Fill="{StaticResource ToolBarThumbDrawingBrush}"
                                RenderOptions.BitmapScalingMode="NearestNeighbor"
-                               UseLayoutRounding="true"
-                               Fill="{StaticResource ToolBarThumbDrawingBrush}"/>
+                               UseLayoutRounding="true" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
- 
+
     <Style x:Key="ToolBarBaseStyle" TargetType="{x:Type ToolBar}">
         <Setter Property="Background" Value="{DynamicResource ToolBarHorizontalBackground}" />
         <Setter Property="Background" Value="Transparent" />
@@ -347,61 +331,52 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToolBar}">
                     <Grid Name="Grid" SnapsToDevicePixels="True">
-                        <Border
-                            x:Name="MainPanelBorder"
-                            Padding="{TemplateBinding Padding}"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Style="{StaticResource ToolBarMainPanelBorderStyle}">
+                        <Border x:Name="MainPanelBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Style="{StaticResource ToolBarMainPanelBorderStyle}">
                             <DockPanel KeyboardNavigation.TabIndex="1" KeyboardNavigation.TabNavigation="Local">
-                                <ToggleButton 
-                                    ClickMode="Press"
-                                    DockPanel.Dock="Right"
-                                    IsChecked="{Binding Path=IsOverflowOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                    IsEnabled="{TemplateBinding HasOverflowItems}"
-                                    Style="{StaticResource ToolBarOverflowButtonStyle}">
-                                    <Popup
-                                        x:Name="OverflowPopup"
-                                        AllowsTransparency="True"
-                                        Focusable="False"
-                                        IsOpen="{Binding Path=IsOverflowOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                                        Placement="Bottom"
-                                        PopupAnimation="Fade"
-                                        StaysOpen="False">
-                                        <Border
-                                            x:Name="DropDownBorder"
-                                            Background="{DynamicResource ToolBarOverflowOverflowPopupBackground}"
-                                            BorderBrush="{DynamicResource ToolBarOverflowOverflowPopupBorderBrush}"
-                                            BorderThickness="1">
-                                            <ToolBarOverflowPanel
-                                                x:Name="PART_ToolBarOverflowPanel"
-                                                Margin="2"
-                                                Focusable="True"
-                                                KeyboardNavigation.DirectionalNavigation="Cycle"
-                                                KeyboardNavigation.TabNavigation="Cycle"
-                                                WrapWidth="200" />
+                                <ToggleButton ClickMode="Press"
+                                              DockPanel.Dock="Right"
+                                              IsChecked="{Binding Path=IsOverflowOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              IsEnabled="{TemplateBinding HasOverflowItems}"
+                                              Style="{StaticResource ToolBarOverflowButtonStyle}">
+                                    <Popup x:Name="OverflowPopup"
+                                           AllowsTransparency="True"
+                                           Focusable="False"
+                                           IsOpen="{Binding Path=IsOverflowOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                           Placement="Bottom"
+                                           PopupAnimation="Fade"
+                                           StaysOpen="False">
+                                        <Border x:Name="DropDownBorder"
+                                                Background="{DynamicResource ToolBarOverflowOverflowPopupBackground}"
+                                                BorderBrush="{DynamicResource ToolBarOverflowOverflowPopupBorderBrush}"
+                                                BorderThickness="1">
+                                            <ToolBarOverflowPanel x:Name="PART_ToolBarOverflowPanel"
+                                                                  Margin="2"
+                                                                  Focusable="True"
+                                                                  KeyboardNavigation.DirectionalNavigation="Cycle"
+                                                                  KeyboardNavigation.TabNavigation="Cycle"
+                                                                  WrapWidth="200" />
                                         </Border>
                                     </Popup>
                                 </ToggleButton>
 
                                 <Thumb x:Name="ToolBarThumb"
-                                    Width="10"
-                                    Visibility="{Binding Path=(attaches:ToolBarAttach.ToolBarThumbVisibility),RelativeSource={RelativeSource TemplatedParent}}"
-                                    Style="{StaticResource ToolBarThumbStyle}" />
+                                       Width="10"
+                                       Style="{StaticResource ToolBarThumbStyle}"
+                                       Visibility="{Binding Path=(attaches:ToolBarAttach.ToolBarThumbVisibility), RelativeSource={RelativeSource TemplatedParent}}" />
 
-                                <ContentPresenter
-                                    x:Name="ToolBarHeader"
-                   
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    ContentSource="Header"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                                <ToolBarPanel
-                                    x:Name="PART_ToolBarPanel"
-                                   
-                                    IsItemsHost="True"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                <ContentPresenter x:Name="ToolBarHeader"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  ContentSource="Header"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                <ToolBarPanel x:Name="PART_ToolBarPanel"
+                                              IsItemsHost="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </DockPanel>
                         </Border>
                     </Grid>

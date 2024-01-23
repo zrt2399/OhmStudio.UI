@@ -9,30 +9,27 @@
                                 <ColumnDefinition Width="19" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Ellipse
-                                x:Name="circle"
-                                Width="19"
-                                Height="19"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Fill="{DynamicResource ExpanderStaticCircleFill}"
-                                Stroke="{DynamicResource ExpanderStaticCircleStroke}" />
-                            <Path
-                                x:Name="arrow"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Data="M 1,1.5 L 4.5,5 L 8,1.5"
-                                SnapsToDevicePixels="False"
-                                Stroke="{DynamicResource ExpanderStaticArrowStroke}"
-                                StrokeThickness="2"
-                                UseLayoutRounding="False" />
-                            <ContentPresenter
-                                Grid.Column="1"
-                                Margin="4,0,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                RecognizesAccessKey="True"
-                                SnapsToDevicePixels="True" />
+                            <Ellipse x:Name="circle"
+                                     Width="19"
+                                     Height="19"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     Fill="{DynamicResource ExpanderStaticCircleFill}"
+                                     Stroke="{DynamicResource ExpanderStaticCircleStroke}" />
+                            <Path x:Name="arrow"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="M 1,1.5 L 4.5,5 L 8,1.5"
+                                  SnapsToDevicePixels="False"
+                                  Stroke="{DynamicResource ExpanderStaticArrowStroke}"
+                                  StrokeThickness="2"
+                                  UseLayoutRounding="False" />
+                            <ContentPresenter Grid.Column="1"
+                                              Margin="4,0,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="True" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -79,31 +76,28 @@
                                         </TransformGroup.Children>
                                     </TransformGroup>
                                 </Grid.LayoutTransform>
-                                <Ellipse
-                                    x:Name="circle"
-                                    Width="19"
-                                    Height="19"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Fill="{DynamicResource ExpanderStaticCircleFill}"
-                                    Stroke="{DynamicResource ExpanderStaticCircleStroke}" />
-                                <Path
-                                    x:Name="arrow"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Data="M 1,1.5 L 4.5,5 L 8,1.5"
-                                    SnapsToDevicePixels="False"
-                                    Stroke="{DynamicResource ExpanderStaticArrowStroke}"
-                                    StrokeThickness="2"
-                                    UseLayoutRounding="False" />
+                                <Ellipse x:Name="circle"
+                                         Width="19"
+                                         Height="19"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Fill="{DynamicResource ExpanderStaticCircleFill}"
+                                         Stroke="{DynamicResource ExpanderStaticCircleStroke}" />
+                                <Path x:Name="arrow"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Data="M 1,1.5 L 4.5,5 L 8,1.5"
+                                      SnapsToDevicePixels="False"
+                                      Stroke="{DynamicResource ExpanderStaticArrowStroke}"
+                                      StrokeThickness="2"
+                                      UseLayoutRounding="False" />
                             </Grid>
-                            <ContentPresenter
-                                Grid.Column="1"
-                                Margin="4,0,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                RecognizesAccessKey="True"
-                                SnapsToDevicePixels="True" />
+                            <ContentPresenter Grid.Column="1"
+                                              Margin="4,0,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="True" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -150,31 +144,28 @@
                                         </TransformGroup.Children>
                                     </TransformGroup>
                                 </Grid.LayoutTransform>
-                                <Ellipse
-                                    x:Name="circle"
-                                    Width="19"
-                                    Height="19"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Fill="{DynamicResource ExpanderStaticCircleFill}"
-                                    Stroke="{DynamicResource ExpanderStaticCircleStroke}" />
-                                <Path
-                                    x:Name="arrow"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Data="M 1,1.5 L 4.5,5 L 8,1.5"
-                                    SnapsToDevicePixels="False"
-                                    Stroke="{DynamicResource ExpanderStaticArrowStroke}"
-                                    StrokeThickness="2"
-                                    UseLayoutRounding="False" />
+                                <Ellipse x:Name="circle"
+                                         Width="19"
+                                         Height="19"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Fill="{DynamicResource ExpanderStaticCircleFill}"
+                                         Stroke="{DynamicResource ExpanderStaticCircleStroke}" />
+                                <Path x:Name="arrow"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Data="M 1,1.5 L 4.5,5 L 8,1.5"
+                                      SnapsToDevicePixels="False"
+                                      Stroke="{DynamicResource ExpanderStaticArrowStroke}"
+                                      StrokeThickness="2"
+                                      UseLayoutRounding="False" />
                             </Grid>
-                            <ContentPresenter
-                                Grid.Row="1"
-                                Margin="0,4,0,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top"
-                                RecognizesAccessKey="True"
-                                SnapsToDevicePixels="True" />
+                            <ContentPresenter Grid.Row="1"
+                                              Margin="0,4,0,0"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Top"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="True" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -221,31 +212,28 @@
                                         </TransformGroup.Children>
                                     </TransformGroup>
                                 </Grid.LayoutTransform>
-                                <Ellipse
-                                    x:Name="circle"
-                                    Width="19"
-                                    Height="19"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Fill="{DynamicResource ExpanderStaticCircleFill}"
-                                    Stroke="{DynamicResource ExpanderStaticCircleStroke}" />
-                                <Path
-                                    x:Name="arrow"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Data="M 1,1.5 L 4.5,5 L 8,1.5"
-                                    SnapsToDevicePixels="False"
-                                    Stroke="{DynamicResource ExpanderStaticArrowStroke}"
-                                    StrokeThickness="2"
-                                    UseLayoutRounding="False" />
+                                <Ellipse x:Name="circle"
+                                         Width="19"
+                                         Height="19"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Fill="{DynamicResource ExpanderStaticCircleFill}"
+                                         Stroke="{DynamicResource ExpanderStaticCircleStroke}" />
+                                <Path x:Name="arrow"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Data="M 1,1.5 L 4.5,5 L 8,1.5"
+                                      SnapsToDevicePixels="False"
+                                      Stroke="{DynamicResource ExpanderStaticArrowStroke}"
+                                      StrokeThickness="2"
+                                      UseLayoutRounding="False" />
                             </Grid>
-                            <ContentPresenter
-                                Grid.Row="1"
-                                Margin="0,4,0,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top"
-                                RecognizesAccessKey="True"
-                                SnapsToDevicePixels="True" />
+                            <ContentPresenter Grid.Row="1"
+                                              Margin="0,4,0,0"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Top"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="True" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -272,7 +260,7 @@
             </Setter.Value>
         </Setter>
     </Style>
- 
+
     <Style x:Key="ExpanderBaseStyle" TargetType="{x:Type Expander}">
         <Setter Property="Foreground" Value="{DynamicResource SystemColorsControlText}" />
         <Setter Property="Background" Value="Transparent" />
@@ -283,41 +271,38 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Expander}">
-                    <Border
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="3"
-                        SnapsToDevicePixels="True">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="3"
+                            SnapsToDevicePixels="True">
                         <DockPanel>
-                            <ToggleButton
-                                x:Name="HeaderSite"
-                                MinWidth="0"
-                                MinHeight="0"
-                                Margin="1"
-                                Padding="{TemplateBinding Padding}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Content="{TemplateBinding Header}"
-                                ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
-                                DockPanel.Dock="Top"
-                                FontFamily="{TemplateBinding FontFamily}"
-                                FontSize="{TemplateBinding FontSize}"
-                                FontStretch="{TemplateBinding FontStretch}"
-                                FontStyle="{TemplateBinding FontStyle}"
-                                FontWeight="{TemplateBinding FontWeight}"
-                                Foreground="{TemplateBinding Foreground}"
-                                IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                Style="{StaticResource ExpanderDownHeaderStyle}" />
-                            <ContentPresenter
-                                x:Name="ExpandSite"
-                                Margin="{TemplateBinding Padding}"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                DockPanel.Dock="Bottom"
-                                Focusable="False"
-                                Visibility="Collapsed" />
+                            <ToggleButton x:Name="HeaderSite"
+                                          MinWidth="0"
+                                          MinHeight="0"
+                                          Margin="1"
+                                          Padding="{TemplateBinding Padding}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Content="{TemplateBinding Header}"
+                                          ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                          ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                                          DockPanel.Dock="Top"
+                                          FontFamily="{TemplateBinding FontFamily}"
+                                          FontSize="{TemplateBinding FontSize}"
+                                          FontStretch="{TemplateBinding FontStretch}"
+                                          FontStyle="{TemplateBinding FontStyle}"
+                                          FontWeight="{TemplateBinding FontWeight}"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Style="{StaticResource ExpanderDownHeaderStyle}" />
+                            <ContentPresenter x:Name="ExpandSite"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              DockPanel.Dock="Bottom"
+                                              Focusable="False"
+                                              Visibility="Collapsed" />
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>

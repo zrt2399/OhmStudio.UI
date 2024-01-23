@@ -4,7 +4,7 @@
                     xmlns:controls="clr-namespace:OhmStudio.UI.Controls">
 
     <BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
-    
+
     <Style x:Key="GroupBoxBaseStyle" TargetType="{x:Type GroupBox}">
         <Setter Property="Background" Value="{DynamicResource GroupBoxBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource GroupBoxBorderBrush}" />
@@ -25,20 +25,20 @@
                             <RowDefinition />
                             <RowDefinition Height="6" />
                         </Grid.RowDefinitions>
-                        <controls:DropShadowControl Grid.Row="1" 
+                        <controls:DropShadowControl Grid.Row="1"
                                                     Grid.RowSpan="3"
                                                     Grid.Column="0"
                                                     Grid.ColumnSpan="4"
                                                     Background="{TemplateBinding Background}"
+                                                    BlurRadius="{Binding Path=(attaches:DropShadowAttach.BlurRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                                     BorderBrush="Transparent"
-                                                    ShadowColor="{Binding Path=(attaches:DropShadowAttach.ShadowColor),RelativeSource={RelativeSource TemplatedParent}}"
-                                                    ShadowDepth="{Binding Path=(attaches:DropShadowAttach.ShadowDepth),RelativeSource={RelativeSource TemplatedParent}}"
-                                                    ShadowDirection="{Binding Path=(attaches:DropShadowAttach.ShadowDirection),RelativeSource={RelativeSource TemplatedParent}}"
-                                                    ShadowOpacity="{Binding Path=(attaches:DropShadowAttach.ShadowOpacity),RelativeSource={RelativeSource TemplatedParent}}"
-                                                    BlurRadius="{Binding Path=(attaches:DropShadowAttach.BlurRadius),RelativeSource={RelativeSource TemplatedParent}}"
-                                                    RenderingBias="{Binding Path=(attaches:DropShadowAttach.RenderingBias),RelativeSource={RelativeSource TemplatedParent}}"
                                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                                    CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    RenderingBias="{Binding Path=(attaches:DropShadowAttach.RenderingBias), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    ShadowColor="{Binding Path=(attaches:DropShadowAttach.ShadowColor), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    ShadowDepth="{Binding Path=(attaches:DropShadowAttach.ShadowDepth), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    ShadowDirection="{Binding Path=(attaches:DropShadowAttach.ShadowDirection), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    ShadowOpacity="{Binding Path=(attaches:DropShadowAttach.ShadowOpacity), RelativeSource={RelativeSource TemplatedParent}}" />
 
                         <Border Grid.Row="1"
                                 Grid.RowSpan="3"
@@ -46,7 +46,7 @@
                                 Grid.ColumnSpan="4"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
+                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
                             <Border.OpacityMask>
                                 <MultiBinding Converter="{StaticResource BorderGapMaskConverter}" ConverterParameter="7">
                                     <Binding ElementName="Header" Path="ActualWidth" />

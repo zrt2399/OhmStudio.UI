@@ -1,5 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-    <ResourceDictionary.MergedDictionaries> 
+    <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Themes/VisualStudio2022/DarkTheme.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VisualStudio.xaml" />
     </ResourceDictionary.MergedDictionaries>

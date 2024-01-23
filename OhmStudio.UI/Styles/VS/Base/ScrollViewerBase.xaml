@@ -1,7 +1,6 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
     <Style x:Key="ScrollBarButton" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -10,10 +9,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border
-                        x:Name="Border"
-                        Background="{DynamicResource EnvironmentScrollBarArrowBackground}"
-                        SnapsToDevicePixels="True">
+                    <Border x:Name="Border"
+                            Background="{DynamicResource EnvironmentScrollBarArrowBackground}"
+                            SnapsToDevicePixels="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -25,13 +23,12 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <Path
-                                x:Name="arrowPath"
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Data="M0,0L0,9 5,4.5 0,0z"
-                                Fill="{DynamicResource EnvironmentScrollBarArrowGlyph}"
-                                SnapsToDevicePixels="True" />
+                            <Path x:Name="arrowPath"
+                                  Grid.Row="1"
+                                  Grid.Column="1"
+                                  Data="M0,0L0,9 5,4.5 0,0z"
+                                  Fill="{DynamicResource EnvironmentScrollBarArrowGlyph}"
+                                  SnapsToDevicePixels="True" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -69,10 +66,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Border
-                        x:Name="Border"
-                        Background="{DynamicResource EnvironmentScrollBarThumbBackground}"
-                        BorderBrush="Transparent" />
+                    <Border x:Name="Border"
+                            Background="{DynamicResource EnvironmentScrollBarThumbBackground}"
+                            BorderBrush="Transparent" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="{DynamicResource EnvironmentScrollBarThumbMouseOverBackground}" />
@@ -103,10 +99,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Rectangle
-                        Width="{TemplateBinding Width}"
-                        Height="{TemplateBinding Height}"
-                        Fill="{TemplateBinding Background}" />
+                    <Rectangle Width="{TemplateBinding Width}"
+                               Height="{TemplateBinding Height}"
+                               Fill="{TemplateBinding Background}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -120,10 +115,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Rectangle
-                        Width="{TemplateBinding Width}"
-                        Height="{TemplateBinding Height}"
-                        Fill="{TemplateBinding Background}" />
+                    <Rectangle Width="{TemplateBinding Width}"
+                               Height="{TemplateBinding Height}"
+                               Fill="{TemplateBinding Background}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -141,26 +135,23 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
-                    <Border
-                        Name="Border"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid SnapsToDevicePixels="True">
                             <Grid.RowDefinitions>
                                 <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}" />
                                 <RowDefinition Height="0.00001*" />
                                 <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}" />
                             </Grid.RowDefinitions>
-                            <RepeatButton
-                                theme:ScrollChrome.ScrollGlyph="UpArrow"
-                                Command="{x:Static ScrollBar.LineUpCommand}"
-                                Style="{StaticResource ScrollBarButton}" />
-                            <Track
-                                Name="PART_Track"
-                                Grid.Row="1"
-                                Margin="0,2,0,2"
-                                IsDirectionReversed="True">
+                            <RepeatButton theme:ScrollChrome.ScrollGlyph="UpArrow"
+                                          Command="{x:Static ScrollBar.LineUpCommand}"
+                                          Style="{StaticResource ScrollBarButton}" />
+                            <Track Name="PART_Track"
+                                   Grid.Row="1"
+                                   Margin="0,2,0,2"
+                                   IsDirectionReversed="True">
                                 <Track.DecreaseRepeatButton>
                                     <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource VerticalScrollBarPageButton}" />
                                 </Track.DecreaseRepeatButton>
@@ -171,11 +162,10 @@
                                     <Thumb theme:ScrollChrome.ScrollGlyph="VerticalGripper" Style="{StaticResource ScrollBarThumb}" />
                                 </Track.Thumb>
                             </Track>
-                            <RepeatButton
-                                Grid.Row="2"
-                                theme:ScrollChrome.ScrollGlyph="DownArrow"
-                                Command="{x:Static ScrollBar.LineDownCommand}"
-                                Style="{StaticResource ScrollBarButton}" />
+                            <RepeatButton Grid.Row="2"
+                                          theme:ScrollChrome.ScrollGlyph="DownArrow"
+                                          Command="{x:Static ScrollBar.LineDownCommand}"
+                                          Style="{StaticResource ScrollBarButton}" />
                         </Grid>
                     </Border>
                 </ControlTemplate>
@@ -190,25 +180,22 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
-                            <Border
-                                Name="Border"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <Border Name="Border"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
                                 <Grid SnapsToDevicePixels="True">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}" />
                                         <ColumnDefinition Width="0.00001*" />
                                         <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}" />
                                     </Grid.ColumnDefinitions>
-                                    <RepeatButton
-                                        theme:ScrollChrome.ScrollGlyph="LeftArrow"
-                                        Command="{x:Static ScrollBar.LineLeftCommand}"
-                                        Style="{StaticResource ScrollBarButton}" />
-                                    <Track
-                                        Name="PART_Track"
-                                        Grid.Column="1"
-                                        Margin="2,0,2,0">
+                                    <RepeatButton theme:ScrollChrome.ScrollGlyph="LeftArrow"
+                                                  Command="{x:Static ScrollBar.LineLeftCommand}"
+                                                  Style="{StaticResource ScrollBarButton}" />
+                                    <Track Name="PART_Track"
+                                           Grid.Column="1"
+                                           Margin="2,0,2,0">
                                         <Track.DecreaseRepeatButton>
                                             <RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}" Style="{StaticResource HorizontalScrollBarPageButton}" />
                                         </Track.DecreaseRepeatButton>
@@ -219,11 +206,10 @@
                                             <Thumb theme:ScrollChrome.ScrollGlyph="HorizontalGripper" Style="{StaticResource ScrollBarThumb}" />
                                         </Track.Thumb>
                                     </Track>
-                                    <RepeatButton
-                                        Grid.Column="2"
-                                        theme:ScrollChrome.ScrollGlyph="RightArrow"
-                                        Command="{x:Static ScrollBar.LineRightCommand}"
-                                        Style="{StaticResource ScrollBarButton}" />
+                                    <RepeatButton Grid.Column="2"
+                                                  theme:ScrollChrome.ScrollGlyph="RightArrow"
+                                                  Command="{x:Static ScrollBar.LineRightCommand}"
+                                                  Style="{StaticResource ScrollBarButton}" />
                                 </Grid>
                             </Border>
                         </ControlTemplate>
@@ -252,42 +238,38 @@
                             <RowDefinition x:Name="RowDefinitionOne" />
                             <RowDefinition x:Name="RowDefinitionTwo" Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Rectangle
-                            x:Name="Corner"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Fill="{DynamicResource EnvironmentScrollBarBackground}" />
-                        <ScrollContentPresenter
-                            x:Name="PART_ScrollContentPresenter"
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Margin="{TemplateBinding Padding}"
-                            CanContentScroll="{TemplateBinding CanContentScroll}"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}" />
-                        <ScrollBar
-                            x:Name="PART_VerticalScrollBar"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            AutomationProperties.AutomationId="HorizontalScrollBar"
-                            Cursor="Arrow"
-                            Maximum="{TemplateBinding ScrollableWidth}"
-                            Minimum="0.0"
-                            Orientation="Horizontal"
-                            ViewportSize="{TemplateBinding ViewportWidth}"
-                            Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
-                            Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
-                        <ScrollBar
-                            x:Name="PART_HorizontalScrollBar"
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            AutomationProperties.AutomationId="VerticalScrollBar"
-                            Cursor="Arrow"
-                            Maximum="{TemplateBinding ScrollableHeight}"
-                            Minimum="0.0"
-                            ViewportSize="{TemplateBinding ViewportHeight}"
-                            Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-                            Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <Rectangle x:Name="Corner"
+                                   Grid.Row="1"
+                                   Grid.Column="1"
+                                   Fill="{DynamicResource EnvironmentScrollBarBackground}" />
+                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Margin="{TemplateBinding Padding}"
+                                                CanContentScroll="{TemplateBinding CanContentScroll}"
+                                                Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <ScrollBar x:Name="PART_VerticalScrollBar"
+                                   Grid.Row="1"
+                                   Grid.Column="0"
+                                   AutomationProperties.AutomationId="HorizontalScrollBar"
+                                   Cursor="Arrow"
+                                   Maximum="{TemplateBinding ScrollableWidth}"
+                                   Minimum="0.0"
+                                   Orientation="Horizontal"
+                                   ViewportSize="{TemplateBinding ViewportWidth}"
+                                   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                   Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <ScrollBar x:Name="PART_HorizontalScrollBar"
+                                   Grid.Row="0"
+                                   Grid.Column="1"
+                                   AutomationProperties.AutomationId="VerticalScrollBar"
+                                   Cursor="Arrow"
+                                   Maximum="{TemplateBinding ScrollableHeight}"
+                                   Minimum="0.0"
+                                   ViewportSize="{TemplateBinding ViewportHeight}"
+                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                   Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

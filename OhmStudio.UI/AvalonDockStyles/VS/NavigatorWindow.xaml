@@ -1,12 +1,11 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
-    xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
-    xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock"
-    xmlns:avalonDockProperties="clr-namespace:AvalonDock.Properties;assembly=AvalonDock"
-    xmlns:reskeys="clr-namespace:OhmStudio.UI.AvalonDockThemes"
-    xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=AvalonDock">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
+                    xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
+                    xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock"
+                    xmlns:avalonDockProperties="clr-namespace:AvalonDock.Properties;assembly=AvalonDock"
+                    xmlns:reskeys="clr-namespace:OhmStudio.UI.AvalonDockThemes"
+                    xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=AvalonDock">
 
     <DataTemplate x:Key="NavigatorWindowListBoxItemDataTemplate">
         <Grid>
@@ -15,11 +14,10 @@
                 <ColumnDefinition Width="150" />
             </Grid.ColumnDefinitions>
             <Image Source="{Binding LayoutElement.IconSource, Converter={avalonDockConverters:NullToDoNothingConverter}}" Stretch="None" />
-            <TextBlock
-                Grid.Column="1"
-                Margin="4,0,0,0"
-                Text="{Binding LayoutElement.Title}"
-                TextTrimming="CharacterEllipsis" />
+            <TextBlock Grid.Column="1"
+                       Margin="4,0,0,0"
+                       Text="{Binding LayoutElement.Title}"
+                       TextTrimming="CharacterEllipsis" />
         </Grid>
     </DataTemplate>
 
@@ -46,21 +44,19 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        SnapsToDevicePixels="true">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="true">
                         <Border x:Name="InnerBorder" BorderThickness="1">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition MaxHeight="11" />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <ContentPresenter
-                                    Grid.RowSpan="2"
-                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                <ContentPresenter Grid.RowSpan="2"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </Grid>
                         </Border>
                     </Border>
@@ -101,12 +97,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:NavigatorWindow}">
-                    <Border
-                        x:Name="WindowBorder"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
-                        BorderThickness="1"
-                        SnapsToDevicePixels="true">
+                    <Border x:Name="WindowBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
+                            BorderThickness="1"
+                            SnapsToDevicePixels="true">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="54" />
@@ -123,33 +118,29 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-                                    <Image
-                                        Source="{Binding SelectedDocument.LayoutElement.IconSource, RelativeSource={RelativeSource TemplatedParent}, Converter={avalonDockConverters:NullToDoNothingConverter}}"
-                                        Stretch="None"
-                                        Visibility="{Binding SelectedDocument.LayoutElement.IconSource, RelativeSource={RelativeSource TemplatedParent}, Converter={avalonDockConverters:BoolToVisibilityConverter}}" />
-                                    <TextBlock
-                                        x:Name="selectedElementTitle"
-                                        Grid.Column="1"
-                                        Margin="4,0,0,0"
-                                        VerticalAlignment="Center"
-                                        FontWeight="Bold"
-                                        Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.NavigatorWindowForeground}}"
-                                        Text="{Binding SelectedDocument.LayoutElement.Title, RelativeSource={RelativeSource TemplatedParent}}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <Image Source="{Binding SelectedDocument.LayoutElement.IconSource, RelativeSource={RelativeSource TemplatedParent}, Converter={avalonDockConverters:NullToDoNothingConverter}}"
+                                           Stretch="None"
+                                           Visibility="{Binding SelectedDocument.LayoutElement.IconSource, RelativeSource={RelativeSource TemplatedParent}, Converter={avalonDockConverters:BoolToVisibilityConverter}}" />
+                                    <TextBlock x:Name="selectedElementTitle"
+                                               Grid.Column="1"
+                                               Margin="4,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontWeight="Bold"
+                                               Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.NavigatorWindowForeground}}"
+                                               Text="{Binding SelectedDocument.LayoutElement.Title, RelativeSource={RelativeSource TemplatedParent}}"
+                                               TextTrimming="CharacterEllipsis" />
                                 </Grid>
-                                <TextBlock
-                                    x:Name="selectedElementDescription"
-                                    Grid.Row="1"
-                                    Margin="4,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.NavigatorWindowForeground}}"
-                                    Text="{Binding SelectedDocument.LayoutElement.Description}"
-                                    TextTrimming="CharacterEllipsis" />
+                                <TextBlock x:Name="selectedElementDescription"
+                                           Grid.Row="1"
+                                           Margin="4,0,0,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.NavigatorWindowForeground}}"
+                                           Text="{Binding SelectedDocument.LayoutElement.Description}"
+                                           TextTrimming="CharacterEllipsis" />
                             </Grid>
-                            <Border
-                                Grid.Row="1"
-                                MinHeight="200"
-                                Background="{DynamicResource {x:Static reskeys:ResourceKeys.NavigatorWindowBackground}}">
+                            <Border Grid.Row="1"
+                                    MinHeight="200"
+                                    Background="{DynamicResource {x:Static reskeys:ResourceKeys.NavigatorWindowBackground}}">
                                 <Grid Margin="5">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
@@ -160,36 +151,32 @@
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <TextBlock
-                                            Margin="0,3,0,4"
-                                            FontWeight="Bold"
-                                            Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.NavigatorWindowForeground}}"
-                                            Text="{x:Static avalonDockProperties:Resources.Active_ToolWindows}" />
-                                        <ListBox
-                                            x:Name="PART_AnchorableListBox"
-                                            Grid.Row="1"
-                                            AutomationProperties.Name="{x:Static avalonDockProperties:Resources.Active_ToolWindows}"
-                                            ItemsSource="{Binding Anchorables}"
-                                            SelectedItem="{Binding SelectedAnchorable, Mode=TwoWay}"
-                                            Style="{DynamicResource NavigatorWindowListBoxBaseStyle}" />
+                                        <TextBlock Margin="0,3,0,4"
+                                                   FontWeight="Bold"
+                                                   Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.NavigatorWindowForeground}}"
+                                                   Text="{x:Static avalonDockProperties:Resources.Active_ToolWindows}" />
+                                        <ListBox x:Name="PART_AnchorableListBox"
+                                                 Grid.Row="1"
+                                                 AutomationProperties.Name="{x:Static avalonDockProperties:Resources.Active_ToolWindows}"
+                                                 ItemsSource="{Binding Anchorables}"
+                                                 SelectedItem="{Binding SelectedAnchorable, Mode=TwoWay}"
+                                                 Style="{DynamicResource NavigatorWindowListBoxBaseStyle}" />
                                     </Grid>
                                     <Grid Grid.Column="1" Margin="5">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <TextBlock
-                                            Margin="0,3,0,4"
-                                            FontWeight="Bold"
-                                            Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.NavigatorWindowForeground}}"
-                                            Text="{x:Static avalonDockProperties:Resources.Active_Files}" />
-                                        <ListBox
-                                            x:Name="PART_DocumentListBox"
-                                            Grid.Row="1"
-                                            AutomationProperties.Name="{x:Static avalonDockProperties:Resources.Active_Files}"
-                                            ItemsSource="{Binding Documents}"
-                                            SelectedItem="{Binding SelectedDocument, Mode=TwoWay}"
-                                            Style="{DynamicResource NavigatorWindowListBoxBaseStyle}">
+                                        <TextBlock Margin="0,3,0,4"
+                                                   FontWeight="Bold"
+                                                   Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.NavigatorWindowForeground}}"
+                                                   Text="{x:Static avalonDockProperties:Resources.Active_Files}" />
+                                        <ListBox x:Name="PART_DocumentListBox"
+                                                 Grid.Row="1"
+                                                 AutomationProperties.Name="{x:Static avalonDockProperties:Resources.Active_Files}"
+                                                 ItemsSource="{Binding Documents}"
+                                                 SelectedItem="{Binding SelectedDocument, Mode=TwoWay}"
+                                                 Style="{DynamicResource NavigatorWindowListBoxBaseStyle}">
                                             <ListBox.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <WrapPanel Orientation="Vertical" />
@@ -201,10 +188,9 @@
                             </Border>
 
                             <Grid Grid.Row="2" Margin="5">
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.NavigatorWindowForeground}}"
-                                    Text="{Binding SelectedDocument.LayoutElement.ToolTip, RelativeSource={RelativeSource TemplatedParent}}" />
+                                <TextBlock VerticalAlignment="Center"
+                                           Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.NavigatorWindowForeground}}"
+                                           Text="{Binding SelectedDocument.LayoutElement.ToolTip, RelativeSource={RelativeSource TemplatedParent}}" />
                             </Grid>
                         </Grid>
                     </Border>

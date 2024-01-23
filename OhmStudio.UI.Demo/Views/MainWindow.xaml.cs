@@ -279,40 +279,32 @@ namespace OhmStudio.UI.Demo.Views
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(1000);
+            await Task.Delay(500);
             var assembly = Assembly.GetAssembly(typeof(ChromeWindow)).GetName().Version.ToString();
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 100; i++)
             {
-                stringBuilder.Append(i + "StringBuilder" + "\r\n");
+                stringBuilder.Append(i + "StringBuilder" + Environment.NewLine);
             }
 
             //AlertDialog.OhmUILanguage = OhmUILanguage.Zh_TW;
             var result = AlertDialog.Show(stringBuilder.ToString(), assembly, MessageBoxButton.YesNoCancel, MessageBoxImage.Error);
-            MessageBox.Show(result.ToString());
+            MessageBox.Show("点击了" + result);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Task.Run(() =>
-            {
-                AlertDialog.ShowError("发生了错误Button_Click_1");
-            });
-            //Messenger.Default.Send("发送了消息Rrecipient", Rrecipient);
+            //Task.Run(() =>
+            //{
+            //    AlertDialog.ShowError("AlertDialog.ShowError");
+            //});
+            Messenger.Default.Send("AlertDialog.Show", Rrecipient);
         }
-
+        
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             GC.Collect();
             UIMessageTip.Show("GC完成");
-
-
-            var args = new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Right)
-            {
-                RoutedEvent = MouseRightButtonDownEvent,
-            };
-
-            Border.RaiseEvent(args);
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -396,11 +388,6 @@ namespace OhmStudio.UI.Demo.Views
 
         }
 
-        private void Border_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Border.ContextMenu.IsOpen = true;
-        }
-
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
         {
             var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
@@ -458,6 +445,36 @@ namespace OhmStudio.UI.Demo.Views
         private void Button_Click_8(object sender, RoutedEventArgs e)
         {
             documentWrapPanel.IsWrap = !documentWrapPanel.IsWrap;
+        }
+
+        private void Button_Click_9(object sender, RoutedEventArgs e)
+        {
+            UIMessageTip.Show("UIMessageTip.Show");
+        }
+
+        private void Button_Click_10(object sender, RoutedEventArgs e)
+        {
+            UIMessageTip.ShowOk("UIMessageTip.ShowOk");
+        }
+
+        private void Button_Click_11(object sender, RoutedEventArgs e)
+        {
+            UIMessageTip.ShowWarning("UIMessageTip.ShowWarning");
+        }
+
+        private void Button_Click_12(object sender, RoutedEventArgs e)
+        {
+            UIMessageTip.ShowError("UIMessageTip.ShowError");
+        }
+
+        private void Button_Click_13(object sender, RoutedEventArgs e)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < 50; i++)
+            {
+                stringBuilder.Append("UIMessageTip.ShowError;");
+            }
+            UIMessageTip.ShowError(stringBuilder.ToString());
         }
     }
 

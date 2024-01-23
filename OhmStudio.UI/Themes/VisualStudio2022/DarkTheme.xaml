@@ -1,24 +1,28 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    
-    <ResourceDictionary.MergedDictionaries> 
+
+    <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/AvalonDockThemes/VisualStudio2022/DarkTheme.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <sys:Double x:Key="TopLevelMenuPopupTopOpenedVerticalOffset">-4</sys:Double>
 
-    <Color x:Key="ControlShadow" A="71" B="00" G="00" R="00" />
+    <Color x:Key="ControlShadow"
+           A="71"
+           B="00"
+           G="00"
+           R="00" />
 
     <Color x:Key="StatusBarBackgroundDefaultColor">#FF424242</Color>
     <Color x:Key="WindowBorderBrushDefaultColor">#FF7160E8</Color>
     <Color x:Key="StatusBarBackgroundRunningColor">#FF861B2D</Color>
     <Color x:Key="WindowBorderBrushRunningColor">#FFFF99A4</Color>
 
-    <SolidColorBrush x:Key="StatusBarBackgroundDefault" Color="{StaticResource StatusBarBackgroundDefaultColor}"/>
-    <SolidColorBrush x:Key="WindowBorderBrushDefault" Color="{StaticResource WindowBorderBrushDefaultColor}"/>
-    <SolidColorBrush x:Key="StatusBarBackgroundRunning" Color="{StaticResource StatusBarBackgroundRunningColor}"/>
-    <SolidColorBrush x:Key="WindowBorderBrushRunning" Color="{StaticResource WindowBorderBrushRunningColor}"/>
+    <SolidColorBrush x:Key="StatusBarBackgroundDefault" Color="{StaticResource StatusBarBackgroundDefaultColor}" />
+    <SolidColorBrush x:Key="WindowBorderBrushDefault" Color="{StaticResource WindowBorderBrushDefaultColor}" />
+    <SolidColorBrush x:Key="StatusBarBackgroundRunning" Color="{StaticResource StatusBarBackgroundRunningColor}" />
+    <SolidColorBrush x:Key="WindowBorderBrushRunning" Color="{StaticResource WindowBorderBrushRunningColor}" />
 
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#FF1F1F1F" />
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="#FFE5E5E5" />
