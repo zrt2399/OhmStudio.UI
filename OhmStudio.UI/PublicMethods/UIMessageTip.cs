@@ -42,7 +42,7 @@ namespace OhmStudio.UI.PublicMethods
                     _ => "#E65050".ToSolidColorBrush()
                 };
 
-                Grid grid = new Grid(); 
+                Grid grid = new Grid();
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
                 grid.ColumnDefinitions.Add(new ColumnDefinition());
 
@@ -59,9 +59,9 @@ namespace OhmStudio.UI.PublicMethods
                 image.Source = PresetsResources.Icons[(int)uIStyle];
                 textBlock.SetValue(Grid.ColumnProperty, 1);
                 grid.Children.Add(image);
-                grid.Children.Add(textBlock); 
+                grid.Children.Add(textBlock);
 
-                DropShadowControl dropShadowControl = new DropShadowControl(); 
+                DropShadowControl dropShadowControl = new DropShadowControl();
                 dropShadowControl.Background = "#FAFAFA".ToSolidColorBrush();
                 dropShadowControl.CornerRadius = new CornerRadius(4);
                 dropShadowControl.Margin = new Thickness(4);
@@ -72,9 +72,9 @@ namespace OhmStudio.UI.PublicMethods
                 dropShadowControl.BorderThickness = new Thickness(1);
                 dropShadowControl.BorderBrush = color;
                 dropShadowControl.Padding = new Thickness(4);
-                 
+
                 Popup popup = new Popup();
-                popup.AllowsTransparency = true; 
+                popup.AllowsTransparency = true;
                 popup.Child = dropShadowControl;
                 popup.MaxWidth = SystemParameters.WorkArea.Width;
                 popup.StaysOpen = true;

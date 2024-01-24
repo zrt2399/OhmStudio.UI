@@ -44,10 +44,6 @@ namespace OhmStudio.UI.Demo.Views
             DataContext = this;
             FontFamilyList = new ObservableCollection<string>(new InstalledFontCollection().Families.Select(x => x.Name));
             FontFamilyList.Insert(0, DefaultFont);
-            for (double i = 10; i <= 20; i++)
-            {
-                FontSizeList.Add(i);
-            }
             var text = textEditor;
             var searchPanel = SearchPanel.Install(text);
             searchPanel.MarkerBrush = "#BEAA46".ToSolidColorBrush();
@@ -157,7 +153,7 @@ namespace OhmStudio.UI.Demo.Views
 
         public ObservableCollection<string> FontFamilyList { get; set; }
 
-        public List<double> FontSizeList { get; } = new List<double>();
+        public IEnumerable<double> FontSizeList { get; } = Enumerable.Range(10, 11).Select(x => (double)x);
 
         [DoNotNotify]
         public OhmTheme CurrentTheme
@@ -300,7 +296,7 @@ namespace OhmStudio.UI.Demo.Views
             //});
             Messenger.Default.Send("AlertDialog.Show", Rrecipient);
         }
-        
+
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             GC.Collect();
