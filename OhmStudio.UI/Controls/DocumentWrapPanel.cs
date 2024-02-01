@@ -90,6 +90,8 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty IsWrapProperty;
 
+        public static readonly DependencyProperty IsHoldHiddenItemProperty;
+
         private Orientation _orientation;
 
         [TypeConverter(typeof(LengthConverter))]
@@ -118,6 +120,12 @@ namespace OhmStudio.UI.Controls
             set => SetValue(IsWrapProperty, value);
         }
 
+        public bool IsHoldHiddenItem
+        {
+            get => (bool)GetValue(IsHoldHiddenItemProperty);
+            set => SetValue(IsHoldHiddenItemProperty, value);
+        }
+
         public DocumentWrapPanel()
         {
             _orientation = (Orientation)OrientationProperty.GetMetadata(this).DefaultValue;
@@ -129,6 +137,7 @@ namespace OhmStudio.UI.Controls
             ItemHeightProperty = DependencyProperty.Register(nameof(ItemHeight), typeof(double), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.AffectsMeasure), IsWidthHeightValid);
             OrientationProperty = StackPanel.OrientationProperty.AddOwner(typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(Orientation.Horizontal, FrameworkPropertyMetadataOptions.AffectsMeasure, OnOrientationChanged));
             IsWrapProperty = DependencyProperty.Register(nameof(IsWrap), typeof(bool), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsMeasure, OnIsWrapChanged));
+            IsHoldHiddenItemProperty = DependencyProperty.Register(nameof(IsHoldHiddenItem), typeof(bool), typeof(DocumentWrapPanel));
             //ControlsTraceLogger.AddControl(TelemetryControls.DocumentWrapPanel);
         }
 
@@ -138,7 +147,7 @@ namespace OhmStudio.UI.Controls
             {
                 //documentWrapPanel.InvalidateMeasure();
                 documentWrapPanel.InvalidateVisual();
-                if (newValue)
+                if (newValue && !documentWrapPanel.IsHoldHiddenItem)
                 {
                     foreach (var item in documentWrapPanel.Children.OfType<UIElement>().Where(x => x.Visibility == Visibility.Hidden))
                     {
