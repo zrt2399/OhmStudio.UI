@@ -472,6 +472,11 @@ namespace OhmStudio.UI.Demo.Views
             }
             UIMessageTip.ShowError(stringBuilder.ToString());
         }
+
+        private void Button_Click_14(object sender, RoutedEventArgs e)
+        {
+            searchBar.Focus();
+        }
     }
 
     public abstract class OhmTheme : ResourceDictionary

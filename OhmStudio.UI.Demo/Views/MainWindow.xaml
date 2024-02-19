@@ -564,7 +564,8 @@
                                                       DisplayMemberPath="Name"
                                                       IsEditable="True"
                                                       ItemsSource="{Binding FileNodes}" />
-                                            <SearchBar VerticalAlignment="Top"
+                                            <SearchBar Name="searchBar"
+                                                       VerticalAlignment="Top"
                                                        TextBoxAttach.PlaceHolder="请输入搜索内容..."
                                                        TextBoxAttach.Title="搜索" />
                                             <TextBox Margin="4"
@@ -579,6 +580,7 @@
                                             <Button Margin="4"
                                                     Padding="4"
                                                     HorizontalContentAlignment="Left"
+                                                    Click="Button_Click_14"
                                                     Style="{StaticResource ClassicButton}">
                                                 ClassicButton
                                             </Button>
