@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
-                    xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
+                    xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
     <ResourceDictionary.MergedDictionaries>
@@ -10,88 +10,102 @@
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ControlsBase.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <converters:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter"/>
-    <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
-    <converters:AngleToPointConverter x:Key="AngleToPointConverter"/>
-    <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter"/>
-    <converters:DropShadowMarginConverter x:Key="DropShadowMarginConverter"/>
-    <converters:BorderCornerRadiusConverter x:Key="BorderCornerRadiusConverter"/>
+    <Thickness x:Key="InputControlPadding">2,2</Thickness>
+
+    <converters:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter" />
+    <converters:BrushToColorConverter x:Key="BrushToColorConverter" />
+    <converters:AngleToPointConverter x:Key="AngleToPointConverter" />
+    <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter" />
+    <converters:DropShadowMarginConverter x:Key="DropShadowMarginConverter" />
+    <converters:BorderCornerRadiusConverter x:Key="BorderCornerRadiusConverter" />
 
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
     <SolidColorBrush x:Key="Disabled">#FFAEABAB</SolidColorBrush>
- 
+
     <Style x:Key="DropShadowControlBaseStyle" TargetType="controls:DropShadowControl">
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:DropShadowControl">
                     <controls:SimplePanel>
-                        <Border CornerRadius="{TemplateBinding CornerRadius}"
-                                Background="{TemplateBinding Background}"
+                        <Border Background="{TemplateBinding Background}"
                                 BorderBrush="Transparent"
-                                BorderThickness="{TemplateBinding BorderThickness}">
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="{Binding ShadowDepth,RelativeSource={RelativeSource TemplatedParent}}"
-                                                  BlurRadius="{Binding BlurRadius,RelativeSource={RelativeSource TemplatedParent}}"
-                                                  Color="{Binding ShadowColor,RelativeSource={RelativeSource TemplatedParent}}"
-                                                  Opacity="{Binding ShadowOpacity,RelativeSource={RelativeSource TemplatedParent}}"
-                                                  RenderingBias="{Binding RenderingBias,RelativeSource={RelativeSource TemplatedParent}}"
-                                                  Direction="{Binding ShadowDirection,RelativeSource={RelativeSource TemplatedParent}}"/>
+                                <DropShadowEffect BlurRadius="{Binding BlurRadius, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  Direction="{Binding ShadowDirection, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  Opacity="{Binding ShadowOpacity, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  RenderingBias="{Binding RenderingBias, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  ShadowDepth="{Binding ShadowDepth, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  Color="{Binding ShadowColor, RelativeSource={RelativeSource TemplatedParent}}" />
                             </Border.Effect>
                         </Border>
                         <Border Background="{TemplateBinding Background}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{TemplateBinding CornerRadius}">
-                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </controls:SimplePanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="controls:DropShadowControl" BasedOn="{StaticResource DropShadowControlBaseStyle}"/>
+    <Style BasedOn="{StaticResource DropShadowControlBaseStyle}" TargetType="controls:DropShadowControl" />
 
     <Style x:Key="ClassicButton" TargetType="Button">
-        <Setter Property="Foreground" Value="Black"/>
-        <Setter Property="Background" Value="#FFF2F4F5"/>
-        <Setter Property="BorderBrush" Value="#FF96999C"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="BorderAttach.CornerRadius" Value="2"/>
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Background" Value="#FFF2F4F5" />
+        <Setter Property="BorderBrush" Value="#FF96999C" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="BorderAttach.CornerRadius" Value="2" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <controls:SimplePanel Margin="-2">
-                        <Border Name="borderEffect" Visibility="Collapsed" Background="{TemplateBinding Background}"
-                                BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding ElementName=Border,Path=CornerRadius}" Margin="{Binding ElementName=Border,Path=Margin}">
+                        <Border Name="borderEffect"
+                                Margin="{Binding ElementName=Border, Path=Margin}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding ElementName=Border, Path=CornerRadius}"
+                                Visibility="Collapsed">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=BorderBrush,Converter={StaticResource BrushToColorConverter}}"/>
+                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
                             </Border.Effect>
                         </Border>
-                        <Border Name="Border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                Margin="2" CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
-                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Border Name="Border"
+                                Margin="2"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </controls:SimplePanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="borderEffect" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="#FF1D1C1C"/>
-                            <Setter TargetName="Border" Property="BorderThickness" Value="1"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FF1D1C1C" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="1" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="#FFD1CCCC"/>
+                            <Setter TargetName="Border" Property="Background" Value="#FFD1CCCC" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="#FFF6F6F6"/>
-                            <Setter TargetName="Border" Property="BorderBrush" Value="#FFD1D5D6"/>
-                            <Setter TargetName="Border" Property="TextElement.Foreground" Value="#FF514949"/>
+                            <Setter TargetName="Border" Property="Background" Value="#FFF6F6F6" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FFD1D5D6" />
+                            <Setter TargetName="Border" Property="TextElement.Foreground" Value="#FF514949" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -100,26 +114,36 @@
     </Style>
 
     <Style x:Key="DefaultButton" TargetType="Button">
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Background" Value="#FF499FEF"/>
-        <Setter Property="BorderBrush" Value="#FF2C84DD"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="BorderAttach.CornerRadius" Value="2"/>
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="#FF499FEF" />
+        <Setter Property="BorderBrush" Value="#FF2C84DD" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="BorderAttach.CornerRadius" Value="2" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <controls:SimplePanel Margin="-2">
-                        <Border Name="borderEffect" Visibility="Collapsed" Background="{TemplateBinding Background}"
-                                BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding ElementName=Border,Path=CornerRadius}" Margin="{Binding ElementName=Border,Path=Margin}">
+                        <Border Name="borderEffect"
+                                Margin="{Binding ElementName=Border, Path=Margin}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding ElementName=Border, Path=CornerRadius}"
+                                Visibility="Collapsed">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=BorderBrush,Converter={StaticResource BrushToColorConverter}}"/>
+                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
                             </Border.Effect>
                         </Border>
-                        <Border Name="Border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                Margin="2" CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
-                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Border Name="Border"
+                                Margin="2"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </controls:SimplePanel>
                     <ControlTemplate.Triggers>
@@ -127,11 +151,11 @@
                             <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Value="{StaticResource Focused}" Property="BorderBrush" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Focused}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Value="{StaticResource Pressed}" Property="Background" />
-                            <Setter TargetName="Border" Value="{StaticResource Pressed}" Property="BorderBrush" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Pressed}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Pressed}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Border" Property="Background" Value="#FFF6F6F6" />
@@ -145,26 +169,36 @@
     </Style>
 
     <Style x:Key="FlatButtonGreen" TargetType="Button">
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Background" Value="#FF1EA973"/>
-        <Setter Property="BorderBrush" Value="#FF1EA973"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="BorderAttach.CornerRadius" Value="2"/>
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="#FF1EA973" />
+        <Setter Property="BorderBrush" Value="#FF1EA973" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="BorderAttach.CornerRadius" Value="2" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <controls:SimplePanel Margin="-2">
-                        <Border Name="borderEffect" Visibility="Collapsed" Background="{TemplateBinding Background}"
-                                BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding ElementName=Border,Path=CornerRadius}" Margin="{Binding ElementName=Border,Path=Margin}">
+                        <Border Name="borderEffect"
+                                Margin="{Binding ElementName=Border, Path=Margin}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding ElementName=Border, Path=CornerRadius}"
+                                Visibility="Collapsed">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=BorderBrush,Converter={StaticResource BrushToColorConverter}}" />
+                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
                             </Border.Effect>
                         </Border>
-                        <Border Name="Border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                Margin="2" CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
-                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Border Name="Border"
+                                Margin="2"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </controls:SimplePanel>
                     <ControlTemplate.Triggers>
@@ -178,15 +212,15 @@
                             <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Focused}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Focused}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Pressed}"/>
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Pressed}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Pressed}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Pressed}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Disabled}"/>
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Disabled}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Disabled}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Disabled}" />
                             <Setter TargetName="borderEffect" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -196,26 +230,36 @@
     </Style>
 
     <Style x:Key="FlatButtonRed" TargetType="Button">
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Background" Value="#FFCD5C5C"/>
-        <Setter Property="BorderBrush" Value="#FFCD5C5C"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="BorderAttach.CornerRadius" Value="2"/>
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="#FFCD5C5C" />
+        <Setter Property="BorderBrush" Value="#FFCD5C5C" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="BorderAttach.CornerRadius" Value="2" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <controls:SimplePanel Margin="-2">
-                        <Border Name="borderEffect" Visibility="Collapsed" Background="{TemplateBinding Background}"
-                                BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding ElementName=Border,Path=CornerRadius}" Margin="{Binding ElementName=Border,Path=Margin}">
+                        <Border Name="borderEffect"
+                                Margin="{Binding ElementName=Border, Path=Margin}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding ElementName=Border, Path=CornerRadius}"
+                                Visibility="Collapsed">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border,Path=BorderBrush,Converter={StaticResource BrushToColorConverter}}" />
+                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
                             </Border.Effect>
                         </Border>
-                        <Border Name="Border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                Margin="2" CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
-                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Border Name="Border"
+                                Margin="2"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </controls:SimplePanel>
                     <ControlTemplate.Triggers>
@@ -223,15 +267,15 @@
                             <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Focused}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Focused}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Pressed}"/>
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Pressed}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Pressed}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Pressed}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Disabled}"/>
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Disabled}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Disabled}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Disabled}" />
                             <Setter TargetName="borderEffect" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -241,23 +285,29 @@
     </Style>
 
     <Style x:Key="TextBlockBaseStyle" TargetType="TextBlock">
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-    </Style> 
-    <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBaseStyle}"/>
- 
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+    <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="TextBlock" />
+
     <Style x:Key="TabItemStyle" TargetType="TabItem">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
                     <StackPanel ClipToBounds="True">
-                        <ContentPresenter Name="contentPresenter" ContentSource="Header" Focusable="False"
-                                          Margin="{TemplateBinding Padding}" RecognizesAccessKey="True"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                          HorizontalAlignment="{Binding HorizontalContentAlignment,RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                          VerticalAlignment="{Binding VerticalContentAlignment,RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
-                        <Border Name="bottom" Height="3" Visibility="Collapsed" Background="#FF3C6EFF" />
+                        <ContentPresenter Name="contentPresenter"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                          VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                          ContentSource="Header"
+                                          Focusable="False"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <Border Name="bottom"
+                                Height="3"
+                                Background="#FF3C6EFF"
+                                Visibility="Collapsed" />
                     </StackPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -288,25 +338,33 @@
     </Style>
 
     <Style x:Key="SearchBarBaseStyle" TargetType="controls:SearchBar">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SearchBar">
                     <DockPanel>
-                        <ContentControl Style="{DynamicResource TitleWithTemplatedParent}"/>
-                        <Border Name="Border" SnapsToDevicePixels="True"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
+                        <ContentControl Style="{DynamicResource TitleWithTemplatedParent}" />
+                        <Border Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                SnapsToDevicePixels="True">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <ScrollViewer Name="PART_ContentHost"/>
-                                <ContentControl Style="{DynamicResource PlaceHolderWithTemplatedParent}" Margin="{TemplateBinding Padding}"/>
-                                <Button Padding="4,0" Grid.Column="1" BorderThickness="0" BorderBrush="Transparent" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}"
-                                attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BorderCornerRadiusConverter}}">
+                                <ScrollViewer Name="PART_ContentHost" />
+                                <ContentControl Margin="{TemplateBinding Padding}" Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
+                                <Button Grid.Column="1"
+                                        Padding="4,0"
+                                        attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BorderCornerRadiusConverter}}"
+                                        BorderBrush="Transparent"
+                                        BorderThickness="0"
+                                        Command="{TemplateBinding Command}"
+                                        CommandParameter="{TemplateBinding CommandParameter}"
+                                        CommandTarget="{TemplateBinding CommandTarget}">
                                     <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" ToolTip="{x:Null}">&#xe60f;</TextBlock>
                                 </Button>
                             </Grid>
@@ -344,10 +402,17 @@
             <EventTrigger RoutedEvent="Loaded">
                 <EventTrigger.Actions>
                     <BeginStoryboard>
-                        <!--60FPS DesiredFrameRate="60"-->
+                        <!--  60FPS DesiredFrameRate="60"  -->
                         <Storyboard>
-                            <ThicknessAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Margin" From="50,0,-50,0" To="0" DecelerationRatio="0.9"/>
-                            <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" From="0" To="1"/>
+                            <ThicknessAnimation DecelerationRatio="0.9"
+                                                Storyboard.TargetProperty="Margin"
+                                                From="50,0,-50,0"
+                                                To="0"
+                                                Duration="0:0:0.2" />
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                             From="0"
+                                             To="1"
+                                             Duration="0:0:0.2" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -356,41 +421,52 @@
     </Style>
 
     <Style x:Key="ToggleButtonStyle" TargetType="ToggleButton">
-        <Setter Property="Height" Value="24"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Height" Value="24" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
                     <Viewbox>
-                        <Border x:Name="toggleBorder" CornerRadius="13" Background="#D3D3D3" Width="40"
-                                Height="26" BorderThickness="1" BorderBrush="Transparent" VerticalAlignment="Center">
-                            <Ellipse Name="ellipse" Height="18" Width="18" Margin="3" HorizontalAlignment="Left" Fill="White"/>
+                        <Border x:Name="toggleBorder"
+                                Width="40"
+                                Height="26"
+                                VerticalAlignment="Center"
+                                Background="#D3D3D3"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="13">
+                            <Ellipse Name="ellipse"
+                                     Width="18"
+                                     Height="18"
+                                     Margin="3"
+                                     HorizontalAlignment="Left"
+                                     Fill="White" />
                         </Border>
                     </Viewbox>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="toggleBorder" Property="Background" Value="#65C468"/>
-                            <Setter TargetName="ellipse" Property="HorizontalAlignment" Value="Right"/>
+                            <Setter TargetName="toggleBorder" Property="Background" Value="#65C468" />
+                            <Setter TargetName="ellipse" Property="HorizontalAlignment" Value="Right" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="ellipse" Property="Fill" Value="#F0F0F0"/>
+                            <Setter TargetName="ellipse" Property="Fill" Value="#F0F0F0" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="True" />
                                 <Condition Property="IsEnabled" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="toggleBorder" Property="Background" Value="#8FBC8F"/>
-                            <Setter TargetName="ellipse" Property="Fill" Value="LightGray"/>
+                            <Setter TargetName="toggleBorder" Property="Background" Value="#8FBC8F" />
+                            <Setter TargetName="ellipse" Property="Fill" Value="LightGray" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="False" />
                                 <Condition Property="IsEnabled" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="toggleBorder" Property="Background" Value="#BEBEBE"/>
-                            <Setter TargetName="ellipse" Property="Fill" Value="LightGray"/>
+                            <Setter TargetName="toggleBorder" Property="Background" Value="#BEBEBE" />
+                            <Setter TargetName="ellipse" Property="Fill" Value="LightGray" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -399,70 +475,65 @@
     </Style>
 
     <Style x:Key="CircularProgressBarBaseStyle" TargetType="controls:CircularProgressBar">
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
         <!--<Setter Property="TextElement.Foreground" Value="{DynamicResource CommonControlsTextBoxText}"/>-->
-        <Setter Property="Maximum" Value="100"/>
-        <Setter Property="Background" Value="#FFE6E6E6"/>
+        <Setter Property="Maximum" Value="100" />
+        <Setter Property="Background" Value="#FFE6E6E6" />
         <!--<Setter Property="Background" Value="{DynamicResource ProgressBarBackground}"/>-->
-        <Setter Property="BrushStrokeThickness" Value="8"/>
-        <Setter Property="StrokeThickness" Value="8"/>
-        <Setter Property="BorderBrush" Value="#FF1FA7FC"/>
+        <Setter Property="BrushStrokeThickness" Value="8" />
+        <Setter Property="StrokeThickness" Value="8" />
+        <Setter Property="BorderBrush" Value="#FF1FA7FC" />
         <!--<Setter Property="BorderBrush" Value="{DynamicResource ProgressBarProgress}"/>-->
-        <Setter Property="Width" Value="100"/>
-        <Setter Property="Height" Value="100"/>
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Height" Value="100" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:CircularProgressBar">
                     <Viewbox>
                         <Canvas Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                            <Path Stroke="{TemplateBinding Background}"
-                                  StrokeThickness="{TemplateBinding StrokeThickness}">
+                            <Path Stroke="{TemplateBinding Background}" StrokeThickness="{TemplateBinding StrokeThickness}">
                                 <Path.Data>
                                     <PathGeometry>
                                         <PathFigure StartPoint="50,0">
-                                            <ArcSegment SweepDirection="Clockwise"
-                                                        Size="50,50"
+                                            <ArcSegment IsLargeArc="True"
                                                         Point="49.999127335374,7.61543361704753E-09"
-                                                        IsLargeArc="True">
-                                            </ArcSegment>
+                                                        Size="50,50"
+                                                        SweepDirection="Clockwise" />
                                         </PathFigure>
                                     </PathGeometry>
                                 </Path.Data>
                             </Path>
-                            <Path Stroke="{TemplateBinding BorderBrush}"
-                                  StrokeThickness="{TemplateBinding BrushStrokeThickness}">
+                            <Path Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BrushStrokeThickness}">
                                 <Path.Data>
                                     <PathGeometry>
                                         <PathFigure StartPoint="50,0">
-                                            <ArcSegment SweepDirection="Clockwise"
+                                            <ArcSegment IsLargeArc="{Binding Path=Angle, Converter={StaticResource AngleToIsLargeConverter}, RelativeSource={RelativeSource AncestorType=ProgressBar}}"
+                                                        Point="{Binding Path=Angle, Converter={StaticResource AngleToPointConverter}, RelativeSource={RelativeSource AncestorType=ProgressBar}}"
                                                         Size="50,50"
-                                                        Point="{Binding Path=Angle,Converter={StaticResource AngleToPointConverter},RelativeSource={RelativeSource AncestorType=ProgressBar}}"
-                                                        IsLargeArc="{Binding Path=Angle,Converter={StaticResource AngleToIsLargeConverter},RelativeSource={RelativeSource AncestorType=ProgressBar}}">
-                                            </ArcSegment>
+                                                        SweepDirection="Clockwise" />
                                         </PathFigure>
                                     </PathGeometry>
                                 </Path.Data>
                                 <Path.Effect>
-                                    <DropShadowEffect ShadowDepth="0" Color="{Binding BorderBrush,RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BrushToColorConverter}}"/>
+                                    <DropShadowEffect ShadowDepth="0" Color="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BrushToColorConverter}}" />
                                 </Path.Effect>
                             </Path>
                             <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                                <StackPanel VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+                                <StackPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                     <StackPanel.Resources>
                                         <Style x:Key="TextBlockCollapsedStyle" TargetType="TextBlock">
                                             <Style.Triggers>
                                                 <Trigger Property="Text" Value="">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Setter Property="Visibility" Value="Collapsed" />
                                                 </Trigger>
                                                 <Trigger Property="Text" Value="{x:Null}">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Setter Property="Visibility" Value="Collapsed" />
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
                                     </StackPanel.Resources>
-                                    <TextBlock Text="{Binding Title,RelativeSource={RelativeSource TemplatedParent}}"
-                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+                                    <TextBlock HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Text="{Binding Title, RelativeSource={RelativeSource TemplatedParent}}">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type TextBlock}}" />
@@ -470,8 +541,7 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-                                    <TextBlock Text="{Binding Path=Value,StringFormat={}{0}%,RelativeSource={RelativeSource TemplatedParent}}"
-                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                    <TextBlock HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Text="{Binding Path=Value, StringFormat={}{0}%, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </StackPanel>
                             </Grid>
                         </Canvas>
@@ -480,28 +550,37 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="controls:CircularProgressBar" BasedOn="{StaticResource CircularProgressBarBaseStyle}"/>
+    <Style BasedOn="{StaticResource CircularProgressBarBaseStyle}" TargetType="controls:CircularProgressBar" />
 
     <Style x:Key="ListBoxItemContainerStyle" TargetType="ListBoxItem">
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="Padding" Value="4,1"/>
-        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
-        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Padding" Value="4,1" />
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="Bd" Background="{TemplateBinding Background}" Opacity="0.7" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}">
-                        <Ellipse x:Name="ep" Width="12" Height="12" Fill="LightGray" Cursor="Hand"/>
+                    <Border x:Name="Bd"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Opacity="0.7">
+                        <Ellipse x:Name="ep"
+                                 Width="12"
+                                 Height="12"
+                                 Cursor="Hand"
+                                 Fill="LightGray" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="True"/>
+                                <Condition Property="IsSelected" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter Property="Fill" TargetName="ep" Value="Gray"/>
+                            <Setter TargetName="ep" Property="Fill" Value="Gray" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -515,65 +594,66 @@
                 <ControlTemplate TargetType="controls:RollBox">
                     <Grid ClipToBounds="True">
                         <ListBox x:Name="PART_ListBox"
-                                 Panel.ZIndex="10"
-                                 ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"  
-                                 SelectedIndex="0"
-                                 BorderThickness="0"
-                                 HorizontalAlignment="Right" 
-                                 VerticalAlignment="Bottom" 
-                                 Background="Transparent"
+                                 Height="24"
                                  Margin="0,0,20,20"
-                                 Height="24">
+                                 HorizontalAlignment="Right"
+                                 VerticalAlignment="Bottom"
+                                 Panel.ZIndex="10"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
+                                 SelectedIndex="0">
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
+                                    <StackPanel Orientation="Horizontal" />
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                         </ListBox>
-                        <ContentControl x:Name="PART_NEXT_Content"/>
-                        <ContentControl x:Name="PART_CURR_Content"/>
+                        <ContentControl x:Name="PART_NEXT_Content" />
+                        <ContentControl x:Name="PART_CURR_Content" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="controls:RollBox" BasedOn="{StaticResource RollBoxBaseStyle}"/>
+    <Style BasedOn="{StaticResource RollBoxBaseStyle}" TargetType="controls:RollBox" />
 
-    <!--自动添加时内容居中-->
+    <!--  自动添加时内容居中  -->
     <Style x:Key="GridCellCenterStyle" TargetType="DataGridCell">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="DataGridCell">
                     <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="DataGridCell.IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource CommonControlsButtonHover}"/>
+                <Setter Property="Background" Value="{DynamicResource CommonControlsButtonHover}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <Style x:Key="ListBoxItemCheckBoxBaseStyle" TargetType="ListBoxItem">
-        <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                    <Border Name="Border"
                             Padding="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Name="Border">
-                        <CheckBox IsChecked="{Binding IsSelected,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <CheckBox Margin="0,2"
                                   Foreground="{TemplateBinding Foreground}"
-                                  Margin="0,2">
+                                  IsChecked="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
                             <CheckBox.Content>
                                 <MultiBinding Converter="{StaticResource DisplayMemberPathConverter}">
                                     <Binding Path="DisplayMemberPath" RelativeSource="{RelativeSource AncestorType=ListBox}" />
@@ -613,7 +693,7 @@
     </Style>
 
     <DataTemplate x:Key="ListBoxItemCheckBoxDataTemplate">
-        <CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}">
+        <CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}">
             <CheckBox.Content>
                 <MultiBinding Converter="{StaticResource DisplayMemberPathConverter}">
                     <Binding Path="DisplayMemberPath" RelativeSource="{RelativeSource AncestorType=ListBox}" />
@@ -629,97 +709,104 @@
                 <ControlTemplate TargetType="controls:CheckComboBox">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <ContentControl Style="{DynamicResource TitleWithTemplatedParent}"/>
-                        <Border Grid.ColumnSpan="2"
-                                Name="Border"
+                        <ContentControl Style="{DynamicResource TitleWithTemplatedParent}" />
+                        <Border Name="Border"
                                 Grid.Column="1"
+                                Grid.ColumnSpan="2"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}"
-                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
-                                SnapsToDevicePixels="True"/>
-                        <TextBox Padding="{TemplateBinding Padding}"
+                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                SnapsToDevicePixels="True" />
+                        <TextBox Name="PART_EditableTextBox"
                                  Grid.Column="1"
-                                 Name="PART_EditableTextBox"
                                  Margin="1,1,0,1"
-                                 BorderBrush="Transparent"
-                                 Background="Transparent"
-                                 BorderThickness="0"
-                                 VerticalAlignment="Stretch"
+                                 Padding="{TemplateBinding Padding}"
                                  HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch"
                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                 Text="{Binding Text,RelativeSource={RelativeSource TemplatedParent}}"
-                                 IsReadOnly="{Binding IsReadOnly,RelativeSource={RelativeSource TemplatedParent}}"/>
+                                 Background="Transparent"
+                                 BorderBrush="Transparent"
+                                 BorderThickness="0"
+                                 IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
+                                 Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}" />
                         <ToggleButton x:Name="DropDownButton"
-                                     ClickMode="Release"
-                                     Grid.Column="2"
-                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                     Background="{DynamicResource CommonControlsComboBoxGlyphBackground}"
-                                     BorderBrush="{TemplateBinding BorderBrush}"
-                                     Foreground="{DynamicResource CommonControlsComboBoxGlyph}"
-                                     IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
-                                     Style="{DynamicResource ToolBarComboBoxTransparentButtonStyle}"/>
+                                      Grid.Column="2"
+                                      Background="{DynamicResource CommonControlsComboBoxGlyphBackground}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      ClickMode="Release"
+                                      Foreground="{DynamicResource CommonControlsComboBoxGlyph}"
+                                      IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                      Style="{DynamicResource ToolBarComboBoxTransparentButtonStyle}" />
                         <Popup Name="PART_Popup"
                                AllowsTransparency="True"
-                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                               IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                PlacementTarget="{Binding ElementName=Border}"
-                               IsOpen="{Binding IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                StaysOpen="False">
                             <theme:SystemDropShadowChrome Name="Shadow"
-                                                  MinWidth="{TemplateBinding ActualWidth}"
-                                                  MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                  Color="Transparent">
+                                                          MinWidth="{TemplateBinding ActualWidth}"
+                                                          MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                          Color="Transparent">
                                 <Border Background="{DynamicResource CommonControlsComboBoxListBackground}"
                                         BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
                                         BorderThickness="{TemplateBinding BorderThickness}">
                                     <Grid>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition/>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition />
                                         </Grid.RowDefinitions>
                                         <StackPanel Orientation="Horizontal">
                                             <Button Name="PART_Invert">
                                                 <DockPanel>
-                                                    <CheckBox IsChecked="{x:Null}" IsHitTestVisible="False" Focusable="False"/>
-                                                    <TextBlock Margin="4,0,0,0" Name="invert">反选</TextBlock>
+                                                    <CheckBox Focusable="False"
+                                                              IsChecked="{x:Null}"
+                                                              IsHitTestVisible="False" />
+                                                    <TextBlock Name="invert" Margin="4,0,0,0">反选</TextBlock>
                                                 </DockPanel>
                                             </Button>
                                             <Button Name="PART_SelectAll">
                                                 <DockPanel>
-                                                    <CheckBox IsChecked="True" IsHitTestVisible="False" Focusable="False"/>
-                                                    <TextBlock Margin="4,0,0,0" Name="selectAll">选择全部</TextBlock>
+                                                    <CheckBox Focusable="False"
+                                                              IsChecked="True"
+                                                              IsHitTestVisible="False" />
+                                                    <TextBlock Name="selectAll" Margin="4,0,0,0">选择全部</TextBlock>
                                                 </DockPanel>
                                             </Button>
                                             <Button Name="PART_DeSelectAll">
                                                 <DockPanel>
-                                                    <CheckBox IsChecked="False" IsHitTestVisible="False" Focusable="False"/>
-                                                    <TextBlock Margin="4,0,0,0" Name="deselectAll">取消全部</TextBlock>
+                                                    <CheckBox Focusable="False"
+                                                              IsChecked="False"
+                                                              IsHitTestVisible="False" />
+                                                    <TextBlock Name="deselectAll" Margin="4,0,0,0">取消全部</TextBlock>
                                                 </DockPanel>
                                             </Button>
                                         </StackPanel>
                                         <ListBox x:Name="PART_ListBox"
                                                  Grid.Row="1"
-                                                 BorderThickness="0"
                                                  BorderBrush="Transparent"
-                                                 VirtualizingPanel.ScrollUnit="{Binding Path=(VirtualizingPanel.ScrollUnit),RelativeSource={RelativeSource TemplatedParent}}"
-                                                 
-                                                 ItemsSource="{TemplateBinding ItemsSource}"
+                                                 BorderThickness="0"
                                                  DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                                 ItemContainerStyle="{DynamicResource ListBoxItemCheckBoxStyle}"
+                                                 ItemsSource="{TemplateBinding ItemsSource}"
                                                  SelectionMode="Multiple"
-                                                 ItemContainerStyle="{DynamicResource ListBoxItemCheckBoxStyle}"/>
-                                        <!--VirtualizingPanel.IsVirtualizing="{Binding Path=(VirtualizingPanel.IsVirtualizing),RelativeSource={RelativeSource TemplatedParent}}"
+                                                 VirtualizingPanel.ScrollUnit="{Binding Path=(VirtualizingPanel.ScrollUnit), RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <!--
+                                            VirtualizingPanel.IsVirtualizing="{Binding Path=(VirtualizingPanel.IsVirtualizing),RelativeSource={RelativeSource TemplatedParent}}"
                                             VirtualizingPanel.IsVirtualizingWhenGrouping="{Binding Path=(VirtualizingPanel.IsVirtualizingWhenGrouping),RelativeSource={RelativeSource TemplatedParent}}"
                                             VirtualizingPanel.VirtualizationMode="{Binding Path=(VirtualizingPanel.VirtualizationMode),RelativeSource={RelativeSource TemplatedParent}}"
                                             VirtualizingPanel.CacheLength="{Binding Path=(VirtualizingPanel.CacheLength),RelativeSource={RelativeSource TemplatedParent}}"
                                             VirtualizingPanel.CacheLengthUnit="{Binding Path=(VirtualizingPanel.CacheLengthUnit),RelativeSource={RelativeSource TemplatedParent}}"
-                                            VirtualizingPanel.IsContainerVirtualizable="{Binding Path=(VirtualizingPanel.IsContainerVirtualizable),RelativeSource={RelativeSource TemplatedParent}}"-->
-                                        <!--ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}"-->
-                                        <!--ItemTemplate="{StaticResource ListBoxItemCheckBoxDataTemplate}"-->
+                                            VirtualizingPanel.IsContainerVirtualizable="{Binding Path=(VirtualizingPanel.IsContainerVirtualizable),RelativeSource={RelativeSource TemplatedParent}}"
+                                        -->
+                                        <!--  ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}"  -->
+                                        <!--  ItemTemplate="{StaticResource ListBoxItemCheckBoxDataTemplate}"  -->
                                     </Grid>
                                 </Border>
                             </theme:SystemDropShadowChrome>
@@ -767,33 +854,43 @@
         </Setter>
     </Style>
 
-    <Style TargetType="controls:CheckComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+    <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="controls:CheckComboBox">
         <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type ComboBox}}" />
         <Setter Property="DynamicStyleProvider.Derived" Value="{DynamicResource CheckComboBoxBaseStyle}" />
     </Style>
 
-    <Style x:Key="TextColumnEditingElementStyle" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="0"/>
+    <Style x:Key="TextColumnEditingElementStyle"
+           BasedOn="{StaticResource {x:Type TextBox}}"
+           TargetType="TextBox">
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
     </Style>
 
-    <Style x:Key="ComboBoxColumnEditingElementStyle" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="0"/>
+    <Style x:Key="ComboBoxColumnEditingElementStyle"
+           BasedOn="{StaticResource {x:Type ComboBox}}"
+           TargetType="ComboBox">
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
     </Style>
 
-    <Style x:Key="TextBlockPassword" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+    <Style x:Key="TextBlockPassword"
+           BasedOn="{StaticResource {x:Type TextBlock}}"
+           TargetType="{x:Type TextBlock}">
         <!--<Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Text, Converter={StaticResource TextBlockPasswordConverter}}"/>-->
         <Setter Property="TextDecorations">
             <Setter.Value>
                 <TextDecorationCollection>
                     <TextDecoration>
                         <TextDecoration.Pen>
-                            <Pen Thickness="12" Brush="Gray" EndLineCap="Round" StartLineCap="Round" DashCap="Round">
+                            <Pen Brush="Gray"
+                                 DashCap="Round"
+                                 EndLineCap="Round"
+                                 StartLineCap="Round"
+                                 Thickness="12">
                                 <Pen.DashStyle>
-                                    <DashStyle Dashes="0.0,1.2" Offset="0.6"/>
+                                    <DashStyle Dashes="0.0,1.2" Offset="0.6" />
                                 </Pen.DashStyle>
                             </Pen>
                         </TextDecoration.Pen>
@@ -804,23 +901,24 @@
                 </TextDecorationCollection>
             </Setter.Value>
         </Setter>
-        <Setter Property="Foreground" Value="Transparent"/>
+        <Setter Property="Foreground" Value="Transparent" />
     </Style>
 
     <Style x:Key="GifImageBaseStyle" TargetType="controls:GifImage">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:GifImage">
-                    <Border CornerRadius="{TemplateBinding CornerRadius}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
                         <Border.Background>
                             <VisualBrush>
                                 <VisualBrush.Visual>
-                                    <Image x:Name="PART_Image" Stretch="{TemplateBinding Stretch}"
+                                    <Image x:Name="PART_Image"
                                            Margin="{TemplateBinding Padding}"
+                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                           Stretch="{TemplateBinding Stretch}" />
                                 </VisualBrush.Visual>
                             </VisualBrush>
                         </Border.Background>
@@ -829,6 +927,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="controls:GifImage" BasedOn="{StaticResource GifImageBaseStyle}"/>
- 
+    <Style BasedOn="{StaticResource GifImageBaseStyle}" TargetType="controls:GifImage" />
+
 </ResourceDictionary>

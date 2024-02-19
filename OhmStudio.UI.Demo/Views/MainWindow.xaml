@@ -117,6 +117,7 @@
         </Grid.RowDefinitions>
         <DockingManager x:Name="dockingManager"
                         AutoHideDelay="0"
+                        DocumentWrapPanelAttach.IsWrap="True"
                         ShowSystemMenu="False">
             <LayoutRoot>
                 <LayoutPanel Orientation="Horizontal">
@@ -483,7 +484,11 @@
                                                        HorizontalContentAlignment="Right"
                                                        VerticalContentAlignment="Bottom"
                                                        TextBoxAttach.PlaceHolder="请输入搜索内容..."
-                                                       TextBoxAttach.Title="搜索" />
+                                                       TextBoxAttach.TitleIsHitTestVisible="True">
+                                                <TextBoxAttach.Title>
+                                                    <Button>搜索</Button>
+                                                </TextBoxAttach.Title>
+                                            </SearchBar>
                                             <TextBox VerticalAlignment="Top"
                                                      TextBoxAttach.PlaceHolder="123456..."
                                                      TextBoxAttach.Title="开始" />
@@ -512,8 +517,15 @@
                                             <ComboBox VerticalAlignment="Top"
                                                       DisplayMemberPath="Name"
                                                       ItemsSource="{Binding FileNodes}"
-                                                      TextBoxAttach.PlaceHolder="请输入.."
-                                                      TextBoxAttach.Title="中文" />
+                                                      TextBoxAttach.PlaceHolderIsHitTestVisible="True"
+                                                      TextBoxAttach.TitleIsHitTestVisible="True">
+                                                <TextBoxAttach.Title>
+                                                    <Button>中文</Button>
+                                                </TextBoxAttach.Title>
+                                                <TextBoxAttach.PlaceHolder>
+                                                    <Button>请输入..</Button>
+                                                </TextBoxAttach.PlaceHolder>
+                                            </ComboBox>
                                             <ComboBox HorizontalContentAlignment="Right"
                                                       DisplayMemberPath="Name"
                                                       IsEditable="True"

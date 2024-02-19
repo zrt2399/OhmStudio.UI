@@ -1,0 +1,52 @@
+﻿<ResourceDictionary x:Class="OhmStudio.UI.Styles.VS.TextBoxAttachStyle"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="public">
+
+    <Style x:Key="PlaceHolderWithUserControl" TargetType="ContentControl">
+        <EventSetter Event="GotFocus" Handler="ContentControl_GotFocus" />
+        <Setter Property="VerticalAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+
+        <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource AncestorType=UserControl}}" />
+        <Setter Property="Opacity" Value="{Binding Path=(TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource AncestorType=UserControl}}" />
+        <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.PlaceHolderIsHitTestVisible), RelativeSource={RelativeSource AncestorType=UserControl}}" />
+        <Setter Property="Visibility" Value="{Binding Path=(TextBoxAttach.PlaceHolderVisibility), RelativeSource={RelativeSource AncestorType=UserControl}}" />
+        <Style.Triggers>
+            <Trigger Property="IsHitTestVisible" Value="False">
+                <Setter Property="Focusable" Value="False" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="PlaceHolderWithTemplatedParent"
+           BasedOn="{StaticResource PlaceHolderWithUserControl}"
+           TargetType="ContentControl">
+        <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="Opacity" Value="{Binding Path=(TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.PlaceHolderIsHitTestVisible), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="Visibility" Value="{Binding Path=(TextBoxAttach.PlaceHolderVisibility), RelativeSource={RelativeSource TemplatedParent}}" />
+    </Style>
+
+    <Style x:Key="TitleWithUserControl" TargetType="ContentControl">
+        <EventSetter Event="GotFocus" Handler="ContentControl_GotFocus" />
+        <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.Title), RelativeSource={RelativeSource AncestorType=UserControl}}" />
+        <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.TitleIsHitTestVisible), RelativeSource={RelativeSource AncestorType=UserControl}}" />
+        <Style.Triggers>
+            <Trigger Property="IsHitTestVisible" Value="False">
+                <Setter Property="Focusable" Value="False" />
+            </Trigger>
+            <Trigger Property="Content" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TitleWithTemplatedParent"
+           BasedOn="{StaticResource TitleWithUserControl}"
+           TargetType="ContentControl">
+        <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.Title), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.TitleIsHitTestVisible), RelativeSource={RelativeSource TemplatedParent}}" />
+    </Style>
+
+</ResourceDictionary>
