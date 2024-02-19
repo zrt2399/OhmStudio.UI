@@ -4,8 +4,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using AvalonDock;
 using AvalonDock.Controls;
 using AvalonDock.Layout;
+using OhmStudio.UI.Attaches;
+using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
@@ -129,6 +132,16 @@ namespace OhmStudio.UI.Controls
         public DocumentWrapPanel()
         {
             _orientation = (Orientation)OrientationProperty.GetMetadata(this).DefaultValue;
+            PreviewMouseWheel += (sender, e) =>
+            {
+                bool isWrap = e.Delta < 0;
+                IsWrap = isWrap;
+                var dockingManager = this.FindParentObject<DockingManager>();
+                if (dockingManager != null)
+                {
+                    DocumentWrapPanelAttach.SetIsWrap(dockingManager, isWrap);
+                }
+            };
         }
 
         static DocumentWrapPanel()
@@ -136,7 +149,7 @@ namespace OhmStudio.UI.Controls
             ItemWidthProperty = DependencyProperty.Register(nameof(ItemWidth), typeof(double), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.AffectsMeasure), IsWidthHeightValid);
             ItemHeightProperty = DependencyProperty.Register(nameof(ItemHeight), typeof(double), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.AffectsMeasure), IsWidthHeightValid);
             OrientationProperty = StackPanel.OrientationProperty.AddOwner(typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(Orientation.Horizontal, FrameworkPropertyMetadataOptions.AffectsMeasure, OnOrientationChanged));
-            IsWrapProperty = DependencyProperty.Register(nameof(IsWrap), typeof(bool), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsMeasure, OnIsWrapChanged));
+            IsWrapProperty = DependencyProperty.Register(nameof(IsWrap), typeof(bool), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure, OnIsWrapChanged));
             IsHoldHiddenItemProperty = DependencyProperty.Register(nameof(IsHoldHiddenItem), typeof(bool), typeof(DocumentWrapPanel));
             //ControlsTraceLogger.AddControl(TelemetryControls.DocumentWrapPanel);
         }
@@ -146,7 +159,10 @@ namespace OhmStudio.UI.Controls
             if (sender is DocumentWrapPanel documentWrapPanel && e.NewValue is bool newValue)
             {
                 //documentWrapPanel.InvalidateMeasure();
-                documentWrapPanel.InvalidateVisual();
+                if (documentWrapPanel.IsWrap != newValue)
+                {
+                    documentWrapPanel.InvalidateVisual();
+                }
                 if (newValue && !documentWrapPanel.IsHoldHiddenItem)
                 {
                     foreach (var item in documentWrapPanel.Children.OfType<UIElement>().Where(x => x.Visibility == Visibility.Hidden))
