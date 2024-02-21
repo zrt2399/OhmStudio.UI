@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
-using System.Data;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Demo
 {
@@ -20,5 +17,28 @@ namespace OhmStudio.UI.Demo
         public static bool IsInDesignMode => (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
  
         public static readonly string DocumentDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Name);
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+            {
+                Exception ex = e.ExceptionObject as Exception;
+                var message = "在工作线程发生未捕获的异常：\r\n";
+                AlertDialog.Show(message + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            };
+            DispatcherUnhandledException += (sender, e) =>
+            {
+                e.Handled = true;
+                Exception ex = e.Exception;
+                var message = "在主线程发生未捕获的异常：\r\n";
+                AlertDialog.Show(message + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            };
+            TaskScheduler.UnobservedTaskException += (sender, e) =>
+            {
+                var message = $"{e.Exception.Message}\r\n{e.Exception.InnerException}";
+                AlertDialog.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            };
+            base.OnStartup(e);
+        }
     }
 }
