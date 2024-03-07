@@ -595,7 +595,7 @@ namespace OhmStudio.UI.Demo.Views
         public XamlThemeResource()
         {
             instance = this;
-            InitializeThemes();
+            MergedDictionaries.Add(Theme);
         }
 
         private static XamlThemeResource instance;
@@ -615,18 +615,8 @@ namespace OhmStudio.UI.Demo.Views
         public OhmTheme Theme
         {
             get => theme;
-            set => UpdateOhmTheme(theme = value);
-        }
-
-        private void InitializeThemes()
-        {
-            MergedDictionaries.Add(Theme);
-        }
-
-        private void UpdateOhmTheme(OhmTheme theme)
-        {
-            MergedDictionaries[0] = theme;
-        }
+            set => MergedDictionaries[0] = theme = value;
+        } 
     }
 
     [BaseObjectIgnore]
@@ -640,8 +630,7 @@ namespace OhmStudio.UI.Demo.Views
 
         public int? Abstring1 { get; set; } = null;
 
-        [Password]
-        [TextBoxPlaceHolder(PlaceHolder = "请输入密码")]
+        [TextBoxPlaceHolder(PlaceHolder = "请输入密码"), Password]
         public string Abstring { get; set; }
 
         public Abs? Abs { get; set; } = null;
@@ -676,7 +665,8 @@ namespace OhmStudio.UI.Demo.Views
         public int Num { get; set; } = 999;
     }
 
-    public class Pro1
+    [BaseObjectIgnore]
+    public class Pro1 : ProBase
     {
         public string Name { get; set; }
 

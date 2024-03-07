@@ -482,19 +482,13 @@
                                             </DateTimePicker>
                                             <SearchBar VerticalAlignment="Top"
                                                        HorizontalContentAlignment="Right"
-                                                       VerticalContentAlignment="Bottom"
+                                                       VerticalContentAlignment="Center"
                                                        TextBoxAttach.PlaceHolder="请输入搜索内容..."
-                                                       TextBoxAttach.TitleIsHitTestVisible="True">
-                                                <TextBoxAttach.Title>
-                                                    <Button>搜索</Button>
-                                                </TextBoxAttach.Title>
-                                            </SearchBar>
+                                                       TextBoxAttach.Title="搜索" />
                                             <TextBox VerticalAlignment="Top"
                                                      TextBoxAttach.PlaceHolder="123456..."
                                                      TextBoxAttach.Title="开始" />
-                                            <TextBox VerticalAlignment="Top"
-                                                     IsEnabled="True"
-                                                     Text="{Binding CurrentDateTime, Mode=TwoWay}">
+                                            <TextBox VerticalAlignment="Top" Text="{Binding CurrentDateTime, Mode=TwoWay}">
                                                 <TextBoxAttach.Title>
                                                     <TextBlock>ButtonTitle</TextBlock>
                                                 </TextBoxAttach.Title>
