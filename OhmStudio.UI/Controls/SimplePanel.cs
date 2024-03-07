@@ -8,7 +8,7 @@ namespace OhmStudio.UI.Controls
     ///     用以代替<see cref="Grid"/>
     /// </summary>
     /// <remarks>
-    ///     当不需要<see cref="Grid"/>的行、列分隔等功能时建议用此轻量级类代替
+    ///     当不需要<see cref="Grid"/>的行、列分隔等功能时建议用此轻量级类代替。
     /// </remarks>
     public class SimplePanel : Panel
     {

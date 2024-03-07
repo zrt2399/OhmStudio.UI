@@ -1,9 +1,8 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
     <sys:Double x:Key="TopLevelMenuPopupTopOpenedVerticalOffset">0</sys:Double>
 
@@ -13,10 +12,9 @@
     <Geometry x:Key="RightArrow">M 0,0 L 4,3.5 L 0,7 Z</Geometry>
     <Geometry x:Key="CheckMark">F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z</Geometry>
 
-    <Style
-        x:Key="MenuScrollButton"
-        BasedOn="{x:Null}"
-        TargetType="{x:Type RepeatButton}">
+    <Style x:Key="MenuScrollButton"
+           BasedOn="{x:Null}"
+           TargetType="{x:Type RepeatButton}">
         <Setter Property="ClickMode" Value="Hover" />
         <Setter Property="MinWidth" Value="0" />
         <Setter Property="MinHeight" Value="0" />
@@ -24,31 +22,26 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <DockPanel Background="Transparent" SnapsToDevicePixels="True">
-                        <Rectangle
-                            x:Name="R1"
-                            Width="1"
-                            DockPanel.Dock="Right"
-                            Fill="Transparent" />
-                        <Rectangle
-                            x:Name="B1"
-                            Height="1"
-                            DockPanel.Dock="Bottom"
-                            Fill="Transparent" />
-                        <Rectangle
-                            x:Name="L1"
-                            Width="1"
-                            DockPanel.Dock="Left"
-                            Fill="Transparent" />
-                        <Rectangle
-                            x:Name="T1"
-                            Height="1"
-                            DockPanel.Dock="Top"
-                            Fill="Transparent" />
-                        <ContentPresenter
-                            x:Name="ContentContainer"
-                            Margin="2,2,2,2"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center" />
+                        <Rectangle x:Name="R1"
+                                   Width="1"
+                                   DockPanel.Dock="Right"
+                                   Fill="Transparent" />
+                        <Rectangle x:Name="B1"
+                                   Height="1"
+                                   DockPanel.Dock="Bottom"
+                                   Fill="Transparent" />
+                        <Rectangle x:Name="L1"
+                                   Width="1"
+                                   DockPanel.Dock="Left"
+                                   Fill="Transparent" />
+                        <Rectangle x:Name="T1"
+                                   Height="1"
+                                   DockPanel.Dock="Top"
+                                   Fill="Transparent" />
+                        <ContentPresenter x:Name="ContentContainer"
+                                          Margin="2,2,2,2"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="True">
@@ -64,11 +57,10 @@
         </Setter>
     </Style>
 
-    <Style
-        x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement},
-                                     ResourceId=MenuScrollViewer}"
-        BasedOn="{x:Null}"
-        TargetType="{x:Type ScrollViewer}">
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement},
+                                        ResourceId=MenuScrollViewer}"
+           BasedOn="{x:Null}"
+           TargetType="{x:Type ScrollViewer}">
         <Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
         <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="Template">
@@ -86,18 +78,16 @@
                         <Border Grid.Row="1" Grid.Column="0">
                             <ScrollContentPresenter Margin="{TemplateBinding Padding}" CanContentScroll="{TemplateBinding CanContentScroll}" />
                         </Border>
-                        <RepeatButton
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Command="{x:Static ScrollBar.LineUpCommand}"
-                            CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                            Focusable="False"
-                            Style="{StaticResource MenuScrollButton}">
+                        <RepeatButton Grid.Row="0"
+                                      Grid.Column="0"
+                                      Command="{x:Static ScrollBar.LineUpCommand}"
+                                      CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                      Focusable="False"
+                                      Style="{StaticResource MenuScrollButton}">
                             <RepeatButton.Visibility>
-                                <MultiBinding
-                                    Converter="{StaticResource MenuScrollingVisibilityConverter}"
-                                    ConverterParameter="0"
-                                    FallbackValue="Visibility.Collapsed">
+                                <MultiBinding Converter="{StaticResource MenuScrollingVisibilityConverter}"
+                                              ConverterParameter="0"
+                                              FallbackValue="Visibility.Collapsed">
                                     <Binding Path="ComputedVerticalScrollBarVisibility" RelativeSource="{RelativeSource TemplatedParent}" />
                                     <Binding Path="VerticalOffset" RelativeSource="{RelativeSource TemplatedParent}" />
                                     <Binding Path="ExtentHeight" RelativeSource="{RelativeSource TemplatedParent}" />
@@ -106,18 +96,16 @@
                             </RepeatButton.Visibility>
                             <Path Data="{StaticResource UpArrow}" Fill="{DynamicResource SystemColorsMenuText}" />
                         </RepeatButton>
-                        <RepeatButton
-                            Grid.Row="2"
-                            Grid.Column="0"
-                            Command="{x:Static ScrollBar.LineDownCommand}"
-                            CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                            Focusable="False"
-                            Style="{StaticResource MenuScrollButton}">
+                        <RepeatButton Grid.Row="2"
+                                      Grid.Column="0"
+                                      Command="{x:Static ScrollBar.LineDownCommand}"
+                                      CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                      Focusable="False"
+                                      Style="{StaticResource MenuScrollButton}">
                             <RepeatButton.Visibility>
-                                <MultiBinding
-                                    Converter="{StaticResource MenuScrollingVisibilityConverter}"
-                                    ConverterParameter="100"
-                                    FallbackValue="Visibility.Collapsed">
+                                <MultiBinding Converter="{StaticResource MenuScrollingVisibilityConverter}"
+                                              ConverterParameter="100"
+                                              FallbackValue="Visibility.Collapsed">
                                     <Binding Path="ComputedVerticalScrollBarVisibility" RelativeSource="{RelativeSource TemplatedParent}" />
                                     <Binding Path="VerticalOffset" RelativeSource="{RelativeSource TemplatedParent}" />
                                     <Binding Path="ExtentHeight" RelativeSource="{RelativeSource TemplatedParent}" />
@@ -142,18 +130,16 @@
                 <ControlTemplate TargetType="{x:Type Separator}">
                     <Grid SnapsToDevicePixels="True">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="Auto"
-                                MinWidth="24"
-                                SharedSizeGroup="MenuItemIconColumnGroup" />
+                            <ColumnDefinition Width="Auto"
+                                              MinWidth="24"
+                                              SharedSizeGroup="MenuItemIconColumnGroup" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Border
-                            Grid.Column="1"
-                            Margin="4,0,0,0"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}" />
+                        <Border Grid.Column="1"
+                                Margin="4,0,0,0"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -161,36 +147,32 @@
     </Style>
 
     <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type MenuItem}, ResourceId=TopLevelItemTemplateKey}" TargetType="{x:Type MenuItem}">
-        <Border
-            x:Name="Bd"
-            Background="{TemplateBinding MenuItem.Background}"
-            BorderBrush="{TemplateBinding MenuItem.BorderBrush}"
-            BorderThickness="{TemplateBinding MenuItem.BorderThickness}"
-            SnapsToDevicePixels="True">
+        <Border x:Name="Bd"
+                Background="{TemplateBinding MenuItem.Background}"
+                BorderBrush="{TemplateBinding MenuItem.BorderBrush}"
+                BorderThickness="{TemplateBinding MenuItem.BorderThickness}"
+                SnapsToDevicePixels="True">
             <DockPanel>
-                <ContentPresenter
-                    x:Name="Icon"
-                    Margin="4,0,6,0"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    ContentSource="Icon"
-                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                <Path
-                    x:Name="GlyphPanel"
-                    Width="16"
-                    Height="16"
-                    Margin="4,0,6,0"
-                    VerticalAlignment="Center"
-                    Data="{StaticResource CheckMark}"
-                    Fill="{TemplateBinding Foreground}"
-                    FlowDirection="LeftToRight"
-                    StrokeThickness="1"
-                    Visibility="Collapsed" />
-                <ContentPresenter
-                    Margin="{TemplateBinding Padding}"
-                    ContentSource="Header"
-                    RecognizesAccessKey="True"
-                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                <ContentPresenter x:Name="Icon"
+                                  Margin="4,0,6,0"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  ContentSource="Icon"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                <Path x:Name="GlyphPanel"
+                      Width="16"
+                      Height="16"
+                      Margin="4,0,6,0"
+                      VerticalAlignment="Center"
+                      Data="{StaticResource CheckMark}"
+                      Fill="{TemplateBinding Foreground}"
+                      FlowDirection="LeftToRight"
+                      StrokeThickness="1"
+                      Visibility="Collapsed" />
+                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                  ContentSource="Header"
+                                  RecognizesAccessKey="True"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
             </DockPanel>
         </Border>
         <ControlTemplate.Triggers>
@@ -215,80 +197,68 @@
     </ControlTemplate>
 
     <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type MenuItem}, ResourceId=TopLevelHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
-        <Border
-            x:Name="Bd"
-            Background="{TemplateBinding MenuItem.Background}"
-            BorderBrush="{TemplateBinding MenuItem.BorderBrush}"
-            BorderThickness="{TemplateBinding MenuItem.BorderThickness}"
-            SnapsToDevicePixels="True">
+        <Border x:Name="Bd"
+                Background="{TemplateBinding MenuItem.Background}"
+                BorderBrush="{TemplateBinding MenuItem.BorderBrush}"
+                BorderThickness="{TemplateBinding MenuItem.BorderThickness}"
+                SnapsToDevicePixels="True">
             <DockPanel Name="Header">
-                <ContentPresenter
-                    x:Name="Icon"
-                    Margin="4,0,6,0"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    ContentSource="Icon"
-                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                <Path
-                    x:Name="GlyphPanel"
-                    Width="16"
-                    Height="16"
-                    Margin="4,0,6,0"
-                    VerticalAlignment="Center"
-                    Data="{StaticResource CheckMark}"
-                    Fill="{TemplateBinding Foreground}"
-                    FlowDirection="LeftToRight"
-                    StrokeThickness="1"
-                    Visibility="Collapsed" />
-                <ContentPresenter
-                    Margin="{TemplateBinding Padding}"
-                    ContentSource="Header"
-                    RecognizesAccessKey="True"
-                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                <Popup
-                    x:Name="PART_Popup"
-                    AllowsTransparency="True"
-                    Focusable="False"
-                    HorizontalOffset="0"
-                    IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                    Placement="Bottom"
-                    PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
+                <ContentPresenter x:Name="Icon"
+                                  Margin="4,0,6,0"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  ContentSource="Icon"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                <Path x:Name="GlyphPanel"
+                      Width="16"
+                      Height="16"
+                      Margin="4,0,6,0"
+                      VerticalAlignment="Center"
+                      Data="{StaticResource CheckMark}"
+                      Fill="{TemplateBinding Foreground}"
+                      FlowDirection="LeftToRight"
+                      StrokeThickness="1"
+                      Visibility="Collapsed" />
+                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                  ContentSource="Header"
+                                  RecognizesAccessKey="True"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                <Popup x:Name="PART_Popup"
+                       AllowsTransparency="True"
+                       Focusable="False"
+                       HorizontalOffset="0"
+                       IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                       Placement="Bottom"
+                       PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
                     <theme:SystemDropShadowChrome Name="Shdw" Color="Transparent">
-                        <Border
-                            Name="SubMenuBorder"
-                            Background="{DynamicResource MenuItemSubMenuBackground}"
-                            BorderBrush="{DynamicResource MenuItemSubMenuBorder}"
-                            BorderThickness="1">
+                        <Border Name="SubMenuBorder"
+                                Background="{DynamicResource MenuItemSubMenuBackground}"
+                                BorderBrush="{DynamicResource MenuItemSubMenuBorder}"
+                                BorderThickness="1">
                             <Grid>
-                                <ScrollViewer
-                                    Name="SubMenuScrollViewer"
-                                    Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement},
-                                                                                  ResourceId=MenuScrollViewer}}">
-                                    <Grid Grid.IsSharedSizeScope="True" >
+                                <ScrollViewer Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement}, ResourceId=MenuScrollViewer}}">
+                                    <Grid Grid.IsSharedSizeScope="True">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition
-                                                Width="Auto"
-                                                MinWidth="24"
-                                                SharedSizeGroup="MenuItemIconColumnGroup" />
+                                            <ColumnDefinition Width="Auto"
+                                                              MinWidth="24"
+                                                              SharedSizeGroup="MenuItemIconColumnGroup" />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-                                        <ItemsPresenter
-                                            Name="ItemsPresenter"
-                                            Grid.Column="0"
-                                            Grid.ColumnSpan="2"
-                                            Margin="2"
-                                            KeyboardNavigation.DirectionalNavigation="Cycle"
-                                            KeyboardNavigation.TabNavigation="Cycle"
-                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        <ItemsPresenter Name="ItemsPresenter"
+                                                        Grid.Column="0"
+                                                        Grid.ColumnSpan="2"
+                                                        Margin="2"
+                                                        KeyboardNavigation.DirectionalNavigation="Cycle"
+                                                        KeyboardNavigation.TabNavigation="Cycle"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                     </Grid>
                                 </ScrollViewer>
-                                <Border
-                                    x:Name="PART_TopLine"
-                                    Height="1"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    attaches:MenuTopLineAttach.Popup="{Binding ElementName=PART_Popup}"
-                                    Background="{DynamicResource MenuItemSubMenuBackground}" />
+                                <Border x:Name="PART_TopLine"
+                                        Height="1"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        attaches:MenuTopLineAttach.Popup="{Binding ElementName=PART_Popup}"
+                                        Background="{DynamicResource MenuItemSubMenuBackground}" />
                             </Grid>
                         </Border>
                     </theme:SystemDropShadowChrome>
@@ -341,16 +311,14 @@
 
     <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type MenuItem}, ResourceId=SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}">
         <Grid SnapsToDevicePixels="True">
-            <Rectangle
-                Fill="{TemplateBinding MenuItem.Background}"
-                Stroke="{TemplateBinding MenuItem.BorderBrush}"
-                StrokeThickness="{TemplateBinding MenuItem.BorderThickness}" />
+            <Rectangle Fill="{TemplateBinding MenuItem.Background}"
+                       Stroke="{TemplateBinding MenuItem.BorderBrush}"
+                       StrokeThickness="{TemplateBinding MenuItem.BorderThickness}" />
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition
-                        Width="Auto"
-                        MinWidth="24"
-                        SharedSizeGroup="MenuItemIconColumnGroup" />
+                    <ColumnDefinition Width="Auto"
+                                      MinWidth="24"
+                                      SharedSizeGroup="MenuItemIconColumnGroup" />
                     <ColumnDefinition Width="4" />
                     <ColumnDefinition />
                     <ColumnDefinition Width="37" />
@@ -358,41 +326,36 @@
                     <ColumnDefinition Width="17" />
                 </Grid.ColumnDefinitions>
                 <!--  Glyph  -->
-                <ContentPresenter
-                    x:Name="Icon"
-                    Margin="1"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    ContentSource="Icon"
-                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                <Border
-                    x:Name="GlyphPanel"
-                    Width="22"
-                    Height="22"
-                    Margin="2,1,1,1"
-                    Background="{DynamicResource MenuItemGlyphPanel}"
-                    BorderBrush="{DynamicResource MenuItemGlyphPanelBorder}"
-                    BorderThickness="1"
-                    Visibility="Hidden">
-                    <Path
-                        Name="Glyph"
-                        Width="16"
-                        Height="16"
-                        Margin="1,1,0,0"
-                        Data="{StaticResource CheckMark}"
-                        Fill="{DynamicResource MenuItemGlyph}"
-                        FlowDirection="LeftToRight" />
+                <ContentPresenter x:Name="Icon"
+                                  Margin="1"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  ContentSource="Icon"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                <Border x:Name="GlyphPanel"
+                        Width="22"
+                        Height="22"
+                        Margin="2,1,1,1"
+                        Background="{DynamicResource MenuItemGlyphPanel}"
+                        BorderBrush="{DynamicResource MenuItemGlyphPanelBorder}"
+                        BorderThickness="1"
+                        Visibility="Hidden">
+                    <Path Name="Glyph"
+                          Width="16"
+                          Height="16"
+                          Margin="1,1,0,0"
+                          Data="{StaticResource CheckMark}"
+                          Fill="{DynamicResource MenuItemGlyph}"
+                          FlowDirection="LeftToRight" />
                 </Border>
-                <ContentPresenter
-                    Grid.Column="2"
-                    Margin="{TemplateBinding MenuItem.Padding}"
-                    ContentSource="Header"
-                    RecognizesAccessKey="True"
-                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                <TextBlock
-                    Grid.Column="4"
-                    Margin="{TemplateBinding MenuItem.Padding}"
-                    Text="{TemplateBinding MenuItem.InputGestureText}" />
+                <ContentPresenter Grid.Column="2"
+                                  Margin="{TemplateBinding MenuItem.Padding}"
+                                  ContentSource="Header"
+                                  RecognizesAccessKey="True"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                <TextBlock Grid.Column="4"
+                           Margin="{TemplateBinding MenuItem.Padding}"
+                           Text="{TemplateBinding MenuItem.InputGestureText}" />
             </Grid>
         </Grid>
         <ControlTemplate.Triggers>
@@ -424,16 +387,14 @@
 
     <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type MenuItem}, ResourceId=SubmenuHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
         <Grid>
-            <Rectangle
-                Fill="{TemplateBinding MenuItem.Background}"
-                Stroke="{TemplateBinding MenuItem.BorderBrush}"
-                StrokeThickness="{TemplateBinding MenuItem.BorderThickness}" />
+            <Rectangle Fill="{TemplateBinding MenuItem.Background}"
+                       Stroke="{TemplateBinding MenuItem.BorderBrush}"
+                       StrokeThickness="{TemplateBinding MenuItem.BorderThickness}" />
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition
-                        Width="Auto"
-                        MinWidth="24"
-                        SharedSizeGroup="MenuItemIconColumnGroup" />
+                    <ColumnDefinition Width="Auto"
+                                      MinWidth="24"
+                                      SharedSizeGroup="MenuItemIconColumnGroup" />
                     <ColumnDefinition Width="4" />
                     <ColumnDefinition />
                     <ColumnDefinition Width="37" />
@@ -441,74 +402,64 @@
                     <ColumnDefinition Width="17" />
                 </Grid.ColumnDefinitions>
                 <!--  Glyph  -->
-                <ContentPresenter
-                    x:Name="Icon"
-                    Margin="1"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    ContentSource="Icon"
-                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                <Border
-                    x:Name="GlyphPanel"
-                    Width="22"
-                    Height="22"
-                    Margin="2,1,1,1"
-                    Background="{DynamicResource MenuItemGlyphPanel}"
-                    BorderBrush="{DynamicResource MenuItemGlyphPanelBorder}"
-                    BorderThickness="1"
-                    Visibility="Hidden">
-                    <Path
-                        Name="Glyph"
-                        Width="16"
-                        Height="16"
-                        Margin="1,1,0,0"
-                        Data="{StaticResource CheckMark}"
-                        Fill="{DynamicResource MenuItemGlyph}"
-                        FlowDirection="LeftToRight" />
+                <ContentPresenter x:Name="Icon"
+                                  Margin="1"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  ContentSource="Icon"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                <Border x:Name="GlyphPanel"
+                        Width="22"
+                        Height="22"
+                        Margin="2,1,1,1"
+                        Background="{DynamicResource MenuItemGlyphPanel}"
+                        BorderBrush="{DynamicResource MenuItemGlyphPanelBorder}"
+                        BorderThickness="1"
+                        Visibility="Hidden">
+                    <Path Name="Glyph"
+                          Width="16"
+                          Height="16"
+                          Margin="1,1,0,0"
+                          Data="{StaticResource CheckMark}"
+                          Fill="{DynamicResource MenuItemGlyph}"
+                          FlowDirection="LeftToRight" />
                 </Border>
-                <ContentPresenter
-                    Grid.Column="2"
-                    Margin="{TemplateBinding MenuItem.Padding}"
-                    ContentSource="Header"
-                    RecognizesAccessKey="True"
-                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                <TextBlock
-                    Grid.Column="4"
-                    Margin="{TemplateBinding MenuItem.Padding}"
-                    Text="{TemplateBinding MenuItem.InputGestureText}"
-                    Visibility="Collapsed" />
-                <Path
-                    x:Name="RightArrow"
-                    Grid.Column="5"
-                    Margin="4,1,0,0"
-                    VerticalAlignment="Center"
-                    Data="{StaticResource RightArrow}"
-                    Fill="{DynamicResource MenuItemRightArrow}" />
+                <ContentPresenter Grid.Column="2"
+                                  Margin="{TemplateBinding MenuItem.Padding}"
+                                  ContentSource="Header"
+                                  RecognizesAccessKey="True"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                <TextBlock Grid.Column="4"
+                           Margin="{TemplateBinding MenuItem.Padding}"
+                           Text="{TemplateBinding MenuItem.InputGestureText}"
+                           Visibility="Collapsed" />
+                <Path x:Name="RightArrow"
+                      Grid.Column="5"
+                      Margin="4,1,0,0"
+                      VerticalAlignment="Center"
+                      Data="{StaticResource RightArrow}"
+                      Fill="{DynamicResource MenuItemRightArrow}" />
             </Grid>
-            <Popup
-                x:Name="PART_Popup"
-                AllowsTransparency="True"
-                Focusable="False"
-                HorizontalOffset="0"
-                IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                Placement="Right"
-                PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"
-                VerticalOffset="0">
+            <Popup x:Name="PART_Popup"
+                   AllowsTransparency="True"
+                   Focusable="False"
+                   HorizontalOffset="0"
+                   IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                   Placement="Right"
+                   PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"
+                   VerticalOffset="0">
                 <theme:SystemDropShadowChrome Name="Shdw" Color="Transparent">
-                    <Border
-                        Name="SubMenuBorder"
-                        Background="{DynamicResource MenuItemSubMenuBackground}"
-                        BorderBrush="{DynamicResource MenuItemSubMenuBorder}"
-                        BorderThickness="1">
+                    <Border Name="SubMenuBorder"
+                            Background="{DynamicResource MenuItemSubMenuBackground}"
+                            BorderBrush="{DynamicResource MenuItemSubMenuBorder}"
+                            BorderThickness="1">
                         <ScrollViewer Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement}, ResourceId=MenuScrollViewer}}">
-                            <ItemsPresenter
-                                Name="ItemsPresenter"
-                                Margin="2"
-                                Grid.IsSharedSizeScope="True"
-                                KeyboardNavigation.DirectionalNavigation="Cycle"
-                                KeyboardNavigation.TabNavigation="Cycle"
-                                
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <ItemsPresenter Name="ItemsPresenter"
+                                            Margin="2"
+                                            Grid.IsSharedSizeScope="True"
+                                            KeyboardNavigation.DirectionalNavigation="Cycle"
+                                            KeyboardNavigation.TabNavigation="Cycle"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
                     </Border>
                 </theme:SystemDropShadowChrome>
@@ -596,12 +547,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Menu}">
-                    <Border
-                        Padding="{TemplateBinding Padding}"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        SnapsToDevicePixels="True">
+                    <Border Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True">
                         <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Border>
                 </ControlTemplate>
