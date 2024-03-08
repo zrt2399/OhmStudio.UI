@@ -43,7 +43,8 @@ namespace OhmStudio.UI.Views
         void UpdateBtnContent(DateTime? dateTime)
         {
             if (dateTime == null)
-            {   //00:00:00
+            {   
+                //00:00:00
                 btnhh.Content = "00";
                 btnmm.Content = "00";
                 btnss.Content = "00";
@@ -76,7 +77,7 @@ namespace OhmStudio.UI.Views
             }
             else
             {
-                DateTimeOK?.Invoke(dateTime.Add(Convert.ToDateTime(timeStr).TimeOfDay));
+                DateTimeOK?.Invoke(dateTime.Add(time));
             }
         }
 
@@ -190,6 +191,12 @@ namespace OhmStudio.UI.Views
         private void IconButton_Click(object sender, RoutedEventArgs e)
         {
             Closed?.Invoke();
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            calDate.SelectedDate = DateTime.Now.Date;
+            calDate.DisplayDate = DateTime.Now.Date;
         }
     }
 }

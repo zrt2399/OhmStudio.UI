@@ -1,49 +1,56 @@
 ﻿<UserControl x:Class="OhmStudio.UI.Views.TDateTimeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:OhmStudio.UI.Views"
              xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
              xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:OhmStudio.UI.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              Loaded="UserControl_Loaded"
              mc:Ignorable="d">
 
     <UserControl.Resources>
 
-        <Style x:Key="CommonButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
+        <Style x:Key="CommonButtonStyle"
+               BasedOn="{StaticResource {x:Type Button}}"
+               TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
         </Style>
 
     </UserControl.Resources>
 
-    <Border BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
-            BorderThickness="1">
+    <Border BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" BorderThickness="1">
         <Grid Background="{DynamicResource SystemColorsWindow}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid>
+                <TextBlock Margin="4"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center">
+                    <Hyperlink Click="Hyperlink_Click">今日</Hyperlink>
+                </TextBlock>
                 <TextBlock x:Name="tbTitle"
                            Margin="4"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Center">日期时间</TextBlock>
-                <local:IconButton HorizontalAlignment="Right"
-                                  VerticalAlignment="Center"
-                                  ToolTip="关闭"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center">
+                    日期时间
+                </TextBlock>
+                <local:IconButton Height="16"
                                   Margin="4"
-                                  Height="16"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Center"
+                                  Click="IconButton_Click"
                                   Icon="/OhmStudio.UI;component/Images/close.png"
-                                  Click="IconButton_Click"/>
+                                  ToolTip="关闭" />
             </Grid>
             <Grid Grid.Row="1">
-                <Calendar Name="calDate"
-                          PreviewMouseUp="calDate_PreviewMouseUp">
+                <Calendar Name="calDate" PreviewMouseUp="calDate_PreviewMouseUp">
                     <!--<Calendar.CalendarDayButtonStyle>
                         <Style TargetType="CalendarDayButton">
                             <Setter Property="Background" Value="White"/>-->
@@ -72,65 +79,82 @@
                     </Calendar.CalendarDayButtonStyle>-->
                 </Calendar>
             </Grid>
-            <Grid Margin="4" Grid.Row="2">
+            <Grid Grid.Row="2" Margin="4">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBlock VerticalAlignment="Center">时间</TextBlock>
-                <Border x:Name="textBoxDateTime" Grid.Column="1"
+                <Border x:Name="textBoxDateTime"
+                        Grid.Column="1"
                         Margin="4,0,0,0"
-                        VerticalAlignment="Center"
                         HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
                         BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
-                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        BorderThickness="1">
+                        BorderThickness="1"
+                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource AncestorType=UserControl}}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Button Name="btnhh"
-                                Style="{StaticResource CommonButtonStyle}"
-                                Click="btnhh_Click">12</Button>
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Grid.Column="1">:</TextBlock>
+                                Click="btnhh_Click"
+                                Style="{StaticResource CommonButtonStyle}">
+                            12
+                        </Button>
+                        <TextBlock Grid.Column="1"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            :
+                        </TextBlock>
                         <Button Name="btnmm"
-                                Style="{StaticResource CommonButtonStyle}"
+                                Grid.Column="2"
                                 Click="btnmm_Click"
-                                Grid.Column="2">18</Button>
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                    Grid.Column="3">:</TextBlock>
+                                Style="{StaticResource CommonButtonStyle}">
+                            18
+                        </Button>
+                        <TextBlock Grid.Column="3"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            :
+                        </TextBlock>
                         <Button Name="btnss"
-                                Style="{StaticResource CommonButtonStyle}"
+                                Grid.Column="4"
                                 Click="btnss_Click"
-                                Grid.Column="4">56</Button>
+                                Style="{StaticResource CommonButtonStyle}">
+                            56
+                        </Button>
                     </Grid>
                 </Border>
                 <Button Name="btnNow"
                         Grid.Column="2"
                         Margin="4,0,0,0"
                         VerticalAlignment="Center"
-                        Click="btnNow_Click">当前</Button>
+                        Click="btnNow_Click">
+                    当前
+                </Button>
                 <Button Name="btnOK"
                         Grid.Column="3"
                         Margin="4,0,0,0"
                         VerticalAlignment="Center"
-                        Click="btnOK_Click">确定</Button>
+                        Click="btnOK_Click">
+                    确定
+                </Button>
             </Grid>
             <Popup x:Name="popChioce"
                    AllowsTransparency="True"
-                   PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                    PlacementTarget="{Binding ElementName=textBoxDateTime}"
+                   PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                    StaysOpen="False">
-                <controls:SystemDropShadowChrome Color="{DynamicResource ControlShadow}" x:Name="content" Margin="0,0,5,5"/>
+                <controls:SystemDropShadowChrome x:Name="content"
+                                                 Margin="0,0,5,5"
+                                                 Color="{DynamicResource ControlShadow}" />
             </Popup>
         </Grid>
     </Border>
