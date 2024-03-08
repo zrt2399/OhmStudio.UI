@@ -1,36 +1,36 @@
 ﻿<UserControl x:Class="OhmStudio.UI.Views.IconButton"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:OhmStudio.UI.Views"
-             mc:Ignorable="d"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="450"
-             d:DesignWidth="800">
+             d:DesignWidth="800"
+             mc:Ignorable="d">
 
     <UserControl.Resources>
         <Style x:Key="ButtonEmptyStyle" TargetType="Button">
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="ButtonBorder"
-                                BorderThickness="0"
-                                SnapsToDevicePixels="True"
-                                BorderBrush="Transparent"
+                                Margin="0"
                                 Background="{TemplateBinding Background}"
-                                Margin="0">
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                SnapsToDevicePixels="True">
                             <Grid>
-                                <ContentPresenter/>
+                                <ContentPresenter />
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.7"/>
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.7" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
-                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.5"/>
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.5" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -40,12 +40,12 @@
     </UserControl.Resources>
 
     <Button x:Name="button"
+            Padding="0"
             Background="Transparent"
-            Style="{StaticResource ButtonEmptyStyle}"
-            Padding="0">
-        <!--ContextMenu="{StaticResource EmerWorkContextMenu}"-->
+            Style="{StaticResource ButtonEmptyStyle}">
+        <!--  ContextMenu="{StaticResource EmerWorkContextMenu}"  -->
         <Grid>
-            <Image x:Name="icon"/>
+            <Image x:Name="icon" />
         </Grid>
     </Button>
 </UserControl>

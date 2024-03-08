@@ -2,23 +2,27 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <ResourceDictionary.MergedDictionaries> 
+    <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/AvalonDockThemes/VisualStudio2019/BlueTheme.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <sys:Double x:Key="TopLevelMenuPopupTopOpenedVerticalOffset">0</sys:Double>
 
-    <Color x:Key="ControlShadow" A="71" B="00" G="00" R="00" />
+    <Color x:Key="ControlShadow"
+           A="71"
+           B="00"
+           G="00"
+           R="00" />
 
     <Color x:Key="StatusBarBackgroundDefaultColor">#FF40508D</Color>
     <Color x:Key="WindowBorderBrushDefaultColor">#FF203D77</Color>
     <Color x:Key="StatusBarBackgroundRunningColor">#FFA24B40</Color>
     <Color x:Key="WindowBorderBrushRunningColor">#FF203D77</Color>
 
-    <SolidColorBrush x:Key="StatusBarBackgroundDefault" Color="{StaticResource StatusBarBackgroundDefaultColor}"/>
-    <SolidColorBrush x:Key="WindowBorderBrushDefault" Color="{StaticResource WindowBorderBrushDefaultColor}"/>
-    <SolidColorBrush x:Key="StatusBarBackgroundRunning" Color="{StaticResource StatusBarBackgroundRunningColor}"/>
-    <SolidColorBrush x:Key="WindowBorderBrushRunning" Color="{StaticResource WindowBorderBrushRunningColor}"/>
+    <SolidColorBrush x:Key="StatusBarBackgroundDefault" Color="{StaticResource StatusBarBackgroundDefaultColor}" />
+    <SolidColorBrush x:Key="WindowBorderBrushDefault" Color="{StaticResource WindowBorderBrushDefaultColor}" />
+    <SolidColorBrush x:Key="StatusBarBackgroundRunning" Color="{StaticResource StatusBarBackgroundRunningColor}" />
+    <SolidColorBrush x:Key="WindowBorderBrushRunning" Color="{StaticResource WindowBorderBrushRunningColor}" />
 
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="Black" />

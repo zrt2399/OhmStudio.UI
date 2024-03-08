@@ -1,47 +1,51 @@
 ﻿<UserControl x:Class="OhmStudio.UI.Views.DateTimePicker"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:OhmStudio.UI.Views"
              xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
              xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
              xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
-             mc:Ignorable="d"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:OhmStudio.UI.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:Height="40"
              Focusable="True"
-             d:Height="40">
+             mc:Ignorable="d">
 
     <UserControl.Resources>
 
-        <Style TargetType="TextBox" x:Key="TextBoxDateTimeStyle" BasedOn="{StaticResource {x:Type TextBox}}">
+        <converters:BorderCornerRadiusConverter x:Key="BorderCornerRadiusConverter" />
+
+        <Style x:Key="TextBoxDateTimeStyle"
+               BasedOn="{StaticResource {x:Type TextBox}}"
+               TargetType="TextBox">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
                         <DockPanel>
                             <ContentControl Style="{DynamicResource TitleWithUserControl}" />
                             <Border x:Name="Border"
+                                    Background="{TemplateBinding Background}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                    Background="{TemplateBinding Background}"
-                                    CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
+                                    CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                     SnapsToDevicePixels="True">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <ScrollViewer x:Name="PART_ContentHost"/>
-                                    <ContentControl Style="{DynamicResource PlaceHolderWithUserControl}" Margin="{TemplateBinding Padding}"/>
+                                    <ScrollViewer x:Name="PART_ContentHost" />
+                                    <ContentControl Margin="{TemplateBinding Padding}" Style="{DynamicResource PlaceHolderWithUserControl}" />
                                     <Grid Grid.Column="1">
                                         <Button Padding="4"
-                                                Click="IconButton_Click"
+                                                attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BorderCornerRadiusConverter}}"
                                                 BorderBrush="Transparent"
                                                 BorderThickness="0"
-                                                attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BorderCornerRadiusConverter}}">
+                                                Click="IconButton_Click">
                                             <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" ToolTip="{x:Null}">&#xe606;</TextBlock>
                                         </Button>
 
-                                        <!--<local:IconButton x:Name="iconButton" 
+                                        <!--<local:IconButton x:Name="iconButton"
                                                           Margin="0,4,4,4"
                                                           ToolTip="选择时间"
                                                           HorizontalAlignment="Right"
@@ -77,15 +81,17 @@
     </UserControl.Resources>
 
     <Grid>
-        <TextBox Style="{StaticResource TextBoxDateTimeStyle}"
-                 Name="textBoxDateTime"
+        <TextBox Name="textBoxDateTime"
+                 IsReadOnly="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsReadOnly}"
                  LostFocus="textBoxDateTime_LostFocus"
-                 IsReadOnly="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=IsReadOnly}"/>
+                 Style="{StaticResource TextBoxDateTimeStyle}" />
         <Popup x:Name="popChioce"
                AllowsTransparency="True"
                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                StaysOpen="False">
-            <controls:SystemDropShadowChrome Color="{DynamicResource ControlShadow}" x:Name="content" Margin="0,0,5,5"/> 
+            <controls:SystemDropShadowChrome x:Name="content"
+                                             Margin="0,0,5,5"
+                                             Color="{DynamicResource ControlShadow}" />
         </Popup>
     </Grid>
 </UserControl>

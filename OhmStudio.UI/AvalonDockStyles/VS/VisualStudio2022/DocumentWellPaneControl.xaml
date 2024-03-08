@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
                     xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock"
-                    xmlns:reskeys="clr-namespace:OhmStudio.UI.AvalonDockThemes"
-                    xmlns:controls="clr-namespace:OhmStudio.UI.Controls">
+                    xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
+                    xmlns:reskeys="clr-namespace:OhmStudio.UI.AvalonDockThemes">
 
     <!--<PathGeometry x:Key="Path_DocumentWellPaneControl_DropDownMenu" Figures="M 352.041,32.0005L 320,0.000162761L 384,0.000162761L 352.041,32.0005 Z" />-->
     <PathGeometry x:Key="Path_DocumentWellPaneControl_DropDownMenu" Figures="M 608,0.000223796L 640,0.000223796L 640,7.70652L 608,7.70652L 608,0.000223796 Z M 624.021,32.0002L 608,16.0001L 640,16.0001L 624.021,32.0002 Z " />
@@ -31,20 +31,18 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type avalonDockControls:DropDownButton}">
-                                        <Border
-                                            x:Name="border"
-                                            Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            SnapsToDevicePixels="true">
-                                            <ContentPresenter
-                                                x:Name="contentPresenter"
-                                                Margin="{TemplateBinding Padding}"
-                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                Focusable="false"
-                                                RecognizesAccessKey="true"
-                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        <Border x:Name="border"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                SnapsToDevicePixels="true">
+                                            <ContentPresenter x:Name="contentPresenter"
+                                                              Margin="{TemplateBinding Padding}"
+                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                              Focusable="false"
+                                                              RecognizesAccessKey="true"
+                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="true">
@@ -63,51 +61,45 @@
                             </Setter>
                         </Style>
                     </ControlTemplate.Resources>
-                    <Grid
-                        ClipToBounds="true"
-                        KeyboardNavigation.TabNavigation="Local"
-                        SnapsToDevicePixels="true">
+                    <Grid ClipToBounds="true"
+                          KeyboardNavigation.TabNavigation="Local"
+                          SnapsToDevicePixels="true">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <!--  Following border is required to catch mouse events  -->
                         <Border Grid.RowSpan="2" Background="Transparent" />
-                        <Grid
-                            Grid.Row="0"
-                            Margin="1,0"
-                            Panel.ZIndex="1"
-                            Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}}, Path=Model.ShowHeader, Converter={avalonDockConverters:BoolToVisibilityConverter}}">
+                        <Grid Grid.Row="0"
+                              Margin="1,0"
+                              Panel.ZIndex="1"
+                              Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}}, Path=Model.ShowHeader, Converter={avalonDockConverters:BoolToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="Auto" />
                                 <!--<ColumnDefinition Width="Auto" />-->
                             </Grid.ColumnDefinitions>
-                            <Border
-                                x:Name="MainBorder"
-                                Grid.ColumnSpan="2"
-                                BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentTabStateLineActive}}"
-                                BorderThickness="0,0,0,2" />
-                            <controls:DocumentWrapPanel
-                                x:Name="HeaderPanel"
-                                Margin="0,0,0,2"
-                                IsItemsHost="true"
-                                KeyboardNavigation.TabIndex="1" />
-                            <avalonDockControls:DropDownButton
-                                x:Name="MenuDropDownButton"
-                                Grid.Column="1"
-                                Margin="0,0,0,2"
-                                DropDownContextMenu="{DynamicResource DocumentWellPaneControlChildrenContextMenu}"
-                                DropDownContextMenuDataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                                Style="{StaticResource DocumentWellPaneDropDownButtonBaseStyle}">
-                                <Path
-                                    Width="8"
-                                    Height="8"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Data="{DynamicResource Path_DocumentWellPaneControl_DropDownMenu}"
-                                    Fill="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}}}"
-                                    Stretch="Uniform" />
+                            <Border x:Name="MainBorder"
+                                    Grid.ColumnSpan="2"
+                                    BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentTabStateLineActive}}"
+                                    BorderThickness="0,0,0,2" />
+                            <controls:DocumentWrapPanel x:Name="HeaderPanel"
+                                                        Margin="0,0,0,2"
+                                                        IsItemsHost="true"
+                                                        KeyboardNavigation.TabIndex="1" />
+                            <avalonDockControls:DropDownButton x:Name="MenuDropDownButton"
+                                                               Grid.Column="1"
+                                                               Margin="0,0,0,2"
+                                                               DropDownContextMenu="{DynamicResource DocumentWellPaneControlChildrenContextMenu}"
+                                                               DropDownContextMenuDataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                               Style="{StaticResource DocumentWellPaneDropDownButtonBaseStyle}">
+                                <Path Width="8"
+                                      Height="8"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Data="{DynamicResource Path_DocumentWellPaneControl_DropDownMenu}"
+                                      Fill="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}}}"
+                                      Stretch="Uniform" />
                             </avalonDockControls:DropDownButton>
                             <!--<Button Grid.Column="2" VerticalAlignment="Bottom" Background="Transparent" Margin="0,0,0,2">+
                                 <Button.Triggers>
@@ -127,23 +119,21 @@
                                 </Button.Triggers>
                             </Button>-->
                         </Grid>
-                        <Border
-                            x:Name="ContentPanel"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.PanelBorderBrush}}"
-                            BorderThickness="1,0,1,1"
-                            KeyboardNavigation.DirectionalNavigation="Contained"
-                            KeyboardNavigation.TabIndex="2"
-                            KeyboardNavigation.TabNavigation="Cycle">
-                            <ContentPresenter
-                                x:Name="PART_SelectedContentHost"
-                                Margin="0"
-                                ContentSource="SelectedContent"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <Border x:Name="ContentPanel"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.PanelBorderBrush}}"
+                                BorderThickness="1,0,1,1"
+                                KeyboardNavigation.DirectionalNavigation="Contained"
+                                KeyboardNavigation.TabIndex="2"
+                                KeyboardNavigation.TabNavigation="Cycle">
+                            <ContentPresenter x:Name="PART_SelectedContentHost"
+                                              Margin="0"
+                                              ContentSource="SelectedContent"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -180,24 +170,21 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TabItem}">
                                 <Grid SnapsToDevicePixels="true" UseLayoutRounding="true">
-                                    <Border
-                                        x:Name="mainBorder"
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentTabItemBorder}}"
-                                        BorderThickness="1">
-                                        <Border
-                                            x:Name="innerBorder"
-                                            Margin="-1,-1,-1,0"
-                                            BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentTabItemInBorder}}"
-                                            BorderThickness="0,2,0,0" />
+                                    <Border x:Name="mainBorder"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentTabItemBorder}}"
+                                            BorderThickness="1">
+                                        <Border x:Name="innerBorder"
+                                                Margin="-1,-1,-1,0"
+                                                BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentTabItemInBorder}}"
+                                                BorderThickness="0,2,0,0" />
                                     </Border>
-                                    <ContentPresenter
-                                        x:Name="Content"
-                                        HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type Control}}}"
-                                        VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type Control}}}"
-                                        ContentSource="Header"
-                                        RecognizesAccessKey="true"
-                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    <ContentPresenter x:Name="Content"
+                                                      HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type Control}}}"
+                                                      VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type Control}}}"
+                                                      ContentSource="Header"
+                                                      RecognizesAccessKey="true"
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsEnabled" Value="false">
