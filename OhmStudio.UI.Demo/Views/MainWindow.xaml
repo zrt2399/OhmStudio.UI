@@ -34,6 +34,18 @@
 
     <ChromeWindow.LeftWindowCommands>
         <StackPanel Orientation="Horizontal">
+            <Menu VerticalAlignment="Center">
+                <MenuItem Header="文件(F)">
+                    <MenuItem Header="新建" />
+                    <MenuItem Header="打开" />
+                    <MenuItem Header="关闭" />
+                </MenuItem>
+                <MenuItem Header="视图(V)">
+                    <MenuItem Header="新建" />
+                    <MenuItem Header="打开" />
+                    <MenuItem Header="关闭" />
+                </MenuItem>
+            </Menu>
             <ToolBarTray VerticalAlignment="Center">
                 <ToolBar BandIndex="1">
                     <Button Content="1" ToolTip="新建项目" />
@@ -56,8 +68,8 @@
                     <Button Content="8" ToolTip="保存当前文件" />
                 </ToolBar>
             </ToolBarTray>
-            <SearchBar TextBoxAttach.PlaceHolder="请输入搜索内容..." TextBoxAttach.Title="搜索" />
-            <CheckComboBox />
+            <!--<SearchBar TextBoxAttach.PlaceHolder="请输入搜索内容..." TextBoxAttach.Title="搜索" />
+            <CheckComboBox />-->
         </StackPanel>
     </ChromeWindow.LeftWindowCommands>
 
