@@ -22,6 +22,7 @@ using System.Windows.Threading;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Search;
 using Microsoft.Win32;
+using OhmStudio.UI.Attaches;
 using OhmStudio.UI.Commands;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.Converters;
@@ -158,10 +159,10 @@ namespace OhmStudio.UI.Demo.Views
         [DoNotNotify]
         public OhmTheme CurrentTheme
         {
-            get => XamlThemeResource.Instance.Theme;
+            get => XamlThemeDictionary.Instance.Theme;
             set
             {
-                XamlThemeResource.Instance.Theme = value;
+                XamlThemeDictionary.Instance.Theme = value;
                 StatusManager.Update();
                 OnPropertyChanged(() => CurrentTheme);
             }
@@ -478,147 +479,8 @@ namespace OhmStudio.UI.Demo.Views
             //throw new Exception("ex");
             searchBar.Focus();
         }
-    }
-
-    public abstract class OhmTheme : ResourceDictionary
-    {
-        public abstract string Name { get; }
-
-        public abstract IEnumerable<string> ThemeResources { get; }
-
-        protected OhmTheme()
-        {
-            foreach (var item in ThemeResources)
-            {
-                MergedDictionaries.Add(new ResourceDictionary
-                {
-                    Source = new Uri(item, UriKind.Relative)
-                });
-            }
-        }
-    }
-
-    public static class ThemeCollection
-    {
-        static ThemeCollection()
-        {
-            AllThemes = new() { new VisualStudio2022Blue(), new VisualStudio2022Dark(), new VisualStudio2022Light(), new VisualStudio2019Blue(), new VisualStudio2019Dark(), new VisualStudio2019Light() };
-        }
-
-        public static List<OhmTheme> AllThemes { get; }
-
-        public static OhmTheme InitialTheme => AllThemes.First();
-
-        private const string ThemesPath = "/OhmStudio.UI;component/Themes/";
-
-        private sealed class VisualStudio2019Blue : OhmTheme
-        {
-            public override string Name => "2019 Blue";
-
-            public override IEnumerable<string> ThemeResources
-            {
-                get
-                {
-                    yield return ThemesPath + "VisualStudio2019/BlueTheme.xaml";
-                }
-            }
-        }
-
-        private sealed class VisualStudio2019Dark : OhmTheme
-        {
-            public override string Name => "2019 Dark";
-
-            public override IEnumerable<string> ThemeResources
-            {
-                get
-                {
-                    yield return ThemesPath + "VisualStudio2019/DarkTheme.xaml";
-                }
-            }
-        }
-
-        private sealed class VisualStudio2019Light : OhmTheme
-        {
-            public override string Name => "2019 Light";
-
-            public override IEnumerable<string> ThemeResources
-            {
-                get
-                {
-                    yield return ThemesPath + "VisualStudio2019/LightTheme.xaml";
-                }
-            }
-        }
-
-        private sealed class VisualStudio2022Blue : OhmTheme
-        {
-            public override string Name => "2022 Blue";
-
-            public override IEnumerable<string> ThemeResources
-            {
-                get
-                {
-                    yield return ThemesPath + "VisualStudio2022/BlueTheme.xaml";
-                }
-            }
-        }
-
-        private sealed class VisualStudio2022Dark : OhmTheme
-        {
-            public override string Name => "2022 Dark";
-
-            public override IEnumerable<string> ThemeResources
-            {
-                get
-                {
-                    yield return ThemesPath + "VisualStudio2022/DarkTheme.xaml";
-                }
-            }
-        }
-
-        private sealed class VisualStudio2022Light : OhmTheme
-        {
-            public override string Name => "2022 Light";
-
-            public override IEnumerable<string> ThemeResources
-            {
-                get
-                {
-                    yield return ThemesPath + "VisualStudio2022/LightTheme.xaml";
-                }
-            }
-        }
-    }
-
-    public class XamlThemeResource : ResourceDictionary
-    {
-        public XamlThemeResource()
-        {
-            instance = this;
-            MergedDictionaries.Add(Theme);
-        }
-
-        private static XamlThemeResource instance;
-        public static XamlThemeResource Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    throw new InvalidOperationException("The XamlThemeResource is not loaded!");
-                }
-                return instance;
-            }
-        }
-
-        private OhmTheme theme = ThemeCollection.InitialTheme;
-        public OhmTheme Theme
-        {
-            get => theme;
-            set => MergedDictionaries[0] = theme = value;
-        } 
-    }
-
+    } 
+     
     [BaseObjectIgnore]
     public class Pro : ProBase
     {
