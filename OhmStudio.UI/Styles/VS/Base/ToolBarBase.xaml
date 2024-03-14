@@ -287,26 +287,6 @@
         </Setter>
     </Style>
 
-    <DrawingBrush x:Key="ToolBarThumbDrawingBrush"
-                  TileMode="Tile"
-                  Viewbox="0,0,4,4"
-                  ViewboxUnits="Absolute"
-                  Viewport="0,0,4,4"
-                  ViewportUnits="Absolute">
-        <DrawingBrush.Drawing>
-            <GeometryDrawing Brush="{DynamicResource ToolBarThumbGlyph}">
-                <GeometryDrawing.Geometry>
-                    <GeometryGroup>
-                        <GeometryGroup.Children>
-                            <RectangleGeometry Rect="0,0,1,1" />
-                            <RectangleGeometry Rect="2,2,1,1" />
-                        </GeometryGroup.Children>
-                    </GeometryGroup>
-                </GeometryDrawing.Geometry>
-            </GeometryDrawing>
-        </DrawingBrush.Drawing>
-    </DrawingBrush>
-
     <!--  Style the toolbar thumb  -->
     <Style x:Key="ToolBarThumbStyle" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -316,9 +296,29 @@
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Rectangle x:Name="DragHandleTexture"
                                Width="5"
-                               Fill="{StaticResource ToolBarThumbDrawingBrush}"
                                RenderOptions.BitmapScalingMode="NearestNeighbor"
-                               UseLayoutRounding="true" />
+                               UseLayoutRounding="true">
+                        <Rectangle.Fill>
+                            <DrawingBrush TileMode="Tile"
+                                          Viewbox="0,0,4,4"
+                                          ViewboxUnits="Absolute"
+                                          Viewport="0,0,4,4"
+                                          ViewportUnits="Absolute">
+                                <DrawingBrush.Drawing>
+                                    <GeometryDrawing Brush="{DynamicResource ToolBarThumbGlyph}">
+                                        <GeometryDrawing.Geometry>
+                                            <GeometryGroup>
+                                                <GeometryGroup.Children>
+                                                    <RectangleGeometry Rect="0,0,1,1" />
+                                                    <RectangleGeometry Rect="2,2,1,1" />
+                                                </GeometryGroup.Children>
+                                            </GeometryGroup>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
