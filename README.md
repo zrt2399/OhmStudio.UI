@@ -16,10 +16,19 @@ Nuget search to download OhmStudio.UI. Please use the latest version and I will 
 
 # 🚀 Quick Start
 ``` xml
-WPF control and AvalonDock theme, 2022 can be replaced with 2019, DarkTheme can be replaced with LightTheme and BlueTheme
-<ResourceDictionary Source="/OhmStudio.UI;component/Themes/VisualStudio2022/DarkTheme.xaml" />
-Custom control styles and WPF native controls, For example SearchBar, CheckComboBox, CircularProgressBar, etc...
-<ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VisualStudio.xaml" />
+Two ways to switch themes
+1.WPF control and AvalonDock theme, 2022 can be replaced with 2019, DarkTheme can be replaced with LightTheme and BlueTheme
+  <ResourceDictionary Source="/OhmStudio.UI;component/Themes/VisualStudio2022/DarkTheme.xaml" />
+  Custom control styles and WPF native controls, For example SearchBar, CheckComboBox, CircularProgressBar, etc...
+  <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VisualStudio.xaml" />
+
+
+
+2.<Application.Resources>
+      <XamlThemeDictionary Theme="VS2022Dark" /> The default value of Theme is VS2022Blue
+  </Application.Resources>
+  Switching method after using this style with c# code
+  XamlThemeDictionary.Instance.Theme = OhmTheme.VS2022Light
 ```
 #### Contribution
 
