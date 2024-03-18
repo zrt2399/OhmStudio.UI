@@ -170,10 +170,6 @@
                          IsReadOnly="{Binding Path=IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
                          Visibility="Collapsed" />
 
-                <ContentControl Grid.Column="1"
-                                Margin="{TemplateBinding Padding}"
-                                Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
-
                 <ToggleButton x:Name="DropDownButton"
                               Grid.Column="1"
                               Grid.ColumnSpan="2"
@@ -183,6 +179,10 @@
                               Foreground="{DynamicResource CommonControlsComboBoxGlyph}"
                               IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                               Style="{StaticResource ToolBarComboBoxTransparentButtonStyle}" />
+
+                <ContentControl Grid.Column="1"
+                                Margin="{TemplateBinding Padding}"
+                                Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
             </Grid>
             <Popup Name="PART_Popup"
                    AllowsTransparency="True"
@@ -191,7 +191,7 @@
                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                    StaysOpen="False">
                 <theme:SystemDropShadowChrome Name="Shadow"
-                                              MinWidth="{Binding ElementName=Border,Path=ActualWidth}"
+                                              MinWidth="{Binding ElementName=Border, Path=ActualWidth}"
                                               MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                               Color="Transparent">
 
