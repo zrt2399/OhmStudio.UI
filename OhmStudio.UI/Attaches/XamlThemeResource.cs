@@ -5,12 +5,12 @@ namespace OhmStudio.UI.Attaches
 {
     public enum OhmTheme
     {
-        VS2022Blue,
-        VS2022Dark,
-        VS2022Light,
         VS2019Blue,
         VS2019Dark,
-        VS2019Light
+        VS2019Light,
+        VS2022Blue,
+        VS2022Dark,
+        VS2022Light
     }
 
     public class XamlThemeDictionary : ResourceDictionary
@@ -22,6 +22,8 @@ namespace OhmStudio.UI.Attaches
         }
 
         private const string UIPath = "/OhmStudio.UI;component/";
+
+        public static event EventHandler ThemeChanged;
 
         private static XamlThemeDictionary instance;
         public static XamlThemeDictionary Instance
@@ -36,7 +38,7 @@ namespace OhmStudio.UI.Attaches
             }
         }
 
-        private OhmTheme theme;
+        private OhmTheme theme = OhmTheme.VS2022Blue;
         public OhmTheme Theme
         {
             get => theme;
@@ -47,6 +49,7 @@ namespace OhmStudio.UI.Attaches
                     return;
                 }
                 Update(theme = value, false);
+                ThemeChanged?.Invoke(value, EventArgs.Empty);
             }
         }
 
@@ -73,5 +76,5 @@ namespace OhmStudio.UI.Attaches
                 MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri(url, UriKind.Relative) };
             }
         }
-    } 
+    }
 }
