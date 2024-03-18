@@ -494,17 +494,27 @@
                                             <SearchBar VerticalAlignment="Top"
                                                        HorizontalContentAlignment="Right"
                                                        VerticalContentAlignment="Center"
-                                                       TextBoxAttach.PlaceHolder="请输入搜索内容..."
-                                                       TextBoxAttach.Title="搜索" />
+                                                       TextBoxAttach.PlaceHolderIsHitTestVisible="True"
+                                                       TextBoxAttach.PlaceHolderOpacity="1"
+                                                       TextBoxAttach.TitleIsHitTestVisible="True">
+                                                <TextBoxAttach.Title>
+                                                    <Button>搜索</Button>
+                                                </TextBoxAttach.Title>
+                                                <TextBoxAttach.PlaceHolder>
+                                                    <Button>请输入搜索内容...</Button>
+                                                </TextBoxAttach.PlaceHolder>
+                                            </SearchBar>
                                             <TextBox VerticalAlignment="Top"
                                                      TextBoxAttach.PlaceHolder="123456..."
                                                      TextBoxAttach.Title="开始" />
-                                            <TextBox VerticalAlignment="Top" Text="{Binding CurrentDateTime, Mode=TwoWay}">
+                                            <TextBox VerticalAlignment="Top"
+                                                     Text="{Binding CurrentDateTime, Mode=TwoWay}"
+                                                     TextBoxAttach.PlaceHolderIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
                                                     <TextBlock>ButtonTitle</TextBlock>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <TextBlock>ButtonPlaceHolder</TextBlock>
+                                                    <Button>ButtonPlaceHolder</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </TextBox>
                                             <PasswordBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="密码" />
@@ -513,13 +523,21 @@
                                                     <TextBlock>ButtonTitle</TextBlock>
                                                 </TextBoxAttach.Title>
                                             </PasswordTextBox>
-                                            <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码1...">
+                                            <PasswordTextBox VerticalAlignment="Top"
+                                                             TextBoxAttach.PlaceHolderIsHitTestVisible="True"
+                                                             TextBoxAttach.PlaceHolderOpacity="1"
+                                                             TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <TextBlock>搜索</TextBlock>
+                                                    <Button>搜索</Button>
                                                 </TextBoxAttach.Title>
+                                                <TextBoxAttach.PlaceHolder>
+                                                    <Button>请输入密码1...</Button>
+                                                </TextBoxAttach.PlaceHolder>
                                             </PasswordTextBox>
 
                                             <ComboBox VerticalAlignment="Top"
+                                                      HorizontalContentAlignment="Stretch"
+                                                      VerticalContentAlignment="Stretch"
                                                       DisplayMemberPath="Name"
                                                       ItemsSource="{Binding FileNodes}"
                                                       TextBoxAttach.PlaceHolderIsHitTestVisible="True"
@@ -528,7 +546,7 @@
                                                     <Button>中文</Button>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <Button>请输入..</Button>
+                                                    <Button HorizontalAlignment="Left">请输入..</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </ComboBox>
                                             <ComboBox HorizontalContentAlignment="Right"
@@ -544,8 +562,17 @@
                                                            SelectedItems="{Binding SelectedItemsFileNodes, Mode=TwoWay}"
                                                            Separator=";"
                                                            StringFormat="分组{0}"
-                                                           TextBoxAttach.Title="搜索"
-                                                           VirtualizingPanel.ScrollUnit="Pixel" />
+                                                           TextBoxAttach.PlaceHolderIsHitTestVisible="True"
+                                                           TextBoxAttach.PlaceHolderOpacity="1"
+                                                           TextBoxAttach.TitleIsHitTestVisible="True"
+                                                           VirtualizingPanel.ScrollUnit="Pixel">
+                                                <TextBoxAttach.Title>
+                                                    <Button>搜索</Button>
+                                                </TextBoxAttach.Title>
+                                                <TextBoxAttach.PlaceHolder>
+                                                    <Button>请输入搜索...</Button>
+                                                </TextBoxAttach.PlaceHolder>
+                                            </CheckComboBox>
                                             <ToggleButton IsChecked="True"
                                                           IsEnabled="True"
                                                           Style="{StaticResource ToggleButtonStyle}" />
