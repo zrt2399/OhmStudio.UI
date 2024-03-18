@@ -751,7 +751,7 @@
                                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                StaysOpen="False">
                             <theme:SystemDropShadowChrome Name="Shadow"
-                                                          MinWidth="{TemplateBinding ActualWidth}"
+                                                          MinWidth="{Binding ElementName=Border,Path=ActualWidth}"
                                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                           Color="Transparent">
                                 <Border Background="{DynamicResource CommonControlsComboBoxListBackground}"
