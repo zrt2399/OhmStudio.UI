@@ -1,16 +1,24 @@
-﻿<Window x:Class="OhmStudio.UI.Demo.Views.UserLoginWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:OhmStudio.UI.Demo.Views"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Title="LoginWindow"
-        Width="800"
-        Height="450"
-        WindowStartupLocation="CenterOwner"
-        mc:Ignorable="d">
+﻿<ChromeWindow x:Class="OhmStudio.UI.Demo.Views.UserLoginWindow"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:local="clr-namespace:OhmStudio.UI.Demo.Views"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              Title="LoginWindow"
+              Width="800"
+              Height="450"
+              WindowStartupLocation="CenterOwner"
+              mc:Ignorable="d">
+    <!--<Window.Resources>
+        <Style TargetType="ChromeWindow">
+            <Setter Property="Background" Value="White" />
+        </Style>
+    </Window.Resources>-->
 
-    <Grid>
+    <StackPanel>
         <TextBox>TextBox</TextBox>
-    </Grid>
-</Window> 
+        <Button Click="Button_Click">随机切换</Button>
+        <ComboBox ItemsSource="{Binding Source={EnumBindingSource {x:Type OhmTheme}}}" TextBoxAttach.Title="主题：" />
+        <CheckComboBox ItemsSource="{Binding Source={EnumBindingSource {x:Type OhmTheme}}}" TextBoxAttach.Title="主题：" />
+    </StackPanel>
+</ChromeWindow> 

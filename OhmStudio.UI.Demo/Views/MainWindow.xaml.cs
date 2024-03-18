@@ -102,6 +102,13 @@ namespace OhmStudio.UI.Demo.Views
             Messenger.Default.Register<string>(this, Rrecipient, msg => AlertDialog.Show(msg));
             SystemEvents.InstalledFontsChanged += SystemEvents_InstalledFontsChanged;
             StatusManager.IsRunningChanged += StatusManager_IsRunningChanged;
+            XamlThemeDictionary.ThemeChanged += XamlThemeDictionary_ThemeChanged;
+        }
+
+        private void XamlThemeDictionary_ThemeChanged(object sender, EventArgs e)
+        {
+            CurrentTheme = (OhmTheme)sender;
+            status.Content = "软件主题已改变为" + CurrentTheme;
         }
 
         private void StatusManager_IsRunningChanged(object sender, EventArgs e)
@@ -113,6 +120,7 @@ namespace OhmStudio.UI.Demo.Views
         {
             FontFamilyList = new ObservableCollection<string>(new InstalledFontCollection().Families.Select(x => x.Name));
             FontFamilyList.Insert(0, DefaultFont);
+            status.Content = "系统字体已改变";
         }
 
         public Pro Pro { get; set; } = new Pro();
@@ -479,8 +487,8 @@ namespace OhmStudio.UI.Demo.Views
             //throw new Exception("ex");
             searchBar.Focus();
         }
-    } 
-     
+    }
+
     [BaseObjectIgnore]
     public class Pro : ProBase
     {
