@@ -1,5 +1,5 @@
 ﻿using System;
-using ControlzEx.Theming;
+using System.Windows;
 using OhmStudio.UI.Attaches;
 using OhmStudio.UI.Controls;
 
@@ -15,10 +15,10 @@ namespace OhmStudio.UI.Demo.Views
             InitializeComponent();
         }
 
-        Random random = new Random();
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        Random _random = new Random();
+        private void Button_Click(object sender,  RoutedEventArgs e)
         {
-            XamlThemeDictionary.Instance.Theme = (OhmTheme)random.Next(0, 6);
+            XamlThemeDictionary.Instance.Theme = (OhmTheme)_random.Next(0, 6);
         }
     }
 }
