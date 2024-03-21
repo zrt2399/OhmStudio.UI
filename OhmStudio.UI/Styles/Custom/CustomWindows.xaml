@@ -6,8 +6,8 @@
 
     <SolidColorBrush x:Key="WindowTitleForeground" Color="#FFFBFDFE" />
     <SolidColorBrush x:Key="WindowTitleBackground" Color="#FF4B9FD8" />
-    <SolidColorBrush x:Key="DefaultBorderBrush" Color="#FFD3D8DB" />
-    <SolidColorBrush x:Key="DefaultForeground" Color="#FF252525" />
+    <SolidColorBrush x:Key="WindowAroundBorderBrush" Color="#FFD3D8DB" />
+    <!--<SolidColorBrush x:Key="DefaultForeground" Color="#FF252525" />-->
     <SolidColorBrush x:Key="WindowContentBackground" Color="#FFF8F8F8" />
 
     <Style x:Key="WindowButton" TargetType="Button">
@@ -175,7 +175,7 @@
                                 <Border Name="bdContent"
                                         Grid.Row="1"
                                         Background="{TemplateBinding Background}"
-                                        BorderBrush="{StaticResource DefaultBorderBrush}"
+                                        BorderBrush="{StaticResource WindowAroundBorderBrush}"
                                         BorderThickness="0,1,0,0"
                                         ClipToBounds="True"
                                         CornerRadius="0,0,2,2">

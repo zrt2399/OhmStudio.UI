@@ -412,6 +412,6 @@
 
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" attaches:SolidColorBrushAttach.Color="{StaticResource SystemColorsWindow}" />
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" attaches:SolidColorBrushAttach.Color="{StaticResource SystemColorsWindowText}" />
-    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="#FFE5E5E5" />
+    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" attaches:SolidColorBrushAttach.Color="{StaticResource SystemColorsWindowText}" />
 
 </ResourceDictionary>
