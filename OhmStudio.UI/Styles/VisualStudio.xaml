@@ -9,16 +9,10 @@
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/TextBoxAttachStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="{x:Type ctrls:ChromeWindow}"
-           BasedOn="{StaticResource ChromeWindowBaseStyle}"
-           TargetType="{x:Type ctrls:ChromeWindow}" />
+    <Style BasedOn="{StaticResource ChromeWindowBaseStyle}" TargetType="{x:Type ctrls:ChromeWindow}" />
 
-    <Style x:Key="{x:Type ctrls:GlyphButton}"
-           BasedOn="{StaticResource GlyphButtonBaseStyle}"
-           TargetType="{x:Type ctrls:GlyphButton}" />
+    <Style BasedOn="{StaticResource GlyphButtonBaseStyle}" TargetType="{x:Type ctrls:GlyphButton}" />
 
-    <Style x:Key="{x:Type ctrls:WindowSystemButton}"
-           BasedOn="{StaticResource WindowSystemButtonBaseStyle}"
-           TargetType="{x:Type ctrls:WindowSystemButton}" />
+    <Style BasedOn="{StaticResource WindowSystemButtonBaseStyle}" TargetType="{x:Type ctrls:WindowSystemButton}" />
 
 </ResourceDictionary>
