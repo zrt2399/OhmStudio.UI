@@ -410,7 +410,7 @@
     <SolidColorBrush x:Key="SystemColorsWindowText" Color="#FF000000" />
     <SolidColorBrush x:Key="SystemColorsWindowPanel" Color="#FFE9EEFF" />
 
-    <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" attaches:SolidColorBrushAttach.Color="{StaticResource SystemColorsWindow}" />
+    <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" attaches:SolidColorBrushAttach.Color="White" />
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" attaches:SolidColorBrushAttach.Color="{StaticResource SystemColorsWindowText}" />
     <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" attaches:SolidColorBrushAttach.Color="{StaticResource SystemColorsWindowText}" />
 
