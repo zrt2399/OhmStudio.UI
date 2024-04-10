@@ -9,16 +9,9 @@
               Height="450"
               WindowStartupLocation="CenterOwner"
               mc:Ignorable="d">
-    <!--<Window.Resources>
-        <Style TargetType="ChromeWindow">
-            <Setter Property="Background" Value="White" />
-        </Style>
-    </Window.Resources>-->
 
     <StackPanel>
         <TextBox>TextBox</TextBox>
         <Button Click="Button_Click">随机切换</Button>
-        <ComboBox ItemsSource="{Binding Source={EnumBindingSource {x:Type OhmTheme}}}" TextBoxAttach.Title="主题：" />
-        <CheckComboBox ItemsSource="{Binding Source={EnumBindingSource {x:Type OhmTheme}}}" TextBoxAttach.Title="主题：" />
     </StackPanel>
 </ChromeWindow> 
