@@ -17,7 +17,7 @@ namespace OhmStudio.UI.Attaches
     {
         public XamlThemeDictionary()
         {
-            instance = this;
+            _instance = this;
             Update(Theme, true);
         }
 
@@ -25,30 +25,30 @@ namespace OhmStudio.UI.Attaches
 
         public static event EventHandler ThemeChanged;
 
-        private static XamlThemeDictionary instance;
+        private static XamlThemeDictionary _instance;
         public static XamlThemeDictionary Instance
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
                     throw new InvalidOperationException("The XamlThemeResource is not loaded!");
                 }
-                return instance;
+                return _instance;
             }
         }
 
-        private OhmTheme theme = OhmTheme.VS2022Blue;
+        private OhmTheme _theme = OhmTheme.VS2022Blue;
         public OhmTheme Theme
         {
-            get => theme;
+            get => _theme;
             set
             {
-                if (theme == value)
+                if (_theme == value)
                 {
                     return;
                 }
-                Update(theme = value, false);
+                Update(_theme = value, false);
                 ThemeChanged?.Invoke(value, EventArgs.Empty);
             }
         }
