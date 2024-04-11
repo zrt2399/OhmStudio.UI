@@ -41,6 +41,10 @@ namespace OhmStudio.UI.Demo.Views
 
         public MainWindow()
         {
+            if (new UserLoginWindow().SetOwner().ShowDialog() != true)
+            {
+                Environment.Exit(Environment.ExitCode);
+            }
             InitializeComponent();
             DataContext = this;
             FontFamilyList = new ObservableCollection<string>(new InstalledFontCollection().Families.Select(x => x.Name));

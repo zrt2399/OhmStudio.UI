@@ -478,22 +478,22 @@
                                         <StackPanel Name="wr"
                                                     IsEnabled="True"
                                                     Orientation="Vertical">
-                                            <DateTimePicker VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入日期...">
-                                                <TextBoxAttach.Title>
-                                                    <TextBox>123</TextBox>
-                                                </TextBoxAttach.Title>
-                                            </DateTimePicker>
+                                            <DateTimePicker />
                                             <DateTimePicker Name="se"
-                                                            TextBoxAttach.PlaceHolder="请输入密码"
-                                                            TextBoxAttach.PlaceHolderIsHitTestVisible="True">
+                                                            Height="40"
+                                                            HorizontalContentAlignment="Right"
+                                                            VerticalContentAlignment="Top"
+                                                            TextBoxAttach.PlaceHolder="请输入日期"
+                                                            TextBoxAttach.PlaceHolderIsHitTestVisible="True"
+                                                            TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <TextBlock>密码</TextBlock>
+                                                    <Button>日期：</Button>
                                                     <!--<iconPacks:PackIconModern Kind="InterfacePassword" Margin="0,0,4,0" Height="{Binding ElementName=dateTimePickerUserPassword1,Path=ActualHeight}"  />-->
                                                 </TextBoxAttach.Title>
                                             </DateTimePicker>
-                                            <SearchBar VerticalAlignment="Top"
+                                            <SearchBar Height="40"
                                                        HorizontalContentAlignment="Right"
-                                                       VerticalContentAlignment="Center"
+                                                       VerticalContentAlignment="Top"
                                                        TextBoxAttach.PlaceHolderIsHitTestVisible="True"
                                                        TextBoxAttach.PlaceHolderOpacity="1"
                                                        TextBoxAttach.TitleIsHitTestVisible="True">
@@ -504,10 +504,11 @@
                                                     <Button>请输入搜索内容...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </SearchBar>
-                                            <TextBox VerticalAlignment="Top"
-                                                     TextBoxAttach.PlaceHolder="123456..."
+                                            <TextBox Height="40"
+                                                     VerticalContentAlignment="Top"
+                                                     TextBoxAttach.PlaceHolder="123456... "
                                                      TextBoxAttach.Title="开始" />
-                                            <TextBox VerticalAlignment="Top"
+                                            <TextBox VerticalContentAlignment="Top"
                                                      Text="{Binding CurrentDateTime, Mode=TwoWay}"
                                                      TextBoxAttach.PlaceHolderIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
@@ -517,13 +518,15 @@
                                                     <Button>ButtonPlaceHolder</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </TextBox>
-                                            <PasswordBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="密码" />
-                                            <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码...">
+                                            <PasswordBox Height="50"
+                                                         VerticalContentAlignment="Center"
+                                                         TextBoxAttach.PlaceHolder="密码" />
+                                            <PasswordTextBox VerticalContentAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码...">
                                                 <TextBoxAttach.Title>
                                                     <TextBlock>ButtonTitle</TextBlock>
                                                 </TextBoxAttach.Title>
                                             </PasswordTextBox>
-                                            <PasswordTextBox VerticalAlignment="Top"
+                                            <PasswordTextBox VerticalContentAlignment="Top"
                                                              TextBoxAttach.PlaceHolderIsHitTestVisible="True"
                                                              TextBoxAttach.PlaceHolderOpacity="1"
                                                              TextBoxAttach.TitleIsHitTestVisible="True">
@@ -535,9 +538,9 @@
                                                 </TextBoxAttach.PlaceHolder>
                                             </PasswordTextBox>
 
-                                            <ComboBox VerticalAlignment="Top"
+                                            <ComboBox Height="50"
                                                       HorizontalContentAlignment="Stretch"
-                                                      VerticalContentAlignment="Stretch"
+                                                      VerticalContentAlignment="Top"
                                                       DisplayMemberPath="Name"
                                                       ItemsSource="{Binding FileNodes}"
                                                       TextBoxAttach.PlaceHolderIsHitTestVisible="True"
@@ -549,14 +552,18 @@
                                                     <Button HorizontalAlignment="Left">请输入..</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </ComboBox>
-                                            <ComboBox HorizontalContentAlignment="Right"
+                                            <ComboBox Height="50"
+                                                      HorizontalContentAlignment="Right"
+                                                      VerticalContentAlignment="Top"
                                                       DisplayMemberPath="Name"
                                                       IsEditable="True"
                                                       ItemsSource="{Binding FileNodes}"
                                                       TextBoxAttach.PlaceHolder="请输入..."
                                                       TextBoxAttach.Title="输出" />
-                                            <CheckComboBox VerticalAlignment="Top"
+                                            <CheckComboBox Width="200"
+                                                           Height="50"
                                                            HorizontalContentAlignment="Right"
+                                                           VerticalContentAlignment="Top"
                                                            DisplayMemberPath="Description"
                                                            ItemsSource="{Binding FileNodes}"
                                                            SelectedItems="{Binding SelectedItemsFileNodes, Mode=TwoWay}"
@@ -565,6 +572,7 @@
                                                            TextBoxAttach.PlaceHolderIsHitTestVisible="True"
                                                            TextBoxAttach.PlaceHolderOpacity="1"
                                                            TextBoxAttach.TitleIsHitTestVisible="True"
+                                                           TextWrapping="Wrap"
                                                            VirtualizingPanel.ScrollUnit="Pixel">
                                                 <TextBoxAttach.Title>
                                                     <Button>搜索</Button>
@@ -578,34 +586,26 @@
                                                           Style="{StaticResource ToggleButtonStyle}" />
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical">
-                                            <DateTimePicker VerticalAlignment="Top"
-                                                            SelectedDateTime="{Binding CurrentDateTime, Mode=TwoWay}"
+                                            <DateTimePicker SelectedDateTime="{Binding CurrentDateTime, Mode=TwoWay}"
                                                             TextBoxAttach.PlaceHolder="请输入日期..."
                                                             TextBoxAttach.Title="结束：" />
-                                            <ComboBox VerticalAlignment="Top"
-                                                      DisplayMemberPath="Name"
+                                            <ComboBox DisplayMemberPath="Name"
                                                       ItemsSource="{Binding FileNodes}"
                                                       TextBoxAttach.Title="搜索" />
-                                            <PasswordBox VerticalAlignment="Top"
-                                                         TextBoxAttach.PlaceHolder="密码"
-                                                         TextBoxAttach.Title="技术" />
-                                            <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码..." />
-                                            <PasswordTextBox VerticalAlignment="Top" TextBoxAttach.Title="搜索" />
+                                            <PasswordBox TextBoxAttach.PlaceHolder="密码" TextBoxAttach.Title="技术" />
+                                            <PasswordTextBox TextBoxAttach.PlaceHolder="请输入密码..." />
+                                            <PasswordTextBox TextBoxAttach.Title="搜索" />
 
-                                            <ComboBox VerticalAlignment="Top"
-                                                      DisplayMemberPath="Name"
+                                            <ComboBox DisplayMemberPath="Name"
                                                       IsEditable="True"
                                                       ItemsSource="{Binding FileNodes}" />
                                             <SearchBar Name="searchBar"
-                                                       VerticalAlignment="Top"
                                                        TextBoxAttach.PlaceHolder="请输入搜索内容..."
                                                        TextBoxAttach.Title="搜索" />
                                             <TextBox Margin="4"
-                                                     VerticalAlignment="Top"
                                                      BorderThickness="0,0,0,2"
                                                      TextBoxAttach.Title="开始" />
                                             <TextBox Margin="4"
-                                                     VerticalAlignment="Top"
                                                      Text="{Binding CurrentDateTime}"
                                                      TextBoxAttach.PlaceHolder="time..." />
 

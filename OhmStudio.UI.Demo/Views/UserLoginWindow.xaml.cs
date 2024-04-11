@@ -2,6 +2,7 @@
 using System.Windows;
 using OhmStudio.UI.Attaches;
 using OhmStudio.UI.Controls;
+using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Demo.Views
 {
@@ -19,6 +20,12 @@ namespace OhmStudio.UI.Demo.Views
         private void Button_Click(object sender,  RoutedEventArgs e)
         {
             XamlThemeDictionary.Instance.Theme = (OhmTheme)_random.Next(0, 6);
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            UIMessageTip.ShowWarning("这是一个提示");
+            DialogResult = true;
         }
     }
 }
