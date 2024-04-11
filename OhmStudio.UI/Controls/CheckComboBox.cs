@@ -82,19 +82,9 @@ namespace OhmStudio.UI.Controls
             get => (TextWrapping)GetValue(TextWrappingProperty);
             set => SetValue(TextWrappingProperty, value);
         }
-
-        public static readonly DependencyProperty SelectedTextProperty =
-            DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(CheckComboBox));
-
-        public string SelectedText
-        {
-            get => (string)GetValue(SelectedTextProperty);
-            set => SetValue(SelectedTextProperty, value);
-        }
-
+ 
         public override void OnApplyTemplate()
-        {
-            
+        { 
             if (DropDownButton != null)
             {
                 DropDownButton.Click -= DropDownButton_Click;

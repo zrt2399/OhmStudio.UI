@@ -733,8 +733,8 @@
                                  Background="Transparent"
                                  BorderBrush="Transparent"
                                  BorderThickness="0"
-                                 IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
-                                 Text="{TemplateBinding SelectedText}"
+                                 IsReadOnly="{TemplateBinding IsReadOnly}"
+                                 Text="{TemplateBinding Text}"
                                  TextWrapping="{TemplateBinding TextWrapping}" />
                         <ToggleButton x:Name="DropDownButton"
                                       Grid.Column="2"
