@@ -21,7 +21,10 @@ namespace OhmStudio.UI.PublicMethods
 
     public static class UIMessageTip
     {
+        public static int GlobalDelay { get; set; } = 0;
+
         const int Delay = 2000;
+
         public static void Show(string message, int delay = Delay) => Show(message, UIStyle.Info, delay);
 
         public static void ShowOk(string message, int delay = Delay) => Show(message, UIStyle.OK, delay);
@@ -32,7 +35,7 @@ namespace OhmStudio.UI.PublicMethods
 
         public static void Show(string message, UIStyle uIStyle, int delay = Delay)
         {
-            Application.Current?.Dispatcher.Invoke(async () =>
+            Application.Current?.Dispatcher?.Invoke(async () =>
             {
                 var color = uIStyle switch
                 {
@@ -42,6 +45,10 @@ namespace OhmStudio.UI.PublicMethods
                     _ => "#E65050".ToSolidColorBrush()
                 };
 
+                if (GlobalDelay > 0)
+                {
+                    delay = GlobalDelay;
+                }
                 Grid grid = new Grid();
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
                 grid.ColumnDefinitions.Add(new ColumnDefinition());
