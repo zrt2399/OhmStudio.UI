@@ -15,7 +15,6 @@
                     <Grid x:Name="templateRoot">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid Width="16"
@@ -43,13 +42,9 @@
                                            Visibility="Hidden" />
                             </Grid>
                         </Grid>
-                        <Border x:Name="paddingBorder"
-                                Grid.Column="1"
-                                Width="4"
-                                Background="Transparent"
-                                Visibility="Collapsed" />
+
                         <ContentPresenter x:Name="contentPresenter"
-                                          Grid.Column="2"
+                                          Grid.Column="1"
                                           Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -59,8 +54,8 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="True">
-                            <Setter Property="Padding" Value="0,1,0,0" />
-                            <Setter TargetName="paddingBorder" Property="Visibility" Value="Visible" />
+                            <Setter Property="Padding" Value="4,0,0,0" />
+                            <!--<Setter TargetName="paddingBorder" Property="Visibility" Value="Visible" />-->
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="optionMark" Property="Visibility" Value="Visible" />
