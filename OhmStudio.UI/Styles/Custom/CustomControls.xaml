@@ -704,6 +704,7 @@
     </DataTemplate>
 
     <Style x:Key="CheckComboBoxBaseStyle" TargetType="controls:CheckComboBox">
+        <Setter Property="IsReadOnly" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:CheckComboBox">
@@ -722,7 +723,7 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                 SnapsToDevicePixels="True" />
-                        <TextBox Name="PART_EditableTextBox"
+                        <TextBox Name="PART_TextBox"
                                  Grid.Column="1"
                                  Margin="1,1,0,1"
                                  Padding="{TemplateBinding Padding}"
@@ -734,7 +735,7 @@
                                  BorderBrush="Transparent"
                                  BorderThickness="0"
                                  IsReadOnly="{TemplateBinding IsReadOnly}"
-                                 Text="{TemplateBinding Text}"
+                                 Text="{TemplateBinding SelectedText}"
                                  TextWrapping="{TemplateBinding TextWrapping}" />
                         <ToggleButton x:Name="DropDownButton"
                                       Grid.Column="2"
