@@ -15,7 +15,7 @@ namespace OhmStudio.UI.Helpers
     public class ImageHelper
     {
         /// <summary>
-        /// 图片转化
+        /// 图片转化。
         /// </summary>
         /// <param name="imagePath">图片路径</param>
         /// <returns></returns>
@@ -40,14 +40,14 @@ namespace OhmStudio.UI.Helpers
         }
 
         /// <summary>
-        /// 删除本地 bitmap resource
+        /// 删除本地 bitmap resource。
         /// </summary>
         [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeleteObject(IntPtr hObject);
 
         /// <summary>
-        /// ImageSource转Bitmap
+        /// ImageSource转Bitmap。
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -74,7 +74,7 @@ namespace OhmStudio.UI.Helpers
         }
 
         /// <summary>
-        /// BitmapImage转Bitmap
+        /// BitmapImage转Bitmap。
         /// </summary>
         /// <param name="bitmapImage"></param>
         /// <returns></returns>
@@ -117,7 +117,7 @@ namespace OhmStudio.UI.Helpers
         }
 
         /// <summary>
-        /// 截图转换成bitmap
+        /// 截图转换成Bitmap。
         /// </summary>
         /// <param name="element"></param>
         /// <param name="width">默认控件宽度</param>
@@ -154,7 +154,7 @@ namespace OhmStudio.UI.Helpers
         }
 
         /// <summary>
-        /// BitmapSource转Bitmap
+        /// BitmapSource转Bitmap。
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -164,7 +164,7 @@ namespace OhmStudio.UI.Helpers
         }
 
         /// <summary>
-        /// Convert BitmapSource to Bitmap
+        /// Convert BitmapSource to Bitmap.
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
