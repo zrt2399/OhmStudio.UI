@@ -489,7 +489,8 @@ namespace OhmStudio.UI.Demo.Views
         private void Button_Click_14(object sender, RoutedEventArgs e)
         {
             //throw new Exception("ex");
-            searchBar.Focus();
+            //searchBar.Focus();
+            AlertDialog.Show(che.SelectedText);
         }
     }
 

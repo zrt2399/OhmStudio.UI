@@ -17,14 +17,14 @@ namespace OhmStudio.UI.Demo.Views
         }
 
         Random _random = new Random();
-        private void Button_Click(object sender,  RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             XamlThemeDictionary.Instance.Theme = (OhmTheme)_random.Next(0, 6);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            UIMessageTip.ShowWarning("这是一个提示");
+            UIMessageTip.Show("这是一个提示\r\n这是二个提示");
             DialogResult = true;
         }
     }

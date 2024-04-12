@@ -475,10 +475,7 @@
                                         </Rectangle>
                                     </Grid>-->
                                     <StackPanel Orientation="Horizontal">
-                                        <StackPanel Name="wr"
-                                                    IsEnabled="True"
-                                                    Orientation="Vertical">
-                                            <DateTimePicker />
+                                        <StackPanel>
                                             <DateTimePicker Name="se"
                                                             Height="40"
                                                             HorizontalContentAlignment="Right"
@@ -560,7 +557,8 @@
                                                       ItemsSource="{Binding FileNodes}"
                                                       TextBoxAttach.PlaceHolder="请输入..."
                                                       TextBoxAttach.Title="输出" />
-                                            <CheckComboBox Width="200"
+                                            <CheckComboBox Name="che"
+                                                           Width="200"
                                                            Height="50"
                                                            HorizontalContentAlignment="Right"
                                                            VerticalContentAlignment="Top"
@@ -581,9 +579,6 @@
                                                     <Button>请输入搜索...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </CheckComboBox>
-                                            <ToggleButton IsChecked="True"
-                                                          IsEnabled="True"
-                                                          Style="{StaticResource ToggleButtonStyle}" />
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical">
                                             <DateTimePicker SelectedDateTime="{Binding CurrentDateTime, Mode=TwoWay}"
@@ -769,31 +764,24 @@
                                 </Grid>
 
                             </LayoutDocument>
-                            <LayoutDocument Title="CheckComboBox" CanClose="False">
+                            <LayoutDocument Title="CheckBox" CanClose="False">
                                 <StackPanel Orientation="Horizontal">
-                                    <ComboBox VerticalAlignment="Top"
-                                              DisplayMemberPath="Name"
-                                              IsEditable="True"
-                                              ItemsSource="{Binding FileNodes}" />
-                                    <CheckComboBox VerticalAlignment="Top"
-                                                   DisplayMemberPath="Name"
-                                                   ItemsSource="{Binding FileNodes}" />
+                                    <RadioButton Width="100" Height="40" />
+                                    <RadioButton Width="100" Height="40" />
+                                    <RadioButton />
+                                    <RadioButton />
+                                    <RadioButton />
                                     <RadioButton>123</RadioButton>
-                                    <RadioButton>456</RadioButton>
-                                    <CheckBox VerticalAlignment="Top" IsChecked="{x:Null}" />
-                                    <ComboBox VerticalAlignment="Top"
-                                              DisplayMemberPath="Name"
-                                              ItemsSource="{Binding FileNodes}" />
-                                    <ComboBox VerticalAlignment="Top"
-                                              DisplayMemberPath="Name"
-                                              ItemsSource="{Binding FileNodes}" />
-                                    <TextBox Width="400"
-                                             VerticalAlignment="Top"
-                                             Text="{Binding CurrentDateTime}" />
-                                    <ToggleButton Style="{StaticResource ToggleButtonStyle}" />
-                                    <CircularProgressBar Title="abcdefg" Value="50" />
+                                    <RadioButton Width="100" Height="40">456</RadioButton>
+                                    <CheckBox Content="12321321" IsChecked="{x:Null}" />
+                                    <CheckBox />
+                                    <CheckBox />
+                                    <CheckBox Width="100" Height="40" IsChecked="{x:Null}"/>
+                                    <CheckBox />
+                                    <ToggleButton Width="100"
+                                                  Height="40"
+                                                  Style="{StaticResource ToggleButtonSwitchStyle}" />
                                 </StackPanel>
-
                             </LayoutDocument>
                         </LayoutDocumentPane>
                     </LayoutDocumentPaneGroup>
