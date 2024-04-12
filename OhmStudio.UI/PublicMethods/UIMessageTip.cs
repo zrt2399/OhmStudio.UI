@@ -23,6 +23,8 @@ namespace OhmStudio.UI.PublicMethods
     {
         public static int GlobalDelay { get; set; } = 0;
 
+        public static CornerRadius TipCornerRadius { get; set; } = new CornerRadius(4);
+
         const int Delay = 2000;
 
         public static void Show(string message, int delay = Delay) => Show(message, UIStyle.Info, delay);
@@ -76,7 +78,7 @@ namespace OhmStudio.UI.PublicMethods
                 border.Background = "#FAFAFA".ToSolidColorBrush();
                 border.BorderThickness = new Thickness(1);
                 border.BorderBrush = new System.Windows.Media.SolidColorBrush(color.Color);
-                border.CornerRadius = new CornerRadius(4);
+                border.CornerRadius = TipCornerRadius;
 
                 Border borderEffect = new Border();
                 borderEffect.Background = border.Background;
@@ -160,7 +162,7 @@ namespace OhmStudio.UI.PublicMethods
 
         //CreateIcon依赖Colors，所以需在Colors后初始化
         public static readonly BitmapImage[] Icons = { CreateIcon(0), CreateIcon(1), CreateIcon(2), CreateIcon(3) };
- 
+
         /// <summary>
         /// 创建图标。
         /// </summary>
