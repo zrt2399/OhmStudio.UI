@@ -12,7 +12,6 @@ namespace OhmStudio.UI.Controls
     {
         public CheckComboBox()
         {
-            IsReadOnly = true;
             SetEmpty();
             GotFocus += CheckComboBox_GotFocus;
         }
@@ -23,18 +22,18 @@ namespace OhmStudio.UI.Controls
         }
 
         ListBox PART_ListBox;
-        TextBox PART_EditableTextBox;
+        TextBox PART_TextBox;
         ToggleButton DropDownButton;
         Button PART_Invert;
         Button PART_SelectAll;
         Button PART_DeSelectAll;
 
         public static readonly DependencyProperty SelectedItemsProperty =
-            DependencyProperty.Register(nameof(SelectedItems), typeof(IEnumerable), typeof(CheckComboBox));
+            DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(CheckComboBox));
 
-        public IEnumerable SelectedItems
+        public IList SelectedItems
         {
-            get => (IEnumerable)GetValue(SelectedItemsProperty);
+            get => (IList)GetValue(SelectedItemsProperty);
             set => SetValue(SelectedItemsProperty, value);
         }
 
@@ -75,16 +74,25 @@ namespace OhmStudio.UI.Controls
         }
 
         public static readonly DependencyProperty TextWrappingProperty =
-            DependencyProperty.Register(nameof(TextWrapping), typeof(TextWrapping), typeof(CheckComboBox));
+            DependencyProperty.Register(nameof(TextWrapping), typeof(TextWrapping), typeof(CheckComboBox), new PropertyMetadata(TextWrapping.NoWrap));
 
         public TextWrapping TextWrapping
         {
             get => (TextWrapping)GetValue(TextWrappingProperty);
             set => SetValue(TextWrappingProperty, value);
         }
- 
+
+        public static readonly DependencyProperty SelectedTextProperty =
+            DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(CheckComboBox));
+
+        public string SelectedText
+        {
+            get => (string)GetValue(SelectedTextProperty);
+            set => SetValue(SelectedTextProperty, value);
+        }
+
         public override void OnApplyTemplate()
-        { 
+        {
             if (DropDownButton != null)
             {
                 DropDownButton.Click -= DropDownButton_Click;
@@ -111,38 +119,38 @@ namespace OhmStudio.UI.Controls
             PART_Invert = GetTemplateChild("PART_Invert") as Button;
             DropDownButton = GetTemplateChild("DropDownButton") as ToggleButton;
             PART_ListBox = GetTemplateChild("PART_ListBox") as ListBox;
-            PART_EditableTextBox = GetTemplateChild("PART_EditableTextBox") as TextBox;
+            PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
             DropDownButton.Click += DropDownButton_Click;
             PART_Invert.Click += PART_Invert_Click;
             PART_SelectAll.Click += PART_SelectAll_Click;
             PART_DeSelectAll.Click += PART_DeSelectAll_Click;
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
         }
-         
+
         private void CheckComboBox_GotFocus(object sender, RoutedEventArgs e)
         {
             var checkComboBox = (CheckComboBox)sender;
-            if (!e.Handled && checkComboBox.PART_EditableTextBox != null)
+            if (!e.Handled && checkComboBox.PART_TextBox != null)
             {
                 if (Equals(e.OriginalSource, checkComboBox))
                 {
-                    checkComboBox.PART_EditableTextBox.Focus();
+                    checkComboBox.PART_TextBox.Focus();
                     e.Handled = true;
                 }
-                else if (Equals(e.OriginalSource, checkComboBox.PART_EditableTextBox))
+                else if (Equals(e.OriginalSource, checkComboBox.PART_TextBox))
                 {
-                    checkComboBox.PART_EditableTextBox.SelectAll();
+                    checkComboBox.PART_TextBox.SelectAll();
                     e.Handled = true;
                 }
             }
         }
-         
+
         private void DropDownButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!PART_EditableTextBox.IsKeyboardFocusWithin)
+            if (!PART_TextBox.IsKeyboardFocusWithin)
             {
-                PART_EditableTextBox.Focus();
-                PART_EditableTextBox.SelectAll();
+                PART_TextBox.Focus();
+                PART_TextBox.SelectAll();
             }
         }
 
@@ -209,7 +217,7 @@ namespace OhmStudio.UI.Controls
         void SetEmpty()
         {
             SelectedItems = new List<object>();
-            Text = UnSelectedStringFormat;
+            SelectedText = UnSelectedStringFormat;
         }
 
         private void PART_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -246,15 +254,15 @@ namespace OhmStudio.UI.Controls
             {
                 stringBuilder.Append(string.Format(StringFormat, list[list.Count - 1]));
             }
-            Text = stringBuilder.ToString();
+            SelectedText = stringBuilder.ToString();
             //SelectedText = string.Join(",", list);
             if (list.Count == 0)
             {
-                Text = UnSelectedStringFormat;
+                SelectedText = UnSelectedStringFormat;
             }
             else if (list.Count == ItemsSource.Cast<object>().Count())
             {
-                Text = SelectedAllStringFormat;
+                SelectedText = SelectedAllStringFormat;
             }
         }
 
