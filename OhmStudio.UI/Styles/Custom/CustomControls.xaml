@@ -430,12 +430,12 @@
                     <Viewbox>
                         <Border x:Name="toggleBorder"
                                 Width="40"
-                                Height="24"
+                                Height="26"
                                 VerticalAlignment="Center"
-                                attaches:CornerRadiusAttach.IsCircular="True"
                                 Background="#D3D3D3"
                                 BorderBrush="Transparent"
-                                BorderThickness="0">
+                                BorderThickness="1"
+                                CornerRadius="13">
                             <Ellipse Name="ellipse"
                                      Width="18"
                                      Height="18"

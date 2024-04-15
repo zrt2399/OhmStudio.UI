@@ -41,10 +41,10 @@ namespace OhmStudio.UI.Demo.Views
 
         public MainWindow()
         {
-            //if (new UserLoginWindow().SetOwner().ShowDialog() != true)
-            //{
-            //    Environment.Exit(Environment.ExitCode);
-            //}
+            if (new UserLoginWindow().SetOwner().ShowDialog() != true)
+            {
+                Environment.Exit(Environment.ExitCode);
+            }
             InitializeComponent();
             DataContext = this;
             FontFamilyList = new ObservableCollection<string>(new InstalledFontCollection().Families.Select(x => x.Name));
@@ -79,7 +79,7 @@ namespace OhmStudio.UI.Demo.Views
             Items = Pro;
             Stopwatch stopwatch = Stopwatch.StartNew();
             List<Pro> pros = new List<Pro>();
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 Pro pro = new Pro();
                 if (i % 2 == 0)
