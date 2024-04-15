@@ -68,8 +68,10 @@
                     <Button Content="8" ToolTip="保存当前文件" />
                 </ToolBar>
             </ToolBarTray>
-            <!--<SearchBar TextBoxAttach.PlaceHolder="请输入搜索内容..." TextBoxAttach.Title="搜索" />
-            <CheckComboBox />-->
+            <SearchBar VerticalAlignment="Center"
+                       TextBoxAttach.PlaceHolder="请输入搜索内容..."
+                       TextBoxAttach.Title="搜索：" />
+            <!--<CheckComboBox />-->
         </StackPanel>
     </ChromeWindow.LeftWindowCommands>
 
@@ -297,17 +299,6 @@
                                 </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="RollBox">
-                                <!--<hc:Carousel>
-                                     添加轮播项
-                                    <hc:CarouselItem>
-                                         轮播项内容
-                                    </hc:CarouselItem>
-                                    <hc:CarouselItem>
-                                        <Image Source="icon.ico"/>
-                                         轮播项内容
-                                    </hc:CarouselItem>
-                                     可以添加更多轮播项
-                                </hc:Carousel>-->
                                 <RollBox>
                                     <RollBox.Items>
                                         <Image Source="/Images/1.jpg" />
@@ -485,7 +476,6 @@
                                                             TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
                                                     <Button>日期：</Button>
-                                                    <!--<iconPacks:PackIconModern Kind="InterfacePassword" Margin="0,0,4,0" Height="{Binding ElementName=dateTimePickerUserPassword1,Path=ActualHeight}"  />-->
                                                 </TextBoxAttach.Title>
                                             </DateTimePicker>
                                             <SearchBar Height="40"
@@ -495,7 +485,7 @@
                                                        TextBoxAttach.PlaceHolderOpacity="1"
                                                        TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <Button>搜索</Button>
+                                                    <Button>搜索：</Button>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
                                                     <Button>请输入搜索内容...</Button>
@@ -508,34 +498,37 @@
                                             <TextBox VerticalContentAlignment="Top"
                                                      Text="{Binding CurrentDateTime, Mode=TwoWay}"
                                                      TextBoxAttach.PlaceHolderIsHitTestVisible="True">
-                                                <TextBoxAttach.Title>
-                                                    <TextBlock>ButtonTitle</TextBlock>
-                                                </TextBoxAttach.Title>
+
                                                 <TextBoxAttach.PlaceHolder>
                                                     <Button>ButtonPlaceHolder</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </TextBox>
-                                            <PasswordBox Height="50"
+                                            <PasswordBox Height="40"
                                                          VerticalContentAlignment="Center"
                                                          TextBoxAttach.PlaceHolder="密码" />
-                                            <PasswordTextBox VerticalContentAlignment="Top" TextBoxAttach.PlaceHolder="请输入密码...">
+                                            <PasswordTextBox Height="40"
+                                                             HorizontalContentAlignment="Right"
+                                                             VerticalContentAlignment="Top">
                                                 <TextBoxAttach.Title>
-                                                    <TextBlock>ButtonTitle</TextBlock>
+                                                    <TextBlock>密码：</TextBlock>
                                                 </TextBoxAttach.Title>
+                                                <TextBoxAttach.PlaceHolder>
+                                                    <Button>请输入密码1...</Button>
+                                                </TextBoxAttach.PlaceHolder>
                                             </PasswordTextBox>
                                             <PasswordTextBox VerticalContentAlignment="Top"
                                                              TextBoxAttach.PlaceHolderIsHitTestVisible="True"
                                                              TextBoxAttach.PlaceHolderOpacity="1"
                                                              TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <Button>搜索</Button>
+                                                    <Button>密码：</Button>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <Button>请输入密码1...</Button>
+                                                    <Button>请输入密码2...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </PasswordTextBox>
 
-                                            <ComboBox Height="50"
+                                            <ComboBox Height="40"
                                                       HorizontalContentAlignment="Stretch"
                                                       VerticalContentAlignment="Top"
                                                       DisplayMemberPath="Name"
@@ -543,13 +536,13 @@
                                                       TextBoxAttach.PlaceHolderIsHitTestVisible="True"
                                                       TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <Button>中文</Button>
+                                                    <Button>中文：</Button>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
                                                     <Button HorizontalAlignment="Left">请输入..</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </ComboBox>
-                                            <ComboBox Height="50"
+                                            <ComboBox Height="40"
                                                       HorizontalContentAlignment="Right"
                                                       VerticalContentAlignment="Top"
                                                       DisplayMemberPath="Name"
@@ -559,7 +552,7 @@
                                                       TextBoxAttach.Title="输出" />
                                             <CheckComboBox Name="che"
                                                            Width="200"
-                                                           Height="50"
+                                                           Height="40"
                                                            HorizontalContentAlignment="Right"
                                                            VerticalContentAlignment="Top"
                                                            DisplayMemberPath="Description"
@@ -573,10 +566,10 @@
                                                            TextWrapping="Wrap"
                                                            VirtualizingPanel.ScrollUnit="Pixel">
                                                 <TextBoxAttach.Title>
-                                                    <Button>搜索</Button>
+                                                    <Button>多选：</Button>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <Button>请输入搜索...</Button>
+                                                    <Button>请选择...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </CheckComboBox>
                                         </StackPanel>
@@ -765,31 +758,29 @@
 
                             </LayoutDocument>
                             <LayoutDocument Title="CheckBox" CanClose="False">
-                                <StackPanel Orientation="Horizontal">
-                                    <RadioButton Width="100" Height="40" />
-                                    <RadioButton Width="100" Height="40" />
+                                <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                                    <RadioButton RadioButtonAttach.RadioButtonSize="40" />
+                                    <RadioButton RadioButtonAttach.RadioButtonSize="50" />
                                     <RadioButton />
                                     <RadioButton />
                                     <RadioButton />
                                     <RadioButton>123</RadioButton>
-                                    <RadioButton Width="100" Height="40">456</RadioButton>
-                                    <CheckBox Content="12321321" IsChecked="{x:Null}" />
+                                    <RadioButton>456</RadioButton>
+                                    <CheckBox Content="CheckBox" IsChecked="{x:Null}" />
                                     <CheckBox />
+                                    <CheckBox CheckBoxAttach.CheckBoxSize="40" />
+                                    <CheckBox CheckBoxAttach.CheckBoxSize="50" IsChecked="{x:Null}" />
                                     <CheckBox />
-                                    <CheckBox Width="100" Height="40" IsChecked="{x:Null}"/>
-                                    <CheckBox />
-                                    <ToggleButton Width="100"
-                                                  Height="40"
-                                                  Style="{StaticResource ToggleButtonSwitchStyle}" />
+                                    <ToggleButton Height="40" Style="{StaticResource ToggleButtonSwitchStyle}" />
+                                    <ToggleButton Height="50" Style="{StaticResource ToggleButtonSwitchStyle}" />
                                 </StackPanel>
                             </LayoutDocument>
                         </LayoutDocumentPane>
                     </LayoutDocumentPaneGroup>
                     <LayoutAnchorablePaneGroup DockWidth="400">
                         <LayoutAnchorablePane>
-                            <LayoutAnchorable Title="数据网格" ToolTip="ListView.ListView">
+                            <LayoutAnchorable Title="数据表格" ToolTip="ListView.ListView">
                                 <ListView ItemsSource="{Binding Result}">
-
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="Time" />
