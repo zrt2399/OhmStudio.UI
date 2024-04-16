@@ -549,7 +549,7 @@
                                                       IsEditable="True"
                                                       ItemsSource="{Binding FileNodes}"
                                                       TextBoxAttach.PlaceHolder="请输入..."
-                                                      TextBoxAttach.Title="输出" />
+                                                      TextBoxAttach.Title="输出：" />
                                             <CheckComboBox Name="che"
                                                            Width="200"
                                                            Height="40"
@@ -579,20 +579,20 @@
                                                             TextBoxAttach.Title="结束：" />
                                             <ComboBox DisplayMemberPath="Name"
                                                       ItemsSource="{Binding FileNodes}"
-                                                      TextBoxAttach.Title="搜索" />
+                                                      TextBoxAttach.Title="搜索：" />
                                             <PasswordBox TextBoxAttach.PlaceHolder="密码" TextBoxAttach.Title="技术" />
                                             <PasswordTextBox TextBoxAttach.PlaceHolder="请输入密码..." />
-                                            <PasswordTextBox TextBoxAttach.Title="搜索" />
+                                            <PasswordTextBox TextBoxAttach.Title="搜索：" />
 
                                             <ComboBox DisplayMemberPath="Name"
                                                       IsEditable="True"
                                                       ItemsSource="{Binding FileNodes}" />
                                             <SearchBar Name="searchBar"
                                                        TextBoxAttach.PlaceHolder="请输入搜索内容..."
-                                                       TextBoxAttach.Title="搜索" />
+                                                       TextBoxAttach.Title="搜索：" />
                                             <TextBox Margin="4"
                                                      BorderThickness="0,0,0,2"
-                                                     TextBoxAttach.Title="开始" />
+                                                     TextBoxAttach.Title="开始：" />
                                             <TextBox Margin="4"
                                                      Text="{Binding CurrentDateTime}"
                                                      TextBoxAttach.PlaceHolder="time..." />
@@ -758,22 +758,36 @@
 
                             </LayoutDocument>
                             <LayoutDocument Title="CheckBox" CanClose="False">
-                                <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
-                                    <RadioButton RadioButtonAttach.RadioButtonSize="40" />
-                                    <RadioButton RadioButtonAttach.RadioButtonSize="50" />
-                                    <RadioButton />
-                                    <RadioButton />
-                                    <RadioButton />
-                                    <RadioButton>123</RadioButton>
-                                    <RadioButton>456</RadioButton>
-                                    <CheckBox Content="CheckBox" IsChecked="{x:Null}" />
-                                    <CheckBox />
-                                    <CheckBox CheckBoxAttach.CheckBoxSize="40" />
-                                    <CheckBox CheckBoxAttach.CheckBoxSize="50" IsChecked="{x:Null}" />
-                                    <CheckBox />
-                                    <ToggleButton Height="40" Style="{StaticResource ToggleButtonSwitchStyle}" />
-                                    <ToggleButton Height="50" Style="{StaticResource ToggleButtonSwitchStyle}" />
-                                </StackPanel>
+                                <WrapPanel VerticalAlignment="Top" Orientation="Horizontal">
+                                    <GroupBox Margin="10" Header="RadioButton">
+                                        <WrapPanel Orientation="Horizontal">
+                                            <RadioButton />
+                                            <RadioButton>RadioButton</RadioButton>
+                                            <RadioButton>123</RadioButton>
+                                            <RadioButton>456</RadioButton>
+                                            <RadioButton RadioButtonAttach.RadioButtonSize="30" />
+                                            <RadioButton RadioButtonAttach.RadioButtonSize="40" />
+                                            <RadioButton RadioButtonAttach.RadioButtonSize="50" />
+                                        </WrapPanel>
+                                    </GroupBox>
+                                    <GroupBox Margin="10" Header="CheckBox">
+                                        <WrapPanel Orientation="Horizontal">
+                                            <CheckBox />
+                                            <CheckBox Content="CheckBox" IsChecked="{x:Null}" />
+                                            <CheckBox CheckBoxAttach.CheckBoxSize="30" IsChecked="{x:Null}" />
+                                            <CheckBox CheckBoxAttach.CheckBoxSize="40" IsChecked="{x:Null}" />
+                                            <CheckBox CheckBoxAttach.CheckBoxSize="50" IsChecked="{x:Null}" />
+                                        </WrapPanel>
+                                    </GroupBox>
+                                    <GroupBox Margin="10" Header="ToggleButton">
+                                        <WrapPanel Orientation="Horizontal">
+                                            <ToggleButton Style="{StaticResource ToggleButtonSwitchStyle}" />
+                                            <ToggleButton Height="30" Style="{StaticResource ToggleButtonSwitchStyle}" />
+                                            <ToggleButton Height="40" Style="{StaticResource ToggleButtonSwitchStyle}" />
+                                            <ToggleButton Height="50" Style="{StaticResource ToggleButtonSwitchStyle}" />
+                                        </WrapPanel>
+                                    </GroupBox>
+                                </WrapPanel>
                             </LayoutDocument>
                         </LayoutDocumentPane>
                     </LayoutDocumentPaneGroup>
