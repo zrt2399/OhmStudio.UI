@@ -14,7 +14,7 @@
               Width="1280"
               Height="720"
               d:DataContext="{d:DesignInstance Type=local:MainWindow}"
-              BorderAttach.CornerRadius="2"
+              BorderAttach.CornerRadius="{Binding CornerRadius}"
               Icon="/icon.ico"
               IsShowIcon="True"
               IsShowTitle="True"
@@ -72,6 +72,9 @@
                        TextBoxAttach.PlaceHolder="请输入搜索内容..."
                        TextBoxAttach.Title="搜索：" />
             <!--<CheckComboBox />-->
+            <TextBox VerticalAlignment="Center"
+                     Text="{Binding GlobalCornerRadius}"
+                     TextBoxAttach.Title="全局圆角：" />
         </StackPanel>
     </ChromeWindow.LeftWindowCommands>
 

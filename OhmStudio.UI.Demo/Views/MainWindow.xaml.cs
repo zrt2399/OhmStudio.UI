@@ -137,6 +137,21 @@ namespace OhmStudio.UI.Demo.Views
 
         public bool IsAntiAliasing { get; set; } = true;
 
+        public CornerRadius CornerRadius { get; set; }
+
+        private int _globalCornerRadius;
+        [DoNotNotify]
+        public int GlobalCornerRadius
+        {
+            get => _globalCornerRadius;
+            set
+            {
+                _globalCornerRadius = value;
+                CornerRadius = new CornerRadius(value);
+                OnPropertyChanged(nameof(GlobalCornerRadius));
+            }
+        }
+
         private RelayCommand _startCommand;
         public RelayCommand StartCommand
         {
