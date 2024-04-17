@@ -230,5 +230,17 @@ namespace OhmStudio.UI.Attaches
         {
             target.SetValue(PlaceHolderVisibilityProperty, value);
         }
+
+        public static readonly DependencyProperty IsShowValidationErrorInfoProperty =
+            DependencyProperty.RegisterAttached("IsShowValidationErrorInfo", typeof(bool), typeof(TextBoxAttach), new PropertyMetadata(true));
+        public static bool GetIsShowValidationErrorInfo(DependencyObject target)
+        {
+            return (bool)target.GetValue(IsShowValidationErrorInfoProperty);
+        }
+
+        public static void SetIsShowValidationErrorInfo(DependencyObject target, bool value)
+        {
+            target.SetValue(IsShowValidationErrorInfoProperty, value);
+        }
     }
 }

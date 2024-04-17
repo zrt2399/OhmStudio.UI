@@ -1,6 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches">
+                    xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
+                    xmlns:converters="clr-namespace:OhmStudio.UI.Converters">
+
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
     <Style x:Key="TextBoxBaseStyle" TargetType="{x:Type TextBoxBase}">
         <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}" />
@@ -23,9 +26,39 @@
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border BorderBrush="{DynamicResource CommonControlsTextBoxErrorBorder}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <AdornedElementPlaceholder x:Name="Placeholder" />
-                    </Border>
+                    <StackPanel>
+                        <AdornedElementPlaceholder x:Name="AdornedElementPlaceholder" />
+                        <StackPanel x:Name="sp"
+                                    IsHitTestVisible="False"
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding ElementName=AdornedElementPlaceholder, Path=AdornedElement.(TextBoxAttach.IsShowValidationErrorInfo), Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="sp"
+                                                             Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                                             From="0"
+                                                             To="1"
+                                                             Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </StackPanel.Triggers>
+                            <StackPanel.RenderTransform>
+                                <ScaleTransform />
+                            </StackPanel.RenderTransform>
+                            <Path Height="{Binding ElementName=ErrorContent, Path=ActualHeight}"
+                                  Data="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm17.2 109.6l-3.1 115.1c-.2 8.2-5.9 14.8-14.1 14.8s-13.9-6.6-14.1-14.8l-3.1-115.1c-.2-9.6 7.5-17.6 17.2-17.6 9.6 0 17.4 7.9 17.2 17.6zM256 354c-10.7 0-19.1-8.1-19.1-18.4s8.4-18.4 19.1-18.4c10.7 0 19.1 8.1 19.1 18.4S266.7 354 256 354z"
+                                  Fill="{Binding ElementName=ErrorContent, Path=Foreground}"
+                                  Stretch="Uniform" />
+                            <TextBlock Name="ErrorContent"
+                                       Margin="2,0,0,0"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource CommonControlsTextBoxErrorBorder}"
+                                       Text="{Binding ErrorContent, Mode=OneTime}" />
+                        </StackPanel>
+                    </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
