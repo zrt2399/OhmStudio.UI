@@ -4,17 +4,17 @@ namespace OhmStudio.UI.Attaches
 {
     public class ToolBarAttach
     {
-        public static readonly DependencyProperty ToolBarThumbVisibilityProperty =
-            DependencyProperty.RegisterAttached("ToolBarThumbVisibility", typeof(Visibility), typeof(ToolBarAttach), new PropertyMetadata(Visibility.Visible));
+        public static readonly DependencyProperty IsShowToolBarThumbProperty =
+            DependencyProperty.RegisterAttached("IsShowToolBarThumb", typeof(bool), typeof(ToolBarAttach), new PropertyMetadata(true));
 
-        public static Visibility GetToolBarThumbVisibility(DependencyObject obj)
+        public static bool GetIsShowToolBarThumb(DependencyObject obj)
         {
-            return (Visibility)obj.GetValue(ToolBarThumbVisibilityProperty);
+            return (bool)obj.GetValue(IsShowToolBarThumbProperty);
         }
 
-        public static void SetToolBarThumbVisibility(DependencyObject obj, Visibility value)
+        public static void SetIsShowToolBarThumb(DependencyObject obj, bool value)
         {
-            obj.SetValue(ToolBarThumbVisibilityProperty, value);
+            obj.SetValue(IsShowToolBarThumbProperty, value);
         }
     }
 }

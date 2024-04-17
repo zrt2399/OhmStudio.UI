@@ -1,6 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches">
+                    xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
+                    xmlns:converters="clr-namespace:OhmStudio.UI.Converters">
+
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
     <Style x:Key="ToolBarMainPanelBorderStyle" TargetType="{x:Type Border}">
         <Style.Triggers>
@@ -367,7 +370,7 @@
                                 <Thumb x:Name="ToolBarThumb"
                                        Width="10"
                                        Style="{StaticResource ToolBarThumbStyle}"
-                                       Visibility="{Binding Path=(attaches:ToolBarAttach.ToolBarThumbVisibility), RelativeSource={RelativeSource TemplatedParent}}" />
+                                       Visibility="{Binding Path=(attaches:ToolBarAttach.IsShowToolBarThumb), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}" />
 
                                 <ContentPresenter x:Name="ToolBarHeader"
                                                   HorizontalAlignment="Center"
