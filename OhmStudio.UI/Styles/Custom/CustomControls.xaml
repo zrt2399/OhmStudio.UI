@@ -64,7 +64,7 @@
         <Setter Property="BorderBrush" Value="#FF96999C" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="BorderAttach.CornerRadius" Value="2" />
+        <!--<Setter Property="BorderAttach.CornerRadius" Value="2" />-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -77,7 +77,9 @@
                                 CornerRadius="{Binding ElementName=Border, Path=CornerRadius}"
                                 Visibility="Collapsed">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
+                                <DropShadowEffect BlurRadius="6"
+                                                  ShadowDepth="0"
+                                                  Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
                             </Border.Effect>
                         </Border>
                         <Border Name="Border"
@@ -119,7 +121,7 @@
         <Setter Property="BorderBrush" Value="#FF2C84DD" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="BorderAttach.CornerRadius" Value="2" />
+        <!--<Setter Property="BorderAttach.CornerRadius" Value="2" />-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -132,7 +134,9 @@
                                 CornerRadius="{Binding ElementName=Border, Path=CornerRadius}"
                                 Visibility="Collapsed">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
+                                <DropShadowEffect BlurRadius="6"
+                                                  ShadowDepth="0"
+                                                  Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
                             </Border.Effect>
                         </Border>
                         <Border Name="Border"
@@ -174,7 +178,7 @@
         <Setter Property="BorderBrush" Value="#FF1EA973" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="BorderAttach.CornerRadius" Value="2" />
+        <!--<Setter Property="BorderAttach.CornerRadius" Value="2" />-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -187,7 +191,9 @@
                                 CornerRadius="{Binding ElementName=Border, Path=CornerRadius}"
                                 Visibility="Collapsed">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
+                                <DropShadowEffect BlurRadius="6"
+                                                  ShadowDepth="0"
+                                                  Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
                             </Border.Effect>
                         </Border>
                         <Border Name="Border"
@@ -235,7 +241,7 @@
         <Setter Property="BorderBrush" Value="#FFCD5C5C" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="BorderAttach.CornerRadius" Value="2" />
+        <!--<Setter Property="BorderAttach.CornerRadius" Value="2" />-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -248,7 +254,9 @@
                                 CornerRadius="{Binding ElementName=Border, Path=CornerRadius}"
                                 Visibility="Collapsed">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
+                                <DropShadowEffect BlurRadius="6"
+                                                  ShadowDepth="0"
+                                                  Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
                             </Border.Effect>
                         </Border>
                         <Border Name="Border"
@@ -860,7 +868,7 @@
         <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type ComboBox}}" />
         <Setter Property="DynamicStyleProvider.Derived" Value="{DynamicResource CheckComboBoxBaseStyle}" />
     </Style>
- 
+
     <Style x:Key="VerticalSeparatorStyle" TargetType="Separator">
         <Setter Property="Separator.LayoutTransform">
             <Setter.Value>
