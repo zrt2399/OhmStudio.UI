@@ -625,7 +625,9 @@
                                                     Style="{StaticResource FlatButtonRed}">
                                                 FlatButtonRed
                                             </Button>
-                                            <TextBox Text="{Binding CurrentDateTime}" TextBoxAttach.PlaceHolder="time..." />
+                                            <TextBox Text="{Binding CurrentDateTime}"
+                                                     TextBoxAttach.IsShowValidationErrorInfo="False"
+                                                     TextBoxAttach.PlaceHolder="time..." />
                                         </StackPanel>
                                     </StackPanel>
 
