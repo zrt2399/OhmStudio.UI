@@ -299,7 +299,7 @@
     </Style>
     <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="TextBlock" />
 
-    <Style x:Key="TabItemStyle" TargetType="TabItem">
+    <Style x:Key="DefaultTabItem" TargetType="TabItem">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
@@ -405,7 +405,7 @@
         <Setter Property="DynamicStyleProvider.Derived" Value="{DynamicResource SearchBarBaseStyle}" />
     </Style>
 
-    <Style x:Key="PageAnimationStyle" TargetType="Page">
+    <Style x:Key="AnimatedPage" TargetType="Page">
         <Style.Triggers>
             <EventTrigger RoutedEvent="Loaded">
                 <EventTrigger.Actions>
@@ -428,7 +428,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="ToggleButtonSwitchStyle" TargetType="ToggleButton">
+    <Style x:Key="ToggleButtonSwitch" TargetType="ToggleButton">
         <Setter Property="Height" Value="24" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -627,7 +627,7 @@
     <Style BasedOn="{StaticResource RollBoxBaseStyle}" TargetType="controls:RollBox" />
 
     <!--  自动添加时内容居中  -->
-    <Style x:Key="GridCellCenterStyle" TargetType="DataGridCell">
+    <Style x:Key="GridCellCenter" TargetType="DataGridCell">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="DataGridCell">
@@ -869,7 +869,7 @@
         <Setter Property="DynamicStyleProvider.Derived" Value="{DynamicResource CheckComboBoxBaseStyle}" />
     </Style>
 
-    <Style x:Key="VerticalSeparatorStyle" TargetType="Separator">
+    <Style x:Key="VerticalSeparator" TargetType="Separator">
         <Setter Property="Separator.LayoutTransform">
             <Setter.Value>
                 <TransformGroup>
@@ -883,7 +883,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="TextColumnEditingElementStyle"
+    <Style x:Key="TextColumnEditingElement"
            BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="TextBox">
         <Setter Property="BorderBrush" Value="Transparent" />
@@ -891,7 +891,7 @@
         <Setter Property="Padding" Value="0" />
     </Style>
 
-    <Style x:Key="ComboBoxColumnEditingElementStyle"
+    <Style x:Key="ComboBoxColumnEditingElement"
            BasedOn="{StaticResource {x:Type ComboBox}}"
            TargetType="ComboBox">
         <Setter Property="BorderBrush" Value="Transparent" />

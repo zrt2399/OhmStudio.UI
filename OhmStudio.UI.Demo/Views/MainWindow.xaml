@@ -178,8 +178,8 @@
                                               CanUserAddRows="False"
                                               DataGridAttach.IsSelectionChangedUpdateRowNumber="True"
                                               DataGridAttach.IsShowRowNumber="True"
-                                              DataGridAttach.TextColumnEditingElementStyle="{StaticResource TextColumnEditingElementStyle}"
-                                              DataGridAttach.TextColumnElementStyle="{StaticResource {x:Type TextBlock}}"
+                                              DataGridAttach.TextColumnEditingElementStyle="{StaticResource TextColumnEditingElement}"
+                                              DataGridAttach.TextColumnElementStyle="{DynamicResource {x:Type TextBlock}}"
                                               ItemsSource="{Binding Source={StaticResource ItemCollectionViewSource}}"
                                               VirtualizingPanel.IsVirtualizing="True"
                                               VirtualizingPanel.IsVirtualizingWhenGrouping="True"
@@ -282,13 +282,13 @@
                                     </DataGrid>
                                     <DataGrid AutoGenerateColumns="False"
                                               CanUserAddRows="False"
-                                              DataGridAttach.CheckBoxColumnEditingElementStyle="{StaticResource {x:Type CheckBox}}"
-                                              DataGridAttach.CheckBoxColumnElementStyle="{StaticResource {x:Type CheckBox}}"
-                                              DataGridAttach.ComboBoxColumnEditingElementStyle="{StaticResource {x:Type ComboBox}}"
-                                              DataGridAttach.ComboBoxColumnElementStyle="{StaticResource {x:Type ComboBox}}"
+                                              DataGridAttach.CheckBoxColumnEditingElementStyle="{DynamicResource {x:Type CheckBox}}"
+                                              DataGridAttach.CheckBoxColumnElementStyle="{DynamicResource {x:Type CheckBox}}"
+                                              DataGridAttach.ComboBoxColumnEditingElementStyle="{DynamicResource {x:Type ComboBox}}"
+                                              DataGridAttach.ComboBoxColumnElementStyle="{DynamicResource {x:Type ComboBox}}"
                                               DataGridAttach.IsShowRowNumber="True"
-                                              DataGridAttach.TextColumnEditingElementStyle="{StaticResource TextColumnEditingElementStyle}"
-                                              DataGridAttach.TextColumnElementStyle="{StaticResource {x:Type TextBlock}}"
+                                              DataGridAttach.TextColumnEditingElementStyle="{StaticResource TextColumnEditingElement}"
+                                              DataGridAttach.TextColumnElementStyle="{DynamicResource {x:Type TextBlock}}"
                                               ItemsSource="{Binding FileNodes}"
                                               SelectionUnit="CellOrRowHeader">
                                         <DataGrid.Columns>
@@ -786,10 +786,10 @@
                                     </GroupBox>
                                     <GroupBox Margin="10" Header="ToggleButton">
                                         <WrapPanel Orientation="Horizontal">
-                                            <ToggleButton Style="{StaticResource ToggleButtonSwitchStyle}" />
-                                            <ToggleButton Height="30" Style="{StaticResource ToggleButtonSwitchStyle}" />
-                                            <ToggleButton Height="40" Style="{StaticResource ToggleButtonSwitchStyle}" />
-                                            <ToggleButton Height="50" Style="{StaticResource ToggleButtonSwitchStyle}" />
+                                            <ToggleButton Style="{StaticResource ToggleButtonSwitch}" />
+                                            <ToggleButton Height="30" Style="{StaticResource ToggleButtonSwitch}" />
+                                            <ToggleButton Height="40" Style="{StaticResource ToggleButtonSwitch}" />
+                                            <ToggleButton Height="50" Style="{StaticResource ToggleButtonSwitch}" />
                                         </WrapPanel>
                                     </GroupBox>
                                 </WrapPanel>

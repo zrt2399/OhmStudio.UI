@@ -33,7 +33,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
-    <Style x:Key="TransparentTextBoxStyle"
+    <Style x:Key="TransparentTextBox"
            BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="TextBox">
         <Setter Property="BorderBrush" Value="Transparent" />

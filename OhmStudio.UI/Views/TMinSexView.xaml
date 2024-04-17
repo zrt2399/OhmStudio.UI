@@ -33,7 +33,7 @@
                       AutoGenerateColumns="True"
                       BorderThickness="0"
                       CanUserAddRows="False"
-                      CellStyle="{DynamicResource GridCellCenterStyle}"
+                      CellStyle="{DynamicResource GridCellCenter}"
                       HeadersVisibility="None"
                       IsReadOnly="True"
                       SelectedCellsChanged="dgMinSex_SelectedCellsChanged"
