@@ -860,6 +860,20 @@
         <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type ComboBox}}" />
         <Setter Property="DynamicStyleProvider.Derived" Value="{DynamicResource CheckComboBoxBaseStyle}" />
     </Style>
+ 
+    <Style x:Key="VerticalSeparatorStyle" TargetType="Separator">
+        <Setter Property="Separator.LayoutTransform">
+            <Setter.Value>
+                <TransformGroup>
+                    <!--<TransformGroup.Children>
+                                    <TransformCollection>-->
+                    <RotateTransform Angle="90" />
+                    <!--</TransformCollection>
+                                </TransformGroup.Children>-->
+                </TransformGroup>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Key="TextColumnEditingElementStyle"
            BasedOn="{StaticResource {x:Type TextBox}}"
