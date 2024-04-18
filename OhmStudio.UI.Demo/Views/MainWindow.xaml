@@ -60,12 +60,19 @@
                 </ToolBar>
                 <ToolBar BandIndex="2">
                     <Button Content="5" ToolTip="新建项目" />
-
+                    <Separator />
                     <Button Content="6" ToolTip="打开文件" />
                     <Separator />
                     <Button Content="7" ToolTip="保存当前文件" />
                     <Separator />
-                    <Button Content="8" ToolTip="保存当前文件" />
+                    <ComboBox>
+                        <ComboBoxItem IsSelected="True">123</ComboBoxItem>
+                        <ComboBoxItem>456</ComboBoxItem>
+                        <ComboBoxItem>789</ComboBoxItem>
+                        <ComboBoxItem>101112</ComboBoxItem>
+                        <ComboBoxItem>131415</ComboBoxItem>
+                        <ComboBoxItem>161718</ComboBoxItem>
+                    </ComboBox>
                 </ToolBar>
             </ToolBarTray>
             <SearchBar VerticalAlignment="Center"
@@ -595,26 +602,22 @@
                                                      TextBoxAttach.PlaceHolder="time..." />
 
                                             <Button Margin="4"
-                                                    Padding="4"
                                                     HorizontalContentAlignment="Left"
                                                     Click="Button_Click_14"
                                                     Style="{StaticResource ClassicButton}">
                                                 ClassicButton
                                             </Button>
                                             <Button Margin="4"
-                                                    Padding="4"
                                                     HorizontalContentAlignment="Center"
                                                     Style="{StaticResource DefaultButton}">
                                                 DefaultButton
                                             </Button>
                                             <Button Margin="4"
-                                                    Padding="4"
                                                     HorizontalContentAlignment="Right"
                                                     Style="{StaticResource FlatButtonGreen}">
                                                 FlatButtonGreen
                                             </Button>
                                             <Button Margin="4"
-                                                    Padding="4"
                                                     HorizontalContentAlignment="Center"
                                                     Style="{StaticResource FlatButtonRed}">
                                                 FlatButtonRed

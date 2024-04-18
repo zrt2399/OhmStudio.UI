@@ -8,7 +8,9 @@
     <FontFamily x:Key="DigitalFontFamily">/Fonts/TexasLED.ttf#Texas LED</FontFamily>
 
     <system:Double x:Key="GlobalFontSize">12</system:Double>
-
+    
+    <!--<Thickness x:Key="InputControlPadding">4</Thickness>
+    <Thickness x:Key="InputControlBorderThickness">0</Thickness>-->
     <!--<system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">100</system:Double>
     <system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">100</system:Double>-->
 
