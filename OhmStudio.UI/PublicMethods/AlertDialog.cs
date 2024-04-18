@@ -30,7 +30,7 @@ namespace OhmStudio.UI.PublicMethods
             MessageBoxResult messageBoxResult = MessageBoxResult.None;
             try
             {
-                Application.Current?.Dispatcher.Invoke(() =>
+                Application.Current?.Dispatcher?.Invoke(() =>
                 {
                     MessageWindow messageWindow = new MessageWindow(messageBoxButton);
                     messageWindow.SetOwner(owner);
