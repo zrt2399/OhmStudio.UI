@@ -19,7 +19,7 @@ namespace OhmStudio.UI.Demo.Views
         Random _random = new Random();
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            XamlThemeDictionary.Instance.Theme = (OhmTheme)_random.Next(0, 6);
+            XamlThemeDictionary.Instance.Theme = (ThemeType)_random.Next(0, Enum.GetValues(typeof(ThemeType)).Length);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

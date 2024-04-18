@@ -47,8 +47,7 @@ namespace OhmStudio.UI.Demo.Views
             //}
             InitializeComponent();
             DataContext = this;
-            FontFamilyList = new ObservableCollection<string>(new InstalledFontCollection().Families.Select(x => x.Name));
-            FontFamilyList.Insert(0, DefaultFont);
+            UptateFontList();
             var text = textEditor;
             var searchPanel = SearchPanel.Install(text);
             searchPanel.MarkerBrush = "#BEAA46".ToSolidColorBrush();
@@ -102,7 +101,8 @@ namespace OhmStudio.UI.Demo.Views
                 AlertDialog.Show("已改变");
             };
             UserInfos.Add(new UserInfoModel());
-            UserInfos.Add(new UserInfoModel() { UserName = "wang" });
+            UserInfos.Add(new UserInfoModel() { UserName = "jack" });
+            UserInfos.Add(new UserInfoModel() { UserName = "rose", Password = "123456" });
             Messenger.Default.Register<string>(this, Rrecipient, msg => AlertDialog.Show(msg));
             SystemEvents.InstalledFontsChanged += SystemEvents_InstalledFontsChanged;
             StatusManager.IsRunningChanged += StatusManager_IsRunningChanged;
@@ -111,8 +111,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void XamlThemeDictionary_ThemeChanged(object sender, EventArgs e)
         {
-            CurrentTheme = (OhmTheme)sender;
-            status.Content = "软件主题已改变为" + CurrentTheme;
+            status.Content = "软件主题已改变为" + (ThemeType)sender;
         }
 
         private void StatusManager_IsRunningChanged(object sender, EventArgs e)
@@ -122,10 +121,20 @@ namespace OhmStudio.UI.Demo.Views
 
         private void SystemEvents_InstalledFontsChanged(object sender, EventArgs e)
         {
-            FontFamilyList = new ObservableCollection<string>(new InstalledFontCollection().Families.Select(x => x.Name));
-            FontFamilyList.Insert(0, DefaultFont);
+            UptateFontList();
             status.Content = "系统字体已改变";
         }
+
+        bool _can;
+        const string Rrecipient = "Ohm";
+        const string DefaultFont = "默认";
+        public const string GlobalFontSize = nameof(GlobalFontSize);
+        public const string GlobalFontFamily = nameof(GlobalFontFamily);
+        readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily];
+
+        public ObservableCollection<string> FontFamilyList { get; set; }
+
+        public IEnumerable<double> FontSizeList { get; } = Enumerable.Range(10, 11).Select(x => (double)x);
 
         public Pro Pro { get; set; } = new Pro();
 
@@ -172,19 +181,8 @@ namespace OhmStudio.UI.Demo.Views
             set => _startCommand = value;
         }
 
-        bool _can;
-        const string Rrecipient = "Ohm";
-        const string DefaultFont = "默认";
-        public const string GlobalFontSize = nameof(GlobalFontSize);
-        public const string GlobalFontFamily = nameof(GlobalFontFamily);
-        readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily];
-
-        public ObservableCollection<string> FontFamilyList { get; set; }
-
-        public IEnumerable<double> FontSizeList { get; } = Enumerable.Range(10, 11).Select(x => (double)x);
-
         [DoNotNotify]
-        public OhmTheme CurrentTheme
+        public ThemeType CurrentTheme
         {
             get => XamlThemeDictionary.Instance.Theme;
             set
@@ -195,16 +193,16 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private string currentFontFamily = DefaultFont;
+        private string _currentFontFamily = DefaultFont;
         [DoNotNotify]
         public string CurrentFontFamily
         {
-            get => currentFontFamily;
+            get => _currentFontFamily;
             set
             {
                 value ??= DefaultFont;
+                _currentFontFamily = value;
                 Application.Current.Resources[GlobalFontFamily] = value == DefaultFont ? _defaultFontFamily : new FontFamily(value);
-                currentFontFamily = value;
                 OnPropertyChanged(nameof(CurrentFontFamily));
             }
         }
@@ -279,6 +277,12 @@ namespace OhmStudio.UI.Demo.Views
             }
 
             return propertyInfo.Name;
+        }
+
+        void UptateFontList()
+        {
+            FontFamilyList = new ObservableCollection<string>(new InstalledFontCollection().Families.Select(x => x.Name));
+            FontFamilyList.Insert(0, DefaultFont);
         }
 
         void ZoomIn()
