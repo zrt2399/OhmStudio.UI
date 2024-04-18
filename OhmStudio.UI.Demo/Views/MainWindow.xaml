@@ -679,6 +679,17 @@
                                             <Button>7</Button>
                                             <Button>8</Button>
                                             <Button>9</Button>
+                                            <Button>10</Button>
+                                            <Button>11</Button>
+                                            <Button>12</Button>
+                                            <Button>13</Button>
+                                            <Button>14</Button>
+                                            <Button>15</Button>
+                                            <Button>16</Button>
+                                            <Button>17</Button>
+                                            <Button>18</Button>
+                                            <Button>19</Button>
+                                            <Button>20</Button>
                                         </DocumentWrapPanel>
                                     </ScrollViewer>
                                     <TextBlock Grid.Row="2" Text="{Binding ElementName=documentWrapPanel, Path=IsWrap, StringFormat=是否换行：{0}}" />
