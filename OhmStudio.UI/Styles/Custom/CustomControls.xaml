@@ -869,7 +869,9 @@
         <Setter Property="DynamicStyleProvider.Derived" Value="{DynamicResource CheckComboBoxBaseStyle}" />
     </Style>
 
-    <Style x:Key="VerticalSeparator" TargetType="Separator">
+    <Style x:Key="VerticalSeparator"
+           BasedOn="{StaticResource {x:Type Separator}}"
+           TargetType="Separator">
         <Setter Property="Separator.LayoutTransform">
             <Setter.Value>
                 <TransformGroup>
