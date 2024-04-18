@@ -10,7 +10,8 @@
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ControlsBase.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Thickness x:Key="InputControlPadding">2,2</Thickness>
+    <Thickness x:Key="InputControlPadding">2</Thickness>
+    <Thickness x:Key="InputControlBorderThickness">1</Thickness>
 
     <converters:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter" />
     <converters:BrushToColorConverter x:Key="BrushToColorConverter" />
@@ -62,7 +63,8 @@
         <Setter Property="Foreground" Value="Black" />
         <Setter Property="Background" Value="#FFF2F4F5" />
         <Setter Property="BorderBrush" Value="#FF96999C" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
+        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <!--<Setter Property="BorderAttach.CornerRadius" Value="2" />-->
         <Setter Property="Template">
@@ -119,7 +121,8 @@
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Background" Value="#FF499FEF" />
         <Setter Property="BorderBrush" Value="#FF2C84DD" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
+        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <!--<Setter Property="BorderAttach.CornerRadius" Value="2" />-->
         <Setter Property="Template">
@@ -176,7 +179,8 @@
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Background" Value="#FF1EA973" />
         <Setter Property="BorderBrush" Value="#FF1EA973" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
+        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <!--<Setter Property="BorderAttach.CornerRadius" Value="2" />-->
         <Setter Property="Template">
@@ -239,7 +243,8 @@
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Background" Value="#FFCD5C5C" />
         <Setter Property="BorderBrush" Value="#FFCD5C5C" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
+        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <!--<Setter Property="BorderAttach.CornerRadius" Value="2" />-->
         <Setter Property="Template">

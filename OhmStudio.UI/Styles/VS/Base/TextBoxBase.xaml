@@ -9,7 +9,8 @@
         <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}" />
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
+        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -22,7 +23,6 @@
         <Setter Property="CaretBrush" Value="{Binding RelativeSource={RelativeSource Self}, Path=Foreground}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource CommonControlsTextBoxSelection}" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>

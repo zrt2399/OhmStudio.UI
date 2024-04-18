@@ -12,7 +12,7 @@
              d:Width="120"
              Background="{DynamicResource CommonControlsTextBoxBackground}"
              BorderBrush="{DynamicResource CommonControlsTextBoxBorder}"
-             BorderThickness="1"
+             BorderThickness="{DynamicResource InputControlBorderThickness}"
              Focusable="True"
              Foreground="{DynamicResource CommonControlsTextBoxText}"
              mc:Ignorable="d">
@@ -50,12 +50,16 @@
                                     <ScrollViewer x:Name="PART_ContentHost" />
                                     <ContentControl Margin="{TemplateBinding Padding}" Style="{DynamicResource PlaceHolderWithUserControl}" />
                                     <Grid Grid.Column="1">
-                                        <Button Padding="4"
+                                        <Button Padding="{TemplateBinding Padding}"
                                                 attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BorderCornerRadiusConverter}}"
                                                 BorderBrush="Transparent"
                                                 BorderThickness="0"
                                                 Click="IconButton_Click">
-                                            <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" ToolTip="{x:Null}">&#xe606;</TextBlock>
+                                            <TextBlock Margin="1.5,0"
+                                                       FontFamily="/OhmStudio.UI;component/Fonts/#iconfont"
+                                                       ToolTip="{x:Null}">
+                                                &#xe606;
+                                            </TextBlock>
                                         </Button>
 
                                         <!--<local:IconButton x:Name="iconButton"

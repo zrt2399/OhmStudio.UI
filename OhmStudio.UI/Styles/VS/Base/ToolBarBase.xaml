@@ -97,8 +97,8 @@
         <Setter Property="Background" Value="{DynamicResource ToolBarButton}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ToolBarButtonBorder}" />
         <Setter Property="Foreground" Value="{DynamicResource ToolBarButtonText}" />
-        <Setter Property="Padding" Value="2" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />

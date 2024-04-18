@@ -215,8 +215,11 @@
            BasedOn="{StaticResource ToolBarSeparatorBaseStyle}"
            TargetType="{x:Type Separator}" />
     <Style x:Key="{x:Static ToolBar.ButtonStyleKey}"
-           BasedOn="{StaticResource ToolBarButtonBaseStyle}"
-           TargetType="{x:Type Button}" />
+           BasedOn="{StaticResource {x:Type Button}}"
+           TargetType="{x:Type Button}">
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
     <Style x:Key="{x:Static ToolBar.ToggleButtonStyleKey}"
            BasedOn="{StaticResource ToolBarToggleButtonBaseStyle}"
            TargetType="{x:Type ToggleButton}" />
@@ -224,14 +227,14 @@
            BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
            TargetType="{x:Type CheckBox}" />
     <Style x:Key="{x:Static ToolBar.ComboBoxStyleKey}"
-           BasedOn="{StaticResource ComboBoxBaseStyle}"
+           BasedOn="{StaticResource {x:Type ComboBox}}"
            TargetType="{x:Type ComboBox}" />
     <Style x:Key="{x:Static ToolBar.RadioButtonStyleKey}"
            BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
            TargetType="{x:Type RadioButton}" />
 
     <Style x:Key="{x:Static ToolBar.TextBoxStyleKey}"
-           BasedOn="{StaticResource ToolBarTextBoxBaseStyle}"
+           BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="{x:Type TextBox}" />
 
     <Style x:Key="{x:Static ToolBar.MenuStyleKey}"
