@@ -11,7 +11,7 @@ namespace OhmStudio.UI.Converters
         {
             if (value is CornerRadius cornerRadius)
             {
-                return new CornerRadius(0, cornerRadius.TopRight, cornerRadius.BottomRight, 0);
+                return new CornerRadius(0, Math.Max(cornerRadius.TopRight - 1, 0), Math.Max(cornerRadius.BottomRight - 1, 0), 0);
             }
             return default(CornerRadius);
         }
