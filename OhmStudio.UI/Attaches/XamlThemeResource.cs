@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Windows;
+using Microsoft.Win32;
+using OhmStudio.UI.Helpers;
 
 namespace OhmStudio.UI.Attaches
 {
-    public enum OhmTheme
+    public enum ThemeType
     {
         VS2019Blue,
         VS2019Dark,
@@ -18,7 +20,7 @@ namespace OhmStudio.UI.Attaches
         public XamlThemeDictionary()
         {
             _instance = this;
-            Update(Theme, true);
+            UpdateTheme(Theme, true);
         }
 
         private const string UIPath = "/OhmStudio.UI;component/";
@@ -38,8 +40,8 @@ namespace OhmStudio.UI.Attaches
             }
         }
 
-        private OhmTheme _theme = OhmTheme.VS2022Blue;
-        public OhmTheme Theme
+        private ThemeType _theme = ThemeType.VS2022Blue;
+        public ThemeType Theme
         {
             get => _theme;
             set
@@ -48,20 +50,56 @@ namespace OhmStudio.UI.Attaches
                 {
                     return;
                 }
-                Update(_theme = value, false);
+                UpdateTheme(_theme = value);
                 ThemeChanged?.Invoke(value, EventArgs.Empty);
             }
         }
 
-        void Update(OhmTheme theme, bool isInitialisation)
+        private bool _isSyncWithSystem;
+        public bool IsSyncWithSystem
         {
-            string url = theme switch
+            get => _isSyncWithSystem;
+            set
             {
-                OhmTheme.VS2019Blue => "VisualStudio2019/BlueTheme.xaml",
-                OhmTheme.VS2019Dark => "VisualStudio2019/DarkTheme.xaml",
-                OhmTheme.VS2019Light => "VisualStudio2019/LightTheme.xaml",
-                OhmTheme.VS2022Blue => "VisualStudio2022/BlueTheme.xaml",
-                OhmTheme.VS2022Dark => "VisualStudio2022/DarkTheme.xaml",
+                if (_isSyncWithSystem == value)
+                {
+                    return;
+                }
+                _isSyncWithSystem = value;
+                if (value)
+                {
+                    SyncWithSystemTheme();
+                    SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+                }
+                else
+                {
+                    SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
+                }
+            }
+        }
+
+        void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        {
+            if (e.Category == UserPreferenceCategory.General)
+            {
+                SyncWithSystemTheme();
+            }
+        }
+
+        void SyncWithSystemTheme()
+        {
+            Theme = SystemHelper.DetermineIfInLightThemeMode ? ThemeType.VS2022Light : ThemeType.VS2022Dark;
+        }
+
+        void UpdateTheme(ThemeType themeType, bool isInitialisation = false)
+        {
+            string url = themeType switch
+            {
+                ThemeType.VS2019Blue => "VisualStudio2019/BlueTheme.xaml",
+                ThemeType.VS2019Dark => "VisualStudio2019/DarkTheme.xaml",
+                ThemeType.VS2019Light => "VisualStudio2019/LightTheme.xaml",
+                ThemeType.VS2022Blue => "VisualStudio2022/BlueTheme.xaml",
+                ThemeType.VS2022Dark => "VisualStudio2022/DarkTheme.xaml",
                 _ => "VisualStudio2022/LightTheme.xaml"
             };
             url = $"{UIPath}Themes/{url}";
