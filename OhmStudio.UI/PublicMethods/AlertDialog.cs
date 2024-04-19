@@ -11,7 +11,7 @@ namespace OhmStudio.UI.PublicMethods
     /// <summary>
     /// 表示当前语言。
     /// </summary>
-    public enum OhmUILanguage
+    public enum LanguageType
     {
         Zh_CN,
         Zh_TW,
@@ -23,7 +23,7 @@ namespace OhmStudio.UI.PublicMethods
     /// </summary>
     public static class AlertDialog
     {
-        public static OhmUILanguage OhmUILanguage { get; set; } = OhmUILanguage.Zh_CN;
+        public static LanguageType Language { get; set; } = LanguageType.Zh_CN;
 
         public static MessageBoxResult Show(string message, string title = null, MessageBoxButton messageBoxButton = MessageBoxButton.OK, MessageBoxImage messageBoxImage = MessageBoxImage.Information, Window owner = null)
         {
@@ -46,7 +46,7 @@ namespace OhmStudio.UI.PublicMethods
                     }
                     if (messageBoxButton is MessageBoxButton.YesNo or MessageBoxButton.YesNoCancel)
                     {
-                        messageWindow.btnOK.Content = OhmUILanguage == OhmUILanguage.En_US ? "Yes" : "是";
+                        messageWindow.btnOK.Content = Language == LanguageType.En_US ? "Yes" : "是";
                     }
 
                     messageWindow.imageInfo.Source = GetImage(messageBoxImage);
@@ -85,11 +85,11 @@ namespace OhmStudio.UI.PublicMethods
 
         public static bool ShowWarning(string message, string title = "警告")
         {
-            if (OhmUILanguage == OhmUILanguage.Zh_TW)
+            if (Language == LanguageType.Zh_TW)
             {
                 title = "警告";
             }
-            else if (OhmUILanguage == OhmUILanguage.En_US)
+            else if (Language == LanguageType.En_US)
             {
                 title = "Warning";
             }
@@ -98,11 +98,11 @@ namespace OhmStudio.UI.PublicMethods
 
         public static bool ShowError(string message, string title = "出错了")
         {
-            if (OhmUILanguage == OhmUILanguage.Zh_TW)
+            if (Language == LanguageType.Zh_TW)
             {
                 title = "出錯了";
             }
-            else if (OhmUILanguage == OhmUILanguage.En_US)
+            else if (Language == LanguageType.En_US)
             {
                 title = "Error";
             }
@@ -111,10 +111,10 @@ namespace OhmStudio.UI.PublicMethods
 
         private static string GetTitle()
         {
-            return OhmUILanguage switch
+            return Language switch
             {
-                OhmUILanguage.Zh_CN => "系统提示",
-                OhmUILanguage.Zh_TW => "系統提示",
+                LanguageType.Zh_CN => "系统提示",
+                LanguageType.Zh_TW => "系統提示",
                 _ => "System prompt"
             };
         }

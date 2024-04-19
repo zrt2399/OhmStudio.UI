@@ -16,13 +16,13 @@ namespace OhmStudio.UI.Views
             _messageBoxButton = messageBoxButton;
             MaxHeight = SystemParameters.WorkArea.Height;
             MaxWidth = SystemParameters.WorkArea.Width;
-            if (AlertDialog.OhmUILanguage == OhmUILanguage.Zh_TW)
+            if (AlertDialog.Language == OhmUILanguage.Zh_TW)
             {
                 btnOK.Content = "確定";
                 btnNo.Content = "否";
                 btnCancel.Content = "取消";
             }
-            else if (AlertDialog.OhmUILanguage == OhmUILanguage.En_US)
+            else if (AlertDialog.Language == OhmUILanguage.En_US)
             {
                 btnOK.Content = "OK";
                 btnNo.Content = "No";
