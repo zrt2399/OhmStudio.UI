@@ -5,7 +5,7 @@ namespace OhmStudio.UI.Attaches
     public class DataGridColumnAttach
     {
         public static readonly DependencyProperty IsIgnoreElementStyleProperty =
-            DependencyProperty.RegisterAttached("IsIgnoreElementStyle", typeof(bool), typeof(DataGridAttach));
+            DependencyProperty.RegisterAttached("IsIgnoreElementStyle", typeof(bool), typeof(DataGridColumnAttach));
 
         public static bool GetIsIgnoreElementStyle(DependencyObject target)
         {
@@ -18,7 +18,7 @@ namespace OhmStudio.UI.Attaches
         }
 
         public static readonly DependencyProperty IsIgnoreEditingElementStyleProperty =
-            DependencyProperty.RegisterAttached("IsIgnoreEditingElementStyle", typeof(bool), typeof(DataGridAttach));
+            DependencyProperty.RegisterAttached("IsIgnoreEditingElementStyle", typeof(bool), typeof(DataGridColumnAttach));
 
         public static bool GetIsIgnoreEditingElementStyle(DependencyObject target)
         {
