@@ -48,7 +48,7 @@ namespace OhmStudio.UI.Demo.Views
             InitializeComponent();
             DataContext = this;
             UptateFontList();
-            var text = textEditor;
+            var text = textEditorxml;
             var searchPanel = SearchPanel.Install(text);
             searchPanel.MarkerBrush = "#BEAA46".ToSolidColorBrush();
 
@@ -60,6 +60,21 @@ namespace OhmStudio.UI.Demo.Views
                 xmlFoldingStrategy.UpdateFoldings(foldingManager, text.Document);
             };
             dispatcherTimer.Start();
+
+            PreviewMouseWheel += (sender, e) =>
+            {
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                {
+                    if (e.Delta > 0)
+                    {
+                        ZoomOut();
+                    }
+                    else
+                    {
+                        ZoomIn();
+                    }
+                }
+            };
 
             ZoomInCommand = new RelayCommand(ZoomIn);
             ZoomOutCommand = new RelayCommand(ZoomOut);
@@ -75,10 +90,9 @@ namespace OhmStudio.UI.Demo.Views
             Pro.Description = "1";
             Pro.Brush = Brushes.Red;
 
-            Items = Pro;
             Stopwatch stopwatch = Stopwatch.StartNew();
             List<Pro> pros = new List<Pro>();
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 200; i++)
             {
                 Pro pro = new Pro();
                 if (i % 2 == 0)
@@ -93,10 +107,10 @@ namespace OhmStudio.UI.Demo.Views
                 pro.Description = "Description" + i;
                 pros.Add(pro);
             }
-            FileNodes = new ObservableCollection<Pro>(pros);
+            ProNodes = new ObservableCollection<Pro>(pros);
             stopwatch.Stop();
-            var viewSource = new CollectionViewSource { Source = FileNodes };
-            FileNodes.CollectionChanged += delegate
+            var viewSource = new CollectionViewSource { Source = ProNodes };
+            ProNodes.CollectionChanged += delegate
             {
                 AlertDialog.Show("已改变");
             };
@@ -132,6 +146,16 @@ namespace OhmStudio.UI.Demo.Views
         public const string GlobalFontFamily = nameof(GlobalFontFamily);
         readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily];
 
+        public DateTime? CurrentDateTime { get; set; }
+
+        public double WindowScale { get; set; } = 1;
+
+        public ObservableCollection<Pro> ProNodes { get; set; }
+
+        public IList SelectedItemsFileNodes { get; set; }
+
+        public IEnumerable<string> FileNodesSelectedItems => SelectedItemsFileNodes?.OfType<string>();
+
         public ObservableCollection<string> FontFamilyList { get; set; }
 
         public IEnumerable<double> FontSizeList { get; } = Enumerable.Range(10, 11).Select(x => (double)x);
@@ -160,6 +184,9 @@ namespace OhmStudio.UI.Demo.Views
                 OnPropertyChanged(nameof(GlobalCornerRadius));
             }
         }
+
+        public ICommand ZoomInCommand { get; }
+        public ICommand ZoomOutCommand { get; }
 
         private RelayCommand _startCommand;
         public RelayCommand StartCommand
@@ -220,21 +247,6 @@ namespace OhmStudio.UI.Demo.Views
                 }
             }
         }
-
-        public DateTime? CurrentDateTime { get; set; }
-
-        public object Items { get; set; }
-
-        public double WindowScale { get; set; } = 1;
-
-        public ObservableCollection<Pro> FileNodes { get; set; }
-
-        public IList SelectedItemsFileNodes { get; set; }
-
-        public IEnumerable<string> FileNodesSelectedItems => SelectedItemsFileNodes?.OfType<string>();
-
-        public ICommand ZoomInCommand { get; }
-        public ICommand ZoomOutCommand { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -337,8 +349,8 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            (Items as Pro).Value = 100;
-            AlertDialog.Show((Items as Pro).InstrumentType.ToString());
+            Pro.Value = 100;
+            AlertDialog.Show(Pro.InstrumentType.ToString());
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
@@ -357,7 +369,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var item in FileNodes)
+            foreach (var item in ProNodes)
             {
                 item.IsExpanded = true;
             }
@@ -365,7 +377,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            foreach (var item in FileNodes)
+            foreach (var item in ProNodes)
             {
                 item.IsExpanded = false;
             }
@@ -381,12 +393,7 @@ namespace OhmStudio.UI.Demo.Views
         {
             _can = !_can;
         }
-
-        public class Globals
-        {
-            public string Greeting { get; set; }
-        }
-
+ 
         private void Button_Click_7(object sender, RoutedEventArgs e)
         {
             //int a = 1;
@@ -509,7 +516,7 @@ namespace OhmStudio.UI.Demo.Views
         {
             //throw new Exception("ex");
             //searchBar.Focus();
-            AlertDialog.Show(che.SelectedText);
+            AlertDialog.Show(checkComboBox.SelectedText);
         }
     }
 
@@ -522,7 +529,7 @@ namespace OhmStudio.UI.Demo.Views
 
         public ImageSource ImageSource { get; set; } = new BitmapImage(new Uri("/Images/1.jpg", UriKind.Relative));
 
-        public int? Abstring1 { get; set; } = null;
+        public int? IntString { get; set; } = null;
 
         [TextBoxPlaceHolder(PlaceHolder = "请输入密码"), Password]
         public string Abstring { get; set; }
@@ -539,12 +546,12 @@ namespace OhmStudio.UI.Demo.Views
 
         public SolidColorBrush Brush { get; set; }
 
-        public Pro1 Pro1 { get; set; } = new Pro1();
+        public Globals Globals { get; set; } = new Globals();
     }
 
     public class ProBase : ViewModelBase
     {
-        public string Base { get; set; } = "ProBase";
+        public string Base { get; set; } = "Base";
     }
 
     public struct Abs
@@ -560,13 +567,13 @@ namespace OhmStudio.UI.Demo.Views
     }
 
     [BaseObjectIgnore]
-    public class Pro1 : ProBase
+    public class Globals : ProBase
     {
         public string Name { get; set; }
 
         public double Value { get; set; }
 
-        [ToolTip(ToolTip = "123456")]
+        [ToolTip(ToolTip = "这个表示时间")]
         [PropertyGrid(DisplayName = "时间", IsReadOnly = false)]
         public DateTime DateTime { get; set; }
 

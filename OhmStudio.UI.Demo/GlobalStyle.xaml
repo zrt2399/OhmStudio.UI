@@ -8,7 +8,7 @@
     <FontFamily x:Key="DigitalFontFamily">/Fonts/TexasLED.ttf#Texas LED</FontFamily>
 
     <system:Double x:Key="GlobalFontSize">12</system:Double>
-    
+
     <!--<Thickness x:Key="InputControlPadding">4</Thickness>
     <Thickness x:Key="InputControlBorderThickness">0</Thickness>-->
     <!--<system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">100</system:Double>
@@ -32,7 +32,6 @@
     <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
         <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}" />
         <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
     <Style x:Key="TransparentTextBox"

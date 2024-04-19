@@ -161,14 +161,12 @@
                                 </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
-                                <UniformGrid x:Name="da"
-                                             Columns="1"
-                                             Rows="3">
+                                <UniformGrid Columns="1" Rows="3">
                                     <UniformGrid.Resources>
                                         <CollectionViewSource x:Key="ItemCollectionViewSource"
                                                               IsLiveGroupingRequested="True"
                                                               IsLiveSortingRequested="True"
-                                                              Source="{Binding FileNodes}">
+                                                              Source="{Binding ProNodes}">
                                             <CollectionViewSource.GroupDescriptions>
                                                 <PropertyGroupDescription PropertyName="Name" />
 
@@ -267,7 +265,7 @@
                                         </DataGrid.ContextMenu>
                                     </DataGrid>
                                     <DataGrid DataGridAttach.IsShowRowNumber="True"
-                                              ItemsSource="{Binding FileNodes}"
+                                              ItemsSource="{Binding ProNodes}"
                                               RowDetailsVisibilityMode="VisibleWhenSelected"
                                               ScrollViewerAttach.Orientation="Horizontal">
                                         <DataGrid.RowDetailsTemplate>
@@ -289,7 +287,7 @@
                                               DataGridAttach.IsShowRowNumber="True"
                                               DataGridAttach.TextColumnEditingElementStyle="{StaticResource TextColumnEditingElement}"
                                               DataGridAttach.TextColumnElementStyle="{DynamicResource {x:Type TextBlock}}"
-                                              ItemsSource="{Binding FileNodes}"
+                                              ItemsSource="{Binding ProNodes}"
                                               SelectionUnit="CellOrRowHeader">
                                         <DataGrid.Columns>
                                             <!--<DataGridHyperlinkColumn Header="Header" Binding="{Binding Name}"></DataGridHyperlinkColumn>-->
@@ -316,7 +314,7 @@
                             <LayoutDocument Title="TextEditor">
                                 <TabControl>
                                     <TabItem Header="XML">
-                                        <avalonEdit:TextEditor x:Name="textEditor"
+                                        <avalonEdit:TextEditor x:Name="textEditorxml"
                                                                ShowLineNumbers="True"
                                                                SyntaxHighlighting="XML" />
                                     </TabItem>
@@ -333,7 +331,7 @@
                                         </Grid>
                                     </TabItem>
                                     <TabItem Header="C++">
-                                        <avalonEdit:TextEditor x:Name="textEditorcp"
+                                        <avalonEdit:TextEditor x:Name="textEditorcpp"
                                                                ShowLineNumbers="True"
                                                                SyntaxHighlighting="C++" />
                                     </TabItem>
@@ -470,8 +468,7 @@
                                     </Grid>-->
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel>
-                                            <DateTimePicker Name="se"
-                                                            Height="40"
+                                            <DateTimePicker  Height="40"
                                                             HorizontalContentAlignment="Right"
                                                             VerticalContentAlignment="Top"
                                                             TextBoxAttach.PlaceHolder="请输入日期"
@@ -497,7 +494,7 @@
                                             <TextBox Height="40"
                                                      VerticalContentAlignment="Top"
                                                      TextBoxAttach.PlaceHolder="123456... "
-                                                     TextBoxAttach.Title="开始" />
+                                                     TextBoxAttach.Title="开始：" />
                                             <TextBox VerticalContentAlignment="Top"
                                                      Text="{Binding CurrentDateTime, Mode=TwoWay}"
                                                      TextBoxAttach.PlaceHolderIsHitTestVisible="True">
@@ -536,7 +533,7 @@
                                                       HorizontalContentAlignment="Stretch"
                                                       VerticalContentAlignment="Top"
                                                       DisplayMemberPath="Name"
-                                                      ItemsSource="{Binding FileNodes}"
+                                                      ItemsSource="{Binding ProNodes}"
                                                       TextBoxAttach.PlaceHolderIsHitTestVisible="True"
                                                       TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
@@ -546,21 +543,13 @@
                                                     <Button HorizontalAlignment="Left">请输入..</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </ComboBox>
-                                            <ComboBox Height="40"
-                                                      HorizontalContentAlignment="Right"
-                                                      VerticalContentAlignment="Top"
-                                                      DisplayMemberPath="Name"
-                                                      IsEditable="True"
-                                                      ItemsSource="{Binding FileNodes}"
-                                                      TextBoxAttach.PlaceHolder="请输入..."
-                                                      TextBoxAttach.Title="输出：" />
-                                            <CheckComboBox Name="che"
+                                            <CheckComboBox Name="checkComboBox"
                                                            Width="200"
                                                            Height="40"
                                                            HorizontalContentAlignment="Right"
                                                            VerticalContentAlignment="Top"
                                                            DisplayMemberPath="Description"
-                                                           ItemsSource="{Binding FileNodes}"
+                                                           ItemsSource="{Binding ProNodes}"
                                                            SelectedItems="{Binding SelectedItemsFileNodes, Mode=TwoWay}"
                                                            Separator=";"
                                                            StringFormat="分组{0}"
@@ -576,13 +565,21 @@
                                                     <Button>请选择...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </CheckComboBox>
+                                            <ComboBox Height="40"
+                                                      HorizontalContentAlignment="Right"
+                                                      VerticalContentAlignment="Top"
+                                                      DisplayMemberPath="Name"
+                                                      IsEditable="True"
+                                                      ItemsSource="{Binding ProNodes}"
+                                                      TextBoxAttach.PlaceHolder="请输入..."
+                                                      TextBoxAttach.Title="输出：" />
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical">
                                             <DateTimePicker SelectedDateTime="{Binding CurrentDateTime, Mode=TwoWay}"
                                                             TextBoxAttach.PlaceHolder="请输入日期..."
                                                             TextBoxAttach.Title="结束：" />
                                             <ComboBox DisplayMemberPath="Name"
-                                                      ItemsSource="{Binding FileNodes}"
+                                                      ItemsSource="{Binding ProNodes}"
                                                       TextBoxAttach.Title="搜索：" />
                                             <PasswordBox TextBoxAttach.PlaceHolder="密码" TextBoxAttach.Title="技术" />
                                             <PasswordTextBox TextBoxAttach.PlaceHolder="请输入密码..." />
@@ -590,7 +587,7 @@
 
                                             <ComboBox DisplayMemberPath="Name"
                                                       IsEditable="True"
-                                                      ItemsSource="{Binding FileNodes}" />
+                                                      ItemsSource="{Binding ProNodes}" />
                                             <SearchBar Name="searchBar"
                                                        TextBoxAttach.PlaceHolder="请输入搜索内容..."
                                                        TextBoxAttach.Title="搜索：" />
@@ -946,7 +943,7 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <PropertyGrid SelectedObject="{Binding Items}" />
+                                    <PropertyGrid SelectedObject="{Binding Pro}" />
                                     <Button Grid.Row="1" Click="Button_Click_3">显示InstrumentType选中项</Button>
                                 </Grid>
                             </LayoutAnchorable>
