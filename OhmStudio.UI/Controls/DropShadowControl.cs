@@ -34,7 +34,7 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(RenderingBias), typeof(RenderingBias), typeof(DropShadowControl), new FrameworkPropertyMetadata(RenderingBias.Performance, FrameworkPropertyMetadataOptions.AffectsRender));
 
         /// <summary>
-        /// 阴影颜色。
+        /// 阴影颜色，默认值为<see cref="Brushes.DarkGray"/>(#FFA9A9A9)。
         /// </summary>
         public Color ShadowColor
         {
@@ -43,7 +43,7 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// 圆角。
+        /// 圆角，默认值为0。
         /// </summary>
         public CornerRadius CornerRadius
         {
@@ -79,7 +79,7 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// 阴影透明度。
+        /// 阴影透明度，默认值为1。
         /// </summary>
         public double ShadowOpacity
         {
@@ -88,7 +88,7 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// 阴影呈现质量。
+        /// 阴影呈现质量，默认值为<see cref="RenderingBias.Performance"/>。
         /// </summary>
         public RenderingBias RenderingBias
         {
