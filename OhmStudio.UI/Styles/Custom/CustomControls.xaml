@@ -669,8 +669,8 @@
                                   IsChecked="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
                             <CheckBox.Content>
                                 <MultiBinding Converter="{StaticResource DisplayMemberPathConverter}">
-                                    <Binding Path="DisplayMemberPath" RelativeSource="{RelativeSource AncestorType=ListBox}" />
                                     <Binding Path="." />
+                                    <Binding Path="DisplayMemberPath" RelativeSource="{RelativeSource AncestorType=ListBox}" />
                                 </MultiBinding>
                             </CheckBox.Content>
                         </CheckBox>
@@ -709,8 +709,8 @@
         <CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}">
             <CheckBox.Content>
                 <MultiBinding Converter="{StaticResource DisplayMemberPathConverter}">
-                    <Binding Path="DisplayMemberPath" RelativeSource="{RelativeSource AncestorType=ListBox}" />
                     <Binding Path="." />
+                    <Binding Path="DisplayMemberPath" RelativeSource="{RelativeSource AncestorType=ListBox}" />
                 </MultiBinding>
             </CheckBox.Content>
         </CheckBox>

@@ -10,15 +10,15 @@ namespace OhmStudio.UI.Converters
         {
             if (values?.Length > 1)
             {
-                string displayMemberPath = values[0]?.ToString();
-                string value = values[1]?.ToString();
+                string value = values[0]?.ToString();
+                string displayMemberPath = values[1]?.ToString();
                 if (string.IsNullOrWhiteSpace(displayMemberPath))
                 {
                     return value;
                 }
                 else
                 {
-                    return values[1].GetType().GetProperty(displayMemberPath)?.GetValue(values[1]);
+                    return values[0].GetType().GetProperty(displayMemberPath)?.GetValue(values[0]);
                 }
             }
             return default;
