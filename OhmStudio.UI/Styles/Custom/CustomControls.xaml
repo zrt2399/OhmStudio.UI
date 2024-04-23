@@ -17,7 +17,6 @@
     <converters:BrushToColorConverter x:Key="BrushToColorConverter" />
     <converters:AngleToPointConverter x:Key="AngleToPointConverter" />
     <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter" />
-    <converters:DropShadowMarginConverter x:Key="DropShadowMarginConverter" />
     <converters:BorderCornerRadiusConverter x:Key="BorderCornerRadiusConverter" />
 
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>

@@ -319,16 +319,9 @@
                                                                SyntaxHighlighting="XML" />
                                     </TabItem>
                                     <TabItem Header="C#">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
-                                            <avalonEdit:TextEditor x:Name="textEditorcs"
-                                                                   ShowLineNumbers="True"
-                                                                   SyntaxHighlighting="C#" />
-                                            <Button Grid.Row="1" Click="Button_Click_7">执行</Button>
-                                        </Grid>
+                                        <avalonEdit:TextEditor x:Name="textEditorcs"
+                                                               ShowLineNumbers="True"
+                                                               SyntaxHighlighting="C#" />
                                     </TabItem>
                                     <TabItem Header="C++">
                                         <avalonEdit:TextEditor x:Name="textEditorcpp"
@@ -468,7 +461,7 @@
                                     </Grid>-->
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel>
-                                            <DateTimePicker  Height="40"
+                                            <DateTimePicker Height="40"
                                                             HorizontalContentAlignment="Right"
                                                             VerticalContentAlignment="Top"
                                                             TextBoxAttach.PlaceHolder="请输入日期"

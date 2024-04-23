@@ -48,7 +48,10 @@ namespace OhmStudio.UI.Demo.Views
             InitializeComponent();
             DataContext = this;
             UptateFontList();
-            var text = textEditorxml;
+            textEditorcs.Text = "using System;\r\n\r\nclass Program\r\n{\r\n    static void Main()\r\n    {\r\n        Console.WriteLine(\"Hello World\");\r\n    }\r\n}";
+            textEditorcpp.Text = "#include <iostream>\r\n\r\nint main() {\r\n    std::cout << \"Hello World\" << std::endl;\r\n    return 0;\r\n}";
+            textEditorxml.Text = "<Project Sdk=\"Microsoft.NET.Sdk\">\r\n\r\n\t<PropertyGroup>\r\n\t\t<OutputType>WinExe</OutputType>\r\n\t\t<TargetFramework>net6.0-windows</TargetFramework>\r\n\t\t<UseWPF>true</UseWPF>\r\n\t</PropertyGroup>\r\n \r\n</Project>";
+              var text = textEditorxml;
             var searchPanel = SearchPanel.Install(text);
             searchPanel.MarkerBrush = "#BEAA46".ToSolidColorBrush();
 
@@ -393,36 +396,7 @@ namespace OhmStudio.UI.Demo.Views
         {
             _can = !_can;
         }
- 
-        private void Button_Click_7(object sender, RoutedEventArgs e)
-        {
-            //int a = 1;
-
-            //string code = "int result = 1 + a;  return result;";
-
-            //var options = ScriptOptions.Default.WithImports("System");
-
-            //var script = CSharpScript.Create(code, options);
-
-            //var result = await script.RunAsync();
-
-            //await Task.Run(async () =>
-            //{
-            //    var result = await CSharpScript.RunAsync(code);
-            //    AlertDialog.Show(result.ReturnValue.ToString());
-            //});
-
-            //string code = " return Greeting  + \"123\"  ;";
-
-            //var scriptOptions = ScriptOptions.Default.WithImports("System");
-
-            //var globals = new Globals { Greeting = "Hello, World!" };
-
-            //var result = await CSharpScript.RunAsync(code, scriptOptions, globals);
-            //AlertDialog.Show(result.ReturnValue.ToString());
-
-        }
-
+  
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
         {
             var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
