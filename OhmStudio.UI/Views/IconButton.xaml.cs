@@ -1,14 +1,13 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace OhmStudio.UI.Views
 {
     [DesignTimeVisible(false)]//在工具箱中 隐藏该窗口
-    public partial class IconButton : UserControl
+    public partial class IconButton : ContentControl
     {
         public IconButton()
         {
@@ -18,52 +17,27 @@ namespace OhmStudio.UI.Views
                 RaiseEvent(new RoutedEventArgs(ClickEvent, this));
             };
         }
-         
+
         public static readonly DependencyProperty IconProperty =
-            DependencyProperty.Register("Icon",
-            typeof(string),
-            typeof(IconButton),
-            new PropertyMetadata(string.Empty, OnIconChanged));
+            DependencyProperty.Register(nameof(Icon), typeof(ImageSource), typeof(IconButton));
 
-        public string Icon
+        public ImageSource Icon
         {
-            set { SetValue(IconProperty, value); }
-            get { return (string)GetValue(IconProperty); }
+            set => SetValue(IconProperty, value);
+            get => (ImageSource)GetValue(IconProperty);
         }
 
-        private static void OnIconChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            if (obj is not IconButton btn)
-            {
-                return;
-            }
-            btn.icon.Source = new BitmapImage(new Uri((string)args.NewValue, UriKind.Relative));
-        }
- 
         public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command",
-            typeof(ICommand),
-            typeof(IconButton),
-            new PropertyMetadata(null, OnSelectCommandChanged));
+            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(IconButton));
 
         public ICommand Command
         {
-            set { SetValue(CommandProperty, value); }
-            get { return (ICommand)GetValue(CommandProperty); }
-        }
-
-        private static void OnSelectCommandChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            if (obj is not IconButton btn)
-            {
-                return;
-            }
-            btn.button.Command = (ICommand)args.NewValue;
+            set => SetValue(CommandProperty, value);
+            get => (ICommand)GetValue(CommandProperty);
         }
 
         public static readonly RoutedEvent ClickEvent =
-          EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble,
-          typeof(RoutedEventHandler), typeof(IconButton));
+            EventManager.RegisterRoutedEvent(nameof(Click), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(IconButton));
 
         public event RoutedEventHandler Click
         {

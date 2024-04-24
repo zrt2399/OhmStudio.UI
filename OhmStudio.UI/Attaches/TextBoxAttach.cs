@@ -1,8 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using OhmStudio.UI.PublicMethods;
 using OhmStudio.UI.Views;
+using OhmStudio.UI.Controls;
 
 namespace OhmStudio.UI.Attaches
 {
@@ -77,20 +79,20 @@ namespace OhmStudio.UI.Attaches
                 }
                 else if (sender is PasswordTextBox passwordTextBox)
                 {
-                    passwordTextBox.txtPassword.PasswordChanged -= PasswordTextBox_PasswordChanged;
+                    passwordTextBox.PasswordChanged -= PasswordTextBox_PasswordChanged;
                     if (!CheckIsEmpty(newValue))
                     {
-                        UpdateHolderVisibility(passwordTextBox, passwordTextBox.txtPassword.Password);
-                        passwordTextBox.txtPassword.PasswordChanged += PasswordTextBox_PasswordChanged;
+                        UpdateHolderVisibility(passwordTextBox, passwordTextBox.Password);
+                        passwordTextBox.PasswordChanged += PasswordTextBox_PasswordChanged;
                     }
                 }
                 else if (sender is DateTimePicker dateTimePicker)
                 {
-                    dateTimePicker.textBoxDateTime.TextChanged -= DateTimePicker_TextChanged;
+                    dateTimePicker.TextChanged -= DateTimePicker_TextChanged;
                     if (!CheckIsEmpty(newValue))
                     {
-                        UpdateHolderVisibility(dateTimePicker, dateTimePicker.textBoxDateTime.Text);
-                        dateTimePicker.textBoxDateTime.TextChanged += DateTimePicker_TextChanged;
+                        UpdateHolderVisibility(dateTimePicker, dateTimePicker.Text);
+                        dateTimePicker.TextChanged += DateTimePicker_TextChanged;
                     }
                 }
             }));
@@ -158,16 +160,16 @@ namespace OhmStudio.UI.Attaches
             UpdateHolderVisibility(passwordBox, passwordBox.Password);
         }
 
-        private static void PasswordTextBox_PasswordChanged(object sender, RoutedEventArgs e)
+        private static void PasswordTextBox_PasswordChanged(object sender, EventArgs e)
         {
-            PasswordBox passwordBox = sender as PasswordBox;
-            UpdateHolderVisibility(passwordBox.FindParentFrameworkElement<PasswordTextBox>(), passwordBox.Password);
+            PasswordTextBox passwordTextBox = sender as PasswordTextBox;
+            UpdateHolderVisibility(passwordTextBox, passwordTextBox.Password);
         }
 
-        private static void DateTimePicker_TextChanged(object sender, TextChangedEventArgs e)
+        private static void DateTimePicker_TextChanged(object sender, EventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            UpdateHolderVisibility(textBox.FindParentFrameworkElement<DateTimePicker>(), textBox.Text);
+            DateTimePicker dateTimePicker = sender as DateTimePicker;
+            UpdateHolderVisibility(dateTimePicker, dateTimePicker.Text);
         }
 
         private static void TextBox_TextChanged(object sender, TextChangedEventArgs e)

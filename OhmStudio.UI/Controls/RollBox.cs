@@ -13,7 +13,7 @@ namespace OhmStudio.UI.Controls
     [TemplatePart(Name = "PART_CURR_Content", Type = typeof(ContentControl))]
     [TemplatePart(Name = "PART_NEXT_Content", Type = typeof(ContentControl))]
     [TemplatePart(Name = "PART_ListBox", Type = typeof(ListBox))]
-    public class RollBox : ContentControl, INotifyPropertyChanged
+    public class RollBox : Control, INotifyPropertyChanged
     {
         public RollBox()
         {

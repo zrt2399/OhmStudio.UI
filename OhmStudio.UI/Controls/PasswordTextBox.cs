@@ -1,32 +1,24 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
-namespace OhmStudio.UI.Views
+namespace OhmStudio.UI.Controls
 {
-    /// <summary>
-    /// PasswordTextBox.xaml 的交互逻辑
-    /// </summary>
-    public partial class PasswordTextBox : UserControl
+    public class PasswordTextBox : Control
     {
         public PasswordTextBox()
         {
-            InitializeComponent();
             GotFocus += PasswordBoxControl_GotFocus;
         }
 
-        private void PasswordBoxControl_GotFocus(object sender, RoutedEventArgs e)
+        static PasswordTextBox()
         {
-            if (!txtPassword.IsKeyboardFocusWithin && txtPassword.Visibility == Visibility.Visible)
-            {
-                txtPassword.Focus();
-                e.Handled = true;
-            }
-            else if (!txtTextBox.IsKeyboardFocusWithin && txtTextBox.Visibility == Visibility.Visible)
-            {
-                txtTextBox.Focus();
-                e.Handled = true;
-            }
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(PasswordTextBox), new FrameworkPropertyMetadata(typeof(PasswordTextBox)));
         }
+
+        TextBox PART_TextBox;
+        PasswordBox PART_PasswordBox;
+        public event EventHandler PasswordChanged;
 
         /// <summary>
         /// 控制PasswordTextBox显示或者隐藏CheckBox，来控制是否可以显示和隐藏密码。
@@ -130,8 +122,9 @@ namespace OhmStudio.UI.Views
             DependencyProperty.Register("ClearVisibility", typeof(Visibility), typeof(PasswordTextBox), new PropertyMetadata(Visibility.Collapsed));
 
         /// <summary>
-        /// 密码。
+        /// 获取或设置当前保留的密码 <see cref="PasswordTextBox"/>。
         /// </summary>
+        /// <returns>表示当前保留的密码的字符串 <see cref="PasswordTextBox"/>。默认值为 <see cref="string.Empty"/>。</returns>
         public string Password
         {
             get => (string)GetValue(PasswordProperty);
@@ -145,8 +138,30 @@ namespace OhmStudio.UI.Views
                 //根据密码框是否有内容来显示符号"x"
                 if (sender is PasswordTextBox passwordTextBox)
                 {
+                    passwordTextBox.PasswordChanged?.Invoke(sender, EventArgs.Empty);
                     passwordTextBox.ClearVisibility = string.IsNullOrEmpty(passwordTextBox.Password) ? Visibility.Collapsed : Visibility.Visible;
                 }
             }));
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
+            PART_PasswordBox = GetTemplateChild("PART_PasswordBox") as PasswordBox;
+        }
+
+        private void PasswordBoxControl_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (PART_PasswordBox != null && !PART_PasswordBox.IsKeyboardFocusWithin && PART_PasswordBox.Visibility == Visibility.Visible)
+            {
+                PART_PasswordBox.Focus();
+                e.Handled = true;
+            }
+            else if (PART_TextBox != null && !PART_TextBox.IsKeyboardFocusWithin && PART_TextBox.Visibility == Visibility.Visible)
+            {
+                PART_TextBox.Focus();
+                e.Handled = true;
+            }
+        }
     }
 }

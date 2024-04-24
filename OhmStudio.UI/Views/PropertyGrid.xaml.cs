@@ -9,6 +9,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
 using OhmStudio.UI.Attaches;
+using OhmStudio.UI.Controls;
 using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Views

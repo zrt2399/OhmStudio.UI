@@ -491,7 +491,7 @@ namespace OhmStudio.UI.Demo.Views
             //throw new Exception("ex");
             //searchBar.Focus();
             AlertDialog.Show(checkComboBox.SelectedText);
-        }
+        } 
     }
 
     [BaseObjectIgnore]

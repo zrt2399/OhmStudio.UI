@@ -8,11 +8,14 @@
     <ResourceDictionary.MergedDictionaries>
         <!--  Common Control Styles  -->
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ControlsBase.xaml" />
+        <!--  TextBox Attach Styles  -->
+        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/TextBoxAttachStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Thickness x:Key="InputControlPadding">2</Thickness>
     <Thickness x:Key="InputControlBorderThickness">1</Thickness>
 
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <converters:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter" />
     <converters:BrushToColorConverter x:Key="BrushToColorConverter" />
     <converters:AngleToPointConverter x:Key="AngleToPointConverter" />
@@ -531,7 +534,7 @@
                                     <DropShadowEffect ShadowDepth="0" Color="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BrushToColorConverter}}" />
                                 </Path.Effect>
                             </Path>
-                            <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <controls:SimplePanel Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                                 <StackPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                     <StackPanel.Resources>
                                         <Style x:Key="TextBlockCollapsedStyle" TargetType="TextBlock">
@@ -555,7 +558,7 @@
                                     </TextBlock>
                                     <TextBlock HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Text="{Binding Path=Value, StringFormat={}{0}%, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </StackPanel>
-                            </Grid>
+                            </controls:SimplePanel>
                         </Canvas>
                     </Viewbox>
                 </ControlTemplate>
@@ -604,7 +607,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:RollBox">
-                    <Grid ClipToBounds="True">
+                    <controls:SimplePanel ClipToBounds="True">
                         <ListBox x:Name="PART_ListBox"
                                  Height="24"
                                  Margin="0,0,20,20"
@@ -623,7 +626,7 @@
                         </ListBox>
                         <ContentControl x:Name="PART_NEXT_Content" />
                         <ContentControl x:Name="PART_CURR_Content" />
-                    </Grid>
+                    </controls:SimplePanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -868,7 +871,7 @@
         </Setter>
     </Style>
 
-    <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="controls:CheckComboBox">
+    <Style TargetType="controls:CheckComboBox">
         <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type ComboBox}}" />
         <Setter Property="DynamicStyleProvider.Derived" Value="{DynamicResource CheckComboBoxBaseStyle}" />
     </Style>
@@ -958,5 +961,325 @@
         </Setter>
     </Style>
     <Style BasedOn="{StaticResource GifImageBaseStyle}" TargetType="controls:GifImage" />
+
+    <Style x:Key="PasswordTextBoxBaseStyle" TargetType="controls:PasswordTextBox">
+        <Style.Resources>
+
+            <Style x:Key="TitleWithCustomControl"
+                   BasedOn="{StaticResource TitleWithCustomControl}"
+                   TargetType="ContentControl">
+                <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.Title), RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}" />
+                <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.TitleIsHitTestVisible), RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}" />
+
+            </Style>
+
+            <Style x:Key="PlaceHolderWithCustomControl"
+                   BasedOn="{StaticResource PlaceHolderWithCustomControl}"
+                   TargetType="ContentControl">
+                <Setter Property="VerticalAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}" />
+                <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}" />
+
+                <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}" />
+                <Setter Property="Opacity" Value="{Binding Path=(TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}" />
+                <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.PlaceHolderIsHitTestVisible), RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}" />
+                <Setter Property="Visibility" Value="{Binding Path=(TextBoxAttach.PlaceHolderVisibility), RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}" />
+            </Style>
+
+            <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Foreground" Value="#FFABADB3" />
+                <Setter Property="Margin" Value="0,0,3,0" />
+                <!--<Setter Property="Cursor" Value="Hand"/>-->
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="CheckBox">
+                            <TextBlock Name="textBlock"
+                                       Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Margin}"
+                                       VerticalAlignment="Center"
+                                       FontFamily="/OhmStudio.UI;component/Fonts/#iconfont"
+                                       Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
+                                       ToolTip="{x:Null}" />
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="textBlock" Property="Opacity" Value="0.7" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="textBlock" Property="Opacity" Value="0.5" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="PasswordVisibleStyle" TargetType="TextBox">
+                <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type TextBox}}" />
+                <Setter Property="DynamicStyleProvider.Derived">
+                    <Setter.Value>
+                        <Style TargetType="TextBox">
+                            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+
+                            <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="Padding" Value="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TextBox">
+                                        <Border x:Name="Border"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                                SnapsToDevicePixels="True">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <ScrollViewer x:Name="PART_ContentHost" />
+                                                <ContentControl Margin="{TemplateBinding Padding}" Style="{StaticResource PlaceHolderWithCustomControl}" />
+                                                <CheckBox Grid.Column="1"
+                                                          Content="&#xe603;"
+                                                          IsChecked="{Binding IsCleared, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}"
+                                                          Style="{StaticResource CheckBoxStyle}"
+                                                          ToolTip="清除"
+                                                          Visibility="{Binding ClearVisibility, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}" />
+                                                <CheckBox Grid.Column="2"
+                                                          Content="&#xe6f9;"
+                                                          IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}"
+                                                          Style="{StaticResource CheckBoxStyle}"
+                                                          ToolTip="隐藏密码"
+                                                          Visibility="{Binding CanShowPassword, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            </Grid>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
+                                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />
+                                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextFocused}" />
+                                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="PasswordBoxCollapsedStyle" TargetType="PasswordBox">
+                <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type PasswordBox}}" />
+                <Setter Property="DynamicStyleProvider.Derived">
+                    <Setter.Value>
+                        <Style TargetType="PasswordBox">
+                            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+
+                            <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="Padding" Value="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="PasswordBox">
+                                        <Border x:Name="Border"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                                SnapsToDevicePixels="True">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <ScrollViewer x:Name="PART_ContentHost" />
+                                                <ContentControl Margin="{TemplateBinding Padding}" Style="{StaticResource PlaceHolderWithCustomControl}" />
+                                                <CheckBox Grid.Column="1"
+                                                          Content="&#xe603;"
+                                                          IsChecked="{Binding IsCleared, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}"
+                                                          Style="{StaticResource CheckBoxStyle}"
+                                                          ToolTip="清除"
+                                                          Visibility="{Binding ClearVisibility, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}" />
+                                                <CheckBox Grid.Column="2"
+                                                          Content="&#xe6fb;"
+                                                          IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}"
+                                                          Style="{StaticResource CheckBoxStyle}"
+                                                          ToolTip="显示密码"
+                                                          Visibility="{Binding CanShowPassword, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            </Grid>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
+                                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />
+                                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextFocused}" />
+                                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
+        <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
+        <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:PasswordTextBox">
+                    <DockPanel>
+                        <ContentControl Style="{StaticResource TitleWithCustomControl}" />
+                        <controls:SimplePanel>
+                            <TextBox x:Name="PART_TextBox"
+                                     Style="{StaticResource PasswordVisibleStyle}"
+                                     Text="{Binding Password, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Visibility="{TemplateBinding TbVisibility}" />
+                            <PasswordBox x:Name="PART_PasswordBox"
+                                         attaches:PasswordBoxAttach.Password="{Binding Password, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         attaches:PasswordBoxAttach.PasswordAttach="True"
+                                         Style="{StaticResource PasswordBoxCollapsedStyle}"
+                                         Visibility="{TemplateBinding PwVisibility}" />
+                        </controls:SimplePanel>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style BasedOn="{StaticResource PasswordTextBoxBaseStyle}" TargetType="controls:PasswordTextBox" />
+
+    <Style x:Key="DateTimePickerBaseStyle" TargetType="controls:DateTimePicker">
+        <Style.Resources>
+            <Style x:Key="TextBoxDateTimeStyle" TargetType="TextBox">
+                <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type TextBox}}" />
+                <Setter Property="DynamicStyleProvider.Derived">
+                    <Setter.Value>
+                        <Style TargetType="TextBox">
+                            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="IsReadOnly" Value="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="Padding" Value="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TextBox">
+                                        <DockPanel>
+                                            <ContentControl Style="{StaticResource TitleWithCustomControl}" />
+                                            <Border x:Name="Border"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    SnapsToDevicePixels="True">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <ScrollViewer x:Name="PART_ContentHost" />
+                                                    <ContentControl Margin="{TemplateBinding Padding}" Style="{StaticResource PlaceHolderWithCustomControl}" />
+                                                    <Grid Grid.Column="1">
+                                                        <Button Padding="{TemplateBinding Padding}"
+                                                                attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BorderCornerRadiusConverter}}"
+                                                                BorderBrush="Transparent"
+                                                                BorderThickness="0"
+                                                                Command="{Binding CalendarClickCommand, RelativeSource={RelativeSource AncestorType=controls:DateTimePicker}}">
+                                                            <TextBlock Margin="1.5,0"
+                                                                       FontFamily="/OhmStudio.UI;component/Fonts/#iconfont"
+                                                                       ToolTip="{x:Null}">
+                                                                &#xe606;
+                                                            </TextBlock>
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
+                                            </Border>
+                                        </DockPanel>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
+                                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />
+                                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextFocused}" />
+                                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
+        <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
+        <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:DateTimePicker">
+                    <controls:SimplePanel>
+                        <TextBox Name="PART_TextBox"
+                                 Style="{StaticResource TextBoxDateTimeStyle}"
+                                 Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
+                        <Popup x:Name="PART_Popup"
+                               AllowsTransparency="True"
+                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                               StaysOpen="False">
+                            <controls:SystemDropShadowChrome Margin="0,0,5,5" Color="{DynamicResource ControlShadow}" />
+                        </Popup>
+                    </controls:SimplePanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style BasedOn="{StaticResource DateTimePickerBaseStyle}" TargetType="controls:DateTimePicker" />
 
 </ResourceDictionary>

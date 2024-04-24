@@ -1,17 +1,19 @@
 ﻿<ResourceDictionary x:Class="OhmStudio.UI.Styles.VS.TextBoxAttachStyle"
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
                     x:ClassModifier="public">
 
-    <Style x:Key="PlaceHolderWithUserControl" TargetType="ContentControl">
+    <Style x:Key="PlaceHolderWithCustomControl" TargetType="ContentControl">
         <EventSetter Event="GotFocus" Handler="ContentControl_GotFocus" />
-        <Setter Property="VerticalAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}" />
-        <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+        <Setter Property="VerticalAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType=controls:DateTimePicker}}" />
+        <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=controls:DateTimePicker}}" />
 
-        <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource AncestorType=UserControl}}" />
-        <Setter Property="Opacity" Value="{Binding Path=(TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource AncestorType=UserControl}}" />
-        <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.PlaceHolderIsHitTestVisible), RelativeSource={RelativeSource AncestorType=UserControl}}" />
-        <Setter Property="Visibility" Value="{Binding Path=(TextBoxAttach.PlaceHolderVisibility), RelativeSource={RelativeSource AncestorType=UserControl}}" />
+        <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource AncestorType=controls:DateTimePicker}}" />
+        <Setter Property="Opacity" Value="{Binding Path=(TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource AncestorType=controls:DateTimePicker}}" />
+        <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.PlaceHolderIsHitTestVisible), RelativeSource={RelativeSource AncestorType=controls:DateTimePicker}}" />
+        <Setter Property="Visibility" Value="{Binding Path=(TextBoxAttach.PlaceHolderVisibility), RelativeSource={RelativeSource AncestorType=controls:DateTimePicker}}" />
+
         <Style.Triggers>
             <Trigger Property="IsHitTestVisible" Value="False">
                 <Setter Property="Focusable" Value="False" />
@@ -20,7 +22,7 @@
     </Style>
 
     <Style x:Key="PlaceHolderWithTemplatedParent"
-           BasedOn="{StaticResource PlaceHolderWithUserControl}"
+           BasedOn="{StaticResource PlaceHolderWithCustomControl}"
            TargetType="ContentControl">
         <Setter Property="VerticalAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
         <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
@@ -30,10 +32,11 @@
         <Setter Property="Visibility" Value="{Binding Path=(TextBoxAttach.PlaceHolderVisibility), RelativeSource={RelativeSource TemplatedParent}}" />
     </Style>
 
-    <Style x:Key="TitleWithUserControl" TargetType="ContentControl">
+    <Style x:Key="TitleWithCustomControl" TargetType="ContentControl">
         <EventSetter Event="GotFocus" Handler="ContentControl_GotFocus" />
-        <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.Title), RelativeSource={RelativeSource AncestorType=UserControl}}" />
-        <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.TitleIsHitTestVisible), RelativeSource={RelativeSource AncestorType=UserControl}}" />
+        <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.Title), RelativeSource={RelativeSource AncestorType=controls:DateTimePicker}}" />
+        <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.TitleIsHitTestVisible), RelativeSource={RelativeSource AncestorType=controls:DateTimePicker}}" />
+
         <Style.Triggers>
             <Trigger Property="IsHitTestVisible" Value="False">
                 <Setter Property="Focusable" Value="False" />
@@ -45,7 +48,7 @@
     </Style>
 
     <Style x:Key="TitleWithTemplatedParent"
-           BasedOn="{StaticResource TitleWithUserControl}"
+           BasedOn="{StaticResource TitleWithCustomControl}"
            TargetType="ContentControl">
         <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.Title), RelativeSource={RelativeSource TemplatedParent}}" />
         <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.TitleIsHitTestVisible), RelativeSource={RelativeSource TemplatedParent}}" />

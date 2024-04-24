@@ -1,29 +1,26 @@
-﻿<UserControl x:Class="OhmStudio.UI.Views.IconButton"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:OhmStudio.UI.Views"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
-             mc:Ignorable="d">
+﻿<ContentControl x:Class="OhmStudio.UI.Views.IconButton"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:local="clr-namespace:OhmStudio.UI.Views"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                d:DesignHeight="450"
+                d:DesignWidth="800"
+                mc:Ignorable="d">
 
-    <UserControl.Resources>
+    <ContentControl.Resources>
         <Style x:Key="ButtonEmptyStyle" TargetType="Button">
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="ButtonBorder"
-                                Margin="0"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="Transparent"
                                 BorderThickness="0"
                                 SnapsToDevicePixels="True">
-                            <Grid>
-                                <ContentPresenter />
-                            </Grid>
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
@@ -37,15 +34,13 @@
                 </Setter.Value>
             </Setter>
         </Style>
-    </UserControl.Resources>
+    </ContentControl.Resources>
 
     <Button x:Name="button"
             Padding="0"
             Background="Transparent"
+            Command="{Binding RelativeSource={RelativeSource AncestorType=local:IconButton}, Path=Command}"
             Style="{StaticResource ButtonEmptyStyle}">
-        <!--  ContextMenu="{StaticResource EmerWorkContextMenu}"  -->
-        <Grid>
-            <Image x:Name="icon" />
-        </Grid>
+        <Image Source="{Binding RelativeSource={RelativeSource AncestorType=local:IconButton}, Path=Icon}" />
     </Button>
-</UserControl>
+</ContentControl>

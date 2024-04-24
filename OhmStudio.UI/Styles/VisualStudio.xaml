@@ -6,7 +6,6 @@
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/ChromeWindow.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/GlyphButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/WindowSystemButton.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/TextBoxAttachStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style BasedOn="{StaticResource ChromeWindowBaseStyle}" TargetType="{x:Type ctrls:ChromeWindow}" />

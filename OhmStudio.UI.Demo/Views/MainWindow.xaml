@@ -191,6 +191,20 @@
                                               VirtualizingPanel.VirtualizationMode="Recycling">
                                         <!--  定义需要显示的列  -->
                                         <DataGrid.Columns>
+                                            <DataGridTemplateColumn Header="时间">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <DateTimePicker Background="Red" BorderThickness="10" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTemplateColumn Header="密码">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <PasswordTextBox Background="Green" BorderThickness="10" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                                             <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
                                             <DataGridTextColumn Binding="{Binding Description}"
