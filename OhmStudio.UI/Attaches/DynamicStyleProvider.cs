@@ -62,19 +62,20 @@ namespace OhmStudio.UI.Attaches
 
             foreach (var item in source.Setters)
             {
-                if (item is not Setter setter)
+                if (item is Setter setter)
                 {
-                    continue;
-                }
-
-                if (setter.Property == BasedOnProperty || setter.Property == DerivedProperty)
-                {
-                    if (setter.Value is not DynamicResourceExtension)
+                    if (setter.Property == BasedOnProperty || setter.Property == DerivedProperty)
                     {
-                        throw new ArgumentException("The value can't be StaticResource!");
+                        //if (setter.Value is not DynamicResourceExtension)
+                        //{
+                        //    throw new ArgumentException("The value can't be StaticResource!");
+                        //}
+                        target.Setters.Add(item);
                     }
-
-                    target.Setters.Add(setter);
+                }
+                else
+                {
+                    target.Setters.Add(item);
                 }
             }
         }
