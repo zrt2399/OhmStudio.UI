@@ -21,7 +21,7 @@ namespace OhmStudio.UI.Controls
         public event EventHandler PasswordChanged;
 
         /// <summary>
-        /// 控制PasswordTextBox显示或者隐藏CheckBox，来控制是否可以显示和隐藏密码。
+        /// 控制PasswordTextBox显示或者隐藏CheckBox眼睛，来控制是否可以显示和隐藏密码。
         /// </summary>
         public bool CanShowPassword
         {
