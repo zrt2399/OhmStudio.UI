@@ -20,6 +20,19 @@ namespace OhmStudio.UI.Controls
         PasswordBox PART_PasswordBox;
         public event EventHandler PasswordChanged;
 
+        public static readonly DependencyProperty PasswordCharProperty =
+            DependencyProperty.Register(nameof(PasswordChar), typeof(char), typeof(PasswordTextBox), new FrameworkPropertyMetadata('●'));
+
+        /// <summary>
+        /// 获取或设置的掩码字符 <see cref="PasswordTextBox"/>。
+        /// </summary>
+        /// <returns>回显在用户输入到文本时的掩码字符 <see cref="PasswordTextBox"/>。默认值是项目符号字符 (●)。</returns>
+        public char PasswordChar
+        {
+            get => (char)GetValue(PasswordCharProperty);
+            set => SetValue(PasswordCharProperty, value);
+        }
+
         /// <summary>
         /// 控制PasswordTextBox显示或者隐藏CheckBox眼睛，来控制是否可以显示和隐藏密码。
         /// </summary>
