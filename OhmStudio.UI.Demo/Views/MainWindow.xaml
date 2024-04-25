@@ -477,9 +477,9 @@
                                     </Grid>-->
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel>
-                                            <DateTimePicker Height="40"
+                                            <DateTimePicker Height="50"
                                                             HorizontalContentAlignment="Right"
-                                                            VerticalContentAlignment="Top"
+                                                            VerticalContentAlignment="Bottom"
                                                             TextBoxAttach.PlaceHolder="请输入日期"
                                                             TextBoxAttach.PlaceHolderIsHitTestVisible="True"
                                                             TextBoxAttach.TitleIsHitTestVisible="True">
@@ -487,7 +487,7 @@
                                                     <Button>日期：</Button>
                                                 </TextBoxAttach.Title>
                                             </DateTimePicker>
-                                            <SearchBar Height="40"
+                                            <SearchBar Height="50"
                                                        HorizontalContentAlignment="Right"
                                                        VerticalContentAlignment="Top"
                                                        TextBoxAttach.PlaceHolderIsHitTestVisible="True"
@@ -500,11 +500,12 @@
                                                     <Button>请输入搜索内容...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </SearchBar>
-                                            <TextBox Height="40"
+                                            <TextBox Height="50"
                                                      VerticalContentAlignment="Top"
                                                      TextBoxAttach.PlaceHolder="123456... "
                                                      TextBoxAttach.Title="开始：" />
                                             <TextBox VerticalContentAlignment="Top"
+                                                     Foreground="Blue"
                                                      Text="{Binding CurrentDateTime, Mode=TwoWay}"
                                                      TextBoxAttach.PlaceHolderIsHitTestVisible="True">
 
@@ -512,10 +513,10 @@
                                                     <Button>ButtonPlaceHolder</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </TextBox>
-                                            <PasswordBox Height="40"
+                                            <PasswordBox Height="50"
                                                          VerticalContentAlignment="Center"
                                                          TextBoxAttach.PlaceHolder="密码" />
-                                            <PasswordTextBox Height="40"
+                                            <PasswordTextBox Height="50"
                                                              HorizontalContentAlignment="Right"
                                                              VerticalContentAlignment="Top"
                                                              CanShowPassword="False">
@@ -526,7 +527,11 @@
                                                     <Button>请输入密码1...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </PasswordTextBox>
-                                            <PasswordTextBox VerticalContentAlignment="Top"
+                                            <PasswordTextBox Height="50"
+                                                             HorizontalContentAlignment="Right"
+                                                             VerticalContentAlignment="Bottom"
+                                                             Foreground="IndianRed"
+                                                             PasswordChar="◉"
                                                              TextBoxAttach.PlaceHolderIsHitTestVisible="True"
                                                              TextBoxAttach.PlaceHolderOpacity="1"
                                                              TextBoxAttach.TitleIsHitTestVisible="True">
@@ -538,7 +543,7 @@
                                                 </TextBoxAttach.PlaceHolder>
                                             </PasswordTextBox>
 
-                                            <ComboBox Height="40"
+                                            <ComboBox Height="50"
                                                       HorizontalContentAlignment="Stretch"
                                                       VerticalContentAlignment="Top"
                                                       DisplayMemberPath="Name"
@@ -554,7 +559,7 @@
                                             </ComboBox>
                                             <CheckComboBox Name="checkComboBox"
                                                            Width="200"
-                                                           Height="40"
+                                                           Height="50"
                                                            HorizontalContentAlignment="Right"
                                                            VerticalContentAlignment="Top"
                                                            DisplayMemberPath="Description"
@@ -574,7 +579,7 @@
                                                     <Button>请选择...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </CheckComboBox>
-                                            <ComboBox Height="40"
+                                            <ComboBox Height="50"
                                                       HorizontalContentAlignment="Right"
                                                       VerticalContentAlignment="Top"
                                                       DisplayMemberPath="Name"
@@ -656,6 +661,7 @@
                                                          VerticalContentAlignment="Top"
                                                          Value="60" />
                                     <CircularProgressBar BorderBrush="{DynamicResource ProgressBarProgress}" Value="50" />
+                                    <CircularProgressBar Title="计划" Value="30.1" />
                                 </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="DocumentWrapPanel">

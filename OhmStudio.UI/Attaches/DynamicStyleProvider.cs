@@ -73,10 +73,6 @@ namespace OhmStudio.UI.Attaches
                         target.Setters.Add(item);
                     }
                 }
-                else
-                {
-                    target.Setters.Add(item);
-                }
             }
         }
 

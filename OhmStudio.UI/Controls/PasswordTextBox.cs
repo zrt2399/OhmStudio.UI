@@ -33,6 +33,24 @@ namespace OhmStudio.UI.Controls
             set => SetValue(PasswordCharProperty, value);
         }
 
+        internal static readonly DependencyProperty EyeContentProperty =
+            DependencyProperty.Register(nameof(EyeContent), typeof(string), typeof(PasswordTextBox), new FrameworkPropertyMetadata("\ue6fb"));
+
+        internal string EyeContent
+        {
+            get => (string)GetValue(EyeContentProperty);
+            set => SetValue(EyeContentProperty, value);
+        }
+
+        internal static readonly DependencyProperty EyeToolTipProperty =
+            DependencyProperty.Register(nameof(EyeToolTip), typeof(string), typeof(PasswordTextBox), new FrameworkPropertyMetadata("显示密码"));
+
+        internal string EyeToolTip
+        {
+            get => (string)GetValue(EyeToolTipProperty);
+            set => SetValue(EyeToolTipProperty, value);
+        }
+
         /// <summary>
         /// 控制PasswordTextBox显示或者隐藏CheckBox眼睛，来控制是否可以显示和隐藏密码。
         /// </summary>
@@ -97,11 +115,15 @@ namespace OhmStudio.UI.Controls
                     {
                         passwordTextBox.TbVisibility = Visibility.Visible;
                         passwordTextBox.PwVisibility = Visibility.Collapsed;
+                        passwordTextBox.EyeContent = "\ue6f9";
+                        passwordTextBox.EyeToolTip = "隐藏密码";
                     }
                     else
                     {
                         passwordTextBox.TbVisibility = Visibility.Collapsed;
                         passwordTextBox.PwVisibility = Visibility.Visible;
+                        passwordTextBox.EyeContent = "\ue6fb";
+                        passwordTextBox.EyeToolTip = "显示密码";
                     }
                 }
             }));
@@ -165,15 +187,18 @@ namespace OhmStudio.UI.Controls
 
         private void PasswordBoxControl_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (PART_PasswordBox != null && !PART_PasswordBox.IsKeyboardFocusWithin && PART_PasswordBox.Visibility == Visibility.Visible)
+            if (!e.Handled)
             {
-                PART_PasswordBox.Focus();
-                e.Handled = true;
-            }
-            else if (PART_TextBox != null && !PART_TextBox.IsKeyboardFocusWithin && PART_TextBox.Visibility == Visibility.Visible)
-            {
-                PART_TextBox.Focus();
-                e.Handled = true;
+                if (PART_PasswordBox != null && !PART_PasswordBox.IsKeyboardFocusWithin && PART_PasswordBox.Visibility == Visibility.Visible)
+                {
+                    PART_PasswordBox.Focus();
+                    e.Handled = true;
+                }
+                else if (PART_TextBox != null && !PART_TextBox.IsKeyboardFocusWithin && PART_TextBox.Visibility == Visibility.Visible)
+                {
+                    PART_TextBox.Focus();
+                    e.Handled = true;
+                }
             }
         }
     }

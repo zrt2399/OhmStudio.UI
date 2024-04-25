@@ -180,9 +180,7 @@
                               IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                               Style="{StaticResource ToolBarComboBoxTransparentButtonStyle}" />
 
-                <ContentControl Grid.Column="1"
-                                Margin="{TemplateBinding Padding}"
-                                Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
+                <ContentControl Grid.Column="1" Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
             </Grid>
             <Popup Name="PART_Popup"
                    AllowsTransparency="True"

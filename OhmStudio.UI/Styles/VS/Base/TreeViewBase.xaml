@@ -3,7 +3,7 @@
                     xmlns:converters="clr-namespace:OhmStudio.UI.Converters">
 
     <converters:TreeViewMarginConverter x:Key="TreeViewMarginConverter" Length="12" />
-    
+
     <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Template">

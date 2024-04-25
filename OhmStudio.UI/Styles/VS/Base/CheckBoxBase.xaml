@@ -38,14 +38,17 @@
                                       Width="{Binding ElementName=checkBoxBorder, Path=Width, Converter={StaticResource HalfConverter}}"
                                       Height="{Binding ElementName=checkBoxBorder, Path=Height, Converter={StaticResource HalfConverter}}"
                                       Margin="2"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
                                       Data="M6.22,11.02C6.22,11.02 2.5,7.24 2.5,7.24 2.5,7.24 4.05,5.71 4.05,5.71 4.05,5.71 5.97,7.65 5.97,7.65 5.97,7.65 10.52,1.38 10.52,1.38 10.52,1.38 13.19,1.38 13.19,1.38 13.19,1.38 6.22,11.02 6.22,11.02 6.22,11.02 6.22,11.02 6.22,11.02z"
                                       Fill="{DynamicResource CommonControlsCheckBoxGlyph}"
                                       Stretch="Uniform"
                                       Visibility="Collapsed" />
-                                <Rectangle x:Name="indeterminateMark"
-                                           Margin="1.5"
-                                           Fill="{DynamicResource CommonControlsCheckBoxGlyph}"
-                                           Visibility="Hidden" />
+                                <Border x:Name="indeterminateMark"
+                                        Margin="1.5"
+                                        Background="{DynamicResource CommonControlsCheckBoxGlyph}"
+                                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                        Visibility="Hidden" />
                             </Grid>
                         </Border>
 
