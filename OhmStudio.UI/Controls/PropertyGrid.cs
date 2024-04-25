@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -9,21 +10,12 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
 using OhmStudio.UI.Attaches;
-using OhmStudio.UI.Controls;
 using OhmStudio.UI.PublicMethods;
 
-namespace OhmStudio.UI.Views
+namespace OhmStudio.UI.Controls
 {
-    /// <summary>
-    /// PropertyGrid.xaml 的交互逻辑
-    /// </summary>
-    public partial class PropertyGrid : UserControl
+    public class PropertyGrid : Control
     {
-        public PropertyGrid()
-        {
-            InitializeComponent();
-        }
-
         public static readonly DependencyProperty ItemSpacingProperty =
             DependencyProperty.Register(nameof(ItemSpacing), typeof(Thickness), typeof(PropertyGrid), new PropertyMetadata(new Thickness(0, 8, 0, 0)));
 
@@ -51,27 +43,37 @@ namespace OhmStudio.UI.Views
             set => SetValue(VerticalScrollBarVisibilityProperty, value);
         }
 
+        internal static readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register(nameof(ItemsSource), typeof(ObservableCollection<UIElement>), typeof(PropertyGrid));
+
+        internal ObservableCollection<UIElement> ItemsSource
+        {
+            get => (ObservableCollection<UIElement>)GetValue(ItemsSourceProperty);
+            set => SetValue(ItemsSourceProperty, value);
+        }
+
         public static readonly DependencyProperty SelectedObjectProperty =
             DependencyProperty.Register(nameof(SelectedObject), typeof(object), typeof(PropertyGrid), new PropertyMetadata(null, (sender, e) =>
             {
                 if (sender is PropertyGrid propertyGrid)
                 {
-                    foreach (var item in propertyGrid.itemsControl.Items.OfType<DockPanel>())
+                    propertyGrid.ItemsSource ??= new ObservableCollection<UIElement>();
+                    foreach (var item in propertyGrid.ItemsSource.OfType<DockPanel>())
                     {
                         foreach (var uIElement in item.Children.OfType<UIElement>())
                         {
                             BindingOperations.ClearAllBindings(uIElement);
                         }
                     }
-                    for (int i = 0; i < propertyGrid.itemsControl.Items.Count; i++)
+                    for (int i = 0; i < propertyGrid.ItemsSource.Count; i++)
                     {
-                        propertyGrid.itemsControl.Items[i] = null;
+                        propertyGrid.ItemsSource[i] = null;
                     }
-                    propertyGrid.itemsControl.Items.Clear();
+                    propertyGrid.ItemsSource.Clear();
                     propertyGrid._widths.Clear();
                     if (e.NewValue != null)
                     {
-                        propertyGrid.Create(e.NewValue, propertyGrid.itemsControl);
+                        propertyGrid.Create(e.NewValue, propertyGrid.ItemsSource);
                     }
                 }
             }));
@@ -172,7 +174,7 @@ namespace OhmStudio.UI.Views
         }
 
         List<double> _widths = new List<double>();
-        void Create(object obj, ItemsControl itemsControl)
+        void Create(object obj, ObservableCollection<UIElement> itemsControl)
         {
             if (obj == null)
             {
@@ -283,12 +285,12 @@ namespace OhmStudio.UI.Views
                     }
                     dockPanel.Children.Add(textBlock);
                     dockPanel.Children.Add(uIElement);
-                    dockPanel.Margin = itemsControl.Items.Count > 0 ? ItemSpacing : new Thickness(0);
-                    itemsControl.Items.Add(dockPanel);
+                    dockPanel.Margin = itemsControl.Count > 0 ? ItemSpacing : new Thickness(0);
+                    itemsControl.Add(dockPanel);
                     textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                     _widths.Add(textBlock.DesiredSize.Width + 20);
                     var max = _widths.Max();
-                    foreach (var panel in itemsControl.Items.OfType<DockPanel>())
+                    foreach (var panel in itemsControl.OfType<DockPanel>())
                     {
                         foreach (var text in panel.Children.OfType<TextBox>().Where(x => x.Tag?.ToString() == "Title" && (double.IsNaN(x.Width) || x.Width < max)))
                         {

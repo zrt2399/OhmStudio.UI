@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="OhmStudio.UI.Views.THourView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:OhmStudio.UI.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -20,13 +21,13 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Text="小   时" />
-                <local:IconButton Height="16"
-                                  Margin="4"
-                                  HorizontalAlignment="Right"
-                                  VerticalAlignment="Center"
-                                  Click="IconButton_Click"
-                                  Icon="/OhmStudio.UI;component/Images/close.png"
-                                  ToolTip="关闭" />
+                <controls:IconButton Height="16"
+                                     Margin="4"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Center"
+                                     Click="IconButton_Click"
+                                     Icon="/OhmStudio.UI;component/Images/close.png"
+                                     ToolTip="关闭" />
             </Grid>
             <DataGrid Name="dgHour"
                       Grid.Row="1"

@@ -1150,7 +1150,6 @@
                 </Setter>
             </Style>
         </Style.Resources>
-        <Setter Property="Focusable" Value="True" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
@@ -1255,7 +1254,6 @@
                 </Setter>
             </Style>
         </Style.Resources>
-        <Setter Property="Focusable" Value="True" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
@@ -1281,5 +1279,65 @@
         </Setter>
     </Style>
     <Style BasedOn="{StaticResource DateTimePickerBaseStyle}" TargetType="controls:DateTimePicker" />
+
+    <Style x:Key="PropertyGridBaseStyle" TargetType="controls:PropertyGrid">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:PropertyGrid">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ItemsControl Margin="{TemplateBinding Padding}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      ItemsSource="{TemplateBinding ItemsSource}">
+                            <ItemsControl.Template>
+                                <ControlTemplate TargetType="ItemsControl">
+                                    <ScrollViewer HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}" VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}">
+                                        <StackPanel IsItemsHost="True" ScrollViewer.CanContentScroll="True" />
+                                    </ScrollViewer>
+                                </ControlTemplate>
+                            </ItemsControl.Template>
+                        </ItemsControl>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style BasedOn="{StaticResource PropertyGridBaseStyle}" TargetType="controls:PropertyGrid" />
+
+    <Style x:Key="IconButtonBaseStyle" TargetType="controls:IconButton">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:IconButton">
+                    <Border Name="ButtonBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True">
+                        <Image Margin="{TemplateBinding Padding}"
+                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                               Source="{TemplateBinding Icon}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.7" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style BasedOn="{StaticResource IconButtonBaseStyle}" TargetType="controls:IconButton" />
 
 </ResourceDictionary>

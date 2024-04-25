@@ -41,13 +41,13 @@
                            VerticalAlignment="Center">
                     日期时间
                 </TextBlock>
-                <local:IconButton Height="16"
-                                  Margin="4"
-                                  HorizontalAlignment="Right"
-                                  VerticalAlignment="Center"
-                                  Click="IconButton_Click"
-                                  Icon="/OhmStudio.UI;component/Images/close.png"
-                                  ToolTip="关闭" />
+                <controls:IconButton Height="16"
+                                     Margin="4"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Center"
+                                     Click="IconButton_Click"
+                                     Icon="/OhmStudio.UI;component/Images/close.png"
+                                     ToolTip="关闭" />
             </Grid>
             <Grid Grid.Row="1">
                 <Calendar Name="calDate" PreviewMouseUp="calDate_PreviewMouseUp">
@@ -106,7 +106,7 @@
                         <Button Name="btnhh"
                                 Click="btnhh_Click"
                                 Style="{StaticResource CommonButtonStyle}">
-                            12
+                            20
                         </Button>
                         <TextBlock Grid.Column="1"
                                    HorizontalAlignment="Center"

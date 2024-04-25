@@ -51,7 +51,7 @@ namespace OhmStudio.UI.Demo.Views
             textEditorcs.Text = "using System;\r\n\r\nclass Program\r\n{\r\n    static void Main()\r\n    {\r\n        Console.WriteLine(\"Hello World\");\r\n    }\r\n}";
             textEditorcpp.Text = "#include <iostream>\r\n\r\nint main() {\r\n    std::cout << \"Hello World\" << std::endl;\r\n    return 0;\r\n}";
             textEditorxml.Text = "<Project Sdk=\"Microsoft.NET.Sdk\">\r\n\r\n\t<PropertyGroup>\r\n\t\t<OutputType>WinExe</OutputType>\r\n\t\t<TargetFramework>net6.0-windows</TargetFramework>\r\n\t\t<UseWPF>true</UseWPF>\r\n\t</PropertyGroup>\r\n \r\n</Project>";
-              var text = textEditorxml;
+            var text = textEditorxml;
             var searchPanel = SearchPanel.Install(text);
             searchPanel.MarkerBrush = "#BEAA46".ToSolidColorBrush();
 
@@ -85,7 +85,7 @@ namespace OhmStudio.UI.Demo.Views
             Result.Columns.Add("V0");
             Result.Columns.Add("V1");
             Result.Columns.Add("RX");
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 Result.Rows.Add(DateTime.Now, i, i + 1, "44");
             }
@@ -396,7 +396,7 @@ namespace OhmStudio.UI.Demo.Views
         {
             _can = !_can;
         }
-  
+
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
         {
             var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
@@ -491,7 +491,12 @@ namespace OhmStudio.UI.Demo.Views
             //throw new Exception("ex");
             //searchBar.Focus();
             AlertDialog.Show(checkComboBox.SelectedText);
-        } 
+        }
+
+        private void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            propertyGrid.SelectedObject = this;
+        }
     }
 
     [BaseObjectIgnore]

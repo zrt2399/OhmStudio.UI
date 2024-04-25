@@ -8,6 +8,7 @@
               xmlns:hc="https://handyorg.github.io/handycontrol"
               xmlns:local="clr-namespace:OhmStudio.UI.Demo.Views"
               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:omhui="http://ohmstudio.ui.com"
               xmlns:oxy="http://oxyplot.org/wpf"
               xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
               Title="{x:Static demo:App.Name}"
@@ -30,6 +31,7 @@
 
     <Window.Resources>
         <converters:GroupItemConverter x:Key="GroupItemConverter" />
+        <omhui:ListViewIndexConverter x:Key="ListViewIndexConverter" />
     </Window.Resources>
 
     <ChromeWindow.LeftWindowCommands>
@@ -817,6 +819,10 @@
                                 <ListView ItemsSource="{Binding Result}">
                                     <ListView.View>
                                         <GridView>
+                                            <GridViewColumn Width="50"
+                                                            DisplayMemberBinding="{Binding RelativeSource={RelativeSource AncestorType=ListViewItem}, Converter={StaticResource ListViewIndexConverter}}"
+                                                            Header="序号" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="Time" />
                                             <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="Time" />
                                             <GridViewColumn DisplayMemberBinding="{Binding V0}" Header="V0" />
                                             <GridViewColumn DisplayMemberBinding="{Binding V1}" Header="V1" />
@@ -946,12 +952,13 @@
                             <LayoutAnchorable Title="PropertyGrid">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
                                         <RowDefinition />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <PropertyGrid SelectedObject="{Binding Pro}" />
+                                    <PropertyGrid Name="propertyGrid" SelectedObject="{Binding Pro}" />
                                     <Button Grid.Row="1" Click="Button_Click_3">显示InstrumentType选中项</Button>
+                                    <Button Grid.Row="2" Click="Button_Click_7">SelectedObject=MainWindow</Button>
                                 </Grid>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="TreeView">
