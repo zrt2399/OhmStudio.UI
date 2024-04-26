@@ -97,46 +97,68 @@ namespace OhmStudio.UI.Attaches
             void DataGrid_Loaded(object sender, RoutedEventArgs e)
             {
                 dataGrid.Loaded -= DataGrid_Loaded;
-                if (typeof(T) == typeof(DataGridComboBoxColumn))
+
+                foreach (var item in dataGrid.Columns.OfType<T>().OfType<DataGridColumn>())
                 {
-                    foreach (var item in dataGrid.Columns.OfType<DataGridComboBoxColumn>())
+                    var type = item.GetType();
+                    if (isEditingStyle)
                     {
-                        if (isEditingStyle)
+                        if (!DataGridColumnAttach.GetIsIgnoreEditingElementStyle(item))
                         {
-                            if (!DataGridColumnAttach.GetIsIgnoreEditingElementStyle(item))
-                            {
-                                item.EditingElementStyle = style;
-                            }
+                            type.GetProperty("EditingElementStyle").SetValue(item, style);
+                            //item.EditingElementStyle = style;
                         }
-                        else
+                    }
+                    else
+                    {
+                        if (!DataGridColumnAttach.GetIsIgnoreElementStyle(item))
                         {
-                            if (!DataGridColumnAttach.GetIsIgnoreElementStyle(item))
-                            {
-                                item.ElementStyle = style;
-                            }
+                            type.GetProperty("ElementStyle").SetValue(item, style);
+                            //item.ElementStyle = style;
                         }
                     }
                 }
-                else
-                {
-                    foreach (var item in dataGrid.Columns.OfType<T>().OfType<DataGridBoundColumn>())
-                    {
-                        if (isEditingStyle)
-                        {
-                            if (!DataGridColumnAttach.GetIsIgnoreEditingElementStyle(item))
-                            {
-                                item.EditingElementStyle = style;
-                            }
-                        }
-                        else
-                        {
-                            if (!DataGridColumnAttach.GetIsIgnoreElementStyle(item))
-                            {
-                                item.ElementStyle = style;
-                            }
-                        }
-                    }
-                }
+
+                //if (typeof(T) == typeof(DataGridComboBoxColumn))
+                //{
+                //    foreach (var item in dataGrid.Columns.OfType<DataGridComboBoxColumn>())
+                //    {
+                //        if (isEditingStyle)
+                //        {
+                //            if (!DataGridColumnAttach.GetIsIgnoreEditingElementStyle(item))
+                //            {
+                //                item.EditingElementStyle = style;
+                //            }
+                //        }
+                //        else
+                //        {
+                //            if (!DataGridColumnAttach.GetIsIgnoreElementStyle(item))
+                //            {
+                //                item.ElementStyle = style;
+                //            }
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    foreach (var item in dataGrid.Columns.OfType<T>().OfType<DataGridBoundColumn>())
+                //    {
+                //        if (isEditingStyle)
+                //        {
+                //            if (!DataGridColumnAttach.GetIsIgnoreEditingElementStyle(item))
+                //            {
+                //                item.EditingElementStyle = style;
+                //            }
+                //        }
+                //        else
+                //        {
+                //            if (!DataGridColumnAttach.GetIsIgnoreElementStyle(item))
+                //            {
+                //                item.ElementStyle = style;
+                //            }
+                //        }
+                //    }
+                //}
             }
         }
 
