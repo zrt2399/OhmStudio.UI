@@ -149,21 +149,45 @@
                     <LayoutDocumentPaneGroup>
                         <LayoutDocumentPane>
                             <LayoutDocument Title="Button">
-                                <UniformGrid>
+                                <UniformGrid Rows="2">
                                     <Button Click="Button_Click">Click Me</Button>
-                                    <Button Click="Button_Click_1">AlertDialog</Button>
+                                    <Button Click="Button_Click_1">AlertDialog.Show</Button>
                                     <Button Click="Button_Click_2">GC</Button>
-                                    <UniformGrid Columns="1" Rows="5">
-                                        <Button Click="Button_Click_9">UIMessageTip.Show</Button>
-                                        <Button Click="Button_Click_10">UIMessageTip.ShowOk</Button>
-                                        <Button Click="Button_Click_11">UIMessageTip.ShowWarning</Button>
-                                        <Button Click="Button_Click_12">UIMessageTip.ShowError</Button>
-                                        <Button Click="Button_Click_13">UIMessageTip.ShowErrorMultiLine</Button>
+                                    <StackPanel>
+                                        <Button Margin="4"
+                                                HorizontalContentAlignment="Left"
+                                                Click="Button_Click_14"
+                                                Style="{StaticResource ClassicButton}">
+                                            ClassicButton
+                                        </Button>
+                                        <Button Margin="4"
+                                                HorizontalContentAlignment="Center"
+                                                Style="{StaticResource DefaultButton}">
+                                            DefaultButton
+                                        </Button>
+                                        <Button Margin="4"
+                                                HorizontalContentAlignment="Right"
+                                                Style="{StaticResource FlatButtonGreen}">
+                                            FlatButtonGreen
+                                        </Button>
+                                        <Button Margin="4"
+                                                HorizontalContentAlignment="Center"
+                                                Style="{StaticResource FlatButtonRed}">
+                                            FlatButtonRed
+                                        </Button>
+                                    </StackPanel>
+
+                                    <UniformGrid Rows="5">
+                                        <Button Margin="4" Click="Button_Click_9">UIMessageTip.Show</Button>
+                                        <Button Margin="4" Click="Button_Click_10">UIMessageTip.ShowOk</Button>
+                                        <Button Margin="4" Click="Button_Click_11">UIMessageTip.ShowWarning</Button>
+                                        <Button Margin="4" Click="Button_Click_12">UIMessageTip.ShowError</Button>
+                                        <Button Margin="4" Click="Button_Click_13">UIMessageTip.ShowErrorMultiLine</Button>
                                     </UniformGrid>
                                 </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
-                                <UniformGrid Columns="1" Rows="3">
+                                <UniformGrid Rows="3">
                                     <UniformGrid.Resources>
                                         <CollectionViewSource x:Key="ItemCollectionViewSource"
                                                               IsLiveGroupingRequested="True"
@@ -196,14 +220,14 @@
                                             <DataGridTemplateColumn Header="时间">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <DateTimePicker Background="Red" BorderThickness="10" />
+                                                        <DateTimePicker Foreground="IndianRed" />
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
                                             <DataGridTemplateColumn Header="密码">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <PasswordTextBox Background="Green" BorderThickness="10" />
+                                                        <PasswordTextBox Foreground="Orange" Password="{Binding Value}" />
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
@@ -314,17 +338,21 @@
                                     </DataGrid>
                                 </UniformGrid>
                             </LayoutDocument>
-                            <LayoutDocument Title="RollBox">
-                                <RollBox>
-                                    <RollBox.Items>
+                            <LayoutDocument Title="RollingBox">
+                                <RollingBox>
+                                    <RollingBox.Items>
+                                        <!--<Image Source="https://pic4.zhimg.com/v2-177d137cb3266e217cc0bb45c2e5b1ef_r.jpg" />
+                                        <Image Source="https://pic3.zhimg.com/v2-1260ce85d93a13a45a3bd7b224634222_r.jpg" />-->
+                                        <Image Source="https://pica.zhimg.com/v2-a23f3078d20eba31f367a605cdb94c14_r.jpg?source=1940ef5c" />
                                         <Image Source="/Images/1.jpg" />
                                         <Image Source="/Images/1a.jpg" />
+                                        <Image Source="/Images/1b.jpg" />
                                         <Image Source="/Images/2.jpg" />
                                         <Image Source="/Images/2a.jpg" />
                                         <Image Source="/Images/3.jpg" />
                                         <Image Source="/Images/3a.jpg" />
-                                    </RollBox.Items>
-                                </RollBox>
+                                    </RollingBox.Items>
+                                </RollingBox>
                             </LayoutDocument>
                             <LayoutDocument Title="TextEditor">
                                 <TabControl>
@@ -350,6 +378,10 @@
                                             IsSelected="True"
                                             ToolTip="Other">
                                 <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
                                     <!--<Grid>
                                         <Rectangle>
                                             <Rectangle.Fill>
@@ -474,180 +506,143 @@
                                             </Rectangle.Triggers>
                                         </Rectangle>
                                     </Grid>-->
-                                    <StackPanel Orientation="Horizontal">
-                                        <StackPanel>
-                                            <DateTimePicker Foreground="Green" />
+
+                                    <GroupBox Margin="10" Header="InputControl">
+                                        <WrapPanel>
+                                            <DateTimePicker Foreground="Green" TextBoxAttach.Title="日期1：" />
+                                            <DateTimePicker SelectedDateTime="{Binding CurrentDateTime, Mode=TwoWay}"
+                                                            TextBoxAttach.PlaceHolder="请输入日期2..."
+                                                            TextBoxAttach.Title="日期2：" />
+
+                                            <SearchBar Foreground="Violet" TextBoxAttach.Title="搜索1：" />
+                                            <SearchBar TextBoxAttach.PlaceHolder="请输入搜索内容2..." TextBoxAttach.Title="搜索2：" />
+
+                                            <TextBox Foreground="Blue" TextBoxAttach.Title="TextBox1：" />
+                                            <TextBox VerticalContentAlignment="Top"
+                                                     Text="{Binding CurrentDateTime}"
+                                                     TextBoxAttach.PlaceHolder="TextBox2："
+                                                     TextBoxAttach.Title="TextBox2：" />
+
+                                            <PasswordBox Foreground="Purple" TextBoxAttach.Title="PasswordBox1：" />
+                                            <PasswordBox TextBoxAttach.PlaceHolder="请输入密码2..." TextBoxAttach.Title="PasswordBox2：" />
+
+                                            <PasswordTextBox Foreground="BlueViolet" TextBoxAttach.Title="PasswordTextBox1：" />
+                                            <PasswordTextBox CanShowPassword="True"
+                                                             TextBoxAttach.PlaceHolder="请输入密码2..."
+                                                             TextBoxAttach.Title="PasswordTextBox2：" />
+
+                                            <ComboBox Foreground="Red"
+                                                      ItemsSource="{Binding ProNodes}"
+                                                      TextBoxAttach.Title="ComboBox1：" />
+                                            <ComboBox ItemsSource="{Binding ProNodes}"
+                                                      TextBoxAttach.PlaceHolder="ComboBox2..."
+                                                      TextBoxAttach.Title="ComboBox2" />
+
+                                            <CheckComboBox Foreground="Orange"
+                                                           ItemsSource="{Binding ProNodes}"
+                                                           TextBoxAttach.Title="多选1：" />
+                                            <CheckComboBox ItemsSource="{Binding ProNodes}" TextBoxAttach.Title="多选2：" />
+
+                                        </WrapPanel>
+                                    </GroupBox>
+                                    <GroupBox Grid.Row="1"
+                                              Margin="10"
+                                              Header="InputControl">
+                                        <WrapPanel>
                                             <DateTimePicker Name="dateTimePicker"
                                                             Height="50"
                                                             HorizontalContentAlignment="Right"
                                                             VerticalContentAlignment="Bottom"
-                                                            TextBoxAttach.PlaceHolder="请输入日期"
-                                                            TextBoxAttach.PlaceHolderIsHitTestVisible="True"
+                                                            TextBoxAttach.PlaceHolder="请输入日期3..."
                                                             TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <Button>日期：</Button>
+                                                    <Button>日期3：</Button>
                                                 </TextBoxAttach.Title>
                                             </DateTimePicker>
                                             <SearchBar Height="50"
                                                        HorizontalContentAlignment="Right"
-                                                       VerticalContentAlignment="Top"
-                                                       TextBoxAttach.PlaceHolderIsHitTestVisible="True"
+                                                       VerticalContentAlignment="Bottom"
                                                        TextBoxAttach.PlaceHolderOpacity="1"
                                                        TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <Button>搜索：</Button>
+                                                    <Button>搜索3：</Button>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <Button>请输入搜索内容...</Button>
+                                                    <Button>请输入搜索内容3...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </SearchBar>
                                             <TextBox Height="50"
-                                                     VerticalContentAlignment="Top"
-                                                     TextBoxAttach.PlaceHolder="123456... "
-                                                     TextBoxAttach.Title="开始：" />
-                                            <TextBox VerticalContentAlignment="Top"
-                                                     Foreground="Blue"
-                                                     Text="{Binding CurrentDateTime, Mode=TwoWay}"
-                                                     TextBoxAttach.PlaceHolderIsHitTestVisible="True">
-
+                                                     HorizontalContentAlignment="Right"
+                                                     VerticalContentAlignment="Bottom"
+                                                     TextBoxAttach.TitleIsHitTestVisible="True">
+                                                <TextBoxAttach.Title>
+                                                    <Button>TextBox3：</Button>
+                                                </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <Button>ButtonPlaceHolder</Button>
+                                                    <Button>TextBox3...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </TextBox>
                                             <PasswordBox Height="50"
-                                                         VerticalContentAlignment="Center"
-                                                         TextBoxAttach.PlaceHolder="密码" />
-                                            <PasswordTextBox Height="50"
-                                                             HorizontalContentAlignment="Right"
-                                                             VerticalContentAlignment="Top"
-                                                             CanShowPassword="False"
-                                                             TextBoxAttach.PlaceHolderIsHitTestVisible="True">
+                                                         HorizontalContentAlignment="Right"
+                                                         VerticalContentAlignment="Bottom"
+                                                         PasswordChar="$"
+                                                         TextBoxAttach.PlaceHolderOpacity="1"
+                                                         TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <TextBlock>密码：</TextBlock>
+                                                    <Button>PasswordBox3：</Button>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <Button>请输入密码1...</Button>
+                                                    <Button>请输入密码3...</Button>
                                                 </TextBoxAttach.PlaceHolder>
-                                            </PasswordTextBox>
+                                            </PasswordBox>
                                             <PasswordTextBox Name="passwordTextBox"
                                                              Height="50"
                                                              HorizontalContentAlignment="Right"
                                                              VerticalContentAlignment="Bottom"
-                                                             Foreground="IndianRed"
                                                              PasswordChar="◉"
-                                                             TextBoxAttach.PlaceHolderIsHitTestVisible="True"
                                                              TextBoxAttach.PlaceHolderOpacity="1"
                                                              TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <Button>密码：</Button>
+                                                    <Button>PasswordTextBox3：</Button>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <Button>请输入密码2...</Button>
+                                                    <Button>请输入密码3...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </PasswordTextBox>
-
                                             <ComboBox Height="50"
-                                                      HorizontalContentAlignment="Stretch"
-                                                      VerticalContentAlignment="Top"
+                                                      HorizontalContentAlignment="Right"
+                                                      VerticalContentAlignment="Bottom"
                                                       DisplayMemberPath="Name"
-                                                      Foreground="Red"
                                                       IsEditable="True"
                                                       IsReadOnly="True"
                                                       ItemsSource="{Binding ProNodes}"
-                                                      TextBoxAttach.PlaceHolderIsHitTestVisible="True"
                                                       TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <Button>中文：</Button>
+                                                    <Button>ComboBox3：</Button>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <Button HorizontalAlignment="Left">请输入..</Button>
+                                                    <Button>ComboBox3..</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </ComboBox>
                                             <CheckComboBox Name="checkComboBox"
-                                                           Width="200"
                                                            Height="50"
+                                                           MaxWidth="200"
                                                            HorizontalContentAlignment="Right"
-                                                           VerticalContentAlignment="Top"
+                                                           VerticalContentAlignment="Bottom"
                                                            DisplayMemberPath="Description"
-                                                           Foreground="Orange"
                                                            ItemsSource="{Binding ProNodes}"
                                                            SelectedItems="{Binding SelectedItemsFileNodes, Mode=TwoWay}"
                                                            Separator=";"
                                                            StringFormat="分组{0}"
-                                                           TextBoxAttach.PlaceHolderIsHitTestVisible="True"
-                                                           TextBoxAttach.PlaceHolderOpacity="1"
                                                            TextBoxAttach.TitleIsHitTestVisible="True"
                                                            TextWrapping="Wrap"
                                                            VirtualizingPanel.ScrollUnit="Pixel">
                                                 <TextBoxAttach.Title>
-                                                    <Button>多选：</Button>
+                                                    <Button>多选3：</Button>
                                                 </TextBoxAttach.Title>
-                                                <TextBoxAttach.PlaceHolder>
-                                                    <Button>请选择...</Button>
-                                                </TextBoxAttach.PlaceHolder>
                                             </CheckComboBox>
-                                            <ComboBox Height="50"
-                                                      HorizontalContentAlignment="Right"
-                                                      VerticalContentAlignment="Top"
-                                                      DisplayMemberPath="Name"
-                                                      IsEditable="True"
-                                                      ItemsSource="{Binding ProNodes}"
-                                                      TextBoxAttach.PlaceHolder="请输入..."
-                                                      TextBoxAttach.Title="输出：" />
-                                        </StackPanel>
-                                        <StackPanel Orientation="Vertical">
-                                            <DateTimePicker SelectedDateTime="{Binding CurrentDateTime, Mode=TwoWay}"
-                                                            TextBoxAttach.PlaceHolder="请输入日期..."
-                                                            TextBoxAttach.Title="结束：" />
-                                            <SearchBar Name="searchBar"
-                                                       Foreground="YellowGreen"
-                                                       TextBoxAttach.PlaceHolder="请输入搜索内容..."
-                                                       TextBoxAttach.Title="搜索：" />
-                                            <ComboBox DisplayMemberPath="Name"
-                                                      ItemsSource="{Binding ProNodes}"
-                                                      TextBoxAttach.Title="搜索：" />
-                                            <PasswordBox TextBoxAttach.PlaceHolder="密码" TextBoxAttach.Title="技术" />
-                                            <PasswordTextBox TextBoxAttach.PlaceHolder="请输入密码..." />
-                                            <PasswordTextBox TextBoxAttach.Title="搜索：" />
-
-                                            <ComboBox DisplayMemberPath="Name"
-                                                      IsEditable="True"
-                                                      ItemsSource="{Binding ProNodes}" />
-
-                                            <TextBox Margin="4"
-                                                     BorderThickness="0,0,0,2"
-                                                     TextBoxAttach.Title="开始：" />
-                                            <TextBox Margin="4"
-                                                     Text="{Binding CurrentDateTime}"
-                                                     TextBoxAttach.PlaceHolder="time..." />
-
-                                            <Button Margin="4"
-                                                    HorizontalContentAlignment="Left"
-                                                    Click="Button_Click_14"
-                                                    Style="{StaticResource ClassicButton}">
-                                                ClassicButton
-                                            </Button>
-                                            <Button Margin="4"
-                                                    HorizontalContentAlignment="Center"
-                                                    Style="{StaticResource DefaultButton}">
-                                                DefaultButton
-                                            </Button>
-                                            <Button Margin="4"
-                                                    HorizontalContentAlignment="Right"
-                                                    Style="{StaticResource FlatButtonGreen}">
-                                                FlatButtonGreen
-                                            </Button>
-                                            <Button Margin="4"
-                                                    HorizontalContentAlignment="Center"
-                                                    Style="{StaticResource FlatButtonRed}">
-                                                FlatButtonRed
-                                            </Button>
-                                            <TextBox Text="{Binding CurrentDateTime}"
-                                                     TextBoxAttach.IsShowValidationErrorInfo="False"
-                                                     TextBoxAttach.PlaceHolder="time..." />
-                                        </StackPanel>
-                                    </StackPanel>
-
+                                        </WrapPanel>
+                                    </GroupBox>
                                 </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
@@ -670,7 +665,7 @@
                                                          VerticalContentAlignment="Top"
                                                          Value="60" />
                                     <CircularProgressBar BorderBrush="{DynamicResource ProgressBarProgress}" Value="50" />
-                                    <CircularProgressBar Title="计划" Value="30.1" />
+                                    <CircularProgressBar Title="计划" Value="3.14159" />
                                 </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="DocumentWrapPanel">
@@ -724,17 +719,17 @@
                                             <Setter Property="CornerRadiusAttach.IsCircular" Value="True" />
                                         </Style>
                                     </UniformGrid.Resources>
-                                    <GroupBox Margin="10" Header="本地">
+                                    <GroupBox Margin="10" Header="本地资源">
                                         <GifImage BorderBrush="Green"
                                                   BorderThickness="2"
                                                   Source="/Images/car_chase.gif" />
                                     </GroupBox>
-                                    <GroupBox Margin="10" Header="网络">
+                                    <GroupBox Margin="10" Header="网络资源">
                                         <GifImage BorderBrush="Orange"
                                                   BorderThickness="10"
                                                   Source="https://img.lanrentuku.com/img/allimg/1206/5-120601152054-50.gif" />
                                     </GroupBox>
-                                    <GroupBox Margin="10" Header="网络">
+                                    <GroupBox Margin="10" Header="网络资源">
                                         <GifImage BorderBrush="YellowGreen"
                                                   BorderThickness="20"
                                                   Source="https://img.lanrentuku.com/img/allimg/1212/5-121204193Q8.gif" />
@@ -846,24 +841,6 @@
                                     </ListView.View>
                                     <ListView.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
                                             <MenuItem Header="Zxc" />
                                             <MenuItem Header="Zxc" />
                                             <MenuItem Header="Zxc" />
