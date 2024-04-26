@@ -1,23 +1,46 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace OhmStudio.UI.Controls
 {
-    public class SearchBar : TextBox, ICommandSource
+    public interface ITextChanged
+    {
+        string Text { get; }
+
+        event EventHandler<DependencyPropertyChangedEventArgs> TextChanged;
+    }
+
+    public class SearchBar : Control, ICommandSource, ITextChanged
     {
         public SearchBar()
         {
-            //TextChanged += delegate
-            //{
-            //    PlaceHolderVisibility = string.IsNullOrEmpty(Text) ? Visibility.Visible : Visibility.Collapsed;
-            //};
+            GotFocus += SearchBar_GotFocus;
         }
 
         static SearchBar()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SearchBar), new FrameworkPropertyMetadata(typeof(SearchBar)));
         }
+
+        TextBox PART_TextBox;
+        public event EventHandler<DependencyPropertyChangedEventArgs> TextChanged;
+
+        public string Text
+        {
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
+        }
+
+        public static readonly DependencyProperty TextProperty =
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(SearchBar), new PropertyMetadata((sender, e) =>
+            {
+                if (sender is SearchBar searchBar)
+                {
+                    searchBar.TextChanged?.Invoke(sender, e);
+                }
+            }));
 
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(SearchBar));
 
@@ -43,44 +66,22 @@ namespace OhmStudio.UI.Controls
             set => SetValue(CommandTargetProperty, value);
         }
 
-        //public static readonly DependencyProperty PlaceHolderProperty = DependencyProperty.Register(nameof(PlaceHolder), typeof(string), typeof(SearchBar), new PropertyMetadata("请输入搜索内容"));
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
+        }
 
-        //public static readonly DependencyProperty PlaceHolderForegroundProperty = DependencyProperty.Register(nameof(PlaceHolderForeground), typeof(Brush), typeof(SearchBar), new PropertyMetadata("#FF999999".ToSolidColorBrush()));
-
-        //public static readonly DependencyProperty PlaceHolderOpacityProperty = DependencyProperty.Register(nameof(PlaceHolderOpacity), typeof(double), typeof(SearchBar), new PropertyMetadata(1d));
-
-        //public static readonly DependencyProperty PlaceHolderMarginProperty = DependencyProperty.Register(nameof(PlaceHolderMargin), typeof(Thickness), typeof(SearchBar), new PropertyMetadata(new Thickness(2, 0, 2, 0)));
-
-        //public static readonly DependencyProperty PlaceHolderVisibilityProperty = DependencyProperty.Register(nameof(PlaceHolderVisibility), typeof(Visibility), typeof(SearchBar), new PropertyMetadata(Visibility.Visible));
-
-        //public string PlaceHolder
-        //{
-        //    get => (string)GetValue(PlaceHolderProperty);
-        //    set => SetValue(PlaceHolderProperty, value);
-        //}
-
-        //public Brush PlaceHolderForeground
-        //{
-        //    get => (Brush)GetValue(PlaceHolderForegroundProperty);
-        //    set => SetValue(PlaceHolderForegroundProperty, value);
-        //}
-
-        //public Brush PlaceHolderOpacity
-        //{
-        //    get => (Brush)GetValue(PlaceHolderOpacityProperty);
-        //    set => SetValue(PlaceHolderOpacityProperty, value);
-        //}
-
-        //public Thickness PlaceHolderMargin
-        //{
-        //    get => (Thickness)GetValue(PlaceHolderMarginProperty);
-        //    set => SetValue(PlaceHolderMarginProperty, value);
-        //}
-
-        //public Visibility PlaceHolderVisibility
-        //{
-        //    get => (Visibility)GetValue(PlaceHolderVisibilityProperty);
-        //    set => SetValue(PlaceHolderVisibilityProperty, value);
-        //}
+        private void SearchBar_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (!e.Handled && PART_TextBox != null)
+            {
+                if (Equals(e.OriginalSource, this))
+                {
+                    PART_TextBox.Focus();
+                    e.Handled = true;
+                }
+            }
+        }
     }
 }

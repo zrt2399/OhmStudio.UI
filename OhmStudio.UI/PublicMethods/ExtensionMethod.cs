@@ -92,7 +92,8 @@ namespace OhmStudio.UI.PublicMethods
 
         public static bool IsTextBoxAttachObject(this DependencyObject obj)
         {
-            if (obj is ComboBox || obj is TextBox || obj is DateTimePicker || obj is PasswordBox || obj is PasswordTextBox)
+            var type = obj.GetType();
+            if (type == typeof(ComboBox) || type == typeof(TextBox) || type == typeof(PasswordBox) || obj is ITextChanged)
             {
                 return true;
             }

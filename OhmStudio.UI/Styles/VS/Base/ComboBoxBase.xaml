@@ -4,6 +4,7 @@
                     xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
+    <converters:ComboBoxHostMarginConverter x:Key="ComboBoxHostMarginConverter" />
     <converters:BorderCornerRadiusConverter x:Key="BorderCornerRadiusConverter" />
 
     <Style x:Key="ToolBarComboBoxTransparentButtonStyle" TargetType="{x:Type ToggleButton}">
@@ -143,7 +144,6 @@
 
                 <Border Name="SelectedContentBorder"
                         Grid.Column="1"
-                        Margin="1,1,0,1"
                         Padding="{TemplateBinding Padding}"
                         SnapsToDevicePixels="True">
                     <ContentPresenter x:Name="ContentSite"
@@ -158,16 +158,9 @@
 
                 <TextBox x:Name="PART_EditableTextBox"
                          Grid.Column="1"
-                         Margin="1,1,0,1"
-                         Padding="{TemplateBinding Padding}"
-                         HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
-                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                         Background="Transparent"
-                         BorderBrush="Transparent"
-                         BorderThickness="0"
-                         IsReadOnly="{Binding Path=IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
+                         Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness, Converter={StaticResource ComboBoxHostMarginConverter}}"
+                         attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
+                         attaches:DynamicStyleProvider.Derived="{DynamicResource ContentHostControl}"
                          Visibility="Collapsed" />
 
                 <ToggleButton x:Name="DropDownButton"

@@ -15,16 +15,40 @@
     <Thickness x:Key="InputControlPadding">2</Thickness>
     <Thickness x:Key="InputControlBorderThickness">1</Thickness>
 
+    <FontFamily x:Key="AliIconfont">/OhmStudio.UI;component/Fonts/#iconfont</FontFamily>
+
+    <converters:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter" />
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <converters:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter" />
     <converters:BrushToColorConverter x:Key="BrushToColorConverter" />
     <converters:AngleToPointConverter x:Key="AngleToPointConverter" />
     <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter" />
-    <converters:BorderCornerRadiusConverter x:Key="BorderCornerRadiusConverter" />
 
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
     <SolidColorBrush x:Key="Disabled">#FFAEABAB</SolidColorBrush>
+
+    <Style x:Key="ContentHostControl" TargetType="Control">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="Padding" Value="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style x:Key="CustomControlBase" TargetType="Control">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
+        <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
+        <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
+    </Style>
 
     <Style x:Key="DropShadowControlBaseStyle" TargetType="controls:DropShadowControl">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -352,8 +376,9 @@
         </Setter>
     </Style>
 
-    <Style x:Key="SearchBarBaseStyle" TargetType="controls:SearchBar">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+    <Style x:Key="SearchBarBaseStyle"
+           BasedOn="{StaticResource CustomControlBase}"
+           TargetType="controls:SearchBar">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SearchBar">
@@ -370,7 +395,10 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <ScrollViewer Name="PART_ContentHost" />
+                                <TextBox Name="PART_TextBox"
+                                         attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
+                                         attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
+                                         Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
                                 <ContentControl Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
                                 <Button Grid.Column="1"
                                         Padding="4,0"
@@ -380,7 +408,7 @@
                                         Command="{TemplateBinding Command}"
                                         CommandParameter="{TemplateBinding CommandParameter}"
                                         CommandTarget="{TemplateBinding CommandTarget}">
-                                    <TextBlock FontFamily="/OhmStudio.UI;component/Fonts/#iconfont" ToolTip="{x:Null}">&#xe60f;</TextBlock>
+                                    <TextBlock FontFamily="{StaticResource AliIconfont}" ToolTip="{x:Null}">&#xe60f;</TextBlock>
                                 </Button>
                             </Grid>
                         </Border>
@@ -406,11 +434,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <Style TargetType="controls:SearchBar">
-        <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type TextBox}}" />
-        <Setter Property="DynamicStyleProvider.Derived" Value="{DynamicResource SearchBarBaseStyle}" />
-    </Style>
+    <Style BasedOn="{StaticResource SearchBarBaseStyle}" TargetType="controls:SearchBar" />
 
     <Style x:Key="AnimatedPage" TargetType="Page">
         <Style.Triggers>
@@ -654,58 +678,60 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="ListBoxItemCheckBoxBaseStyle" TargetType="ListBoxItem">
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border Name="Border"
-                            Padding="{TemplateBinding Padding}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <CheckBox Margin="0,2"
-                                  Foreground="{TemplateBinding Foreground}"
-                                  IsChecked="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
-                            <CheckBox.Content>
-                                <MultiBinding Converter="{StaticResource DisplayMemberPathConverter}">
-                                    <Binding Path="." />
-                                    <Binding Path="DisplayMemberPath" RelativeSource="{RelativeSource AncestorType=ListBox}" />
-                                </MultiBinding>
-                            </CheckBox.Content>
-                        </CheckBox>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemMouseOverBackground}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemMouseOverBorder}" />
-                            <Setter Property="Foreground" Value="{DynamicResource ListBoxItemMouseOverForeground}" />
-                        </MultiTrigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemSelectedActiveBackground}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemSelectedActiveBorder}" />
-                            <Setter Property="Foreground" Value="{DynamicResource ListBoxItemSelectedActiveForeground}" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemDisabledBackground}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemDisabledBorder}" />
-                            <Setter Property="Foreground" Value="{DynamicResource ListBoxItemDisabledForeground}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="ListBoxItemCheckBoxStyle" TargetType="ListBoxItem">
         <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type ListBoxItem}}" />
-        <Setter Property="DynamicStyleProvider.Derived" Value="{DynamicResource ListBoxItemCheckBoxBaseStyle}" />
+        <Setter Property="DynamicStyleProvider.Derived">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="IsTabStop" Value="False" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border Name="Border"
+                                        Padding="{TemplateBinding Padding}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                    <CheckBox Margin="0,2"
+                                              Foreground="{TemplateBinding Foreground}"
+                                              IsChecked="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                                        <CheckBox.Content>
+                                            <MultiBinding Converter="{StaticResource DisplayMemberPathConverter}">
+                                                <Binding Path="." />
+                                                <Binding Path="DisplayMemberPath" RelativeSource="{RelativeSource AncestorType=ListBox}" />
+                                            </MultiBinding>
+                                        </CheckBox.Content>
+                                    </CheckBox>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsMouseOver" Value="True" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemMouseOverBackground}" />
+                                        <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemMouseOverBorder}" />
+                                        <Setter Property="Foreground" Value="{DynamicResource ListBoxItemMouseOverForeground}" />
+                                    </MultiTrigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemSelectedActiveBackground}" />
+                                        <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemSelectedActiveBorder}" />
+                                        <Setter Property="Foreground" Value="{DynamicResource ListBoxItemSelectedActiveForeground}" />
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemDisabledBackground}" />
+                                        <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemDisabledBorder}" />
+                                        <Setter Property="Foreground" Value="{DynamicResource ListBoxItemDisabledForeground}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <DataTemplate x:Key="ListBoxItemCheckBoxDataTemplate">
@@ -719,7 +745,9 @@
         </CheckBox>
     </DataTemplate>
 
-    <Style x:Key="CheckComboBoxBaseStyle" TargetType="controls:CheckComboBox">
+    <Style x:Key="CheckComboBoxBaseStyle"
+           BasedOn="{StaticResource CustomControlBase}"
+           TargetType="controls:CheckComboBox">
         <Setter Property="IsReadOnly" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
@@ -739,15 +767,9 @@
                                     CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                     SnapsToDevicePixels="True" />
                             <TextBox Name="PART_TextBox"
-                                     Margin="1,1,0,1"
-                                     Padding="{TemplateBinding Padding}"
-                                     HorizontalAlignment="Stretch"
-                                     VerticalAlignment="Stretch"
-                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                     Background="Transparent"
-                                     BorderBrush="Transparent"
-                                     BorderThickness="0"
+                                     Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness, Converter={StaticResource ComboBoxHostMarginConverter}}"
+                                     attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
+                                     attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
                                      IsReadOnly="{TemplateBinding IsReadOnly}"
                                      Text="{TemplateBinding SelectedText}"
                                      TextWrapping="{TemplateBinding TextWrapping}" />
@@ -784,7 +806,7 @@
                                                         <CheckBox Focusable="False"
                                                                   IsChecked="{x:Null}"
                                                                   IsHitTestVisible="False" />
-                                                        <TextBlock Name="invert" Margin="4,0,0,0">反选</TextBlock>
+                                                        <TextBlock Margin="4,0,0,0">反选</TextBlock>
                                                     </DockPanel>
                                                 </Button>
                                                 <Button Name="PART_SelectAll">
@@ -792,7 +814,7 @@
                                                         <CheckBox Focusable="False"
                                                                   IsChecked="True"
                                                                   IsHitTestVisible="False" />
-                                                        <TextBlock Name="selectAll" Margin="4,0,0,0">选择全部</TextBlock>
+                                                        <TextBlock Margin="4,0,0,0">选择全部</TextBlock>
                                                     </DockPanel>
                                                 </Button>
                                                 <Button Name="PART_DeSelectAll">
@@ -800,7 +822,7 @@
                                                         <CheckBox Focusable="False"
                                                                   IsChecked="False"
                                                                   IsHitTestVisible="False" />
-                                                        <TextBlock Name="deselectAll" Margin="4,0,0,0">取消全部</TextBlock>
+                                                        <TextBlock Margin="4,0,0,0">取消全部</TextBlock>
                                                     </DockPanel>
                                                 </Button>
                                             </StackPanel>
@@ -812,14 +834,15 @@
                                                      ItemContainerStyle="{DynamicResource ListBoxItemCheckBoxStyle}"
                                                      ItemsSource="{TemplateBinding ItemsSource}"
                                                      SelectionMode="Multiple"
+                                                     VirtualizingPanel.CacheLength="{Binding Path=(VirtualizingPanel.CacheLength), RelativeSource={RelativeSource TemplatedParent}}"
+                                                     VirtualizingPanel.CacheLengthUnit="{Binding Path=(VirtualizingPanel.CacheLengthUnit), RelativeSource={RelativeSource TemplatedParent}}"
+                                                     VirtualizingPanel.IsContainerVirtualizable="{Binding Path=(VirtualizingPanel.IsContainerVirtualizable), RelativeSource={RelativeSource TemplatedParent}}"
+                                                     VirtualizingPanel.IsVirtualizing="{Binding Path=(VirtualizingPanel.IsVirtualizing), RelativeSource={RelativeSource TemplatedParent}}"
+                                                     VirtualizingPanel.IsVirtualizingWhenGrouping="{Binding Path=(VirtualizingPanel.IsVirtualizingWhenGrouping), RelativeSource={RelativeSource TemplatedParent}}"
                                                      VirtualizingPanel.ScrollUnit="{Binding Path=(VirtualizingPanel.ScrollUnit), RelativeSource={RelativeSource TemplatedParent}}" />
+
                                             <!--
-                                                VirtualizingPanel.IsVirtualizing="{Binding Path=(VirtualizingPanel.IsVirtualizing),RelativeSource={RelativeSource TemplatedParent}}"
-                                                VirtualizingPanel.IsVirtualizingWhenGrouping="{Binding Path=(VirtualizingPanel.IsVirtualizingWhenGrouping),RelativeSource={RelativeSource TemplatedParent}}"
                                                 VirtualizingPanel.VirtualizationMode="{Binding Path=(VirtualizingPanel.VirtualizationMode),RelativeSource={RelativeSource TemplatedParent}}"
-                                                VirtualizingPanel.CacheLength="{Binding Path=(VirtualizingPanel.CacheLength),RelativeSource={RelativeSource TemplatedParent}}"
-                                                VirtualizingPanel.CacheLengthUnit="{Binding Path=(VirtualizingPanel.CacheLengthUnit),RelativeSource={RelativeSource TemplatedParent}}"
-                                                VirtualizingPanel.IsContainerVirtualizable="{Binding Path=(VirtualizingPanel.IsContainerVirtualizable),RelativeSource={RelativeSource TemplatedParent}}"
                                             -->
                                             <!--  ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}"  -->
                                             <!--  ItemTemplate="{StaticResource ListBoxItemCheckBoxDataTemplate}"  -->
@@ -870,11 +893,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <Style TargetType="controls:CheckComboBox">
-        <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type ComboBox}}" />
-        <Setter Property="DynamicStyleProvider.Derived" Value="{DynamicResource CheckComboBoxBaseStyle}" />
-    </Style>
+    <Style BasedOn="{StaticResource CheckComboBoxBaseStyle}" TargetType="controls:CheckComboBox" />
 
     <Style x:Key="VerticalSeparator"
            BasedOn="{StaticResource {x:Type Separator}}"
@@ -962,7 +981,9 @@
     </Style>
     <Style BasedOn="{StaticResource GifImageBaseStyle}" TargetType="controls:GifImage" />
 
-    <Style x:Key="PasswordTextBoxBaseStyle" TargetType="controls:PasswordTextBox">
+    <Style x:Key="PasswordTextBoxBaseStyle"
+           BasedOn="{StaticResource CustomControlBase}"
+           TargetType="controls:PasswordTextBox">
         <Style.Resources>
             <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
                 <Setter Property="HorizontalAlignment" Value="Right" />
@@ -976,7 +997,7 @@
                             <TextBlock Name="textBlock"
                                        Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Margin}"
                                        VerticalAlignment="Center"
-                                       FontFamily="/OhmStudio.UI;component/Fonts/#iconfont"
+                                       FontFamily="{StaticResource AliIconfont}"
                                        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
                                        ToolTip="{x:Null}" />
                             <ControlTemplate.Triggers>
@@ -993,12 +1014,6 @@
             </Style>
         </Style.Resources>
 
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
-        <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
-        <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:PasswordTextBox">
@@ -1017,38 +1032,28 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <TextBox x:Name="PART_TextBox"
-                                         Margin="0"
-                                         Padding="{TemplateBinding Padding}"
-                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                         Background="Transparent"
-                                         BorderBrush="Transparent"
-                                         BorderThickness="0"
-                                         Foreground="{TemplateBinding Foreground}"
+                                         attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
+                                         attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
                                          Text="{Binding Password, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          Visibility="{TemplateBinding TbVisibility}" />
                                 <PasswordBox x:Name="PART_PasswordBox"
-                                             Margin="0"
-                                             Padding="{TemplateBinding Padding}"
-                                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                             attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type PasswordBox}}"
+                                             attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
                                              attaches:PasswordBoxAttach.Password="{Binding Password, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              attaches:PasswordBoxAttach.PasswordAttach="True"
-                                             Background="Transparent"
-                                             BorderBrush="Transparent"
-                                             BorderThickness="0"
-                                             Foreground="{TemplateBinding Foreground}"
                                              PasswordChar="{TemplateBinding PasswordChar}"
                                              Visibility="{TemplateBinding PwVisibility}" />
                                 <ContentControl Style="{StaticResource PlaceHolderWithTemplatedParent}" />
                                 <CheckBox Grid.Column="1"
                                           Content="&#xe603;"
+                                          Focusable="False"
                                           IsChecked="{Binding IsCleared, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}"
                                           Style="{StaticResource CheckBoxStyle}"
                                           ToolTip="清除"
                                           Visibility="{Binding ClearVisibility, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}" />
                                 <CheckBox Grid.Column="2"
                                           Content="{TemplateBinding EyeContent}"
+                                          Focusable="False"
                                           IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}"
                                           Style="{StaticResource CheckBoxStyle}"
                                           ToolTip="{TemplateBinding EyeToolTip}"
@@ -1079,13 +1084,9 @@
     </Style>
     <Style BasedOn="{StaticResource PasswordTextBoxBaseStyle}" TargetType="controls:PasswordTextBox" />
 
-    <Style x:Key="DateTimePickerBaseStyle" TargetType="controls:DateTimePicker">
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
-        <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
-        <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
+    <Style x:Key="DateTimePickerBaseStyle"
+           BasedOn="{StaticResource CustomControlBase}"
+           TargetType="controls:DateTimePicker">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:DateTimePicker">
@@ -1104,28 +1105,18 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <TextBox Name="PART_TextBox"
-                                             Margin="0"
-                                             Padding="{TemplateBinding Padding}"
-                                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                             Background="Transparent"
-                                             BorderBrush="Transparent"
-                                             BorderThickness="0"
-                                             Foreground="{TemplateBinding Foreground}"
+                                             attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
+                                             attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
                                              IsReadOnly="{TemplateBinding IsReadOnly}"
                                              Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
                                     <ContentControl Style="{StaticResource PlaceHolderWithTemplatedParent}" />
                                     <Grid Grid.Column="1">
-                                        <Button Padding="{TemplateBinding Padding}"
+                                        <Button Padding="4,0"
                                                 attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BorderCornerRadiusConverter}}"
                                                 BorderBrush="Transparent"
                                                 BorderThickness="0"
                                                 Command="{Binding CalendarClickCommand, RelativeSource={RelativeSource AncestorType=controls:DateTimePicker}}">
-                                            <TextBlock Margin="1.5,0"
-                                                       FontFamily="/OhmStudio.UI;component/Fonts/#iconfont"
-                                                       ToolTip="{x:Null}">
-                                                &#xe606;
-                                            </TextBlock>
+                                            <TextBlock FontFamily="{StaticResource AliIconfont}" ToolTip="{x:Null}">&#xe606;</TextBlock>
                                         </Button>
                                     </Grid>
                                 </Grid>
@@ -1133,6 +1124,7 @@
 
                             <Popup x:Name="PART_Popup"
                                    AllowsTransparency="True"
+                                   PlacementTarget="{Binding ElementName=Border}"
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                    StaysOpen="False">
                                 <controls:SystemDropShadowChrome Margin="0,0,5,5" Color="{DynamicResource ControlShadow}" />

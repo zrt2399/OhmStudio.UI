@@ -309,8 +309,7 @@
                                             <!--<DataGridHyperlinkColumn Header="Header" Binding="{Binding Name}"></DataGridHyperlinkColumn>-->
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                                             <DataGridCheckBoxColumn Binding="{Binding IsExpanded}" Header="IsExpanded" />
-                                            <DataGridComboBoxColumn Header="Name1" />
-
+                                            <DataGridComboBoxColumn Header="Name1" ItemsSource="{EnumBindingSource local:InstrumentType}" />
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </UniformGrid>
@@ -477,7 +476,9 @@
                                     </Grid>-->
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel>
-                                            <DateTimePicker Height="50"
+                                            <DateTimePicker Foreground="Green" />
+                                            <DateTimePicker Name="dateTimePicker"
+                                                            Height="50"
                                                             HorizontalContentAlignment="Right"
                                                             VerticalContentAlignment="Bottom"
                                                             TextBoxAttach.PlaceHolder="请输入日期"
@@ -519,7 +520,8 @@
                                             <PasswordTextBox Height="50"
                                                              HorizontalContentAlignment="Right"
                                                              VerticalContentAlignment="Top"
-                                                             CanShowPassword="False">
+                                                             CanShowPassword="False"
+                                                             TextBoxAttach.PlaceHolderIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
                                                     <TextBlock>密码：</TextBlock>
                                                 </TextBoxAttach.Title>
@@ -527,7 +529,8 @@
                                                     <Button>请输入密码1...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </PasswordTextBox>
-                                            <PasswordTextBox Height="50"
+                                            <PasswordTextBox Name="passwordTextBox"
+                                                             Height="50"
                                                              HorizontalContentAlignment="Right"
                                                              VerticalContentAlignment="Bottom"
                                                              Foreground="IndianRed"
@@ -547,6 +550,9 @@
                                                       HorizontalContentAlignment="Stretch"
                                                       VerticalContentAlignment="Top"
                                                       DisplayMemberPath="Name"
+                                                      Foreground="Red"
+                                                      IsEditable="True"
+                                                      IsReadOnly="True"
                                                       ItemsSource="{Binding ProNodes}"
                                                       TextBoxAttach.PlaceHolderIsHitTestVisible="True"
                                                       TextBoxAttach.TitleIsHitTestVisible="True">
@@ -563,6 +569,7 @@
                                                            HorizontalContentAlignment="Right"
                                                            VerticalContentAlignment="Top"
                                                            DisplayMemberPath="Description"
+                                                           Foreground="Orange"
                                                            ItemsSource="{Binding ProNodes}"
                                                            SelectedItems="{Binding SelectedItemsFileNodes, Mode=TwoWay}"
                                                            Separator=";"
@@ -592,6 +599,10 @@
                                             <DateTimePicker SelectedDateTime="{Binding CurrentDateTime, Mode=TwoWay}"
                                                             TextBoxAttach.PlaceHolder="请输入日期..."
                                                             TextBoxAttach.Title="结束：" />
+                                            <SearchBar Name="searchBar"
+                                                       Foreground="YellowGreen"
+                                                       TextBoxAttach.PlaceHolder="请输入搜索内容..."
+                                                       TextBoxAttach.Title="搜索：" />
                                             <ComboBox DisplayMemberPath="Name"
                                                       ItemsSource="{Binding ProNodes}"
                                                       TextBoxAttach.Title="搜索：" />
@@ -602,9 +613,7 @@
                                             <ComboBox DisplayMemberPath="Name"
                                                       IsEditable="True"
                                                       ItemsSource="{Binding ProNodes}" />
-                                            <SearchBar Name="searchBar"
-                                                       TextBoxAttach.PlaceHolder="请输入搜索内容..."
-                                                       TextBoxAttach.Title="搜索：" />
+
                                             <TextBox Margin="4"
                                                      BorderThickness="0,0,0,2"
                                                      TextBoxAttach.Title="开始：" />

@@ -3,13 +3,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Threading;
 using OhmStudio.UI.Commands;
 using OhmStudio.UI.Views;
 
 namespace OhmStudio.UI.Controls
 {
-    public class DateTimePicker : Control
+    public class DateTimePicker : Control, ITextChanged
     {
         public DateTimePicker()
         {
@@ -45,7 +44,7 @@ namespace OhmStudio.UI.Controls
 
         TextBox PART_TextBox;
         Popup PART_Popup;
-        public event EventHandler TextChanged;
+        public event EventHandler<DependencyPropertyChangedEventArgs> TextChanged;
 
         public string SelectedDateTimeFormat
         {
@@ -94,18 +93,18 @@ namespace OhmStudio.UI.Controls
                 }
             }));
 
-        internal string Text
+        public string Text
         {
             get => (string)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
         }
 
-        internal static readonly DependencyProperty TextProperty =
+        public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(nameof(Text), typeof(string), typeof(DateTimePicker), new PropertyMetadata((sender, e) =>
             {
                 if (sender is DateTimePicker dateTimePicker)
                 {
-                    dateTimePicker.TextChanged?.Invoke(sender, EventArgs.Empty);
+                    dateTimePicker.TextChanged?.Invoke(sender, e);
                 }
             }));
 
@@ -116,12 +115,10 @@ namespace OhmStudio.UI.Controls
             base.OnApplyTemplate();
             if (PART_TextBox != null)
             {
-                PART_TextBox.Loaded -= PART_TextBox_Loaded;
                 PART_TextBox.LostFocus -= PART_TextBox_LostFocus;
             }
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
             PART_Popup = GetTemplateChild("PART_Popup") as Popup;
-            PART_TextBox.Loaded += PART_TextBox_Loaded;
             PART_TextBox.LostFocus += PART_TextBox_LostFocus;
         }
 
@@ -140,42 +137,19 @@ namespace OhmStudio.UI.Controls
 
         private void DateTimePicker_GotFocus(object sender, RoutedEventArgs e)
         {
-            var dateTimePicker = (DateTimePicker)sender;
-            if (!e.Handled && dateTimePicker.PART_TextBox != null)
+            if (!e.Handled && PART_TextBox != null)
             {
-                if (Equals(e.OriginalSource, dateTimePicker))
+                if (Equals(e.OriginalSource, this))
                 {
-                    dateTimePicker.PART_TextBox.Focus();
+                    PART_TextBox.Focus();
                     e.Handled = true;
                 }
-                else if (Equals(e.OriginalSource, dateTimePicker.PART_TextBox))
+                else if (Equals(e.OriginalSource, PART_TextBox))
                 {
-                    dateTimePicker.PART_TextBox.SelectAll();
+                    PART_TextBox.SelectAll();
                     e.Handled = true;
                 }
             }
-        }
-
-        private void PART_TextBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            Loaded -= PART_TextBox_Loaded;
-            Dispatcher.InvokeAsync(() =>
-            {
-                if (PART_TextBox.Template?.FindName("Border", PART_TextBox) is UIElement uIElement)
-                {
-                    PART_Popup.PlacementTarget = uIElement;
-                }
-            }, DispatcherPriority.Render);
-        }
-
-        /// <summary>
-        /// 日历图标点击事件。
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void IconButton_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

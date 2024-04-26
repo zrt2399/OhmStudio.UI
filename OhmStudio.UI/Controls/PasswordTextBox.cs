@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace OhmStudio.UI.Controls
 {
-    public class PasswordTextBox : Control
+    public class PasswordTextBox : Control, ITextChanged
     {
         public PasswordTextBox()
         {
@@ -18,7 +18,9 @@ namespace OhmStudio.UI.Controls
 
         TextBox PART_TextBox;
         PasswordBox PART_PasswordBox;
-        public event EventHandler PasswordChanged;
+        public event EventHandler<DependencyPropertyChangedEventArgs> TextChanged;
+
+        public string Text => Password;
 
         public static readonly DependencyProperty PasswordCharProperty =
             DependencyProperty.Register(nameof(PasswordChar), typeof(char), typeof(PasswordTextBox), new FrameworkPropertyMetadata('●'));
@@ -173,7 +175,7 @@ namespace OhmStudio.UI.Controls
                 //根据密码框是否有内容来显示符号"x"
                 if (sender is PasswordTextBox passwordTextBox)
                 {
-                    passwordTextBox.PasswordChanged?.Invoke(sender, EventArgs.Empty);
+                    passwordTextBox.TextChanged?.Invoke(sender, e);
                     passwordTextBox.ClearVisibility = string.IsNullOrEmpty(passwordTextBox.Password) ? Visibility.Collapsed : Visibility.Visible;
                 }
             }));
@@ -187,17 +189,20 @@ namespace OhmStudio.UI.Controls
 
         private void PasswordBoxControl_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (!e.Handled)
+            if (!e.Handled && PART_TextBox != null && PART_PasswordBox != null)
             {
-                if (PART_PasswordBox != null && !PART_PasswordBox.IsKeyboardFocusWithin && PART_PasswordBox.Visibility == Visibility.Visible)
+                if (Equals(e.OriginalSource, this))
                 {
-                    PART_PasswordBox.Focus();
-                    e.Handled = true;
-                }
-                else if (PART_TextBox != null && !PART_TextBox.IsKeyboardFocusWithin && PART_TextBox.Visibility == Visibility.Visible)
-                {
-                    PART_TextBox.Focus();
-                    e.Handled = true;
+                    if (TbVisibility == Visibility.Visible)
+                    {
+                        PART_TextBox.Focus();
+                        e.Handled = true;
+                    }
+                    else if (PwVisibility == Visibility.Visible)
+                    {
+                        PART_PasswordBox.Focus();
+                        e.Handled = true;
+                    }
                 }
             }
         }

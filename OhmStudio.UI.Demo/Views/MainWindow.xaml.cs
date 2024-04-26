@@ -95,7 +95,7 @@ namespace OhmStudio.UI.Demo.Views
 
             Stopwatch stopwatch = Stopwatch.StartNew();
             List<Pro> pros = new List<Pro>();
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 2000; i++)
             {
                 Pro pro = new Pro();
                 if (i % 2 == 0)
@@ -489,8 +489,8 @@ namespace OhmStudio.UI.Demo.Views
         private void Button_Click_14(object sender, RoutedEventArgs e)
         {
             //throw new Exception("ex");
-            //searchBar.Focus();
-            AlertDialog.Show(checkComboBox.SelectedText);
+            passwordTextBox.Focus();
+            //AlertDialog.Show(checkComboBox.SelectedText);
         }
 
         private void Button_Click_7(object sender, RoutedEventArgs e)
