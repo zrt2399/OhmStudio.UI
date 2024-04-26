@@ -1123,26 +1123,22 @@
                                 <ContentControl Style="{StaticResource PlaceHolderWithTemplatedParent}" />
                                 <CheckBox Grid.Column="1"
                                           Content="&#xe603;"
-                                          Focusable="False"
-                                          IsChecked="{Binding IsCleared, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}"
+                                          IsChecked="{Binding IsCleared, RelativeSource={RelativeSource TemplatedParent}}"
                                           Style="{StaticResource CheckBoxStyle}"
                                           ToolTip="清除"
-                                          Visibility="{Binding ClearVisibility, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}" />
-                                <controls:SimplePanel Grid.Column="2"
-                                                      Focusable="False"
-                                                      Visibility="{Binding CanShowPassword, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}, Converter={StaticResource BoolToVisibilityConverter}}">
+                                          Visibility="{TemplateBinding ClearVisibility}" />
+                                <controls:SimplePanel Grid.Column="2" Visibility="{Binding CanShowPassword, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <CheckBox Content="&#xe6f9;"
-                                              IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}"
+                                              IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
                                               Style="{StaticResource CheckBoxStyle}"
                                               ToolTip="点击隐藏密码"
                                               Visibility="{Binding ElementName=PART_TextBox, Path=Visibility}" />
                                     <CheckBox Content="&#xe6fb;"
-                                              IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}"
+                                              IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
                                               Style="{StaticResource CheckBoxStyle}"
                                               ToolTip="点击显示密码"
                                               Visibility="{Binding ElementName=PART_PasswordBox, Path=Visibility}" />
                                 </controls:SimplePanel>
-
                             </Grid>
                         </Border>
                     </DockPanel>
@@ -1200,7 +1196,7 @@
                                             attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BorderCornerRadiusConverter}}"
                                             BorderBrush="Transparent"
                                             BorderThickness="0"
-                                            Command="{Binding CalendarClickCommand, RelativeSource={RelativeSource AncestorType=controls:DateTimePicker}}">
+                                            Command="{Binding CalendarClickCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                         <TextBlock FontFamily="{StaticResource AliIconfont}" ToolTip="{x:Null}">&#xe606;</TextBlock>
                                     </Button>
                                 </Grid>
@@ -1259,7 +1255,7 @@
                                       VirtualizingPanel.VirtualizationMode="{Binding Path=(VirtualizingPanel.VirtualizationMode), RelativeSource={RelativeSource TemplatedParent}}">
                             <ItemsControl.Template>
                                 <ControlTemplate TargetType="ItemsControl">
-                                    <ScrollViewer HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}" VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}">
+                                    <ScrollViewer HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility, RelativeSource={RelativeSource TemplatedParent}}" VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility, RelativeSource={RelativeSource TemplatedParent}}">
                                         <StackPanel IsItemsHost="True" ScrollViewer.CanContentScroll="True" />
                                     </ScrollViewer>
                                 </ControlTemplate>
