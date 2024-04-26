@@ -5,32 +5,36 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using OhmStudio.UI.Commands;
 
 namespace OhmStudio.UI.Controls
 {
-    [TemplatePart(Name = "PART_CURR_Content", Type = typeof(ContentControl))]
-    [TemplatePart(Name = "PART_NEXT_Content", Type = typeof(ContentControl))]
-    [TemplatePart(Name = "PART_ListBox", Type = typeof(ListBox))]
-    public class RollBox : Control, INotifyPropertyChanged
+    //[TemplatePart(Name = "PART_CURR_Content", Type = typeof(ContentControl))]
+    //[TemplatePart(Name = "PART_NEXT_Content", Type = typeof(ContentControl))]
+    //[TemplatePart(Name = "PART_ListBox", Type = typeof(ListBox))]
+    public class RollingBox : Control, INotifyPropertyChanged
     {
-        public RollBox()
+        public RollingBox()
         {
-            dispatcherTimer.Interval = TimeSpan.FromSeconds(5);
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(RollingInterval);
             dispatcherTimer.Tick += (sender, e) =>
             {
                 Index++;
             };
             dispatcherTimer.Start();
+            PreviousCommand = new RelayCommand(() => Index--);
+            NextCommand = new RelayCommand(() => Index++);
         }
 
-        static RollBox()
+        static RollingBox()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(RollBox), new FrameworkPropertyMetadata(typeof(RollBox)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(RollingBox), new FrameworkPropertyMetadata(typeof(RollingBox)));
         }
 
-        ~RollBox()
+        ~RollingBox()
         {
             dispatcherTimer?.Stop();
             dispatcherTimer = null;
@@ -66,15 +70,36 @@ namespace OhmStudio.UI.Controls
         ListBox PART_ListBox;
         //public List<UIElement> Items { get; set; } = new List<UIElement>();
 
+        public ICommand PreviousCommand { get; }
+
+        public ICommand NextCommand { get; }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemsProperty =
+           DependencyProperty.Register(nameof(Items), typeof(ObservableCollection<UIElement>), typeof(RollingBox), new PropertyMetadata(new ObservableCollection<UIElement>()));
+
         public ObservableCollection<UIElement> Items
         {
             get => (ObservableCollection<UIElement>)GetValue(ItemsProperty);
             set => SetValue(ItemsProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ItemsProperty =
-            DependencyProperty.Register(nameof(Items), typeof(ObservableCollection<UIElement>), typeof(RollBox), new FrameworkPropertyMetadata(new ObservableCollection<UIElement>()));
+        public static readonly DependencyProperty RollingIntervalProperty =
+            DependencyProperty.Register(nameof(RollingInterval), typeof(double), typeof(RollingBox), new PropertyMetadata(5d, (sender, e) =>
+            {
+                if (sender is RollingBox rollingBox && e.NewValue is double newValue)
+                {
+                    rollingBox.dispatcherTimer.Interval = TimeSpan.FromSeconds(newValue);
+                    rollingBox.dispatcherTimer.Stop();
+                    rollingBox.dispatcherTimer.Start();
+                }
+            }));
+
+        public double RollingInterval
+        {
+            get => (double)GetValue(RollingIntervalProperty);
+            set => SetValue(RollingIntervalProperty, value);
+        }
 
         int _index = 0;
         public int Index
@@ -83,7 +108,15 @@ namespace OhmStudio.UI.Controls
             set
             {
                 preindex = _index;
-                _index = value >= Items.Count ? 0 : value;
+                if (value >= Items.Count)
+                {
+                    value = 0;
+                }
+                else if (value < 0)
+                {
+                    value = Items.Count - 1;
+                }
+                _index = value;
                 IndexChange();
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Index)));
             }
@@ -105,7 +138,7 @@ namespace OhmStudio.UI.Controls
                 return;//首次不需要动画
             }
             dispatcherTimer.Stop();
-            dispatcherTimer.Start();//鼠标点击后重新开始计时
+            dispatcherTimer.Start();//重新开始计时
             AnimationStart();
         }
 
