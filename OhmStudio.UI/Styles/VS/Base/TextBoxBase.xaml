@@ -12,7 +12,7 @@
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
         <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
         <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
-        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="Continue" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -97,12 +97,12 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
-                            <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />
+                            <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />-->
                             <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
                         </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
-                            <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextFocused}" />
+                            <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextFocused}" />-->
                             <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
                         </Trigger>
                         <Trigger Property="Validation.HasError" Value="True">

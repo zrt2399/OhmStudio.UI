@@ -44,7 +44,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ToolBarButtonBaseStyle" TargetType="{x:Type Button}">
+    <!--Style x:Key="ToolBarButtonBaseStyle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{DynamicResource ToolBarButton}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ToolBarButtonBorder}" />
         <Setter Property="Foreground" Value="{DynamicResource ToolBarButtonText}" />
@@ -73,7 +73,7 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource ToolBarButtonHoverBorder}" />
                             <Setter Property="Foreground" Value="{DynamicResource ToolBarButtonHoverText}" />
                         </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter Property="Background" Value="{DynamicResource ToolBarButtonFocused}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource ToolBarButtonFocusedBorder}" />
                             <Setter Property="Foreground" Value="{DynamicResource ToolBarButtonFocusedText}" />
@@ -92,7 +92,8 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
+
     <Style x:Key="ToolBarToggleButtonBaseStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="{DynamicResource ToolBarButton}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ToolBarButtonBorder}" />
@@ -127,7 +128,7 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource ToolBarButtonHoverBorder}" />
                             <Setter Property="Foreground" Value="{DynamicResource ToolBarButtonHoverText}" />
                         </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter Property="Background" Value="{DynamicResource ToolBarButtonFocused}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource ToolBarButtonFocusedBorder}" />
                             <Setter Property="Foreground" Value="{DynamicResource ToolBarButtonFocusedText}" />
@@ -159,7 +160,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ToolBarTextBoxBaseStyle" TargetType="{x:Type TextBox}">
+    <!--Style x:Key="ToolBarTextBoxBaseStyle" TargetType="{x:Type TextBox}">
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
         <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}" />
@@ -208,7 +209,7 @@
                 </ContextMenu>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 
     <Style x:Key="ToolBarOverflowButtonStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="{DynamicResource ToolBarOverflowButtonBackground}" />
@@ -267,7 +268,7 @@
                             <Setter Property="Background" Value="{DynamicResource ToolBarOverflowButtonBackgroundHover}" />
                             <Setter Property="Foreground" Value="{DynamicResource ToolBarOverflowGlyphHover}" />
                         </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter Property="Background" Value="{DynamicResource ToolBarOverflowButtonBackgroundFocused}" />
                             <Setter Property="Foreground" Value="{DynamicResource ToolBarOverflowGlyphFocused}" />
                         </Trigger>

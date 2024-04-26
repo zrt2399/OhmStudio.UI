@@ -31,17 +31,17 @@
         <Style.Triggers>
             <Trigger Property="Button.IsDefaulted" Value="True">
                 <Setter Property="Background" Value="{DynamicResource CommonControlsButtonDefault}" />
-                <Setter Property="Foreground" Value="{DynamicResource CommonControlsButtonDefaultText}" />
+                <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsButtonDefaultText}" />-->
                 <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsButtonBorderDefault}" />
             </Trigger>
-            <Trigger Property="IsKeyboardFocused" Value="True">
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
                 <Setter Property="Background" Value="{DynamicResource CommonControlsButtonFocused}" />
-                <Setter Property="Foreground" Value="{DynamicResource CommonControlsButtonFocusedText}" />
+                <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsButtonFocusedText}" />-->
                 <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsButtonBorderFocused}" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource CommonControlsButtonHover}" />
-                <Setter Property="Foreground" Value="{DynamicResource CommonControlsButtonHoverText}" />
+                <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsButtonHoverText}" />-->
                 <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsButtonBorderHover}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">

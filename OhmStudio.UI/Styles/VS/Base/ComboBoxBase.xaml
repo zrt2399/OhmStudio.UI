@@ -144,6 +144,7 @@
 
                 <Border Name="SelectedContentBorder"
                         Grid.Column="1"
+                        Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness, Converter={StaticResource ComboBoxHostMarginConverter}}"
                         Padding="{TemplateBinding Padding}"
                         SnapsToDevicePixels="True">
                     <ContentPresenter x:Name="ContentSite"
@@ -222,7 +223,7 @@
             <Trigger Property="ComboBox.IsDropDownOpen" Value="True">
                 <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackgroundPressed}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorderPressed}" />
-                <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextPressed}" />
+                <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextPressed}" />-->
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <!--<Setter TargetName="Separator" Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxSeparatorHover}" />-->
@@ -230,7 +231,7 @@
                 <Setter TargetName="DropDownButton" Property="Foreground" Value="{DynamicResource CommonControlsComboBoxGlyphHover}" />
                 <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackgroundHover}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorderHover}" />
-                <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextHover}" />
+                <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextHover}" />-->
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
                 <!--<Setter TargetName="Separator" Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxSeparatorFocused}" />-->
@@ -238,7 +239,7 @@
                 <Setter TargetName="DropDownButton" Property="Foreground" Value="{DynamicResource CommonControlsComboBoxGlyphFocused}" />
                 <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackgroundFocused}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorderFocused}" />
-                <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextFocused}" />
+                <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxTextFocused}" />-->
             </Trigger>
             <Trigger SourceName="PART_Popup" Property="Popup.HasDropShadow" Value="True">
                 <Setter TargetName="Shadow" Property="Margin" Value="0,0,5,5" />
