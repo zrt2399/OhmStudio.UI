@@ -60,6 +60,10 @@
             </AdornerDecorator>
         </Border>
         <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="PART_TitleBar" Property="TextElement.Foreground" Value="{DynamicResource EnvironmentMainWindowInactiveCaptionText}" />
+                <Setter TargetName="PART_Border" Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowInactiveBorder}" />
+            </Trigger>
             <Trigger Property="IsActive" Value="False">
                 <Setter TargetName="PART_TitleBar" Property="TextElement.Foreground" Value="{DynamicResource EnvironmentMainWindowInactiveCaptionText}" />
                 <Setter TargetName="PART_Border" Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowInactiveBorder}" />
