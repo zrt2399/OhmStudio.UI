@@ -8,7 +8,7 @@ namespace OhmStudio.UI.Controls
     {
         public PasswordTextBox()
         {
-            GotFocus += PasswordBoxControl_GotFocus;
+            GotFocus += PasswordTextBox_GotFocus;
         }
 
         static PasswordTextBox()
@@ -127,6 +127,7 @@ namespace OhmStudio.UI.Controls
                         passwordTextBox.EyeContent = "\ue6fb";
                         passwordTextBox.EyeToolTip = "显示密码";
                     }
+                    passwordTextBox.Focus();
                 }
             }));
 
@@ -144,6 +145,7 @@ namespace OhmStudio.UI.Controls
                 if (sender is PasswordTextBox passwordTextBox)
                 {
                     passwordTextBox.Password = string.Empty;
+                    passwordTextBox.Focus();
                 }
             }));
 
@@ -187,7 +189,7 @@ namespace OhmStudio.UI.Controls
             PART_PasswordBox = GetTemplateChild("PART_PasswordBox") as PasswordBox;
         }
 
-        private void PasswordBoxControl_GotFocus(object sender, RoutedEventArgs e)
+        private void PasswordTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (!e.Handled && PART_TextBox != null && PART_PasswordBox != null)
             {
