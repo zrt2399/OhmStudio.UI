@@ -1128,13 +1128,21 @@
                                           Style="{StaticResource CheckBoxStyle}"
                                           ToolTip="清除"
                                           Visibility="{Binding ClearVisibility, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}" />
-                                <CheckBox Grid.Column="2"
-                                          Content="{TemplateBinding EyeContent}"
-                                          Focusable="False"
-                                          IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}"
-                                          Style="{StaticResource CheckBoxStyle}"
-                                          ToolTip="{TemplateBinding EyeToolTip}"
-                                          Visibility="{Binding CanShowPassword, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <controls:SimplePanel Grid.Column="2"
+                                                      Focusable="False"
+                                                      Visibility="{Binding CanShowPassword, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <CheckBox Content="&#xe6f9;"
+                                              IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}"
+                                              Style="{StaticResource CheckBoxStyle}"
+                                              ToolTip="点击隐藏密码"
+                                              Visibility="{Binding ElementName=PART_TextBox, Path=Visibility}" />
+                                    <CheckBox Content="&#xe6fb;"
+                                              IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=controls:PasswordTextBox}}"
+                                              Style="{StaticResource CheckBoxStyle}"
+                                              ToolTip="点击显示密码"
+                                              Visibility="{Binding ElementName=PART_PasswordBox, Path=Visibility}" />
+                                </controls:SimplePanel>
+
                             </Grid>
                         </Border>
                     </DockPanel>

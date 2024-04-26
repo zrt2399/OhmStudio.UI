@@ -517,7 +517,9 @@
                                             <SearchBar Foreground="Violet" TextBoxAttach.Title="搜索1：" />
                                             <SearchBar TextBoxAttach.PlaceHolder="请输入搜索内容2..." TextBoxAttach.Title="搜索2：" />
 
-                                            <TextBox Foreground="Blue" TextBoxAttach.Title="TextBox1：" />
+                                            <TextBox BorderThickness="0,0,0,2"
+                                                     Foreground="Blue"
+                                                     TextBoxAttach.Title="TextBox1：" />
                                             <TextBox VerticalContentAlignment="Top"
                                                      Text="{Binding CurrentDateTime}"
                                                      TextBoxAttach.PlaceHolder="TextBox2："
@@ -527,7 +529,7 @@
                                             <PasswordBox TextBoxAttach.PlaceHolder="请输入密码2..." TextBoxAttach.Title="PasswordBox2：" />
 
                                             <PasswordTextBox Foreground="BlueViolet" TextBoxAttach.Title="PasswordTextBox1：" />
-                                            <PasswordTextBox CanShowPassword="True"
+                                            <PasswordTextBox CanShowPassword="False"
                                                              TextBoxAttach.PlaceHolder="请输入密码2..."
                                                              TextBoxAttach.Title="PasswordTextBox2：" />
 
