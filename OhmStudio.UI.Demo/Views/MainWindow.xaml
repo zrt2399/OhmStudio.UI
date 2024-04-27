@@ -648,19 +648,26 @@
                                 </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
-                                <UniformGrid Columns="2" Rows="3">
-                                    <ProgressBar Width="400"
-                                                 Height="50"
+                                <UniformGrid Rows="3">
+                                    <ProgressBar Height="50"
                                                  VerticalAlignment="Center"
                                                  IsIndeterminate="True"
                                                  Style="{x:Null}"
                                                  Value="50" />
 
-                                    <ProgressBar Width="400"
-                                                 Height="50"
+                                    <ProgressBar Margin="10"
+                                                 VerticalAlignment="Top"
+                                                 ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
+                                                 Value="60" />
+                                    <ProgressBar Margin="10"
+                                                 Orientation="Vertical"
+                                                 ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
+                                                 Value="60" />
+                                    <ProgressBar Height="50"
                                                  VerticalAlignment="Center"
                                                  IsIndeterminate="True"
                                                  Value="50" />
+
                                     <CircularProgressBar BorderBrush="#FF06B025" Value="40" />
                                     <CircularProgressBar Title="进度"
                                                          HorizontalContentAlignment="Left"
