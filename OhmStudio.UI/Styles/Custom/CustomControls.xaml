@@ -1255,7 +1255,7 @@
                                       VirtualizingPanel.VirtualizationMode="{Binding Path=(VirtualizingPanel.VirtualizationMode), RelativeSource={RelativeSource TemplatedParent}}">
                             <ItemsControl.Template>
                                 <ControlTemplate TargetType="ItemsControl">
-                                    <ScrollViewer HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility, RelativeSource={RelativeSource TemplatedParent}}" VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <ScrollViewer HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}" VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}">
                                         <StackPanel IsItemsHost="True" ScrollViewer.CanContentScroll="True" />
                                     </ScrollViewer>
                                 </ControlTemplate>

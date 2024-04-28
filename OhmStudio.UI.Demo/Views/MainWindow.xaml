@@ -153,6 +153,13 @@
                                     <Button Click="Button_Click">Click Me</Button>
                                     <Button Click="Button_Click_1">AlertDialog.Show</Button>
                                     <Button Click="Button_Click_2">GC</Button>
+                                    <UniformGrid Rows="5">
+                                        <Button Margin="4" Click="Button_Click_9">UIMessageTip.Show</Button>
+                                        <Button Margin="4" Click="Button_Click_10">UIMessageTip.ShowOk</Button>
+                                        <Button Margin="4" Click="Button_Click_11">UIMessageTip.ShowWarning</Button>
+                                        <Button Margin="4" Click="Button_Click_12">UIMessageTip.ShowError</Button>
+                                        <Button Margin="4" Click="Button_Click_13">UIMessageTip.ShowErrorMultiLine</Button>
+                                    </UniformGrid>
                                     <StackPanel>
                                         <Button Margin="4"
                                                 HorizontalContentAlignment="Left"
@@ -176,14 +183,6 @@
                                             FlatButtonRed
                                         </Button>
                                     </StackPanel>
-
-                                    <UniformGrid Rows="5">
-                                        <Button Margin="4" Click="Button_Click_9">UIMessageTip.Show</Button>
-                                        <Button Margin="4" Click="Button_Click_10">UIMessageTip.ShowOk</Button>
-                                        <Button Margin="4" Click="Button_Click_11">UIMessageTip.ShowWarning</Button>
-                                        <Button Margin="4" Click="Button_Click_12">UIMessageTip.ShowError</Button>
-                                        <Button Margin="4" Click="Button_Click_13">UIMessageTip.ShowErrorMultiLine</Button>
-                                    </UniformGrid>
                                 </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
@@ -217,26 +216,26 @@
                                               VirtualizingPanel.VirtualizationMode="Recycling">
                                         <!--  定义需要显示的列  -->
                                         <DataGrid.Columns>
-                                            <DataGridTemplateColumn Header="时间">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <DateTimePicker Foreground="IndianRed" />
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                                            <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+                                            <DataGridTextColumn Binding="{Binding Password}"
+                                                                DataGridColumnAttach.IsIgnoreElementStyle="True"
+                                                                ElementStyle="{StaticResource TextBlockPassword}"
+                                                                Header="密码" />
                                             <DataGridTemplateColumn Header="密码">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <PasswordTextBox Foreground="Orange" Password="{Binding Value}" />
+                                                        <PasswordTextBox BorderThickness="0" Password="{Binding Password}" />
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
-                                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                                            <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
-                                            <DataGridTextColumn Binding="{Binding Description}"
-                                                                DataGridColumnAttach.IsIgnoreElementStyle="True"
-                                                                ElementStyle="{StaticResource TextBlockPassword}"
-                                                                Header="Description" />
+                                            <DataGridTemplateColumn Header="时间">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <DateTimePicker BorderThickness="0" Foreground="IndianRed" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
                                         </DataGrid.Columns>
                                         <DataGrid.GroupStyle>
                                             <GroupStyle>
@@ -517,10 +516,9 @@
                                             <SearchBar Foreground="Violet" TextBoxAttach.Title="搜索1：" />
                                             <SearchBar TextBoxAttach.PlaceHolder="请输入搜索内容2..." TextBoxAttach.Title="搜索2：" />
 
-                                            <TextBox BorderThickness="0,0,0,2"
-                                                     Foreground="Blue"
-                                                     TextBoxAttach.Title="TextBox1：" />
+                                            <TextBox Foreground="Blue" TextBoxAttach.Title="TextBox1：" />
                                             <TextBox VerticalContentAlignment="Top"
+                                                     BorderThickness="0,0,0,2"
                                                      Text="{Binding CurrentDateTime}"
                                                      TextBoxAttach.PlaceHolder="TextBox2："
                                                      TextBoxAttach.Title="TextBox2：" />
@@ -528,7 +526,7 @@
                                             <PasswordBox Foreground="Purple" TextBoxAttach.Title="PasswordBox1：" />
                                             <PasswordBox TextBoxAttach.PlaceHolder="请输入密码2..." TextBoxAttach.Title="PasswordBox2：" />
 
-                                            <PasswordTextBox Foreground="BlueViolet" TextBoxAttach.Title="PasswordTextBox1：" />
+                                            <PasswordTextBox Foreground="Indigo" TextBoxAttach.Title="PasswordTextBox1：" />
                                             <PasswordTextBox CanShowPassword="False"
                                                              TextBoxAttach.PlaceHolder="请输入密码2..."
                                                              TextBoxAttach.Title="PasswordTextBox2：" />
@@ -549,7 +547,7 @@
                                     </GroupBox>
                                     <GroupBox Grid.Row="1"
                                               Margin="10"
-                                              Header="InputControl">
+                                              Header="InputControlWithButtonTitle">
                                         <WrapPanel>
                                             <DateTimePicker Name="dateTimePicker"
                                                             Height="50"
@@ -822,6 +820,14 @@
                                     </GroupBox>
                                     <GroupBox Margin="10" Header="ToggleButton">
                                         <WrapPanel Orientation="Horizontal">
+                                            <ToggleButton>ToggleButton</ToggleButton>
+                                            <ToggleButton Height="30">ToggleButton</ToggleButton>
+                                            <ToggleButton Height="40">ToggleButton</ToggleButton>
+                                            <ToggleButton Height="50">ToggleButton</ToggleButton>
+                                        </WrapPanel>
+                                    </GroupBox>
+                                    <GroupBox Margin="10" Header="ToggleButtonSwitchStyle">
+                                        <WrapPanel Orientation="Horizontal">
                                             <ToggleButton Style="{StaticResource ToggleButtonSwitch}" />
                                             <ToggleButton Height="30" Style="{StaticResource ToggleButtonSwitch}" />
                                             <ToggleButton Height="40" Style="{StaticResource ToggleButtonSwitch}" />
@@ -834,7 +840,7 @@
                     </LayoutDocumentPaneGroup>
                     <LayoutAnchorablePaneGroup DockWidth="400">
                         <LayoutAnchorablePane>
-                            <LayoutAnchorable Title="数据表格" ToolTip="ListView.ListView">
+                            <LayoutAnchorable Title="ListView" ToolTip="This a ListView">
                                 <ListView ItemsSource="{Binding Result}">
                                     <ListView.View>
                                         <GridView>
@@ -935,7 +941,7 @@
                                     </ListView.ContextMenu>
                                 </ListView>
                             </LayoutAnchorable>
-                            <LayoutAnchorable Title="ListBox" ToolTip="ListBox.ListBox">
+                            <LayoutAnchorable Title="ListBox" ToolTip="This a ListView">
                                 <ListBox BorderBrush="Transparent"
                                          BorderThickness="0"
                                          SelectionMode="Multiple">
@@ -950,7 +956,18 @@
                                     <ListBoxItem>789789789</ListBoxItem>
                                 </ListBox>
                             </LayoutAnchorable>
-                            <LayoutAnchorable Title="PropertyGrid">
+                            <LayoutAnchorable Title="TreeView" ToolTip="This a TreeView">
+                                <TreeView Name="treeView"
+                                          VirtualizingPanel.IsVirtualizing="True"
+                                          VirtualizingPanel.VirtualizationMode="Recycling">
+                                    <TreeView.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Click="MenuItem_Click_2" Header="导入文件夹" />
+                                        </ContextMenu>
+                                    </TreeView.ContextMenu>
+                                </TreeView>
+                            </LayoutAnchorable>
+                            <LayoutAnchorable Title="PropertyGrid" ToolTip="This a PropertyGrid">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
@@ -961,17 +978,6 @@
                                     <Button Grid.Row="1" Click="Button_Click_3">显示InstrumentType选中项</Button>
                                     <Button Grid.Row="2" Click="Button_Click_7">SelectedObject=MainWindow</Button>
                                 </Grid>
-                            </LayoutAnchorable>
-                            <LayoutAnchorable Title="TreeView">
-                                <TreeView Name="treeView"
-                                          VirtualizingPanel.IsVirtualizing="True"
-                                          VirtualizingPanel.VirtualizationMode="Recycling">
-                                    <TreeView.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Click="MenuItem_Click_2" Header="导入文件夹" />
-                                        </ContextMenu>
-                                    </TreeView.ContextMenu>
-                                </TreeView>
                             </LayoutAnchorable>
                         </LayoutAnchorablePane>
                     </LayoutAnchorablePaneGroup>

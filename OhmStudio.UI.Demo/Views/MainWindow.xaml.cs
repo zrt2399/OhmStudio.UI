@@ -512,7 +512,7 @@ namespace OhmStudio.UI.Demo.Views
         public int? IntString { get; set; } = null;
 
         [TextBoxPlaceHolder(PlaceHolder = "请输入密码"), Password]
-        public string Abstring { get; set; }
+        public string Password { get; set; } = "123456";
 
         public Abs? Abs { get; set; } = null;
 
