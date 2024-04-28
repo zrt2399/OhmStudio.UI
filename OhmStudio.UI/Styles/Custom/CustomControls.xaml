@@ -593,42 +593,6 @@
     </Style>
     <Style BasedOn="{StaticResource CircularProgressBarBaseStyle}" TargetType="controls:CircularProgressBar" />
 
-    <Style x:Key="ListBoxItemContainerStyle" TargetType="ListBoxItem">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Padding" Value="4,1" />
-        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
-        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="Bd"
-                            Padding="{TemplateBinding Padding}"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Opacity="0.7">
-                        <Ellipse x:Name="ep"
-                                 Width="12"
-                                 Height="12"
-                                 Cursor="Hand"
-                                 Fill="LightGray" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="True" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="ep" Property="Fill" Value="Gray" />
-                        </MultiTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Geometry x:Key="LeftGeometry" o:Freeze="True">M394.24 512L683.52 248.32c10.24-10.24 10.24-25.6 0-35.84-10.24-10.24-25.6-10.24-35.84 0l-307.2 279.04c-5.12 5.12-7.68 12.8-7.68 20.48 0 7.68 2.56 15.36 7.68 20.48l307.2 279.04c10.24 10.24 25.6 10.24 35.84 0 10.24-10.24 10.24-25.6 0-35.84L394.24 512z</Geometry>
     <Geometry x:Key="RightGeometry" o:Freeze="True">M4.1666641,0 C5.2083321,0 6.25,0.41666794 7.0833321,1.25 L57.083331,46.666664 C57.916664,47.499998 58.33333,48.749998 58.333329,49.999998 58.33333,51.249997 57.916664,52.499997 57.083331,53.333331 L7.0833321,98.749996 C5.4166641,100.41666 2.9166641,100.41666 1.2499962,98.749996 -0.41666794,97.083328 -0.41666794,94.583328 1.2499962,92.916664 L48.333331,49.999998 1.2499962,7.0833321 C-0.41666794,5.4166641 -0.41666794,2.9166641 1.2499962,1.25 2.0833282,0.41666794 3.1249962,0 4.1666641,0 z</Geometry>
     <Style x:Key="PathBaseStyle" TargetType="Path">
@@ -678,7 +642,7 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                            CornerRadius="4"
                             SnapsToDevicePixels="true">
                         <ContentPresenter Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -702,41 +666,87 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ListBoxItemContainerStyle" TargetType="ListBoxItem">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Padding" Value="4,1" />
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="Bd"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Opacity="0.5">
+                        <Ellipse x:Name="ep"
+                                 Width="12"
+                                 Height="12"
+                                 Cursor="Hand"
+                                 Fill="LightGray" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="ep" Property="Fill" Value="Gray" />
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.8" />
+                        </Trigger>
+                        <!--<MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="ep" Property="Fill" Value="red" />
+                        </MultiTrigger>-->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="RollingBoxBaseStyle" TargetType="controls:RollingBox">
-        <Setter Property="attaches:BorderAttach.CornerRadius" Value="4" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:RollingBox">
-                    <controls:SimplePanel ClipToBounds="True">
-                        <ListBox x:Name="PART_ListBox"
-                                 Height="24"
-                                 Margin="0,0,20,20"
-                                 HorizontalAlignment="Right"
-                                 VerticalAlignment="Bottom"
-                                 Panel.ZIndex="10"
-                                 Background="Transparent"
-                                 BorderThickness="0"
-                                 ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
-                                 SelectedIndex="0">
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                        </ListBox>
-                        <ContentControl x:Name="PART_NEXT_Content" />
-                        <ContentControl x:Name="PART_CURR_Content" />
-                        <Button HorizontalAlignment="Left"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=PreviousCommand}"
-                                Style="{StaticResource PathCustomButton}">
-                            <Path Style="{StaticResource LeftPathStyle}" />
-                        </Button>
-                        <Button HorizontalAlignment="Right"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NextCommand}"
-                                Style="{StaticResource PathCustomButton}">
-                            <Path Style="{StaticResource RightPathStyle}" />
-                        </Button>
-                    </controls:SimplePanel>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                            SnapsToDevicePixels="True">
+                        <controls:SimplePanel>
+                            <ListBox x:Name="PART_ListBox"
+                                     Margin="20"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Bottom"
+                                     Panel.ZIndex="10"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                     ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+                            <!--<ContentControl x:Name="PART_NEXT_Content" />-->
+                            <ContentControl x:Name="PART_CURR_Content" />
+                            <Button x:Name="PART_Previous"
+                                    HorizontalAlignment="Left"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=PreviousCommand}"
+                                    Style="{StaticResource PathCustomButton}">
+                                <Path Style="{StaticResource LeftPathStyle}" />
+                            </Button>
+                            <Button HorizontalAlignment="Right"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NextCommand}"
+                                    Style="{StaticResource PathCustomButton}">
+                                <Path Style="{StaticResource RightPathStyle}" />
+                            </Button>
+                        </controls:SimplePanel>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

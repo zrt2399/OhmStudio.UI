@@ -338,20 +338,32 @@
                                 </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="RollingBox">
-                                <RollingBox>
-                                    <RollingBox.Items>
-                                        <!--<Image Source="https://pic4.zhimg.com/v2-177d137cb3266e217cc0bb45c2e5b1ef_r.jpg" />
-                                        <Image Source="https://pic3.zhimg.com/v2-1260ce85d93a13a45a3bd7b224634222_r.jpg" />-->
-                                        <Image Source="https://pica.zhimg.com/v2-a23f3078d20eba31f367a605cdb94c14_r.jpg?source=1940ef5c" />
-                                        <Image Source="/Images/1.jpg" />
-                                        <Image Source="/Images/1a.jpg" />
-                                        <Image Source="/Images/1b.jpg" />
-                                        <Image Source="/Images/2.jpg" />
-                                        <Image Source="/Images/2a.jpg" />
-                                        <Image Source="/Images/3.jpg" />
-                                        <Image Source="/Images/3a.jpg" />
-                                    </RollingBox.Items>
-                                </RollingBox>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <RollingBox Name="rollingBox" RollingInterval="3">
+                                        <RollingBox.ItemsSource>
+                                            <!--<Image Source="https://pic4.zhimg.com/v2-177d137cb3266e217cc0bb45c2e5b1ef_r.jpg" />
+                                            <Image Source="https://pic3.zhimg.com/v2-1260ce85d93a13a45a3bd7b224634222_r.jpg" />-->
+                                            <Image Source="https://pica.zhimg.com/v2-a23f3078d20eba31f367a605cdb94c14_r.jpg?source=1940ef5c" />
+                                            <Image Source="/Images/1.jpg" />
+                                            <Image Source="/Images/1a.jpg" />
+                                            <Image Source="/Images/1b.jpg" />
+                                            <Image Source="/Images/2.jpg" />
+                                            <Image Source="/Images/2a.jpg" />
+                                            <Image Source="/Images/3.jpg" />
+                                            <Image Source="/Images/3a.jpg" />
+                                            <Button>Button</Button>
+                                            <UniformGrid Columns="1" Rows="2">
+                                                <Button>Button1</Button>
+                                                <Button>Button2</Button>
+                                            </UniformGrid>
+                                        </RollingBox.ItemsSource>
+                                    </RollingBox>
+                                    <Button Grid.Row="1" Click="Button_Click_15">切换ItemsSource</Button>
+                                </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="TextEditor">
                                 <TabControl>
@@ -576,7 +588,10 @@
                                                      VerticalContentAlignment="Bottom"
                                                      TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <Button>TextBox3：</Button>
+                                                    <UniformGrid Columns="1">
+                                                        <Button>TextBox3：</Button>
+                                                        <Button>TextBox3：</Button>
+                                                    </UniformGrid>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
                                                     <Button>TextBox3...</Button>
@@ -684,7 +699,7 @@
                                     </Grid.RowDefinitions>
                                     <Button Click="Button_Click_8">换行/不换行</Button>
                                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                                        <DocumentWrapPanel x:Name="documentWrapPanel" VerticalAlignment="Top">
+                                        <DocumentWrapPanel VerticalAlignment="Top" IsWrap="{Binding DocumentWrapPanelIsWrap}">
                                             <DocumentWrapPanel.Resources>
                                                 <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                                                     <Setter Property="CornerRadiusAttach.IsCircular" Value="True" />
@@ -715,7 +730,7 @@
                                             <Button>20</Button>
                                         </DocumentWrapPanel>
                                     </ScrollViewer>
-                                    <TextBlock Grid.Row="2" Text="{Binding ElementName=documentWrapPanel, Path=IsWrap, StringFormat=是否换行：{0}}" />
+                                    <TextBlock Grid.Row="2" Text="{Binding DocumentWrapPanelIsWrap, StringFormat=是否换行：{0}}" />
                                 </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="GifImage">
@@ -974,7 +989,7 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <PropertyGrid Name="propertyGrid" SelectedObject="{Binding Pro}" />
+                                    <PropertyGrid SelectedObject="{Binding SelectedObject}" />
                                     <Button Grid.Row="1" Click="Button_Click_3">显示InstrumentType选中项</Button>
                                     <Button Grid.Row="2" Click="Button_Click_7">SelectedObject=MainWindow</Button>
                                 </Grid>
@@ -994,9 +1009,7 @@
             </StatusBar.Resources>
 
             <Button Width="Auto" Click="Button_Click_4">切换状态</Button>
-            <StatusBarItem x:Name="status"
-                           Margin="4,0"
-                           Content="Ready" />
+            <StatusBarItem Margin="4,0" Content="{Binding StatusBarContent}" />
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
                     <Button Command="{Binding ZoomInCommand}" Content="-" />

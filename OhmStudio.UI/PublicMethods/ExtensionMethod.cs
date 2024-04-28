@@ -373,7 +373,7 @@ namespace OhmStudio.UI.PublicMethods
     [AttributeUsage(AttributeTargets.Property)]
     public class PasswordAttribute : Attribute
     {
-        public bool CanShowPassword { get; set; }
+        public bool CanShowPassword { get; set; } = true;
     }
 
     [AttributeUsage(AttributeTargets.Property)]

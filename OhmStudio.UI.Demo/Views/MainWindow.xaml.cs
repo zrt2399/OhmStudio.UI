@@ -19,7 +19,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Search;
 using Microsoft.Win32;
@@ -80,6 +79,15 @@ namespace OhmStudio.UI.Demo.Views
                 }
             };
 
+            KeyDown += async (sender, e) =>
+            {
+                if (e.Key == Key.Tab)
+                {
+                    await Task.Delay(200);
+                    StatusBarContent = "CurrentFocusedElement:" + Keyboard.FocusedElement;
+                }
+            };
+
             ZoomInCommand = new RelayCommand(ZoomIn);
             ZoomOutCommand = new RelayCommand(ZoomOut);
             Result.Columns.Add("Time");
@@ -93,6 +101,7 @@ namespace OhmStudio.UI.Demo.Views
 
             Pro.Description = "1";
             Pro.Brush = Brushes.Red;
+            SelectedObject = Pro;
 
             Stopwatch stopwatch = Stopwatch.StartNew();
             List<Pro> pros = new List<Pro>();
@@ -127,22 +136,6 @@ namespace OhmStudio.UI.Demo.Views
             XamlThemeDictionary.ThemeChanged += XamlThemeDictionary_ThemeChanged;
         }
 
-        private void XamlThemeDictionary_ThemeChanged(object sender, EventArgs e)
-        {
-            status.Content = "软件主题已改变为" + (ThemeType)sender;
-        }
-
-        private void StatusManager_IsRunningChanged(object sender, EventArgs e)
-        {
-            status.Content = "IsRunning:" + sender;
-        }
-
-        private void SystemEvents_InstalledFontsChanged(object sender, EventArgs e)
-        {
-            UptateFontList();
-            status.Content = "系统字体已改变";
-        }
-
         bool _can;
         const string Rrecipient = "Ohm";
         const string DefaultFont = "默认";
@@ -165,6 +158,12 @@ namespace OhmStudio.UI.Demo.Views
         public IEnumerable<double> FontSizeList { get; } = Enumerable.Range(10, 11).Select(x => (double)x);
 
         public Pro Pro { get; set; } = new Pro();
+
+        public object SelectedObject { get; set; }
+
+        public bool DocumentWrapPanelIsWrap { get; set; } = true;
+
+        public string StatusBarContent { get; set; } = "Ready";
 
         public DataTable Result { get; set; } = new DataTable();
 
@@ -250,6 +249,22 @@ namespace OhmStudio.UI.Demo.Views
                     OnPropertyChanged(nameof(CurrentFontSize));
                 }
             }
+        }
+
+        private void XamlThemeDictionary_ThemeChanged(object sender, EventArgs e)
+        {
+            StatusBarContent = "软件主题已改变为" + (ThemeType)sender;
+        }
+
+        private void StatusManager_IsRunningChanged(object sender, EventArgs e)
+        {
+            StatusBarContent = "IsRunning:" + sender;
+        }
+
+        private void SystemEvents_InstalledFontsChanged(object sender, EventArgs e)
+        {
+            UptateFontList();
+            StatusBarContent = "系统字体已改变";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -454,7 +469,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_8(object sender, RoutedEventArgs e)
         {
-            documentWrapPanel.IsWrap = !documentWrapPanel.IsWrap;
+            DocumentWrapPanelIsWrap = !DocumentWrapPanelIsWrap;
         }
 
         private void Button_Click_9(object sender, RoutedEventArgs e)
@@ -496,7 +511,12 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_7(object sender, RoutedEventArgs e)
         {
-            propertyGrid.SelectedObject = this;
+            SelectedObject = this;
+        }
+
+        private void Button_Click_15(object sender, RoutedEventArgs e)
+        {
+            rollingBox.ItemsSource = new ObservableCollection<UIElement> { new Image() { Source = new BitmapImage(new Uri("https://pic1.zhimg.com/v2-ecac0aedda57bffecbbe90764828a825_r.jpg?source=1940ef5c")) }, new Button() { Content="This is a new Button"} };
         }
     }
 
@@ -511,7 +531,7 @@ namespace OhmStudio.UI.Demo.Views
 
         public int? IntString { get; set; } = null;
 
-        [TextBoxPlaceHolder(PlaceHolder = "请输入密码"), Password]
+        [TextBoxPlaceHolder(PlaceHolder = "请输入密码..."), Password]
         public string Password { get; set; } = "123456";
 
         public Abs? Abs { get; set; } = null;
@@ -591,8 +611,8 @@ namespace OhmStudio.UI.Demo.Views
 
         public string Remark { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
 
-        public DateTime LoginAt { get; set; }
+        public DateTime LoginAt { get; set; } = DateTime.Now;
     }
 }
