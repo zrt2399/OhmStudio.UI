@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Styles.VS
 {
@@ -17,8 +19,20 @@ namespace OhmStudio.UI.Styles.VS
                 {
                     if (contentControl.Content is UIElement uIElement)
                     {
-                        uIElement.Focus();
-                        e.Handled = true;
+                        if (uIElement.Focusable)
+                        {
+                            uIElement.Focus();
+                            e.Handled = true;
+                        }
+                        else
+                        {
+                            var first = uIElement.FindChildren<UIElement>().FirstOrDefault(x => x.Focusable);
+                            if (first != null)
+                            {
+                                first.Focus();
+                                e.Handled = true;
+                            }
+                        }
                     }
                 }
             }
