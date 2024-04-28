@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,9 +45,9 @@ namespace OhmStudio.UI.Controls
         public ICommand PreviousCommand { get; }
 
         public ICommand NextCommand { get; }
- 
+
         public static readonly DependencyProperty ItemsSourceProperty =
-           DependencyProperty.Register(nameof(ItemsSource), typeof(ObservableCollection<UIElement>), typeof(RollingBox), new PropertyMetadata(new ObservableCollection<UIElement>(), (sender, e) =>
+           DependencyProperty.Register(nameof(ItemsSource), typeof(List<UIElement>), typeof(RollingBox), new PropertyMetadata(new List<UIElement>(), (sender, e) =>
            {
                if (sender is RollingBox rollingBox)
                {
@@ -55,9 +55,9 @@ namespace OhmStudio.UI.Controls
                }
            }));
 
-        public ObservableCollection<UIElement> ItemsSource
+        public List<UIElement> ItemsSource
         {
-            get => (ObservableCollection<UIElement>)GetValue(ItemsSourceProperty);
+            get => (List<UIElement>)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
 
@@ -223,7 +223,7 @@ namespace OhmStudio.UI.Controls
                 IndexChange();
             }
         }
-          
+
         private void RollingBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (!e.Handled && PART_CURR_Content != null /*&& PART_NEXT_Content != null*/)

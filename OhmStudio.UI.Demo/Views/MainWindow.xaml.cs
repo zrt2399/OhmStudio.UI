@@ -516,7 +516,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_15(object sender, RoutedEventArgs e)
         {
-            rollingBox.ItemsSource = new ObservableCollection<UIElement> { new Image() { Source = new BitmapImage(new Uri("https://pic1.zhimg.com/v2-ecac0aedda57bffecbbe90764828a825_r.jpg?source=1940ef5c")) }, new Button() { Content="This is a new Button"} };
+            rollingBox.ItemsSource = new List<UIElement> { new Image() { Source = new BitmapImage(new Uri("https://pic1.zhimg.com/v2-ecac0aedda57bffecbbe90764828a825_r.jpg?source=1940ef5c")) }, new Button() { Content = "This is a new Button" } };
         }
     }
 
