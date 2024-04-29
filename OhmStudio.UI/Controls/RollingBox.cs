@@ -33,6 +33,7 @@ namespace OhmStudio.UI.Controls
             dispatcherTimer?.Stop();
             dispatcherTimer = null;
         }
+
         //int preindex = 0;
         DispatcherTimer dispatcherTimer = new DispatcherTimer();
         ContentControl PART_CURR_Content;
@@ -83,7 +84,7 @@ namespace OhmStudio.UI.Controls
 
         public int Index
         {
-            get => PART_ListBox.SelectedIndex;
+            get => PART_ListBox?.SelectedIndex ?? -1;
             set
             {
                 //preindex = _index;
@@ -99,8 +100,11 @@ namespace OhmStudio.UI.Controls
                 {
                     value = ItemsSource.Count - 1;
                 }
-                PART_ListBox.SelectedIndex = value;
-                IndexChange();
+                if (PART_ListBox != null)
+                {
+                    PART_ListBox.SelectedIndex = value;
+                }
+                //IndexChange();
             }
         }
 
@@ -198,7 +202,7 @@ namespace OhmStudio.UI.Controls
             //PART_NEXT_Content = GetTemplateChild("PART_NEXT_Content") as ContentControl;
             PART_ListBox = GetTemplateChild("PART_ListBox") as ListBox;
             PART_Previous = GetTemplateChild("PART_Previous") as Button;
-
+            PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
             //Binding binding = new Binding();
             //binding.Path = new PropertyPath(nameof(Index));
             //binding.Source = this;
@@ -212,7 +216,7 @@ namespace OhmStudio.UI.Controls
             };
 
             UpdateListBoxItem();
-            PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
+
         }
 
         private void PART_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
