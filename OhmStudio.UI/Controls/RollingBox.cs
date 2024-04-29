@@ -108,7 +108,7 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        void IndexChange()
+        void IndexChange(bool isNeedReset)
         {
             if (PART_CURR_Content == null /*|| PART_NEXT_Content == null*/ || PART_ListBox == null)
             {
@@ -119,8 +119,11 @@ namespace OhmStudio.UI.Controls
                 PART_CURR_Content.Content = ItemsSource[Index];
                 return;//首次不需要动画
             }
-            dispatcherTimer.Stop();
-            dispatcherTimer.Start();//重新开始计时
+            if (isNeedReset)
+            {
+                dispatcherTimer.Stop();
+                dispatcherTimer.Start();//重新开始计时
+            }
             AnimationStart();
         }
 
@@ -201,10 +204,11 @@ namespace OhmStudio.UI.Controls
             var listBox = sender as ListBox;
             if (listBox.SelectedIndex >= 0)
             {
-                IndexChange();
+                //Debug.WriteLine(listBox.IsMouseCaptured);
+                IndexChange(listBox.IsMouseCaptured);
             }
         }
-         
+
         void UpdateListBoxItem()
         {
             if (PART_ListBox == null || PART_CURR_Content == null)
