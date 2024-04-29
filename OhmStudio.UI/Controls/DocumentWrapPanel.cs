@@ -4,11 +4,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using AvalonDock;
+using System.Windows.Input;
 using AvalonDock.Controls;
 using AvalonDock.Layout;
-using OhmStudio.UI.Attaches;
-using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
@@ -95,6 +93,8 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty IsHoldHiddenItemProperty;
 
+        public static readonly DependencyProperty IsMouseWheelWrapProperty;
+
         private Orientation _orientation;
 
         [TypeConverter(typeof(LengthConverter))]
@@ -129,19 +129,22 @@ namespace OhmStudio.UI.Controls
             set => SetValue(IsHoldHiddenItemProperty, value);
         }
 
+        public bool IsMouseWheelWrap
+        {
+            get => (bool)GetValue(IsMouseWheelWrapProperty);
+            set => SetValue(IsMouseWheelWrapProperty, value);
+        }
+
         public DocumentWrapPanel()
         {
             _orientation = (Orientation)OrientationProperty.GetMetadata(this).DefaultValue;
-            PreviewMouseWheel += (sender, e) =>
-            {
-                bool isWrap = e.Delta < 0;
-                IsWrap = isWrap;
-                var dockingManager = this.FindParentObject<DockingManager>();
-                if (dockingManager != null)
-                {
-                    DocumentWrapPanelAttach.SetIsWrap(dockingManager, isWrap);
-                }
-            };
+        }
+
+        private static void DocumentWrapPanel_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var documentWrapPanel = sender as DocumentWrapPanel;
+            bool isWrap = e.Delta < 0;
+            documentWrapPanel.IsWrap = isWrap;
         }
 
         static DocumentWrapPanel()
@@ -151,6 +154,7 @@ namespace OhmStudio.UI.Controls
             OrientationProperty = StackPanel.OrientationProperty.AddOwner(typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(Orientation.Horizontal, FrameworkPropertyMetadataOptions.AffectsMeasure, OnOrientationChanged));
             IsWrapProperty = DependencyProperty.Register(nameof(IsWrap), typeof(bool), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure, OnIsWrapChanged));
             IsHoldHiddenItemProperty = DependencyProperty.Register(nameof(IsHoldHiddenItem), typeof(bool), typeof(DocumentWrapPanel));
+            IsMouseWheelWrapProperty = DependencyProperty.Register(nameof(IsMouseWheelWrap), typeof(bool), typeof(DocumentWrapPanel), new PropertyMetadata(false, OnIsMouseWheelWrapChanged));
             //ControlsTraceLogger.AddControl(TelemetryControls.DocumentWrapPanel);
         }
 
@@ -169,6 +173,21 @@ namespace OhmStudio.UI.Controls
                     {
                         item.Visibility = Visibility.Visible;
                     }
+                }
+            }
+        }
+
+        private static void OnIsMouseWheelWrapChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is DocumentWrapPanel documentWrapPanel && e.NewValue is bool newValue)
+            {
+                if (newValue)
+                {
+                    documentWrapPanel.PreviewMouseWheel += DocumentWrapPanel_PreviewMouseWheel;
+                }
+                else
+                {
+                    documentWrapPanel.PreviewMouseWheel -= DocumentWrapPanel_PreviewMouseWheel;
                 }
             }
         }

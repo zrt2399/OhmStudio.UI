@@ -86,6 +86,7 @@
                             <controls:DocumentWrapPanel x:Name="HeaderPanel"
                                                         Margin="0,0,0,2"
                                                         IsItemsHost="true"
+                                                        IsMouseWheelWrap="True"
                                                         KeyboardNavigation.TabIndex="1" />
                             <avalonDockControls:DropDownButton x:Name="MenuDropDownButton"
                                                                Grid.Column="1"
