@@ -166,28 +166,6 @@ namespace OhmStudio.UI.Controls
             PART_CURR_Content.BeginAnimation(OpacityProperty, nextAnimation);
         }
 
-
-        void UpdateListBoxItem()
-        {
-            if (PART_ListBox == null || PART_CURR_Content == null)
-            {
-                return;
-            }
-            PART_ListBox.Items.Clear();
-            PART_CURR_Content.Content = null;
-            if (ItemsSource == null || ItemsSource.Count == 0)
-            {
-                return;
-            }
-            for (int i = 0; i < ItemsSource.Count; i++)
-            {
-                PART_ListBox.Items.Add(new ListBoxItem());
-            }
-            Index = 0;
-            dispatcherTimer.Stop();
-            dispatcherTimer.Start();
-        }
-
         /// <summary>
         /// <see cref="OnApplyTemplate"/> 要比XAML赋值，构造函数晚，在第一次Loaded时触发。
         /// </summary>
@@ -216,7 +194,6 @@ namespace OhmStudio.UI.Controls
             };
 
             UpdateListBoxItem();
-
         }
 
         private void PART_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -226,6 +203,27 @@ namespace OhmStudio.UI.Controls
             {
                 IndexChange();
             }
+        }
+         
+        void UpdateListBoxItem()
+        {
+            if (PART_ListBox == null || PART_CURR_Content == null)
+            {
+                return;
+            }
+            PART_ListBox.Items.Clear();
+            PART_CURR_Content.Content = null;
+            if (ItemsSource == null || ItemsSource.Count == 0)
+            {
+                return;
+            }
+            for (int i = 0; i < ItemsSource.Count; i++)
+            {
+                PART_ListBox.Items.Add(new ListBoxItem());
+            }
+            Index = 0;
+            dispatcherTimer.Stop();
+            dispatcherTimer.Start();
         }
 
         private void RollingBox_GotFocus(object sender, RoutedEventArgs e)
