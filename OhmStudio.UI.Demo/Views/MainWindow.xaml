@@ -142,6 +142,8 @@
         </Grid.RowDefinitions>
         <DockingManager x:Name="dockingManager"
                         AutoHideDelay="0"
+                        DocumentWrapPanelAttach.IsMouseWheelWrap="True"
+                        DocumentWrapPanelAttach.IsWrap="True"
                         ShowSystemMenu="False">
             <LayoutRoot>
                 <LayoutPanel Orientation="Horizontal">
