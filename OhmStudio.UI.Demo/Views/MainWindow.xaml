@@ -142,7 +142,6 @@
         </Grid.RowDefinitions>
         <DockingManager x:Name="dockingManager"
                         AutoHideDelay="0"
-                        DocumentWrapPanelAttach.IsWrap="True"
                         ShowSystemMenu="False">
             <LayoutRoot>
                 <LayoutPanel Orientation="Horizontal">
@@ -520,40 +519,55 @@
 
                                     <GroupBox Margin="10" Header="InputControl">
                                         <WrapPanel>
-                                            <DateTimePicker Foreground="Green" TextBoxAttach.Title="日期1：" />
-                                            <DateTimePicker SelectedDateTime="{Binding CurrentDateTime, Mode=TwoWay}"
-                                                            TextBoxAttach.PlaceHolder="请输入日期2..."
-                                                            TextBoxAttach.Title="日期2：" />
+                                            <DateTimePicker VerticalAlignment="Top"
+                                                            Foreground="Green"
+                                                            SelectedDateTime="{Binding CurrentDateTime, Mode=TwoWay}"
+                                                            TextBoxAttach.PlaceHolder="请选择日期..."
+                                                            TextBoxAttach.Title="DateTimePicker：" />
+                                            <DateTimePicker VerticalAlignment="Top" />
 
-                                            <SearchBar Foreground="Violet" TextBoxAttach.Title="搜索1：" />
-                                            <SearchBar TextBoxAttach.PlaceHolder="请输入搜索内容2..." TextBoxAttach.Title="搜索2：" />
+                                            <SearchBar VerticalAlignment="Top"
+                                                       Foreground="Violet"
+                                                       TextBoxAttach.PlaceHolder="请输入搜索内容..."
+                                                       TextBoxAttach.Title="SearchBar：" />
+                                            <SearchBar VerticalAlignment="Top" />
 
-                                            <TextBox Foreground="Blue" TextBoxAttach.Title="TextBox1：" />
-                                            <TextBox VerticalContentAlignment="Top"
+                                            <TextBox VerticalAlignment="Top"
                                                      BorderThickness="0,0,0,2"
                                                      Text="{Binding CurrentDateTime}"
-                                                     TextBoxAttach.PlaceHolder="TextBox2："
-                                                     TextBoxAttach.Title="TextBox2：" />
+                                                     TextBoxAttach.PlaceHolder="请输入文本..."
+                                                     TextBoxAttach.Title="TextBox：" />
+                                            <TextBox VerticalAlignment="Top" Foreground="Blue" />
 
-                                            <PasswordBox Foreground="Purple" TextBoxAttach.Title="PasswordBox1：" />
-                                            <PasswordBox TextBoxAttach.PlaceHolder="请输入密码2..." TextBoxAttach.Title="PasswordBox2：" />
+                                            <PasswordBox VerticalAlignment="Top"
+                                                         Foreground="Purple"
+                                                         TextBoxAttach.PlaceHolder="请输入密码..."
+                                                         TextBoxAttach.Title="PasswordBox：" />
+                                            <PasswordBox VerticalAlignment="Top" PasswordChar="#" />
 
-                                            <PasswordTextBox Foreground="Indigo" TextBoxAttach.Title="PasswordTextBox1：" />
-                                            <PasswordTextBox CanShowPassword="False"
-                                                             TextBoxAttach.PlaceHolder="请输入密码2..."
-                                                             TextBoxAttach.Title="PasswordTextBox2：" />
+                                            <PasswordTextBox VerticalAlignment="Top"
+                                                             CanShowPassword="False"
+                                                             Foreground="Indigo"
+                                                             PasswordChar="$"
+                                                             TextBoxAttach.PlaceHolder="请输入密码..."
+                                                             TextBoxAttach.Title="PasswordTextBox：" />
+                                            <PasswordTextBox VerticalAlignment="Top" />
 
-                                            <ComboBox Foreground="Red"
+                                            <ComboBox VerticalAlignment="Top"
+                                                      Foreground="Red"
                                                       ItemsSource="{Binding ProNodes}"
-                                                      TextBoxAttach.Title="ComboBox1：" />
-                                            <ComboBox ItemsSource="{Binding ProNodes}"
-                                                      TextBoxAttach.PlaceHolder="ComboBox2..."
-                                                      TextBoxAttach.Title="ComboBox2" />
+                                                      TextBoxAttach.PlaceHolder="IsEditable=False"
+                                                      TextBoxAttach.Title="ComboBox：" />
+                                            <ComboBox VerticalAlignment="Top"
+                                                      IsEditable="True"
+                                                      ItemsSource="{Binding ProNodes}"
+                                                      TextBoxAttach.PlaceHolder="IsEditable=True" />
 
-                                            <CheckComboBox Foreground="Orange"
+                                            <CheckComboBox VerticalAlignment="Top"
+                                                           Foreground="Orange"
                                                            ItemsSource="{Binding ProNodes}"
-                                                           TextBoxAttach.Title="多选1：" />
-                                            <CheckComboBox ItemsSource="{Binding ProNodes}" TextBoxAttach.Title="多选2：" />
+                                                           TextBoxAttach.Title="CheckComboBox：" />
+                                            <CheckComboBox VerticalAlignment="Top" ItemsSource="{Binding ProNodes}" />
 
                                         </WrapPanel>
                                     </GroupBox>
@@ -565,11 +579,13 @@
                                                             Height="50"
                                                             HorizontalContentAlignment="Right"
                                                             VerticalContentAlignment="Bottom"
-                                                            TextBoxAttach.PlaceHolder="请输入日期3..."
                                                             TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <Button>日期3：</Button>
+                                                    <Button>DateTimePicker：</Button>
                                                 </TextBoxAttach.Title>
+                                                <TextBoxAttach.PlaceHolder>
+                                                    <Button>请输入日期...</Button>
+                                                </TextBoxAttach.PlaceHolder>
                                             </DateTimePicker>
                                             <SearchBar Height="50"
                                                        HorizontalContentAlignment="Right"
@@ -577,10 +593,10 @@
                                                        TextBoxAttach.PlaceHolderOpacity="1"
                                                        TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <Button>搜索3：</Button>
+                                                    <Button>SearchBar：</Button>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <Button>请输入搜索内容3...</Button>
+                                                    <Button>请输入搜索内容...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </SearchBar>
                                             <TextBox Height="50"
@@ -589,12 +605,12 @@
                                                      TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
                                                     <UniformGrid Columns="1">
-                                                        <Button>TextBox3：</Button>
-                                                        <Button>TextBox3：</Button>
+                                                        <Button>TextBox1：</Button>
+                                                        <Button>TextBox2：</Button>
                                                     </UniformGrid>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <Button>TextBox3...</Button>
+                                                    <Button>请输入文本...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </TextBox>
                                             <PasswordBox Height="50"
@@ -604,10 +620,10 @@
                                                          TextBoxAttach.PlaceHolderOpacity="1"
                                                          TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <Button>PasswordBox3：</Button>
+                                                    <Button>PasswordBox：</Button>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <Button>请输入密码3...</Button>
+                                                    <Button>请输入密码...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </PasswordBox>
                                             <PasswordTextBox Name="passwordTextBox"
@@ -615,13 +631,14 @@
                                                              HorizontalContentAlignment="Right"
                                                              VerticalContentAlignment="Bottom"
                                                              PasswordChar="◉"
+                                                             TextBoxAttach.PlaceHolderIsHitTestVisible="False"
                                                              TextBoxAttach.PlaceHolderOpacity="1"
                                                              TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <Button>PasswordTextBox3：</Button>
+                                                    <Button>PasswordTextBox：</Button>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <Button>请输入密码3...</Button>
+                                                    <Button>请输入密码...</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </PasswordTextBox>
                                             <ComboBox Height="50"
@@ -633,10 +650,10 @@
                                                       ItemsSource="{Binding ProNodes}"
                                                       TextBoxAttach.TitleIsHitTestVisible="True">
                                                 <TextBoxAttach.Title>
-                                                    <Button>ComboBox3：</Button>
+                                                    <Button>ComboBox：</Button>
                                                 </TextBoxAttach.Title>
                                                 <TextBoxAttach.PlaceHolder>
-                                                    <Button>ComboBox3..</Button>
+                                                    <Button>IsReadOnly="True"</Button>
                                                 </TextBoxAttach.PlaceHolder>
                                             </ComboBox>
                                             <CheckComboBox Name="checkComboBox"
@@ -653,7 +670,7 @@
                                                            TextWrapping="Wrap"
                                                            VirtualizingPanel.ScrollUnit="Pixel">
                                                 <TextBoxAttach.Title>
-                                                    <Button>多选3：</Button>
+                                                    <Button>CheckComboBox：</Button>
                                                 </TextBoxAttach.Title>
                                             </CheckComboBox>
                                         </WrapPanel>

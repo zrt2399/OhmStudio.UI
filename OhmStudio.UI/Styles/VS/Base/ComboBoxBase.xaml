@@ -144,10 +144,11 @@
 
                 <Border Name="SelectedContentBorder"
                         Grid.Column="1"
-                        Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness, Converter={StaticResource ComboBoxHostMarginConverter}}"
-                        Padding="{TemplateBinding Padding}"
+                        Margin="{Binding ElementName=PART_EditableTextBox, Path=Margin}"
+                        Padding="{Binding ElementName=PART_EditableTextBox, Path=Padding}"
                         SnapsToDevicePixels="True">
                     <ContentPresenter x:Name="ContentSite"
+                                      Margin="2,0"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                       Content="{TemplateBinding SelectionBoxItem}"

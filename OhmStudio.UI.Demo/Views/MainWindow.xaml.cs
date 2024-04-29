@@ -84,7 +84,7 @@ namespace OhmStudio.UI.Demo.Views
                 if (e.Key == Key.Tab)
                 {
                     await Task.Delay(200);
-                    StatusBarContent = "CurrentFocusedElement:" + Keyboard.FocusedElement;
+                    StatusBarContent = "CurrentFocusedElement: " + Keyboard.FocusedElement;
                 }
             };
 
