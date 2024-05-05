@@ -706,10 +706,10 @@
         </Setter>
     </Style>
 
-    <Style x:Key="RollingBoxBaseStyle" TargetType="controls:RollingBox">
+    <Style x:Key="RollBoxBaseStyle" TargetType="controls:RollBox">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:RollingBox">
+                <ControlTemplate TargetType="controls:RollBox">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -751,7 +751,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style BasedOn="{StaticResource RollingBoxBaseStyle}" TargetType="controls:RollingBox" />
+    <Style BasedOn="{StaticResource RollBoxBaseStyle}" TargetType="controls:RollBox" />
 
     <!--  自动添加时内容居中  -->
     <Style x:Key="GridCellCenter" TargetType="DataGridCell">

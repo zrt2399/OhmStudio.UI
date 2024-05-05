@@ -14,21 +14,21 @@ namespace OhmStudio.UI.Controls
     //[TemplatePart(Name = "PART_CURR_Content", Type = typeof(ContentControl))]
     //[TemplatePart(Name = "PART_NEXT_Content", Type = typeof(ContentControl))]
     //[TemplatePart(Name = "PART_ListBox", Type = typeof(ListBox))]
-    public class RollingBox : Control
+    public class RollBox : Control
     {
-        public RollingBox()
+        public RollBox()
         {
             PreviousCommand = new RelayCommand(() => Index--);
             NextCommand = new RelayCommand(() => Index++);
-            GotFocus += RollingBox_GotFocus;
+            GotFocus += RollBox_GotFocus;
         }
 
-        static RollingBox()
+        static RollBox()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(RollingBox), new FrameworkPropertyMetadata(typeof(RollingBox)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(RollBox), new FrameworkPropertyMetadata(typeof(RollBox)));
         }
 
-        ~RollingBox()
+        ~RollBox()
         {
             dispatcherTimer?.Stop();
             dispatcherTimer = null;
@@ -48,11 +48,11 @@ namespace OhmStudio.UI.Controls
         public ICommand NextCommand { get; }
 
         public static readonly DependencyProperty ItemsSourceProperty =
-           DependencyProperty.Register(nameof(ItemsSource), typeof(List<UIElement>), typeof(RollingBox), new PropertyMetadata(new List<UIElement>(), (sender, e) =>
+           DependencyProperty.Register(nameof(ItemsSource), typeof(List<UIElement>), typeof(RollBox), new PropertyMetadata(new List<UIElement>(), (sender, e) =>
            {
-               if (sender is RollingBox rollingBox)
+               if (sender is RollBox rollBox)
                {
-                   rollingBox.UpdateListBoxItem();
+                   rollBox.UpdateListBoxItem();
                }
            }));
 
@@ -63,13 +63,13 @@ namespace OhmStudio.UI.Controls
         }
 
         public static readonly DependencyProperty RollingIntervalProperty =
-            DependencyProperty.Register(nameof(RollingInterval), typeof(double), typeof(RollingBox), new PropertyMetadata(5d, (sender, e) =>
+            DependencyProperty.Register(nameof(RollingInterval), typeof(double), typeof(RollBox), new PropertyMetadata(5d, (sender, e) =>
             {
-                if (sender is RollingBox rollingBox && e.NewValue is double newValue)
+                if (sender is RollBox rollBox && e.NewValue is double newValue)
                 {
-                    rollingBox.dispatcherTimer.Interval = TimeSpan.FromSeconds(newValue);
-                    rollingBox.dispatcherTimer.Stop();
-                    rollingBox.dispatcherTimer.Start();
+                    rollBox.dispatcherTimer.Interval = TimeSpan.FromSeconds(newValue);
+                    rollBox.dispatcherTimer.Stop();
+                    rollBox.dispatcherTimer.Start();
                 }
             }));
 
@@ -227,7 +227,7 @@ namespace OhmStudio.UI.Controls
             dispatcherTimer.Start();
         }
 
-        private void RollingBox_GotFocus(object sender, RoutedEventArgs e)
+        private void RollBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (!e.Handled && PART_CURR_Content != null /*&& PART_NEXT_Content != null*/)
             {

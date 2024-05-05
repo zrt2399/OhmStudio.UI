@@ -338,15 +338,15 @@
                                     </DataGrid>
                                 </UniformGrid>
                             </LayoutDocument>
-                            <LayoutDocument Title="RollingBox">
+                            <LayoutDocument Title="RollBox">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <RollingBox Name="rollingBox" RollingInterval="3">
-                                        <RollingBox.ItemsSource>
+                                    <RollBox Name="rollBox" RollingInterval="3">
+                                        <RollBox.ItemsSource>
                                             <!--<Image Source="https://pic4.zhimg.com/v2-177d137cb3266e217cc0bb45c2e5b1ef_r.jpg" />
                                             <Image Source="https://pic3.zhimg.com/v2-1260ce85d93a13a45a3bd7b224634222_r.jpg" />-->
                                             <Image Source="https://pica.zhimg.com/v2-a23f3078d20eba31f367a605cdb94c14_r.jpg?source=1940ef5c" />
@@ -362,10 +362,10 @@
                                                 <Button>Button1</Button>
                                                 <Button>Button2</Button>
                                             </UniformGrid>
-                                        </RollingBox.ItemsSource>
-                                    </RollingBox>
+                                        </RollBox.ItemsSource>
+                                    </RollBox>
                                     <Button Grid.Row="1" Click="Button_Click_15">切换ItemsSource</Button>
-                                    <TextBlock Grid.Row="2" Text="{Binding ElementName=rollingBox, Path=RollingInterval, StringFormat=当前滚动间隔：{0}s}" />
+                                    <TextBlock Grid.Row="2" Text="{Binding ElementName=rollBox, Path=RollingInterval, StringFormat=当前滚动间隔：{0}s}" />
                                 </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="TextEditor">
