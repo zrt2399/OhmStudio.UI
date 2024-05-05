@@ -263,15 +263,16 @@ namespace OhmStudio.UI.Controls
             }
             else
             {
-                Size size = default;
-                foreach (FrameworkElement child in Children)
-                {
-                    child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                    size.Width += child.DesiredSize.Width;
-                    size.Height = Math.Max(size.Height, child.DesiredSize.Height);
-                }
+                return base.MeasureOverride(constraint);
+                //Size size = default;
+                //foreach (FrameworkElement child in Children)
+                //{
+                //    child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                //    size.Width += child.DesiredSize.Width;
+                //    size.Height = Math.Max(size.Height, child.DesiredSize.Height);
+                //}
 
-                return new Size(Math.Min(size.Width, constraint.Width), size.Height);
+                //return new Size(Math.Min(size.Width, constraint.Width), size.Height);
             }
         }
 
