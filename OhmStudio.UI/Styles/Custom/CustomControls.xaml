@@ -734,7 +734,7 @@
                             </ListBox>
                             <!--<ContentControl x:Name="PART_NEXT_Content" />-->
                             <ContentControl x:Name="PART_CURR_Content" />
-                            <Button x:Name="PART_Previous"
+                            <Button x:Name="PART_PreviousButton"
                                     HorizontalAlignment="Left"
                                     Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=PreviousCommand}"
                                     Style="{StaticResource PathCustomButton}">

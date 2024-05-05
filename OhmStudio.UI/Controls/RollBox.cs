@@ -39,7 +39,7 @@ namespace OhmStudio.UI.Controls
         ContentControl PART_CURR_Content;
         //ContentControl PART_NEXT_Content;
         ListBox PART_ListBox;
-        Button PART_Previous;
+        Button PART_PreviousButton;
 
         //public List<UIElement> Items { get; set; } = new List<UIElement>();
 
@@ -120,7 +120,7 @@ namespace OhmStudio.UI.Controls
                 return;//首次不需要动画
             }
             dispatcherTimer.Stop();
-            dispatcherTimer.Start();//重新开始计时 
+            dispatcherTimer.Start();//重新开始计时
             AnimationStart();
         }
 
@@ -179,7 +179,7 @@ namespace OhmStudio.UI.Controls
             PART_CURR_Content = GetTemplateChild("PART_CURR_Content") as ContentControl;
             //PART_NEXT_Content = GetTemplateChild("PART_NEXT_Content") as ContentControl;
             PART_ListBox = GetTemplateChild("PART_ListBox") as ListBox;
-            PART_Previous = GetTemplateChild("PART_Previous") as Button;
+            PART_PreviousButton = GetTemplateChild("PART_PreviousButton") as Button;
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
             //Binding binding = new Binding();
             //binding.Path = new PropertyPath(nameof(Index));
@@ -201,7 +201,6 @@ namespace OhmStudio.UI.Controls
             var listBox = sender as ListBox;
             if (listBox.SelectedIndex >= 0)
             {
-                //Debug.WriteLine(listBox.IsMouseCaptured);
                 IndexChange();
             }
         }
@@ -244,9 +243,9 @@ namespace OhmStudio.UI.Controls
                     //    uIElement.Focus();
                     //    e.Handled = true;
                     //}
-                    else if (PART_Previous != null)
+                    else if (PART_PreviousButton != null)
                     {
-                        PART_Previous.Focus();
+                        PART_PreviousButton.Focus();
                         e.Handled = true;
                     }
                 }
