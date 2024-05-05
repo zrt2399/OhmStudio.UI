@@ -635,7 +635,7 @@
         <Setter Property="Padding" Value="0" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Background" Value="#CC2E2E2E" />
+        <Setter Property="Background" Value="#AA2E2E2E" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">

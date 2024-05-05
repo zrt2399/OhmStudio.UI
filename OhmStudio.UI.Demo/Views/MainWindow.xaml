@@ -387,328 +387,41 @@
                                     </TabItem>
                                 </TabControl>
                             </LayoutDocument>
-                            <LayoutDocument Title="Other"
-                                            Description="其他"
-                                            IsSelected="True"
-                                            ToolTip="Other">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <!--<Grid>
-                                        <Rectangle>
-                                            <Rectangle.Fill>
-                                                <LinearGradientBrush StartPoint="0.499,1"
-                                 EndPoint="0.5,1"
-                                 x:Name="BasicBrush">
-                                                    <GradientStop Color="#08000000"
-                              Offset="0.0" />
-                                                    <GradientStop Color="#03000000"
-                              Offset="1.0" />
-                                                </LinearGradientBrush>
-                                            </Rectangle.Fill>
-                                            <Rectangle.Triggers>
-                                                <EventTrigger RoutedEvent="Rectangle.Loaded">
-                                                    <BeginStoryboard>
-                                                        <Storyboard>
-                                                            <PointAnimation Storyboard.TargetName="BasicBrush"
-                                        Storyboard.TargetProperty="StartPoint"
-                                        From="0.0,1"
-                                        To="1,1"
-                                        Duration="0:0:40"
-                                        FillBehavior="HoldEnd"
-                                        AutoReverse="True"
-                                        RepeatBehavior="Forever" />
-                                                            <PointAnimation Storyboard.TargetName="BasicBrush"
-                                        Storyboard.TargetProperty="EndPoint"
-                                        From="0.001,1"
-                                        To="1,1"
-                                        Duration="0:0:40"
-                                        FillBehavior="HoldEnd"
-                                        AutoReverse="True"
-                                        RepeatBehavior="Forever" />
-                                                        </Storyboard>
-                                                    </BeginStoryboard>
-                                                </EventTrigger>
-                                            </Rectangle.Triggers>
-                                        </Rectangle>
-                                        <Rectangle>
-                                            <Rectangle.Fill>
-                                                <LinearGradientBrush StartPoint="0.499,1"
-                                 EndPoint="0.5,1"
-                                 x:Name="ThirdBrush">
-                                                    <GradientStop Color="#08000000"
-                              Offset="0.0" />
-                                                    <GradientStop Color="#03000000"
-                              Offset="1.0" />
-                                                </LinearGradientBrush>
-                                            </Rectangle.Fill>
-                                            <Rectangle.Triggers>
-                                                <EventTrigger RoutedEvent="Rectangle.Loaded">
-                                                    <BeginStoryboard>
-                                                        <Storyboard>
-                                                            <PointAnimation Storyboard.TargetName="ThirdBrush"
-                                        Storyboard.TargetProperty="StartPoint"
-                                        From="1,1"
-                                        To="0.0,1"
-                                        Duration="0:0:15"
-                                        FillBehavior="HoldEnd"
-                                        RepeatBehavior="Forever" />
-                                                            <PointAnimation Storyboard.TargetName="ThirdBrush"
-                                        Storyboard.TargetProperty="EndPoint"
-                                        From="1,1"
-                                        To="0.001,1"
-                                        Duration="0:0:15"
-                                        FillBehavior="HoldEnd"
-                                        RepeatBehavior="Forever" />
-                                                            <PointAnimation Storyboard.TargetName="ThirdBrush"
-                                        Storyboard.TargetProperty="EndPoint"
-                                        From="1,1"
-                                        To="0.0,1"
-                                        BeginTime="0:0:15"
-                                        Duration="0:0:15"
-                                        FillBehavior="HoldEnd"
-                                        RepeatBehavior="Forever" />
-                                                            <PointAnimation Storyboard.TargetName="ThirdBrush"
-                                        Storyboard.TargetProperty="StartPoint"
-                                        From="1,1"
-                                        To="0.001,1"
-                                        BeginTime="0:0:15"
-                                        Duration="0:0:15"
-                                        FillBehavior="HoldEnd"
-                                        RepeatBehavior="Forever" />
-                                                        </Storyboard>
-                                                    </BeginStoryboard>
-                                                </EventTrigger>
-                                            </Rectangle.Triggers>
-                                        </Rectangle>
-                                        <Rectangle>
-                                            <Rectangle.Fill>
-                                                <LinearGradientBrush StartPoint="1,0.499"
-                                 EndPoint="1,0.5"
-                                 x:Name="SecondBrush">
-                                                    <GradientStop Color="#02000000"
-                              Offset="0.0" />
-                                                    <GradientStop Color="#07000000"
-                              Offset="1.0" />
-                                                </LinearGradientBrush>
-                                            </Rectangle.Fill>
-                                            <Rectangle.Triggers>
-                                                <EventTrigger RoutedEvent="Rectangle.Loaded">
-                                                    <BeginStoryboard>
-                                                        <Storyboard>
-                                                            <PointAnimation Storyboard.TargetName="SecondBrush"
-                                        Storyboard.TargetProperty="StartPoint"
-                                        From="1,1"
-                                        To="1,0"
-                                        Duration="0:0:20"
-                                        FillBehavior="HoldEnd"
-                                        AutoReverse="True"
-                                        RepeatBehavior="Forever" />
-                                                            <PointAnimation Storyboard.TargetName="SecondBrush"
-                                        Storyboard.TargetProperty="EndPoint"
-                                        From="1,1"
-                                        To="1,0.001"
-                                        Duration="0:0:20"
-                                        FillBehavior="HoldEnd"
-                                        AutoReverse="True"
-                                        RepeatBehavior="Forever" />
-                                                        </Storyboard>
-                                                    </BeginStoryboard>
-                                                </EventTrigger>
-                                            </Rectangle.Triggers>
-                                        </Rectangle>
-                                    </Grid>-->
-
-                                    <GroupBox Margin="10" Header="InputControl">
-                                        <WrapPanel>
-                                            <DateTimePicker VerticalAlignment="Top"
-                                                            Foreground="Green"
-                                                            SelectedDateTime="{Binding CurrentDateTime, Mode=TwoWay}"
-                                                            TextBoxAttach.PlaceHolder="请选择日期..."
-                                                            TextBoxAttach.Title="DateTimePicker：" />
-                                            <DateTimePicker VerticalAlignment="Top" />
-
-                                            <SearchBar VerticalAlignment="Top"
-                                                       Foreground="Violet"
-                                                       TextBoxAttach.PlaceHolder="请输入搜索内容..."
-                                                       TextBoxAttach.Title="SearchBar：" />
-                                            <SearchBar VerticalAlignment="Top" />
-
-                                            <TextBox VerticalAlignment="Top"
-                                                     BorderThickness="0,0,0,2"
-                                                     Text="{Binding CurrentDateTime}"
-                                                     TextBoxAttach.PlaceHolder="请输入文本..."
-                                                     TextBoxAttach.Title="TextBox：" />
-                                            <TextBox VerticalAlignment="Top" Foreground="Blue" />
-
-                                            <PasswordBox VerticalAlignment="Top"
-                                                         Foreground="Purple"
-                                                         TextBoxAttach.PlaceHolder="请输入密码..."
-                                                         TextBoxAttach.Title="PasswordBox：" />
-                                            <PasswordBox VerticalAlignment="Top" PasswordChar="#" />
-
-                                            <PasswordTextBox VerticalAlignment="Top"
-                                                             CanShowPassword="False"
-                                                             Foreground="Indigo"
-                                                             PasswordChar="$"
-                                                             TextBoxAttach.PlaceHolder="请输入密码..."
-                                                             TextBoxAttach.Title="PasswordTextBox：" />
-                                            <PasswordTextBox VerticalAlignment="Top" />
-
-                                            <ComboBox VerticalAlignment="Top"
-                                                      Foreground="Red"
-                                                      ItemsSource="{Binding ProNodes}"
-                                                      TextBoxAttach.PlaceHolder="IsEditable=False"
-                                                      TextBoxAttach.Title="ComboBox：" />
-                                            <ComboBox VerticalAlignment="Top"
-                                                      IsEditable="True"
-                                                      ItemsSource="{Binding ProNodes}"
-                                                      TextBoxAttach.PlaceHolder="IsEditable=True" />
-
-                                            <CheckComboBox VerticalAlignment="Top"
-                                                           Foreground="Orange"
-                                                           ItemsSource="{Binding ProNodes}"
-                                                           TextBoxAttach.Title="CheckComboBox：" />
-                                            <CheckComboBox VerticalAlignment="Top" ItemsSource="{Binding ProNodes}" />
-
-                                        </WrapPanel>
-                                    </GroupBox>
-                                    <GroupBox Grid.Row="1"
-                                              Margin="10"
-                                              Header="InputControlWithButtonTitle">
-                                        <WrapPanel>
-                                            <DateTimePicker Name="dateTimePicker"
-                                                            Height="50"
-                                                            HorizontalContentAlignment="Right"
-                                                            VerticalContentAlignment="Bottom"
-                                                            TextBoxAttach.TitleIsHitTestVisible="True">
-                                                <TextBoxAttach.Title>
-                                                    <Button>DateTimePicker：</Button>
-                                                </TextBoxAttach.Title>
-                                                <TextBoxAttach.PlaceHolder>
-                                                    <Button>请输入日期...</Button>
-                                                </TextBoxAttach.PlaceHolder>
-                                            </DateTimePicker>
-                                            <SearchBar Height="50"
-                                                       HorizontalContentAlignment="Right"
-                                                       VerticalContentAlignment="Bottom"
-                                                       TextBoxAttach.PlaceHolderOpacity="1"
-                                                       TextBoxAttach.TitleIsHitTestVisible="True">
-                                                <TextBoxAttach.Title>
-                                                    <Button>SearchBar：</Button>
-                                                </TextBoxAttach.Title>
-                                                <TextBoxAttach.PlaceHolder>
-                                                    <Button>请输入搜索内容...</Button>
-                                                </TextBoxAttach.PlaceHolder>
-                                            </SearchBar>
-                                            <TextBox Height="50"
-                                                     HorizontalContentAlignment="Right"
-                                                     VerticalContentAlignment="Bottom"
-                                                     TextBoxAttach.TitleIsHitTestVisible="True">
-                                                <TextBoxAttach.Title>
-                                                    <UniformGrid Columns="1">
-                                                        <Button>TextBox1：</Button>
-                                                        <Button>TextBox2：</Button>
-                                                    </UniformGrid>
-                                                </TextBoxAttach.Title>
-                                                <TextBoxAttach.PlaceHolder>
-                                                    <Button>请输入文本...</Button>
-                                                </TextBoxAttach.PlaceHolder>
-                                            </TextBox>
-                                            <PasswordBox Height="50"
-                                                         HorizontalContentAlignment="Right"
-                                                         VerticalContentAlignment="Bottom"
-                                                         PasswordChar="$"
-                                                         TextBoxAttach.PlaceHolderOpacity="1"
-                                                         TextBoxAttach.TitleIsHitTestVisible="True">
-                                                <TextBoxAttach.Title>
-                                                    <Button>PasswordBox：</Button>
-                                                </TextBoxAttach.Title>
-                                                <TextBoxAttach.PlaceHolder>
-                                                    <Button>请输入密码...</Button>
-                                                </TextBoxAttach.PlaceHolder>
-                                            </PasswordBox>
-                                            <PasswordTextBox Name="passwordTextBox"
-                                                             Height="50"
-                                                             HorizontalContentAlignment="Right"
-                                                             VerticalContentAlignment="Bottom"
-                                                             PasswordChar="◉"
-                                                             TextBoxAttach.PlaceHolderIsHitTestVisible="False"
-                                                             TextBoxAttach.PlaceHolderOpacity="1"
-                                                             TextBoxAttach.TitleIsHitTestVisible="True">
-                                                <TextBoxAttach.Title>
-                                                    <Button>PasswordTextBox：</Button>
-                                                </TextBoxAttach.Title>
-                                                <TextBoxAttach.PlaceHolder>
-                                                    <Button>请输入密码...</Button>
-                                                </TextBoxAttach.PlaceHolder>
-                                            </PasswordTextBox>
-                                            <ComboBox Height="50"
-                                                      HorizontalContentAlignment="Right"
-                                                      VerticalContentAlignment="Bottom"
-                                                      DisplayMemberPath="Name"
-                                                      IsEditable="True"
-                                                      IsReadOnly="True"
-                                                      ItemsSource="{Binding ProNodes}"
-                                                      TextBoxAttach.TitleIsHitTestVisible="True">
-                                                <TextBoxAttach.Title>
-                                                    <Button>ComboBox：</Button>
-                                                </TextBoxAttach.Title>
-                                                <TextBoxAttach.PlaceHolder>
-                                                    <Button>IsReadOnly="True"</Button>
-                                                </TextBoxAttach.PlaceHolder>
-                                            </ComboBox>
-                                            <CheckComboBox Name="checkComboBox"
-                                                           Height="50"
-                                                           MaxWidth="200"
-                                                           HorizontalContentAlignment="Right"
-                                                           VerticalContentAlignment="Bottom"
-                                                           DisplayMemberPath="Description"
-                                                           ItemsSource="{Binding ProNodes}"
-                                                           SelectedItems="{Binding SelectedItemsFileNodes, Mode=TwoWay}"
-                                                           Separator=";"
-                                                           StringFormat="分组{0}"
-                                                           TextBoxAttach.TitleIsHitTestVisible="True"
-                                                           TextWrapping="Wrap"
-                                                           VirtualizingPanel.ScrollUnit="Pixel">
-                                                <TextBoxAttach.Title>
-                                                    <Button>CheckComboBox：</Button>
-                                                </TextBoxAttach.Title>
-                                            </CheckComboBox>
-                                        </WrapPanel>
-                                    </GroupBox>
-                                </Grid>
-                            </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
-                                <UniformGrid Rows="3">
-                                    <ProgressBar Height="50"
-                                                 VerticalAlignment="Center"
-                                                 IsIndeterminate="True"
-                                                 Style="{x:Null}"
-                                                 Value="50" />
+                                <UniformGrid Rows="2">
+                                    <GroupBox Margin="10" Header="ProgressBar">
+                                        <UniformGrid>
+                                            <ProgressBar Height="50"
+                                                         VerticalAlignment="Center"
+                                                         IsIndeterminate="True"
+                                                         Style="{x:Null}"
+                                                         Value="50" />
 
-                                    <ProgressBar Margin="10"
-                                                 VerticalAlignment="Top"
-                                                 ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
-                                                 Value="60" />
-                                    <ProgressBar Margin="10"
-                                                 Orientation="Vertical"
-                                                 ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
-                                                 Value="60" />
-                                    <ProgressBar Height="50"
-                                                 VerticalAlignment="Center"
-                                                 IsIndeterminate="True"
-                                                 Value="50" />
-
-                                    <CircularProgressBar BorderBrush="#FF06B025" Value="40" />
-                                    <CircularProgressBar Title="进度"
-                                                         HorizontalContentAlignment="Left"
-                                                         VerticalContentAlignment="Top"
+                                            <ProgressBar Orientation="Vertical"
+                                                         ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
                                                          Value="60" />
-                                    <CircularProgressBar BorderBrush="{DynamicResource ProgressBarProgress}" Value="50" />
-                                    <CircularProgressBar Title="计划" Value="3.14159" />
+
+                                            <ProgressBar Height="50"
+                                                         VerticalAlignment="Center"
+                                                         IsIndeterminate="True"
+                                                         Value="50" />
+                                            <ProgressBar VerticalAlignment="Center"
+                                                         ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
+                                                         Value="60" />
+                                        </UniformGrid>
+                                    </GroupBox>
+
+                                    <GroupBox Margin="10" Header="CircularProgressBar">
+                                        <UniformGrid>
+                                            <CircularProgressBar BorderBrush="#FF06B025" Value="40" />
+                                            <CircularProgressBar Title="进度"
+                                                                 HorizontalContentAlignment="Left"
+                                                                 VerticalContentAlignment="Top"
+                                                                 Value="60" />
+                                            <CircularProgressBar BorderBrush="{DynamicResource ProgressBarProgress}" Value="50" />
+                                            <CircularProgressBar Title="计划" Value="3.14159" />
+                                        </UniformGrid>
+                                    </GroupBox>
                                 </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="DocumentWrapPanel">
@@ -830,9 +543,8 @@
                                         <TextBox Margin="10">Border</TextBox>
                                     </Border>
                                 </Grid>
-
                             </LayoutDocument>
-                            <LayoutDocument Title="CheckBox" CanClose="False">
+                            <LayoutDocument Title="CheckBox">
                                 <WrapPanel VerticalAlignment="Top" Orientation="Horizontal">
                                     <GroupBox Margin="10" Header="RadioButton">
                                         <WrapPanel Orientation="Horizontal">
@@ -871,6 +583,285 @@
                                         </WrapPanel>
                                     </GroupBox>
                                 </WrapPanel>
+                            </LayoutDocument>
+                            <LayoutDocument Title="Other"
+                                            CanClose="False"
+                                            Description="其他"
+                                            IsSelected="True"
+                                            ToolTip="Other">
+                                <Grid>
+                                    <!--<Grid>
+                                        <Rectangle>
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush x:Name="BasicBrush" StartPoint="0.499,1" EndPoint="0.5,1">
+                                                    <GradientStop Offset="0.0" Color="#08000000" />
+                                                    <GradientStop Offset="1.0" Color="#03000000" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                            <Rectangle.Triggers>
+                                                <EventTrigger RoutedEvent="Rectangle.Loaded">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <PointAnimation AutoReverse="True"
+                                                                            FillBehavior="HoldEnd"
+                                                                            RepeatBehavior="Forever"
+                                                                            Storyboard.TargetName="BasicBrush"
+                                                                            Storyboard.TargetProperty="StartPoint"
+                                                                            From="0.0,1"
+                                                                            To="1,1"
+                                                                            Duration="0:0:40" />
+                                                            <PointAnimation AutoReverse="True"
+                                                                            FillBehavior="HoldEnd"
+                                                                            RepeatBehavior="Forever"
+                                                                            Storyboard.TargetName="BasicBrush"
+                                                                            Storyboard.TargetProperty="EndPoint"
+                                                                            From="0.001,1"
+                                                                            To="1,1"
+                                                                            Duration="0:0:40" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Rectangle.Triggers>
+                                        </Rectangle>
+                                        <Rectangle>
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush x:Name="ThirdBrush" StartPoint="0.499,1" EndPoint="0.5,1">
+                                                    <GradientStop Offset="0.0" Color="#08000000" />
+                                                    <GradientStop Offset="1.0" Color="#03000000" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                            <Rectangle.Triggers>
+                                                <EventTrigger RoutedEvent="Rectangle.Loaded">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <PointAnimation FillBehavior="HoldEnd"
+                                                                            RepeatBehavior="Forever"
+                                                                            Storyboard.TargetName="ThirdBrush"
+                                                                            Storyboard.TargetProperty="StartPoint"
+                                                                            From="1,1"
+                                                                            To="0.0,1"
+                                                                            Duration="0:0:15" />
+                                                            <PointAnimation FillBehavior="HoldEnd"
+                                                                            RepeatBehavior="Forever"
+                                                                            Storyboard.TargetName="ThirdBrush"
+                                                                            Storyboard.TargetProperty="EndPoint"
+                                                                            From="1,1"
+                                                                            To="0.001,1"
+                                                                            Duration="0:0:15" />
+                                                            <PointAnimation BeginTime="0:0:15"
+                                                                            FillBehavior="HoldEnd"
+                                                                            RepeatBehavior="Forever"
+                                                                            Storyboard.TargetName="ThirdBrush"
+                                                                            Storyboard.TargetProperty="EndPoint"
+                                                                            From="1,1"
+                                                                            To="0.0,1"
+                                                                            Duration="0:0:15" />
+                                                            <PointAnimation BeginTime="0:0:15"
+                                                                            FillBehavior="HoldEnd"
+                                                                            RepeatBehavior="Forever"
+                                                                            Storyboard.TargetName="ThirdBrush"
+                                                                            Storyboard.TargetProperty="StartPoint"
+                                                                            From="1,1"
+                                                                            To="0.001,1"
+                                                                            Duration="0:0:15" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Rectangle.Triggers>
+                                        </Rectangle>
+                                        <Rectangle>
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush x:Name="SecondBrush" StartPoint="1,0.499" EndPoint="1,0.5">
+                                                    <GradientStop Offset="0.0" Color="#02000000" />
+                                                    <GradientStop Offset="1.0" Color="#07000000" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                            <Rectangle.Triggers>
+                                                <EventTrigger RoutedEvent="Rectangle.Loaded">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <PointAnimation AutoReverse="True"
+                                                                            FillBehavior="HoldEnd"
+                                                                            RepeatBehavior="Forever"
+                                                                            Storyboard.TargetName="SecondBrush"
+                                                                            Storyboard.TargetProperty="StartPoint"
+                                                                            From="1,1"
+                                                                            To="1,0"
+                                                                            Duration="0:0:20" />
+                                                            <PointAnimation AutoReverse="True"
+                                                                            FillBehavior="HoldEnd"
+                                                                            RepeatBehavior="Forever"
+                                                                            Storyboard.TargetName="SecondBrush"
+                                                                            Storyboard.TargetProperty="EndPoint"
+                                                                            From="1,1"
+                                                                            To="1,0.001"
+                                                                            Duration="0:0:20" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Rectangle.Triggers>
+                                        </Rectangle>
+                                    </Grid>-->
+
+                                    <WrapPanel>
+                                        <GroupBox Margin="10" Header="InputControl">
+                                            <WrapPanel>
+                                                <DateTimePicker VerticalAlignment="Top"
+                                                                Foreground="Green"
+                                                                SelectedDateTime="{Binding CurrentDateTime, Mode=TwoWay}"
+                                                                TextBoxAttach.PlaceHolder="请选择日期..."
+                                                                TextBoxAttach.Title="DateTimePicker：" />
+                                                <DateTimePicker VerticalAlignment="Top" />
+
+                                                <SearchBar VerticalAlignment="Top"
+                                                           Foreground="Violet"
+                                                           TextBoxAttach.PlaceHolder="请输入搜索内容..."
+                                                           TextBoxAttach.Title="SearchBar：" />
+                                                <SearchBar VerticalAlignment="Top" />
+
+                                                <TextBox VerticalAlignment="Top"
+                                                         BorderThickness="0,0,0,2"
+                                                         Text="{Binding CurrentDateTime}"
+                                                         TextBoxAttach.PlaceHolder="请输入文本..."
+                                                         TextBoxAttach.Title="TextBox：" />
+                                                <TextBox VerticalAlignment="Top" Foreground="Blue" />
+
+                                                <PasswordBox VerticalAlignment="Top"
+                                                             Foreground="Purple"
+                                                             TextBoxAttach.PlaceHolder="请输入密码..."
+                                                             TextBoxAttach.Title="PasswordBox：" />
+                                                <PasswordBox VerticalAlignment="Top" PasswordChar="#" />
+
+                                                <PasswordTextBox VerticalAlignment="Top"
+                                                                 CanShowPassword="False"
+                                                                 Foreground="Indigo"
+                                                                 PasswordChar="$"
+                                                                 TextBoxAttach.PlaceHolder="请输入密码..."
+                                                                 TextBoxAttach.Title="PasswordTextBox：" />
+                                                <PasswordTextBox VerticalAlignment="Top" />
+
+                                                <ComboBox VerticalAlignment="Top"
+                                                          Foreground="Red"
+                                                          ItemsSource="{Binding ProNodes}"
+                                                          TextBoxAttach.PlaceHolder="IsEditable=False"
+                                                          TextBoxAttach.Title="ComboBox：" />
+                                                <ComboBox VerticalAlignment="Top"
+                                                          IsEditable="True"
+                                                          ItemsSource="{Binding ProNodes}"
+                                                          TextBoxAttach.PlaceHolder="IsEditable=True" />
+
+                                                <CheckComboBox VerticalAlignment="Top"
+                                                               Foreground="Orange"
+                                                               ItemsSource="{Binding ProNodes}"
+                                                               TextBoxAttach.Title="CheckComboBox：" />
+                                                <CheckComboBox VerticalAlignment="Top" ItemsSource="{Binding ProNodes}" />
+
+                                            </WrapPanel>
+                                        </GroupBox>
+                                        <GroupBox Margin="10" Header="InputControlWithButtonTitle">
+                                            <WrapPanel>
+                                                <DateTimePicker Name="dateTimePicker"
+                                                                Height="50"
+                                                                HorizontalContentAlignment="Right"
+                                                                VerticalContentAlignment="Bottom"
+                                                                TextBoxAttach.TitleIsHitTestVisible="True">
+                                                    <TextBoxAttach.Title>
+                                                        <Button>DateTimePicker：</Button>
+                                                    </TextBoxAttach.Title>
+                                                    <TextBoxAttach.PlaceHolder>
+                                                        <Button>请输入日期...</Button>
+                                                    </TextBoxAttach.PlaceHolder>
+                                                </DateTimePicker>
+                                                <SearchBar Height="50"
+                                                           HorizontalContentAlignment="Right"
+                                                           VerticalContentAlignment="Bottom"
+                                                           TextBoxAttach.PlaceHolderOpacity="1"
+                                                           TextBoxAttach.TitleIsHitTestVisible="True">
+                                                    <TextBoxAttach.Title>
+                                                        <Button>SearchBar：</Button>
+                                                    </TextBoxAttach.Title>
+                                                    <TextBoxAttach.PlaceHolder>
+                                                        <Button>请输入搜索内容...</Button>
+                                                    </TextBoxAttach.PlaceHolder>
+                                                </SearchBar>
+                                                <TextBox Height="50"
+                                                         HorizontalContentAlignment="Right"
+                                                         VerticalContentAlignment="Bottom"
+                                                         TextBoxAttach.TitleIsHitTestVisible="True">
+                                                    <TextBoxAttach.Title>
+                                                        <UniformGrid Columns="1">
+                                                            <Button>TextBox1：</Button>
+                                                            <Button>TextBox2：</Button>
+                                                        </UniformGrid>
+                                                    </TextBoxAttach.Title>
+                                                    <TextBoxAttach.PlaceHolder>
+                                                        <Button>请输入文本...</Button>
+                                                    </TextBoxAttach.PlaceHolder>
+                                                </TextBox>
+                                                <PasswordBox Height="50"
+                                                             HorizontalContentAlignment="Right"
+                                                             VerticalContentAlignment="Bottom"
+                                                             PasswordChar="$"
+                                                             TextBoxAttach.PlaceHolderOpacity="1"
+                                                             TextBoxAttach.TitleIsHitTestVisible="True">
+                                                    <TextBoxAttach.Title>
+                                                        <Button>PasswordBox：</Button>
+                                                    </TextBoxAttach.Title>
+                                                    <TextBoxAttach.PlaceHolder>
+                                                        <Button>请输入密码...</Button>
+                                                    </TextBoxAttach.PlaceHolder>
+                                                </PasswordBox>
+                                                <PasswordTextBox Name="passwordTextBox"
+                                                                 Height="50"
+                                                                 HorizontalContentAlignment="Right"
+                                                                 VerticalContentAlignment="Bottom"
+                                                                 PasswordChar="◉"
+                                                                 TextBoxAttach.PlaceHolderIsHitTestVisible="False"
+                                                                 TextBoxAttach.PlaceHolderOpacity="1"
+                                                                 TextBoxAttach.TitleIsHitTestVisible="True">
+                                                    <TextBoxAttach.Title>
+                                                        <Button>PasswordTextBox：</Button>
+                                                    </TextBoxAttach.Title>
+                                                    <TextBoxAttach.PlaceHolder>
+                                                        <Button>请输入密码...</Button>
+                                                    </TextBoxAttach.PlaceHolder>
+                                                </PasswordTextBox>
+                                                <ComboBox Height="50"
+                                                          HorizontalContentAlignment="Right"
+                                                          VerticalContentAlignment="Bottom"
+                                                          DisplayMemberPath="Name"
+                                                          IsEditable="True"
+                                                          IsReadOnly="True"
+                                                          ItemsSource="{Binding ProNodes}"
+                                                          TextBoxAttach.TitleIsHitTestVisible="True">
+                                                    <TextBoxAttach.Title>
+                                                        <Button>ComboBox：</Button>
+                                                    </TextBoxAttach.Title>
+                                                    <TextBoxAttach.PlaceHolder>
+                                                        <Button>IsReadOnly="True"</Button>
+                                                    </TextBoxAttach.PlaceHolder>
+                                                </ComboBox>
+                                                <CheckComboBox Name="checkComboBox"
+                                                               Height="50"
+                                                               MaxWidth="200"
+                                                               HorizontalContentAlignment="Right"
+                                                               VerticalContentAlignment="Bottom"
+                                                               DisplayMemberPath="Description"
+                                                               ItemsSource="{Binding ProNodes}"
+                                                               SelectedItems="{Binding SelectedItemsFileNodes, Mode=TwoWay}"
+                                                               Separator=";"
+                                                               StringFormat="分组{0}"
+                                                               TextBoxAttach.TitleIsHitTestVisible="True"
+                                                               TextWrapping="Wrap"
+                                                               VirtualizingPanel.ScrollUnit="Pixel">
+                                                    <TextBoxAttach.Title>
+                                                        <Button>CheckComboBox：</Button>
+                                                    </TextBoxAttach.Title>
+                                                </CheckComboBox>
+                                            </WrapPanel>
+                                        </GroupBox>
+                                    </WrapPanel>
+                                </Grid>
                             </LayoutDocument>
                         </LayoutDocumentPane>
                     </LayoutDocumentPaneGroup>
