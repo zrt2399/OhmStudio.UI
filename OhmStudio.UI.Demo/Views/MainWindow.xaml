@@ -18,7 +18,7 @@
               BorderAttach.CornerRadius="{Binding CornerRadius}"
               Icon="/icon.ico"
               IsShowIcon="True"
-              IsShowTitle="True"
+              IsShowTitle="False"
               ResizeMode="CanResizeWithGrip"
               SnapsToDevicePixels="{Binding IsAntiAliasing}"
               UseLayoutRounding="{Binding IsAntiAliasing}"
