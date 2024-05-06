@@ -41,12 +41,12 @@
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
                                       Data="M6.22,11.02C6.22,11.02 2.5,7.24 2.5,7.24 2.5,7.24 4.05,5.71 4.05,5.71 4.05,5.71 5.97,7.65 5.97,7.65 5.97,7.65 10.52,1.38 10.52,1.38 10.52,1.38 13.19,1.38 13.19,1.38 13.19,1.38 6.22,11.02 6.22,11.02 6.22,11.02 6.22,11.02 6.22,11.02z"
-                                      Fill="{DynamicResource CommonControlsCheckBoxGlyph}"
+                                      Fill="{TemplateBinding Foreground}"
                                       Stretch="Uniform"
                                       Visibility="Collapsed" />
                                 <Border x:Name="indeterminateMark"
                                         Margin="1.5"
-                                        Background="{DynamicResource CommonControlsCheckBoxGlyph}"
+                                        Background="{TemplateBinding Foreground}"
                                         CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                         Visibility="Hidden" />
                             </Grid>
@@ -75,25 +75,25 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="checkBoxBorder" Property="Background" Value="{DynamicResource CommonControlsCheckBoxBackgroundDisabled}" />
                             <Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{DynamicResource CommonControlsCheckBoxBorderDisabled}" />
-                            <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsCheckBoxGlyphDisabled}" />
+                            <!--<Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsCheckBoxGlyphDisabled}" />-->
                             <Setter Property="Foreground" Value="{DynamicResource CommonControlsCheckBoxTextDisabled}" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
                             <Setter TargetName="checkBoxBorder" Property="Background" Value="{DynamicResource CommonControlsCheckBoxBackgroundFocused}" />
                             <Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{DynamicResource CommonControlsCheckBoxBorderFocused}" />
-                            <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsCheckBoxGlyphFocused}" />
+                            <!--<Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsCheckBoxGlyphFocused}" />-->
                             <Setter Property="Foreground" Value="{DynamicResource CommonControlsCheckBoxTextFocused}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="checkBoxBorder" Property="Background" Value="{DynamicResource CommonControlsCheckBoxBackgroundHover}" />
                             <Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{DynamicResource CommonControlsCheckBoxBorderHover}" />
-                            <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsCheckBoxGlyphHover}" />
+                            <!--<Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsCheckBoxGlyphHover}" />-->
                             <Setter Property="Foreground" Value="{DynamicResource CommonControlsCheckBoxTextHover}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="checkBoxBorder" Property="Background" Value="{DynamicResource CommonControlsCheckBoxBackgroundPressed}" />
                             <Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{DynamicResource CommonControlsCheckBoxBorderPressed}" />
-                            <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsCheckBoxGlyphPressed}" />
+                            <!--<Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsCheckBoxGlyphPressed}" />-->
                             <Setter Property="Foreground" Value="{DynamicResource CommonControlsCheckBoxTextPressed}" />
                         </Trigger>
                     </ControlTemplate.Triggers>

@@ -50,7 +50,19 @@
         <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}" />
         <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
     </Style>
-
+ 
+    <Style x:Key="TextBlockBaseStyle" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="TextBlock" />
+ 
     <Style x:Key="DropShadowControlBaseStyle" TargetType="controls:DropShadowControl">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -323,13 +335,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <Style x:Key="TextBlockBaseStyle" TargetType="TextBlock">
-        <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-    </Style>
-    <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="TextBlock" />
 
     <Style x:Key="DefaultTabItem" TargetType="TabItem">
         <Setter Property="Template">

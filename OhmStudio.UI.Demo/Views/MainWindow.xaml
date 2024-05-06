@@ -18,7 +18,7 @@
               BorderAttach.CornerRadius="{Binding CornerRadius}"
               Icon="/icon.ico"
               IsShowIcon="True"
-              IsShowTitle="False"
+              IsShowTitle="True"
               ResizeMode="CanResizeWithGrip"
               SnapsToDevicePixels="{Binding IsAntiAliasing}"
               UseLayoutRounding="{Binding IsAntiAliasing}"
@@ -583,6 +583,9 @@
                                         </WrapPanel>
                                     </GroupBox>
                                 </WrapPanel>
+                            </LayoutDocument>
+                            <LayoutDocument Title="TextBlock">
+                                <TextBlock>The is a TextBlock</TextBlock>
                             </LayoutDocument>
                             <LayoutDocument Title="Other"
                                             CanClose="False"
