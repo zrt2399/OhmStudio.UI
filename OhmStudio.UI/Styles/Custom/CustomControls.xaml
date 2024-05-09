@@ -50,7 +50,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}" />
         <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
     </Style>
- 
+
     <Style x:Key="TextBlockBaseStyle" TargetType="TextBlock">
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -62,7 +62,7 @@
         </Style.Triggers>
     </Style>
     <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="TextBlock" />
- 
+
     <Style x:Key="DropShadowControlBaseStyle" TargetType="controls:DropShadowControl">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -519,7 +519,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="CircularProgressBarBaseStyle" TargetType="controls:CircularProgressBar">
+    <Style x:Key="CircleProgressBarBaseStyle" TargetType="controls:CircleProgressBar">
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <!--<Setter Property="TextElement.Foreground" Value="{DynamicResource CommonControlsTextBoxText}"/>-->
@@ -534,7 +534,7 @@
         <Setter Property="Height" Value="100" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:CircularProgressBar">
+                <ControlTemplate TargetType="controls:CircleProgressBar">
                     <Viewbox>
                         <Canvas Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                             <Path Stroke="{TemplateBinding Background}" StrokeThickness="{TemplateBinding StrokeThickness}">
@@ -553,8 +553,8 @@
                                 <Path.Data>
                                     <PathGeometry>
                                         <PathFigure StartPoint="50,0">
-                                            <ArcSegment IsLargeArc="{Binding Path=Angle, Converter={StaticResource AngleToIsLargeConverter}, RelativeSource={RelativeSource AncestorType=ProgressBar}}"
-                                                        Point="{Binding Path=Angle, Converter={StaticResource AngleToPointConverter}, RelativeSource={RelativeSource AncestorType=ProgressBar}}"
+                                            <ArcSegment IsLargeArc="{Binding Path=Angle, Converter={StaticResource AngleToIsLargeConverter}, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        Point="{Binding Path=Angle, Converter={StaticResource AngleToPointConverter}, RelativeSource={RelativeSource TemplatedParent}}"
                                                         Size="50,50"
                                                         SweepDirection="Clockwise" />
                                         </PathFigure>
@@ -596,7 +596,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style BasedOn="{StaticResource CircularProgressBarBaseStyle}" TargetType="controls:CircularProgressBar" />
+    <Style BasedOn="{StaticResource CircleProgressBarBaseStyle}" TargetType="controls:CircleProgressBar" />
 
     <Geometry x:Key="LeftGeometry" o:Freeze="True">M394.24 512L683.52 248.32c10.24-10.24 10.24-25.6 0-35.84-10.24-10.24-25.6-10.24-35.84 0l-307.2 279.04c-5.12 5.12-7.68 12.8-7.68 20.48 0 7.68 2.56 15.36 7.68 20.48l307.2 279.04c10.24 10.24 25.6 10.24 35.84 0 10.24-10.24 10.24-25.6 0-35.84L394.24 512z</Geometry>
     <Geometry x:Key="RightGeometry" o:Freeze="True">M4.1666641,0 C5.2083321,0 6.25,0.41666794 7.0833321,1.25 L57.083331,46.666664 C57.916664,47.499998 58.33333,48.749998 58.333329,49.999998 58.33333,51.249997 57.916664,52.499997 57.083331,53.333331 L7.0833321,98.749996 C5.4166641,100.41666 2.9166641,100.41666 1.2499962,98.749996 -0.41666794,97.083328 -0.41666794,94.583328 1.2499962,92.916664 L48.333331,49.999998 1.2499962,7.0833321 C-0.41666794,5.4166641 -0.41666794,2.9166641 1.2499962,1.25 2.0833282,0.41666794 3.1249962,0 4.1666641,0 z</Geometry>
