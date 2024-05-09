@@ -12,6 +12,19 @@ namespace OhmStudio.UI.Attaches
         public const double PlaceHolderOpacity = 0.6;
         public const bool PlaceHolderIsHitTestVisible = false;
 
+        public static readonly DependencyProperty TitlePlacementProperty =
+          DependencyProperty.RegisterAttached("TitlePlacement", typeof(Dock), typeof(TextBoxAttach));
+
+        public static Dock GetTitlePlacement(DependencyObject target)
+        {
+            return (Dock)target.GetValue(TitlePlacementProperty);
+        }
+
+        public static void SetTitlePlacement(DependencyObject target, Dock value)
+        {
+            target.SetValue(TitlePlacementProperty, value);
+        }
+
         public static readonly DependencyProperty TitleProperty =
            DependencyProperty.RegisterAttached("Title", typeof(object), typeof(TextBoxAttach));
 

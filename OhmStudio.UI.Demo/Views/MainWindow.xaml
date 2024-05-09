@@ -724,26 +724,30 @@
                                                                 Foreground="Green"
                                                                 SelectedDateTime="{Binding CurrentDateTime, Mode=TwoWay}"
                                                                 TextBoxAttach.PlaceHolder="请选择日期..."
-                                                                TextBoxAttach.Title="DateTimePicker：" />
+                                                                TextBoxAttach.Title="DateTimePicker："
+                                                                TextBoxAttach.TitlePlacement="Left" />
                                                 <DateTimePicker VerticalAlignment="Top" />
 
                                                 <SearchBar VerticalAlignment="Top"
                                                            Foreground="Violet"
                                                            TextBoxAttach.PlaceHolder="请输入搜索内容..."
-                                                           TextBoxAttach.Title="SearchBar：" />
+                                                           TextBoxAttach.Title="SearchBar："
+                                                           TextBoxAttach.TitlePlacement="Top" />
                                                 <SearchBar VerticalAlignment="Top" />
 
                                                 <TextBox VerticalAlignment="Top"
                                                          BorderThickness="0,0,0,2"
                                                          Text="{Binding CurrentDateTime}"
                                                          TextBoxAttach.PlaceHolder="请输入文本..."
-                                                         TextBoxAttach.Title="TextBox：" />
+                                                         TextBoxAttach.Title="TextBox："
+                                                         TextBoxAttach.TitlePlacement="Top" />
                                                 <TextBox VerticalAlignment="Top" Foreground="Blue" />
 
                                                 <PasswordBox VerticalAlignment="Top"
                                                              Foreground="Purple"
                                                              TextBoxAttach.PlaceHolder="请输入密码..."
-                                                             TextBoxAttach.Title="PasswordBox：" />
+                                                             TextBoxAttach.Title="PasswordBox："
+                                                             TextBoxAttach.TitlePlacement="Top" />
                                                 <PasswordBox VerticalAlignment="Top" PasswordChar="#" />
 
                                                 <PasswordTextBox VerticalAlignment="Top"
@@ -751,30 +755,38 @@
                                                                  Foreground="Indigo"
                                                                  PasswordChar="$"
                                                                  TextBoxAttach.PlaceHolder="请输入密码..."
-                                                                 TextBoxAttach.Title="PasswordTextBox：" />
+                                                                 TextBoxAttach.Title="PasswordTextBox："
+                                                                 TextBoxAttach.TitlePlacement="Top" />
                                                 <PasswordTextBox VerticalAlignment="Top" />
 
                                                 <ComboBox VerticalAlignment="Top"
+                                                          DisplayMemberPath="Name"
                                                           Foreground="Red"
                                                           ItemsSource="{Binding ProNodes}"
                                                           TextBoxAttach.PlaceHolder="IsEditable=False"
-                                                          TextBoxAttach.Title="ComboBox：" />
+                                                          TextBoxAttach.Title="ComboBox："
+                                                          TextBoxAttach.TitlePlacement="Top" />
                                                 <ComboBox VerticalAlignment="Top"
+                                                          DisplayMemberPath="Value"
                                                           IsEditable="True"
                                                           ItemsSource="{Binding ProNodes}"
                                                           TextBoxAttach.PlaceHolder="IsEditable=True" />
 
                                                 <CheckComboBox VerticalAlignment="Top"
+                                                               DisplayMemberPath="Name"
                                                                Foreground="Orange"
                                                                ItemsSource="{Binding ProNodes}"
-                                                               TextBoxAttach.Title="CheckComboBox：" />
-                                                <CheckComboBox VerticalAlignment="Top" ItemsSource="{Binding ProNodes}" />
-
+                                                               TextBoxAttach.Title="CheckComboBox："
+                                                               TextBoxAttach.TitlePlacement="Top" />
+                                                <CheckComboBox VerticalAlignment="Top"
+                                                               DisplayMemberPath="Description"
+                                                               ItemsSource="{Binding ProNodes}" />
                                             </WrapPanel>
                                         </GroupBox>
                                         <GroupBox Margin="10" Header="InputControlWithButtonTitle">
                                             <WrapPanel>
                                                 <DateTimePicker Name="dateTimePicker"
+                                                                Width="300"
                                                                 Height="50"
                                                                 HorizontalContentAlignment="Right"
                                                                 VerticalContentAlignment="Bottom"
@@ -786,7 +798,8 @@
                                                         <Button>请输入日期...</Button>
                                                     </TextBoxAttach.PlaceHolder>
                                                 </DateTimePicker>
-                                                <SearchBar Height="50"
+                                                <SearchBar Width="300"
+                                                           Height="50"
                                                            HorizontalContentAlignment="Right"
                                                            VerticalContentAlignment="Bottom"
                                                            TextBoxAttach.PlaceHolderOpacity="1"
@@ -798,7 +811,8 @@
                                                         <Button>请输入搜索内容...</Button>
                                                     </TextBoxAttach.PlaceHolder>
                                                 </SearchBar>
-                                                <TextBox Height="50"
+                                                <TextBox Width="300"
+                                                         Height="50"
                                                          HorizontalContentAlignment="Right"
                                                          VerticalContentAlignment="Bottom"
                                                          TextBoxAttach.TitleIsHitTestVisible="True">
@@ -812,7 +826,8 @@
                                                         <Button>请输入文本...</Button>
                                                     </TextBoxAttach.PlaceHolder>
                                                 </TextBox>
-                                                <PasswordBox Height="50" Width="200"
+                                                <PasswordBox Width="300"
+                                                             Height="50"
                                                              HorizontalContentAlignment="Right"
                                                              VerticalContentAlignment="Bottom"
                                                              PasswordChar="$"
@@ -826,6 +841,7 @@
                                                     </TextBoxAttach.PlaceHolder>
                                                 </PasswordBox>
                                                 <PasswordTextBox Name="passwordTextBox"
+                                                                 Width="300"
                                                                  Height="50"
                                                                  HorizontalContentAlignment="Right"
                                                                  VerticalContentAlignment="Bottom"
@@ -840,7 +856,8 @@
                                                         <Button>请输入密码...</Button>
                                                     </TextBoxAttach.PlaceHolder>
                                                 </PasswordTextBox>
-                                                <ComboBox Height="50"
+                                                <ComboBox Width="300"
+                                                          Height="50"
                                                           HorizontalContentAlignment="Right"
                                                           VerticalContentAlignment="Bottom"
                                                           DisplayMemberPath="Name"
@@ -856,8 +873,8 @@
                                                     </TextBoxAttach.PlaceHolder>
                                                 </ComboBox>
                                                 <CheckComboBox Name="checkComboBox"
+                                                               Width="300"
                                                                Height="50"
-                                                               MaxWidth="200"
                                                                HorizontalContentAlignment="Right"
                                                                VerticalContentAlignment="Bottom"
                                                                DisplayMemberPath="Description"

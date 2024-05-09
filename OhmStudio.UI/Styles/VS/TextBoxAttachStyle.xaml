@@ -23,6 +23,7 @@
 
     <Style x:Key="TitleWithTemplatedParent" TargetType="ContentControl">
         <EventSetter Event="GotFocus" Handler="ContentControl_GotFocus" />
+        <Setter Property="DockPanel.Dock" Value="{Binding Path=(TextBoxAttach.TitlePlacement), RelativeSource={RelativeSource TemplatedParent}}" />
         <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.Title), RelativeSource={RelativeSource TemplatedParent}}" />
         <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.TitleIsHitTestVisible), RelativeSource={RelativeSource TemplatedParent}}" />
         <Style.Triggers>

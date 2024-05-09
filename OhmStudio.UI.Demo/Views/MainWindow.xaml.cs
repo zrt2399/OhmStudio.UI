@@ -108,16 +108,9 @@ namespace OhmStudio.UI.Demo.Views
             for (int i = 0; i < 2000; i++)
             {
                 Pro pro = new Pro();
-                if (i % 2 == 0)
-                {
-                    pro.Name = "10";
-                }
-                else
-                {
-                    pro.Name = i.ToString();
-                }
+                pro.Name = "Name:" + (i + 1);
                 pro.Value = i;
-                pro.Description = "Description" + i;
+                pro.Description = "Description" + (i / 10 + 1);
                 pros.Add(pro);
             }
             ProNodes = new ObservableCollection<Pro>(pros);

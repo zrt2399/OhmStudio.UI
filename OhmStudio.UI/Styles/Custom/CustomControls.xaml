@@ -389,7 +389,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SearchBar">
                     <DockPanel>
-                        <ContentControl Style="{DynamicResource TitleWithTemplatedParent}" />
+                        <ContentControl Style="{StaticResource TitleWithTemplatedParent}" />
                         <Border Name="Border"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -846,14 +846,14 @@
     </DataTemplate>
 
     <Style x:Key="CheckComboBoxBaseStyle"
-           BasedOn="{StaticResource CustomControlBase}"
+           BasedOn="{StaticResource {x:Type ComboBox}}"
            TargetType="controls:CheckComboBox">
         <Setter Property="IsReadOnly" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:CheckComboBox">
                     <DockPanel>
-                        <ContentControl Style="{DynamicResource TitleWithTemplatedParent}" />
+                        <ContentControl Style="{StaticResource TitleWithTemplatedParent}" />
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
