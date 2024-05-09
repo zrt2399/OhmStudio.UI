@@ -8,21 +8,21 @@ namespace OhmStudio.UI.Controls
     /// <summary>
     /// 圆形进度条。
     /// </summary>
-    public partial class CircularProgressBar : ProgressBar
+    public partial class CircleProgressBar : ProgressBar
     {
-        public CircularProgressBar()
+        public CircleProgressBar()
         {
-            ValueChanged += CircularProgressBar_ValueChanged;
+            ValueChanged += CircleProgressBar_ValueChanged;
         }
 
-        static CircularProgressBar()
+        static CircleProgressBar()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(CircularProgressBar), new FrameworkPropertyMetadata(typeof(CircularProgressBar)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CircleProgressBar), new FrameworkPropertyMetadata(typeof(CircleProgressBar)));
         }
 
-        void CircularProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        void CircleProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            CircularProgressBar bar = sender as CircularProgressBar;
+            CircleProgressBar bar = sender as CircleProgressBar;
             double currentAngle = bar.Angle;
             double targetAngle = e.NewValue / bar.Maximum * 359.999;
             DoubleAnimation anim = new DoubleAnimation(currentAngle, targetAngle, TimeSpan.FromMilliseconds(400));
@@ -36,7 +36,7 @@ namespace OhmStudio.UI.Controls
         }
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(CircularProgressBar), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("Title", typeof(string), typeof(CircleProgressBar), new PropertyMetadata(string.Empty));
 
         public double Angle
         {
@@ -45,7 +45,7 @@ namespace OhmStudio.UI.Controls
         }
 
         public static readonly DependencyProperty AngleProperty =
-            DependencyProperty.Register("Angle", typeof(double), typeof(CircularProgressBar), new PropertyMetadata(0.0));
+            DependencyProperty.Register("Angle", typeof(double), typeof(CircleProgressBar), new PropertyMetadata(0.0));
 
         public double StrokeThickness
         {
@@ -54,7 +54,7 @@ namespace OhmStudio.UI.Controls
         }
 
         public static readonly DependencyProperty StrokeThicknessProperty =
-            DependencyProperty.Register("StrokeThickness", typeof(double), typeof(CircularProgressBar), new PropertyMetadata(10.0));
+            DependencyProperty.Register("StrokeThickness", typeof(double), typeof(CircleProgressBar), new PropertyMetadata(10.0));
 
         public double BrushStrokeThickness
         {
@@ -63,6 +63,6 @@ namespace OhmStudio.UI.Controls
         }
 
         public static readonly DependencyProperty BrushStrokeThicknessProperty =
-            DependencyProperty.Register("BrushStrokeThickness", typeof(double), typeof(CircularProgressBar), new PropertyMetadata(1.0));
+            DependencyProperty.Register("BrushStrokeThickness", typeof(double), typeof(CircleProgressBar), new PropertyMetadata(1.0));
     }
 }
