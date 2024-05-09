@@ -725,7 +725,7 @@
                                                                 SelectedDateTime="{Binding CurrentDateTime, Mode=TwoWay}"
                                                                 TextBoxAttach.PlaceHolder="请选择日期..."
                                                                 TextBoxAttach.Title="DateTimePicker："
-                                                                TextBoxAttach.TitlePlacement="Left" />
+                                                                TextBoxAttach.TitlePlacement="Top" />
                                                 <DateTimePicker VerticalAlignment="Top" />
 
                                                 <SearchBar VerticalAlignment="Top"
