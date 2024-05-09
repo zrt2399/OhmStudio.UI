@@ -33,7 +33,7 @@
 
                             <Ellipse x:Name="optionMark"
                                      Margin="2"
-                                     Fill="{TemplateBinding Foreground}"
+                                     Fill="{DynamicResource CommonControlsRadioButtonGlyph}"
                                      Opacity="0" />
                         </Border>
                         <ContentPresenter x:Name="contentPresenter"
@@ -59,25 +59,25 @@
                             <Setter Property="Background" Value="{DynamicResource CommonControlsRadioButtonBackgroundDisabled}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsRadioButtonBorderDisabled}" />
                             <Setter Property="Foreground" Value="{DynamicResource CommonControlsRadioButtonTextDisabled}" />
-                            <!--<Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsRadioButtonGlyphDisabled}" />-->
+                            <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsRadioButtonGlyphDisabled}" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
                             <Setter Property="Background" Value="{DynamicResource CommonControlsRadioButtonBackgroundFocused}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsRadioButtonBorderFocused}" />
                             <Setter Property="Foreground" Value="{DynamicResource CommonControlsRadioButtonTextFocused}" />
-                            <!--<Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsRadioButtonGlyphFocused}" />-->
+                            <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsRadioButtonGlyphFocused}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource CommonControlsRadioButtonBackgroundHover}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsRadioButtonBorderHover}" />
                             <Setter Property="Foreground" Value="{DynamicResource CommonControlsRadioButtonTextHover}" />
-                            <!--<Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsRadioButtonGlyphHover}" />-->
+                            <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsRadioButtonGlyphHover}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" Value="{DynamicResource CommonControlsRadioButtonBackgroundPressed}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsRadioButtonBorderPressed}" />
                             <Setter Property="Foreground" Value="{DynamicResource CommonControlsRadioButtonTextPressed}" />
-                            <!--<Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsRadioButtonGlyphPressed}" />-->
+                            <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CommonControlsRadioButtonGlyphPressed}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
