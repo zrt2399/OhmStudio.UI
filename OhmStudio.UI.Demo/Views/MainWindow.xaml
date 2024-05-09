@@ -411,16 +411,27 @@
                                         </UniformGrid>
                                     </GroupBox>
 
-                                    <GroupBox Margin="10" Header="CircularProgressBar">
-                                        <UniformGrid>
-                                            <CircularProgressBar BorderBrush="#FF06B025" Value="40" />
-                                            <CircularProgressBar Title="进度"
-                                                                 HorizontalContentAlignment="Left"
-                                                                 VerticalContentAlignment="Top"
-                                                                 Value="60" />
-                                            <CircularProgressBar BorderBrush="{DynamicResource ProgressBarProgress}" Value="50" />
-                                            <CircularProgressBar Title="计划" Value="3.14159" />
-                                        </UniformGrid>
+                                    <GroupBox Margin="10" Header="CircleProgressBar">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <Slider IsSnapToTickEnabled="True"
+                                                    Maximum="100"
+                                                    Minimum="0"
+                                                    TickPlacement="Both"
+                                                    Value="{Binding ProgressBarValue}" />
+                                            <UniformGrid Grid.Row="1">
+                                                <CircleProgressBar BorderBrush="#FF06B025" Value="{Binding ProgressBarValue}" />
+                                                <CircleProgressBar Title="进度"
+                                                                   HorizontalContentAlignment="Left"
+                                                                   VerticalContentAlignment="Top"
+                                                                   Value="{Binding ProgressBarValue}" />
+                                                <CircleProgressBar BorderBrush="{DynamicResource ProgressBarProgress}" Value="50" />
+                                                <CircleProgressBar Title="计划" Value="3.14159" />
+                                            </UniformGrid>
+                                        </Grid>
                                     </GroupBox>
                                 </UniformGrid>
                             </LayoutDocument>
@@ -801,7 +812,7 @@
                                                         <Button>请输入文本...</Button>
                                                     </TextBoxAttach.PlaceHolder>
                                                 </TextBox>
-                                                <PasswordBox Height="50"
+                                                <PasswordBox Height="50" Width="200"
                                                              HorizontalContentAlignment="Right"
                                                              VerticalContentAlignment="Bottom"
                                                              PasswordChar="$"

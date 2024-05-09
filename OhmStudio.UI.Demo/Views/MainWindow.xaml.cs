@@ -171,6 +171,8 @@ namespace OhmStudio.UI.Demo.Views
 
         public IList UserInfoSelectedItems { get; set; }
 
+        public double ProgressBarValue { get; set; }
+
         public bool IsAntiAliasing { get; set; } = true;
 
         public CornerRadius CornerRadius { get; set; }
