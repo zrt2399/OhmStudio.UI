@@ -42,6 +42,16 @@ namespace OhmStudio.UI.Controls
                 }
             }));
 
+        public static readonly DependencyProperty TextWrappingProperty =
+            DependencyProperty.Register(nameof(TextWrapping), typeof(TextWrapping), typeof(SearchBar), new PropertyMetadata(TextWrapping.NoWrap));
+
+        public TextWrapping TextWrapping
+        {
+            get => (TextWrapping)GetValue(TextWrappingProperty);
+            set => SetValue(TextWrappingProperty, value);
+        }
+
+
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(SearchBar));
 
         public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(SearchBar));
