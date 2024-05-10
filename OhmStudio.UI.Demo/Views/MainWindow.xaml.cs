@@ -110,7 +110,7 @@ namespace OhmStudio.UI.Demo.Views
                 Pro pro = new Pro();
                 pro.Name = "Name:" + (i + 1);
                 pro.Value = i;
-                pro.Description = "Description" + (i / 10 + 1);
+                pro.Description = $"第{i / 10 + 1}组的第{i % 10 + 1}个";
                 pros.Add(pro);
             }
             ProNodes = new ObservableCollection<Pro>(pros);
@@ -444,7 +444,7 @@ namespace OhmStudio.UI.Demo.Views
             //}
             //catch (Exception ex)
             //{
-            //    AlertDialog.Show(ex.Message, "Error", MessageButton.OK, MessageImage.Error);
+            //    AlertDialog.ShowError(ex.Message, "Error");
             //}
         }
 

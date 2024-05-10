@@ -23,7 +23,7 @@ namespace OhmStudio.UI.Attaches
             UpdateTheme(Theme, true);
         }
 
-        private const string UIPath = "/OhmStudio.UI;component/";
+        private const string UIPath = "pack://application:,,,/OhmStudio.UI;component/";
 
         public static event EventHandler ThemeChanged;
 
@@ -106,12 +106,12 @@ namespace OhmStudio.UI.Attaches
 
             if (isInitialisation)
             {
-                MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(url, UriKind.Relative) });
-                MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(UIPath + "Styles/VisualStudio.xaml", UriKind.Relative) });
+                MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(url) });
+                MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(UIPath + "Styles/VisualStudio.xaml") });
             }
             else
             {
-                MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri(url, UriKind.Relative) };
+                MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri(url) };
             }
         }
     }

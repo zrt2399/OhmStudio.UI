@@ -13,8 +13,8 @@ namespace OhmStudio.UI.PublicMethods
     /// </summary>
     public enum LanguageType
     {
-        Zh_CN,
-        Zh_TW,
+        Zh_CNS,
+        Zh_CHT,
         En_US
     }
 
@@ -23,7 +23,7 @@ namespace OhmStudio.UI.PublicMethods
     /// </summary>
     public static class AlertDialog
     {
-        public static LanguageType Language { get; set; } = LanguageType.Zh_CN;
+        public static LanguageType Language { get; set; } = LanguageType.Zh_CNS;
 
         public static MessageBoxResult Show(string message, string title = null, MessageBoxButton messageBoxButton = MessageBoxButton.OK, MessageBoxImage messageBoxImage = MessageBoxImage.Information, Window owner = null)
         {
@@ -85,7 +85,7 @@ namespace OhmStudio.UI.PublicMethods
 
         public static bool ShowWarning(string message, string title = "警告")
         {
-            if (Language == LanguageType.Zh_TW)
+            if (Language == LanguageType.Zh_CHT)
             {
                 title = "警告";
             }
@@ -96,11 +96,11 @@ namespace OhmStudio.UI.PublicMethods
             return Show(message, title, MessageBoxButton.OK, MessageBoxImage.Warning) == MessageBoxResult.OK;
         }
 
-        public static bool ShowError(string message, string title = "出错了")
+        public static bool ShowError(string message, string title = "错误")
         {
-            if (Language == LanguageType.Zh_TW)
+            if (Language == LanguageType.Zh_CHT)
             {
-                title = "出錯了";
+                title = "錯誤";
             }
             else if (Language == LanguageType.En_US)
             {
@@ -113,8 +113,8 @@ namespace OhmStudio.UI.PublicMethods
         {
             return Language switch
             {
-                LanguageType.Zh_CN => "系统提示",
-                LanguageType.Zh_TW => "系統提示",
+                LanguageType.Zh_CNS => "系统提示",
+                LanguageType.Zh_CHT => "系統提示",
                 _ => "System prompt"
             };
         }
