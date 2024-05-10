@@ -598,13 +598,21 @@
                             </LayoutDocument>
                             <LayoutDocument Title="TextBlock">
                                 <GroupBox Margin="10" Header="TextHighlight">
-                                    <UniformGrid Columns="1">
-                                        <TextBlock TextBlockAttach.HighlightText="{Binding ElementName=hightLight, Path=Text}">The is a TextBlock</TextBlock>
+                                    <UniformGrid Columns="2">
+                                        <UniformGrid.Resources>
+                                            <DataTemplate x:Key="TextHighlight">
+                                                <TextBlock Text="{Binding}" TextBlockAttach.HighlightText="{Binding ElementName=hightLight, Path=Text}" />
+                                            </DataTemplate>
+                                        </UniformGrid.Resources>
+                                        <ListBox ItemTemplate="{StaticResource TextHighlight}" ItemsSource="{Binding DengGao}" />
+                                        <ListBox ItemTemplate="{StaticResource TextHighlight}" ItemsSource="{Binding JingYeSi}" />
+                                        <ListBox ItemTemplate="{StaticResource TextHighlight}" ItemsSource="{Binding HuangHeLou}" />
+                                        <ListBox ItemTemplate="{StaticResource TextHighlight}" ItemsSource="{Binding DengGuanQueLou}" />
                                         <TextBlock TextBlockAttach.HighlightText="{Binding ElementName=hightLight, Path=Text}" TextWrapping="Wrap">
                                             WrapPanel控件：该控件根据Orientation属性，在垂直叠放控件或者在行中放置控件方面，WrapPanel与StackPanel类似。除了叠放外，WrapPanel还未包含的控件提供了换行支持，因此，如果在WrapPanel
                                             中放入超过其容器宽度的内容时，这些控件被换行显示以形成换行效果。
                                         </TextBlock>
-                                        <TextBox Name="hightLight" VerticalAlignment="Top" />
+                                        <TextBox Name="hightLight" VerticalAlignment="Top">白</TextBox>
                                     </UniformGrid>
                                 </GroupBox>
                             </LayoutDocument>
@@ -925,19 +933,6 @@
                                     </ListView.View>
                                     <ListView.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" />
                                             <MenuItem Header="Zxc" />
                                             <MenuItem Header="Zxc" />
                                             <MenuItem Header="Zxc" />

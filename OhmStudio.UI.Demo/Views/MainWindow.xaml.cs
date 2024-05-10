@@ -98,7 +98,34 @@ namespace OhmStudio.UI.Demo.Views
             {
                 Result.Rows.Add(DateTime.Now, i, i + 1, "44");
             }
+            DengGao.Add("风急天高猿啸哀");
+            DengGao.Add("渚清沙白鸟飞回");
+            DengGao.Add("无边落木萧萧下");
+            DengGao.Add("不尽长江衮衮来");
+            DengGao.Add("万里悲秋常作客");
+            DengGao.Add("百年多病独登台");
+            DengGao.Add("艰难苦恨繁霜鬓");
+            DengGao.Add("潦倒新停浊酒杯");
 
+            JingYeSi.Add("床前明月光");
+            JingYeSi.Add("疑是地上霜");
+            JingYeSi.Add("举头望明月");
+            JingYeSi.Add("低头思故乡");
+
+            HuangHeLou.Add("昔人已乘黄鹤去");
+            HuangHeLou.Add("此地空余黄鹤楼");
+            HuangHeLou.Add("黄鹤一去不复返");
+            HuangHeLou.Add("白云千载空悠悠");
+            HuangHeLou.Add("晴川历历汉阳树");
+            HuangHeLou.Add("芳草萋萋鹦鹉洲");
+            HuangHeLou.Add("日暮乡关何处是");
+            HuangHeLou.Add("烟波江上使人愁");
+
+            DengGuanQueLou.Add("白日依山尽");
+            DengGuanQueLou.Add("黄河入海流");
+            DengGuanQueLou.Add("欲穷千里目");
+            DengGuanQueLou.Add("更上一层楼");
+             
             Pro.Description = "1";
             Pro.Brush = Brushes.Red;
             SelectedObject = Pro;
@@ -167,6 +194,14 @@ namespace OhmStudio.UI.Demo.Views
         public double ProgressBarValue { get; set; }
 
         public bool IsAntiAliasing { get; set; } = true;
+
+        public List<string> DengGao { get; set; } = new List<string>();
+
+        public List<string> JingYeSi { get; set; } = new List<string>();
+
+        public List<string> HuangHeLou { get; set; } = new List<string>();
+
+        public List<string> DengGuanQueLou { get; set; } = new List<string>();
 
         public CornerRadius CornerRadius { get; set; }
 
