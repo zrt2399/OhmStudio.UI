@@ -5,7 +5,6 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using OhmStudio.UI.Attaches;
 
 namespace OhmStudio.UI.Controls
 {
@@ -30,7 +29,7 @@ namespace OhmStudio.UI.Controls
         Button PART_DeSelectAll;
 
         public static readonly DependencyProperty SelectedItemsProperty =
-            DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(CheckComboBox));
+            DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(CheckComboBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public IList SelectedItems
         {
@@ -217,7 +216,7 @@ namespace OhmStudio.UI.Controls
 
         void SetEmpty()
         {
-            SelectedItems = new List<object>();
+            SelectedItems = ItemsSource == null ? null : new List<object>();
             SelectedText = UnSelectedStringFormat;
         }
 
@@ -256,7 +255,6 @@ namespace OhmStudio.UI.Controls
                 stringBuilder.Append(string.Format(StringFormat, list[list.Count - 1]));
             }
             SelectedText = stringBuilder.ToString();
-            //SelectedText = string.Join(",", list);
             if (list.Count == 0)
             {
                 SelectedText = UnSelectedStringFormat;

@@ -8,7 +8,7 @@ namespace OhmStudio.UI.Attaches
     public class SelectorAttach
     {
         public static readonly DependencyProperty SelectedItemsProperty =
-            DependencyProperty.RegisterAttached("SelectedItems", typeof(IList), typeof(SelectorAttach));
+            DependencyProperty.RegisterAttached("SelectedItems", typeof(IList), typeof(SelectorAttach), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public static IList GetSelectedItems(DependencyObject obj)
         {

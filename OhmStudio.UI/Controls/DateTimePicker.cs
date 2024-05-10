@@ -84,7 +84,7 @@ namespace OhmStudio.UI.Controls
         }
 
         public static readonly DependencyProperty SelectedDateTimeProperty =
-            DependencyProperty.Register(nameof(SelectedDateTime), typeof(DateTime?), typeof(DateTimePicker), new PropertyMetadata(null, (sender, e) =>
+            DependencyProperty.Register(nameof(SelectedDateTime), typeof(DateTime?), typeof(DateTimePicker), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) =>
             {
                 if (sender is DateTimePicker dateTimePicker)
                 {
