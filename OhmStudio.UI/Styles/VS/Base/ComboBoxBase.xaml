@@ -89,8 +89,8 @@
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxListItemText}" />
-        <Setter Property="Margin" Value="2,0" />
-        <Setter Property="Padding" Value="1" />
+        <Setter Property="Margin" Value="{DynamicResource ComboBoxItemMargin}" />
+        <Setter Property="Padding" Value="{DynamicResource ComboBoxItemPadding}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -150,7 +150,6 @@
                                       Content="{TemplateBinding SelectionBoxItem}"
                                       ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                       ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                    
                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                 </Border>
 
@@ -268,7 +267,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style x:Key="ComboBoxBaseStyle" TargetType="{x:Type ComboBox}"> 
+    <Style x:Key="ComboBoxBaseStyle" TargetType="{x:Type ComboBox}">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
