@@ -11,50 +11,50 @@ namespace OhmStudio.UI.Attaches
     {
         public static readonly DependencyProperty HighlightComparisonTypeProperty =
             DependencyProperty.RegisterAttached("HighlightComparisonType", typeof(StringComparison), typeof(TextBlockAttach), new PropertyMetadata(StringComparison.OrdinalIgnoreCase));
-        public static StringComparison GetHighlightComparisonType(TextBlock textBlock)
+        public static StringComparison GetHighlightComparisonType(DependencyObject element)
         {
-            return (StringComparison)textBlock.GetValue(HighlightComparisonTypeProperty);
+            return (StringComparison)element.GetValue(HighlightComparisonTypeProperty);
         }
 
-        public static void SetHighlightComparisonType(TextBlock textBlock, StringComparison value)
+        public static void SetHighlightComparisonType(DependencyObject element, StringComparison value)
         {
-            textBlock.SetValue(HighlightComparisonTypeProperty, value);
+            element.SetValue(HighlightComparisonTypeProperty, value);
         }
 
         public static readonly DependencyProperty HighlightForegroundProperty =
             DependencyProperty.RegisterAttached("HighlightForeground", typeof(Brush), typeof(TextBlockAttach), new PropertyMetadata("#FF19AF19".ToSolidColorBrush()));
-        public static Brush GetHighlightForeground(TextBlock textBlock)
+        public static Brush GetHighlightForeground(DependencyObject element)
         {
-            return (Brush)textBlock.GetValue(HighlightForegroundProperty);
+            return (Brush)element.GetValue(HighlightForegroundProperty);
         }
 
-        public static void SetHighlightForeground(TextBlock textBlock, Brush value)
+        public static void SetHighlightForeground(DependencyObject element, Brush value)
         {
-            textBlock.SetValue(HighlightForegroundProperty, value);
+            element.SetValue(HighlightForegroundProperty, value);
         }
 
         public static readonly DependencyProperty HighlightBackgroundProperty =
             DependencyProperty.RegisterAttached("HighlightBackground", typeof(Brush), typeof(TextBlockAttach), new PropertyMetadata(default(Brush)));
-        public static Brush GetHighlightBackground(TextBlock textBlock)
+        public static Brush GetHighlightBackground(DependencyObject element)
         {
-            return (Brush)textBlock.GetValue(HighlightBackgroundProperty);
+            return (Brush)element.GetValue(HighlightBackgroundProperty);
         }
 
-        public static void SetHighlightBackground(TextBlock textBlock, Brush value)
+        public static void SetHighlightBackground(DependencyObject element, Brush value)
         {
-            textBlock.SetValue(HighlightBackgroundProperty, value);
+            element.SetValue(HighlightBackgroundProperty, value);
         }
 
         public static readonly DependencyProperty LowlightForegroundProperty =
             DependencyProperty.RegisterAttached("LowlightForeground", typeof(Brush), typeof(TextBlockAttach), new PropertyMetadata(default(Brush)));
-        public static Brush GetLowlightForeground(TextBlock textBlock)
+        public static Brush GetLowlightForeground(DependencyObject element)
         {
-            return (Brush)textBlock.GetValue(LowlightForegroundProperty);
+            return (Brush)element.GetValue(LowlightForegroundProperty);
         }
 
-        public static void SetLowlightForeground(TextBlock textBlock, Brush value)
+        public static void SetLowlightForeground(DependencyObject element, Brush value)
         {
-            textBlock.SetValue(LowlightForegroundProperty, value);
+            element.SetValue(LowlightForegroundProperty, value);
         }
 
         /// <summary>
@@ -62,14 +62,14 @@ namespace OhmStudio.UI.Attaches
         /// </summary>
         public static readonly DependencyProperty HighlightTextProperty =
             DependencyProperty.RegisterAttached("HighlightText", typeof(string), typeof(TextBlockAttach), new PropertyMetadata(null, OnHighlightTextChanged));
-        public static string GetHighlightText(TextBlock textBlock)
+        public static string GetHighlightText(DependencyObject element)
         {
-            return (string)textBlock.GetValue(HighlightTextProperty);
+            return (string)element.GetValue(HighlightTextProperty);
         }
 
-        public static void SetHighlightText(TextBlock textBlock, string value)
+        public static void SetHighlightText(DependencyObject element, string value)
         {
-            textBlock.SetValue(HighlightTextProperty, value);
+            element.SetValue(HighlightTextProperty, value);
         }
 
         private static void OnHighlightTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
