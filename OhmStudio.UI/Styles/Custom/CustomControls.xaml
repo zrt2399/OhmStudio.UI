@@ -497,7 +497,14 @@
                                          attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
                                          attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
                                          Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
-                                         TextWrapping="{TemplateBinding TextWrapping}" />
+                                         TextWrapping="{TemplateBinding TextWrapping}">
+                                    <TextBox.InputBindings>
+                                        <KeyBinding Key="Return"
+                                                    Command="{Binding Command, RelativeSource={RelativeSource TemplatedParent}}"
+                                                    CommandParameter="{Binding CommandParameter, RelativeSource={RelativeSource TemplatedParent}}"
+                                                    CommandTarget="{Binding CommandTarget, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    </TextBox.InputBindings>
+                                </TextBox>
                                 <ContentControl Style="{StaticResource PlaceHolderWithTemplatedParent}" />
                                 <Button Grid.Column="1"
                                         Command="{TemplateBinding Command}"

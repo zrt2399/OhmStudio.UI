@@ -90,6 +90,8 @@ namespace OhmStudio.UI.Demo.Views
 
             ZoomInCommand = new RelayCommand(ZoomIn);
             ZoomOutCommand = new RelayCommand(ZoomOut);
+            SearchCommand = new RelayCommand(() => UIMessageTip.Show("什么也没搜索到..."));
+
             Result.Columns.Add("Time");
             Result.Columns.Add("V0");
             Result.Columns.Add("V1");
@@ -125,7 +127,7 @@ namespace OhmStudio.UI.Demo.Views
             DengGuanQueLou.Add("黄河入海流");
             DengGuanQueLou.Add("欲穷千里目");
             DengGuanQueLou.Add("更上一层楼");
-             
+
             Pro.Description = "1";
             Pro.Brush = Brushes.Red;
             SelectedObject = Pro;
@@ -220,6 +222,7 @@ namespace OhmStudio.UI.Demo.Views
 
         public ICommand ZoomInCommand { get; }
         public ICommand ZoomOutCommand { get; }
+        public ICommand SearchCommand { get; }
 
         private RelayCommand _startCommand;
         public RelayCommand StartCommand

@@ -78,6 +78,7 @@
                 </ToolBar>
             </ToolBarTray>
             <SearchBar VerticalAlignment="Center"
+                       Command="{Binding SearchCommand}"
                        TextBoxAttach.PlaceHolder="请输入搜索内容..."
                        TextBoxAttach.Title="搜索：" />
             <!--<CheckComboBox />-->
