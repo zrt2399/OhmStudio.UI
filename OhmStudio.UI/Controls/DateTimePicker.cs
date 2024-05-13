@@ -15,24 +15,27 @@ namespace OhmStudio.UI.Controls
             GotFocus += DateTimePicker_GotFocus;
             CalendarClickCommand = new RelayCommand(() =>
             {
+                if (PART_Popup == null)
+                {
+                    return;
+                }
                 if (PART_Popup.IsOpen)
                 {
                     PART_Popup.IsOpen = false;
                 }
-                TDateTimeView dateTimeView = new TDateTimeView(SelectedDateTime);// TDateTimeView  构造函数传入日期时间
+                TDateTimeView dateTimeView = new TDateTimeView(this);// TDateTimeView  构造函数传入日期时间
                 dateTimeView.DateTimeOK += (datetime) => //TDateTimeView 日期时间确定事件
                 {
                     SelectedDateTime = datetime;
                     PART_Popup.IsOpen = false;//TDateTimeView 所在pop 关闭
-                    PART_TextBox.Focus();
+                    PART_TextBox?.Focus();
                 };
                 dateTimeView.Closed += () =>
                 {
                     PART_Popup.IsOpen = false;//TDateTimeView 所在pop 关闭
-                    PART_TextBox.Focus();
+                    PART_TextBox?.Focus();
                 };
                 (PART_Popup.Child as SystemDropShadowChrome).Child = dateTimeView;
-
                 PART_Popup.IsOpen = true;
             });
         }
@@ -74,6 +77,61 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty IsReadOnlyProperty =
             DependencyProperty.Register(nameof(IsReadOnly), typeof(bool), typeof(DateTimePicker));
 
+        public DateTime? DisplayDateStart
+        {
+            get => (DateTime?)GetValue(DisplayDateStartProperty);
+            set => SetValue(DisplayDateStartProperty, value);
+        }
+
+        public static readonly DependencyProperty DisplayDateStartProperty =
+            DependencyProperty.Register(nameof(DisplayDateStart), typeof(DateTime?), typeof(DateTimePicker), new PropertyMetadata((sender, e) =>
+            {
+                if (sender is DateTimePicker dateTimePicker)
+                {
+                    var dateTime = e.NewValue as DateTime?;
+                    if (dateTime != null)
+                    {
+                        if (dateTime > dateTimePicker.SelectedDateTime)
+                        {
+                            dateTimePicker.SelectedDateTime = null;
+                        }
+                        CheckDisplayDateStart(dateTimePicker);
+                    }
+                }
+            }));
+
+        public DateTime? DisplayDateEnd
+        {
+            get => (DateTime?)GetValue(DisplayDateEndProperty);
+            set => SetValue(DisplayDateEndProperty, value);
+        }
+
+        public static readonly DependencyProperty DisplayDateEndProperty =
+            DependencyProperty.Register(nameof(DisplayDateEnd), typeof(DateTime?), typeof(DateTimePicker), new PropertyMetadata((sender, e) =>
+            {
+                if (sender is DateTimePicker dateTimePicker)
+                {
+                    var dateTime = e.NewValue as DateTime?;
+                    if (dateTime != null)
+                    {
+                        if (dateTime < dateTimePicker.SelectedDateTime)
+                        {
+                            dateTimePicker.SelectedDateTime = null;
+                        }
+                        CheckDisplayDateStart(dateTimePicker);
+                    }
+                }
+            }));
+
+        public DayOfWeek FirstDayOfWeek
+        {
+            get => (DayOfWeek)GetValue(FirstDayOfWeekProperty);
+            set => SetValue(FirstDayOfWeekProperty, value);
+        }
+
+        public static readonly DependencyProperty FirstDayOfWeekProperty =
+            DependencyProperty.Register(nameof(FirstDayOfWeek), typeof(DayOfWeek), typeof(DateTimePicker), new PropertyMetadata(DayOfWeek.Monday));
+
         /// <summary>
         /// 日期和时间。
         /// </summary>
@@ -89,7 +147,18 @@ namespace OhmStudio.UI.Controls
                 if (sender is DateTimePicker dateTimePicker)
                 {
                     var datetime = e.NewValue as DateTime?;
-                    dateTimePicker.Text = datetime?.ToString(dateTimePicker.SelectedDateTimeFormat);
+                    if (dateTimePicker.DisplayDateStart != null && datetime != null && datetime < dateTimePicker.DisplayDateStart)
+                    {
+                        dateTimePicker.SelectedDateTime = dateTimePicker.DisplayDateStart;
+                    }
+                    else if (dateTimePicker.DisplayDateEnd != null && datetime != null && datetime > dateTimePicker.DisplayDateEnd)
+                    {
+                        dateTimePicker.SelectedDateTime = dateTimePicker.DisplayDateEnd;
+                    }
+                    else
+                    {
+                        dateTimePicker.Text = datetime?.ToString(dateTimePicker.SelectedDateTimeFormat);
+                    }
                 }
             }));
 
@@ -120,6 +189,14 @@ namespace OhmStudio.UI.Controls
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
             PART_Popup = GetTemplateChild("PART_Popup") as Popup;
             PART_TextBox.LostFocus += PART_TextBox_LostFocus;
+        }
+
+        static void CheckDisplayDateStart(DateTimePicker dateTimePicker)
+        {
+            if (dateTimePicker.DisplayDateStart > dateTimePicker.DisplayDateEnd)
+            {
+                dateTimePicker.DisplayDateEnd = dateTimePicker.DisplayDateStart;
+            }
         }
 
         private void PART_TextBox_LostFocus(object sender, RoutedEventArgs e)

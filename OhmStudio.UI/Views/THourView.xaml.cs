@@ -7,7 +7,7 @@ namespace OhmStudio.UI.Views
 {
     [DesignTimeVisible(false)]//在工具箱中 隐藏该窗口
     /// <summary>
-    /// THourView.xaml 的交互逻辑
+    /// THourView.xaml 的交互逻辑。
     /// </summary>
     public partial class THourView : UserControl
     {

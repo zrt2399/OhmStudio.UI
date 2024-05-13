@@ -6,7 +6,7 @@
 
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
-    <Style x:Key="TextBoxBaseStyle" TargetType="{x:Type TextBoxBase}"> 
+    <Style x:Key="TextBoxBaseStyle" TargetType="{x:Type TextBoxBase}">
         <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}" />
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />

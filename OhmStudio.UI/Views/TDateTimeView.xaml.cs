@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using OhmStudio.UI.Controls;
 
 namespace OhmStudio.UI.Views
 {
@@ -13,37 +14,28 @@ namespace OhmStudio.UI.Views
     /// </summary>
     public partial class TDateTimeView : UserControl
     {
-        public TDateTimeView(DateTime? dateTime)
+        public TDateTimeView(DateTimePicker dateTimePicker)
         {
             InitializeComponent();
-            _initialDateTime = dateTime;
-        }
-
-        readonly DateTime? _initialDateTime;
-
-        /// <summary>
-        /// TDateTimeView 窗口登录事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (_initialDateTime == null)
+            if (dateTimePicker.SelectedDateTime == null)
             {
-                calDate.DisplayDate = DateTime.MinValue.Date;
+                calDate.DisplayDate = dateTimePicker.DisplayDateStart == null ? DateTime.MinValue.Date : (DateTime)dateTimePicker.DisplayDateStart;
             }
             else
             {
-                calDate.DisplayDate = (DateTime)_initialDateTime;
+                calDate.DisplayDate = (DateTime)dateTimePicker.SelectedDateTime;
             }
-            calDate.SelectedDate = _initialDateTime;
-            UpdateBtnContent(_initialDateTime);
+            calDate.SelectedDate = dateTimePicker.SelectedDateTime;
+            calDate.FirstDayOfWeek = dateTimePicker.FirstDayOfWeek;
+            calDate.DisplayDateStart = dateTimePicker.DisplayDateStart;
+            calDate.DisplayDateEnd = dateTimePicker.DisplayDateEnd;
+            UpdateBtnContent(dateTimePicker.SelectedDateTime);
         }
 
         void UpdateBtnContent(DateTime? dateTime)
         {
             if (dateTime == null)
-            {   
+            {
                 //00:00:00
                 btnhh.Content = "00";
                 btnmm.Content = "00";
@@ -57,7 +49,7 @@ namespace OhmStudio.UI.Views
                 btnss.Content = time.Second.ToString().PadLeft(2, '0');
             }
         }
- 
+
         /// <summary>
         /// 确定按钮事件
         /// </summary>
@@ -65,7 +57,7 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
-            var date = calDate.SelectedDate == null ? DateTime.MinValue.Date : calDate.SelectedDate;
+            var date = calDate.SelectedDate == null ? (calDate.DisplayDateStart == null ? DateTime.MinValue.Date : calDate.DisplayDateStart) : calDate.SelectedDate;
             DateTime dateTime = Convert.ToDateTime(date).Date;
             string timeStr = btnhh.Content + ":" + btnmm.Content + ":" + btnss.Content;
 
@@ -195,8 +187,21 @@ namespace OhmStudio.UI.Views
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            calDate.SelectedDate = DateTime.Now.Date;
-            calDate.DisplayDate = DateTime.Now.Date;
+            if (calDate.DisplayDateStart != null && calDate.DisplayDateStart > DateTime.Now)
+            {
+                calDate.SelectedDate = calDate.DisplayDateStart;
+                calDate.DisplayDate = (DateTime)calDate.DisplayDateStart;
+            }
+            else if (calDate.DisplayDateEnd != null && calDate.DisplayDateEnd < DateTime.Now)
+            {
+                calDate.SelectedDate = calDate.DisplayDateEnd;
+                calDate.DisplayDate = (DateTime)calDate.DisplayDateEnd;
+            }
+            else
+            {
+                calDate.SelectedDate = DateTime.Now.Date;
+                calDate.DisplayDate = DateTime.Now.Date;
+            }
         }
     }
 }

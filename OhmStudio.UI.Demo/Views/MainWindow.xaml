@@ -740,7 +740,7 @@
                                         <GroupBox Margin="10" Header="InputControl">
                                             <WrapPanel>
                                                 <DateTimePicker VerticalAlignment="Top"
-                                                                Foreground="Green"
+                                                                Foreground="Green" DisplayDateStart="2020-1-1" DisplayDateEnd="2022-1-1 13:00:00"
                                                                 SelectedDateTime="{Binding CurrentDateTime}"
                                                                 TextBoxAttach.PlaceHolder="请选择日期..."
                                                                 TextBoxAttach.Title="DateTimePicker："
