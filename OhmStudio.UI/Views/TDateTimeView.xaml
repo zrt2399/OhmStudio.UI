@@ -85,7 +85,7 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center">时间</TextBlock>
+                <TextBlock x:Name="txtTime" VerticalAlignment="Center">时间</TextBlock>
                 <Border x:Name="textBoxDateTime"
                         Grid.Column="1"
                         Margin="4,0,0,0"

@@ -49,14 +49,30 @@ namespace OhmStudio.UI.Controls
         Popup PART_Popup;
         public event EventHandler<DependencyPropertyChangedEventArgs> TextChanged;
 
-        public string SelectedDateTimeFormat
+        public bool IsIgnoreTime
         {
-            get => (string)GetValue(SelectedDateTimeFormatProperty);
-            set => SetValue(SelectedDateTimeFormatProperty, value);
+            get => (bool)GetValue(IsIgnoreTimeProperty);
+            set => SetValue(IsIgnoreTimeProperty, value);
         }
 
-        public static readonly DependencyProperty SelectedDateTimeFormatProperty =
-            DependencyProperty.Register(nameof(SelectedDateTimeFormat), typeof(string), typeof(DateTimePicker), new PropertyMetadata("yyyy/MM/dd HH:mm:ss", (sender, e) =>
+        public static readonly DependencyProperty IsIgnoreTimeProperty =
+            DependencyProperty.Register(nameof(IsIgnoreTime), typeof(bool), typeof(DateTimePicker), new PropertyMetadata((sender, e) =>
+            {
+                if (sender is DateTimePicker dateTimePicker && dateTimePicker.SelectedDateTime != null && (bool)e.NewValue)
+                {
+                    var dateTime = (DateTime)dateTimePicker.SelectedDateTime;
+                    dateTimePicker.SelectedDateTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
+                }
+            }));
+
+        public string DateTimeFormat
+        {
+            get => (string)GetValue(DateTimeFormatProperty);
+            set => SetValue(DateTimeFormatProperty, value);
+        }
+
+        public static readonly DependencyProperty DateTimeFormatProperty =
+            DependencyProperty.Register(nameof(DateTimeFormat), typeof(string), typeof(DateTimePicker), new PropertyMetadata("yyyy/MM/dd HH:mm:ss", (sender, e) =>
             {
                 if (sender is DateTimePicker dateTimePicker)
                 {
@@ -157,7 +173,7 @@ namespace OhmStudio.UI.Controls
                     }
                     else
                     {
-                        dateTimePicker.Text = datetime?.ToString(dateTimePicker.SelectedDateTimeFormat);
+                        dateTimePicker.Text = datetime?.ToString(dateTimePicker.DateTimeFormat);
                     }
                 }
             }));
@@ -208,7 +224,7 @@ namespace OhmStudio.UI.Controls
             else
             {
                 //var format = textBoxDateTime.GetBindingExpression(TextBox.TextProperty)?.ParentBinding.StringFormat;
-                PART_TextBox.Text = SelectedDateTime?.ToString(SelectedDateTimeFormat);
+                PART_TextBox.Text = SelectedDateTime?.ToString(DateTimeFormat);
             }
         }
 
