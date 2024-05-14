@@ -19,16 +19,16 @@ namespace OhmStudio.UI.Views
             InitializeComponent();
             if (dateTimePicker.SelectedDateTime == null)
             {
-                calDate.DisplayDate = dateTimePicker.DisplayDateStart == null ? DateTime.MinValue.Date : (DateTime)dateTimePicker.DisplayDateStart;
+                calendar.DisplayDate = dateTimePicker.DisplayDateStart == null ? DateTime.MinValue.Date : (DateTime)dateTimePicker.DisplayDateStart;
             }
             else
             {
-                calDate.DisplayDate = (DateTime)dateTimePicker.SelectedDateTime;
+                calendar.DisplayDate = (DateTime)dateTimePicker.SelectedDateTime;
             }
-            calDate.SelectedDate = dateTimePicker.SelectedDateTime;
-            calDate.FirstDayOfWeek = dateTimePicker.FirstDayOfWeek;
-            calDate.DisplayDateStart = dateTimePicker.DisplayDateStart;
-            calDate.DisplayDateEnd = dateTimePicker.DisplayDateEnd;
+            calendar.SelectedDate = dateTimePicker.SelectedDateTime;
+            calendar.FirstDayOfWeek = dateTimePicker.FirstDayOfWeek;
+            calendar.DisplayDateStart = dateTimePicker.DisplayDateStart;
+            calendar.DisplayDateEnd = dateTimePicker.DisplayDateEnd;
             if (dateTimePicker.IsDateOnly)
             {
                 UpdateBtnContent(null);
@@ -65,7 +65,7 @@ namespace OhmStudio.UI.Views
         /// <param name="e"></param>
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
-            var date = calDate.SelectedDate == null ? (calDate.DisplayDateStart == null ? DateTime.MinValue.Date : calDate.DisplayDateStart) : calDate.SelectedDate;
+            var date = calendar.SelectedDate == null ? (calendar.DisplayDateStart == null ? DateTime.MinValue.Date : calendar.DisplayDateStart) : calendar.SelectedDate;
             DateTime dateTime = Convert.ToDateTime(date).Date;
             string timeStr = btnhh.Content + ":" + btnmm.Content + ":" + btnss.Content;
 
@@ -180,7 +180,7 @@ namespace OhmStudio.UI.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void calDate_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        private void calendar_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             if (Mouse.Captured is CalendarItem)
             {
@@ -195,20 +195,20 @@ namespace OhmStudio.UI.Views
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            if (calDate.DisplayDateStart != null && calDate.DisplayDateStart > DateTime.Now)
+            if (calendar.DisplayDateStart != null && calendar.DisplayDateStart > DateTime.Now)
             {
-                calDate.SelectedDate = calDate.DisplayDateStart;
-                calDate.DisplayDate = (DateTime)calDate.DisplayDateStart;
+                calendar.SelectedDate = calendar.DisplayDateStart;
+                calendar.DisplayDate = (DateTime)calendar.DisplayDateStart;
             }
-            else if (calDate.DisplayDateEnd != null && calDate.DisplayDateEnd < DateTime.Now)
+            else if (calendar.DisplayDateEnd != null && calendar.DisplayDateEnd < DateTime.Now)
             {
-                calDate.SelectedDate = calDate.DisplayDateEnd;
-                calDate.DisplayDate = (DateTime)calDate.DisplayDateEnd;
+                calendar.SelectedDate = calendar.DisplayDateEnd;
+                calendar.DisplayDate = (DateTime)calendar.DisplayDateEnd;
             }
             else
             {
-                calDate.SelectedDate = DateTime.Now.Date;
-                calDate.DisplayDate = DateTime.Now.Date;
+                calendar.SelectedDate = DateTime.Now.Date;
+                calendar.DisplayDate = DateTime.Now.Date;
             }
         }
     }
