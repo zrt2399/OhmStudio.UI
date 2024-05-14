@@ -49,7 +49,9 @@
                                      ToolTip="关闭" />
             </Grid>
             <Grid Grid.Row="1">
-                <Calendar Name="calDate" PreviewMouseUp="calDate_PreviewMouseUp">
+                <Calendar Name="calDate"
+                          Margin="0,-3"
+                          PreviewMouseUp="calDate_PreviewMouseUp">
                     <!--<Calendar.CalendarDayButtonStyle>
                         <Style TargetType="CalendarDayButton">
                             <Setter Property="Background" Value="White"/>-->

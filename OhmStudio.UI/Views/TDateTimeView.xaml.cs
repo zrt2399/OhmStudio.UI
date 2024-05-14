@@ -29,7 +29,7 @@ namespace OhmStudio.UI.Views
             calDate.FirstDayOfWeek = dateTimePicker.FirstDayOfWeek;
             calDate.DisplayDateStart = dateTimePicker.DisplayDateStart;
             calDate.DisplayDateEnd = dateTimePicker.DisplayDateEnd;
-            if (dateTimePicker.IsIgnoreTime)
+            if (dateTimePicker.IsDateOnly)
             {
                 UpdateBtnContent(null);
                 txtTime.IsEnabled = textBoxDateTime.IsEnabled = btnNow.IsEnabled = false;

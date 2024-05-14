@@ -49,14 +49,14 @@ namespace OhmStudio.UI.Controls
         Popup PART_Popup;
         public event EventHandler<DependencyPropertyChangedEventArgs> TextChanged;
 
-        public bool IsIgnoreTime
+        public bool IsDateOnly
         {
-            get => (bool)GetValue(IsIgnoreTimeProperty);
-            set => SetValue(IsIgnoreTimeProperty, value);
+            get => (bool)GetValue(IsDateOnlyProperty);
+            set => SetValue(IsDateOnlyProperty, value);
         }
 
-        public static readonly DependencyProperty IsIgnoreTimeProperty =
-            DependencyProperty.Register(nameof(IsIgnoreTime), typeof(bool), typeof(DateTimePicker), new PropertyMetadata((sender, e) =>
+        public static readonly DependencyProperty IsDateOnlyProperty =
+            DependencyProperty.Register(nameof(IsDateOnly), typeof(bool), typeof(DateTimePicker), new PropertyMetadata((sender, e) =>
             {
                 if (sender is DateTimePicker dateTimePicker && dateTimePicker.SelectedDateTime != null && (bool)e.NewValue)
                 {

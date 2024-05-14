@@ -744,7 +744,7 @@
                                                                 DisplayDateEnd="2022-1-1 13:00:00"
                                                                 DisplayDateStart="2020-1-1"
                                                                 Foreground="Green"
-                                                                IsIgnoreTime="True"
+                                                                IsDateOnly="True"
                                                                 SelectedDateTime="{Binding CurrentDateTime}"
                                                                 TextBoxAttach.PlaceHolder="请选择日期..."
                                                                 TextBoxAttach.Title="DateTimePicker："
