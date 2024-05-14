@@ -608,7 +608,7 @@ namespace OhmStudio.UI.Demo.Views
 
         [ToolTip(ToolTip = "这个表示时间")]
         [PropertyGrid(DisplayName = "时间", IsReadOnly = false)]
-        public DateTime DateTime { get; set; }
+        public DateTime DateTime { get; set; } = DateTime.Now;
 
         public List<string> DateTimes { get; set; } = new List<string>() { "123", "456", "789", "abc", "↑↓←→" };
     }

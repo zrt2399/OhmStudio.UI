@@ -61,7 +61,7 @@ namespace OhmStudio.UI.Controls
                 if (sender is DateTimePicker dateTimePicker)
                 {
                     var format = e.NewValue as string;
-                    dateTimePicker.Text = dateTimePicker.SelectedDateTime?.ToString(format ?? string.Empty);
+                    dateTimePicker.Text = dateTimePicker.SelectedDateTime?.ToString(format);
                 }
             }));
 
@@ -133,7 +133,7 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(FirstDayOfWeek), typeof(DayOfWeek), typeof(DateTimePicker), new PropertyMetadata(DayOfWeek.Monday));
 
         /// <summary>
-        /// 日期和时间。
+        /// 获取或设置当前设置的日期和时间。
         /// </summary>
         public DateTime? SelectedDateTime
         {

@@ -374,12 +374,22 @@ namespace OhmStudio.UI.PublicMethods
     public class PasswordAttribute : Attribute
     {
         public bool CanShowPassword { get; set; } = true;
+
+        public char PasswordChar { get; set; } = PasswordTextBox.DefaultPasswordChar;
     }
 
     [AttributeUsage(AttributeTargets.Property)]
     public class ToolTipAttribute : Attribute
     {
         public string ToolTip { get; set; }
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class VirtualizingPanelAttribute : Attribute
+    {
+        public bool IsVirtualizing { get; set; } = true;
+
+        public ScrollUnit ScrollUnit { get; set; }
     }
 
     [AttributeUsage(AttributeTargets.Property)]

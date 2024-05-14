@@ -84,7 +84,9 @@ namespace OhmStudio.UI.Controls
             set => SetValue(SelectedObjectProperty, value);
         }
 
-        public static readonly List<Type> NumericTypes = new List<Type>()
+        private List<double> _widths = new List<double>();
+
+        public static List<Type> NumericTypes { get; } = new List<Type>()
         {
             typeof(int),
             typeof(uint),
@@ -110,8 +112,27 @@ namespace OhmStudio.UI.Controls
             typeof(float?),
             typeof(double?),
             typeof(decimal?),
-            typeof(char?),
+            typeof(char?)
         };
+
+        void SetVirtualizing(PropertyInfo propertyInfo, UIElement uIElement)
+        {
+            if (uIElement is ComboBox comboBox)
+            {
+                var virtualizingPanelAttribute = propertyInfo.GetCustomAttribute<VirtualizingPanelAttribute>();
+                if (virtualizingPanelAttribute == null)
+                {
+                    VirtualizingPanel.SetIsVirtualizing(comboBox, true);
+                    VirtualizingPanel.SetVirtualizationMode(comboBox, VirtualizationMode.Recycling);
+                }
+                else
+                {
+                    VirtualizingPanel.SetIsVirtualizing(comboBox, virtualizingPanelAttribute.IsVirtualizing);
+                    VirtualizingPanel.SetVirtualizationMode(comboBox, virtualizingPanelAttribute.IsVirtualizing ? VirtualizationMode.Recycling : VirtualizationMode.Standard);
+                    VirtualizingPanel.SetScrollUnit(comboBox, virtualizingPanelAttribute.ScrollUnit);
+                }
+            }
+        }
 
         void SetPlaceHolder(PropertyInfo propertyInfo, UIElement uIElement)
         {
@@ -173,7 +194,6 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        List<double> _widths = new List<double>();
         void Create(object obj, ObservableCollection<UIElement> itemsControl)
         {
             if (obj == null)
@@ -193,12 +213,12 @@ namespace OhmStudio.UI.Controls
 
                 if (item.PropertyType.IsEnum)
                 {
-                    var ComboBox = new ComboBox();
+                    var comboBox = new ComboBox();
                     Binding selectedItem = GetBinding(obj, item);
                     Binding itemsSource = new Binding() { Source = Enum.GetValues(item.PropertyType) };
-                    ComboBox.SetBinding(Selector.SelectedItemProperty, selectedItem);
-                    ComboBox.SetBinding(ItemsControl.ItemsSourceProperty, itemsSource);
-                    uIElement = ComboBox;
+                    comboBox.SetBinding(Selector.SelectedItemProperty, selectedItem);
+                    comboBox.SetBinding(ItemsControl.ItemsSourceProperty, itemsSource);
+                    uIElement = comboBox;
                 }
                 else if (item.PropertyType == typeof(bool) || item.PropertyType == typeof(bool?))
                 {
@@ -226,7 +246,7 @@ namespace OhmStudio.UI.Controls
                     }
                     else
                     {
-                        var passwordTextBox = new PasswordTextBox() { CanShowPassword = passwordAttribute.CanShowPassword };
+                        var passwordTextBox = new PasswordTextBox() { CanShowPassword = passwordAttribute.CanShowPassword, PasswordChar = passwordAttribute.PasswordChar };
                         Binding binding = GetBinding(obj, item);
                         passwordTextBox.SetBinding(PasswordTextBox.PasswordProperty, binding);
                         uIElement = passwordTextBox;
@@ -234,12 +254,11 @@ namespace OhmStudio.UI.Controls
                 }
                 else if (typeof(IEnumerable).IsAssignableFrom(item.PropertyType))
                 {
-                    var ComboBox = new ComboBox() { SelectedIndex = 0 };
+                    var comboBox = new ComboBox();
                     Binding binding = GetBinding(obj, item);
-                    ComboBox.SetBinding(ItemsControl.ItemsSourceProperty, binding);
-                    VirtualizingPanel.SetIsVirtualizing(ComboBox, true);
-                    VirtualizingPanel.SetVirtualizationMode(ComboBox, VirtualizationMode.Recycling);
-                    uIElement = ComboBox;
+                    comboBox.SetBinding(ItemsControl.ItemsSourceProperty, binding);
+                    comboBox.SelectedIndex = 0;
+                    uIElement = comboBox;
                 }
                 else if (IsNotSystemClass(item.PropertyType))
                 {
@@ -267,6 +286,7 @@ namespace OhmStudio.UI.Controls
                         Tag = "Title"
                     };
                     SetPlaceHolder(item, uIElement);
+                    SetVirtualizing(item, uIElement);
                     if (uIElement is TextBox textBox)
                     {
                         textBox.IsReadOnly = attribute.IsReadOnly;

@@ -22,8 +22,10 @@ namespace OhmStudio.UI.Controls
 
         public string Text => Password;
 
+        public const char DefaultPasswordChar = '●';
+
         public static readonly DependencyProperty PasswordCharProperty =
-            DependencyProperty.Register(nameof(PasswordChar), typeof(char), typeof(PasswordTextBox), new FrameworkPropertyMetadata('●'));
+            DependencyProperty.Register(nameof(PasswordChar), typeof(char), typeof(PasswordTextBox), new FrameworkPropertyMetadata(DefaultPasswordChar));
 
         /// <summary>
         /// 获取或设置的掩码字符 <see cref="PasswordTextBox"/>。
