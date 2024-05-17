@@ -121,7 +121,13 @@
                       TextBoxAttach.Title="字体大小：" />
             <ComboBox ItemsSource="{Binding FontFamilyList}"
                       SelectedItem="{Binding CurrentFontFamily}"
-                      TextBoxAttach.Title="字体：" />
+                      TextBoxAttach.Title="字体：">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock FontFamily="{Binding FontFamily}" Text="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <ComboBox Margin="6,0"
                       ItemsSource="{Binding Source={EnumBindingSource ThemeType}}"
                       SelectedItem="{Binding CurrentTheme}"

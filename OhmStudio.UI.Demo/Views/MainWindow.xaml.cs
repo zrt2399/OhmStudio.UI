@@ -21,7 +21,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Search;
-using Microsoft.Win32;
 using OhmStudio.UI.Attaches;
 using OhmStudio.UI.Commands;
 using OhmStudio.UI.Controls;
@@ -47,7 +46,9 @@ namespace OhmStudio.UI.Demo.Views
             //}
             InitializeComponent();
             DataContext = this;
-            UptateFontList();
+            var fontFamilys = new InstalledFontCollection().Families.Select(x => new FontFamilyItem() { Name = x.Name, FontFamily = new FontFamily(x.Name) });
+            FontFamilyList = new ObservableCollection<FontFamilyItem>(fontFamilys);
+            FontFamilyList.Insert(0, _defaultFontFamilyItem);
             textEditorcs.Text = "using System;\r\n\r\nclass Program\r\n{\r\n    static void Main()\r\n    {\r\n        Console.WriteLine(\"Hello World\");\r\n    }\r\n}";
             textEditorcpp.Text = "#include <iostream>\r\n\r\nint main() {\r\n    std::cout << \"Hello World\" << std::endl;\r\n    return 0;\r\n}";
             textEditorxml.Text = "<Project Sdk=\"Microsoft.NET.Sdk\">\r\n\r\n\t<PropertyGroup>\r\n\t\t<OutputType>WinExe</OutputType>\r\n\t\t<TargetFramework>net6.0-windows</TargetFramework>\r\n\t\t<UseWPF>true</UseWPF>\r\n\t</PropertyGroup>\r\n \r\n</Project>";
@@ -153,17 +154,17 @@ namespace OhmStudio.UI.Demo.Views
             UserInfos.Add(new UserInfoModel() { UserName = "jack" });
             UserInfos.Add(new UserInfoModel() { UserName = "rose", Password = "123456" });
             Messenger.Default.Register<string>(this, Rrecipient, msg => AlertDialog.Show(msg));
-            SystemEvents.InstalledFontsChanged += SystemEvents_InstalledFontsChanged;
             StatusManager.IsRunningChanged += StatusManager_IsRunningChanged;
             XamlThemeDictionary.ThemeChanged += XamlThemeDictionary_ThemeChanged;
         }
 
         bool _can;
         const string Rrecipient = "Ohm";
-        const string DefaultFont = "默认";
+        const string DefaultFontName = "默认";
         public const string GlobalFontSize = nameof(GlobalFontSize);
         public const string GlobalFontFamily = nameof(GlobalFontFamily);
-        readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily];
+        static readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily];
+        static readonly FontFamilyItem _defaultFontFamilyItem = new FontFamilyItem() { Name = DefaultFontName, FontFamily = _defaultFontFamily };
 
         public DateTime? CurrentDateTime { get; set; }
 
@@ -175,7 +176,7 @@ namespace OhmStudio.UI.Demo.Views
 
         public IEnumerable<string> FileNodesSelectedItems => SelectedItemsFileNodes?.OfType<string>();
 
-        public ObservableCollection<string> FontFamilyList { get; set; }
+        public ObservableCollection<FontFamilyItem> FontFamilyList { get; set; }
 
         public IEnumerable<double> FontSizeList { get; } = Enumerable.Range(10, 11).Select(x => (double)x);
 
@@ -256,16 +257,15 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private string _currentFontFamily = DefaultFont;
+        private FontFamilyItem _currentFontFamily = _defaultFontFamilyItem;
         [DoNotNotify]
-        public string CurrentFontFamily
+        public FontFamilyItem CurrentFontFamily
         {
             get => _currentFontFamily;
             set
             {
-                value ??= DefaultFont;
+                Application.Current.Resources[GlobalFontFamily] = value.Name == DefaultFontName ? _defaultFontFamily : FontFamilyList.FirstOrDefault(x => x.Name == value.Name).FontFamily;
                 _currentFontFamily = value;
-                Application.Current.Resources[GlobalFontFamily] = value == DefaultFont ? _defaultFontFamily : new FontFamily(value);
                 OnPropertyChanged(nameof(CurrentFontFamily));
             }
         }
@@ -292,12 +292,6 @@ namespace OhmStudio.UI.Demo.Views
         private void StatusManager_IsRunningChanged(object sender, EventArgs e)
         {
             StatusBarContent = "IsRunning:" + sender;
-        }
-
-        private void SystemEvents_InstalledFontsChanged(object sender, EventArgs e)
-        {
-            UptateFontList();
-            StatusBarContent = "系统字体已改变";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -341,12 +335,6 @@ namespace OhmStudio.UI.Demo.Views
             }
 
             return propertyInfo.Name;
-        }
-
-        void UptateFontList()
-        {
-            FontFamilyList = new ObservableCollection<string>(new InstalledFontCollection().Families.Select(x => x.Name));
-            FontFamilyList.Insert(0, DefaultFont);
         }
 
         void ZoomIn()
@@ -551,6 +539,12 @@ namespace OhmStudio.UI.Demo.Views
         {
             rollBox.ItemsSource = new List<UIElement> { new Image() { Source = new BitmapImage(new Uri("https://pic1.zhimg.com/v2-ecac0aedda57bffecbbe90764828a825_r.jpg?source=1940ef5c")) }, new Button() { Content = "This is a new Button" } };
         }
+    }
+
+    public struct FontFamilyItem
+    {
+        public string Name { get; set; }
+        public FontFamily FontFamily { get; set; }
     }
 
     [BaseObjectIgnore]

@@ -15,11 +15,12 @@ namespace OhmStudio.UI.Demo
     {
         public static readonly string Name = Assembly.GetExecutingAssembly().GetName().Name;
         public static bool IsInDesignMode => (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
- 
+
         public static readonly string DocumentDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Name);
 
         protected override void OnStartup(StartupEventArgs e)
         {
+#if !DEBUG
             AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
             {
                 Exception ex = e.ExceptionObject as Exception;
@@ -38,6 +39,7 @@ namespace OhmStudio.UI.Demo
                 var message = $"{e.Exception.Message}\r\n{e.Exception.InnerException}";
                 AlertDialog.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             };
+#endif
             base.OnStartup(e);
         }
     }

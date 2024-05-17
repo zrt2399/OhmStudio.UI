@@ -118,13 +118,13 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Opacity" Value=".8" />
+                            <Setter Property="Opacity" Value=".7" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Opacity" Value=".6" />
+                            <Setter Property="Opacity" Value=".5" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value=".4" />
+                            <Setter Property="Opacity" Value=".3" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
