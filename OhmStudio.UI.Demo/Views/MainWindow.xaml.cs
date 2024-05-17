@@ -25,6 +25,7 @@ using OhmStudio.UI.Attaches;
 using OhmStudio.UI.Commands;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.Converters;
+using OhmStudio.UI.Helpers;
 using OhmStudio.UI.Messaging;
 using OhmStudio.UI.PublicMethods;
 using PropertyChanged;
@@ -171,6 +172,8 @@ namespace OhmStudio.UI.Demo.Views
         public double WindowScale { get; set; } = 1;
 
         public ObservableCollection<Pro> ProNodes { get; set; }
+
+        public ObservableCollection<TreeViewModel> TreeViewModels { get; set; } = new ObservableCollection<TreeViewModel>();
 
         public IList SelectedItemsFileNodes { get; set; }
 
@@ -444,7 +447,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private void LoadSubDirectory(TreeViewItem node, string fullPath)
+        private void LoadSubDirectory(TreeViewModel node, string fullPath)
         {
             //try
             //{
@@ -454,17 +457,25 @@ namespace OhmStudio.UI.Demo.Views
                 //加载子文件夹
                 foreach (DirectoryInfo subDirInfo in directoryInfo.GetDirectories().OrderBy(x => x.Name))
                 {
-                    TreeViewItem subNode = new TreeViewItem();
+                    TreeViewModel subNode = new TreeViewModel();
+                    subNode.Parent = node;
                     subNode.Header = subDirInfo.Name;
+                    subNode.IsFolder = true;
+                    subNode.FullName = subDirInfo.FullName;
+                    subNode.IconImageSource = subNode.IsFolder ? FileHelper.DirectoryIcon : FileHelper.GetFileIcon(subNode.FullName);
                     LoadSubDirectory(subNode, subDirInfo.FullName);
-                    node.Items.Add(subNode);
+                    node.Children.Add(subNode);
                 }
                 //加载文件
                 foreach (FileInfo fileInfo in directoryInfo.GetFiles().OrderBy(x => x.Name))
                 {
-                    TreeViewItem subNode = new TreeViewItem();
+                    TreeViewModel subNode = new TreeViewModel();
+                    subNode.Parent = node;
                     subNode.Header = fileInfo.Name;
-                    node.Items.Add(subNode);
+                    subNode.IsFolder = false;
+                    subNode.FullName = fileInfo.FullName;
+                    subNode.IconImageSource = subNode.IsFolder ? FileHelper.DirectoryIcon : FileHelper.GetFileIcon(subNode.FullName);
+                    node.Children.Add(subNode);
                 }
             }
             //}
@@ -477,15 +488,15 @@ namespace OhmStudio.UI.Demo.Views
         private void LoadTreeView(string rootFolderPath)
         {
             // 创建根节点
-            TreeViewItem rootNode = new TreeViewItem();
-            rootNode.Header = new DirectoryInfo(rootFolderPath).Name;
-
+            TreeViewModel node = new TreeViewModel();
+            node.Header = new DirectoryInfo(rootFolderPath).Name;
+            node.IsFolder = true;
+            node.FullName = rootFolderPath;
+            node.IconImageSource = node.IsFolder ? FileHelper.DirectoryIcon : FileHelper.GetFileIcon(node.FullName);
             // 加载根文件夹
-            LoadSubDirectory(rootNode, rootFolderPath);
+            LoadSubDirectory(node, rootFolderPath);
 
-            // 将根节点添加到 TreeView
-            treeView.Items.Add(rootNode);
-
+            TreeViewModels.Add(node);
         }
 
         private void Button_Click_8(object sender, RoutedEventArgs e)
@@ -515,10 +526,10 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_13(object sender, RoutedEventArgs e)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder("UIMessageTip.ShowError");
             for (int i = 0; i < 50; i++)
             {
-                stringBuilder.Append("UIMessageTip.ShowError;");
+                stringBuilder.Append(";UIMessageTip.ShowError");
             }
             UIMessageTip.ShowError(stringBuilder.ToString());
         }
@@ -545,6 +556,25 @@ namespace OhmStudio.UI.Demo.Views
     {
         public string Name { get; set; }
         public FontFamily FontFamily { get; set; }
+    }
+
+    public class TreeViewModel : ObservableObject
+    {
+        public string Header { get; set; }
+
+        public bool IsExpanded { get; set; }
+
+        public bool IsSelected { get; set; }
+
+        public bool IsFolder { get; set; }
+
+        public string FullName { get; set; }
+
+        public ImageSource IconImageSource { get; set; }
+
+        public TreeViewModel Parent;
+
+        public ObservableCollection<TreeViewModel> Children { get; set; } = new ObservableCollection<TreeViewModel>();
     }
 
     [BaseObjectIgnore]

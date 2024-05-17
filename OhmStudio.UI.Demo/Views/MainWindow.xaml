@@ -1032,14 +1032,36 @@
                                 </ListBox>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="TreeView" ToolTip="This a TreeView">
-                                <TreeView Name="treeView"
+                                <TreeView ItemsSource="{Binding TreeViewModels}"
+                                          TreeViewAttach.IsFocusWithMouseRightDown="True"
                                           VirtualizingPanel.IsVirtualizing="True"
                                           VirtualizingPanel.VirtualizationMode="Recycling">
+                                    <TreeView.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                            <Setter Property="ToolTip" Value="{Binding FullName}" />
+                                        </Style>
+                                    </TreeView.ItemContainerStyle>
                                     <TreeView.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem Click="MenuItem_Click_2" Header="导入文件夹" />
                                         </ContextMenu>
                                     </TreeView.ContextMenu>
+                                    <TreeView.ItemTemplate>
+                                        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Height="{Binding ElementName=Header, Path=ActualHeight}"
+                                                       Margin="2,0,4,0"
+                                                       Source="{Binding IconImageSource}" />
+                                                <TextBlock Name="Header" Text="{Binding Header}" />
+                                                <TextBox Padding="0"
+                                                         BorderThickness="0"
+                                                         Text="{Binding Header}"
+                                                         Visibility="Collapsed" />
+                                            </StackPanel>
+                                        </HierarchicalDataTemplate>
+                                    </TreeView.ItemTemplate>
                                 </TreeView>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="PropertyGrid" ToolTip="This a PropertyGrid">
