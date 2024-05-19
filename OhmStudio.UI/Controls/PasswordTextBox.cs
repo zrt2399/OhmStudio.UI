@@ -152,7 +152,7 @@ namespace OhmStudio.UI.Controls
 
         // Using a DependencyProperty as the backing store for Password.  This enables animation,styling,binding,etc...
         public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.Register("Password", typeof(string), typeof(PasswordTextBox), new PropertyMetadata(string.Empty, (sender, e) =>
+            DependencyProperty.Register("Password", typeof(string), typeof(PasswordTextBox), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) =>
             {
                 //根据密码框是否有内容来显示符号"x"
                 if (sender is PasswordTextBox passwordTextBox)

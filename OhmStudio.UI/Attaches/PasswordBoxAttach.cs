@@ -11,7 +11,7 @@ namespace OhmStudio.UI.Attaches
         public static readonly DependencyProperty PasswordProperty =
             DependencyProperty.RegisterAttached("Password",
             typeof(string), typeof(PasswordBoxAttach),
-            new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
+            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnPasswordPropertyChanged));
 
         public static readonly DependencyProperty PasswordAttachProperty =
             DependencyProperty.RegisterAttached("PasswordAttach",

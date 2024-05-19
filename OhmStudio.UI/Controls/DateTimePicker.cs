@@ -185,7 +185,7 @@ namespace OhmStudio.UI.Controls
         }
 
         public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(nameof(Text), typeof(string), typeof(DateTimePicker), new PropertyMetadata((sender, e) =>
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(DateTimePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) =>
             {
                 if (sender is DateTimePicker dateTimePicker)
                 {
