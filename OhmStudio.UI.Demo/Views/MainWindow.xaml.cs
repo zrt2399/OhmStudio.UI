@@ -175,6 +175,8 @@ namespace OhmStudio.UI.Demo.Views
 
         public ObservableCollection<TreeViewModel> TreeViewModels { get; set; } = new ObservableCollection<TreeViewModel>();
 
+        public TreeViewModel TreeViewSelectedItem { get; set; }
+
         public IList SelectedItemsFileNodes { get; set; }
 
         public IEnumerable<string> FileNodesSelectedItems => SelectedItemsFileNodes?.OfType<string>();
@@ -370,7 +372,7 @@ namespace OhmStudio.UI.Demo.Views
                 stringBuilder.Append(i + "StringBuilder" + Environment.NewLine);
             }
 
-            //AlertDialog.OhmUILanguage = OhmUILanguage.Zh_TW;
+            AlertDialog.Language = LanguageType.En_US;
             var result = AlertDialog.Show(stringBuilder.ToString(), assembly, MessageBoxButton.YesNoCancel, MessageBoxImage.Error);
             MessageBox.Show("点击了" + result);
         }
@@ -447,56 +449,66 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private void LoadSubDirectory(TreeViewModel node, string fullPath)
+        public static void LoadSubDirectory(TreeViewModel node, string fullName, bool isBreak)
         {
-            //try
-            //{
-            DirectoryInfo directoryInfo = new DirectoryInfo(fullPath);
-            if (directoryInfo.Exists)
+            try
             {
-                //加载子文件夹
-                foreach (DirectoryInfo subDirInfo in directoryInfo.GetDirectories().OrderBy(x => x.Name))
+                DirectoryInfo directoryInfo = new DirectoryInfo(fullName);
+                if (directoryInfo.Exists)
                 {
-                    TreeViewModel subNode = new TreeViewModel();
-                    subNode.Parent = node;
-                    subNode.Header = subDirInfo.Name;
-                    subNode.IsFolder = true;
-                    subNode.FullName = subDirInfo.FullName;
-                    subNode.IconImageSource = subNode.IsFolder ? FileHelper.DirectoryIcon : FileHelper.GetFileIcon(subNode.FullName);
-                    LoadSubDirectory(subNode, subDirInfo.FullName);
-                    node.Children.Add(subNode);
-                }
-                //加载文件
-                foreach (FileInfo fileInfo in directoryInfo.GetFiles().OrderBy(x => x.Name))
-                {
-                    TreeViewModel subNode = new TreeViewModel();
-                    subNode.Parent = node;
-                    subNode.Header = fileInfo.Name;
-                    subNode.IsFolder = false;
-                    subNode.FullName = fileInfo.FullName;
-                    subNode.IconImageSource = subNode.IsFolder ? FileHelper.DirectoryIcon : FileHelper.GetFileIcon(subNode.FullName);
-                    node.Children.Add(subNode);
+                    //加载子文件夹
+                    foreach (DirectoryInfo subDirInfo in directoryInfo.GetDirectories().OrderBy(x => x.Name))
+                    {
+                        TreeViewModel subNode = new TreeViewModel();
+                        subNode.Parent = node;
+                        subNode.Header = subDirInfo.Name;
+                        subNode.IsFolder = true;
+                        subNode.FullName = subDirInfo.FullName;
+                        subNode.IconImageSource = subNode.IsFolder ? FileHelper.DirectoryIcon : FileHelper.GetFileIcon(subNode.FullName);
+
+                        if (!isBreak)
+                        {
+                            node.IsLoaded = true;
+                            LoadSubDirectory(subNode, subDirInfo.FullName, true);
+                        }
+
+                        node.Children.Add(subNode);
+                    }
+                    //加载文件
+                    foreach (FileInfo fileInfo in directoryInfo.GetFiles().OrderBy(x => x.Name))
+                    {
+                        TreeViewModel subNode = new TreeViewModel();
+                        subNode.Parent = node;
+                        subNode.Header = fileInfo.Name;
+                        subNode.IsFolder = false;
+                        subNode.FullName = fileInfo.FullName;
+                        subNode.IconImageSource = subNode.IsFolder ? FileHelper.DirectoryIcon : FileHelper.GetFileIcon(subNode.FullName);
+                        node.Children.Add(subNode);
+                    }
                 }
             }
-            //}
-            //catch (Exception ex)
-            //{
-            //    AlertDialog.ShowError(ex.Message, "Error");
-            //}
+            catch (Exception ex)
+            {
+                AlertDialog.ShowError(ex.Message);
+            }
         }
 
         private void LoadTreeView(string rootFolderPath)
         {
-            // 创建根节点
-            TreeViewModel node = new TreeViewModel();
-            node.Header = new DirectoryInfo(rootFolderPath).Name;
-            node.IsFolder = true;
-            node.FullName = rootFolderPath;
-            node.IconImageSource = node.IsFolder ? FileHelper.DirectoryIcon : FileHelper.GetFileIcon(node.FullName);
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            //创建根节点
+            TreeViewModel rootNode = new TreeViewModel();
+            rootNode.Header = new DirectoryInfo(rootFolderPath).Name;
+            rootNode.IsFolder = true;
+            rootNode.IsRootNode = true;
+            rootNode.FullName = rootFolderPath;
+            rootNode.IconImageSource = rootNode.IsFolder ? FileHelper.DirectoryIcon : FileHelper.GetFileIcon(rootNode.FullName);
             // 加载根文件夹
-            LoadSubDirectory(node, rootFolderPath);
+            LoadSubDirectory(rootNode, rootFolderPath, false);
 
-            TreeViewModels.Add(node);
+            TreeViewModels.Add(rootNode);
+            stopwatch.Stop();
+            StatusBarContent = $"TreeView根节点加载完成耗时：{stopwatch.Elapsed.TotalSeconds}s";
         }
 
         private void Button_Click_8(object sender, RoutedEventArgs e)
@@ -550,6 +562,56 @@ namespace OhmStudio.UI.Demo.Views
         {
             rollBox.ItemsSource = new List<UIElement> { new Image() { Source = new BitmapImage(new Uri("https://pic1.zhimg.com/v2-ecac0aedda57bffecbbe90764828a825_r.jpg?source=1940ef5c")) }, new Button() { Content = "This is a new Button" } };
         }
+
+        public static void OpenFlie(string fullName)
+        {
+            try
+            {
+                ProcessStartInfo processStartInfo = new ProcessStartInfo(fullName);
+                Process process = new Process();
+                process.StartInfo = processStartInfo;
+                process.StartInfo.UseShellExecute = true;
+                process.StartInfo.ErrorDialog = true;
+                process.Start();
+            }
+            catch (Exception ex)
+            {
+                AlertDialog.ShowError(ex.Message);
+            }
+        }
+
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in TreeViewModels)
+            {
+                ExpandAllTreeViewModelItem(item, true);
+            }
+        }
+
+        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in TreeViewModels)
+            {
+                ExpandAllTreeViewModelItem(item, false);
+            }
+        }
+
+        void ExpandAllTreeViewModelItem(TreeViewModel treeViewModel, bool isExpand)
+        {
+            treeViewModel.IsExpanded = isExpand;
+            foreach (var item in treeViewModel.Children)
+            {
+                ExpandAllTreeViewModelItem(item, isExpand);
+            }
+        }
+
+        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
+        {
+            if (TreeViewSelectedItem != null)
+            {
+                TreeViewSelectedItem.IsEditing = true;
+            }
+        }
     }
 
     public struct FontFamilyItem
@@ -560,21 +622,104 @@ namespace OhmStudio.UI.Demo.Views
 
     public class TreeViewModel : ObservableObject
     {
+        public TreeViewModel()
+        {
+            DoubleClickCommand = new RelayCommand(() =>
+            {
+                if (!IsFolder)
+                {
+                    MainWindow.OpenFlie(FullName);
+                }
+            });
+            StartRenameCommand = new RelayCommand(() =>
+            {
+                IsEditing = true;
+            });
+            EndRenameCommand = new RelayCommand(() =>
+            {
+                IsEditing = false;
+            });
+            RenameVisibleCommand = new RelayCommand<TextBox>((sender) =>
+            {
+                if (sender.IsVisible)
+                {
+                    sender.Focus();
+                    if (IsFolder)
+                    {
+                        sender.SelectAll();
+                        return;
+                    }
+                    var index = sender.Text.LastIndexOf('.');
+                    if (index > 0)
+                    {
+                        sender.Select(0, index);
+                    }
+                    else
+                    {
+                        sender.SelectAll();
+                    }
+                }
+            });
+            ShowPropertiesCommand = new RelayCommand(() =>
+            {
+                FileHelper.ShowFileProperties(FullName);
+            });
+        }
+
+        [DoNotNotify]
+        public bool IsLoaded { get; set; }
+
         public string Header { get; set; }
 
-        public bool IsExpanded { get; set; }
+        private bool isExpanded;
+        [DoNotNotify]
+        public bool IsExpanded
+        {
+            get => isExpanded;
+            set
+            {
+                isExpanded = value;
+                if (!IsLoaded && value)
+                {
+                    Stopwatch stopwatch = Stopwatch.StartNew();
+                    foreach (var child in Children)
+                    {
+                        MainWindow.LoadSubDirectory(child, child.FullName, false);
+                    }
+                    stopwatch.Stop();
+                    (Application.Current.MainWindow.DataContext as MainWindow).StatusBarContent = $"TreeView子节点加载完成耗时：{stopwatch.Elapsed.TotalSeconds}s";
+                    IsLoaded = true;
+                }
+                OnPropertyChanged(nameof(IsExpanded));
+            }
+        }
 
         public bool IsSelected { get; set; }
 
+        public bool IsRootNode { get; set; }
+
         public bool IsFolder { get; set; }
+
+        public bool IsEditing { get; set; }
 
         public string FullName { get; set; }
 
         public ImageSource IconImageSource { get; set; }
 
-        public TreeViewModel Parent;
+        [DoNotNotify]
+        public TreeViewModel Parent { get; set; }
 
         public ObservableCollection<TreeViewModel> Children { get; set; } = new ObservableCollection<TreeViewModel>();
+
+        public ICommand DoubleClickCommand { get; }
+
+        public ICommand StartRenameCommand { get; }
+
+        public ICommand EndRenameCommand { get; }
+
+        public ICommand RenameVisibleCommand { get; }
+
+        public ICommand ShowPropertiesCommand { get; }
     }
 
     [BaseObjectIgnore]
