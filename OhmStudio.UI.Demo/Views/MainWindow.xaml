@@ -8,6 +8,7 @@
               xmlns:hc="https://handyorg.github.io/handycontrol"
               xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
               xmlns:local="clr-namespace:OhmStudio.UI.Demo.Views"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
               xmlns:omhui="http://ohmstudio.ui.com"
               xmlns:oxy="http://oxyplot.org/wpf"
@@ -1035,63 +1036,75 @@
                                 </ListBox>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="TreeView" ToolTip="This a TreeView">
-                                <TreeView ItemsSource="{Binding TreeViewModels}"
-                                          TreeViewAttach.IsSelectWithMouseRightDown="True"
-                                          TreeViewAttach.SelectedItem="{Binding TreeViewSelectedItem}"
-                                          TreeViewAttach.SelectedItemAttach="True">
-                                    <TreeView.ItemContainerStyle>
-                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
-                                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                            <Setter Property="ContextMenu">
-                                                <Setter.Value>
-                                                    <ContextMenu>
-                                                        <MenuItem Command="{Binding StartRenameCommand}" Header="重命名" />
-                                                        <MenuItem Command="{Binding ShowPropertiesCommand}" Header="属性" />
-                                                    </ContextMenu>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </TreeView.ItemContainerStyle>
-                                    <TreeView.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Click="MenuItem_Click_2" Header="导入文件夹" />
-                                            <!--<MenuItem Click="MenuItem_Click_3" Header="展开全部文件" />
-                                            <MenuItem Click="MenuItem_Click_4" Header="收起全部文件" />-->
-                                        </ContextMenu>
-                                    </TreeView.ContextMenu>
-                                    <TreeView.ItemTemplate>
-                                        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                                            <DockPanel MouseDownAttach.Command="{Binding DoubleClickCommand}"
-                                                       MouseDownAttach.IgnoreElement="TextBoxView"
-                                                       MouseDownAttach.MouseClickCount="2"
-                                                       MouseDownAttach.MouseClickMode="Left"
-                                                       ToolTip="{Binding FullName}">
-                                                <Image Height="{Binding ElementName=Header, Path=ActualHeight}"
-                                                       Margin="2,0,4,0"
-                                                       Source="{Binding IconImageSource}" />
-                                                <TextBlock Name="Header"
-                                                           HorizontalAlignment="Left"
-                                                           Text="{Binding Header}"
-                                                           Visibility="{Binding IsEditing, Converter={StaticResource BoolToNotVisibilityConverter}}" />
-                                                <TextBox Padding="0"
-                                                         HorizontalAlignment="Left"
-                                                         BorderThickness="0"
-                                                         Text="{Binding Header}"
-                                                         Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                    <i:Interaction.Triggers>
-                                                        <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=IsKeyboardFocusWithin}" Value="false">
-                                                            <i:InvokeCommandAction Command="{Binding EndRenameCommand}" />
-                                                        </i:DataTrigger>
-                                                        <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=IsVisible}" Value="true">
-                                                            <i:InvokeCommandAction Command="{Binding RenameVisibleCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}" />
-                                                        </i:DataTrigger>
-                                                    </i:Interaction.Triggers>
-                                                </TextBox>
-                                            </DockPanel>
-                                        </HierarchicalDataTemplate>
-                                    </TreeView.ItemTemplate>
-                                </TreeView>
+                                <DockPanel>
+                                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                                        <StackPanel.Resources>
+                                            <Style BasedOn="{StaticResource ToolBarButtonBaseStyle}" TargetType="Button">
+                                                <Setter Property="Focusable" Value="False" />
+                                            </Style>
+                                        </StackPanel.Resources>
+                                        <Button Command="{Binding CollapseAllCommand}" Content="{materialDesign:PackIcon Kind=CollapseAll}" />
+                                        <Button Content="{materialDesign:PackIcon Kind=Wrench}" />
+                                    </StackPanel>
+                                    <TreeView DockPanel.Dock="Bottom"
+                                              ItemsSource="{Binding TreeViewModels}"
+                                              TreeViewAttach.IsSelectWithMouseRightDown="True"
+                                              TreeViewAttach.SelectedItem="{Binding TreeViewSelectedItem}"
+                                              TreeViewAttach.SelectedItemAttach="True">
+                                        <TreeView.ItemContainerStyle>
+                                            <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                                <Setter Property="ContextMenu">
+                                                    <Setter.Value>
+                                                        <ContextMenu>
+                                                            <MenuItem Command="{Binding StartRenameCommand}" Header="重命名" />
+                                                            <MenuItem Command="{Binding ShowPropertiesCommand}" Header="属性" />
+                                                        </ContextMenu>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </TreeView.ItemContainerStyle>
+                                        <TreeView.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Click="MenuItem_Click_2" Header="导入文件夹" />
+                                                <!--<MenuItem Click="MenuItem_Click_3" Header="展开全部文件" />
+                                                <MenuItem Click="MenuItem_Click_4" Header="收起全部文件" />-->
+                                            </ContextMenu>
+                                        </TreeView.ContextMenu>
+                                        <TreeView.ItemTemplate>
+                                            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                                <DockPanel MouseDownAttach.Command="{Binding DoubleClickCommand}"
+                                                           MouseDownAttach.IgnoreElement="TextBoxView"
+                                                           MouseDownAttach.MouseClickCount="2"
+                                                           MouseDownAttach.MouseClickMode="Left"
+                                                           ToolTip="{Binding FullName}">
+                                                    <Image Height="{Binding ElementName=Header, Path=ActualHeight}"
+                                                           Margin="2,0,4,0"
+                                                           Source="{Binding IconImageSource}" />
+                                                    <TextBlock Name="Header"
+                                                               HorizontalAlignment="Left"
+                                                               Text="{Binding Header}"
+                                                               Visibility="{Binding IsEditing, Converter={StaticResource BoolToNotVisibilityConverter}}" />
+                                                    <TextBox Padding="0"
+                                                             HorizontalAlignment="Left"
+                                                             BorderThickness="0"
+                                                             Text="{Binding Header}"
+                                                             Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=IsKeyboardFocusWithin}" Value="false">
+                                                                <i:InvokeCommandAction Command="{Binding EndRenameCommand}" />
+                                                            </i:DataTrigger>
+                                                            <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=IsVisible}" Value="true">
+                                                                <i:InvokeCommandAction Command="{Binding RenameVisibleCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}" />
+                                                            </i:DataTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </TextBox>
+                                                </DockPanel>
+                                            </HierarchicalDataTemplate>
+                                        </TreeView.ItemTemplate>
+                                    </TreeView>
+                                </DockPanel>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="PropertyGrid" ToolTip="This a PropertyGrid">
                                 <Grid>

@@ -93,6 +93,13 @@ namespace OhmStudio.UI.Demo.Views
             ZoomInCommand = new RelayCommand(ZoomIn);
             ZoomOutCommand = new RelayCommand(ZoomOut);
             SearchCommand = new RelayCommand(() => UIMessageTip.Show("什么也没搜索到..."));
+            CollapseAllCommand = new RelayCommand(() =>
+            {
+                foreach (var item in TreeViewModels)
+                {
+                    ExpandAllTreeViewModelItem(item, false);
+                }
+            });
 
             Result.Columns.Add("Time");
             Result.Columns.Add("V0");
@@ -181,7 +188,7 @@ namespace OhmStudio.UI.Demo.Views
 
         public IEnumerable<string> FileNodesSelectedItems => SelectedItemsFileNodes?.OfType<string>();
 
-        public ObservableCollection<FontFamilyItem> FontFamilyList { get; set; }
+        public ObservableCollection<FontFamilyItem> FontFamilyList { get; }
 
         public IEnumerable<double> FontSizeList { get; } = Enumerable.Range(10, 11).Select(x => (double)x);
 
@@ -229,6 +236,7 @@ namespace OhmStudio.UI.Demo.Views
         public ICommand ZoomInCommand { get; }
         public ICommand ZoomOutCommand { get; }
         public ICommand SearchCommand { get; }
+        public ICommand CollapseAllCommand { get; }
 
         private RelayCommand _startCommand;
         public RelayCommand StartCommand
@@ -269,9 +277,12 @@ namespace OhmStudio.UI.Demo.Views
             get => _currentFontFamily;
             set
             {
-                Application.Current.Resources[GlobalFontFamily] = value.Name == DefaultFontName ? _defaultFontFamily : FontFamilyList.FirstOrDefault(x => x.Name == value.Name).FontFamily;
-                _currentFontFamily = value;
-                OnPropertyChanged(nameof(CurrentFontFamily));
+                if (value.Name != _currentFontFamily.Name)
+                {
+                    Application.Current.Resources[GlobalFontFamily] = value.Name == DefaultFontName ? _defaultFontFamily : FontFamilyList.FirstOrDefault(x => x.Name == value.Name).FontFamily;
+                    _currentFontFamily = value;
+                    OnPropertyChanged(nameof(CurrentFontFamily));
+                }
             }
         }
 
@@ -671,26 +682,29 @@ namespace OhmStudio.UI.Demo.Views
 
         public string Header { get; set; }
 
-        private bool isExpanded;
+        private bool _isExpanded;
         [DoNotNotify]
         public bool IsExpanded
         {
-            get => isExpanded;
+            get => _isExpanded;
             set
             {
-                isExpanded = value;
-                if (!IsLoaded && value)
+                if (_isExpanded != value)
                 {
-                    Stopwatch stopwatch = Stopwatch.StartNew();
-                    foreach (var child in Children)
+                    _isExpanded = value;
+                    if (!IsLoaded && value)
                     {
-                        MainWindow.LoadSubDirectory(child, child.FullName, false);
+                        Stopwatch stopwatch = Stopwatch.StartNew();
+                        foreach (var child in Children)
+                        {
+                            MainWindow.LoadSubDirectory(child, child.FullName, false);
+                        }
+                        stopwatch.Stop();
+                        (Application.Current.MainWindow.DataContext as MainWindow).StatusBarContent = $"TreeView子节点加载完成耗时：{stopwatch.Elapsed.TotalSeconds}s";
+                        IsLoaded = true;
                     }
-                    stopwatch.Stop();
-                    (Application.Current.MainWindow.DataContext as MainWindow).StatusBarContent = $"TreeView子节点加载完成耗时：{stopwatch.Elapsed.TotalSeconds}s";
-                    IsLoaded = true;
+                    OnPropertyChanged(nameof(IsExpanded));
                 }
-                OnPropertyChanged(nameof(IsExpanded));
             }
         }
 
