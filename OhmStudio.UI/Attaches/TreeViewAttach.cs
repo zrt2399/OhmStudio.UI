@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -40,11 +39,11 @@ namespace OhmStudio.UI.Attaches
         {
             if (VisualUpwardSearch<TreeViewItem>(e.OriginalSource as DependencyObject) is TreeViewItem treeViewItem)
             {
-                if (e.OriginalSource.GetType().Name == "TextBoxView")
-                {
-                    return;
-                }
-                treeViewItem.Focus();
+                //if (e.OriginalSource.GetType().Name == "TextBoxView")
+                //{
+                //    return;
+                //}
+                treeViewItem.IsSelected = true;
                 e.Handled = true;
             }
         }
@@ -73,7 +72,7 @@ namespace OhmStudio.UI.Attaches
         }
 
         public static readonly DependencyProperty SelectedItemAttachProperty =
-            DependencyProperty.RegisterAttached("SelectedItemAttach", typeof(bool), typeof(TreeViewAttach), new PropertyMetadata(false, SelectedChangedCallBack));
+            DependencyProperty.RegisterAttached("SelectedItemAttach", typeof(bool), typeof(TreeViewAttach), new PropertyMetadata(false, SelectedItemChangedCallBack));
 
         public static bool GetSelectedItemAttach(DependencyObject obj)
         {
@@ -85,27 +84,27 @@ namespace OhmStudio.UI.Attaches
             obj.SetValue(SelectedItemAttachProperty, value);
         }
 
-        private static void SelectedChangedCallBack(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        private static void SelectedItemChangedCallBack(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            if (obj is Selector selector)
+            if (obj is TreeView treeView)
             {
                 if ((bool)e.NewValue)
                 {
-                    selector.SelectionChanged += Selector_SelectionChanged;
+                    treeView.SelectedItemChanged += TreeView_SelectedItemChanged; 
                 }
                 else
                 {
-                    selector.SelectionChanged -= Selector_SelectionChanged;
+                    treeView.SelectedItemChanged -= TreeView_SelectedItemChanged;
                 }
             }
         }
 
-        private static void Selector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private static void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (sender is TreeView treeView)
             {
                 SetSelectedItem(treeView, treeView.SelectedItem);
             }
-        }
+        } 
     }
 }
