@@ -7,20 +7,20 @@ namespace OhmStudio.UI.Attaches
 {
     public class TreeViewAttach
     {
-        public static bool GetIsFocusWithMouseRightDown(DependencyObject obj)
+        public static bool GetIsSelectWithMouseRightDown(DependencyObject obj)
         {
-            return (bool)obj.GetValue(IsFocusWithMouseRightDownProperty);
+            return (bool)obj.GetValue(IsSelectWithMouseRightDownProperty);
         }
 
-        public static void SetIsFocusWithMouseRightDown(DependencyObject obj, bool value)
+        public static void SetIsSelectWithMouseRightDown(DependencyObject obj, bool value)
         {
-            obj.SetValue(IsFocusWithMouseRightDownProperty, value);
+            obj.SetValue(IsSelectWithMouseRightDownProperty, value);
         }
 
-        public static readonly DependencyProperty IsFocusWithMouseRightDownProperty =
-            DependencyProperty.RegisterAttached("IsFocusWithMouseRightDown", typeof(bool), typeof(TreeViewAttach), new PropertyMetadata(false, OnIsFocusWithMouseRightDownPropertyChanged));
+        public static readonly DependencyProperty IsSelectWithMouseRightDownProperty =
+            DependencyProperty.RegisterAttached("IsSelectWithMouseRightDown", typeof(bool), typeof(TreeViewAttach), new PropertyMetadata(false, OnIsSelectWithMouseRightDownPropertyChanged));
 
-        private static void OnIsFocusWithMouseRightDownPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void OnIsSelectWithMouseRightDownPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             if (sender is TreeView treeView)
             {

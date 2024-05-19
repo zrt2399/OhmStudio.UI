@@ -1036,7 +1036,7 @@
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="TreeView" ToolTip="This a TreeView">
                                 <TreeView ItemsSource="{Binding TreeViewModels}"
-                                          TreeViewAttach.IsFocusWithMouseRightDown="True"
+                                          TreeViewAttach.IsSelectWithMouseRightDown="True"
                                           TreeViewAttach.SelectedItem="{Binding TreeViewSelectedItem}"
                                           TreeViewAttach.SelectedItemAttach="True">
                                     <TreeView.ItemContainerStyle>
