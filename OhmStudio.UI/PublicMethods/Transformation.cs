@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace OhmStudio.UI.PublicMethods
 {
     public static class Transformation
     {
-        public static bool IsNotASCII(this string value)
+        public static bool IsNotAscii(this string value)
         {
             foreach (var item in value)
             {
@@ -32,26 +33,27 @@ namespace OhmStudio.UI.PublicMethods
             return stringBuilder.ToString();
         }
 
-        public static string ToHexString(this List<byte> bytes, string separator = " ")
+        public static string ToHexString(this IEnumerable<byte> bytes, string separator = " ")
         {
-            return bytes?.ToArray().ToHexString(separator);
-        }
-
-        public static string ToHexString(this byte[] bytes, string separator = " ")
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            if (bytes?.Length > 0)
+            if (bytes == null)
             {
-                for (int i = 0; i < bytes.Length - 1; i++)
-                {
-                    stringBuilder.Append(bytes[i].ToString("X2") + separator);
-                }
-                stringBuilder.Append(bytes[bytes.Length - 1].ToString("X2"));
+                return string.Empty;
             }
+            var count = bytes.Count();
+            if (count == 0)
+            {
+                return string.Empty;
+            }
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < count - 1; i++)
+            {
+                stringBuilder.Append(bytes.ElementAt(i).ToString("X2") + separator);
+            }
+            stringBuilder.Append(bytes.ElementAt(count - 1).ToString("X2"));
             return stringBuilder.ToString();
         }
 
-        public static bool ToHexString(this byte[] bytes, string condition, string separator = " ")
+        public static bool ToHexString(this IEnumerable<byte> bytes, string condition, string separator = " ")
         {
             return bytes.ToHexString(separator).Contains(condition);
         }
