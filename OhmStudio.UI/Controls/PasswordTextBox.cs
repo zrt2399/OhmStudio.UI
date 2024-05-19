@@ -18,7 +18,7 @@ namespace OhmStudio.UI.Controls
 
         TextBox PART_TextBox;
         PasswordBox PART_PasswordBox;
-        public event EventHandler<DependencyPropertyChangedEventArgs> TextChanged;
+        public event DependencyPropertyChangedEventHandler TextChanged;
 
         public string Text => Password;
 

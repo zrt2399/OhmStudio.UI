@@ -47,7 +47,7 @@ namespace OhmStudio.UI.Controls
 
         TextBox PART_TextBox;
         Popup PART_Popup;
-        public event EventHandler<DependencyPropertyChangedEventArgs> TextChanged;
+        public event DependencyPropertyChangedEventHandler TextChanged;
 
         public bool IsDateOnly
         {

@@ -9,7 +9,7 @@ namespace OhmStudio.UI.Controls
     {
         string Text { get; }
 
-        event EventHandler<DependencyPropertyChangedEventArgs> TextChanged;
+        event DependencyPropertyChangedEventHandler TextChanged;
     }
 
     public class SearchBar : Control, ICommandSource, ITextChanged
@@ -25,7 +25,7 @@ namespace OhmStudio.UI.Controls
         }
 
         TextBox PART_TextBox;
-        public event EventHandler<DependencyPropertyChangedEventArgs> TextChanged;
+        public event DependencyPropertyChangedEventHandler TextChanged;
 
         public string Text
         {
