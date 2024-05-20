@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -48,7 +48,7 @@ namespace OhmStudio.UI.Controls
         public ICommand NextCommand { get; }
 
         public static readonly DependencyProperty ItemsSourceProperty =
-           DependencyProperty.Register(nameof(ItemsSource), typeof(List<UIElement>), typeof(RollBox), new PropertyMetadata(new List<UIElement>(), (sender, e) =>
+           DependencyProperty.Register(nameof(ItemsSource), typeof(ObservableCollection<UIElement>), typeof(RollBox), new PropertyMetadata(new ObservableCollection<UIElement>(), (sender, e) =>
            {
                if (sender is RollBox rollBox)
                {
@@ -56,9 +56,9 @@ namespace OhmStudio.UI.Controls
                }
            }));
 
-        public List<UIElement> ItemsSource
+        public ObservableCollection<UIElement> ItemsSource
         {
-            get => (List<UIElement>)GetValue(ItemsSourceProperty);
+            get => (ObservableCollection<UIElement>)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
 
