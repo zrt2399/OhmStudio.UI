@@ -3,7 +3,8 @@
 	<PropertyGroup>
 		<TargetFrameworks>net462;net5.0-windows</TargetFrameworks>
 		<Nullable>disable</Nullable>
-		<UseWPF>true</UseWPF>
+		<UseWPF>true</UseWPF> 
+		<UseWindowsForms>True</UseWindowsForms>
 		<DebugType>embedded</DebugType>
 	</PropertyGroup>
 

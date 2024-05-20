@@ -33,6 +33,7 @@
     <converters:BrushToColorConverter x:Key="BrushToColorConverter" />
     <converters:AngleToPointConverter x:Key="AngleToPointConverter" />
     <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter" />
+    <converters:EmptyStringToNotBoolConverter x:Key="EmptyStringToNotBoolConverter" />
 
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
@@ -965,7 +966,7 @@
                                             <!--
                                                 VirtualizingPanel.VirtualizationMode="{Binding Path=(VirtualizingPanel.VirtualizationMode),RelativeSource={RelativeSource TemplatedParent}}"
                                             -->
-                                            <!--  ItemContainerStyle="{StaticResource ListBoxItemCheckBoxStyle}"  -->
+                                            <!--  ItemContainerStyle="{DynamicResource ListBoxItemCheckBoxStyle}"  -->
                                             <!--  ItemTemplate="{StaticResource ListBoxItemCheckBoxDataTemplate}"  -->
                                         </Grid>
                                     </Border>
@@ -1658,5 +1659,75 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="CollapseButton" TargetType="Button">
+        <Setter Property="attaches:DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type Button}}" />
+        <Setter Property="attaches:DynamicStyleProvider.Derived">
+            <Setter.Value>
+                <Style TargetType="Button">
+                    <Style.Triggers>
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Content" Value="">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PathPickerBaseStyle" TargetType="controls:PathPicker">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:PathPicker">
+                    <Border Margin="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True">
+                        <DockPanel>
+                            <Button Margin="{TemplateBinding Spacing}"
+                                    Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OpenCommand}"
+                                    Content="{TemplateBinding OpenButtonContent}"
+                                    DockPanel.Dock="Right"
+                                    IsEnabled="{Binding ElementName=PathTextBox, Path=Text, Converter={StaticResource EmptyStringToNotBoolConverter}}"
+                                    Style="{DynamicResource CollapseButton}"
+                                    ToolTip="{TemplateBinding OpenButtonToolTip}" />
+                            <Button Margin="{TemplateBinding Spacing}"
+                                    Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ExploreCommand}"
+                                    Content="{TemplateBinding ExploreButtonContent}"
+                                    DockPanel.Dock="Right"
+                                    IsEnabled="{Binding ElementName=PathTextBox, Path=Text, Converter={StaticResource EmptyStringToNotBoolConverter}}"
+                                    Style="{DynamicResource CollapseButton}"
+                                    ToolTip="{TemplateBinding ExploreButtonToolTip}" />
+                            <Button Margin="{TemplateBinding Spacing}"
+                                    Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BrowseCommand}"
+                                    Content="{TemplateBinding BrowseButtonContent}"
+                                    DockPanel.Dock="Right"
+                                    Style="{DynamicResource CollapseButton}"
+                                    ToolTip="{TemplateBinding BrowseButtonToolTip}" />
+
+                            <DockPanel DockPanel.Dock="Left">
+                                <ContentControl Style="{StaticResource TitleWithTemplatedParent}" />
+                                <controls:SimplePanel>
+                                    <TextBox Name="PathTextBox"
+                                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                             IsReadOnly="{TemplateBinding IsReadOnly}"
+                                             Text="{TemplateBinding FileName}"
+                                             TextWrapping="{TemplateBinding TextWrapping}" />
+                                    <ContentControl Margin="{Binding ElementName=PathTextBox, Path=Padding}" Style="{StaticResource PlaceHolderWithTemplatedParent}" />
+                                </controls:SimplePanel>
+                            </DockPanel>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style BasedOn="{StaticResource PathPickerBaseStyle}" TargetType="controls:PathPicker" />
 
 </ResourceDictionary>

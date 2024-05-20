@@ -632,7 +632,7 @@
                                             Description="其他"
                                             IsSelected="True"
                                             ToolTip="Other">
-                                <Grid>
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                                     <!--<Grid>
                                         <Rectangle>
                                             <Rectangle.Fill>
@@ -925,8 +925,36 @@
                                                 </CheckComboBox>
                                             </WrapPanel>
                                         </GroupBox>
+                                        <GroupBox Margin="10" Header="PathPicker">
+                                            <WrapPanel>
+                                                <PathPicker MinWidth="200"
+                                                            ExploreButtonContent="打开文件夹所在位置"
+                                                            IsFolder="True"
+                                                            OpenButtonContent="打开文件夹"
+                                                            TextBoxAttach.PlaceHolder="请选择文件夹..."
+                                                            TextBoxAttach.Title="文件夹：" />
+                                                <PathPicker MinWidth="200"
+                                                            ExploreButtonContent="打开文件所在位置"
+                                                            Filter="Excel 工作簿|*.xlsx"
+                                                            IsSave="True"
+                                                            OpenButtonContent="打开文件"
+                                                            TextBoxAttach.PlaceHolder="请选择保存的文件路径..."
+                                                            TextBoxAttach.Title="保存文件" />
+                                                <PathPicker MinWidth="200"
+                                                            ExploreButtonContent="打开文件所在位置"
+                                                            OpenButtonContent="打开文件"
+                                                            TextBoxAttach.PlaceHolder="请选择文件..."
+                                                            TextBoxAttach.Title="打开文件" />
+                                                <PathPicker MinWidth="200"
+                                                            ExploreButtonContent="打开第一个文件所在位置"
+                                                            Multiselect="True"
+                                                            OpenButtonContent="打开第一个文件"
+                                                            TextBoxAttach.PlaceHolder="请选择单个或多个文件..."
+                                                            TextBoxAttach.Title="打开多个文件" />
+                                            </WrapPanel>
+                                        </GroupBox>
                                     </WrapPanel>
-                                </Grid>
+                                </ScrollViewer>
                             </LayoutDocument>
                         </LayoutDocumentPane>
                     </LayoutDocumentPaneGroup>
@@ -1096,7 +1124,7 @@
                                                                 <i:InvokeCommandAction Command="{Binding EndRenameCommand}" />
                                                             </i:DataTrigger>
                                                             <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=IsVisible}" Value="true">
-                                                                <i:InvokeCommandAction Command="{Binding RenameVisibleCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}" />
+                                                                <i:InvokeCommandAction Command="{Binding RenameFocusCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}" />
                                                             </i:DataTrigger>
                                                         </i:Interaction.Triggers>
                                                     </TextBox>
