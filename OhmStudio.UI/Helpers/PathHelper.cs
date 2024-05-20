@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -9,7 +10,7 @@ using System.Windows.Media.Imaging;
 
 namespace OhmStudio.UI.Helpers
 {
-    public class FileHelper
+    public class PathHelper
     {
         public static readonly BitmapSource DirectoryIcon = GetDirectoryIcon();
 
@@ -58,6 +59,22 @@ namespace OhmStudio.UI.Helpers
             {
                 return Directory.Exists(fullName);
             }
+        }
+
+        public static Process OpenInDirectoryPath(string fileName)
+        {
+            return Process.Start("explorer.exe", "/select, " + fileName);
+        }
+
+        public static Process OpenFlie(string fileName)
+        {
+            ProcessStartInfo processStartInfo = new ProcessStartInfo(fileName);
+            Process process = new Process();
+            process.StartInfo = processStartInfo;
+            process.StartInfo.UseShellExecute = true;
+            process.StartInfo.ErrorDialog = true;
+            process.Start();
+            return process;
         }
 
         [StructLayout(LayoutKind.Sequential)]
