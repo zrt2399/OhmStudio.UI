@@ -82,11 +82,23 @@ namespace OhmStudio.UI.Controls
     {
         // Using a DependencyProperty as the backing store for MaxSideLength.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MaxSideLengthProperty =
-            DependencyProperty.Register("MaxSideLength", typeof(double), typeof(TemplateSettingValues), new PropertyMetadata(0D));
+            DependencyProperty.Register("MaxSideLength", typeof(double), typeof(TemplateSettingValues), new PropertyMetadata(0D, (sender, e) =>
+            {
+                if (sender is TemplateSettingValues templateSettingValues && e.NewValue is double value && double.IsNaN(value))
+                {
+                    templateSettingValues.MaxSideLength = 0;
+                }
+            }));
 
         // Using a DependencyProperty as the backing store for EllipseDiameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty EllipseDiameterProperty =
-            DependencyProperty.Register("EllipseDiameter", typeof(double), typeof(TemplateSettingValues), new PropertyMetadata(0D));
+            DependencyProperty.Register("EllipseDiameter", typeof(double), typeof(TemplateSettingValues), new PropertyMetadata(0D, (sender, e) =>
+            {
+                if (sender is TemplateSettingValues templateSettingValues && e.NewValue is double value && double.IsInfinity(value))
+                {
+                    templateSettingValues.EllipseDiameter = 0;
+                }
+            }));
 
         // Using a DependencyProperty as the backing store for EllipseOffset.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty EllipseOffsetProperty =
