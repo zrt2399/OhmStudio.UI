@@ -443,7 +443,9 @@ namespace OhmStudio.UI.Demo.Views
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
             UserLoginWindow userLoginWindow = new UserLoginWindow();
+            txtLogin.Text = "登录中";
             userLoginWindow.SetOwner().ShowDialog();
+            txtLogin.Text = "登录";
         }
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
@@ -647,7 +649,7 @@ namespace OhmStudio.UI.Demo.Views
             });
         }
 
-        public TreeViewModel(string header, bool isFolder, string fullName, TreeViewModel parent = null) : base()
+        public TreeViewModel(string header, bool isFolder, string fullName, TreeViewModel parent = null) : this()
         {
             Header = header;
             IsFolder = isFolder;

@@ -19,8 +19,8 @@
               d:DataContext="{d:DesignInstance Type=local:MainWindow}"
               BorderAttach.CornerRadius="{Binding CornerRadius}"
               Icon="/icon.ico"
-              IsShowIcon="True"
-              IsShowTitle="True"
+              IsShowIcon="False"
+              IsShowTitle="False"
               ResizeMode="CanResizeWithGrip"
               SnapsToDevicePixels="{Binding IsAntiAliasing}"
               UseLayoutRounding="{Binding IsAntiAliasing}"
@@ -39,86 +39,126 @@
     </Window.Resources>
 
     <ChromeWindow.LeftWindowCommands>
-        <StackPanel Orientation="Horizontal">
-            <Menu VerticalAlignment="Center">
-                <MenuItem Header="文件(F)">
-                    <MenuItem Header="新建" />
-                    <MenuItem Header="打开" />
-                    <MenuItem Header="关闭" />
-                </MenuItem>
-                <MenuItem Header="视图(V)">
-                    <MenuItem Header="新建" />
-                    <MenuItem Header="打开" />
-                    <MenuItem Header="关闭" />
-                </MenuItem>
-            </Menu>
-            <ToolBarTray VerticalAlignment="Center">
-                <ToolBar BandIndex="1">
-                    <Button Content="1" ToolTip="新建项目" />
-                    <TextBox>新建项目</TextBox>
-                    <RadioButton>选择</RadioButton>
-                    <CheckBox IsChecked="{Binding IsAntiAliasing}">抗锯齿</CheckBox>
-                    <Button Content="2" ToolTip="打开文件" />
-                    <Separator />
-                    <Button Content="3" ToolTip="保存当前文件" />
-                    <Separator />
-                    <Button Content="4" ToolTip="保存当前文件" />
-                </ToolBar>
-                <ToolBar BandIndex="2">
-                    <Button Content="5" ToolTip="新建项目" />
-                    <Separator />
-                    <Button Content="6" ToolTip="打开文件" />
-                    <Separator />
-                    <Button Content="7" ToolTip="保存当前文件" />
-                    <Separator />
-                    <ComboBox>
-                        <ComboBoxItem IsSelected="True">123</ComboBoxItem>
-                        <ComboBoxItem>456</ComboBoxItem>
-                        <ComboBoxItem>789</ComboBoxItem>
-                        <ComboBoxItem>101112</ComboBoxItem>
-                        <ComboBoxItem>131415</ComboBoxItem>
-                        <ComboBoxItem>161718</ComboBoxItem>
-                    </ComboBox>
-                </ToolBar>
-            </ToolBarTray>
-            <SearchBar VerticalAlignment="Center"
-                       Command="{Binding SearchCommand}"
-                       TextBoxAttach.PlaceHolder="请输入搜索内容..."
-                       TextBoxAttach.Title="搜索：" />
-            <!--<CheckComboBox />-->
-            <TextBox VerticalAlignment="Center"
-                     Text="{Binding GlobalCornerRadius}"
-                     TextBoxAttach.Title="全局圆角：" />
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Image Height="22"
+                       Margin="6,6,0,6"
+                       Source="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Icon}" />
+                <Menu VerticalAlignment="Center">
+                    <MenuItem Header="文件(F)">
+                        <MenuItem Header="新建" />
+                        <MenuItem Header="打开" />
+                        <MenuItem Header="关闭" />
+                    </MenuItem>
+                    <MenuItem Header="编辑(E)">
+                        <MenuItem Header="复制" InputGestureText="Ctrl+C" />
+                        <MenuItem Header="粘贴" InputGestureText="Ctrl+V" />
+                        <MenuItem Header="删除" InputGestureText="Delete" />
+                    </MenuItem>
+                    <MenuItem Header="视图(V)">
+                        <MenuItem Header="代码" />
+                        <MenuItem Header="设计器" />
+                        <MenuItem Header="在Blend中设计" />
+                    </MenuItem>
+                </Menu>
+                <SearchBar VerticalAlignment="Center"
+                           Command="{Binding SearchCommand}"
+                           TextBoxAttach.PlaceHolder="请输入搜索内容..." />
+                <!--<CheckComboBox />-->
+                <TextBox Margin="10,0"
+                         VerticalAlignment="Center"
+                         Text="{Binding GlobalCornerRadius}"
+                         TextBoxAttach.Title="全局圆角：" />
+                <Border VerticalAlignment="Center" IsHitTestVisible="False">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource SystemColorsWindowPanel}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBlock Margin="4"
+                               HorizontalAlignment="Center"
+                               FontWeight="Bold"
+                               Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}">
+                        <TextBlock.Style>
+                            <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                                        <Setter Property="Foreground" Value="{DynamicResource EnvironmentMainWindowInactiveCaptionText}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Border>
+            </StackPanel>
+            <StackPanel Margin="6,0,0,0">
+                <ToolBarTray VerticalAlignment="Top">
+                    <ToolBar>
+                        <Button Content="{materialDesign:PackIcon Kind=FilePlusOutline}" ToolTip="新建项目" />
+                        <Button Margin="4,0"
+                                Content="{materialDesign:PackIcon Kind=FileOutline}"
+                                ToolTip="打开文件" />
+                        <Button Content="{materialDesign:PackIcon Kind=ContentSaveOutline, Size=18}" ToolTip="保存当前文件" />
+
+                        <Button Margin="4,0,0,0"
+                                Content="{materialDesign:PackIcon Kind=ContentSaveAllOutline}"
+                                ToolTip="保存全部文件&amp;设置" />
+                        <RadioButton>选择</RadioButton>
+                        <RadioButton>不选择</RadioButton>
+                        <CheckBox IsChecked="{Binding IsAntiAliasing}">抗锯齿</CheckBox>
+                    </ToolBar>
+                    <ToolBar BandIndex="1">
+                        <ComboBox>
+                            <ComboBoxItem IsSelected="True">Debug</ComboBoxItem>
+                            <ComboBoxItem>Release</ComboBoxItem>
+                            <ComboBoxItem>配置管理器...</ComboBoxItem>
+                        </ComboBox>
+                        <ComboBox MinWidth="100" Margin="4,0">
+                            <ComboBoxItem IsSelected="True">Any CPU</ComboBoxItem>
+                            <ComboBoxItem>x64</ComboBoxItem>
+                            <ComboBoxItem>x86</ComboBoxItem>
+                        </ComboBox>
+                        <ComboBox>
+                            <ComboBoxItem IsSelected="True">
+                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                    <materialDesign:PackIcon Height="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=ActualHeight}" Kind="Play" />
+                                    <TextBlock Margin="6,0,0,0" Text="{x:Static demo:App.Name}" />
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <Separator />
+                            <ComboBoxItem>
+                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                    <materialDesign:PackIcon Height="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=ActualHeight}" Kind="Wrench" />
+                                    <TextBlock Margin="6,0,0,0" Text="{x:Static demo:App.Name}" />
+                                    <TextBlock Text=" 调试属性" />
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                    <materialDesign:PackIcon Height="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=ActualHeight}" Kind="CogOutline" />
+                                    <TextBlock Margin="6,0,0,0">配置启动项目...</TextBlock>
+                                </StackPanel>
+                            </ComboBoxItem>
+                        </ComboBox>
+                        <Button Content="{materialDesign:PackIcon Kind=Play}" />
+                        <Button Content="{materialDesign:PackIcon Kind=Fire}" />
+                        <Button Content="{materialDesign:PackIcon Kind=Pause}" />
+                        <Button Content="{materialDesign:PackIcon Kind=Stop}" />
+                        <Button Content="{materialDesign:PackIcon Kind=Refresh}" />
+                    </ToolBar>
+                </ToolBarTray>
+            </StackPanel>
         </StackPanel>
     </ChromeWindow.LeftWindowCommands>
 
     <ChromeWindow.RightWindowCommands>
-        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-            <Border VerticalAlignment="Center" IsHitTestVisible="False">
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
-                                <Setter Property="Background" Value="{DynamicResource SystemColorsWindowPanel}" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
-                <TextBlock Margin="4"
-                           HorizontalAlignment="Center"
-                           FontWeight="Bold"
-                           Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}">
-                    <TextBlock.Style>
-                        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
-                                    <Setter Property="Foreground" Value="{DynamicResource EnvironmentMainWindowInactiveCaptionText}" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-            </Border>
+        <StackPanel Margin="0,6,0,0"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
             <ComboBox Margin="6,0"
                       ItemsSource="{Binding FontSizeList}"
                       SelectedItem="{Binding CurrentFontSize}"
@@ -141,7 +181,30 @@
                     CornerRadiusAttach.IsCircular="True">
                 <TextBlock HorizontalAlignment="Center" Foreground="White">ad</TextBlock>
             </Border>
-            <Button Margin="6,0,0,0" Click="Button_Click_5">登录</Button>
+            <Button Margin="6,0,0,0"
+                    BorderBrush="Transparent"
+                    Click="Button_Click_5">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="txtLogin"
+                               Margin="0,0,4,0"
+                               Text="登录" />
+                    <materialDesign:PackIcon VerticalAlignment="Center"
+                                             Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
+                                             Kind="AccountPlusOutline" />
+                    <ProgressRing Height="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=ActualHeight}"
+                                  IsActive="True"
+                                  Visibility="Visible">
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding ElementName=txtLogin, Path=Text}" Value="登录">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="Collapsed" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding ElementName=txtLogin, Path=Text}" Value="登录中">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
+                    </ProgressRing>
+                </StackPanel>
+            </Button>
         </StackPanel>
 
     </ChromeWindow.RightWindowCommands>
