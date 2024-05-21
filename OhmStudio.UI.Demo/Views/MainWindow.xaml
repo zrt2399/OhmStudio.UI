@@ -39,11 +39,9 @@
     </Window.Resources>
 
     <ChromeWindow.LeftWindowCommands>
-        <StackPanel>
+        <StackPanel Margin="6,6,0,6">
             <StackPanel Orientation="Horizontal">
-                <Image Height="22"
-                       Margin="6,6,0,6"
-                       Source="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Icon}" />
+                <Image Height="22" Source="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Icon}" />
                 <Menu VerticalAlignment="Center">
                     <MenuItem Header="文件(F)">
                         <MenuItem Header="新建" />
@@ -61,15 +59,18 @@
                         <MenuItem Header="在Blend中设计" />
                     </MenuItem>
                 </Menu>
-                <SearchBar VerticalAlignment="Center"
+                <Separator Style="{StaticResource VerticalSeparator}" />
+                <SearchBar Margin="10,0"
+                           VerticalAlignment="Center"
                            Command="{Binding SearchCommand}"
                            TextBoxAttach.PlaceHolder="请输入搜索内容..." />
                 <!--<CheckComboBox />-->
-                <TextBox Margin="10,0"
-                         VerticalAlignment="Center"
+                <TextBox VerticalAlignment="Center"
                          Text="{Binding GlobalCornerRadius}"
                          TextBoxAttach.Title="全局圆角：" />
-                <Border VerticalAlignment="Center" IsHitTestVisible="False">
+                <Border Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        IsHitTestVisible="False">
                     <Border.Style>
                         <Style TargetType="Border">
                             <Style.Triggers>
@@ -95,7 +96,7 @@
                     </TextBlock>
                 </Border>
             </StackPanel>
-            <StackPanel Margin="6,0,0,0">
+            <StackPanel Margin="0,6,0,0">
                 <ToolBarTray VerticalAlignment="Top">
                     <ToolBar>
                         <Button Content="{materialDesign:PackIcon Kind=FilePlusOutline}" ToolTip="新建项目" />
