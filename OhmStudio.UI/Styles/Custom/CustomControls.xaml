@@ -1349,7 +1349,7 @@
 
     <Style TargetType="controls:ProgressRing">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource ProgressBarProgress}" />
         <Setter Property="IsHitTestVisible" Value="False" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
