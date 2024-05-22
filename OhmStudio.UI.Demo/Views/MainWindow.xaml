@@ -193,7 +193,8 @@
                     <materialDesign:PackIcon VerticalAlignment="Center"
                                              Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
                                              Kind="AccountPlusOutline" />
-                    <ProgressRing Height="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=ActualHeight}"
+                    <!--暂时移除，隐藏时也会占用cpu，gpu资源-->
+                    <!--<ProgressRing Height="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=ActualHeight}"
                                   IsActive="True"
                                   Visibility="Visible">
                         <i:Interaction.Triggers>
@@ -204,7 +205,7 @@
                                 <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
                             </i:DataTrigger>
                         </i:Interaction.Triggers>
-                    </ProgressRing>
+                    </ProgressRing>-->
                 </StackPanel>
             </Button>
         </StackPanel>
@@ -693,7 +694,7 @@
                                 </GroupBox>
                             </LayoutDocument>
                             <LayoutDocument Title="GridCanvas">
-                                <GridCanvas >
+                                <GridCanvas>
                                     <TextBlock>123</TextBlock>
                                     <Button>456</Button>
                                 </GridCanvas>
