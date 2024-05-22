@@ -185,7 +185,8 @@
             </Border>
             <Button Margin="6,0,0,0"
                     BorderBrush="Transparent"
-                    Click="Button_Click_5">
+                    Click="Button_Click_5"
+                    Focusable="False">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock x:Name="txtLogin"
                                Margin="0,0,4,0"
@@ -193,7 +194,7 @@
                     <materialDesign:PackIcon VerticalAlignment="Center"
                                              Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
                                              Kind="AccountPlusOutline" />
-                    <!--暂时移除，隐藏时也会占用cpu，gpu资源-->
+                    <!--  暂时移除，隐藏时也会占用cpu，gpu资源  -->
                     <!--<ProgressRing Height="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=ActualHeight}"
                                   IsActive="True"
                                   Visibility="Visible">
@@ -201,7 +202,7 @@
                             <i:DataTrigger Binding="{Binding ElementName=txtLogin, Path=Text}" Value="登录">
                                 <i:ChangePropertyAction PropertyName="Visibility" Value="Collapsed" />
                             </i:DataTrigger>
-                            <i:DataTrigger Binding="{Binding ElementName=txtLogin, Path=Text}" Value="登录中">
+                            <i:DataTrigger Binding="{Binding ElementName=txtLogin, Path=Text}" Value="登录中...">
                                 <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
                             </i:DataTrigger>
                         </i:Interaction.Triggers>

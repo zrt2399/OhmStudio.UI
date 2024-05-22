@@ -442,7 +442,7 @@ namespace OhmStudio.UI.Demo.Views
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
             UserLoginWindow userLoginWindow = new UserLoginWindow();
-            txtLogin.Text = "登录中";
+            txtLogin.Text = "登录中...";
             userLoginWindow.SetOwner().ShowDialog();
             txtLogin.Text = "登录";
         }
