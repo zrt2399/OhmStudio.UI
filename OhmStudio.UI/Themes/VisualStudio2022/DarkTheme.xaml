@@ -15,6 +15,8 @@
            G="00"
            R="00" />
 
+    <SolidColorBrush x:Key="GridCanvasLineBrush" Color="#FF3F3F3F" />
+
     <SolidColorBrush x:Key="StatusBarBackgroundDefault" Color="#FF424242" />
     <SolidColorBrush x:Key="WindowBorderBrushDefault" Color="#FF7160E8" />
     <SolidColorBrush x:Key="StatusBarBackgroundRunning" Color="#FF861B2D" />

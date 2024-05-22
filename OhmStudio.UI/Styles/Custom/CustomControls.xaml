@@ -1730,4 +1730,9 @@
     </Style>
     <Style BasedOn="{StaticResource PathPickerBaseStyle}" TargetType="controls:PathPicker" />
 
+    <Style x:Key="GridCanvasBaseStyle" TargetType="controls:GridCanvas">
+        <Setter Property="LineBrush" Value="{DynamicResource GridCanvasLineBrush}" />
+    </Style>
+    <Style BasedOn="{StaticResource GridCanvasBaseStyle}" TargetType="controls:GridCanvas" />
+
 </ResourceDictionary>

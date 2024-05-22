@@ -179,7 +179,8 @@
                       TextBoxAttach.Title="主题：" />
             <Border Width="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"
                     Background="Purple"
-                    CornerRadiusAttach.IsCircular="True">
+                    CornerRadiusAttach.IsCircular="True"
+                    ToolTip="admin">
                 <TextBlock HorizontalAlignment="Center" Foreground="White">ad</TextBlock>
             </Border>
             <Button Margin="6,0,0,0"
@@ -690,6 +691,12 @@
                                         <TextBox Name="hightLight" VerticalAlignment="Top">白</TextBox>
                                     </UniformGrid>
                                 </GroupBox>
+                            </LayoutDocument>
+                            <LayoutDocument Title="GridCanvas">
+                                <GridCanvas >
+                                    <TextBlock>123</TextBlock>
+                                    <Button>456</Button>
+                                </GridCanvas>
                             </LayoutDocument>
                             <LayoutDocument Title="Other"
                                             CanClose="False"
