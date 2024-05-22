@@ -2,6 +2,7 @@
 using System.Windows;
 using Microsoft.Win32;
 using OhmStudio.UI.Helpers;
+using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Attaches
 {
@@ -52,6 +53,7 @@ namespace OhmStudio.UI.Attaches
                 }
                 UpdateTheme(_theme = value);
                 ThemeChanged?.Invoke(value, EventArgs.Empty);
+                StatusManager.Update();
             }
         }
 

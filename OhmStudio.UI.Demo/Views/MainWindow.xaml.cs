@@ -19,7 +19,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using System.Xml.Linq;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Search;
 using OhmStudio.UI.Attaches;
@@ -266,7 +265,6 @@ namespace OhmStudio.UI.Demo.Views
             set
             {
                 XamlThemeDictionary.Instance.Theme = value;
-                StatusManager.Update();
                 OnPropertyChanged(() => CurrentTheme);
             }
         }
@@ -303,6 +301,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void XamlThemeDictionary_ThemeChanged(object sender, EventArgs e)
         {
+            CurrentTheme = (ThemeType)sender;
             StatusBarContent = "软件主题已改变为" + (ThemeType)sender;
         }
 
@@ -605,49 +604,53 @@ namespace OhmStudio.UI.Demo.Views
 
     public class TreeViewModel : ObservableObject
     {
-        public TreeViewModel()
+        static TreeViewModel()
         {
-            DoubleClickCommand = new RelayCommand(() =>
+            OpenFileCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {
-                if (!IsFolder)
+                if (!treeViewModel.IsFolder)
                 {
-                    PathHelper.OpenFlie(FullName);
+                    PathHelper.OpenFlie(treeViewModel.FullName);
                 }
             });
-            StartRenameCommand = new RelayCommand(() =>
+            StartRenameCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {
-                IsEditing = true;
+                treeViewModel.IsEditing = true;
             });
-            EndRenameCommand = new RelayCommand(() =>
+            EndRenameCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {
-                IsEditing = false;
+                treeViewModel.IsEditing = false;
             });
-            RenameFocusCommand = new RelayCommand<TextBox>((sender) =>
+            RenameFocusCommand = new RelayCommand<TextBox>((textbox) =>
             {
-                if (sender.IsVisible)
+                if (textbox.IsVisible)
                 {
-                    sender.Focus();
-                    if (IsFolder)
-                    {
-                        sender.SelectAll();
-                        return;
-                    }
-                    var index = sender.Text.LastIndexOf('.');
+                    textbox.Focus();
+                    var index = textbox.Text.LastIndexOf('.');
                     if (index > 0)
                     {
-                        sender.Select(0, index);
+                        textbox.Select(0, index);
                     }
                     else
                     {
-                        sender.SelectAll();
+                        textbox.SelectAll();
                     }
                 }
             });
-            ShowPropertiesCommand = new RelayCommand(() =>
+            ShowPropertiesCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {
-                PathHelper.ShowFileProperties(FullName);
+                PathHelper.ShowPathProperties(treeViewModel.FullName);
+            });
+            DeleteFileCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
+            {
+                if (PathHelper.DeletePath(treeViewModel.FullName, true, true, true, out string errMsg) != 0)
+                {
+                    AlertDialog.ShowError(errMsg);
+                }
             });
         }
+
+        public TreeViewModel() { }
 
         public TreeViewModel(string header, bool isFolder, string fullName, TreeViewModel parent = null) : this()
         {
@@ -707,15 +710,17 @@ namespace OhmStudio.UI.Demo.Views
 
         public ObservableCollection<TreeViewModel> Children { get; set; } = new ObservableCollection<TreeViewModel>();
 
-        public ICommand DoubleClickCommand { get; }
+        public static ICommand OpenFileCommand { get; }
 
-        public ICommand StartRenameCommand { get; }
+        public static ICommand StartRenameCommand { get; }
 
-        public ICommand EndRenameCommand { get; }
+        public static ICommand EndRenameCommand { get; }
 
-        public ICommand RenameFocusCommand { get; }
+        public static ICommand RenameFocusCommand { get; }
 
-        public ICommand ShowPropertiesCommand { get; }
+        public static ICommand ShowPropertiesCommand { get; }
+
+        public static ICommand DeleteFileCommand { get; }
     }
 
     [BaseObjectIgnore]

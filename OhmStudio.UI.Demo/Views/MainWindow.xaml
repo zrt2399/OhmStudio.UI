@@ -1150,8 +1150,15 @@
                                                 <Setter Property="ContextMenu">
                                                     <Setter.Value>
                                                         <ContextMenu>
-                                                            <MenuItem Command="{Binding StartRenameCommand}" Header="重命名" />
-                                                            <MenuItem Command="{Binding ShowPropertiesCommand}" Header="属性" />
+                                                            <MenuItem Command="{x:Static local:TreeViewModel.StartRenameCommand}"
+                                                                      CommandParameter="{Binding}"
+                                                                      Header="重命名" />
+                                                            <MenuItem Command="{x:Static local:TreeViewModel.DeleteFileCommand}"
+                                                                      CommandParameter="{Binding}"
+                                                                      Header="移动到回收站" />
+                                                            <MenuItem Command="{x:Static local:TreeViewModel.ShowPropertiesCommand}"
+                                                                      CommandParameter="{Binding}"
+                                                                      Header="属性" />
                                                         </ContextMenu>
                                                     </Setter.Value>
                                                 </Setter>
@@ -1166,7 +1173,8 @@
                                         </TreeView.ContextMenu>
                                         <TreeView.ItemTemplate>
                                             <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                                                <DockPanel MouseDownAttach.Command="{Binding DoubleClickCommand}"
+                                                <DockPanel MouseDownAttach.Command="{x:Static local:TreeViewModel.OpenFileCommand}"
+                                                           MouseDownAttach.CommandParameter="{Binding}"
                                                            MouseDownAttach.IgnoreElement="TextBoxView"
                                                            MouseDownAttach.MouseClickCount="2"
                                                            MouseDownAttach.MouseClickMode="Left"
@@ -1185,10 +1193,10 @@
                                                              Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}">
                                                         <i:Interaction.Triggers>
                                                             <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=IsKeyboardFocusWithin}" Value="false">
-                                                                <i:InvokeCommandAction Command="{Binding EndRenameCommand}" />
+                                                                <i:InvokeCommandAction Command="{x:Static local:TreeViewModel.EndRenameCommand}" CommandParameter="{Binding}" />
                                                             </i:DataTrigger>
                                                             <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=IsVisible}" Value="true">
-                                                                <i:InvokeCommandAction Command="{Binding RenameFocusCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}" />
+                                                                <i:InvokeCommandAction Command="{x:Static local:TreeViewModel.RenameFocusCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}" />
                                                             </i:DataTrigger>
                                                         </i:Interaction.Triggers>
                                                     </TextBox>

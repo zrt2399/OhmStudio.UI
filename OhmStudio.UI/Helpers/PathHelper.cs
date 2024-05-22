@@ -180,12 +180,12 @@ namespace OhmStudio.UI.Helpers
         static extern bool ShellExecuteEx(ref SHELLEXECUTEINFO lpExecInfo);
 
         //写调用查看文件属性的对话框
-        public static void ShowFileProperties(string Filename)
+        public static void ShowPathProperties(string fileName)
         {
             SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
             info.cbSize = Marshal.SizeOf(info);
             info.lpVerb = "properties";
-            info.lpFile = Filename;
+            info.lpFile = fileName;
             info.nShow = SW_SHOW;
             info.fMask = SEE_MASK_INVOKEIDLIST;
             ShellExecuteEx(ref info);
@@ -240,11 +240,11 @@ namespace OhmStudio.UI.Helpers
         /// <param name="showProgress">指示是否显示进度对话框，true-显示，false-不显示。该参数当指定永久删除文件时有效</param>
         /// <param name="errorMsg">反馈错误消息的字符串</param>
         /// <returns>操作执行结果标识，删除文件成功返回0，否则，返回错误代码</returns>
-        public static int DeleteFile(string fileName, bool toRecycle, bool showDialog, bool showProgress, ref string errorMsg)
+        public static int DeletePath(string fileName, bool toRecycle, bool showDialog, bool showProgress, out string errorMsg)
         {
             try
             {
-                return ToDelete(fileName, toRecycle, showDialog, showProgress, ref errorMsg);
+                return ToDelete(fileName, toRecycle, showDialog, showProgress, out errorMsg);
             }
             catch (Exception ex)
             {
@@ -253,8 +253,9 @@ namespace OhmStudio.UI.Helpers
             }
         }
 
-        private static int ToDelete(string fileName, bool toRecycle, bool showDialog, bool showProgress, ref string errorMsg)
+        private static int ToDelete(string fileName, bool toRecycle, bool showDialog, bool showProgress, out string errorMsg)
         {
+            errorMsg = string.Empty;
             SHFILEOPSTRUCT lpFileOp = new SHFILEOPSTRUCT();
             lpFileOp.wFunc = WFunc.FO_DELETE;
             lpFileOp.pFrom = fileName + "\0";    //将文件名以结尾字符"\0"结束
@@ -283,7 +284,7 @@ namespace OhmStudio.UI.Helpers
 
             string tmp = GetErrorString(num);
             //.av 文件正常删除了但也提示 402 错误，不知道为什么。屏蔽之。
-            if (fileName.ToLower().EndsWith(".av") && num.ToString("X") == "402")
+            if (fileName.EndsWith(".av", StringComparison.OrdinalIgnoreCase) && num == 0x402)
             {
                 return 0;
             }

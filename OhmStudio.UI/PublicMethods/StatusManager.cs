@@ -19,27 +19,36 @@ namespace OhmStudio.UI.PublicMethods
             get => _isRunning;
             set
             {
-                _isRunning = value;
-                if (Application.Current != null)
+                if (_isRunning == value)
                 {
-                    if (value)
-                    {
-                        Application.Current.Resources["StatusBarBackground"] = StatusBarBackgroundRunning;
-                        Application.Current.Resources["EnvironmentMainWindowActiveDefaultBorder"] = WindowBorderBrushRunning;
-                    }
-                    else
-                    {
-                        Application.Current.Resources["StatusBarBackground"] = StatusBarBackgroundDefault;
-                        Application.Current.Resources["EnvironmentMainWindowActiveDefaultBorder"] = WindowBorderBrushDefault;
-                    }
+                    return;
                 }
+                _isRunning = value;
+                Update(value);
                 IsRunningChanged?.Invoke(value, EventArgs.Empty);
             }
         }
 
         public static void Update()
         {
-            IsRunning = IsRunning;
+            Update(IsRunning);
+        }
+
+        private static void Update(bool isRunning)
+        {
+            if (Application.Current != null)
+            {
+                if (isRunning)
+                {
+                    Application.Current.Resources["StatusBarBackground"] = StatusBarBackgroundRunning;
+                    Application.Current.Resources["EnvironmentMainWindowActiveDefaultBorder"] = WindowBorderBrushRunning;
+                }
+                else
+                {
+                    Application.Current.Resources["StatusBarBackground"] = StatusBarBackgroundDefault;
+                    Application.Current.Resources["EnvironmentMainWindowActiveDefaultBorder"] = WindowBorderBrushDefault;
+                }
+            }
         }
     }
 }
