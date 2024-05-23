@@ -11,7 +11,7 @@
 	<PropertyGroup>
 		<LangVersion>9.0</LangVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-		<Version>1.1.6.4</Version>
+		<Version>1.1.6.9</Version>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -35,7 +35,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="ControlzEx" Version="6.0.0" />
-		<PackageReference Include="Dirkster.AvalonDock" Version="4.72.1" />
+		<PackageReference Include="Dirkster.AvalonDock" Version="4.72.1" /> 
 	</ItemGroup>
 
 	<ItemGroup Condition="$(DefineConstants.Contains(NETCOREAPP)) == false">
@@ -67,5 +67,9 @@
 			<Pack>true</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Nlog\" />
 	</ItemGroup>
 </Project>

@@ -47,6 +47,9 @@ namespace OhmStudio.UI.Demo.Views
             //}
             InitializeComponent();
             DataContext = this;
+     
+            Messenger.Default.Register<string>(this, MessageType.AlertDialog, msg => AlertDialog.Show(msg));
+            Messenger.Default.Register<string>(this, MessageType.TreeViewItemLoaded, (message) => StatusBarContent = message);
             var fontFamilys = new InstalledFontCollection().Families.Select(x => new FontFamilyItem() { Name = x.Name, FontFamily = new FontFamily(x.Name) });
             FontFamilyList = new ObservableCollection<FontFamilyItem>(fontFamilys);
             FontFamilyList.Insert(0, _defaultFontFamilyItem);
@@ -161,13 +164,11 @@ namespace OhmStudio.UI.Demo.Views
             UserInfos.Add(new UserInfoModel());
             UserInfos.Add(new UserInfoModel() { UserName = "jack" });
             UserInfos.Add(new UserInfoModel() { UserName = "rose", Password = "123456" });
-            Messenger.Default.Register<string>(this, Rrecipient, msg => AlertDialog.Show(msg));
             StatusManager.IsRunningChanged += StatusManager_IsRunningChanged;
             XamlThemeDictionary.ThemeChanged += XamlThemeDictionary_ThemeChanged;
         }
 
         bool _can;
-        const string Rrecipient = "Ohm";
         const string DefaultFontName = "默认";
         public const string GlobalFontSize = nameof(GlobalFontSize);
         public const string GlobalFontFamily = nameof(GlobalFontFamily);
@@ -276,12 +277,13 @@ namespace OhmStudio.UI.Demo.Views
             get => _currentFontFamily;
             set
             {
-                if (value.Name != _currentFontFamily.Name)
+                if (value.Name == _currentFontFamily.Name)
                 {
-                    Application.Current.Resources[GlobalFontFamily] = value.Name == DefaultFontName ? _defaultFontFamily : FontFamilyList.FirstOrDefault(x => x.Name == value.Name).FontFamily;
-                    _currentFontFamily = value;
-                    OnPropertyChanged(nameof(CurrentFontFamily));
+                    return;
                 }
+                Application.Current.Resources[GlobalFontFamily] = value.Name == DefaultFontName ? _defaultFontFamily : FontFamilyList.FirstOrDefault(x => x.Name == value.Name).FontFamily;
+                _currentFontFamily = value;
+                OnPropertyChanged(nameof(CurrentFontFamily));
             }
         }
 
@@ -364,7 +366,7 @@ namespace OhmStudio.UI.Demo.Views
         }
 
         void ZoomOut()
-        {
+        { 
             if (WindowScale >= 3)
             {
                 return;
@@ -394,7 +396,7 @@ namespace OhmStudio.UI.Demo.Views
             //{
             //    AlertDialog.ShowError("AlertDialog.ShowError");
             //});
-            Messenger.Default.Send("AlertDialog.Show", Rrecipient);
+            Messenger.Default.Send("AlertDialog.Show", MessageType.AlertDialog);
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -446,7 +448,7 @@ namespace OhmStudio.UI.Demo.Views
             userLoginWindow.SetOwner().ShowDialog();
             txtLogin.Text = "登录";
         }
- 
+
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
             _can = !_can;
@@ -595,8 +597,14 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
     }
+ 
+    public enum MessageType
+    {
+        AlertDialog,
+        TreeViewItemLoaded
+    }
 
-    public struct FontFamilyItem
+    public class FontFamilyItem
     {
         public string Name { get; set; }
         public FontFamily FontFamily { get; set; }
@@ -684,7 +692,7 @@ namespace OhmStudio.UI.Demo.Views
                             MainWindow.LoadSubDirectory(child, child.FullName, false);
                         }
                         stopwatch.Stop();
-                        ((MainWindow)Application.Current.MainWindow).StatusBarContent = $"TreeView子节点加载完成耗时：{stopwatch.Elapsed.TotalSeconds}s";
+                        Messenger.Default.Send($"TreeView子节点加载完成耗时：{stopwatch.Elapsed.TotalSeconds}s", MessageType.TreeViewItemLoaded);
                         IsLoaded = true;
                     }
                     OnPropertyChanged(nameof(IsExpanded));

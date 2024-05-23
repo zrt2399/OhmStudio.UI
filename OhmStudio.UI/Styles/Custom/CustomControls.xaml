@@ -1655,6 +1655,11 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsVisible" Value="False">
+                            <Setter Property="IsActive" Value="False" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -22,6 +21,16 @@ namespace OhmStudio.UI.PublicMethods
 {
     public static class ExtensionMethod
     {
+        public static bool ComparePropertiesWith<T>(this T t1, T t2, bool ignoreBaseProperties = false)
+        {
+            return PropertyComparer<T>.CompareProperties(t1, t2, ignoreBaseProperties);
+        }
+
+        public static T CloneProperties<T>(this T t)
+        {
+            return PropertyCloner<T>.CloneProperties(t);
+        }
+
         /// <summary>
         /// Returns full visual ancestry, starting at the leaf.
         /// <para>If element is not of <see cref="Visual"/> or <see cref="Visual3D"/> the
@@ -407,68 +416,116 @@ namespace OhmStudio.UI.PublicMethods
     {
     }
 
-    public static class DeepClone<TIn, TOut>
+    public static class PropertyCloner<T>
     {
-        private static readonly Func<TIn, TOut> _cache = GetFunc();
+        private static readonly ConcurrentDictionary<Type, Func<T, T>> _cloneFuncCache = new ConcurrentDictionary<Type, Func<T, T>>();
 
-        private static Func<TIn, TOut> GetFunc()
+        public static T CloneProperties(T source)
         {
-            ParameterExpression parameterExpression = Expression.Parameter(typeof(TIn), "p");
-
-            List<MemberBinding> memberBindingList = new List<MemberBinding>();
-
-            foreach (var item in typeof(TOut).GetProperties())
+            var type = typeof(T);
+            if (_cloneFuncCache.TryGetValue(type, out var cloneFunc))
             {
-                if (!item.CanWrite)
-                {
-                    continue;
-                }
-                MemberExpression property = Expression.Property(parameterExpression, typeof(TIn).GetProperty(item.Name));
-
-                MemberBinding memberBinding = Expression.Bind(item, property);
-
-                memberBindingList.Add(memberBinding);
+                return cloneFunc(source);
             }
 
-            MemberInitExpression memberInitExpression = Expression.MemberInit(Expression.New(typeof(TOut)), memberBindingList.ToArray());
+            var param = Expression.Parameter(typeof(object), "x");
+            var convertedParam = Expression.Convert(param, type);
 
-            Expression<Func<TIn, TOut>> lambda = Expression.Lambda<Func<TIn, TOut>>(memberInitExpression, new ParameterExpression[] { parameterExpression });
+            var memberBindings = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(p => p.CanRead && p.CanWrite)
+                .Select(p => Expression.Bind(p, Expression.Property(convertedParam, p)));
 
-            return lambda.Compile();
-        }
+            var memberInit = Expression.MemberInit(Expression.New(type), memberBindings);
+            var lambda = Expression.Lambda<Func<T, T>>(memberInit, param);
 
-        public static TOut Clone(TIn tIn)
-        {
-            if (tIn == null)
-            {
-                return default;
-            }
-            return _cache(tIn);
+            cloneFunc = lambda.Compile();
+            _cloneFuncCache[type] = cloneFunc;
+
+            return cloneFunc(source);
         }
     }
 
-    public class PropertyValue<T>
+    public static class PropertyComparer<T>
     {
-        private static ConcurrentDictionary<string, MemberGetDelegate> _memberGetDelegate = new ConcurrentDictionary<string, MemberGetDelegate>();
-        delegate object MemberGetDelegate(T obj);
-        public PropertyValue(T obj)
+        private class CacheKey
         {
-            Target = obj;
+            public Type Type { get; }
+
+            public bool IgnoreBaseProperties { get; }
+
+            public CacheKey(Type type, bool ignoreBaseProperties)
+            {
+                Type = type;
+                IgnoreBaseProperties = ignoreBaseProperties;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj is not CacheKey other)
+                {
+                    return false;
+                }
+
+                return Type == other.Type && IgnoreBaseProperties == other.IgnoreBaseProperties;
+            }
+
+            public override int GetHashCode()
+            {
+                return Type.GetHashCode() ^ IgnoreBaseProperties.GetHashCode();
+            }
         }
 
-        public T Target { get; private set; }
+        private static readonly ConcurrentDictionary<CacheKey, Func<T, T, bool>> _cache = new ConcurrentDictionary<CacheKey, Func<T, T, bool>>();
 
-        public object Get(string name)
+        public static bool CompareProperties(T obj1, T obj2, bool ignoreBaseProperties = false)
         {
-            MemberGetDelegate memberGet = _memberGetDelegate.GetOrAdd(name, BuildDelegate);
-            return memberGet(Target);
-        }
+            var type = typeof(T);
+            var cacheKey = new CacheKey(type, ignoreBaseProperties);
+            if (_cache.TryGetValue(cacheKey, out var comparer))
+            {
+                return comparer(obj1, obj2);
+            }
 
-        private MemberGetDelegate BuildDelegate(string name)
-        {
-            Type type = typeof(T);
-            PropertyInfo property = type.GetProperty(name);
-            return (MemberGetDelegate)Delegate.CreateDelegate(typeof(MemberGetDelegate), property.GetGetMethod());
+            var param1 = Expression.Parameter(type, "x");
+            var param2 = Expression.Parameter(type, "y");
+
+            Expression body = null;
+
+            BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
+            if (ignoreBaseProperties)
+            {
+                flags |= BindingFlags.DeclaredOnly;
+            }
+
+            foreach (var property in type.GetProperties(flags))
+            {
+                if (!property.CanRead)
+                {
+                    continue;
+                }
+
+                var prop1 = Expression.Property(param1, property);
+                var prop2 = Expression.Property(param2, property);
+
+                var equals = Expression.Equal(prop1, prop2);
+
+                if (body == null)
+                {
+                    body = equals;
+                }
+                else
+                {
+                    body = Expression.AndAlso(body, equals);
+                }
+            }
+
+            body ??= Expression.Constant(true);
+
+            var lambda = Expression.Lambda<Func<T, T, bool>>(body, param1, param2);
+            var compiled = lambda.Compile();
+
+            _cache[cacheKey] = compiled;
+            return compiled(obj1, obj2);
         }
     }
 }
