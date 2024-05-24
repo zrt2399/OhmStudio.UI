@@ -39,8 +39,24 @@ namespace OhmStudio.UI.Controls
                 if (sender is SearchBar searchBar)
                 {
                     searchBar.TextChanged?.Invoke(sender, e);
+                    if (searchBar.IsRealTime)
+                    {
+                        searchBar.Command?.Execute(searchBar.CommandParameter);
+                    }
                 }
             }));
+
+        /// <summary>
+        /// 是否实时搜索。
+        /// </summary>
+        public bool IsRealTime
+        {
+            get => (bool)GetValue(IsRealTimeProperty);
+            set => SetValue(IsRealTimeProperty, value);
+        }
+
+        public static readonly DependencyProperty IsRealTimeProperty =
+            DependencyProperty.Register(nameof(IsRealTime), typeof(bool), typeof(SearchBar));
 
         public static readonly DependencyProperty TextWrappingProperty =
             DependencyProperty.Register(nameof(TextWrapping), typeof(TextWrapping), typeof(SearchBar), new PropertyMetadata(TextWrapping.NoWrap));
