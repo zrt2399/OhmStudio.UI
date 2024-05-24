@@ -201,7 +201,17 @@
                     <materialDesign:PackIcon VerticalAlignment="Center"
                                              Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
                                              Kind="AccountPlusOutline" />
-                    <ProgressRing Height="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=ActualHeight}"
+                    <LoadingCircle>
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding ElementName=txtLogin, Path=Text}" Value="登录">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="Collapsed" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding ElementName=txtLogin, Path=Text}" Value="登录中...">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
+                    </LoadingCircle>
+                    <!--<ProgressRing Height="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=ActualHeight}"
                                   IsActive="True"
                                   Visibility="Visible">
                         <i:Interaction.Triggers>
@@ -212,7 +222,7 @@
                                 <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
                             </i:DataTrigger>
                         </i:Interaction.Triggers>
-                    </ProgressRing>
+                    </ProgressRing>-->
                 </StackPanel>
             </Button>
         </StackPanel>
@@ -514,7 +524,8 @@
                                                                    Value="{Binding ProgressBarValue}" />
                                                 <CircleProgressBar BorderBrush="{DynamicResource ProgressBarProgress}" Value="50" />
                                                 <CircleProgressBar Title="计划" Value="3.14159" />
-                                                <ProgressRing IsActive="True" />
+                                                <LoadingLine />
+                                                <LoadingCircle />
                                             </UniformGrid>
                                         </Grid>
                                     </GroupBox>
