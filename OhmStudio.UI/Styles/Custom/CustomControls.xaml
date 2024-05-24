@@ -34,6 +34,8 @@
     <converters:AngleToPointConverter x:Key="AngleToPointConverter" />
     <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter" />
     <converters:EmptyStringToNotBoolConverter x:Key="EmptyStringToNotBoolConverter" />
+    <converters:FlipToScaleXValueConverter x:Key="FlipToScaleXValueConverter" />
+    <converters:FlipToScaleYValueConverter x:Key="FlipToScaleYValueConverter" />
 
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
@@ -1233,7 +1235,7 @@
                                          attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
                                          attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
                                          IsReadOnly="{TemplateBinding IsReadOnly}"
-                                         Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
+                                         Text="{Binding DateTimeText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
                                 <ContentControl Style="{StaticResource PlaceHolderWithTemplatedParent}" />
 
                                 <Button Grid.Column="1"
@@ -1445,5 +1447,39 @@
     </Style>
     <Style BasedOn="{StaticResource LoadingCircleBaseStyle}" TargetType="controls:LoadingCircle" />
     <Style BasedOn="{StaticResource LoadingLineBaseStyle}" TargetType="controls:LoadingLine" />
+
+    <Style x:Key="PackIconBaseStyle" TargetType="controls:PackIcon">
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Width" Value="16" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:PackIcon">
+                    <Border Margin="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Viewbox HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                 FlowDirection="{TemplateBinding FlowDirection}">
+                            <Path Height="{Binding RelativeSource={RelativeSource AncestorType=Viewbox}, Path=Height}"
+                                  Data="{Binding Data, RelativeSource={RelativeSource TemplatedParent}}"
+                                  Fill="{TemplateBinding Foreground}"
+                                  Stretch="Uniform">
+                                <Path.LayoutTransform>
+                                    <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Flip, Mode=OneWay, Converter={StaticResource FlipToScaleXValueConverter}}" ScaleY="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Flip, Mode=OneWay, Converter={StaticResource FlipToScaleYValueConverter}}" />
+                                </Path.LayoutTransform>
+                            </Path>
+                        </Viewbox>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style BasedOn="{StaticResource PackIconBaseStyle}" TargetType="controls:PackIcon" />
 
 </ResourceDictionary>
