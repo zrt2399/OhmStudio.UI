@@ -6,6 +6,11 @@ namespace OhmStudio.UI.Controls
 {
     public class GridCanvas : Canvas
     {
+        static GridCanvas()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(GridCanvas), new FrameworkPropertyMetadata(typeof(GridCanvas)));
+        }
+
         public static readonly DependencyProperty LineBrushProperty =
            DependencyProperty.Register(nameof(LineBrush), typeof(Brush), typeof(GridCanvas),
                new FrameworkPropertyMetadata(Brushes.LightGray, FrameworkPropertyMetadataOptions.AffectsRender));

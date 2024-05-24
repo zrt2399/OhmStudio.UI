@@ -16,6 +16,11 @@ namespace OhmStudio.UI.Controls
 {
     public class PropertyGrid : Control
     {
+        static PropertyGrid()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(PropertyGrid), new FrameworkPropertyMetadata(typeof(PropertyGrid)));
+        }
+
         public static readonly DependencyProperty ItemSpacingProperty =
             DependencyProperty.Register(nameof(ItemSpacing), typeof(Thickness), typeof(PropertyGrid), new PropertyMetadata(new Thickness(0, 8, 0, 0)));
 
