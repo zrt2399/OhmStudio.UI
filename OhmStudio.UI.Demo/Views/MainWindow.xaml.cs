@@ -47,7 +47,7 @@ namespace OhmStudio.UI.Demo.Views
             //}
             InitializeComponent();
             DataContext = this;
-     
+
             Messenger.Default.Register<string>(this, MessageType.AlertDialog, msg => AlertDialog.Show(msg));
             Messenger.Default.Register<string>(this, MessageType.TreeViewItemLoaded, (message) => StatusBarContent = message);
             var fontFamilys = new InstalledFontCollection().Families.Select(x => new FontFamilyItem() { Name = x.Name, FontFamily = new FontFamily(x.Name) });
@@ -103,6 +103,9 @@ namespace OhmStudio.UI.Demo.Views
                     ExpandAllTreeViewModelItem(item, false);
                 }
             });
+
+
+            PackIcons = new ObservableCollection<PackIconKind>(PackIconDataFactory.Create().Keys);
 
             Result.Columns.Add("Time");
             Result.Columns.Add("V0");
@@ -180,6 +183,8 @@ namespace OhmStudio.UI.Demo.Views
         public double WindowScale { get; set; } = 1;
 
         public ObservableCollection<Pro> ProNodes { get; set; }
+
+        public ObservableCollection<PackIconKind> PackIcons { get; set; }
 
         public ObservableCollection<TreeViewModel> TreeViewModels { get; set; } = new ObservableCollection<TreeViewModel>();
 
@@ -366,7 +371,7 @@ namespace OhmStudio.UI.Demo.Views
         }
 
         void ZoomOut()
-        { 
+        {
             if (WindowScale >= 3)
             {
                 return;
@@ -597,7 +602,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
     }
- 
+
     public enum MessageType
     {
         AlertDialog,

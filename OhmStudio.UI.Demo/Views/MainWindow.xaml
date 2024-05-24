@@ -8,7 +8,6 @@
               xmlns:hc="https://handyorg.github.io/handycontrol"
               xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
               xmlns:local="clr-namespace:OhmStudio.UI.Demo.Views"
-              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
               xmlns:omhui="http://ohmstudio.ui.com"
               xmlns:oxy="http://oxyplot.org/wpf"
@@ -106,14 +105,14 @@
             <StackPanel Margin="0,6,0,0">
                 <ToolBarTray VerticalAlignment="Top">
                     <ToolBar>
-                        <Button Content="{materialDesign:PackIcon Kind=FilePlusOutline}" ToolTip="新建项目" />
+                        <Button Content="{PackIcon Kind=FileAdd}" ToolTip="新建项目" />
                         <Button Margin="4,0"
-                                Content="{materialDesign:PackIcon Kind=FileOutline}"
+                                Content="{PackIcon Kind=FileOutline}"
                                 ToolTip="打开文件" />
-                        <Button Content="{materialDesign:PackIcon Kind=ContentSaveOutline}" ToolTip="保存当前文件" />
+                        <Button Content="{PackIcon Kind=Save}" ToolTip="保存当前文件" />
 
                         <Button Margin="4,0,0,0"
-                                Content="{materialDesign:PackIcon Kind=ContentSaveAllOutline}"
+                                Content="{PackIcon Kind=SaveAll}"
                                 ToolTip="保存全部文件&amp;设置" />
                         <RadioButton>选择</RadioButton>
                         <RadioButton>不选择</RadioButton>
@@ -133,30 +132,30 @@
                         <ComboBox>
                             <ComboBoxItem IsSelected="True">
                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                    <materialDesign:PackIcon Height="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=ActualHeight}" Kind="Play" />
+                                    <PackIcon Kind="PlayiOS" />
                                     <TextBlock Margin="6,0,0,0" Text="{x:Static demo:App.Name}" />
                                 </StackPanel>
                             </ComboBoxItem>
                             <Separator />
                             <ComboBoxItem>
                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                    <materialDesign:PackIcon Height="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=ActualHeight}" Kind="Wrench" />
+                                    <PackIcon Kind="SolidWrench" />
                                     <TextBlock Margin="6,0,0,0" Text="{x:Static demo:App.Name}" />
                                     <TextBlock Text=" 调试属性" />
                                 </StackPanel>
                             </ComboBoxItem>
                             <ComboBoxItem>
                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                    <materialDesign:PackIcon Height="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=ActualHeight}" Kind="CogOutline" />
+                                    <PackIcon Kind="CogOutline" />
                                     <TextBlock Margin="6,0,0,0">配置启动项目...</TextBlock>
                                 </StackPanel>
                             </ComboBoxItem>
                         </ComboBox>
-                        <Button Content="{materialDesign:PackIcon Kind=Play}" />
-                        <Button Content="{materialDesign:PackIcon Kind=Fire}" />
-                        <Button Content="{materialDesign:PackIcon Kind=Pause}" />
-                        <Button Content="{materialDesign:PackIcon Kind=Stop}" />
-                        <Button Content="{materialDesign:PackIcon Kind=Refresh}" />
+                        <Button Margin="4,0" Content="{PackIcon Kind=PlayiOS}" />
+                        <Button Content="{PackIcon Kind=Fire}" />
+                        <Button Margin="4,0" Content="{PackIcon Kind=PauseiOS}" />
+                        <Button Content="{PackIcon Kind=SquareiOS}" />
+                        <Button Margin="4,0" Content="{PackIcon Kind=Refresh}" />
                     </ToolBar>
                 </ToolBarTray>
             </StackPanel>
@@ -198,9 +197,7 @@
                     <TextBlock x:Name="txtLogin"
                                Margin="0,0,4,0"
                                Text="登录" />
-                    <materialDesign:PackIcon VerticalAlignment="Center"
-                                             Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
-                                             Kind="AccountPlusOutline" />
+                    <PackIcon Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" Kind="SolidUserPlus" />
                     <!--<LoadingCircle IsRunning="False">
                         <i:Interaction.Triggers>
                             <i:DataTrigger Binding="{Binding ElementName=txtLogin, Path=Text}" Value="登录">
@@ -707,6 +704,30 @@
                                     <Button>456</Button>
                                 </GridCanvas>
                             </LayoutDocument>
+                            <LayoutDocument Title="PackIcons">
+                                <ListBox Margin="5"
+                                         ItemsSource="{Binding PackIcons}"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <DockPanel Width="64"
+                                                       Height="64"
+                                                       Margin="5"
+                                                       ToolTip="{Binding}">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           DockPanel.Dock="Bottom"
+                                                           Text="{Binding}" />
+                                                <PackIcon DockPanel.Dock="Top" Kind="{Binding}" />
+                                            </DockPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ListBox>
+                            </LayoutDocument>
                             <LayoutDocument Title="Other"
                                             CanClose="False"
                                             Description="其他"
@@ -1048,10 +1069,10 @@
                                                 <Setter Property="Focusable" Value="False" />
                                             </Style>
                                         </StackPanel.Resources>
-                                        <Button Command="{Binding CollapseAllCommand}" Content="{materialDesign:PackIcon Kind=CollapseAll}" />
+                                        <Button Command="{Binding CollapseAllCommand}" Content="{PackIcon Kind=CollapseAll}" />
                                         <Button Command="{x:Static local:TreeViewModel.ShowPropertiesCommand}"
                                                 CommandParameter="{Binding TreeViewSelectedItem}"
-                                                Content="{materialDesign:PackIcon Kind=Wrench}" />
+                                                Content="{PackIcon Kind=Wrench}" />
                                     </StackPanel>
                                     <TreeView DockPanel.Dock="Bottom"
                                               ItemsSource="{Binding TreeViewModels}"
@@ -1083,7 +1104,7 @@
                                             <ContextMenu>
                                                 <MenuItem Click="MenuItem_Click_2" Header="导入文件夹" />
                                                 <!--<MenuItem Click="MenuItem_Click_3" Header="展开全部文件" />
-                    <MenuItem Click="MenuItem_Click_4" Header="收起全部文件" />-->
+                                                <MenuItem Click="MenuItem_Click_4" Header="收起全部文件" />-->
                                             </ContextMenu>
                                         </TreeView.ContextMenu>
                                         <TreeView.ItemTemplate>
@@ -1152,7 +1173,7 @@
                                             <MenuItem Header="Zxc" />
                                             <MenuItem Header="Zxc" />
                                             <MenuItem Header="Zxc" />
-                                            <MenuItem Header="Zxc" /> 
+                                            <MenuItem Header="Zxc" />
                                             <MenuItem Header="Zxc" />
                                             <MenuItem Header="Zxc" />
                                             <MenuItem Header="Zxc" />
