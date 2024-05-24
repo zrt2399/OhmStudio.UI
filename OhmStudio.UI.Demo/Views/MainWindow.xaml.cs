@@ -647,7 +647,7 @@ namespace OhmStudio.UI.Demo.Views
             });
             ShowPropertiesCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {
-                PathHelper.ShowPathProperties(treeViewModel.FullName);
+                PathHelper.ShowPathProperties(treeViewModel?.FullName);
             });
             DeleteFileCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {

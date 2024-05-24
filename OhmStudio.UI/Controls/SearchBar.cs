@@ -41,16 +41,13 @@ namespace OhmStudio.UI.Controls
                     searchBar.TextChanged?.Invoke(sender, e);
                     if (searchBar.IsRealTime)
                     {
-                        switch (searchBar.Command)
+                        if (searchBar.Command is RoutedCommand routedCommand)
                         {
-                            case null:
-                                return;
-                            case RoutedCommand command:
-                                command.Execute(searchBar.CommandParameter, searchBar.CommandTarget);
-                                break;
-                            default:
-                                searchBar.Command.Execute(searchBar.CommandParameter);
-                                break;
+                            routedCommand.Execute(searchBar.CommandParameter, searchBar.CommandTarget);
+                        }
+                        else
+                        {
+                            searchBar.Command?.Execute(searchBar.CommandParameter);
                         }
                     }
                 }
@@ -106,7 +103,7 @@ namespace OhmStudio.UI.Controls
             base.OnApplyTemplate();
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
         }
- 
+
         private void SearchBar_GotFocus(object sender, RoutedEventArgs e)
         {
             if (!e.Handled && PART_TextBox != null)

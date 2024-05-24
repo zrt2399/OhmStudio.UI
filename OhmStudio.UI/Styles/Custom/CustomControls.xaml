@@ -1346,7 +1346,7 @@
         </Setter>
     </Style>
     <Style BasedOn="{StaticResource IconButtonBaseStyle}" TargetType="controls:IconButton" />
- 
+
     <Style x:Key="CollapseButton" TargetType="Button">
         <Setter Property="attaches:DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type Button}}" />
         <Setter Property="attaches:DynamicStyleProvider.Derived">
@@ -1438,10 +1438,12 @@
         <Setter Property="DotDelayTime" Value="90" />
         <Setter Property="DotSpeed" Value="4" />
     </Style>
-    <Style x:Key="LoadingLineBaseStyle" BasedOn="{StaticResource LoadingBaseStyle}" TargetType="controls:LoadingLine">
+    <Style x:Key="LoadingLineBaseStyle"
+           BasedOn="{StaticResource LoadingBaseStyle}"
+           TargetType="controls:LoadingLine">
         <Setter Property="DotDiameter" Value="5" />
     </Style>
-    <Style BasedOn="{StaticResource LoadingCircleBaseStyle}" TargetType="controls:LoadingCircle"/>
-    <Style BasedOn="{StaticResource LoadingLineBaseStyle}" TargetType="controls:LoadingLine"/>
+    <Style BasedOn="{StaticResource LoadingCircleBaseStyle}" TargetType="controls:LoadingCircle" />
+    <Style BasedOn="{StaticResource LoadingLineBaseStyle}" TargetType="controls:LoadingLine" />
 
 </ResourceDictionary>

@@ -63,11 +63,19 @@ namespace OhmStudio.UI.Helpers
 
         public static Process OpenInDirectoryPath(string fileName)
         {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return null;
+            }
             return Process.Start("explorer.exe", "/select, " + fileName);
         }
 
         public static Process OpenFlie(string fileName)
         {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return null;
+            }
             ProcessStartInfo processStartInfo = new ProcessStartInfo(fileName);
             Process process = new Process();
             process.StartInfo = processStartInfo;
@@ -113,15 +121,18 @@ namespace OhmStudio.UI.Helpers
         /// <summary>
         /// 获取文件图标。
         /// </summary>  
-        /// <param name="fullName">文件全路径。</param>  
+        /// <param name="fileName">文件全路径。</param>  
         /// <returns>图标。</returns>  
-        public static BitmapSource GetFileIcon(string fullName)
+        public static BitmapSource GetFileIcon(string fileName)
         {
-            //return null;
-            using Icon icon = Icon.ExtractAssociatedIcon(fullName);
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return null;
+            } 
+            using Icon icon = Icon.ExtractAssociatedIcon(fileName);
 
             //SHFILEINFO _SHFILEINFO = new SHFILEINFO();
-            //IntPtr _IconIntPtr = SHGetFileInfo(fullName, 0, ref _SHFILEINFO, (uint)Marshal.SizeOf(_SHFILEINFO), (uint)(SHGFI.SHGFI_ICON | SHGFI.SHGFI_LARGEICON | SHGFI.SHGFI_USEFILEATTRIBUTES));
+            //IntPtr _IconIntPtr = SHGetFileInfo(fileName, 0, ref _SHFILEINFO, (uint)Marshal.SizeOf(_SHFILEINFO), (uint)(SHGFI.SHGFI_ICON | SHGFI.SHGFI_LARGEICON | SHGFI.SHGFI_USEFILEATTRIBUTES));
             //if (_IconIntPtr == IntPtr.Zero || _SHFILEINFO.hIcon == IntPtr.Zero)
             //{
             //    return null;
@@ -182,6 +193,10 @@ namespace OhmStudio.UI.Helpers
         //写调用查看文件属性的对话框
         public static void ShowPathProperties(string fileName)
         {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return;
+            }
             SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
             info.cbSize = Marshal.SizeOf(info);
             info.lpVerb = "properties";
