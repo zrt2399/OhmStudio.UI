@@ -77,7 +77,7 @@ namespace OhmStudio.UI.Controls
                 if (sender is DateTimePicker dateTimePicker)
                 {
                     var format = e.NewValue as string;
-                    dateTimePicker.Text = dateTimePicker.SelectedDateTime?.ToString(format);
+                    dateTimePicker.DateTimeText = dateTimePicker.SelectedDateTime?.ToString(format);
                 }
             }));
 
@@ -173,19 +173,19 @@ namespace OhmStudio.UI.Controls
                     }
                     else
                     {
-                        dateTimePicker.Text = datetime?.ToString(dateTimePicker.DateTimeFormat);
+                        dateTimePicker.DateTimeText = datetime?.ToString(dateTimePicker.DateTimeFormat);
                     }
                 }
             }));
 
-        public string Text
+        internal string DateTimeText
         {
-            get => (string)GetValue(TextProperty);
-            set => SetValue(TextProperty, value);
+            get => (string)GetValue(DateTimeTextProperty);
+            set => SetValue(DateTimeTextProperty, value);
         }
 
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(nameof(Text), typeof(string), typeof(DateTimePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) =>
+        internal static readonly DependencyProperty DateTimeTextProperty =
+            DependencyProperty.Register(nameof(DateTimeText), typeof(string), typeof(DateTimePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) =>
             {
                 if (sender is DateTimePicker dateTimePicker)
                 {
@@ -194,6 +194,8 @@ namespace OhmStudio.UI.Controls
             }));
 
         public ICommand CalendarClickCommand { get; }
+
+        public string Text => DateTimeText;
 
         public override void OnApplyTemplate()
         {

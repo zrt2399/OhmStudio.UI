@@ -94,17 +94,17 @@ namespace OhmStudio.UI.Attaches
                 }
                 else if (sender is ITextChanged textChanged)
                 {
-                    textChanged.TextChanged -= TextChanged_TextChanged;
+                    textChanged.TextChanged -= ITextChanged;
                     if (!CheckIsEmpty(newValue))
                     {
                         UpdateHolderVisibility(sender, textChanged.Text);
-                        textChanged.TextChanged += TextChanged_TextChanged;
+                        textChanged.TextChanged += ITextChanged;
                     }
                 }
             }));
 
-        private static void TextChanged_TextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
+        private static void ITextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        { 
             var dependencyObject = sender as DependencyObject;
             UpdateHolderVisibility(dependencyObject, e.NewValue?.ToString());
         }
