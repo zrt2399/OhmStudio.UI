@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -12,6 +13,7 @@ namespace OhmStudio.UI.Helpers
 {
     public class PathHelper
     {
+        private static readonly ConcurrentDictionary<string, BitmapSource> _iconCahe = new ConcurrentDictionary<string, BitmapSource>();
         public static readonly BitmapSource DirectoryIcon = GetDirectoryIcon();
 
         public static bool IsPathFullyQualified(string path)
@@ -124,12 +126,11 @@ namespace OhmStudio.UI.Helpers
         /// <param name="fileName">文件全路径。</param>  
         /// <returns>图标。</returns>  
         public static BitmapSource GetFileIcon(string fileName)
-        {
+        { 
             if (string.IsNullOrEmpty(fileName))
             {
                 return null;
-            } 
-            using Icon icon = Icon.ExtractAssociatedIcon(fileName);
+            }
 
             //SHFILEINFO _SHFILEINFO = new SHFILEINFO();
             //IntPtr _IconIntPtr = SHGetFileInfo(fileName, 0, ref _SHFILEINFO, (uint)Marshal.SizeOf(_SHFILEINFO), (uint)(SHGFI.SHGFI_ICON | SHGFI.SHGFI_LARGEICON | SHGFI.SHGFI_USEFILEATTRIBUTES));
@@ -138,7 +139,17 @@ namespace OhmStudio.UI.Helpers
             //    return null;
             //}
             //using System.Drawing.Icon icon = System.Drawing.Icon.FromHandle(_SHFILEINFO.hIcon);
-            return Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+
+            var extension = Path.GetExtension(fileName).ToLower(); 
+            if (_iconCahe.TryGetValue(extension, out var bitmapSource))
+            {
+                return bitmapSource;
+            }
+
+            using Icon icon = Icon.ExtractAssociatedIcon(fileName); 
+            var iconBitmapSource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            _iconCahe.TryAdd(extension, iconBitmapSource);
+            return iconBitmapSource;
         }
 
         /// <summary>  
