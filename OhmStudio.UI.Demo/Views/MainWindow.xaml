@@ -425,13 +425,19 @@
                                 </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="RollBox">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <RollBox Name="rollBox" RollingInterval="3">
+                                <DockPanel>
+                                    <Grid DockPanel.Dock="Bottom">
+                                        <TextBlock Text="{Binding ElementName=rollBox, Path=RollingInterval, StringFormat=当前滚动间隔：{0}s}" />
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding ElementName=rollBox, Path=ItemsSource.Count, StringFormat=ItemsSource.Count:{0}}" />
+                                    </Grid>
+                                    <Button Grid.Row="1"
+                                            Click="Button_Click_15"
+                                            DockPanel.Dock="Bottom">
+                                        切换ItemsSource
+                                    </Button>
+                                    <RollBox Name="rollBox"
+                                             DockPanel.Dock="Top"
+                                             RollingInterval="3">
                                         <RollBox.ItemsSource>
                                             <!--<Image Source="https://pic4.zhimg.com/v2-177d137cb3266e217cc0bb45c2e5b1ef_r.jpg" />
                                             <Image Source="https://pic3.zhimg.com/v2-1260ce85d93a13a45a3bd7b224634222_r.jpg" />-->
@@ -450,9 +456,8 @@
                                             </UniformGrid>
                                         </RollBox.ItemsSource>
                                     </RollBox>
-                                    <Button Grid.Row="1" Click="Button_Click_15">切换ItemsSource</Button>
-                                    <TextBlock Grid.Row="2" Text="{Binding ElementName=rollBox, Path=RollingInterval, StringFormat=当前滚动间隔：{0}s}" />
-                                </Grid>
+
+                                </DockPanel>
                             </LayoutDocument>
                             <LayoutDocument Title="TextEditor">
                                 <TabControl>
@@ -710,28 +715,40 @@
                                 </GridCanvas>
                             </LayoutDocument>
                             <LayoutDocument Title="PackIcons">
-                                <ListBox Margin="5"
-                                         ItemsSource="{Binding PackIcons}"
-                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <DockPanel Width="64"
-                                                       Height="64"
-                                                       Margin="5"
-                                                       ToolTip="{Binding}">
-                                                <TextBlock HorizontalAlignment="Center"
-                                                           DockPanel.Dock="Bottom"
-                                                           Text="{Binding}" />
-                                                <PackIcon DockPanel.Dock="Top" Kind="{Binding}" />
-                                            </DockPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ListBox>
+                                <DockPanel>
+                                    <Grid DockPanel.Dock="Bottom">
+                                        <TextBlock Text="{Binding ElementName=PackIconsListBox, Path=SelectedItem, StringFormat=SelectedItem:{0}}" />
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding PackIcons.Count, StringFormat=PackIcons.Count:{0}}" />
+                                    </Grid>
+                                    <ListBox x:Name="PackIconsListBox"
+                                             BorderThickness="0"
+                                             DockPanel.Dock="Top"
+                                             ItemsSource="{Binding PackIcons}"
+                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <DockPanel Width="64"
+                                                           Height="64"
+                                                           Margin="5"
+                                                           ToolTip="{Binding}">
+                                                    <TextBlock HorizontalAlignment="Center"
+                                                               DockPanel.Dock="Bottom"
+                                                               Text="{Binding}" />
+                                                    <PackIcon Width="24"
+                                                              Height="24"
+                                                              DockPanel.Dock="Top"
+                                                              Kind="{Binding}" />
+                                                </DockPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ListBox>
+                                </DockPanel>
+
                             </LayoutDocument>
                             <LayoutDocument Title="Other"
                                             CanClose="False"
@@ -1079,11 +1096,14 @@
                                                 CommandParameter="{Binding TreeViewSelectedItem}"
                                                 Content="{PackIcon Kind=Wrench}" />
                                     </StackPanel>
+
                                     <TreeView DockPanel.Dock="Bottom"
                                               ItemsSource="{Binding TreeViewModels}"
                                               TreeViewAttach.IsSelectWithMouseRightDown="True"
                                               TreeViewAttach.SelectedItem="{Binding TreeViewSelectedItem}"
-                                              TreeViewAttach.SelectedItemAttach="True">
+                                              TreeViewAttach.SelectedItemAttach="True"
+                                              VirtualizingPanel.IsVirtualizing="True"
+                                              VirtualizingPanel.VirtualizationMode="Recycling">
                                         <TreeView.ItemContainerStyle>
                                             <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
                                                 <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
