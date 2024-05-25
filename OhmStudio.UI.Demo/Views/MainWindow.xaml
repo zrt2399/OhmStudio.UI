@@ -119,6 +119,11 @@
                         <CheckBox IsChecked="{Binding IsAntiAliasing}">抗锯齿</CheckBox>
                     </ToolBar>
                     <ToolBar BandIndex="1">
+                        <ToolBar.Resources>
+                            <Style BasedOn="{StaticResource {x:Type PackIcon}}" TargetType="PackIcon">
+                                <Setter Property="Padding" Value="2" />
+                            </Style>
+                        </ToolBar.Resources>
                         <ComboBox>
                             <ComboBoxItem IsSelected="True">Debug</ComboBoxItem>
                             <ComboBoxItem>Release</ComboBoxItem>

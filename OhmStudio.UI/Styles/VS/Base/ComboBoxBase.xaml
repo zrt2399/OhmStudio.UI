@@ -23,7 +23,7 @@
                         </Grid.ColumnDefinitions>
                         <Border x:Name="Chrome"
                                 Grid.Column="1"
-                                Padding="4,0"
+                                Padding="2,0"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
