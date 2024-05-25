@@ -152,10 +152,14 @@ namespace OhmStudio.UI.Controls
             Kind = kind;
         }
 
-        public PackIconExtension(PackIconKind kind, double size)
+        public PackIconExtension(PackIconKind kind, double size) : this(kind)
         {
-            Kind = kind;
             Size = size;
+        }
+
+        public PackIconExtension(PackIconKind kind, double size, double padding) : this(kind, size)
+        {
+            Padding = padding;
         }
 
         [ConstructorArgument("kind")]
@@ -163,6 +167,9 @@ namespace OhmStudio.UI.Controls
 
         [ConstructorArgument("size")]
         public double? Size { get; set; }
+
+        [ConstructorArgument("padding")]
+        public double? Padding { get; set; }
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -173,7 +180,10 @@ namespace OhmStudio.UI.Controls
                 result.Height = Size.Value;
                 result.Width = Size.Value;
             }
-
+            if (Padding.HasValue)
+            {
+                result.Padding = new Thickness(Padding.Value);
+            }
             return result;
         }
     }
