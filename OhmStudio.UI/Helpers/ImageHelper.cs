@@ -167,6 +167,8 @@ namespace OhmStudio.UI.Helpers
         /// Convert BitmapSource to Bitmap.
         /// </summary>
         /// <param name="source"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         /// <returns></returns>
         public static Bitmap BitmapSourceToBitmap(BitmapSource source, int width, int height)
         {

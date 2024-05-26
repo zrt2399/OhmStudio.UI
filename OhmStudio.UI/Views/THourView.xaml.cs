@@ -5,10 +5,10 @@ using System.Windows.Controls;
 
 namespace OhmStudio.UI.Views
 {
-    [DesignTimeVisible(false)]//在工具箱中 隐藏该窗口
     /// <summary>
     /// THourView.xaml 的交互逻辑。
     /// </summary>
+    [DesignTimeVisible(false)]//在工具箱中 隐藏该窗口。
     public partial class THourView : UserControl
     {
         public THourView()
@@ -18,12 +18,12 @@ namespace OhmStudio.UI.Views
         }
 
         /// <summary>
-        /// 类：小时数据
+        /// 类：小时数据。
         /// </summary>
         public class Hour
         {
             /// <summary>
-            /// 第1列 小时数据
+            /// 第1列 小时数据。
             /// </summary>
             public int H1 { get; set; }
             public int H2 { get; set; }
@@ -33,7 +33,7 @@ namespace OhmStudio.UI.Views
             public int H6 { get; set; }
 
             /// <summary>
-            /// 构造函数
+            /// 构造函数。
             /// </summary>
             /// <param name="hour1"></param>
             /// <param name="hour2"></param>
@@ -53,7 +53,7 @@ namespace OhmStudio.UI.Views
         }
 
         /// <summary>
-        /// dgHour控件 绑定类Hour 加载初始化数据
+        /// dgHour控件 绑定类Hour 加载初始化数据。
         /// </summary>
         public void LoadHour()
         {
@@ -68,7 +68,7 @@ namespace OhmStudio.UI.Views
         }
 
         /// <summary>
-        /// dgHour控件 单元格点击（选择）事件
+        /// dgHour控件 单元格点击（选择）事件。
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -97,9 +97,9 @@ namespace OhmStudio.UI.Views
             time = time.PadLeft(2, '0');
             HourClick?.Invoke(time);
         }
- 
+
         /// <summary>
-        /// 小时数据点击（确定）后 的传递事件
+        /// 小时数据点击（确定）后 的传递事件。
         /// </summary>
         public event Action<string> HourClick;
         public event Action Closed;

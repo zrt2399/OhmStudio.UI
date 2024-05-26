@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -96,7 +95,9 @@ namespace OhmStudio.UI.Controls
 
         public ICommand OpenCommand { get; }
 
-        [Description("Gets or sets the title of the showdialog window.")]
+        /// <summary>
+        /// Gets or sets the title of the showdialog window.
+        /// </summary>
         public string Title
         {
             get => (string)GetValue(TitleProperty);

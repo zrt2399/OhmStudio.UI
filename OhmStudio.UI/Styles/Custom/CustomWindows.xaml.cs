@@ -8,7 +8,7 @@ using System.Windows.Media;
 namespace OhmStudio.UI.Styles.Custom
 {
     /// <summary>
-    /// CustomWindows.xaml 的交互逻辑
+    /// CustomWindows.xaml 的交互逻辑。
     /// </summary>
     public partial class CustomWindows : ResourceDictionary
     {
@@ -70,9 +70,9 @@ namespace OhmStudio.UI.Styles.Custom
 
 
         /// <summary>
-        /// Get Dpi
+        /// Get Dpi.
         /// </summary>
-        /// <returns>Return 96,144/returns>
+        /// <returns></returns>
         public static double GetDpi()
         {
             var dpiXProperty = typeof(SystemParameters).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
@@ -93,6 +93,8 @@ namespace OhmStudio.UI.Styles.Custom
         /// Convert a point in device independent pixels (1/96") to a point in the system coordinates.
         /// </summary>
         /// <param name="logicalPoint">A point in the logical coordinate system.</param>
+        /// <param name="dpiScaleX"></param>
+        /// <param name="dpiScaleY"></param>
         /// <returns>Returns the parameter converted to the system's coordinates.</returns>
         public static Point LogicalPixelsToDevice(Point logicalPoint, double dpiScaleX, double dpiScaleY)
         {

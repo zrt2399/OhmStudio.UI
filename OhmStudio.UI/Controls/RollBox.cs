@@ -167,7 +167,7 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// <see cref="OnApplyTemplate"/> 要比XAML赋值，构造函数晚，在第一次Loaded时触发。
+        /// <see cref="OnApplyTemplate"/> 要比XAML赋值、构造函数晚，在第一次Loaded时触发。
         /// </summary>
         public override void OnApplyTemplate()
         {

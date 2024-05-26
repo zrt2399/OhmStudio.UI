@@ -5,10 +5,10 @@ using System.Windows.Controls;
 
 namespace OhmStudio.UI.Views
 {
-    [DesignTimeVisible(false)]//在工具箱中 隐藏该窗口
     /// <summary>
     /// TMinSexView.xaml 的交互逻辑。
     /// </summary>
+    [DesignTimeVisible(false)]//在工具箱中 隐藏该窗口。
     public partial class TMinSexView : UserControl
     {
         public TMinSexView()
@@ -18,7 +18,7 @@ namespace OhmStudio.UI.Views
         }
 
         /// <summary>
-        /// 类：分钟数据
+        /// 类：分钟数据。
         /// </summary>
         public class Min
         {
@@ -47,9 +47,9 @@ namespace OhmStudio.UI.Views
                 C9 = c9;
             }
         }
- 
+
         /// <summary>
-        /// dgMinSex控件 绑定类Min 加载初始化数据 
+        /// dgMinSex控件 绑定类Min 加载初始化数据。
         /// </summary>
         public void LoadMin()
         {
@@ -64,9 +64,9 @@ namespace OhmStudio.UI.Views
             //dgMinSex.Items.Clear();
             dgMinSex.ItemsSource = min;
         }
- 
+
         /// <summary>
-        /// dgMinSex控件 单元格点击（选择）事件
+        /// dgMinSex控件 单元格点击（选择）事件。
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

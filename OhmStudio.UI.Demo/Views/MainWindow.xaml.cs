@@ -514,7 +514,7 @@ namespace OhmStudio.UI.Demo.Views
 
             TreeViewModels.Add(rootNode);
             stopwatch.Stop();
-            StatusBarContent = $"TreeView根节点加载完成耗时：{stopwatch.Elapsed.TotalSeconds}s";
+            StatusBarContent = $"TreeView根节点加载完成耗时：{stopwatch.Elapsed.TotalMilliseconds}ms";
         }
 
         private void Button_Click_8(object sender, RoutedEventArgs e)
@@ -600,6 +600,11 @@ namespace OhmStudio.UI.Demo.Views
             {
                 TreeViewSelectedItem.IsEditing = true;
             }
+        }
+
+        private void Button_Click_16(object sender, RoutedEventArgs e)
+        {
+            gridCanvas.Children.Clear();
         }
     }
 
@@ -697,7 +702,7 @@ namespace OhmStudio.UI.Demo.Views
                             MainWindow.LoadSubDirectory(child, child.FullName, false);
                         }
                         stopwatch.Stop();
-                        Messenger.Default.Send($"TreeView子节点加载完成耗时：{stopwatch.Elapsed.TotalSeconds}s", MessageType.TreeViewItemLoaded);
+                        Messenger.Default.Send($"TreeView子节点加载完成耗时：{stopwatch.Elapsed.TotalMilliseconds}ms", MessageType.TreeViewItemLoaded);
                         IsLoaded = true;
                     }
                     OnPropertyChanged(nameof(IsExpanded));

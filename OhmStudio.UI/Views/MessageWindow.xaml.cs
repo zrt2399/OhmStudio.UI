@@ -6,7 +6,7 @@ using OhmStudio.UI.PublicMethods;
 namespace OhmStudio.UI.Views
 {
     /// <summary>
-    /// MessageWindow.xaml 的交互逻辑
+    /// MessageWindow.xaml 的交互逻辑。
     /// </summary>
     public partial class MessageWindow : Window
     {

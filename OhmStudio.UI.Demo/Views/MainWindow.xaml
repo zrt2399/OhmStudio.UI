@@ -614,7 +614,6 @@
                                     <Button Grid.Row="1" Command="{Binding StartCommand}">显示选中项</Button>
                                     <Button Grid.Row="2" Click="Button_Click_6">禁用/启用</Button>
                                 </Grid>
-
                             </LayoutDocument>
                             <LayoutDocument Title="GroupBox">
                                 <Grid>
@@ -709,10 +708,31 @@
                                 </GroupBox>
                             </LayoutDocument>
                             <LayoutDocument Title="GridCanvas">
-                                <GridCanvas>
-                                    <TextBlock>123</TextBlock>
-                                    <Button>456</Button>
-                                </GridCanvas>
+                                <DockPanel>
+                                    <Button VerticalAlignment="Top" Click="Button_Click_16">清除</Button>
+                                    <GridCanvas x:Name="gridCanvas">
+                                        <GridCanvas.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Height" Value="40" />
+                                                <Setter Property="Width" Value="40" />
+                                                <Setter Property="BorderThickness" Value="1" />
+                                                <Setter Property="Background" Value="{DynamicResource SystemColorsWindow}" />
+                                                <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />
+                                                <!--<Setter Property="CornerRadius" Value="4" />-->
+                                            </Style>
+                                        </GridCanvas.Resources>
+                                        <Border>
+                                            <TextBlock HorizontalAlignment="Center">开始</TextBlock>
+                                        </Border>
+                                        <Border Canvas.Top="100">
+                                            <TextBlock HorizontalAlignment="Center">abc</TextBlock>
+                                        </Border>
+                                        <Border Canvas.Top="200">
+                                            <TextBlock HorizontalAlignment="Center">123</TextBlock>
+                                        </Border>
+                                        <!--<Button>456</Button>-->
+                                    </GridCanvas>
+                                </DockPanel>
                             </LayoutDocument>
                             <LayoutDocument Title="PackIcons">
                                 <DockPanel>

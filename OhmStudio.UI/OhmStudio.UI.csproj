@@ -26,13 +26,7 @@
 		<!--<PackageLicenseExpression>MIT</PackageLicenseExpression>-->
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<None Remove="Fonts\iconfont.ttf" />
-		<None Remove="Images\**" />
-		<None Remove="ohm.png" />
-	</ItemGroup>
-
+ 
 	<ItemGroup>
 		<PackageReference Include="ControlzEx" Version="6.0.0" />
 		<PackageReference Include="Dirkster.AvalonDock" Version="4.72.1" />

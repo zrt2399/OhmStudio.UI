@@ -8,10 +8,10 @@ using OhmStudio.UI.Controls;
 
 namespace OhmStudio.UI.Views
 {
-    [DesignTimeVisible(false)]//在工具箱中 隐藏该窗口
     /// <summary>
     /// TDateTime.xaml 的交互逻辑。
     /// </summary>
+    [DesignTimeVisible(false)]//在工具箱中 隐藏该窗口。
     public partial class TDateTimeView : UserControl
     {
         public TDateTimeView(DateTimePicker dateTimePicker)
@@ -59,7 +59,7 @@ namespace OhmStudio.UI.Views
         }
 
         /// <summary>
-        /// 确定按钮事件
+        /// 确定按钮事件。
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -82,7 +82,7 @@ namespace OhmStudio.UI.Views
         }
 
         /// <summary>
-        /// 当前按钮事件
+        /// 当前按钮事件。
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -102,7 +102,7 @@ namespace OhmStudio.UI.Views
         }
 
         /// <summary>
-        /// 小时点击事件
+        /// 小时点击事件。
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -124,7 +124,7 @@ namespace OhmStudio.UI.Views
         }
 
         /// <summary>
-        /// 分钟点击事件
+        /// 分钟点击事件。
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -176,7 +176,7 @@ namespace OhmStudio.UI.Views
         public event Action Closed;
 
         /// <summary>
-        /// 解除calendar点击后 影响其他按钮首次点击无效的问题
+        /// 解除calendar点击后 影响其他按钮首次点击无效的问题。
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
