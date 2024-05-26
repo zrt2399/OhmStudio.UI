@@ -740,10 +740,10 @@
                             <LayoutDocument Title="PackIcons">
                                 <DockPanel>
                                     <Grid DockPanel.Dock="Bottom">
-                                        <TextBlock Text="{Binding ElementName=PackIconsListBox, Path=SelectedItem, StringFormat=SelectedItem:{0}}" />
+                                        <TextBlock Text="{Binding ElementName=packIconsListBox, Path=SelectedItem, StringFormat=SelectedItem:{0}}" />
                                         <TextBlock HorizontalAlignment="Right" Text="{Binding PackIcons.Count, StringFormat=PackIcons.Count:{0}}" />
                                     </Grid>
-                                    <ListBox x:Name="PackIconsListBox"
+                                    <ListBox x:Name="packIconsListBox"
                                              BorderThickness="0"
                                              DockPanel.Dock="Top"
                                              ItemsSource="{Binding PackIcons}"
