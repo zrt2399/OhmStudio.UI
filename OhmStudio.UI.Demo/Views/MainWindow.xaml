@@ -730,6 +730,9 @@
                                         <Border Canvas.Top="200">
                                             <TextBlock HorizontalAlignment="Center">123</TextBlock>
                                         </Border>
+                                        <Border Canvas.Top="300" GridCanvas.IsDraggable="False">
+                                            <TextBlock HorizontalAlignment="Center">结束</TextBlock>
+                                        </Border>
                                         <!--<Button>456</Button>-->
                                     </GridCanvas>
                                 </DockPanel>
