@@ -35,7 +35,20 @@ namespace OhmStudio.UI.Controls
         }
 
         public static readonly DependencyProperty IsDraggableProperty =
-            DependencyProperty.RegisterAttached("IsDraggable", typeof(bool), typeof(GridCanvas), new PropertyMetadata(true));
+            DependencyProperty.RegisterAttached("IsDraggable", typeof(bool), typeof(GridCanvas), new PropertyMetadata(true, (sender, e) =>
+            {
+                if (sender is FrameworkElement frameworkElement)
+                {
+                    if ((bool)e.NewValue)
+                    {
+                        frameworkElement.Cursor = Cursors.ScrollAll;
+                    }
+                    else
+                    {
+                        frameworkElement.Cursor = Cursors.Arrow;
+                    }
+                }
+            }));
 
         public static void SetIsDraggable(DependencyObject element, bool value)
         {
@@ -53,6 +66,10 @@ namespace OhmStudio.UI.Controls
             if (visualAdded is UIElement uIElement)
             {
                 //uIElement.Focusable = true;
+                if (uIElement is FrameworkElement frameworkElement)
+                {
+                    frameworkElement.Cursor = Cursors.ScrollAll;
+                }
                 uIElement.MouseLeftButtonDown += UIElement_MouseLeftButtonDown;
                 uIElement.MouseMove += UIElement_MouseMove;
                 uIElement.MouseLeftButtonUp += UIElement_MouseLeftButtonUp;
@@ -75,10 +92,6 @@ namespace OhmStudio.UI.Controls
             {
                 SetTop(uIElement, 0);
             }
-            if (uIElement is FrameworkElement frameworkElement)
-            {
-                frameworkElement.Cursor = Cursors.Arrow;
-            }
             Debug.WriteLine($"left:{GetLeft(uIElement)},top:{GetTop(uIElement)}");
         }
 
@@ -92,11 +105,6 @@ namespace OhmStudio.UI.Controls
             //Debug.WriteLine(e.LeftButton + GetLeft(uIElement).ToString() + GetTop(uIElement));
             if (e.LeftButton == MouseButtonState.Pressed /*&& GetLeft(uIElement) >= 0 && GetTop(uIElement) >= 0*/)
             {
-                if (uIElement is FrameworkElement frameworkElement)
-                {
-                    frameworkElement.Cursor = Cursors.ScrollAll;
-                }
-
                 Point point = e.GetPosition(this);
                 Vector vector = point - _mouseDownPosition;
                 SetLeft(uIElement, Math.Round(_mouseDownControlPosition.X + vector.X, 0));
@@ -123,7 +131,7 @@ namespace OhmStudio.UI.Controls
 
         private void UIElement_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            UIElement uIElement = sender as UIElement; 
+            UIElement uIElement = sender as UIElement;
             if (!GetIsDraggable(uIElement))
             {
                 return;
