@@ -34,24 +34,6 @@
         <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}" />
     </Style>
 
-    <Style x:Key="TransparentTextBox"
-           BasedOn="{StaticResource {x:Type TextBox}}"
-           TargetType="TextBox">
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="IsReadOnly" Value="True" />
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="Transparent" />
-            </Trigger>
-            <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="Background" Value="Transparent" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
     <Style TargetType="avalonEdit:TextArea">
         <Setter Property="SelectionCornerRadius" Value="0" />
     </Style>

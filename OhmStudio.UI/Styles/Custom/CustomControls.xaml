@@ -1080,6 +1080,29 @@
         <Setter Property="Foreground" Value="Transparent" />
     </Style>
 
+    <Style x:Key="TransparentTextBox" TargetType="TextBox">
+        <Setter Property="attaches:DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type TextBox}}" />
+        <Setter Property="attaches:DynamicStyleProvider.Derived">
+            <Setter.Value>
+                <Style TargetType="TextBox">
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="IsReadOnly" Value="True" />
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="Transparent" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter Property="Background" Value="Transparent" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="GifImageBaseStyle" TargetType="controls:GifImage">
         <Setter Property="Template">
             <Setter.Value>
