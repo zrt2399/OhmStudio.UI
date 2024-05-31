@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Windows;
 
 namespace OhmStudio.UI.Commands
 {
@@ -12,6 +13,22 @@ namespace OhmStudio.UI.Commands
         /// 表单验证错误集合。
         /// </summary>
         private Dictionary<string, string> _dataErrors = new Dictionary<string, string>();
+
+        private static bool? _isInDesignMode;
+        public static bool IsInDesignModeStatic
+        {
+            get
+            {
+                if (!_isInDesignMode.HasValue)
+                {
+                    DependencyProperty isInDesignModeProperty = DesignerProperties.IsInDesignModeProperty;
+                    _isInDesignMode = (bool)DependencyPropertyDescriptor.FromProperty(isInDesignModeProperty, typeof(FrameworkElement)).Metadata.DefaultValue;
+                }
+                return _isInDesignMode.Value;
+            }
+        }
+
+        public bool IsInDesignMode => IsInDesignModeStatic;
 
         public string Error => string.Empty;
 
