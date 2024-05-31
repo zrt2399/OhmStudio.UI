@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace OhmStudio.UI.Controls
 {
@@ -23,7 +23,6 @@ namespace OhmStudio.UI.Controls
 
         ListBox PART_ListBox;
         TextBox PART_TextBox;
-        ToggleButton DropDownButton;
         Button PART_Invert;
         Button PART_SelectAll;
         Button PART_DeSelectAll;
@@ -46,13 +45,13 @@ namespace OhmStudio.UI.Controls
             set => SetValue(SeparatorProperty, value);
         }
 
-        public static readonly DependencyProperty StringFormatProperty =
-            DependencyProperty.Register(nameof(StringFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("{0}"));
+        public static readonly DependencyProperty ItemDisplayStringFormatProperty =
+            DependencyProperty.Register(nameof(ItemDisplayStringFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("{0}"));
 
-        public string StringFormat
+        public string ItemDisplayStringFormat
         {
-            get => (string)GetValue(StringFormatProperty);
-            set => SetValue(StringFormatProperty, value);
+            get => (string)GetValue(ItemDisplayStringFormatProperty);
+            set => SetValue(ItemDisplayStringFormatProperty, value);
         }
 
         public static readonly DependencyProperty UnSelectedStringFormatProperty =
@@ -93,10 +92,6 @@ namespace OhmStudio.UI.Controls
 
         public override void OnApplyTemplate()
         {
-            if (DropDownButton != null)
-            {
-                DropDownButton.Click -= DropDownButton_Click;
-            }
             if (PART_Invert != null)
             {
                 PART_Invert.Click -= PART_Invert_Click;
@@ -113,18 +108,29 @@ namespace OhmStudio.UI.Controls
             {
                 PART_ListBox.SelectionChanged -= PART_ListBox_SelectionChanged;
             }
+            if (PART_TextBox != null)
+            {
+                PART_TextBox.PreviewMouseDown -= PART_TextBox_PreviewMouseDown;
+            }
             base.OnApplyTemplate();
             PART_SelectAll = GetTemplateChild("PART_SelectAll") as Button;
             PART_DeSelectAll = GetTemplateChild("PART_DeSelectAll") as Button;
             PART_Invert = GetTemplateChild("PART_Invert") as Button;
-            DropDownButton = GetTemplateChild("DropDownButton") as ToggleButton;
             PART_ListBox = GetTemplateChild("PART_ListBox") as ListBox;
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
-            DropDownButton.Click += DropDownButton_Click;
             PART_Invert.Click += PART_Invert_Click;
             PART_SelectAll.Click += PART_SelectAll_Click;
             PART_DeSelectAll.Click += PART_DeSelectAll_Click;
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
+            PART_TextBox.PreviewMouseDown += PART_TextBox_PreviewMouseDown;
+        }
+
+        private void PART_TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (IsDropDownOpen)
+            {
+                IsDropDownOpen = false;
+            }
         }
 
         private void CheckComboBox_GotFocus(object sender, RoutedEventArgs e)
@@ -142,15 +148,6 @@ namespace OhmStudio.UI.Controls
                     checkComboBox.PART_TextBox.SelectAll();
                     e.Handled = true;
                 }
-            }
-        }
-
-        private void DropDownButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!PART_TextBox.IsKeyboardFocusWithin)
-            {
-                PART_TextBox.Focus();
-                PART_TextBox.SelectAll();
             }
         }
 
@@ -248,11 +245,11 @@ namespace OhmStudio.UI.Controls
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < list.Count - 1; i++)
             {
-                stringBuilder.Append(string.Format(StringFormat, list[i] + Separator));
+                stringBuilder.Append(string.Format(ItemDisplayStringFormat, list[i] + Separator));
             }
             if (list.Count > 0)
             {
-                stringBuilder.Append(string.Format(StringFormat, list[list.Count - 1]));
+                stringBuilder.Append(string.Format(ItemDisplayStringFormat, list[list.Count - 1]));
             }
             SelectedText = stringBuilder.ToString();
             if (list.Count == 0)

@@ -17,27 +17,30 @@ namespace OhmStudio.UI.Views
         public TDateTimeView(DateTimePicker dateTimePicker)
         {
             InitializeComponent();
-            if (dateTimePicker.SelectedDateTime == null)
+            Loaded += (sender, e) =>
             {
-                calendar.DisplayDate = dateTimePicker.DisplayDateStart == null ? DateTime.MinValue.Date : (DateTime)dateTimePicker.DisplayDateStart;
-            }
-            else
-            {
-                calendar.DisplayDate = (DateTime)dateTimePicker.SelectedDateTime;
-            }
-            calendar.SelectedDate = dateTimePicker.SelectedDateTime;
-            calendar.FirstDayOfWeek = dateTimePicker.FirstDayOfWeek;
-            calendar.DisplayDateStart = dateTimePicker.DisplayDateStart;
-            calendar.DisplayDateEnd = dateTimePicker.DisplayDateEnd;
-            if (dateTimePicker.IsDateOnly)
-            {
-                UpdateBtnContent(null);
-                txtTime.IsEnabled = textBoxDateTime.IsEnabled = btnNow.IsEnabled = false;
-            }
-            else
-            {
-                UpdateBtnContent(dateTimePicker.SelectedDateTime);
-            }
+                if (dateTimePicker.SelectedDateTime == null)
+                {
+                    calendar.DisplayDate = dateTimePicker.DisplayDateStart == null ? DateTime.MinValue.Date : (DateTime)dateTimePicker.DisplayDateStart;
+                }
+                else
+                {
+                    calendar.DisplayDate = (DateTime)dateTimePicker.SelectedDateTime;
+                }
+                calendar.SelectedDate = dateTimePicker.SelectedDateTime;
+                calendar.FirstDayOfWeek = dateTimePicker.FirstDayOfWeek;
+                calendar.DisplayDateStart = dateTimePicker.DisplayDateStart;
+                calendar.DisplayDateEnd = dateTimePicker.DisplayDateEnd;
+                if (dateTimePicker.IsDateOnly)
+                {
+                    UpdateBtnContent(null);
+                    txtTime.IsEnabled = textBoxDateTime.IsEnabled = btnNow.IsEnabled = false;
+                }
+                else
+                {
+                    UpdateBtnContent(dateTimePicker.SelectedDateTime);
+                }
+            };
         }
 
         void UpdateBtnContent(DateTime? dateTime)

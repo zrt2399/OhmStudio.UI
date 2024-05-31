@@ -15,28 +15,8 @@ namespace OhmStudio.UI.Controls
             GotFocus += DateTimePicker_GotFocus;
             CalendarClickCommand = new RelayCommand(() =>
             {
-                if (PART_Popup == null)
-                {
-                    return;
-                }
-                if (PART_Popup.IsOpen)
-                {
-                    PART_Popup.IsOpen = false;
-                }
-                TDateTimeView dateTimeView = new TDateTimeView(this);// TDateTimeView  构造函数传入日期时间
-                dateTimeView.DateTimeOK += (datetime) => //TDateTimeView 日期时间确定事件
-                {
-                    SelectedDateTime = datetime;
-                    PART_Popup.IsOpen = false;//TDateTimeView 所在pop 关闭
-                    PART_TextBox?.Focus();
-                };
-                dateTimeView.Closed += () =>
-                {
-                    PART_Popup.IsOpen = false;//TDateTimeView 所在pop 关闭
-                    PART_TextBox?.Focus();
-                };
-                (PART_Popup.Child as SystemDropShadowChrome).Child = dateTimeView;
-                PART_Popup.IsOpen = true;
+                IsDropDownOpen = !IsDropDownOpen;
+                //PART_Popup.IsOpen = true;
             });
         }
 
@@ -193,6 +173,15 @@ namespace OhmStudio.UI.Controls
                 }
             }));
 
+        public bool IsDropDownOpen
+        {
+            get => (bool)GetValue(IsDropDownOpenProperty);
+            set => SetValue(IsDropDownOpenProperty, value);
+        }
+
+        public static readonly DependencyProperty IsDropDownOpenProperty =
+            DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(DateTimePicker));
+
         public ICommand CalendarClickCommand { get; }
 
         public string Text => DateTimeText;
@@ -207,6 +196,19 @@ namespace OhmStudio.UI.Controls
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
             PART_Popup = GetTemplateChild("PART_Popup") as Popup;
             PART_TextBox.LostFocus += PART_TextBox_LostFocus;
+            TDateTimeView dateTimeView = new TDateTimeView(this);// TDateTimeView  构造函数传入日期时间
+            dateTimeView.DateTimeOK += (datetime) => //TDateTimeView 日期时间确定事件
+            {
+                SelectedDateTime = datetime;
+                IsDropDownOpen = false;//TDateTimeView 所在pop 关闭
+                PART_TextBox?.Focus();
+            };
+            dateTimeView.Closed += () =>
+            {
+                IsDropDownOpen = false;//TDateTimeView 所在pop 关闭
+                PART_TextBox?.Focus();
+            };
+            (PART_Popup.Child as SystemDropShadowChrome).Child = dateTimeView;
         }
 
         static void CheckDisplayDateStart(DateTimePicker dateTimePicker)

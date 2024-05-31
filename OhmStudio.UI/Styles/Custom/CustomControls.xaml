@@ -907,16 +907,13 @@
                                      TextWrapping="{TemplateBinding TextWrapping}" />
                             <ToggleButton x:Name="DropDownButton"
                                           Grid.Column="1"
-                                          Background="{DynamicResource CommonControlsComboBoxGlyphBackground}"
                                           BorderBrush="{TemplateBinding BorderBrush}"
                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                          ClickMode="Release"
-                                          Foreground="{DynamicResource CommonControlsComboBoxGlyph}"
-                                          IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                           Style="{DynamicResource ToolBarComboBoxTransparentButtonStyle}" />
                             <Popup Name="PART_Popup"
                                    AllowsTransparency="True"
-                                   IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                   IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                    PlacementTarget="{Binding ElementName=Border}"
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                    StaysOpen="False">
@@ -1049,7 +1046,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ComboBoxColumnElement" TargetType="ComboBox">
+    <Style x:Key="ComboBoxColumnEditingElement" TargetType="ComboBox">
         <Setter Property="attaches:DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type ComboBox}}" />
         <Setter Property="attaches:DynamicStyleProvider.Derived">
             <Setter.Value>
@@ -1063,6 +1060,17 @@
     </Style>
 
     <Style x:Key="CheckBoxColumnElement" TargetType="CheckBox">
+        <Setter Property="attaches:DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type CheckBox}}" />
+        <Setter Property="attaches:DynamicStyleProvider.Derived">
+            <Setter.Value>
+                <Style TargetType="CheckBox">
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="IsHitTestVisible" Value="False" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="CheckBoxColumnEditingElement" TargetType="CheckBox">
         <Setter Property="attaches:DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type CheckBox}}" />
         <Setter Property="attaches:DynamicStyleProvider.Derived">
             <Setter.Value>
@@ -1302,6 +1310,7 @@
 
                                 <Popup x:Name="PART_Popup"
                                        AllowsTransparency="True"
+                                       IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                        PlacementTarget="{Binding ElementName=Border}"
                                        PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                        StaysOpen="False">

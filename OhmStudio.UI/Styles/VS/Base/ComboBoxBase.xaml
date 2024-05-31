@@ -9,7 +9,8 @@
 
     <Style x:Key="ToolBarComboBoxTransparentButtonStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Width" Value="Auto" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxGlyph}" />
+        <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxGlyphBackground}" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="ClickMode" Value="Press" />
@@ -161,11 +162,9 @@
 
                 <ToggleButton x:Name="DropDownButton"
                               Grid.ColumnSpan="2"
-                              Background="{DynamicResource CommonControlsComboBoxGlyphBackground}"
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}"
-                              Foreground="{DynamicResource CommonControlsComboBoxGlyph}"
-                              IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                               Style="{StaticResource ToolBarComboBoxTransparentButtonStyle}" />
 
                 <ContentControl Style="{DynamicResource PlaceHolderWithTemplatedParent}" />

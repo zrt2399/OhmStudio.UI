@@ -46,7 +46,7 @@ namespace OhmStudio.UI.Demo.Views
             //    Environment.Exit(Environment.ExitCode);
             //}
             InitializeComponent();
-            DataContext = this;
+            DataContext = this;  
 
             Messenger.Default.Register<string>(this, MessageType.AlertDialog, msg => AlertDialog.Show(msg));
             Messenger.Default.Register<string>(this, MessageType.TreeViewItemLoaded, (message) => StatusBarContent = message);
