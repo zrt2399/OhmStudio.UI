@@ -406,10 +406,10 @@
                                     </DataGrid>
                                     <DataGrid AutoGenerateColumns="False"
                                               CanUserAddRows="False"
-                                              DataGridAttach.CheckBoxColumnEditingElementStyle="{DynamicResource {x:Type CheckBox}}"
-                                              DataGridAttach.CheckBoxColumnElementStyle="{DynamicResource {x:Type CheckBox}}"
-                                              DataGridAttach.ComboBoxColumnEditingElementStyle="{DynamicResource {x:Type ComboBox}}"
-                                              DataGridAttach.ComboBoxColumnElementStyle="{DynamicResource {x:Type ComboBox}}"
+                                              DataGridAttach.CheckBoxColumnEditingElementStyle="{StaticResource CheckBoxColumnElement}"
+                                              DataGridAttach.CheckBoxColumnElementStyle="{StaticResource CheckBoxColumnElement}"
+                                              DataGridAttach.ComboBoxColumnEditingElementStyle="{StaticResource ComboBoxColumnElement}"
+                                              DataGridAttach.ComboBoxColumnElementStyle="{StaticResource ComboBoxColumnElement}"
                                               DataGridAttach.IsShowRowNumber="True"
                                               DataGridAttach.TextColumnEditingElementStyle="{StaticResource TextColumnEditingElement}"
                                               DataGridAttach.TextColumnElementStyle="{DynamicResource {x:Type TextBlock}}"
@@ -936,7 +936,9 @@
                                                                  TextBoxAttach.PlaceHolder="请输入密码..."
                                                                  TextBoxAttach.Title="PasswordTextBox："
                                                                  TextBoxAttach.TitlePlacement="Top" />
-                                                <PasswordTextBox VerticalAlignment="Top" />
+                                                <PasswordTextBox VerticalAlignment="Top"
+                                                                 ClearButtonIsTabStop="True"
+                                                                 ShowPasswordButtonIsTabStop="True" />
 
                                                 <ComboBox VerticalAlignment="Top"
                                                           DisplayMemberPath="Name"

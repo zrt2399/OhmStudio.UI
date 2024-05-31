@@ -1035,49 +1035,75 @@
         </Setter>
     </Style>
 
-    <Style x:Key="TextColumnEditingElement"
-           BasedOn="{StaticResource {x:Type TextBox}}"
-           TargetType="TextBox">
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="0" />
-    </Style>
-
-    <Style x:Key="ComboBoxColumnEditingElement"
-           BasedOn="{StaticResource {x:Type ComboBox}}"
-           TargetType="ComboBox">
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="0" />
-    </Style>
-
-    <Style x:Key="TextBlockPassword"
-           BasedOn="{StaticResource {x:Type TextBlock}}"
-           TargetType="{x:Type TextBlock}">
-        <!--<Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Text, Converter={StaticResource TextBlockPasswordConverter}}"/>-->
-        <Setter Property="TextDecorations">
+    <Style x:Key="TextColumnEditingElement" TargetType="TextBox">
+        <Setter Property="attaches:DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type TextBox}}" />
+        <Setter Property="attaches:DynamicStyleProvider.Derived">
             <Setter.Value>
-                <TextDecorationCollection>
-                    <TextDecoration>
-                        <TextDecoration.Pen>
-                            <Pen Brush="Gray"
-                                 DashCap="Round"
-                                 EndLineCap="Round"
-                                 StartLineCap="Round"
-                                 Thickness="12">
-                                <Pen.DashStyle>
-                                    <DashStyle Dashes="0.0,1.2" Offset="0.6" />
-                                </Pen.DashStyle>
-                            </Pen>
-                        </TextDecoration.Pen>
-                        <TextDecoration.Location>
-                            <TextDecorationLocation>Strikethrough</TextDecorationLocation>
-                        </TextDecoration.Location>
-                    </TextDecoration>
-                </TextDecorationCollection>
+                <Style TargetType="TextBox">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="Padding" Value="0" />
+                </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="Foreground" Value="Transparent" />
+    </Style>
+
+    <Style x:Key="ComboBoxColumnElement" TargetType="ComboBox">
+        <Setter Property="attaches:DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type ComboBox}}" />
+        <Setter Property="attaches:DynamicStyleProvider.Derived">
+            <Setter.Value>
+                <Style TargetType="ComboBox">
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="Padding" Value="0" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CheckBoxColumnElement" TargetType="CheckBox">
+        <Setter Property="attaches:DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type CheckBox}}" />
+        <Setter Property="attaches:DynamicStyleProvider.Derived">
+            <Setter.Value>
+                <Style TargetType="CheckBox">
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="TextBlockPassword" TargetType="{x:Type TextBlock}">
+        <Setter Property="attaches:DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type TextBlock}}" />
+        <Setter Property="attaches:DynamicStyleProvider.Derived">
+            <Setter.Value>
+                <Style TargetType="TextBlock">
+                    <Setter Property="TextDecorations">
+                        <Setter.Value>
+                            <TextDecorationCollection>
+                                <TextDecoration>
+                                    <TextDecoration.Pen>
+                                        <Pen Brush="Gray"
+                                             DashCap="Round"
+                                             EndLineCap="Round"
+                                             StartLineCap="Round"
+                                             Thickness="12">
+                                            <Pen.DashStyle>
+                                                <DashStyle Dashes="0.0,1.2" Offset="0.6" />
+                                            </Pen.DashStyle>
+                                        </Pen>
+                                    </TextDecoration.Pen>
+                                    <TextDecoration.Location>
+                                        <TextDecorationLocation>Strikethrough</TextDecorationLocation>
+                                    </TextDecoration.Location>
+                                </TextDecoration>
+                            </TextDecorationCollection>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="Transparent" />
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="TransparentTextBox" TargetType="TextBox">
@@ -1194,17 +1220,20 @@
                                 <CheckBox Grid.Column="1"
                                           Content="&#xe603;"
                                           IsChecked="{Binding IsCleared, RelativeSource={RelativeSource TemplatedParent}}"
+                                          IsTabStop="{Binding ClearButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
                                           Style="{StaticResource CheckBoxStyle}"
                                           ToolTip="清除"
                                           Visibility="{TemplateBinding ClearVisibility}" />
                                 <controls:SimplePanel Grid.Column="2" Visibility="{Binding CanShowPassword, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <CheckBox Content="&#xe6f9;"
                                               IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
+                                              IsTabStop="{Binding ShowPasswordButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
                                               Style="{StaticResource CheckBoxStyle}"
                                               ToolTip="点击隐藏密码"
                                               Visibility="{Binding ElementName=PART_TextBox, Path=Visibility}" />
                                     <CheckBox Content="&#xe6fb;"
                                               IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
+                                              IsTabStop="{Binding ShowPasswordButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
                                               Style="{StaticResource CheckBoxStyle}"
                                               ToolTip="点击显示密码"
                                               Visibility="{Binding ElementName=PART_PasswordBox, Path=Visibility}" />
