@@ -162,6 +162,24 @@ namespace OhmStudio.UI.Controls
                 }
             }));
 
+        public static readonly DependencyProperty ClearButtonIsTabStopProperty =
+            DependencyProperty.Register(nameof(ClearButtonIsTabStop), typeof(bool), typeof(PasswordTextBox));
+
+        public bool ClearButtonIsTabStop
+        {
+            get => (bool)GetValue(ClearButtonIsTabStopProperty);
+            set => SetValue(ClearButtonIsTabStopProperty, value);
+        }
+
+        public static readonly DependencyProperty ShowPasswordButtonIsTabStopProperty =
+            DependencyProperty.Register(nameof(ShowPasswordButtonIsTabStop), typeof(bool), typeof(PasswordTextBox));
+
+        public bool ShowPasswordButtonIsTabStop
+        {
+            get => (bool)GetValue(ShowPasswordButtonIsTabStopProperty);
+            set => SetValue(ShowPasswordButtonIsTabStopProperty, value);
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
