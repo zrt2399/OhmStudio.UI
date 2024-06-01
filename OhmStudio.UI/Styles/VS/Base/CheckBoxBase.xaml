@@ -45,7 +45,7 @@
                                       Stretch="Uniform"
                                       Visibility="Collapsed" />
                                 <Border x:Name="indeterminateMark"
-                                        Margin="1.5"
+                                        Margin="1.4"
                                         Background="{Binding ElementName=optionMark, Path=Fill}"
                                         CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                         Visibility="Hidden" />

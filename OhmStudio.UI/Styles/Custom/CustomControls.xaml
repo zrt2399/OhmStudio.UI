@@ -36,6 +36,7 @@
     <converters:EmptyStringToNotBoolConverter x:Key="EmptyStringToNotBoolConverter" />
     <converters:FlipToScaleXValueConverter x:Key="FlipToScaleXValueConverter" />
     <converters:FlipToScaleYValueConverter x:Key="FlipToScaleYValueConverter" />
+    <converters:CircleProgressBarMarginConverter x:Key="CircleProgressBarMarginConverter" />
 
     <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
     <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
@@ -641,6 +642,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:CircleProgressBar">
                     <Viewbox>
+                        <Viewbox.Margin>
+                            <MultiBinding Converter="{StaticResource CircleProgressBarMarginConverter}">
+                                <Binding Path="BrushStrokeThickness" RelativeSource="{RelativeSource TemplatedParent}" />
+                                <Binding Path="StrokeThickness" RelativeSource="{RelativeSource TemplatedParent}" />
+                            </MultiBinding>
+                        </Viewbox.Margin>
                         <Canvas Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                             <Path Stroke="{TemplateBinding Background}" StrokeThickness="{TemplateBinding StrokeThickness}">
                                 <Path.Data>
@@ -1046,6 +1053,10 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ComboBoxColumnElement" TargetType="ComboBox">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
     <Style x:Key="ComboBoxColumnEditingElement" TargetType="ComboBox">
         <Setter Property="attaches:DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type ComboBox}}" />
         <Setter Property="attaches:DynamicStyleProvider.Derived">

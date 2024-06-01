@@ -92,7 +92,7 @@ namespace OhmStudio.UI.Controls
             {
                 SetTop(uIElement, 0);
             }
-            Debug.WriteLine($"left:{GetLeft(uIElement)},top:{GetTop(uIElement)}");
+            //Debug.WriteLine($"left:{GetLeft(uIElement)},top:{GetTop(uIElement)}");
         }
 
         private void UIElement_MouseMove(object sender, MouseEventArgs e)
@@ -118,9 +118,7 @@ namespace OhmStudio.UI.Controls
                 {
                     SetTop(uIElement, 0);
                 }
-                Debug.WriteLine($"left:{GetLeft(uIElement)},top:{GetTop(uIElement)}");
-                //txtx.Text = Canvas.GetLeft(c).ToString();
-                //txty.Text = Canvas.SetTop(c).ToString();
+                //Debug.WriteLine($"left:{GetLeft(uIElement)},top:{GetTop(uIElement)}");
             }
         }
 
@@ -139,7 +137,7 @@ namespace OhmStudio.UI.Controls
             //uIElement.Focus();
             _mouseDownPosition = e.GetPosition(this);
             _mouseDownControlPosition = new Point(double.IsNaN(GetLeft(uIElement)) ? 0 : GetLeft(uIElement), double.IsNaN(GetTop(uIElement)) ? 0 : GetTop(uIElement));
-            Debug.WriteLine(uIElement.CaptureMouse());
+            uIElement.CaptureMouse();
         }
 
         protected override void OnRender(DrawingContext dc)

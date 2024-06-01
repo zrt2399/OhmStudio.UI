@@ -135,17 +135,16 @@ namespace OhmStudio.UI.Controls
 
         private void CheckComboBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            var checkComboBox = (CheckComboBox)sender;
-            if (!e.Handled && checkComboBox.PART_TextBox != null)
+            if (!e.Handled && PART_TextBox != null && !IsMouseOver)
             {
-                if (Equals(e.OriginalSource, checkComboBox))
+                if (Equals(e.OriginalSource, this))
                 {
-                    checkComboBox.PART_TextBox.Focus();
+                    PART_TextBox.Focus();
                     e.Handled = true;
                 }
-                else if (Equals(e.OriginalSource, checkComboBox.PART_TextBox))
+                else if (Equals(e.OriginalSource, PART_TextBox))
                 {
-                    checkComboBox.PART_TextBox.SelectAll();
+                    PART_TextBox.SelectAll();
                     e.Handled = true;
                 }
             }

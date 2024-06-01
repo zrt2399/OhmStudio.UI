@@ -206,7 +206,7 @@ namespace OhmStudio.UI.Controls
             dateTimeView.Closed += () =>
             {
                 IsDropDownOpen = false;//TDateTimeView 所在pop 关闭
-                PART_TextBox?.Focus();
+                //PART_TextBox?.Focus();
             };
             (PART_Popup.Child as SystemDropShadowChrome).Child = dateTimeView;
         }
@@ -234,7 +234,7 @@ namespace OhmStudio.UI.Controls
 
         private void DateTimePicker_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (!e.Handled && PART_TextBox != null)
+            if (!e.Handled && PART_TextBox != null && !IsMouseOver)
             {
                 if (Equals(e.OriginalSource, this))
                 {

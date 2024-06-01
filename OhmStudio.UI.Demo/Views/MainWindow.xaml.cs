@@ -19,6 +19,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Search;
 using OhmStudio.UI.Attaches;
@@ -37,7 +38,8 @@ namespace OhmStudio.UI.Demo.Views
     /// </summary>
     public partial class MainWindow : ChromeWindow, INotifyPropertyChanged
     {
-        XmlFoldingStrategy xmlFoldingStrategy = new XmlFoldingStrategy();
+        XmlFoldingStrategy _xmlFoldingStrategy = new XmlFoldingStrategy();
+        BraceFoldingStrategy _braceFoldingStrategy = new BraceFoldingStrategy();
 
         public MainWindow()
         {
@@ -46,7 +48,7 @@ namespace OhmStudio.UI.Demo.Views
             //    Environment.Exit(Environment.ExitCode);
             //}
             InitializeComponent();
-            DataContext = this;  
+            DataContext = this;
 
             Messenger.Default.Register<string>(this, MessageType.AlertDialog, msg => AlertDialog.Show(msg));
             Messenger.Default.Register<string>(this, MessageType.TreeViewItemLoaded, (message) => StatusBarContent = message);
@@ -56,16 +58,18 @@ namespace OhmStudio.UI.Demo.Views
             textEditorcs.Text = "using System;\r\n\r\nclass Program\r\n{\r\n    static void Main()\r\n    {\r\n        Console.WriteLine(\"Hello World\");\r\n    }\r\n}";
             textEditorcpp.Text = "#include <iostream>\r\n\r\nint main() {\r\n    std::cout << \"Hello World\" << std::endl;\r\n    return 0;\r\n}";
             textEditorxml.Text = "<Project Sdk=\"Microsoft.NET.Sdk\">\r\n\r\n\t<PropertyGroup>\r\n\t\t<OutputType>WinExe</OutputType>\r\n\t\t<TargetFramework>net6.0-windows</TargetFramework>\r\n\t\t<UseWPF>true</UseWPF>\r\n\t</PropertyGroup>\r\n \r\n</Project>";
-            var text = textEditorxml;
-            var searchPanel = SearchPanel.Install(text);
+            var mainTextEditor = textEditorxml;
+            var searchPanel = SearchPanel.Install(mainTextEditor);
             searchPanel.MarkerBrush = "#BEAA46".ToSolidColorBrush();
 
-            var foldingManager = FoldingManager.Install(text.TextArea);
+            var xmlFoldingManager = FoldingManager.Install(mainTextEditor.TextArea);
+            var csFoldingManager = FoldingManager.Install(textEditorcs.TextArea);
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
             dispatcherTimer.Tick += delegate
             {
-                xmlFoldingStrategy.UpdateFoldings(foldingManager, text.Document);
+                _xmlFoldingStrategy.UpdateFoldings(xmlFoldingManager, mainTextEditor.Document);
+                _braceFoldingStrategy.UpdateFoldings(csFoldingManager, textEditorcs.Document);
             };
             dispatcherTimer.Start();
 
@@ -606,6 +610,11 @@ namespace OhmStudio.UI.Demo.Views
         {
             gridCanvas.Children.Clear();
         }
+
+        private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            StatusBarContent = $"DataGrid当前编辑元素：{e.Column.GetCellContent(e.Row)}";
+        }
     }
 
     public enum MessageType
@@ -822,6 +831,79 @@ namespace OhmStudio.UI.Demo.Views
         HVM,
         [Description("K2400测试仪")]
         K2400
+    }
+
+    public class BraceFoldingStrategy
+    {
+        /// <summary>
+        /// Gets/Sets the opening brace. The default value is '{'.
+        /// </summary>
+        public char OpeningBrace { get; set; }
+
+        /// <summary>
+        /// Gets/Sets the closing brace. The default value is '}'.
+        /// </summary>
+        public char ClosingBrace { get; set; }
+
+        /// <summary>
+        /// Creates a new BraceFoldingStrategy.
+        /// </summary>
+        public BraceFoldingStrategy()
+        {
+            OpeningBrace = '{';
+            ClosingBrace = '}';
+        }
+
+        public void UpdateFoldings(FoldingManager manager, TextDocument document)
+        {
+            IEnumerable<NewFolding> newFoldings = CreateNewFoldings(document, out int firstErrorOffset);
+            manager.UpdateFoldings(newFoldings, firstErrorOffset);
+        }
+
+        /// <summary>
+        /// Create <see cref="NewFolding"/>s for the specified document.
+        /// </summary>
+        public IEnumerable<NewFolding> CreateNewFoldings(TextDocument document, out int firstErrorOffset)
+        {
+            firstErrorOffset = -1;
+            return CreateNewFoldings(document);
+        }
+
+        /// <summary>
+        /// Create <see cref="NewFolding"/>s for the specified document.
+        /// </summary>
+        public IEnumerable<NewFolding> CreateNewFoldings(ITextSource document)
+        {
+            List<NewFolding> newFoldings = new List<NewFolding>();
+
+            Stack<int> startOffsets = new Stack<int>();
+            int lastNewLineOffset = 0;
+            char openingBrace = OpeningBrace;
+            char closingBrace = ClosingBrace;
+            for (int i = 0; i < document.TextLength; i++)
+            {
+                char c = document.GetCharAt(i);
+                if (c == openingBrace)
+                {
+                    startOffsets.Push(i);
+                }
+                else if (c == closingBrace && startOffsets.Count > 0)
+                {
+                    int startOffset = startOffsets.Pop();
+                    // don't fold if opening and closing brace are on the same line
+                    if (startOffset < lastNewLineOffset)
+                    {
+                        newFoldings.Add(new NewFolding(startOffset, i + 1));
+                    }
+                }
+                else if (c == '\n' || c == '\r')
+                {
+                    lastNewLineOffset = i + 1;
+                }
+            }
+            newFoldings.Sort((a, b) => a.StartOffset.CompareTo(b.StartOffset));
+            return newFoldings;
+        }
     }
 
     public class UserInfoModel
