@@ -171,31 +171,30 @@
         <StackPanel Margin="0,6,0,0"
                     VerticalAlignment="Top"
                     Orientation="Horizontal">
-            <ComboBox Margin="6,0"
-                      ItemsSource="{Binding FontFamilyList}"
+            <ComboBox ItemsSource="{Binding FontFamilyList}"
                       SelectedItem="{Binding CurrentFontFamily}"
-                      TextBoxAttach.Title="字体：">
+                      TextBoxAttach.Title="全局字体：">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="{Binding FontFamily}" Text="{Binding Name}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <ComboBox ItemsSource="{Binding FontSizeList}"
+            <ComboBox Margin="6,0"
+                      ItemsSource="{Binding FontSizeList}"
                       SelectedItem="{Binding CurrentFontSize}"
                       TextBoxAttach.Title="字体大小：" />
-            <ComboBox Margin="6,0"
-                      ItemsSource="{Binding Source={EnumBindingSource ThemeType}}"
+            <ComboBox ItemsSource="{Binding Source={EnumBindingSource ThemeType}}"
                       SelectedItem="{Binding CurrentTheme}"
                       TextBoxAttach.Title="主题：" />
             <Border Width="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"
+                    Margin="6,0"
                     Background="Purple"
                     CornerRadiusAttach.IsCircular="True"
                     ToolTip="admin">
                 <TextBlock HorizontalAlignment="Center" Foreground="White">ad</TextBlock>
             </Border>
-            <Button Margin="6,0,0,0"
-                    Click="Button_Click_5"
+            <Button Click="Button_Click_5"
                     Focusable="False"
                     Style="{StaticResource ToolBarButtonBaseStyle}">
                 <StackPanel Orientation="Horizontal">

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace OhmStudio.UI.Controls
 {
@@ -108,10 +107,6 @@ namespace OhmStudio.UI.Controls
             {
                 PART_ListBox.SelectionChanged -= PART_ListBox_SelectionChanged;
             }
-            if (PART_TextBox != null)
-            {
-                PART_TextBox.PreviewMouseDown -= PART_TextBox_PreviewMouseDown;
-            }
             base.OnApplyTemplate();
             PART_SelectAll = GetTemplateChild("PART_SelectAll") as Button;
             PART_DeSelectAll = GetTemplateChild("PART_DeSelectAll") as Button;
@@ -122,32 +117,6 @@ namespace OhmStudio.UI.Controls
             PART_SelectAll.Click += PART_SelectAll_Click;
             PART_DeSelectAll.Click += PART_DeSelectAll_Click;
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
-            PART_TextBox.PreviewMouseDown += PART_TextBox_PreviewMouseDown;
-        }
-
-        private void PART_TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (IsDropDownOpen)
-            {
-                IsDropDownOpen = false;
-            }
-        }
-
-        private void CheckComboBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (!e.Handled && PART_TextBox != null && !IsMouseOver)
-            {
-                if (Equals(e.OriginalSource, this))
-                {
-                    PART_TextBox.Focus();
-                    e.Handled = true;
-                }
-                else if (Equals(e.OriginalSource, PART_TextBox))
-                {
-                    PART_TextBox.SelectAll();
-                    e.Handled = true;
-                }
-            }
         }
 
         private void PART_Invert_Click(object sender, RoutedEventArgs e)
@@ -265,6 +234,19 @@ namespace OhmStudio.UI.Controls
         {
             base.OnItemsSourceChanged(oldValue, newValue);
             SetEmpty();
+        }
+
+        private void CheckComboBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (!e.Handled && PART_TextBox != null)
+            {
+                if (Equals(e.OriginalSource, this))
+                {
+                    PART_TextBox.Focus();
+                    PART_TextBox.SelectAll();
+                    e.Handled = true;
+                }
+            }
         }
     }
 }

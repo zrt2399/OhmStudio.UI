@@ -202,6 +202,7 @@ namespace OhmStudio.UI.Controls
                 SelectedDateTime = datetime;
                 IsDropDownOpen = false;//TDateTimeView 所在pop 关闭
                 PART_TextBox?.Focus();
+                PART_TextBox?.SelectAll();
             };
             dateTimeView.Closed += () =>
             {
@@ -234,15 +235,11 @@ namespace OhmStudio.UI.Controls
 
         private void DateTimePicker_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (!e.Handled && PART_TextBox != null && !IsMouseOver)
+            if (!e.Handled && PART_TextBox != null)
             {
                 if (Equals(e.OriginalSource, this))
                 {
                     PART_TextBox.Focus();
-                    e.Handled = true;
-                }
-                else if (Equals(e.OriginalSource, PART_TextBox))
-                {
                     PART_TextBox.SelectAll();
                     e.Handled = true;
                 }
