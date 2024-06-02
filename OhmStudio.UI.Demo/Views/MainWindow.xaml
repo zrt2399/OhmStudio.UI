@@ -639,7 +639,7 @@
                                     </Border>
                                 </Grid>
                             </LayoutDocument>
-                            <LayoutDocument Title="CheckBox">
+                            <LayoutDocument Title="ToggleButton">
                                 <WrapPanel VerticalAlignment="Top" Orientation="Horizontal">
                                     <GroupBox Margin="10" Header="RadioButton">
                                         <WrapPanel Orientation="Horizontal">
