@@ -182,6 +182,10 @@ namespace OhmStudio.UI.Demo.Views
         static readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily];
         static readonly FontFamilyItem _defaultFontFamilyItem = new FontFamilyItem() { Name = DefaultFontName, FontFamily = _defaultFontFamily };
 
+        public IList CurrentUserPermission { get; set; }
+
+        public IList FileNodeSelectedItems { get; set; }
+
         public DateTime? CurrentDateTime { get; set; }
 
         public double WindowScale { get; set; } = 1;
@@ -193,10 +197,6 @@ namespace OhmStudio.UI.Demo.Views
         public ObservableCollection<TreeViewModel> TreeViewModels { get; set; } = new ObservableCollection<TreeViewModel>();
 
         public TreeViewModel TreeViewSelectedItem { get; set; }
-
-        public IList SelectedItemsFileNodes { get; set; }
-
-        public IEnumerable<string> FileNodesSelectedItems => SelectedItemsFileNodes?.OfType<string>();
 
         public ObservableCollection<FontFamilyItem> FontFamilyList { get; }
 
@@ -422,15 +422,6 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            if (FileNodesSelectedItems != null)
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                foreach (var item in FileNodesSelectedItems)
-                {
-                    stringBuilder.Append(item.ToString() + Environment.NewLine);
-                }
-                AlertDialog.Show(stringBuilder.ToString());
-            }
             StatusManager.IsRunning = !StatusManager.IsRunning;
         }
 
@@ -614,6 +605,32 @@ namespace OhmStudio.UI.Demo.Views
         private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             StatusBarContent = $"DataGrid当前编辑元素：{e.Column.GetCellContent(e.Row)}";
+        }
+
+        private void Button_Click_17(object sender, RoutedEventArgs e)
+        {
+            if (FileNodeSelectedItems != null)
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                foreach (var item in FileNodeSelectedItems.OfType<string>())
+                {
+                    stringBuilder.Append(item.ToString() + Environment.NewLine);
+                }
+                AlertDialog.Show(stringBuilder.ToString());
+            }
+        }
+
+        private void Button_Click_18(object sender, RoutedEventArgs e)
+        {
+            if (CurrentUserPermission != null)
+            {
+                var userPermission = UserPermission.None;
+                foreach (var item in CurrentUserPermission.OfType<UserPermission>())
+                {
+                    userPermission |= item;
+                }
+                AlertDialog.Show(userPermission.ToString());
+            }
         }
     }
 
@@ -817,20 +834,12 @@ namespace OhmStudio.UI.Demo.Views
         ControlBoard,
         [Description("测试通道控制")]
         MatrixBoard,
-        [Description("电压测量模块")]
+        [Description("低压测量模块")]
         M3054,
-        [Description("1510高压模块")]
+        [Description("高压测量模块")]
         M9310,
-        [Description("恒流恒压源")]
-        P8605,
-        [Description("LCR测量模块1")]
-        M2810,
-        [Description("LCR测量模块2")]
-        M2821,
-        [Description("HVM高压模块")]
-        HVM,
-        [Description("K2400测试仪")]
-        K2400
+        [Description("LCR测量模块")]
+        M2821
     }
 
     public class BraceFoldingStrategy
@@ -917,5 +926,19 @@ namespace OhmStudio.UI.Demo.Views
         public DateTime CreatedAt { get; set; }
 
         public DateTime LoginAt { get; set; } = DateTime.Now;
+    }
+
+    [Flags]
+    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
+    public enum UserPermission
+    {
+        [Description("无")]
+        None = 0,
+        [Description("测试")]
+        Test = 1,
+        [Description("编辑")]
+        Edit = 1 << 1,
+        [Description("设置")]
+        Settings = 1 << 2
     }
 }

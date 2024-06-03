@@ -939,9 +939,8 @@
                                                           TextBoxAttach.Title="ComboBox："
                                                           TextBoxAttach.TitlePlacement="Top" />
                                                 <ComboBox VerticalAlignment="Top"
-                                                          DisplayMemberPath="Value"
                                                           IsEditable="True"
-                                                          ItemsSource="{Binding ProNodes}"
+                                                          ItemsSource="{EnumBindingSource EnumType=local:UserPermission}"
                                                           TextBoxAttach.PlaceHolder="IsEditable=True" />
 
                                                 <CheckComboBox VerticalAlignment="Top"
@@ -952,7 +951,9 @@
                                                                TextBoxAttach.TitlePlacement="Top" />
                                                 <CheckComboBox VerticalAlignment="Top"
                                                                DisplayMemberPath="Description"
-                                                               ItemsSource="{Binding ProNodes}" />
+                                                               ItemsSource="{Binding ProNodes}"
+                                                               SelectedItems="{Binding FileNodeSelectedItems}" />
+                                                <Button Click="Button_Click_17">显示选中项</Button>
                                             </WrapPanel>
                                         </GroupBox>
                                         <GroupBox Margin="10" Header="InputControlWithButtonTitle">
@@ -1050,10 +1051,10 @@
                                                                Height="50"
                                                                HorizontalContentAlignment="Right"
                                                                VerticalContentAlignment="Bottom"
-                                                               DisplayMemberPath="Description"
                                                                ItemDisplayStringFormat="分组{0}"
-                                                               ItemsSource="{Binding ProNodes}"
-                                                               SelectedItems="{Binding SelectedItemsFileNodes}"
+                                                               ItemsSource="{EnumBindingSource EnumType=local:UserPermission,
+                                                                                               IsIgnoreZero=True}"
+                                                               SelectedItems="{Binding CurrentUserPermission}"
                                                                Separator=";"
                                                                TextBoxAttach.TitleIsHitTestVisible="True"
                                                                TextWrapping="Wrap"
@@ -1062,6 +1063,11 @@
                                                         <Button>CheckComboBox：</Button>
                                                     </TextBoxAttach.Title>
                                                 </CheckComboBox>
+                                                <Button Width="300"
+                                                        Height="50"
+                                                        Click="Button_Click_18">
+                                                    显示选中项
+                                                </Button>
                                             </WrapPanel>
                                         </GroupBox>
                                         <GroupBox Margin="10" Header="PathPicker">
@@ -1272,17 +1278,8 @@
                             <LayoutAnchorable Title="ListBox" ToolTip="This a ListView">
                                 <ListBox BorderBrush="Transparent"
                                          BorderThickness="0"
-                                         SelectionMode="Multiple">
-                                    <ListBoxItem>123123123</ListBoxItem>
-                                    <ListBoxItem>456456456</ListBoxItem>
-                                    <ListBoxItem>789789789</ListBoxItem>
-                                    <ListBoxItem>123123123</ListBoxItem>
-                                    <ListBoxItem>456456456</ListBoxItem>
-                                    <ListBoxItem>789789789</ListBoxItem>
-                                    <ListBoxItem>123123123</ListBoxItem>
-                                    <ListBoxItem>456456456</ListBoxItem>
-                                    <ListBoxItem>789789789</ListBoxItem>
-                                </ListBox>
+                                         ItemsSource="{EnumBindingSource EnumType=local:UserPermission}"
+                                         SelectionMode="Multiple" />
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="PropertyGrid" ToolTip="This a PropertyGrid">
                                 <Grid>

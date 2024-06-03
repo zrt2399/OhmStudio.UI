@@ -29,7 +29,6 @@
 
     <converters:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter" />
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    <converters:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter" />
     <converters:BrushToColorConverter x:Key="BrushToColorConverter" />
     <converters:AngleToPointConverter x:Key="AngleToPointConverter" />
     <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter" />
@@ -837,12 +836,15 @@
                                     <CheckBox Margin="0,2"
                                               Foreground="{TemplateBinding Foreground}"
                                               IsChecked="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
-                                        <CheckBox.Content>
+                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        <!--<CheckBox.Content>
                                             <MultiBinding Converter="{StaticResource DisplayMemberPathConverter}">
                                                 <Binding Path="." />
                                                 <Binding Path="DisplayMemberPath" RelativeSource="{RelativeSource AncestorType=ListBox}" />
                                             </MultiBinding>
-                                        </CheckBox.Content>
+                                        </CheckBox.Content>-->
                                     </CheckBox>
                                 </Border>
                                 <ControlTemplate.Triggers>
@@ -958,9 +960,11 @@
                                                      Grid.Row="1"
                                                      BorderBrush="Transparent"
                                                      BorderThickness="0"
-                                                     DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                                     DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource TemplatedParent}}"
                                                      ItemContainerStyle="{DynamicResource ListBoxItemCheckBoxStyle}"
-                                                     ItemsSource="{TemplateBinding ItemsSource}"
+                                                     ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}"
                                                      SelectionMode="Multiple"
                                                      VirtualizingPanel.CacheLength="{Binding Path=(VirtualizingPanel.CacheLength), RelativeSource={RelativeSource TemplatedParent}}"
                                                      VirtualizingPanel.CacheLengthUnit="{Binding Path=(VirtualizingPanel.CacheLengthUnit), RelativeSource={RelativeSource TemplatedParent}}"
@@ -1366,7 +1370,7 @@
                         <ItemsControl Margin="{TemplateBinding Padding}"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      ItemsSource="{TemplateBinding ItemsSource}"
+                                      ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
                                       VirtualizingPanel.CacheLength="{Binding Path=(VirtualizingPanel.CacheLength), RelativeSource={RelativeSource TemplatedParent}}"
                                       VirtualizingPanel.CacheLengthUnit="{Binding Path=(VirtualizingPanel.CacheLengthUnit), RelativeSource={RelativeSource TemplatedParent}}"
                                       VirtualizingPanel.IsContainerVirtualizable="{Binding Path=(VirtualizingPanel.IsContainerVirtualizable), RelativeSource={RelativeSource TemplatedParent}}"
