@@ -11,7 +11,7 @@
 	<PropertyGroup>
 		<LangVersion>9.0</LangVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-		<Version>1.1.7.8</Version>
+		<Version>1.1.7.9</Version>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
