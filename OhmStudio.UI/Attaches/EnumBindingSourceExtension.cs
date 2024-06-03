@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Markup;
 
 namespace OhmStudio.UI.Attaches
@@ -33,6 +34,13 @@ namespace OhmStudio.UI.Attaches
             EnumType = enumType;
         }
 
+        public EnumBindingSourceExtension(Type enumType, bool isIgnoreZero) : this(enumType)
+        {
+            IsIgnoreZero = isIgnoreZero;
+        }
+
+        public bool IsIgnoreZero { get; set; }
+
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             if (EnumType == null)
@@ -45,6 +53,10 @@ namespace OhmStudio.UI.Attaches
 
             if (actualEnumType == EnumType)
             {
+                if (IsIgnoreZero)
+                {
+                    return enumValues.Cast<object>().Where(x => Convert.ToInt64(x) != 0);
+                }
                 return enumValues;
             }
 
@@ -53,4 +65,4 @@ namespace OhmStudio.UI.Attaches
             return tempArray;
         }
     }
-} 
+}
