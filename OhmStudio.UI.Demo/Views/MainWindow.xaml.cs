@@ -117,7 +117,7 @@ namespace OhmStudio.UI.Demo.Views
             Result.Columns.Add("RX");
             for (int i = 0; i < 1000; i++)
             {
-                Result.Rows.Add(DateTime.Now, i, i + 1, "44");
+                Result.Rows.Add(DateTime.Now, i, i + 1, "4396");
             }
             DengGao.Add("风急天高猿啸哀");
             DengGao.Add("渚清沙白鸟飞回");
@@ -147,24 +147,24 @@ namespace OhmStudio.UI.Demo.Views
             DengGuanQueLou.Add("欲穷千里目");
             DengGuanQueLou.Add("更上一层楼");
 
-            Pro.Description = "1";
-            Pro.Brush = Brushes.Red;
-            SelectedObject = Pro;
+            Employee.Description = "MyEmployee";
+            Employee.Brush = Brushes.Red;
+            SelectedObject = Employee;
 
             Stopwatch stopwatch = Stopwatch.StartNew();
-            List<Pro> pros = new List<Pro>();
+            List<Employee> pros = new List<Employee>();
             for (int i = 0; i < 2000; i++)
             {
-                Pro pro = new Pro();
+                Employee pro = new Employee();
                 pro.Name = "Name:" + (i + 1);
                 pro.Value = i;
                 pro.Description = $"第{i / 10 + 1}组的第{i % 10 + 1}个";
                 pros.Add(pro);
             }
-            ProNodes = new ObservableCollection<Pro>(pros);
+            Employees = new ObservableCollection<Employee>(pros);
             stopwatch.Stop();
-            var viewSource = new CollectionViewSource { Source = ProNodes };
-            ProNodes.CollectionChanged += delegate
+            var viewSource = new CollectionViewSource() { Source = Employees };
+            Employees.CollectionChanged += delegate
             {
                 AlertDialog.Show("已改变");
             };
@@ -184,13 +184,13 @@ namespace OhmStudio.UI.Demo.Views
 
         public IList CurrentUserPermission { get; set; }
 
-        public IList FileNodeSelectedItems { get; set; }
+        public IList EmployeeSelectedItems { get; set; }
 
         public DateTime? CurrentDateTime { get; set; }
 
         public double WindowScale { get; set; } = 1;
 
-        public ObservableCollection<Pro> ProNodes { get; set; }
+        public ObservableCollection<Employee> Employees { get; set; }
 
         public ObservableCollection<PackIconKind> PackIcons { get; set; }
 
@@ -202,7 +202,7 @@ namespace OhmStudio.UI.Demo.Views
 
         public IEnumerable<double> FontSizeList { get; } = Enumerable.Range(10, 11).Select(x => (double)x);
 
-        public Pro Pro { get; set; } = new Pro();
+        public Employee Employee { get; set; } = new Employee();
 
         public object SelectedObject { get; set; }
 
@@ -416,8 +416,8 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            Pro.Value = 100;
-            AlertDialog.Show(Pro.InstrumentType.ToString());
+            Employee.Value = 100;
+            AlertDialog.Show(Employee.InstrumentType.ToString());
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
@@ -427,7 +427,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var item in ProNodes)
+            foreach (var item in Employees)
             {
                 item.IsExpanded = true;
             }
@@ -435,7 +435,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            foreach (var item in ProNodes)
+            foreach (var item in Employees)
             {
                 item.IsExpanded = false;
             }
@@ -609,12 +609,12 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_17(object sender, RoutedEventArgs e)
         {
-            if (FileNodeSelectedItems != null)
+            if (EmployeeSelectedItems != null)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                foreach (var item in FileNodeSelectedItems.OfType<string>())
+                foreach (var item in EmployeeSelectedItems.OfType<Employee>())
                 {
-                    stringBuilder.Append(item.ToString() + Environment.NewLine);
+                    stringBuilder.Append(item.Name + Environment.NewLine);
                 }
                 AlertDialog.Show(stringBuilder.ToString());
             }
@@ -768,13 +768,13 @@ namespace OhmStudio.UI.Demo.Views
     }
 
     [BaseObjectIgnore]
-    public class Pro : ProBase
+    public class Employee : EmployeeBase
     {
         public string Name { get; set; }
 
         public bool IsExpanded { get; set; } = true;
 
-        public ImageSource ImageSource { get; set; } = new BitmapImage(new Uri("/Images/1.jpg", UriKind.Relative));
+        public ImageSource ImageSource { get; set; } = new BitmapImage(new Uri("/Images/close.png", UriKind.Relative));
 
         public int? IntString { get; set; } = null;
 
@@ -791,14 +791,14 @@ namespace OhmStudio.UI.Demo.Views
         [PropertyGrid(DisplayName = "值")]
         public double? Value { get; set; }
 
-        public SolidColorBrush Brush { get; set; }
+        public SolidColorBrush Brush { get; set; } = Brushes.Transparent;
 
         public Globals Globals { get; set; } = new Globals();
     }
 
-    public class ProBase : ViewModelBase
+    public class EmployeeBase : ViewModelBase
     {
-        public string Base { get; set; } = "Base";
+        public string Base => GetType().Name;
     }
 
     public struct Abs
@@ -814,7 +814,7 @@ namespace OhmStudio.UI.Demo.Views
     }
 
     [BaseObjectIgnore]
-    public class Globals : ProBase
+    public class Globals : EmployeeBase
     {
         public string Name { get; set; }
 
@@ -905,7 +905,7 @@ namespace OhmStudio.UI.Demo.Views
                         newFoldings.Add(new NewFolding(startOffset, i + 1));
                     }
                 }
-                else if (c == '\n' || c == '\r')
+                else if (c is '\r' or '\n')
                 {
                     lastNewLineOffset = i + 1;
                 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Data;
 using OhmStudio.UI.Demo.Views;
 
@@ -14,7 +13,7 @@ namespace OhmStudio.UI.Demo.Converters
             var type = value as ReadOnlyObservableCollection<object>;
             if (type.Count > 0)
             {
-                return (type[0] as Pro).IsExpanded;
+                return (type[0] as Employee).IsExpanded;
             }
             else
             {

@@ -277,7 +277,7 @@
                                         <CollectionViewSource x:Key="ItemCollectionViewSource"
                                                               IsLiveGroupingRequested="True"
                                                               IsLiveSortingRequested="True"
-                                                              Source="{Binding ProNodes}">
+                                                              Source="{Binding Employees}">
                                             <CollectionViewSource.GroupDescriptions>
                                                 <PropertyGroupDescription PropertyName="Name" />
 
@@ -389,7 +389,7 @@
                                     </DataGrid>
                                     <DataGrid CellEditEnding="DataGrid_CellEditEnding"
                                               DataGridAttach.IsShowRowNumber="True"
-                                              ItemsSource="{Binding ProNodes}"
+                                              ItemsSource="{Binding Employees}"
                                               RowDetailsVisibilityMode="VisibleWhenSelected"
                                               ScrollViewerAttach.Orientation="Horizontal">
                                         <DataGrid.RowDetailsTemplate>
@@ -405,7 +405,7 @@
                                     <DataGrid AutoGenerateColumns="False"
                                               CanUserAddRows="False"
                                               DataGridAttach.IsShowRowNumber="True"
-                                              ItemsSource="{Binding ProNodes}"
+                                              ItemsSource="{Binding Employees}"
                                               SelectionUnit="CellOrRowHeader">
                                         <DataGrid.Columns>
                                             <!--<DataGridHyperlinkColumn Header="Header" Binding="{Binding Name}"></DataGridHyperlinkColumn>-->
@@ -932,9 +932,8 @@
                                                                  ShowPasswordButtonIsTabStop="True" />
 
                                                 <ComboBox VerticalAlignment="Top"
-                                                          DisplayMemberPath="Name"
                                                           Foreground="Red"
-                                                          ItemsSource="{Binding ProNodes}"
+                                                          ItemsSource="{EnumBindingSource EnumType=local:UserPermission}"
                                                           TextBoxAttach.PlaceHolder="IsEditable=False"
                                                           TextBoxAttach.Title="ComboBox："
                                                           TextBoxAttach.TitlePlacement="Top" />
@@ -946,13 +945,13 @@
                                                 <CheckComboBox VerticalAlignment="Top"
                                                                DisplayMemberPath="Name"
                                                                Foreground="Orange"
-                                                               ItemsSource="{Binding ProNodes}"
+                                                               ItemsSource="{Binding Employees}"
                                                                TextBoxAttach.Title="CheckComboBox："
                                                                TextBoxAttach.TitlePlacement="Top" />
                                                 <CheckComboBox VerticalAlignment="Top"
                                                                DisplayMemberPath="Description"
-                                                               ItemsSource="{Binding ProNodes}"
-                                                               SelectedItems="{Binding FileNodeSelectedItems}" />
+                                                               ItemsSource="{Binding Employees}"
+                                                               SelectedItems="{Binding EmployeeSelectedItems}" />
                                                 <Button VerticalAlignment="Top" Click="Button_Click_17">显示选中项</Button>
                                             </WrapPanel>
                                         </GroupBox>
@@ -1037,7 +1036,7 @@
                                                           DisplayMemberPath="Name"
                                                           IsEditable="True"
                                                           IsReadOnly="True"
-                                                          ItemsSource="{Binding ProNodes}"
+                                                          ItemsSource="{Binding Employees}"
                                                           TextBoxAttach.TitleIsHitTestVisible="True">
                                                     <TextBoxAttach.Title>
                                                         <Button>ComboBox：</Button>
