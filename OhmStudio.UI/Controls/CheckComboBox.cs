@@ -1,9 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
+using OhmStudio.UI.Commands;
 
 namespace OhmStudio.UI.Controls
 {
@@ -13,6 +15,9 @@ namespace OhmStudio.UI.Controls
         {
             SetEmpty();
             GotFocus += CheckComboBox_GotFocus;
+            SelectAllCommand = new RelayCommand(() => SelectElement(true));
+            UnselectAllCommand = new RelayCommand(() => SelectElement(false));
+            InvertSelectionCommand = new RelayCommand(() => SelectElement(false, true));
         }
 
         static CheckComboBox()
@@ -22,12 +27,15 @@ namespace OhmStudio.UI.Controls
 
         ListBox PART_ListBox;
         TextBox PART_TextBox;
-        Button PART_Invert;
-        Button PART_SelectAll;
-        Button PART_DeSelectAll;
 
         public static readonly DependencyProperty SelectedItemsProperty =
-            DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(CheckComboBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(CheckComboBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) =>
+            {
+                if (sender is CheckComboBox checkComboBox && checkComboBox.PART_ListBox != null)
+                {
+                    checkComboBox.IsSelectedAll = checkComboBox.SelectedItems.Count > 0 && checkComboBox.SelectedItems.Count == checkComboBox.PART_ListBox.Items.Count;
+                }
+            }));
 
         public IList SelectedItems
         {
@@ -53,22 +61,28 @@ namespace OhmStudio.UI.Controls
             set => SetValue(ItemDisplayStringFormatProperty, value);
         }
 
-        public static readonly DependencyProperty UnSelectedStringFormatProperty =
-            DependencyProperty.Register(nameof(UnSelectedStringFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)"));
+        public static readonly DependencyProperty UnselectedFormatProperty =
+            DependencyProperty.Register(nameof(UnselectedFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)"));
 
-        public string UnSelectedStringFormat
+        public string UnselectedFormat
         {
-            get => (string)GetValue(UnSelectedStringFormatProperty);
-            set => SetValue(UnSelectedStringFormatProperty, value);
+            get => (string)GetValue(UnselectedFormatProperty);
+            set => SetValue(UnselectedFormatProperty, value);
         }
 
-        public static readonly DependencyProperty SelectedAllStringFormatProperty =
-            DependencyProperty.Register(nameof(SelectedAllStringFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(已选择全部)"));
+        public static readonly DependencyProperty SelectedAllFormatProperty =
+            DependencyProperty.Register(nameof(SelectedAllFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(已选择全部)", (sender, e) =>
+            {
+                if (sender is CheckComboBox checkComboBox && checkComboBox.IsSelectedAll && !string.IsNullOrEmpty((string)e.NewValue))
+                {
+                    checkComboBox.SelectedText = (string)e.NewValue;
+                }
+            }));
 
-        public string SelectedAllStringFormat
+        public string SelectedAllFormat
         {
-            get => (string)GetValue(SelectedAllStringFormatProperty);
-            set => SetValue(SelectedAllStringFormatProperty, value);
+            get => (string)GetValue(SelectedAllFormatProperty);
+            set => SetValue(SelectedAllFormatProperty, value);
         }
 
         public static readonly DependencyProperty TextWrappingProperty =
@@ -89,56 +103,44 @@ namespace OhmStudio.UI.Controls
             set => SetValue(SelectedTextProperty, value);
         }
 
+        public static readonly DependencyProperty IsSelectedAllProperty =
+            DependencyProperty.Register(nameof(IsSelectedAll), typeof(bool), typeof(CheckComboBox));
+
+        public bool IsSelectedAll
+        {
+            get => (bool)GetValue(IsSelectedAllProperty);
+            set => SetValue(IsSelectedAllProperty, value);
+        }
+
+        public ICommand SelectAllCommand { get; }
+
+        public ICommand UnselectAllCommand { get; }
+
+        public ICommand InvertSelectionCommand { get; }
+
         public override void OnApplyTemplate()
         {
-            if (PART_Invert != null)
-            {
-                PART_Invert.Click -= PART_Invert_Click;
-            }
-            if (PART_SelectAll != null)
-            {
-                PART_SelectAll.Click -= PART_SelectAll_Click;
-            }
-            if (PART_DeSelectAll != null)
-            {
-                PART_DeSelectAll.Click -= PART_DeSelectAll_Click;
-            }
             if (PART_ListBox != null)
             {
                 PART_ListBox.SelectionChanged -= PART_ListBox_SelectionChanged;
             }
             base.OnApplyTemplate();
-            PART_SelectAll = GetTemplateChild("PART_SelectAll") as Button;
-            PART_DeSelectAll = GetTemplateChild("PART_DeSelectAll") as Button;
-            PART_Invert = GetTemplateChild("PART_Invert") as Button;
             PART_ListBox = GetTemplateChild("PART_ListBox") as ListBox;
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
-            PART_Invert.Click += PART_Invert_Click;
-            PART_SelectAll.Click += PART_SelectAll_Click;
-            PART_DeSelectAll.Click += PART_DeSelectAll_Click;
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
         }
 
-        private void PART_Invert_Click(object sender, RoutedEventArgs e)
+        protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
         {
-            SelectElement(false, true);
+            base.OnItemsSourceChanged(oldValue, newValue);
+            SetEmpty();
         }
 
-        private void PART_DeSelectAll_Click(object sender, RoutedEventArgs e)
-        {
-            SelectElement(false);
-        }
-
-        private void PART_SelectAll_Click(object sender, RoutedEventArgs e)
-        {
-            SelectElement(true);
-        }
-
-        void SelectElement(bool value, bool isInvert = false)
+        public void SelectElement(bool isSelectAll, bool isInvertSelection = false)
         {
             PART_ListBox.SelectionChanged -= PART_ListBox_SelectionChanged;
 
-            if (isInvert)
+            if (isInvertSelection)
             {
                 foreach (var item in PART_ListBox.Items)
                 {
@@ -154,7 +156,7 @@ namespace OhmStudio.UI.Controls
             }
             else
             {
-                if (value)
+                if (isSelectAll)
                 {
                     PART_ListBox.SelectAll();
                 }
@@ -175,65 +177,56 @@ namespace OhmStudio.UI.Controls
             //}
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
             //PART_ListBox_SelectionChanged(PART_ListBox, null);
-            var eventArg = new SelectionChangedEventArgs(SelectionChangedEvent, new List<object>(), new List<object>());
+            var eventArg = new SelectionChangedEventArgs(SelectionChangedEvent, Array.Empty<object>(), Array.Empty<object>());
             PART_ListBox.RaiseEvent(eventArg);
         }
 
         void SetEmpty()
         {
-            SelectedItems = ItemsSource == null ? null : new List<object>();
-            SelectedText = UnSelectedStringFormat;
+            SelectedItems = ItemsSource == null ? null : Array.Empty<object>();
+            SelectedText = UnselectedFormat;
         }
 
         private void PART_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ItemsSource == null || PART_ListBox.SelectedItems.Count == 0)
+            var listBox = sender as ListBox;
+            if (ItemsSource == null || listBox.Items.Count == 0 || listBox.SelectedItems.Count == 0)
             {
                 SetEmpty();
                 return;
             }
-            var array = new object[PART_ListBox.SelectedItems.Count];
-            PART_ListBox.SelectedItems.CopyTo(array, 0);
 
-            if (!string.IsNullOrWhiteSpace(DisplayMemberPath))
+            var array = new object[listBox.SelectedItems.Count];
+            var stringResult = new string[listBox.SelectedItems.Count];
+            listBox.SelectedItems.CopyTo(array, 0);
+
+            for (int i = 0; i < array.Length; i++)
             {
-                for (int i = 0; i < array.Length; i++)
+                Binding binding = new Binding(DisplayMemberPath) { Source = array[i] };
+                TextBlock textBlock = new TextBlock();
+                textBlock.SetBinding(TextBlock.TextProperty, binding);
+                stringResult[i] = textBlock.Text;
+                BindingOperations.ClearAllBindings(textBlock);
+            }
+            SelectedItems = array;
+
+            if (SelectedItems.Count == listBox.Items.Count && !string.IsNullOrEmpty(SelectedAllFormat))
+            {
+                SelectedText = SelectedAllFormat;
+            }
+            else
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < stringResult.Length; i++)
                 {
-                    array[i] = array[i].GetType().GetProperty(DisplayMemberPath)?.GetValue(array[i]);
+                    stringBuilder.Append(string.Format(ItemDisplayStringFormat, stringResult[i]));
+                    if (i < stringResult.Length - 1)
+                    {
+                        stringBuilder.Append(Separator);
+                    }
                 }
+                SelectedText = stringBuilder.ToString();
             }
-
-            IList list = new List<object>();
-            foreach (var item in array)
-            {
-                list.Add(item);
-            }
-            SelectedItems = list;
-
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < list.Count - 1; i++)
-            {
-                stringBuilder.Append(string.Format(ItemDisplayStringFormat, list[i] + Separator));
-            }
-            if (list.Count > 0)
-            {
-                stringBuilder.Append(string.Format(ItemDisplayStringFormat, list[list.Count - 1]));
-            }
-            SelectedText = stringBuilder.ToString();
-            if (list.Count == 0)
-            {
-                SelectedText = UnSelectedStringFormat;
-            }
-            else if (list.Count == ItemsSource.Cast<object>().Count())
-            {
-                SelectedText = SelectedAllStringFormat;
-            }
-        }
-
-        protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
-        {
-            base.OnItemsSourceChanged(oldValue, newValue);
-            SetEmpty();
         }
 
         private void CheckComboBox_GotFocus(object sender, RoutedEventArgs e)

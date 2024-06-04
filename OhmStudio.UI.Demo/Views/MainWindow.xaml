@@ -953,7 +953,7 @@
                                                                DisplayMemberPath="Description"
                                                                ItemsSource="{Binding ProNodes}"
                                                                SelectedItems="{Binding FileNodeSelectedItems}" />
-                                                <Button Click="Button_Click_17">显示选中项</Button>
+                                                <Button VerticalAlignment="Top" Click="Button_Click_17">显示选中项</Button>
                                             </WrapPanel>
                                         </GroupBox>
                                         <GroupBox Margin="10" Header="InputControlWithButtonTitle">
@@ -1051,11 +1051,12 @@
                                                                Height="50"
                                                                HorizontalContentAlignment="Right"
                                                                VerticalContentAlignment="Bottom"
-                                                               ItemDisplayStringFormat="分组{0}"
+                                                               ItemDisplayStringFormat="权限：{0}"
                                                                ItemsSource="{EnumBindingSource EnumType=local:UserPermission,
                                                                                                IsIgnoreZero=True}"
+                                                               SelectedAllFormat="{x:Null}"
                                                                SelectedItems="{Binding CurrentUserPermission}"
-                                                               Separator=";"
+                                                               Separator="；"
                                                                TextBoxAttach.TitleIsHitTestVisible="True"
                                                                TextWrapping="Wrap"
                                                                VirtualizingPanel.ScrollUnit="Pixel">
