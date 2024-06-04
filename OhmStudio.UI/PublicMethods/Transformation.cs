@@ -45,11 +45,14 @@ namespace OhmStudio.UI.PublicMethods
                 return string.Empty;
             }
             StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < count - 1; i++)
+            for (int i = 0; i < count; i++)
             {
-                stringBuilder.Append(bytes.ElementAt(i).ToString("X2") + separator);
+                stringBuilder.Append(bytes.ElementAt(i).ToString("X2"));
+                if (i < count - 1)
+                {
+                    stringBuilder.Append(separator);
+                }
             }
-            stringBuilder.Append(bytes.ElementAt(count - 1).ToString("X2"));
             return stringBuilder.ToString();
         }
 
