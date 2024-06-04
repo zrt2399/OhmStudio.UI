@@ -6,6 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:OhmStudio.UI.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Focusable="True"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -20,8 +21,10 @@
 
     </UserControl.Resources>
 
-    <Border BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" BorderThickness="1">
-        <Grid Background="{DynamicResource SystemColorsWindow}">
+    <Border Background="{DynamicResource SystemColorsWindow}"
+            BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
+            BorderThickness="1">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
@@ -53,31 +56,31 @@
                           Margin="0,-3"
                           PreviewMouseUp="calendar_PreviewMouseUp">
                     <!--<Calendar.CalendarDayButtonStyle>
-                        <Style TargetType="CalendarDayButton">
-                            <Setter Property="Background" Value="White"/>-->
+                    <Style TargetType="CalendarDayButton">
+                        <Setter Property="Background" Value="White"/>-->
                     <!--<Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ContentControl">
-                                        <Button Content="{TemplateBinding Content}"
-                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                          Margin="{TemplateBinding Padding}"
-                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>-->
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ContentControl">
+                                    <Button Content="{TemplateBinding Content}"
+                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                      Margin="{TemplateBinding Padding}"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>-->
                     <!--<Style.Triggers>
-                                <Trigger Property="IsInactive" Value="True">
-                                    <Setter Property="Background" Value="Blue"/>
-                                    <Setter Property="TextElement.Foreground" Value="Blue"/>
-                                </Trigger>
-                                <Trigger Property="IsInactive" Value="False">
-                                    <Setter Property="Background" Value="Red"/>
-                                    <Setter Property="TextElement.Foreground" Value="Red"/>
-                                </Trigger>
-                            </Style.Triggers>-->
+                            <Trigger Property="IsInactive" Value="True">
+                                <Setter Property="Background" Value="Blue"/>
+                                <Setter Property="TextElement.Foreground" Value="Blue"/>
+                            </Trigger>
+                            <Trigger Property="IsInactive" Value="False">
+                                <Setter Property="Background" Value="Red"/>
+                                <Setter Property="TextElement.Foreground" Value="Red"/>
+                            </Trigger>
+                        </Style.Triggers>-->
                     <!--</Style>
-                    </Calendar.CalendarDayButtonStyle>-->
+                </Calendar.CalendarDayButtonStyle>-->
                 </Calendar>
             </Grid>
             <Grid Grid.Row="2" Margin="4">
