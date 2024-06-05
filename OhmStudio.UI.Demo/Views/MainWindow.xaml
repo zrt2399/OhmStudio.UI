@@ -388,6 +388,7 @@
                                         </DataGrid.ContextMenu>
                                     </DataGrid>
                                     <DataGrid CellEditEnding="DataGrid_CellEditEnding"
+                                              DataGridAttach.IsEnableEditBoxAssist="True"
                                               DataGridAttach.IsShowRowNumber="True"
                                               ItemsSource="{Binding Employees}"
                                               RowDetailsVisibilityMode="VisibleWhenSelected"
