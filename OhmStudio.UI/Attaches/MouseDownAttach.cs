@@ -65,24 +65,24 @@ namespace OhmStudio.UI.Attaches
 
         private static void OnCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is not FrameworkElement frameworkElement)
+            if (sender is not UIElement uIElement)
             {
                 return;
             }
 
-            frameworkElement.PreviewMouseDown -= FrameworkElement_PreviewMouseDown;
+            uIElement.PreviewMouseDown -= UIElement_PreviewMouseDown;
 
             if (e.NewValue != null)
             {
-                frameworkElement.PreviewMouseDown += FrameworkElement_PreviewMouseDown;
+                uIElement.PreviewMouseDown += UIElement_PreviewMouseDown;
             }
         }
 
-        private static void FrameworkElement_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private static void UIElement_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (sender is FrameworkElement frameworkElement && e.ClickCount >= GetMouseClickCount(frameworkElement))
+            if (sender is UIElement uIElement && e.ClickCount >= GetMouseClickCount(uIElement))
             {
-                var ignoreElement = GetIgnoreElement(frameworkElement);
+                var ignoreElement = GetIgnoreElement(uIElement);
                 if (!string.IsNullOrEmpty(ignoreElement))
                 {
                     var types = ignoreElement.Split(',');
@@ -94,9 +94,9 @@ namespace OhmStudio.UI.Attaches
                         }
                     }
                 }
-                var command = GetCommand(frameworkElement);
-                var commandParameter = GetCommandParameter(frameworkElement);
-                var mouseClickMode = GetMouseClickMode(frameworkElement);
+                var command = GetCommand(uIElement);
+                var commandParameter = GetCommandParameter(uIElement);
+                var mouseClickMode = GetMouseClickMode(uIElement);
                 if ((mouseClickMode & MouseClickMode.Left) != 0 && e.ChangedButton == MouseButton.Left)
                 {
                     command?.Execute(commandParameter);
