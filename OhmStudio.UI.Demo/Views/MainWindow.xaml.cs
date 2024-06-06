@@ -665,7 +665,7 @@ namespace OhmStudio.UI.Demo.Views
             {
                 treeViewModel.IsEditing = false;
             });
-            RenameFocusCommand = new RelayCommand<TextBox>((textbox) =>
+            RenameVisibleCommand = new RelayCommand<TextBox>((textbox) =>
             {
                 if (textbox.IsVisible)
                 {
@@ -760,7 +760,7 @@ namespace OhmStudio.UI.Demo.Views
 
         public static ICommand EndRenameCommand { get; }
 
-        public static ICommand RenameFocusCommand { get; }
+        public static ICommand RenameVisibleCommand { get; }
 
         public static ICommand ShowPropertiesCommand { get; }
 

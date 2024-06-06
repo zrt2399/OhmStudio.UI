@@ -1176,11 +1176,11 @@
                                                              Text="{Binding Header}"
                                                              Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}">
                                                         <i:Interaction.Triggers>
-                                                            <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=IsKeyboardFocusWithin}" Value="false">
+                                                            <i:EventTrigger EventName="LostFocus">
                                                                 <i:InvokeCommandAction Command="{x:Static local:TreeViewModel.EndRenameCommand}" CommandParameter="{Binding}" />
-                                                            </i:DataTrigger>
+                                                            </i:EventTrigger>
                                                             <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=IsVisible}" Value="true">
-                                                                <i:InvokeCommandAction Command="{x:Static local:TreeViewModel.RenameFocusCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}" />
+                                                                <i:InvokeCommandAction Command="{x:Static local:TreeViewModel.RenameVisibleCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}" />
                                                             </i:DataTrigger>
                                                         </i:Interaction.Triggers>
                                                     </TextBox>
