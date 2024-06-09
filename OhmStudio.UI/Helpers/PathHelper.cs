@@ -126,7 +126,7 @@ namespace OhmStudio.UI.Helpers
         /// <param name="fileName">文件全路径。</param>  
         /// <returns>图标。</returns>  
         public static BitmapSource GetFileIcon(string fileName)
-        { 
+        {
             if (string.IsNullOrEmpty(fileName))
             {
                 return null;
@@ -140,18 +140,22 @@ namespace OhmStudio.UI.Helpers
             //}
             //using System.Drawing.Icon icon = System.Drawing.Icon.FromHandle(_SHFILEINFO.hIcon);
 
-            var extension = Path.GetExtension(fileName).ToLower(); 
-            if (_iconCahe.TryGetValue(extension, out var bitmapSource))
+            var extension = Path.GetExtension(fileName).ToLower();
+            bool ignore = extension != ".exe" && extension != ".lnk";
+            if (ignore && _iconCahe.TryGetValue(extension, out var bitmapSource))
             {
                 return bitmapSource;
             }
 
-            using Icon icon = Icon.ExtractAssociatedIcon(fileName); 
+            using Icon icon = Icon.ExtractAssociatedIcon(fileName);
             var iconBitmapSource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-            _iconCahe.TryAdd(extension, iconBitmapSource);
+            if (ignore)
+            {
+                _iconCahe.TryAdd(extension, iconBitmapSource);
+            } 
             return iconBitmapSource;
         }
-
+         
         /// <summary>  
         /// 获取文件夹图标。
         /// </summary>  
