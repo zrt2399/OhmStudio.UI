@@ -1322,16 +1322,16 @@
                                         &#xe606;
                                     </TextBlock>
                                 </Button>
+                                <Popup x:Name="PART_Popup"
+                                       AllowsTransparency="True"
+                                       IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                       PlacementTarget="{Binding ElementName=Border}"
+                                       PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                                       StaysOpen="False">
+                                    <controls:SystemDropShadowChrome Margin="0,0,5,5" Color="{DynamicResource ControlShadow}" />
+                                </Popup>
                             </Grid>
                         </Border>
-                        <Popup x:Name="PART_Popup"
-                               AllowsTransparency="True"
-                               IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                               PlacementTarget="{Binding ElementName=Border}"
-                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-                               StaysOpen="False">
-                            <controls:SystemDropShadowChrome Margin="0,0,5,5" Color="{DynamicResource ControlShadow}" />
-                        </Popup>
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
