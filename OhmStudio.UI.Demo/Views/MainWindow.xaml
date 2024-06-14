@@ -33,6 +33,7 @@
     <Window.Resources>
 
         <converters:GroupItemConverter x:Key="GroupItemConverter" />
+        <GroupIndexConverter x:Key="GroupIndexConverter" />
         <ListViewIndexConverter x:Key="ListViewIndexConverter" />
         <BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <BoolToNotVisibilityConverter x:Key="BoolToNotVisibilityConverter" />
@@ -290,131 +291,109 @@
                                             </CollectionViewSource.SortDescriptions>
                                         </CollectionViewSource>
                                     </UniformGrid.Resources>
-                                    <DataGrid AutoGenerateColumns="False"
-                                              CanUserAddRows="False"
-                                              DataGridAttach.IsSelectionChangedUpdateRowNumber="True"
-                                              DataGridAttach.IsShowRowNumber="True"
-                                              ItemsSource="{Binding Source={StaticResource ItemCollectionViewSource}}"
-                                              VirtualizingPanel.IsVirtualizing="True"
-                                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                                              VirtualizingPanel.VirtualizationMode="Recycling">
-                                        <!--  定义需要显示的列  -->
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                                            <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
-                                            <DataGridTextColumn Binding="{Binding Password}"
-                                                                DataGridColumnAttach.IsIgnoreElementStyle="True"
-                                                                ElementStyle="{StaticResource TextBlockPassword}"
-                                                                Header="密码" />
-                                            <DataGridTemplateColumn Header="密码">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <PasswordTextBox BorderThickness="0" Password="{Binding Password}" />
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                            <DataGridTemplateColumn Header="时间">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <DateTimePicker BorderThickness="0" Foreground="IndianRed" />
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                        </DataGrid.Columns>
-                                        <DataGrid.GroupStyle>
-                                            <GroupStyle>
-                                                <GroupStyle.ContainerStyle>
-                                                    <Style TargetType="GroupItem">
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate TargetType="GroupItem">
-                                                                    <Expander Background="{DynamicResource DataGridGroupItemHeaderBackground}" IsExpanded="{Binding Path=Items[0].IsExpanded, FallbackValue=True, TargetNullValue=True}">
-                                                                        <Expander.Header>
-                                                                            <StackPanel Orientation="Horizontal">
-                                                                                <TextBlock Margin="0,0,20,0" Text="{Binding Path=Name, StringFormat=分组：{0}}" />
-                                                                                <TextBlock Text="{Binding Path=ItemCount, StringFormat=数量：{0}}" />
-                                                                            </StackPanel>
-                                                                        </Expander.Header>
-                                                                        <ItemsPresenter />
-                                                                    </Expander>
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Style>
-                                                </GroupStyle.ContainerStyle>
-                                            </GroupStyle>
-                                        </DataGrid.GroupStyle>
-                                        <!--<DataGrid.GroupStyle>
-                                            <GroupStyle>
-                                                <GroupStyle.ContainerStyle>
-                                                    <Style TargetType="{x:Type GroupItem}">
-                                                        <Setter Property="Margin" Value="0,0,0,5"/>
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                                    <Expander IsExpanded="True" Background="#FF112255" BorderBrush="#FF002255" Foreground="#FFEEEEEE" BorderThickness="1,1,1,5">
-                                                                        <Expander.Header>
-                                                                            <DockPanel>
-                                                                                <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
-                                                                                <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount}"/>
-                                                                            </DockPanel>
-                                                                        </Expander.Header>
-                                                                        <Expander.Content>
+                                    <GroupBox Margin="10" Header="DataGridWithGroup">
+                                        <DataGrid AutoGenerateColumns="False"
+                                                  CanUserAddRows="False"
+                                                  DataGridAttach.IsSelectionChangedUpdateRowNumber="True"
+                                                  DataGridAttach.IsShowRowNumber="True"
+                                                  ItemsSource="{Binding Source={StaticResource ItemCollectionViewSource}}"
+                                                  VirtualizingPanel.IsVirtualizing="True"
+                                                  VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                                  VirtualizingPanel.VirtualizationMode="Recycling">
+                                            <!--  定义需要显示的列  -->
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                                                <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+                                                <DataGridTextColumn Binding="{Binding Password}"
+                                                                    DataGridColumnAttach.IsIgnoreElementStyle="True"
+                                                                    ElementStyle="{StaticResource TextBlockPassword}"
+                                                                    Header="密码" />
+                                                <DataGridTemplateColumn Header="密码">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <PasswordTextBox BorderThickness="0" Password="{Binding Password}" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTemplateColumn Header="时间">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <DateTimePicker BorderThickness="0" Foreground="IndianRed" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                            <DataGrid.GroupStyle>
+                                                <GroupStyle>
+                                                    <GroupStyle.ContainerStyle>
+                                                        <Style TargetType="GroupItem">
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="GroupItem">
+                                                                        <Expander Background="{DynamicResource DataGridGroupItemHeaderBackground}" IsExpanded="{Binding Path=Items[0].IsExpanded, FallbackValue=True, TargetNullValue=True}">
+                                                                            <Expander.Header>
+                                                                                <StackPanel Orientation="Horizontal">
+                                                                                    <TextBlock>
+                                                                                        <TextBlock.Text>
+                                                                                            <MultiBinding Converter="{StaticResource GroupIndexConverter}">
+                                                                                                <Binding Path="ItemsSource.Groups" RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
+                                                                                                <Binding Path="DataContext" RelativeSource="{RelativeSource Mode=Self}" />
+                                                                                            </MultiBinding>
+                                                                                        </TextBlock.Text>
+                                                                                    </TextBlock>
+                                                                                    <TextBlock Margin="20,0" Text="{Binding Path=Name, StringFormat=分组：{0}}" />
+                                                                                    <TextBlock Text="{Binding Path=ItemCount, StringFormat=数量：{0}}" />
+                                                                                </StackPanel>
+                                                                            </Expander.Header>
                                                                             <ItemsPresenter />
-                                                                        </Expander.Content>
-                                                                    </Expander>
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Style>
-                                                </GroupStyle.ContainerStyle>
-                                            </GroupStyle>
-                                            <GroupStyle>
-                                                <GroupStyle.HeaderTemplate>
-                                                    <DataTemplate>
-                                                        <DockPanel Background="LightBlue">
-                                                            <TextBlock Text="{Binding Path=Name }" Foreground="Blue" Margin="30,0,0,0" Width="100"/>
-                                                            <TextBlock Text="{Binding Path=ItemCount}" Foreground="Blue"/>
-                                                        </DockPanel>
-                                                    </DataTemplate>
-                                                </GroupStyle.HeaderTemplate>
-                                            </GroupStyle>
-                                        </DataGrid.GroupStyle>-->
-                                        <DataGrid.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Click="MenuItem_Click" Header="全部展开" />
-                                                <MenuItem Click="MenuItem_Click_1" Header="全部折叠" />
-                                            </ContextMenu>
-                                        </DataGrid.ContextMenu>
-                                    </DataGrid>
-                                    <DataGrid CellEditEnding="DataGrid_CellEditEnding"
-                                              DataGridAttach.IsEnableEditBoxAssist="True"
-                                              DataGridAttach.IsShowRowNumber="True"
-                                              ItemsSource="{Binding Employees}"
-                                              RowDetailsVisibilityMode="VisibleWhenSelected"
-                                              ScrollViewerAttach.Orientation="Horizontal">
-                                        <DataGrid.RowDetailsTemplate>
-                                            <DataTemplate>
-                                                <DropShadowControl Margin="4"
-                                                                   Background="Orange"
-                                                                   ShadowColor="Orange">
-                                                    <TextBlock Text="{Binding InstrumentType}" />
-                                                </DropShadowControl>
-                                            </DataTemplate>
-                                        </DataGrid.RowDetailsTemplate>
-                                    </DataGrid>
-                                    <DataGrid AutoGenerateColumns="False"
-                                              CanUserAddRows="False"
-                                              DataGridAttach.IsShowRowNumber="True"
-                                              ItemsSource="{Binding Employees}"
-                                              SelectionUnit="CellOrRowHeader">
-                                        <DataGrid.Columns>
-                                            <!--<DataGridHyperlinkColumn Header="Header" Binding="{Binding Name}"></DataGridHyperlinkColumn>-->
-                                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                                            <DataGridCheckBoxColumn Binding="{Binding IsExpanded}" Header="IsExpanded" />
-                                            <DataGridComboBoxColumn Header="Name1" ItemsSource="{EnumBindingSource local:InstrumentType}" />
-                                        </DataGrid.Columns>
-                                    </DataGrid>
+                                                                        </Expander>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </GroupStyle.ContainerStyle>
+                                                </GroupStyle>
+                                            </DataGrid.GroupStyle>
+                                            <DataGrid.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Click="MenuItem_Click" Header="全部展开" />
+                                                    <MenuItem Click="MenuItem_Click_1" Header="全部折叠" />
+                                                </ContextMenu>
+                                            </DataGrid.ContextMenu>
+                                        </DataGrid>
+                                    </GroupBox>
+                                    <GroupBox Margin="10" Header="DataGridWithAutoGenerateColumns">
+                                        <DataGrid CellEditEnding="DataGrid_CellEditEnding"
+                                                  DataGridAttach.IsEnableEditBoxAssist="True"
+                                                  DataGridAttach.IsShowRowNumber="True"
+                                                  ItemsSource="{Binding Employees}"
+                                                  RowDetailsVisibilityMode="VisibleWhenSelected"
+                                                  ScrollViewerAttach.Orientation="Horizontal">
+                                            <DataGrid.RowDetailsTemplate>
+                                                <DataTemplate>
+                                                    <DropShadowControl Margin="4"
+                                                                       Background="Orange"
+                                                                       ShadowColor="Orange">
+                                                        <TextBlock Text="{Binding InstrumentType}" />
+                                                    </DropShadowControl>
+                                                </DataTemplate>
+                                            </DataGrid.RowDetailsTemplate>
+                                        </DataGrid>
+                                    </GroupBox>
+                                    <GroupBox Margin="10" Header="DataGridWithManualGenerateColumns">
+                                        <DataGrid AutoGenerateColumns="False"
+                                                  CanUserAddRows="False"
+                                                  DataGridAttach.IsShowRowNumber="True"
+                                                  ItemsSource="{Binding Employees}"
+                                                  SelectionUnit="CellOrRowHeader">
+                                            <DataGrid.Columns>
+                                                <!--<DataGridHyperlinkColumn Header="Header" Binding="{Binding Name}"></DataGridHyperlinkColumn>-->
+                                                <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                                                <DataGridCheckBoxColumn Binding="{Binding IsExpanded}" Header="IsExpanded" />
+                                                <DataGridComboBoxColumn Header="Name1" ItemsSource="{EnumBindingSource local:InstrumentType}" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </GroupBox>
                                 </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="RollBox">

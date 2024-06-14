@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections;
 using System.Globalization;
 using System.Windows.Data;
 using OhmStudio.UI.Demo.Views;
@@ -10,8 +10,7 @@ namespace OhmStudio.UI.Demo.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var type = value as ReadOnlyObservableCollection<object>;
-            if (type.Count > 0)
+            if (value is IList type && type.Count > 0)
             {
                 return (type[0] as Employee).IsExpanded;
             }
