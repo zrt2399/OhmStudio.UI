@@ -12,6 +12,9 @@ namespace OhmStudio.UI.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DropShadowControl), new FrameworkPropertyMetadata(typeof(DropShadowControl)));
         }
 
+        public static readonly DependencyProperty IsShowShadowProperty =
+           DependencyProperty.Register(nameof(IsShowShadow), typeof(bool), typeof(DropShadowControl), new FrameworkPropertyMetadata(true));
+
         public static readonly DependencyProperty ShadowColorProperty =
             DependencyProperty.Register(nameof(ShadowColor), typeof(Color), typeof(DropShadowControl), new FrameworkPropertyMetadata(Brushes.DarkGray.Color, FrameworkPropertyMetadataOptions.AffectsRender));
 
@@ -32,6 +35,15 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty RenderingBiasProperty =
             DependencyProperty.Register(nameof(RenderingBias), typeof(RenderingBias), typeof(DropShadowControl), new FrameworkPropertyMetadata(RenderingBias.Performance, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        /// <summary>
+        /// 是否显示阴影，默认值为true。
+        /// </summary>
+        public bool IsShowShadow
+        {
+            get => (bool)GetValue(IsShowShadowProperty);
+            set => SetValue(IsShowShadowProperty, value);
+        }
 
         /// <summary>
         /// 阴影颜色，默认值为<see cref="Brushes.DarkGray"/>(#FFA9A9A9)。
