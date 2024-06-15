@@ -386,12 +386,12 @@ namespace OhmStudio.UI.Demo.Views
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(500);
+            await Task.Delay(200);
             var assembly = Assembly.GetAssembly(typeof(ChromeWindow)).GetName().Version.ToString();
             StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < 100; i++)
+            for (int i = 1; i <= 100; i++)
             {
-                stringBuilder.Append(i + "StringBuilder" + Environment.NewLine);
+                stringBuilder.Append("Item:" + i + Environment.NewLine);
             }
 
             AlertDialog.Language = LanguageType.En_US;

@@ -36,11 +36,7 @@
     <converters:FlipToScaleXValueConverter x:Key="FlipToScaleXValueConverter" />
     <converters:FlipToScaleYValueConverter x:Key="FlipToScaleYValueConverter" />
     <converters:CircleProgressBarMarginConverter x:Key="CircleProgressBarMarginConverter" />
-
-    <SolidColorBrush x:Key="Pressed">#FF2E2E2E</SolidColorBrush>
-    <SolidColorBrush x:Key="Focused">#AA555555</SolidColorBrush>
-    <SolidColorBrush x:Key="Disabled">#FFAEABAB</SolidColorBrush>
-
+ 
     <Style x:Key="ContentHostControl" TargetType="Control">
         <Setter Property="Margin" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -165,7 +161,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:DropShadowControl">
                     <controls:SimplePanel>
-                        <Border Background="{TemplateBinding Background}"
+                        <Border Name="ShadowBorder"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="Transparent"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{TemplateBinding CornerRadius}">
@@ -187,6 +184,11 @@
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </controls:SimplePanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsShowShadow" Value="False">
+                            <Setter TargetName="ShadowBorder" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -195,55 +197,47 @@
 
     <Style x:Key="ClassicButton" TargetType="Button">
         <Setter Property="Foreground" Value="Black" />
-        <Setter Property="Background" Value="#FFF2F4F5" />
-        <Setter Property="BorderBrush" Value="#FF96999C" />
+        <Setter Property="Background" Value="#FFE1E1E1" />
+        <Setter Property="BorderBrush" Value="#FFC1C1C1" />
         <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
         <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="attaches:ButtonAttach.PressedBackground" Value="#FFCCE4E7" />
+        <Setter Property="attaches:ButtonAttach.PressedBorderBrush" Value="#FFC1C1C1" />
         <!--<Setter Property="BorderAttach.CornerRadius" Value="2" />-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <controls:SimplePanel Margin="-2">
-                        <Border Name="borderEffect"
-                                Margin="{Binding ElementName=Border, Path=Margin}"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="Transparent"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding ElementName=Border, Path=CornerRadius}"
-                                Visibility="Collapsed">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="6"
-                                                  ShadowDepth="0"
-                                                  Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
-                            </Border.Effect>
-                        </Border>
-                        <Border Name="Border"
-                                Margin="2"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
-                            <ContentPresenter Margin="{TemplateBinding Padding}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Border>
-                    </controls:SimplePanel>
+                    <controls:DropShadowControl x:Name="DropShadowControl"
+                                                Background="{TemplateBinding Background}"
+                                                BlurRadius="6"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                                IsShowShadow="False"
+                                                ShadowColor="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BrushToColorConverter}}"
+                                                ShadowDepth="0">
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </controls:DropShadowControl>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="DropShadowControl" Property="IsShowShadow" Value="True" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="#FF1D1C1C" />
-                            <Setter TargetName="Border" Property="BorderThickness" Value="1" />
+                            <Setter TargetName="DropShadowControl" Property="IsShowShadow" Value="True" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="#FFD1CCCC" />
+                            <Setter Property="Background" Value="{Binding Path=(attaches:ButtonAttach.PressedBackground), RelativeSource={RelativeSource Mode=Self}}" />
+                            <Setter Property="BorderBrush" Value="{Binding Path=(attaches:ButtonAttach.PressedBorderBrush), RelativeSource={RelativeSource Mode=Self}}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="#FFF6F6F6" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="#FFD1D5D6" />
-                            <Setter TargetName="Border" Property="TextElement.Foreground" Value="#FF514949" />
+                            <Setter Property="Background" Value="#FFCCCCCC" />
+                            <Setter Property="BorderBrush" Value="#FFBFBFBF" />
+                            <Setter Property="Foreground" Value="#FF838383" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -251,187 +245,32 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DefaultButton" TargetType="Button">
+    <Style x:Key="ClassicButtonBlue"
+           BasedOn="{StaticResource ClassicButton}"
+           TargetType="Button">
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Background" Value="#FF499FEF" />
         <Setter Property="BorderBrush" Value="#FF2C84DD" />
-        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
-        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <!--<Setter Property="BorderAttach.CornerRadius" Value="2" />-->
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <controls:SimplePanel Margin="-2">
-                        <Border Name="borderEffect"
-                                Margin="{Binding ElementName=Border, Path=Margin}"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="Transparent"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding ElementName=Border, Path=CornerRadius}"
-                                Visibility="Collapsed">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="6"
-                                                  ShadowDepth="0"
-                                                  Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
-                            </Border.Effect>
-                        </Border>
-                        <Border Name="Border"
-                                Margin="2"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
-                            <ContentPresenter Margin="{TemplateBinding Padding}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Border>
-                    </controls:SimplePanel>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
-                        </Trigger>
-                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Focused}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Pressed}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Pressed}" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="#FFF6F6F6" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="#FFD1D5D6" />
-                            <Setter TargetName="Border" Property="TextElement.Foreground" Value="#FF514949" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="attaches:ButtonAttach.PressedBackground" Value="Black" />
+        <Setter Property="attaches:ButtonAttach.PressedBorderBrush" Value="Black" />
     </Style>
 
-    <Style x:Key="FlatButtonGreen" TargetType="Button">
-        <Setter Property="Foreground" Value="White" />
+    <Style x:Key="ClassicButtonGreen"
+           BasedOn="{StaticResource ClassicButtonBlue}"
+           TargetType="Button">
         <Setter Property="Background" Value="#FF1EA973" />
         <Setter Property="BorderBrush" Value="#FF1EA973" />
-        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
-        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <!--<Setter Property="BorderAttach.CornerRadius" Value="2" />-->
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <controls:SimplePanel Margin="-2">
-                        <Border Name="borderEffect"
-                                Margin="{Binding ElementName=Border, Path=Margin}"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="Transparent"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding ElementName=Border, Path=CornerRadius}"
-                                Visibility="Collapsed">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="6"
-                                                  ShadowDepth="0"
-                                                  Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
-                            </Border.Effect>
-                        </Border>
-                        <Border Name="Border"
-                                Margin="2"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
-                            <ContentPresenter Margin="{TemplateBinding Padding}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Border>
-                    </controls:SimplePanel>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="Content" Value="停   止">
-                            <Setter TargetName="Border" Property="Background" Value="#FFCD5C5C" />
-                        </Trigger>
-                        <Trigger Property="Content" Value="Stop">
-                            <Setter TargetName="Border" Property="Background" Value="#FFCD5C5C" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
-                        </Trigger>
-                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Focused}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Pressed}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Pressed}" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Disabled}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Disabled}" />
-                            <Setter TargetName="borderEffect" Property="Visibility" Value="Collapsed" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+
     </Style>
 
-    <Style x:Key="FlatButtonRed" TargetType="Button">
-        <Setter Property="Foreground" Value="White" />
-        <Setter Property="Background" Value="#FFCD5C5C" />
-        <Setter Property="BorderBrush" Value="#FFCD5C5C" />
-        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
-        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <!--<Setter Property="BorderAttach.CornerRadius" Value="2" />-->
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <controls:SimplePanel Margin="-2">
-                        <Border Name="borderEffect"
-                                Margin="{Binding ElementName=Border, Path=Margin}"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="Transparent"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding ElementName=Border, Path=CornerRadius}"
-                                Visibility="Collapsed">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="6"
-                                                  ShadowDepth="0"
-                                                  Color="{Binding ElementName=Border, Path=BorderBrush, Converter={StaticResource BrushToColorConverter}}" />
-                            </Border.Effect>
-                        </Border>
-                        <Border Name="Border"
-                                Margin="2"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
-                            <ContentPresenter Margin="{TemplateBinding Padding}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Border>
-                    </controls:SimplePanel>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="borderEffect" Property="Visibility" Value="Visible" />
-                        </Trigger>
-                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Focused}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Pressed}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Pressed}" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Disabled}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Disabled}" />
-                            <Setter TargetName="borderEffect" Property="Visibility" Value="Collapsed" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="ClassicButtonRed"
+           BasedOn="{StaticResource ClassicButtonBlue}"
+           TargetType="Button">
+        <Setter Property="Background" Value="IndianRed" />
+        <Setter Property="BorderBrush" Value="IndianRed" />
     </Style>
 
-    <Style x:Key="DefaultTabItem" TargetType="TabItem">
+    <Style x:Key="CustomTabItem" TargetType="TabItem">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">

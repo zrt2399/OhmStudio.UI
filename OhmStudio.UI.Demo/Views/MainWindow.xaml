@@ -236,41 +236,43 @@
                     <LayoutDocumentPaneGroup>
                         <LayoutDocumentPane>
                             <LayoutDocument Title="Button">
-                                <UniformGrid Rows="2">
-                                    <Button Click="Button_Click">Click Me</Button>
-                                    <Button Click="Button_Click_1">AlertDialog.Show</Button>
-                                    <Button Click="Button_Click_2">GC</Button>
-                                    <UniformGrid Rows="5">
-                                        <Button Margin="4" Click="Button_Click_9">UIMessageTip.Show</Button>
-                                        <Button Margin="4" Click="Button_Click_10">UIMessageTip.ShowOk</Button>
-                                        <Button Margin="4" Click="Button_Click_11">UIMessageTip.ShowWarning</Button>
-                                        <Button Margin="4" Click="Button_Click_12">UIMessageTip.ShowError</Button>
-                                        <Button Margin="4" Click="Button_Click_13">UIMessageTip.ShowErrorMultiLine</Button>
-                                    </UniformGrid>
-                                    <StackPanel>
-                                        <Button Margin="4"
-                                                HorizontalContentAlignment="Left"
+                                <Grid GridAttach.RowDefinitions="Auto,Auto,Auto,*">
+                                    <StackPanel Margin="0,10" Orientation="Horizontal">
+                                        <Button Margin="10,0" Click="Button_Click">Show MessageBoxResult</Button>
+                                        <Button Margin="10,0" Click="Button_Click_1">AlertDialog.Show</Button>
+                                        <Button Margin="10,0" Click="Button_Click_2">GC</Button>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1"
+                                                Margin="0,10"
+                                                Orientation="Horizontal">
+                                        <Button Margin="10,0" Click="Button_Click_9">UIMessageTip.Show</Button>
+                                        <Button Margin="10,0" Click="Button_Click_10">UIMessageTip.ShowOk</Button>
+                                        <Button Margin="10,0" Click="Button_Click_11">UIMessageTip.ShowWarning</Button>
+                                        <Button Margin="10,0" Click="Button_Click_12">UIMessageTip.ShowError</Button>
+                                        <Button Margin="10,0" Click="Button_Click_13">UIMessageTip.ShowErrorMultiLine</Button>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="2"
+                                                Margin="0,10"
+                                                Orientation="Horizontal">
+                                        <Button Margin="10,0"
                                                 Click="Button_Click_14"
                                                 Style="{StaticResource ClassicButton}">
                                             ClassicButton
                                         </Button>
-                                        <Button Margin="4"
-                                                HorizontalContentAlignment="Center"
-                                                Style="{StaticResource DefaultButton}">
-                                            DefaultButton
+                                        <Button Margin="10,0" Style="{StaticResource ClassicButtonBlue}">
+                                            ClassicButtonBlue
                                         </Button>
-                                        <Button Margin="4"
-                                                HorizontalContentAlignment="Right"
-                                                Style="{StaticResource FlatButtonGreen}">
-                                            FlatButtonGreen
+                                        <Button Margin="10,0"
+                                                ButtonAttach.PressedBackground="IndianRed"
+                                                ButtonAttach.PressedBorderBrush="IndianRed"
+                                                Style="{StaticResource ClassicButtonGreen}">
+                                            ClassicButtonGreen
                                         </Button>
-                                        <Button Margin="4"
-                                                HorizontalContentAlignment="Center"
-                                                Style="{StaticResource FlatButtonRed}">
-                                            FlatButtonRed
+                                        <Button Margin="10,0" Style="{StaticResource ClassicButtonRed}">
+                                            ClassicButtonRed
                                         </Button>
                                     </StackPanel>
-                                </UniformGrid>
+                                </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
                                 <UniformGrid Rows="3">
@@ -1033,7 +1035,7 @@
                                                                ItemDisplayStringFormat="权限：{0}"
                                                                ItemsSource="{EnumBindingSource EnumType=local:UserPermission,
                                                                                                IsIgnoreZero=True}"
-                                                               SelectedAllFormat="{x:Null}"
+                                                               SelectedAllString="{x:Null}"
                                                                SelectedItems="{Binding CurrentUserPermission}"
                                                                Separator="；"
                                                                TextBoxAttach.TitleIsHitTestVisible="True"
