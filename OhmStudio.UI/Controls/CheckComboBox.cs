@@ -61,17 +61,17 @@ namespace OhmStudio.UI.Controls
             set => SetValue(ItemDisplayStringFormatProperty, value);
         }
 
-        public static readonly DependencyProperty UnselectedFormatProperty =
-            DependencyProperty.Register(nameof(UnselectedFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)"));
+        public static readonly DependencyProperty UnselectedstringProperty =
+            DependencyProperty.Register(nameof(Unselectedstring), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)"));
 
-        public string UnselectedFormat
+        public string Unselectedstring
         {
-            get => (string)GetValue(UnselectedFormatProperty);
-            set => SetValue(UnselectedFormatProperty, value);
+            get => (string)GetValue(UnselectedstringProperty);
+            set => SetValue(UnselectedstringProperty, value);
         }
 
-        public static readonly DependencyProperty SelectedAllFormatProperty =
-            DependencyProperty.Register(nameof(SelectedAllFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(已选择全部)", (sender, e) =>
+        public static readonly DependencyProperty SelectedAllStringProperty =
+            DependencyProperty.Register(nameof(SelectedAllString), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(已选择全部)", (sender, e) =>
             {
                 if (sender is CheckComboBox checkComboBox && checkComboBox.IsSelectedAll && !string.IsNullOrEmpty((string)e.NewValue))
                 {
@@ -79,10 +79,10 @@ namespace OhmStudio.UI.Controls
                 }
             }));
 
-        public string SelectedAllFormat
+        public string SelectedAllString
         {
-            get => (string)GetValue(SelectedAllFormatProperty);
-            set => SetValue(SelectedAllFormatProperty, value);
+            get => (string)GetValue(SelectedAllStringProperty);
+            set => SetValue(SelectedAllStringProperty, value);
         }
 
         public static readonly DependencyProperty TextWrappingProperty =
@@ -184,7 +184,7 @@ namespace OhmStudio.UI.Controls
         void SetEmpty()
         {
             SelectedItems = ItemsSource == null ? null : Array.Empty<object>();
-            SelectedText = UnselectedFormat;
+            SelectedText = Unselectedstring;
         }
 
         private void PART_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -210,9 +210,9 @@ namespace OhmStudio.UI.Controls
             }
             SelectedItems = array;
 
-            if (SelectedItems.Count == listBox.Items.Count && !string.IsNullOrEmpty(SelectedAllFormat))
+            if (SelectedItems.Count == listBox.Items.Count && !string.IsNullOrEmpty(SelectedAllString))
             {
-                SelectedText = SelectedAllFormat;
+                SelectedText = SelectedAllString;
             }
             else
             {
