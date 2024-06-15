@@ -27,6 +27,21 @@ Nuget search to download OhmStudio.UI. Please use the latest version and I will 
         </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
 </Application.Resources>
+
+//You can override the following resources, they are all dynamic resources.
+
+//InputControl:Button,TextBox,ComboBox,PasswordBox,SearchBar,PasswordTextBox,DateTimePicker,CheckComboBox.
+<Thickness x:Key="InputControlPadding">2</Thickness>
+<Thickness x:Key="InputControlBorderThickness">1</Thickness>
+
+<Thickness x:Key="ComboBoxItemPadding">1</Thickness>
+<Thickness x:Key="ComboBoxItemMargin">2,0</Thickness>
+
+<Thickness x:Key="ListBoxItemPadding">2,0</Thickness>
+<Thickness x:Key="ListBoxItemMargin">0</Thickness>
+
+<Thickness x:Key="ListViewItemPadding">4,2</Thickness>
+<Thickness x:Key="ListViewItemMargin">0,0,0,1</Thickness>
 ```
 #### Contribution
 
