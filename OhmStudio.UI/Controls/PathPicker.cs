@@ -21,7 +21,10 @@ namespace OhmStudio.UI.Controls
             BrowseCommand = new RelayCommand(Browse);
             ExploreCommand = new RelayCommand(Explore);
             OpenCommand = new RelayCommand(Open);
+            GotFocus += PathPicker_GotFocus;
         }
+
+        TextBox PART_TextBox;
 
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(nameof(Title), typeof(string), typeof(PathPicker), new PropertyMetadata(string.Empty));
@@ -271,6 +274,25 @@ namespace OhmStudio.UI.Controls
             if (FileNames?.Length > 0)
             {
                 PathHelper.OpenFlie(FileNames.First());
+            }
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
+        }
+
+        private void PathPicker_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (!e.Handled && PART_TextBox != null)
+            {
+                if (Equals(e.OriginalSource, this))
+                {
+                    PART_TextBox.Focus();
+                    PART_TextBox.SelectAll();
+                    e.Handled = true;
+                }
             }
         }
     }

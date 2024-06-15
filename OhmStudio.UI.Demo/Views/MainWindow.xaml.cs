@@ -387,7 +387,7 @@ namespace OhmStudio.UI.Demo.Views
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             await Task.Delay(200);
-            var assembly = Assembly.GetAssembly(typeof(ChromeWindow)).GetName().Version.ToString();
+            var version = Assembly.GetAssembly(typeof(ChromeWindow)).GetName().Version.ToString();
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 1; i <= 100; i++)
             {
@@ -395,8 +395,8 @@ namespace OhmStudio.UI.Demo.Views
             }
 
             AlertDialog.Language = LanguageType.En_US;
-            var result = AlertDialog.Show(stringBuilder.ToString(), assembly, MessageBoxButton.YesNoCancel, MessageBoxImage.Error);
-            MessageBox.Show("点击了" + result);
+            var result = AlertDialog.Show(stringBuilder.ToString(), version, MessageBoxButton.YesNoCancel, MessageBoxImage.Error);
+            MessageBox.Show("点击了" + result, version);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

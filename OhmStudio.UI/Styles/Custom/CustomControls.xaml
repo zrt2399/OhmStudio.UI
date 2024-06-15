@@ -36,7 +36,8 @@
     <converters:FlipToScaleXValueConverter x:Key="FlipToScaleXValueConverter" />
     <converters:FlipToScaleYValueConverter x:Key="FlipToScaleYValueConverter" />
     <converters:CircleProgressBarMarginConverter x:Key="CircleProgressBarMarginConverter" />
- 
+    <converters:PathPickerPlaceHolderMarginConverter x:Key="PathPickerPlaceHolderMarginConverter" />
+
     <Style x:Key="ContentHostControl" TargetType="Control">
         <Setter Property="Margin" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -1291,41 +1292,47 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
-                        <DockPanel>
-                            <Button Margin="{TemplateBinding Spacing}"
-                                    Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OpenCommand}"
-                                    Content="{TemplateBinding OpenButtonContent}"
-                                    DockPanel.Dock="Right"
-                                    IsEnabled="{Binding ElementName=PathTextBox, Path=Text, Converter={StaticResource EmptyStringToNotBoolConverter}}"
-                                    Style="{DynamicResource CollapseButton}"
-                                    ToolTip="{TemplateBinding OpenButtonToolTip}" />
-                            <Button Margin="{TemplateBinding Spacing}"
-                                    Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ExploreCommand}"
-                                    Content="{TemplateBinding ExploreButtonContent}"
-                                    DockPanel.Dock="Right"
-                                    IsEnabled="{Binding ElementName=PathTextBox, Path=Text, Converter={StaticResource EmptyStringToNotBoolConverter}}"
-                                    Style="{DynamicResource CollapseButton}"
-                                    ToolTip="{TemplateBinding ExploreButtonToolTip}" />
-                            <Button Margin="{TemplateBinding Spacing}"
-                                    Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BrowseCommand}"
-                                    Content="{TemplateBinding BrowseButtonContent}"
-                                    DockPanel.Dock="Right"
-                                    Style="{DynamicResource CollapseButton}"
-                                    ToolTip="{TemplateBinding BrowseButtonToolTip}" />
-
-                            <DockPanel DockPanel.Dock="Left">
+                        <Grid attaches:GridAttach.ColumnDefinitions="*,Auto,Auto,Auto">
+                            <DockPanel>
                                 <ContentControl Style="{StaticResource TitleWithTemplatedParent}" />
                                 <controls:SimplePanel>
-                                    <TextBox Name="PathTextBox"
+                                    <TextBox Name="PART_TextBox"
                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                              IsReadOnly="{TemplateBinding IsReadOnly}"
                                              Text="{TemplateBinding FileName}"
                                              TextWrapping="{TemplateBinding TextWrapping}" />
-                                    <ContentControl Margin="{Binding ElementName=PathTextBox, Path=Padding}" Style="{StaticResource PlaceHolderWithTemplatedParent}" />
+                                    <ContentControl Style="{StaticResource PlaceHolderWithTemplatedParent}">
+                                        <ContentControl.Margin>
+                                            <MultiBinding Converter="{StaticResource PathPickerPlaceHolderMarginConverter}">
+                                                <Binding ElementName="PART_TextBox" Path="BorderThickness" />
+                                                <Binding ElementName="PART_TextBox" Path="Padding" />
+                                            </MultiBinding>
+                                        </ContentControl.Margin>
+                                    </ContentControl>
                                 </controls:SimplePanel>
                             </DockPanel>
-                        </DockPanel>
+                            <Button Grid.Column="1"
+                                    Margin="{TemplateBinding Spacing}"
+                                    Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OpenCommand}"
+                                    Content="{TemplateBinding OpenButtonContent}"
+                                    IsEnabled="{Binding ElementName=PART_TextBox, Path=Text, Converter={StaticResource EmptyStringToNotBoolConverter}}"
+                                    Style="{DynamicResource CollapseButton}"
+                                    ToolTip="{TemplateBinding OpenButtonToolTip}" />
+                            <Button Grid.Column="2"
+                                    Margin="{TemplateBinding Spacing}"
+                                    Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ExploreCommand}"
+                                    Content="{TemplateBinding ExploreButtonContent}"
+                                    IsEnabled="{Binding ElementName=PART_TextBox, Path=Text, Converter={StaticResource EmptyStringToNotBoolConverter}}"
+                                    Style="{DynamicResource CollapseButton}"
+                                    ToolTip="{TemplateBinding ExploreButtonToolTip}" />
+                            <Button Grid.Column="3"
+                                    Margin="{TemplateBinding Spacing}"
+                                    Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BrowseCommand}"
+                                    Content="{TemplateBinding BrowseButtonContent}"
+                                    Style="{DynamicResource CollapseButton}"
+                                    ToolTip="{TemplateBinding BrowseButtonToolTip}" />
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
