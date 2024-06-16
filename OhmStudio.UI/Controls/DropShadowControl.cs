@@ -15,6 +15,15 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty IsShowShadowProperty =
            DependencyProperty.Register(nameof(IsShowShadow), typeof(bool), typeof(DropShadowControl), new FrameworkPropertyMetadata(true));
 
+        public static readonly DependencyProperty ShadowBrushProperty =
+            DependencyProperty.Register(nameof(ShadowBrush), typeof(SolidColorBrush), typeof(DropShadowControl), new FrameworkPropertyMetadata(Brushes.DarkGray, (sender, e) =>
+            {
+                if (sender is DropShadowControl dropShadowControl)
+                {
+                    dropShadowControl.ShadowColor = e.NewValue is not SolidColorBrush brush ? Brushes.Transparent.Color : brush.Color;
+                }
+            }));
+
         public static readonly DependencyProperty ShadowColorProperty =
             DependencyProperty.Register(nameof(ShadowColor), typeof(Color), typeof(DropShadowControl), new FrameworkPropertyMetadata(Brushes.DarkGray.Color, FrameworkPropertyMetadataOptions.AffectsRender));
 
@@ -43,6 +52,15 @@ namespace OhmStudio.UI.Controls
         {
             get => (bool)GetValue(IsShowShadowProperty);
             set => SetValue(IsShowShadowProperty, value);
+        }
+
+        /// <summary>
+        /// 阴影颜色，默认值为<see cref="Brushes.DarkGray"/>(#FFA9A9A9)。
+        /// </summary>
+        public SolidColorBrush ShadowBrush
+        {
+            get => (SolidColorBrush)GetValue(ShadowBrushProperty);
+            set => SetValue(ShadowBrushProperty, value);
         }
 
         /// <summary>

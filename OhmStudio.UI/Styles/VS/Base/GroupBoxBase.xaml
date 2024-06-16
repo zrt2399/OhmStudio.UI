@@ -34,6 +34,7 @@
                                                     BorderBrush="Transparent"
                                                     BorderThickness="{TemplateBinding BorderThickness}"
                                                     CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    IsShowShadow="{Binding Path=(attaches:DropShadowAttach.IsShowShadow), RelativeSource={RelativeSource TemplatedParent}}"
                                                     RenderingBias="{Binding Path=(attaches:DropShadowAttach.RenderingBias), RelativeSource={RelativeSource TemplatedParent}}"
                                                     ShadowColor="{Binding Path=(attaches:DropShadowAttach.ShadowColor), RelativeSource={RelativeSource TemplatedParent}}"
                                                     ShadowDepth="{Binding Path=(attaches:DropShadowAttach.ShadowDepth), RelativeSource={RelativeSource TemplatedParent}}"
