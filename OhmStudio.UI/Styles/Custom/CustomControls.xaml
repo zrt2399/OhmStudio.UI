@@ -213,7 +213,7 @@
                 <ControlTemplate TargetType="Button">
                     <controls:DropShadowControl x:Name="DropShadowControl"
                                                 Background="{TemplateBinding Background}"
-                                                BlurRadius="6"
+                                                BlurRadius="8"
                                                 BorderBrush="{TemplateBinding BorderBrush}"
                                                 BorderThickness="{TemplateBinding BorderThickness}"
                                                 CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
