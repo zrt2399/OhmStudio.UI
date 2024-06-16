@@ -375,7 +375,7 @@
                                                 <DataTemplate>
                                                     <DropShadowControl Margin="4"
                                                                        Background="Orange"
-                                                                       ShadowColor="Orange">
+                                                                       ShadowBrush="Orange">
                                                         <TextBlock Text="{Binding InstrumentType}" />
                                                     </DropShadowControl>
                                                 </DataTemplate>
@@ -399,16 +399,7 @@
                                 </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="RollBox">
-                                <DockPanel>
-                                    <Grid DockPanel.Dock="Bottom">
-                                        <TextBlock Text="{Binding ElementName=rollBox, Path=RollingInterval, StringFormat=当前滚动间隔：{0}s}" />
-                                        <TextBlock HorizontalAlignment="Right" Text="{Binding ElementName=rollBox, Path=ItemsSource.Count, StringFormat=ItemsSource.Count:{0}}" />
-                                    </Grid>
-                                    <Button Grid.Row="1"
-                                            Click="Button_Click_15"
-                                            DockPanel.Dock="Bottom">
-                                        切换ItemsSource
-                                    </Button>
+                                <Grid GridAttach.RowDefinitions="*,Auto,Auto">
                                     <RollBox Name="rollBox"
                                              DockPanel.Dock="Top"
                                              RollingInterval="3">
@@ -430,8 +421,14 @@
                                             </UniformGrid>
                                         </RollBox.ItemsSource>
                                     </RollBox>
-
-                                </DockPanel>
+                                    <Button Grid.Row="1" Click="Button_Click_15">
+                                        切换ItemsSource
+                                    </Button>
+                                    <Grid Grid.Row="2">
+                                        <TextBlock Text="{Binding ElementName=rollBox, Path=RollingInterval, StringFormat=当前滚动间隔：{0}s}" />
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding ElementName=rollBox, Path=ItemsSource.Count, StringFormat=ItemsSource.Count:{0}}" />
+                                    </Grid>
+                                </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="TextEditor">
                                 <TabControl>
@@ -676,7 +673,11 @@
                                             WrapPanel控件：该控件根据Orientation属性，在垂直叠放控件或者在行中放置控件方面，WrapPanel与StackPanel类似。除了叠放外，WrapPanel还未包含的控件提供了换行支持，因此，如果在WrapPanel
                                             中放入超过其容器宽度的内容时，这些控件被换行显示以形成换行效果。
                                         </TextBlock>
-                                        <TextBox Name="hightLight" VerticalAlignment="Top">白</TextBox>
+                                        <TextBox Name="hightLight"
+                                                 VerticalAlignment="Top"
+                                                 TextBoxAttach.Title="请输入搜索的关键字：">
+                                            白
+                                        </TextBox>
                                     </UniformGrid>
                                 </GroupBox>
                             </LayoutDocument>
@@ -1066,18 +1067,18 @@
                                                             IsSave="True"
                                                             OpenButtonContent="打开文件"
                                                             TextBoxAttach.PlaceHolder="请选择保存的文件路径..."
-                                                            TextBoxAttach.Title="保存文件" />
+                                                            TextBoxAttach.Title="保存文件：" />
                                                 <PathPicker MinWidth="200"
                                                             ExploreButtonContent="打开文件所在位置"
                                                             OpenButtonContent="打开文件"
                                                             TextBoxAttach.PlaceHolder="请选择文件..."
-                                                            TextBoxAttach.Title="打开文件" />
+                                                            TextBoxAttach.Title="打开文件：" />
                                                 <PathPicker MinWidth="200"
                                                             ExploreButtonContent="打开第一个文件所在位置"
                                                             Multiselect="True"
                                                             OpenButtonContent="打开第一个文件"
                                                             TextBoxAttach.PlaceHolder="请选择单个或多个文件..."
-                                                            TextBoxAttach.Title="打开多个文件" />
+                                                            TextBoxAttach.Title="打开多个文件：" />
                                             </StackPanel>
                                         </GroupBox>
                                     </WrapPanel>
