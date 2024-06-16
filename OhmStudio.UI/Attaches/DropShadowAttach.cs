@@ -6,6 +6,15 @@ namespace OhmStudio.UI.Attaches
 {
     public class DropShadowAttach
     {
+        public static readonly DependencyProperty IsShowShadowProperty =
+            DependencyProperty.RegisterAttached("IsShowShadow", typeof(bool), typeof(DropShadowAttach), new FrameworkPropertyMetadata(true));
+
+        public static readonly DependencyProperty ShadowBrushProperty =
+            DependencyProperty.RegisterAttached("ShadowBrush", typeof(SolidColorBrush), typeof(DropShadowAttach), new FrameworkPropertyMetadata(Brushes.Transparent, (sender, e) =>
+            {
+                SetShadowColor(sender, e.NewValue is not SolidColorBrush brush ? Brushes.Transparent.Color : brush.Color);
+            }));
+
         public static readonly DependencyProperty ShadowColorProperty =
             DependencyProperty.RegisterAttached("ShadowColor", typeof(Color), typeof(DropShadowAttach), new FrameworkPropertyMetadata(Brushes.Transparent.Color, FrameworkPropertyMetadataOptions.AffectsRender));
 
@@ -26,6 +35,26 @@ namespace OhmStudio.UI.Attaches
 
         public static readonly DependencyProperty RenderingBiasProperty =
             DependencyProperty.RegisterAttached("RenderingBias", typeof(RenderingBias), typeof(DropShadowAttach), new FrameworkPropertyMetadata(RenderingBias.Performance, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public static void SetIsShowShadow(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsShowShadowProperty, value);
+        }
+
+        public static bool GetIsShowShadow(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsShowShadowProperty);
+        }
+
+        public static void SetShadowBrush(DependencyObject obj, SolidColorBrush value)
+        {
+            obj.SetValue(ShadowBrushProperty, value);
+        }
+
+        public static SolidColorBrush GetShadowBrush(DependencyObject obj)
+        {
+            return (SolidColorBrush)obj.GetValue(ShadowBrushProperty);
+        }
 
         public static void SetShadowColor(DependencyObject obj, Color value)
         {
