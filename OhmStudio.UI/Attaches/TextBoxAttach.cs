@@ -117,7 +117,7 @@ namespace OhmStudio.UI.Attaches
             }
             else if (obj is string value)
             {
-                return string.IsNullOrWhiteSpace(value);
+                return string.IsNullOrEmpty(value);
             }
             return false;
         }
@@ -139,7 +139,7 @@ namespace OhmStudio.UI.Attaches
                     comboBox.SelectionChanged -= ComboBox_SelectionChanged;
                     if (!CheckIsEmpty(GetPlaceHolder(comboBox)))
                     {
-                        UpdateHolderVisibility(comboBox, comboBox.IsEditable ? textBox.Text : comboBox.SelectionBoxItem?.ToString());
+                        UpdateHolderVisibility(comboBox, comboBox.IsEditable ? textBox.Text : comboBox.SelectedItem?.ToString());
                         textBox.TextChanged += ComboBoxTextBox_TextChanged;
                         comboBox.SelectionChanged += ComboBox_SelectionChanged;
                     }
@@ -162,7 +162,7 @@ namespace OhmStudio.UI.Attaches
             ComboBox comboBox = textBox.FindParentObject<ComboBox>();
             if (comboBox.IsEditable)
             {
-                UpdateHolderVisibility(textBox.FindParentObject<ComboBox>(), textBox.Text);
+                UpdateHolderVisibility(comboBox, textBox.Text);
             }
         }
 
