@@ -10,8 +10,8 @@
         <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}" />
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
-        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputElementBorderThickness}" />
+        <Setter Property="Padding" Value="{DynamicResource InputElementPadding}" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Continue" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />

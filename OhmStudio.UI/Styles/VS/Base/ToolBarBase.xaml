@@ -49,8 +49,8 @@
         <Setter Property="Background" Value="{DynamicResource ToolBarButton}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ToolBarButtonBorder}" />
         <Setter Property="Foreground" Value="{DynamicResource ToolBarButtonText}" />
-        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
+        <Setter Property="Padding" Value="{DynamicResource InputElementPadding}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputElementBorderThickness}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -99,8 +99,8 @@
         <Setter Property="Background" Value="{DynamicResource ToolBarButton}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ToolBarButtonBorder}" />
         <Setter Property="Foreground" Value="{DynamicResource ToolBarButtonText}" />
-        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
+        <Setter Property="Padding" Value="{DynamicResource InputElementPadding}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputElementBorderThickness}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />

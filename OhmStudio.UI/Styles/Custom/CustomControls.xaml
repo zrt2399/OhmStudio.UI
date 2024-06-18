@@ -13,8 +13,8 @@
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/TextBoxAttachStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Thickness x:Key="InputControlPadding">2</Thickness>
-    <Thickness x:Key="InputControlBorderThickness">1</Thickness>
+    <Thickness x:Key="InputElementPadding">2</Thickness>
+    <Thickness x:Key="InputElementBorderThickness">1</Thickness>
 
     <Thickness x:Key="ComboBoxItemPadding">1</Thickness>
     <Thickness x:Key="ComboBoxItemMargin">2,0</Thickness>
@@ -53,11 +53,11 @@
 
     <Style x:Key="CustomControlBase" TargetType="Control">
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
+        <Setter Property="Padding" Value="{DynamicResource InputElementPadding}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputElementBorderThickness}" />
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxText}" />
         <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorder}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
     </Style>
 
     <Geometry x:Key="LeftGeometry" o:Freeze="True">M394.24 512L683.52 248.32c10.24-10.24 10.24-25.6 0-35.84-10.24-10.24-25.6-10.24-35.84 0l-307.2 279.04c-5.12 5.12-7.68 12.8-7.68 20.48 0 7.68 2.56 15.36 7.68 20.48l307.2 279.04c10.24 10.24 25.6 10.24 35.84 0 10.24-10.24 10.24-25.6 0-35.84L394.24 512z</Geometry>
@@ -200,8 +200,8 @@
         <Setter Property="Foreground" Value="Black" />
         <Setter Property="Background" Value="#FFE1E1E1" />
         <Setter Property="BorderBrush" Value="#FFC1C1C1" />
-        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
-        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
+        <Setter Property="Padding" Value="{DynamicResource InputElementPadding}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputElementBorderThickness}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />

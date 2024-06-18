@@ -6,8 +6,8 @@
         <Setter Property="Background" Value="{DynamicResource CommonControlsButtonBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsButtonBorder}" />
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsButtonText}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
-        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputElementBorderThickness}" />
+        <Setter Property="Padding" Value="{DynamicResource InputElementPadding}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">

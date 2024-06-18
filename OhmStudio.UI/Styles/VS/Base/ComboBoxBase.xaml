@@ -274,8 +274,8 @@
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxText}" />
         <Setter Property="Background" Value="{DynamicResource CommonControlsComboBoxBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsComboBoxBorder}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource InputControlBorderThickness}" />
-        <Setter Property="Padding" Value="{DynamicResource InputControlPadding}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputElementBorderThickness}" />
+        <Setter Property="Padding" Value="{DynamicResource InputElementPadding}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
