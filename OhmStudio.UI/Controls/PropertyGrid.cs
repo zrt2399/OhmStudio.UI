@@ -156,16 +156,12 @@ namespace OhmStudio.UI.Controls
                 return null;
             }
             PropertyGridAttribute result = new PropertyGridAttribute();
-            var customAttributes = propertyInfo.GetCustomAttributes(false);
-            foreach (var customAttribute in customAttributes)
+            if (propertyInfo.GetCustomAttribute<PropertyGridAttribute>() is PropertyGridAttribute propertyGridAttribute)
             {
-                if (customAttribute is PropertyGridAttribute propertyGridAttribute)
-                {
-                    result.DisplayName = propertyGridAttribute.DisplayName;
-                    result.IsReadOnly = propertyGridAttribute.IsReadOnly;
-                    break;
-                }
+                result.DisplayName = propertyGridAttribute.DisplayName;
+                result.IsReadOnly = propertyGridAttribute.IsReadOnly;
             }
+
             result.DisplayName ??= propertyInfo.Name;
             return result;
         }
@@ -173,7 +169,9 @@ namespace OhmStudio.UI.Controls
         bool IsNotSystemClass(Type type)
         {
             bool isStruct = !type.IsPrimitive && !type.IsEnum && type.IsValueType;
-            return (type.IsClass || type.IsInterface || isStruct) && !type.Namespace.StartsWith("System") && !type.Namespace.StartsWith("Microsoft");
+            return (type.IsClass || type.IsInterface || isStruct) &&
+                !type.Namespace.StartsWith("System", StringComparison.OrdinalIgnoreCase) &&
+                !type.Namespace.StartsWith("Microsoft", StringComparison.OrdinalIgnoreCase);
         }
 
         Binding GetBinding(object obj, PropertyInfo propertyInfo)
@@ -189,14 +187,12 @@ namespace OhmStudio.UI.Controls
 
         BindingFlags GetBindingFlags(Type type)
         {
-            if (type.GetCustomAttribute<BaseObjectIgnoreAttribute>() == null)
+            var flag = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public;
+            if (type.GetCustomAttribute<BaseObjectIgnoreAttribute>() != null)
             {
-                return BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public;
+                flag |= BindingFlags.DeclaredOnly;
             }
-            else
-            {
-                return BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly;
-            }
+            return flag;
         }
 
         void Create(object obj, ObservableCollection<UIElement> itemsControl)
@@ -215,27 +211,24 @@ namespace OhmStudio.UI.Controls
                 }
                 UIElement uIElement = null;
                 bool isUnknown = false;
-
+                Binding binding = GetBinding(obj, item);
                 if (item.PropertyType.IsEnum)
                 {
                     var comboBox = new ComboBox();
-                    Binding selectedItem = GetBinding(obj, item);
                     Binding itemsSource = new Binding() { Source = Enum.GetValues(item.PropertyType) };
-                    comboBox.SetBinding(Selector.SelectedItemProperty, selectedItem);
+                    comboBox.SetBinding(Selector.SelectedItemProperty, binding);
                     comboBox.SetBinding(ItemsControl.ItemsSourceProperty, itemsSource);
                     uIElement = comboBox;
                 }
                 else if (item.PropertyType == typeof(bool) || item.PropertyType == typeof(bool?))
                 {
                     var checkBox = new CheckBox();
-                    Binding binding = GetBinding(obj, item);
                     checkBox.SetBinding(ToggleButton.IsCheckedProperty, binding);
                     uIElement = checkBox;
                 }
                 else if (item.PropertyType == typeof(DateTime) || item.PropertyType == typeof(DateTime?))
                 {
                     var dateTimePicker = new DateTimePicker();
-                    Binding binding = GetBinding(obj, item);
                     dateTimePicker.SetBinding(DateTimePicker.SelectedDateTimeProperty, binding);
                     uIElement = dateTimePicker;
                 }
@@ -245,14 +238,12 @@ namespace OhmStudio.UI.Controls
                     if (passwordAttribute == null)
                     {
                         var textBox = new TextBox();
-                        Binding binding = GetBinding(obj, item);
                         textBox.SetBinding(TextBox.TextProperty, binding);
                         uIElement = textBox;
                     }
                     else
                     {
                         var passwordTextBox = new PasswordTextBox() { CanShowPassword = passwordAttribute.CanShowPassword, PasswordChar = passwordAttribute.PasswordChar };
-                        Binding binding = GetBinding(obj, item);
                         passwordTextBox.SetBinding(PasswordTextBox.PasswordProperty, binding);
                         uIElement = passwordTextBox;
                     }
@@ -260,7 +251,6 @@ namespace OhmStudio.UI.Controls
                 else if (typeof(IEnumerable).IsAssignableFrom(item.PropertyType))
                 {
                     var comboBox = new ComboBox();
-                    Binding binding = GetBinding(obj, item);
                     comboBox.SetBinding(ItemsControl.ItemsSourceProperty, binding);
                     comboBox.SelectedIndex = 0;
                     uIElement = comboBox;
@@ -288,7 +278,7 @@ namespace OhmStudio.UI.Controls
                         BorderBrush = Brushes.Transparent,
                         Background = Brushes.Transparent,
                         BorderThickness = new Thickness(0),
-                        Tag = "Title"
+                        Tag = "Text_Title"
                     };
                     SetPlaceHolder(item, uIElement);
                     SetVirtualizing(item, uIElement);
@@ -317,7 +307,7 @@ namespace OhmStudio.UI.Controls
                     var max = _widths.Max();
                     foreach (var panel in itemsControl.OfType<DockPanel>())
                     {
-                        foreach (var text in panel.Children.OfType<TextBox>().Where(x => x.Tag?.ToString() == "Title" && (double.IsNaN(x.Width) || x.Width < max)))
+                        foreach (var text in panel.Children.OfType<TextBox>().Where(x => x.Tag?.ToString() == "Text_Title" && (double.IsNaN(x.Width) || x.Width < max)))
                         {
                             text.Width = max;
                         }
