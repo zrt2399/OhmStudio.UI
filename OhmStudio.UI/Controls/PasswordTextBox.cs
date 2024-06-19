@@ -20,7 +20,7 @@ namespace OhmStudio.UI.Controls
         PasswordBox PART_PasswordBox;
         public event DependencyPropertyChangedEventHandler TextChanged;
 
-        public string Text => Password;
+        string ITextChanged.Text => Password;
 
         public const char DefaultPasswordChar = '●';
 

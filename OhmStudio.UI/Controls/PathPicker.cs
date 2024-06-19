@@ -25,6 +25,9 @@ namespace OhmStudio.UI.Controls
         }
 
         TextBox PART_TextBox;
+        public event DependencyPropertyChangedEventHandler TextChanged;
+
+        string ITextChanged.Text => FileName;
 
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(nameof(Title), typeof(string), typeof(PathPicker), new PropertyMetadata(string.Empty));
@@ -89,8 +92,6 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty SpacingProperty =
             DependencyProperty.Register(nameof(Spacing), typeof(Thickness), typeof(PathPicker), new PropertyMetadata(new Thickness(4, 0, 0, 0)));
-
-        public event DependencyPropertyChangedEventHandler TextChanged;
 
         public ICommand BrowseCommand { get; }
 
@@ -208,8 +209,6 @@ namespace OhmStudio.UI.Controls
             get => (string)GetValue(SpacingProperty);
             set => SetValue(SpacingProperty, value);
         }
-
-        public string Text => FileName;
 
         private void Browse()
         {

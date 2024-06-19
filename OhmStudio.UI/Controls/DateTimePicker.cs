@@ -29,6 +29,8 @@ namespace OhmStudio.UI.Controls
         Popup PART_Popup;
         public event DependencyPropertyChangedEventHandler TextChanged;
 
+        string ITextChanged.Text => DateTimeText;
+
         public bool IsDateOnly
         {
             get => (bool)GetValue(IsDateOnlyProperty);
@@ -184,8 +186,6 @@ namespace OhmStudio.UI.Controls
 
         public ICommand CalendarClickCommand { get; }
 
-        public string Text => DateTimeText;
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -222,14 +222,15 @@ namespace OhmStudio.UI.Controls
 
         private void PART_TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (DateTime.TryParse(PART_TextBox.Text.Trim(), out var result))
+            var textBox = (TextBox)sender;
+            if (DateTime.TryParse(textBox.Text.Trim(), out var result))
             {
                 SelectedDateTime = result;
             }
             else
             {
                 //var format = textBoxDateTime.GetBindingExpression(TextBox.TextProperty)?.ParentBinding.StringFormat;
-                PART_TextBox.Text = SelectedDateTime?.ToString(DateTimeFormat);
+                DateTimeText = SelectedDateTime?.ToString(DateTimeFormat);
             }
         }
 
