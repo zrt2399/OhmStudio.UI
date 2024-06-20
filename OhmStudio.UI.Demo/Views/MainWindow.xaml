@@ -37,6 +37,7 @@
         <ListViewIndexConverter x:Key="ListViewIndexConverter" />
         <BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <BoolToNotVisibilityConverter x:Key="BoolToNotVisibilityConverter" />
+
     </Window.Resources>
 
     <ChromeWindow.LeftWindowCommands>
@@ -674,7 +675,7 @@
                                             中放入超过其容器宽度的内容时，这些控件被换行显示以形成换行效果。
                                         </TextBlock>
                                         <TextBox Name="hightLight"
-                                                 VerticalAlignment="Top"
+                                                 VerticalAlignment="Center"
                                                  TextBoxAttach.Title="请输入搜索的关键字：">
                                             白
                                         </TextBox>
