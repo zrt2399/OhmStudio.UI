@@ -9,7 +9,7 @@ namespace OhmStudio.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (bool.TryParse(value?.ToString(), out bool result) && result)
+            if (value is bool result && result)
             {
                 return Visibility.Visible;
             }
@@ -30,7 +30,7 @@ namespace OhmStudio.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!bool.TryParse(value?.ToString(), out bool result) || !result)
+            if (value is not bool result || !result)
             {
                 return Visibility.Visible;
             }

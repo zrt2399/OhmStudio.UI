@@ -8,14 +8,7 @@ namespace OhmStudio.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (double.TryParse(value?.ToString(), out var result))
-            {
-                return result / 2;
-            }
-            else
-            {
-                return 0d;
-            }
+            return System.Convert.ToDouble(value) / 2;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -23,4 +16,4 @@ namespace OhmStudio.UI.Converters
             throw new NotImplementedException();
         }
     }
-} 
+}

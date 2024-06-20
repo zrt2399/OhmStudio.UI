@@ -9,7 +9,7 @@ namespace OhmStudio.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (double.TryParse(value?.ToString(), out double result))
+            if (value is double result)
             {
                 double radius = 50;
                 var piang = result * Math.PI / 180;

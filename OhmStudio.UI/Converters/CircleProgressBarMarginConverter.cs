@@ -11,7 +11,7 @@ namespace OhmStudio.UI.Converters
         {
             if (values != null && values.Length >= 2)
             {
-                return new Thickness(Math.Max(System.Convert.ToDouble(values[0]), System.Convert.ToDouble(values[1])) / 2);
+                return new Thickness(Math.Max((double)values[0], (double)values[1]) / 2);
             }
             return new Thickness(0);
         }

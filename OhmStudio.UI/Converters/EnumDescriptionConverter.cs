@@ -5,9 +5,9 @@ using System.Reflection;
 
 namespace OhmStudio.UI.Converters
 {
-    public class EnumDescriptionTypeConverter : EnumConverter
+    public class EnumDescriptionConverter : EnumConverter
     {
-        public EnumDescriptionTypeConverter(Type type) : base(type) { }
+        public EnumDescriptionConverter(Type type) : base(type) { }
 
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
@@ -25,11 +25,10 @@ namespace OhmStudio.UI.Converters
             {
                 FieldInfo fieldInfo = obj.GetType().GetField(obj.ToString());
                 if (fieldInfo != null)
-                {
-                    var attributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-                    if (attributes.Length > 0 && !string.IsNullOrEmpty(attributes[0].Description))
+                { 
+                    if (fieldInfo.GetCustomAttribute<DescriptionAttribute>(false) is DescriptionAttribute descriptionAttribute && !string.IsNullOrEmpty(descriptionAttribute.Description))
                     {
-                        return attributes[0].Description;
+                        return descriptionAttribute.Description;
                     }
                     else
                     {

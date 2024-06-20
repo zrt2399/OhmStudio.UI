@@ -8,7 +8,7 @@ namespace OhmStudio.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return double.TryParse(value?.ToString(), out double result) && result > 180;
+            return value is double result && result > 180;
         }
 
         public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)

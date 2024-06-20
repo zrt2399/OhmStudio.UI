@@ -13,7 +13,10 @@ namespace OhmStudio.UI.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is TreeViewItem item) return new Thickness(Length * GetDepth(item), 0, 0, 0);
+            if (value is TreeViewItem item)
+            {
+                return new Thickness(Length * GetDepth(item), 0, 0, 0);
+            }
 
             return new Thickness(0);
         }

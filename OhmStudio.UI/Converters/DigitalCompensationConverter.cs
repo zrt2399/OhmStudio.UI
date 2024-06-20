@@ -8,11 +8,7 @@ namespace OhmStudio.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (double.TryParse(value?.ToString(), out var result))
-            {
-                return result + System.Convert.ToDouble(parameter);
-            }
-            return default(double);
+            return System.Convert.ToDouble(value) + System.Convert.ToDouble(parameter);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

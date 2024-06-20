@@ -13,10 +13,10 @@ namespace OhmStudio.UI.Converters
             {
                 if (num < double.Epsilon || num2 < double.Epsilon)
                 {
-                    return 0.0;
+                    return 0d;
                 }
 
-                return Math.Min(num, num2) / 2.0;
+                return Math.Min(num, num2) / 2;
             }
 
             return DependencyProperty.UnsetValue;
@@ -27,4 +27,4 @@ namespace OhmStudio.UI.Converters
             throw new NotSupportedException();
         }
     }
-} 
+}

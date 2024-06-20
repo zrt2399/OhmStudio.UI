@@ -827,7 +827,7 @@ namespace OhmStudio.UI.Demo.Views
         public List<string> DateTimes { get; set; } = new List<string>() { "123", "456", "789", "abc", "↑↓←→" };
     }
 
-    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
+    [TypeConverter(typeof(EnumDescriptionConverter))]
     public enum InstrumentType
     {
         [Description("I/O控制单元")]
@@ -929,7 +929,7 @@ namespace OhmStudio.UI.Demo.Views
     }
 
     [Flags]
-    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
+    [TypeConverter(typeof(EnumDescriptionConverter))]
     public enum UserPermission
     {
         [Description("无")]
