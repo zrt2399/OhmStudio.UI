@@ -30,6 +30,10 @@ using OhmStudio.UI.Helpers;
 using OhmStudio.UI.Messaging;
 using OhmStudio.UI.PublicMethods;
 using PropertyChanged;
+using ScottPlot;
+using Colors = ScottPlot.Colors;
+using Fonts = ScottPlot.Fonts;
+using Image = System.Windows.Controls.Image;
 
 namespace OhmStudio.UI.Demo.Views
 {
@@ -173,6 +177,65 @@ namespace OhmStudio.UI.Demo.Views
             UserInfos.Add(new UserInfoModel() { UserName = "rose", Password = "123456" });
             StatusManager.IsRunningChanged += StatusManager_IsRunningChanged;
             XamlThemeDictionary.ThemeChanged += XamlThemeDictionary_ThemeChanged;
+
+            //wpfPlot.Plot.ScaleFactor = 1.2;
+
+            int diameter = 100;
+            int radius = diameter / 2;
+            int numPoints = 360; // Number of points to generate
+
+            double[] xCoords = new double[numPoints];
+            double[] yCoords = new double[numPoints];
+
+            for (int i = 0; i < numPoints; i++)
+            {
+                double angle = i * Math.PI / 180; // Convert degree to radians
+                xCoords[i] = radius * Math.Cos(angle);
+                yCoords[i] = radius * Math.Sin(angle);
+            }
+            //wpfPlot.Plot.Axes.au= "OPPOSans M";
+            //wpfPlot.Plot.Add.Circle(new Coordinates(0, 0), 50);
+            //wpfPlot.Plot.Add.VerticalSpan(0, 50);
+            //wpfPlot.Plot.Add.HorizontalLine(0);
+
+            // 添加柱形图
+            //wpfPlot.Plot.Add.Bar(new Bar() { ValueBase = 100, Label = "abc" });
+
+
+            wpfPlot.Plot.Add.Signal(Generate.Sin());
+            wpfPlot.Plot.Add.Signal(Generate.Cos());
+
+            wpfPlot.Plot.Axes.Title.Label.Text = "这是标题";
+            wpfPlot.Plot.Axes.Title.Label.ForeColor = Colors.RebeccaPurple;
+            wpfPlot.Plot.Axes.Title.Label.FontSize = 32;
+            wpfPlot.Plot.Axes.Title.Label.FontName = "微软雅黑";
+            //wpfPlot.Plot.Axes.Title.Label.Rotation = -5;
+            wpfPlot.Plot.Axes.Title.Label.Bold = false;
+
+            wpfPlot.Plot.Axes.Left.Label.Text = "Vertical Axis";
+            wpfPlot.Plot.Axes.Left.Label.ForeColor = Colors.Magenta;
+            wpfPlot.Plot.Axes.Left.Label.Italic = true;
+
+            wpfPlot.Plot.Axes.Bottom.Label.Text = "Horizontal Axis";
+            wpfPlot.Plot.Axes.Bottom.Label.Bold = false;
+            wpfPlot.Plot.Axes.Bottom.Label.FontName = Fonts.Monospace;
+
+
+            //wpfPlot.Plot.Add.Signal(Generate.Cos());
+
+            //wpfPlot.Plot.SavePng("demo.png", 400, 300);
+
+            wpfPlot.Plot.Style.DarkMode();
+
+            //wpfPlot.Plot.Axes.Color(Color.FromHex("#d7d7d7"));
+
+            //wpfPlot.Plot.Grid.MajorLineColor = Color.FromHex("#404040");
+            //wpfPlot.Plot.FigureBackground.Color = Color.FromHex("#181818");
+            //wpfPlot.Plot.DataBackground.Color = Color.FromHex("#1f1f1f");
+
+            //wpfPlot.Plot.Legend.BackgroundColor = Color.FromHex("#404040");
+            //wpfPlot.Plot.Legend.FontColor = Color.FromHex("#d7d7d7");
+            //wpfPlot.Plot.Legend.OutlineColor = Color.FromHex("#d7d7d7");
         }
 
         bool _can;

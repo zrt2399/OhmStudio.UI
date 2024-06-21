@@ -12,6 +12,7 @@
               xmlns:omhui="http://ohmstudio.ui.com"
               xmlns:oxy="http://oxyplot.org/wpf"
               xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+              xmlns:scottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
               Title="{x:Static demo:App.Name}"
               Width="1280"
               Height="720"
@@ -746,7 +747,9 @@
                                         </ItemsControl.ItemTemplate>
                                     </ListBox>
                                 </DockPanel>
-
+                            </LayoutDocument>
+                            <LayoutDocument Title="ScottPlot">
+                                <scottPlot:WpfPlot x:Name="wpfPlot" FontFamily="OPPOSans M"/>
                             </LayoutDocument>
                             <LayoutDocument Title="Other"
                                             CanClose="False"
