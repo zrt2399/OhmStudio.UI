@@ -747,22 +747,6 @@
                                     </ListBox>
                                 </DockPanel>
                             </LayoutDocument>
-                            <LayoutDocument Title="NumericUpDown">
-                                <StackPanel HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Orientation="Horizontal">
-                                    <TextBox VerticalAlignment="Top" Text="{Binding NumericUpDownValue}" />
-                                    <NumericUpDown VerticalAlignment="Top"
-                                                   IsReadOnly="True"
-                                                   Maximum="100.99"
-                                                   Minimum="-100"
-                                                   StringFormat="${0}"
-                                                   TextBoxAttach.Title="价格："
-                                                   Value="{Binding NumericUpDownValue}" />
-                                    <ComboBox VerticalAlignment="Top" />
-                                </StackPanel>
-
-                            </LayoutDocument>
                             <LayoutDocument Title="Other"
                                             CanClose="False"
                                             Description="其他"
@@ -910,8 +894,19 @@
                                                          TextBoxAttach.PlaceHolder="请输入文本..."
                                                          TextBoxAttach.Title="TextBox："
                                                          TextBoxAttach.TitlePlacement="Top" />
-                                                <TextBox VerticalAlignment="Top" Foreground="Blue" />
 
+                                                <TextBox VerticalAlignment="Top"
+                                                         Foreground="CornflowerBlue"
+                                                         Text="{Binding NumericUpDownValue}" />
+                                                <NumericUpDown x:Name="NumericUpDown"
+                                                               VerticalAlignment="Top"
+                                                               Maximum="100"
+                                                               Minimum="-100"
+                                                               StringFormat="${0}"
+                                                               TextBoxAttach.Title="价格："
+                                                               TextBoxAttach.TitlePlacement="Top"
+                                                               Value="{Binding NumericUpDownValue}" />
+                                                <NumericUpDown VerticalAlignment="Top" />
                                                 <PasswordBox VerticalAlignment="Top"
                                                              Foreground="Purple"
                                                              TextBoxAttach.PlaceHolder="请输入密码..."
