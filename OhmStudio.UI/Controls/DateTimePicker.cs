@@ -31,12 +31,6 @@ namespace OhmStudio.UI.Controls
 
         string ITextChanged.Text => DateTimeText;
 
-        public bool IsDateOnly
-        {
-            get => (bool)GetValue(IsDateOnlyProperty);
-            set => SetValue(IsDateOnlyProperty, value);
-        }
-
         public static readonly DependencyProperty IsDateOnlyProperty =
             DependencyProperty.Register(nameof(IsDateOnly), typeof(bool), typeof(DateTimePicker), new PropertyMetadata((sender, e) =>
             {
@@ -47,39 +41,11 @@ namespace OhmStudio.UI.Controls
                 }
             }));
 
-        public string DateTimeFormat
-        {
-            get => (string)GetValue(DateTimeFormatProperty);
-            set => SetValue(DateTimeFormatProperty, value);
-        }
-
         public static readonly DependencyProperty DateTimeFormatProperty =
-            DependencyProperty.Register(nameof(DateTimeFormat), typeof(string), typeof(DateTimePicker), new PropertyMetadata("yyyy/MM/dd HH:mm:ss", (sender, e) =>
-            {
-                if (sender is DateTimePicker dateTimePicker)
-                {
-                    var format = e.NewValue as string;
-                    dateTimePicker.DateTimeText = dateTimePicker.SelectedDateTime?.ToString(format);
-                }
-            }));
-
-        /// <summary>
-        /// 日期时间文本框是否只读。
-        /// </summary>
-        public bool IsReadOnly
-        {
-            get => (bool)GetValue(IsReadOnlyProperty);
-            set => SetValue(IsReadOnlyProperty, value);
-        }
+            DependencyProperty.Register(nameof(DateTimeFormat), typeof(string), typeof(DateTimePicker), new PropertyMetadata("yyyy/MM/dd HH:mm:ss", UpdateDateTimeText));
 
         public static readonly DependencyProperty IsReadOnlyProperty =
             DependencyProperty.Register(nameof(IsReadOnly), typeof(bool), typeof(DateTimePicker));
-
-        public DateTime? DisplayDateStart
-        {
-            get => (DateTime?)GetValue(DisplayDateStartProperty);
-            set => SetValue(DisplayDateStartProperty, value);
-        }
 
         public static readonly DependencyProperty DisplayDateStartProperty =
             DependencyProperty.Register(nameof(DisplayDateStart), typeof(DateTime?), typeof(DateTimePicker), new PropertyMetadata((sender, e) =>
@@ -94,12 +60,6 @@ namespace OhmStudio.UI.Controls
                 }
             }));
 
-        public DateTime? DisplayDateEnd
-        {
-            get => (DateTime?)GetValue(DisplayDateEndProperty);
-            set => SetValue(DisplayDateEndProperty, value);
-        }
-
         public static readonly DependencyProperty DisplayDateEndProperty =
             DependencyProperty.Register(nameof(DisplayDateEnd), typeof(DateTime?), typeof(DateTimePicker), new PropertyMetadata((sender, e) =>
             {
@@ -113,38 +73,14 @@ namespace OhmStudio.UI.Controls
                 }
             }));
 
-        public DayOfWeek FirstDayOfWeek
-        {
-            get => (DayOfWeek)GetValue(FirstDayOfWeekProperty);
-            set => SetValue(FirstDayOfWeekProperty, value);
-        }
-
         public static readonly DependencyProperty FirstDayOfWeekProperty =
             DependencyProperty.Register(nameof(FirstDayOfWeek), typeof(DayOfWeek), typeof(DateTimePicker), new PropertyMetadata(DayOfWeek.Monday));
 
-        /// <summary>
-        /// 获取或设置当前设置的日期和时间。
-        /// </summary>
-        public DateTime? SelectedDateTime
-        {
-            get => (DateTime?)GetValue(SelectedDateTimeProperty);
-            set => SetValue(SelectedDateTimeProperty, value);
-        }
-
         public static readonly DependencyProperty SelectedDateTimeProperty =
-            DependencyProperty.Register(nameof(SelectedDateTime), typeof(DateTime?), typeof(DateTimePicker), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) =>
-            {
-                if (sender is DateTimePicker dateTimePicker)
-                {
-                    dateTimePicker.UpdateDateTimeText(e.NewValue as DateTime?);
-                }
-            }));
+            DependencyProperty.Register(nameof(SelectedDateTime), typeof(DateTime?), typeof(DateTimePicker), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, UpdateDateTimeText));
 
-        internal string DateTimeText
-        {
-            get => (string)GetValue(DateTimeTextProperty);
-            set => SetValue(DateTimeTextProperty, value);
-        }
+        public static readonly DependencyProperty IsDropDownOpenProperty =
+            DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(DateTimePicker));
 
         internal static readonly DependencyProperty DateTimeTextProperty =
             DependencyProperty.Register(nameof(DateTimeText), typeof(string), typeof(DateTimePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) =>
@@ -155,14 +91,65 @@ namespace OhmStudio.UI.Controls
                 }
             }));
 
+        public bool IsDateOnly
+        {
+            get => (bool)GetValue(IsDateOnlyProperty);
+            set => SetValue(IsDateOnlyProperty, value);
+        }
+
+        public string DateTimeFormat
+        {
+            get => (string)GetValue(DateTimeFormatProperty);
+            set => SetValue(DateTimeFormatProperty, value);
+        }
+
+        /// <summary>
+        /// 日期时间文本框是否只读。
+        /// </summary>
+        public bool IsReadOnly
+        {
+            get => (bool)GetValue(IsReadOnlyProperty);
+            set => SetValue(IsReadOnlyProperty, value);
+        }
+
+        public DateTime? DisplayDateStart
+        {
+            get => (DateTime?)GetValue(DisplayDateStartProperty);
+            set => SetValue(DisplayDateStartProperty, value);
+        }
+
+        public DateTime? DisplayDateEnd
+        {
+            get => (DateTime?)GetValue(DisplayDateEndProperty);
+            set => SetValue(DisplayDateEndProperty, value);
+        }
+
+        public DayOfWeek FirstDayOfWeek
+        {
+            get => (DayOfWeek)GetValue(FirstDayOfWeekProperty);
+            set => SetValue(FirstDayOfWeekProperty, value);
+        }
+
+        /// <summary>
+        /// 获取或设置当前设置的日期和时间。
+        /// </summary>
+        public DateTime? SelectedDateTime
+        {
+            get => (DateTime?)GetValue(SelectedDateTimeProperty);
+            set => SetValue(SelectedDateTimeProperty, value);
+        }
+
         public bool IsDropDownOpen
         {
             get => (bool)GetValue(IsDropDownOpenProperty);
             set => SetValue(IsDropDownOpenProperty, value);
         }
 
-        public static readonly DependencyProperty IsDropDownOpenProperty =
-            DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(DateTimePicker));
+        internal string DateTimeText
+        {
+            get => (string)GetValue(DateTimeTextProperty);
+            set => SetValue(DateTimeTextProperty, value);
+        }
 
         public ICommand CalendarClickCommand { get; }
 
@@ -189,10 +176,10 @@ namespace OhmStudio.UI.Controls
                 IsDropDownOpen = false;//TDateTimeView 所在pop 关闭
                 //PART_TextBox?.Focus();
             };
-            (PART_Popup.Child as SystemDropShadowChrome).Child = dateTimeView;
+            (PART_Popup.Child as Decorator).Child = dateTimeView;
         }
 
-        static void CoerceDisplayDate(DateTimePicker dateTimePicker)
+        private static void CoerceDisplayDate(DateTimePicker dateTimePicker)
         {
             if (dateTimePicker.DisplayDateStart > dateTimePicker.DisplayDateEnd)
             {
@@ -200,19 +187,27 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        private void UpdateDateTimeText(DateTime? dateTime)
+        private static void UpdateDateTimeText(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            if (DisplayDateStart != null && dateTime != null && dateTime < DisplayDateStart)
+            if (sender is DateTimePicker dateTimePicker)
+            {
+                dateTimePicker.UpdateDateTimeText();
+            }
+        }
+
+        private void UpdateDateTimeText()
+        { 
+            if (DisplayDateStart != null && SelectedDateTime != null && SelectedDateTime < DisplayDateStart)
             {
                 SelectedDateTime = DisplayDateStart;
             }
-            else if (DisplayDateEnd != null && dateTime != null && dateTime > DisplayDateEnd)
+            else if (DisplayDateEnd != null && SelectedDateTime != null && SelectedDateTime > DisplayDateEnd)
             {
                 SelectedDateTime = DisplayDateEnd;
             }
             else
             {
-                DateTimeText = dateTime?.ToString(DateTimeFormat);
+                DateTimeText = SelectedDateTime?.ToString(DateTimeFormat);
             }
         }
 
@@ -223,15 +218,14 @@ namespace OhmStudio.UI.Controls
             {
                 if (SelectedDateTime == result)
                 {
-                    UpdateDateTimeText(result);
+                    UpdateDateTimeText();
                 }
                 SelectedDateTime = result;
             }
             else
             {
                 //var format = textBoxDateTime.GetBindingExpression(TextBox.TextProperty)?.ParentBinding.StringFormat;
-                //DateTimeText = SelectedDateTime?.ToString(DateTimeFormat);
-                UpdateDateTimeText(SelectedDateTime);
+                UpdateDateTimeText();
             }
         }
 
