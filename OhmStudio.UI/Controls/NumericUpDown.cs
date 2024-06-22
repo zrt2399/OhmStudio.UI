@@ -27,10 +27,10 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(ValueText), typeof(string), typeof(NumericUpDown), new PropertyMetadata("0"));
 
         internal static readonly DependencyProperty IsIncreaseEnabledProperty =
-            DependencyProperty.Register(nameof(IsIncreaseEnabled), typeof(bool), typeof(NumericUpDown));
+            DependencyProperty.Register(nameof(IsIncreaseEnabled), typeof(bool), typeof(NumericUpDown), new PropertyMetadata(true));
 
         internal static readonly DependencyProperty IsReduceEnabledProperty =
-            DependencyProperty.Register(nameof(IsReduceEnabled), typeof(bool), typeof(NumericUpDown));
+            DependencyProperty.Register(nameof(IsReduceEnabled), typeof(bool), typeof(NumericUpDown), new PropertyMetadata(true));
 
         public static readonly DependencyProperty IncrementProperty =
             DependencyProperty.Register(nameof(Increment), typeof(double), typeof(NumericUpDown), new PropertyMetadata(1d));
@@ -52,22 +52,10 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(IsReadOnly), typeof(bool), typeof(NumericUpDown));
 
         public static readonly DependencyProperty StringFormatProperty =
-            DependencyProperty.Register(nameof(StringFormat), typeof(string), typeof(NumericUpDown), new PropertyMetadata("{0}", (sender, e) =>
-            {
-                if (sender is NumericUpDown numericUpDown)
-                {
-                    numericUpDown.UpdateValueText(numericUpDown.Value);
-                }
-            }));
+            DependencyProperty.Register(nameof(StringFormat), typeof(string), typeof(NumericUpDown), new PropertyMetadata("{0}", UpdateValueText));
 
         public static readonly DependencyProperty ValueFormatProperty =
-            DependencyProperty.Register(nameof(ValueFormat), typeof(string), typeof(NumericUpDown), new PropertyMetadata((sender, e) =>
-            {
-                if (sender is NumericUpDown numericUpDown)
-                {
-                    numericUpDown.UpdateValueText(numericUpDown.Value);
-                }
-            }));
+            DependencyProperty.Register(nameof(ValueFormat), typeof(string), typeof(NumericUpDown), new PropertyMetadata(UpdateValueText));
 
         public static readonly DependencyProperty MaximumProperty =
             DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(NumericUpDown), new PropertyMetadata(double.MaxValue, (sender, e) =>
@@ -98,13 +86,8 @@ namespace OhmStudio.UI.Controls
             }));
 
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register(nameof(Value), typeof(double), typeof(NumericUpDown), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) =>
-            {
-                if (sender is NumericUpDown numericUpDown && e.NewValue is double newValue)
-                {
-                    numericUpDown.UpdateValueText(newValue);
-                }
-            }));
+            DependencyProperty.Register(nameof(Value), typeof(double), typeof(NumericUpDown),
+                new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal, UpdateValueText));
 
         internal string ValueText
         {
@@ -208,14 +191,14 @@ namespace OhmStudio.UI.Controls
             {
                 if (Value == result)
                 {
-                    UpdateValueText(result);
+                    UpdateValueText();
                 }
                 Value = result;
             }
             else
             {
                 //ValueText = string.Format(FormatString, Value.ToString(Format));
-                UpdateValueText(Value);
+                UpdateValueText();
             }
         }
 
@@ -227,7 +210,15 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        private void UpdateValueText(double newValue)
+        private static void UpdateValueText(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is NumericUpDown numericUpDown)
+            {
+                numericUpDown.UpdateValueText();
+            }
+        }
+
+        private void UpdateValueText()
         {
             if (Value < Minimum)
             {
@@ -239,11 +230,11 @@ namespace OhmStudio.UI.Controls
             }
             else
             {
-                var integer = (long)newValue;
-                ValueText = string.Format(StringFormat, integer == newValue ? integer.ToString(ValueFormat) : newValue.ToString(ValueFormat));
+                var integer = (long)Value;
+                ValueText = string.Format(StringFormat, integer == Value ? integer.ToString(ValueFormat) : Value.ToString(ValueFormat));
 
-                IsIncreaseEnabled = newValue < Maximum;
-                IsReduceEnabled = newValue > Minimum;
+                IsIncreaseEnabled = Value < Maximum;
+                IsReduceEnabled = Value > Minimum;
             }
         }
 
