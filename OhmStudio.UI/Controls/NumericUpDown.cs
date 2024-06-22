@@ -35,6 +35,19 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty IncrementProperty =
             DependencyProperty.Register(nameof(Increment), typeof(double), typeof(NumericUpDown), new PropertyMetadata(1d));
 
+        public static readonly DependencyProperty IsMouseWheelProperty =
+            DependencyProperty.Register(nameof(IsMouseWheel), typeof(bool), typeof(NumericUpDown), new PropertyMetadata(true, (sender, e) =>
+            {
+                if (sender is NumericUpDown numericUpDown && e.NewValue is bool newValue)
+                {
+                    numericUpDown.PreviewMouseWheel -= NumericUpDown_PreviewMouseWheel;
+                    if (newValue)
+                    {
+                        numericUpDown.PreviewMouseWheel += NumericUpDown_PreviewMouseWheel;
+                    }
+                }
+            }));
+
         public static readonly DependencyProperty IsReadOnlyProperty =
             DependencyProperty.Register(nameof(IsReadOnly), typeof(bool), typeof(NumericUpDown));
 
@@ -115,6 +128,12 @@ namespace OhmStudio.UI.Controls
         {
             get => (double)GetValue(IncrementProperty);
             set => SetValue(IncrementProperty, value);
+        }
+
+        public bool IsMouseWheel
+        {
+            get => (bool)GetValue(IsMouseWheelProperty);
+            set => SetValue(IsMouseWheelProperty, value);
         }
 
         public bool IsReadOnly
@@ -242,15 +261,16 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        private void NumericUpDown_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        private static void NumericUpDown_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            var numericUpDown = (NumericUpDown)sender;
             if (e.Delta > 0)
             {
-                Increase();
+                numericUpDown.Increase();
             }
             else
             {
-                Reduce();
+                numericUpDown.Reduce();
             }
         }
 
