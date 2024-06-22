@@ -125,7 +125,7 @@ namespace OhmStudio.UI.Controls
         }
 
         private static readonly DependencyPropertyKey DataPropertyKey =
-            DependencyProperty.RegisterReadOnly(nameof(Data), typeof(string), typeof(PackIcon), new PropertyMetadata(""));
+            DependencyProperty.RegisterReadOnly(nameof(Data), typeof(string), typeof(PackIcon), new PropertyMetadata(string.Empty));
 
         // ReSharper disable once StaticMemberInGenericType
         public static readonly DependencyProperty DataProperty = DataPropertyKey.DependencyProperty;

@@ -1403,4 +1403,76 @@
     </Style>
     <Style BasedOn="{StaticResource PackIconBaseStyle}" TargetType="controls:PackIcon" />
 
+    <Style x:Key="NumericUpDownBaseStyle"
+           BasedOn="{StaticResource CustomControlBase}"
+           TargetType="controls:NumericUpDown">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:NumericUpDown">
+                    <DockPanel>
+                        <ContentControl Style="{StaticResource TitleWithTemplatedParent}" />
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                SnapsToDevicePixels="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox Name="PART_TextBox"
+                                         attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
+                                         attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
+                                         IsReadOnly="{TemplateBinding IsReadOnly}"
+                                         Text="{Binding ValueText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
+                                <Grid Grid.Column="1" attaches:GridAttach.RowDefinitions="*,*">
+                                    <Grid.Resources>
+                                        <Style TargetType="Path">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                            <Setter Property="Fill" Value="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
+                                        </Style>
+                                    </Grid.Resources>
+                                    <Button Padding="2"
+                                            Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IncreaseCommand}"
+                                            IsEnabled="{TemplateBinding IsIncreaseEnabled}">
+                                        <Path Data="M 0 3 L 3 0 L 6 3 Z" />
+                                    </Button>
+                                    <Button Grid.Row="1"
+                                            Padding="2"
+                                            Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ReduceCommand}"
+                                            IsEnabled="{TemplateBinding IsReduceEnabled}">
+                                        <Path Data="M 0 0 L 3 3 L 6 0 Z" />
+                                    </Button>
+                                </Grid>
+                                <!--<UniformGrid Grid.Column="1" Columns="1" />-->
+                            </Grid>
+                        </Border>
+                    </DockPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
+                            <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
+                            <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />-->
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
+                            <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextFocused}" />-->
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
+                            <!--<Setter TargetName="Calendar" Property="Foreground" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />-->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style BasedOn="{StaticResource NumericUpDownBaseStyle}" TargetType="controls:NumericUpDown" />
+
 </ResourceDictionary>

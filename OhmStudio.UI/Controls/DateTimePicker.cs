@@ -84,17 +84,13 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty DisplayDateStartProperty =
             DependencyProperty.Register(nameof(DisplayDateStart), typeof(DateTime?), typeof(DateTimePicker), new PropertyMetadata((sender, e) =>
             {
-                if (sender is DateTimePicker dateTimePicker)
+                if (sender is DateTimePicker dateTimePicker && e.NewValue is DateTime dateTime)
                 {
-                    var dateTime = e.NewValue as DateTime?;
-                    if (dateTime != null)
+                    if (dateTime > dateTimePicker.SelectedDateTime)
                     {
-                        if (dateTime > dateTimePicker.SelectedDateTime)
-                        {
-                            dateTimePicker.SelectedDateTime = null;
-                        }
-                        CheckDisplayDateStart(dateTimePicker);
+                        dateTimePicker.SelectedDateTime = null;
                     }
+                    CoerceDisplayDate(dateTimePicker);
                 }
             }));
 
@@ -107,17 +103,13 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty DisplayDateEndProperty =
             DependencyProperty.Register(nameof(DisplayDateEnd), typeof(DateTime?), typeof(DateTimePicker), new PropertyMetadata((sender, e) =>
             {
-                if (sender is DateTimePicker dateTimePicker)
+                if (sender is DateTimePicker dateTimePicker && e.NewValue is DateTime dateTime)
                 {
-                    var dateTime = e.NewValue as DateTime?;
-                    if (dateTime != null)
+                    if (dateTime < dateTimePicker.SelectedDateTime)
                     {
-                        if (dateTime < dateTimePicker.SelectedDateTime)
-                        {
-                            dateTimePicker.SelectedDateTime = null;
-                        }
-                        CheckDisplayDateStart(dateTimePicker);
+                        dateTimePicker.SelectedDateTime = null;
                     }
+                    CoerceDisplayDate(dateTimePicker);
                 }
             }));
 
@@ -144,19 +136,7 @@ namespace OhmStudio.UI.Controls
             {
                 if (sender is DateTimePicker dateTimePicker)
                 {
-                    var datetime = e.NewValue as DateTime?;
-                    if (dateTimePicker.DisplayDateStart != null && datetime != null && datetime < dateTimePicker.DisplayDateStart)
-                    {
-                        dateTimePicker.SelectedDateTime = dateTimePicker.DisplayDateStart;
-                    }
-                    else if (dateTimePicker.DisplayDateEnd != null && datetime != null && datetime > dateTimePicker.DisplayDateEnd)
-                    {
-                        dateTimePicker.SelectedDateTime = dateTimePicker.DisplayDateEnd;
-                    }
-                    else
-                    {
-                        dateTimePicker.DateTimeText = datetime?.ToString(dateTimePicker.DateTimeFormat);
-                    }
+                    dateTimePicker.UpdateDateTimeText(e.NewValue as DateTime?);
                 }
             }));
 
@@ -212,11 +192,27 @@ namespace OhmStudio.UI.Controls
             (PART_Popup.Child as SystemDropShadowChrome).Child = dateTimeView;
         }
 
-        static void CheckDisplayDateStart(DateTimePicker dateTimePicker)
+        static void CoerceDisplayDate(DateTimePicker dateTimePicker)
         {
             if (dateTimePicker.DisplayDateStart > dateTimePicker.DisplayDateEnd)
             {
                 dateTimePicker.DisplayDateEnd = dateTimePicker.DisplayDateStart;
+            }
+        }
+
+        private void UpdateDateTimeText(DateTime? dateTime)
+        {
+            if (DisplayDateStart != null && dateTime != null && dateTime < DisplayDateStart)
+            {
+                SelectedDateTime = DisplayDateStart;
+            }
+            else if (DisplayDateEnd != null && dateTime != null && dateTime > DisplayDateEnd)
+            {
+                SelectedDateTime = DisplayDateEnd;
+            }
+            else
+            {
+                DateTimeText = dateTime?.ToString(DateTimeFormat);
             }
         }
 
@@ -225,12 +221,17 @@ namespace OhmStudio.UI.Controls
             var textBox = (TextBox)sender;
             if (DateTime.TryParse(textBox.Text.Trim(), out var result))
             {
+                if (SelectedDateTime == result)
+                {
+                    UpdateDateTimeText(result);
+                }
                 SelectedDateTime = result;
             }
             else
             {
                 //var format = textBoxDateTime.GetBindingExpression(TextBox.TextProperty)?.ParentBinding.StringFormat;
-                DateTimeText = SelectedDateTime?.ToString(DateTimeFormat);
+                //DateTimeText = SelectedDateTime?.ToString(DateTimeFormat);
+                UpdateDateTimeText(SelectedDateTime);
             }
         }
 

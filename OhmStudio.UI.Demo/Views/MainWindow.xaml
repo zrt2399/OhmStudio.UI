@@ -12,7 +12,6 @@
               xmlns:omhui="http://ohmstudio.ui.com"
               xmlns:oxy="http://oxyplot.org/wpf"
               xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-              xmlns:scottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
               Title="{x:Static demo:App.Name}"
               Width="1280"
               Height="720"
@@ -748,8 +747,21 @@
                                     </ListBox>
                                 </DockPanel>
                             </LayoutDocument>
-                            <LayoutDocument Title="ScottPlot">
-                                <scottPlot:WpfPlot x:Name="wpfPlot" FontFamily="OPPOSans M"/>
+                            <LayoutDocument Title="NumericUpDown">
+                                <StackPanel HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                    <TextBox VerticalAlignment="Top" Text="{Binding NumericUpDownValue}" />
+                                    <NumericUpDown VerticalAlignment="Top"
+                                                   IsReadOnly="True"
+                                                   Maximum="100.99"
+                                                   Minimum="-100"
+                                                   StringFormat="${0}"
+                                                   TextBoxAttach.Title="价格："
+                                                   Value="{Binding NumericUpDownValue}" />
+                                    <ComboBox VerticalAlignment="Top" />
+                                </StackPanel>
+
                             </LayoutDocument>
                             <LayoutDocument Title="Other"
                                             CanClose="False"
