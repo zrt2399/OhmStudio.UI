@@ -103,10 +103,11 @@ namespace OhmStudio.UI.Attaches
                 }
             }));
 
-        private static void ITextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        { 
+        private static void ITextChanged(object sender, TextChangedEventArgs e)
+        {
             var dependencyObject = sender as DependencyObject;
-            UpdateHolderVisibility(dependencyObject, e.NewValue?.ToString());
+            var textBox = e.Source as TextBox;
+            UpdateHolderVisibility(dependencyObject, textBox?.Text);
         }
 
         private static bool CheckIsEmpty(object obj)

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace OhmStudio.UI.Controls
@@ -18,7 +17,7 @@ namespace OhmStudio.UI.Controls
 
         TextBox PART_TextBox;
         PasswordBox PART_PasswordBox;
-        public event DependencyPropertyChangedEventHandler TextChanged;
+        public event TextChangedEventHandler TextChanged;
 
         string ITextChanged.Text => Password;
 
@@ -152,15 +151,7 @@ namespace OhmStudio.UI.Controls
 
         // Using a DependencyProperty as the backing store for Password.  This enables animation,styling,binding,etc...
         public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.Register("Password", typeof(string), typeof(PasswordTextBox), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) =>
-            {
-                //根据密码框是否有内容来显示符号"x"
-                if (sender is PasswordTextBox passwordTextBox)
-                {
-                    passwordTextBox.TextChanged?.Invoke(sender, e);
-                    passwordTextBox.ClearVisibility = string.IsNullOrEmpty(passwordTextBox.Password) ? Visibility.Collapsed : Visibility.Visible;
-                }
-            }));
+            DependencyProperty.Register("Password", typeof(string), typeof(PasswordTextBox), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public static readonly DependencyProperty ClearButtonIsTabStopProperty =
             DependencyProperty.Register(nameof(ClearButtonIsTabStop), typeof(bool), typeof(PasswordTextBox));
@@ -182,9 +173,21 @@ namespace OhmStudio.UI.Controls
 
         public override void OnApplyTemplate()
         {
+            if (PART_TextBox != null)
+            {
+                PART_TextBox.TextChanged -= PART_TextBox_TextChanged;
+            }
             base.OnApplyTemplate();
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
             PART_PasswordBox = GetTemplateChild("PART_PasswordBox") as PasswordBox;
+            PART_TextBox.TextChanged += PART_TextBox_TextChanged;
+        }
+
+        private void PART_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextChanged?.Invoke(this, e);
+            var textBox = sender as TextBox;
+            ClearVisibility = string.IsNullOrEmpty(textBox?.Text) ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void PasswordTextBox_GotFocus(object sender, RoutedEventArgs e)

@@ -27,7 +27,7 @@ namespace OhmStudio.UI.Controls
 
         TextBox PART_TextBox;
         Popup PART_Popup;
-        public event DependencyPropertyChangedEventHandler TextChanged;
+        public event TextChangedEventHandler TextChanged;
 
         string ITextChanged.Text => DateTimeText;
 
@@ -83,13 +83,7 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(DateTimePicker));
 
         internal static readonly DependencyProperty DateTimeTextProperty =
-            DependencyProperty.Register(nameof(DateTimeText), typeof(string), typeof(DateTimePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) =>
-            {
-                if (sender is DateTimePicker dateTimePicker)
-                {
-                    dateTimePicker.TextChanged?.Invoke(sender, e);
-                }
-            }));
+            DependencyProperty.Register(nameof(DateTimeText), typeof(string), typeof(DateTimePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public bool IsDateOnly
         {
@@ -155,14 +149,16 @@ namespace OhmStudio.UI.Controls
 
         public override void OnApplyTemplate()
         {
-            base.OnApplyTemplate();
             if (PART_TextBox != null)
             {
                 PART_TextBox.LostFocus -= PART_TextBox_LostFocus;
+                PART_TextBox.TextChanged -= PART_TextBox_TextChanged;
             }
+            base.OnApplyTemplate();
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
             PART_Popup = GetTemplateChild("PART_Popup") as Popup;
             PART_TextBox.LostFocus += PART_TextBox_LostFocus;
+            PART_TextBox.TextChanged += PART_TextBox_TextChanged;
             TDateTimeView dateTimeView = new TDateTimeView(this);// TDateTimeView  构造函数传入日期时间
             dateTimeView.DateTimeOK += (datetime) => //TDateTimeView 日期时间确定事件
             {
@@ -177,6 +173,11 @@ namespace OhmStudio.UI.Controls
                 //PART_TextBox?.Focus();
             };
             (PART_Popup.Child as Decorator).Child = dateTimeView;
+        }
+
+        private void PART_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextChanged?.Invoke(this, e);
         }
 
         private static void CoerceDisplayDate(DateTimePicker dateTimePicker)
@@ -196,7 +197,7 @@ namespace OhmStudio.UI.Controls
         }
 
         private void UpdateDateTimeText()
-        { 
+        {
             if (DisplayDateStart != null && SelectedDateTime != null && SelectedDateTime < DisplayDateStart)
             {
                 SelectedDateTime = DisplayDateStart;

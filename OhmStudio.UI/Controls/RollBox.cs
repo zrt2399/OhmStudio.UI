@@ -171,11 +171,11 @@ namespace OhmStudio.UI.Controls
         /// </summary>
         public override void OnApplyTemplate()
         {
-            base.OnApplyTemplate();
             if (PART_ListBox != null)
             {
                 PART_ListBox.SelectionChanged -= PART_ListBox_SelectionChanged;
             }
+            base.OnApplyTemplate();
             PART_CURR_Content = GetTemplateChild("PART_CURR_Content") as ContentControl;
             //PART_NEXT_Content = GetTemplateChild("PART_NEXT_Content") as ContentControl;
             PART_ListBox = GetTemplateChild("PART_ListBox") as ListBox;

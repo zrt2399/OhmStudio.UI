@@ -25,7 +25,7 @@ namespace OhmStudio.UI.Controls
         }
 
         TextBox PART_TextBox;
-        public event DependencyPropertyChangedEventHandler TextChanged;
+        public event TextChangedEventHandler TextChanged;
 
         string ITextChanged.Text => FileName;
 
@@ -42,17 +42,7 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(Multiselect), typeof(bool), typeof(PathPicker));
 
         public static readonly DependencyProperty FileNameProperty =
-            DependencyProperty.Register(nameof(FileName), typeof(string), typeof(PathPicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) =>
-            {
-                if (sender is PathPicker pathPicker)
-                {
-                    pathPicker.TextChanged?.Invoke(sender, e);
-                    if (!pathPicker.Multiselect)
-                    {
-                        pathPicker.FileNames = new string[] { e.NewValue?.ToString() };
-                    }
-                }
-            }));
+            DependencyProperty.Register(nameof(FileName), typeof(string), typeof(PathPicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public static readonly DependencyProperty FileNamesProperty =
             DependencyProperty.Register(nameof(FileNames), typeof(string[]), typeof(PathPicker), new FrameworkPropertyMetadata(Array.Empty<string>(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -278,8 +268,23 @@ namespace OhmStudio.UI.Controls
 
         public override void OnApplyTemplate()
         {
+            if (PART_TextBox != null)
+            {
+                PART_TextBox.TextChanged -= PART_TextBox_TextChanged;
+            }
             base.OnApplyTemplate();
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
+            PART_TextBox.TextChanged += PART_TextBox_TextChanged;
+        }
+
+        private void PART_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextChanged?.Invoke(this, e);
+            if (!Multiselect)
+            {
+                var textBox = sender as TextBox;
+                FileNames = new string[] { textBox?.Text };
+            }
         }
 
         private void PathPicker_GotFocus(object sender, RoutedEventArgs e)

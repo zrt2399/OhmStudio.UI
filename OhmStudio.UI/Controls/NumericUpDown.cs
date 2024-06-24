@@ -161,11 +161,11 @@ namespace OhmStudio.UI.Controls
 
         public override void OnApplyTemplate()
         {
-            base.OnApplyTemplate();
             if (PART_TextBox != null)
             {
                 PART_TextBox.LostFocus -= PART_TextBox_LostFocus;
             }
+            base.OnApplyTemplate();
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
             PART_TextBox.LostFocus += PART_TextBox_LostFocus;
         }
