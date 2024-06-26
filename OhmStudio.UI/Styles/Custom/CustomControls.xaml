@@ -271,6 +271,48 @@
         <Setter Property="BorderBrush" Value="IndianRed" />
     </Style>
 
+    <Style x:Key="Win10Button"
+           BasedOn="{StaticResource ClassicButton}"
+           TargetType="Button">
+        <Setter Property="BorderBrush" Value="#FFADADAD" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <controls:DropShadowControl Background="{TemplateBinding Background}"
+                                                BlurRadius="4"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                                ShadowColor="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BrushToColorConverter}}"
+                                                ShadowDepth="0">
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </controls:DropShadowControl>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FFE5F1FB" />
+                            <Setter Property="BorderBrush" Value="#FF0078D7" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter Property="Background" Value="#FFE1E1E1" />
+                            <Setter Property="BorderBrush" Value="#FF0078D7" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="#FFCCE4F7" />
+                            <Setter Property="BorderBrush" Value="#FF005499" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="#FFCCCCCC" />
+                            <Setter Property="BorderBrush" Value="#FFBFBFBF" />
+                            <Setter Property="Foreground" Value="#FF838383" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="CustomTabItem" TargetType="TabItem">
         <Setter Property="Template">
             <Setter.Value>
@@ -325,8 +367,7 @@
                 <ControlTemplate TargetType="controls:SearchBar">
                     <DockPanel>
                         <ContentControl Style="{StaticResource TitleWithTemplatedParent}" />
-                        <Border Name="Border"
-                                Background="{TemplateBinding Background}"
+                        <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
@@ -365,19 +406,19 @@
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
                             <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
                             <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />-->
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
                             <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextFocused}" />-->
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
                             <Setter TargetName="Search" Property="Foreground" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -414,18 +455,20 @@
         <Setter Property="Height" Value="24" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Background" Value="#D3D3D3" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
                     <Viewbox>
-                        <Border x:Name="toggleBorder"
-                                Width="40"
+                        <Border Width="40"
                                 Height="24"
                                 VerticalAlignment="Center"
                                 attaches:CornerRadiusAttach.IsCircular="True"
-                                Background="#D3D3D3"
-                                BorderBrush="Transparent"
-                                BorderThickness="0">
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
                             <Ellipse Name="ellipse"
                                      Width="18"
                                      Height="18"
@@ -436,7 +479,7 @@
                     </Viewbox>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="toggleBorder" Property="Background" Value="#65C468" />
+                            <Setter Property="Background" Value="#65C468" />
                             <Setter TargetName="ellipse" Property="HorizontalAlignment" Value="Right" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -447,7 +490,7 @@
                                 <Condition Property="IsChecked" Value="True" />
                                 <Condition Property="IsEnabled" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="toggleBorder" Property="Background" Value="#8FBC8F" />
+                            <Setter Property="Background" Value="#8FBC8F" />
                             <Setter TargetName="ellipse" Property="Fill" Value="LightGray" />
                         </MultiTrigger>
                         <MultiTrigger>
@@ -455,7 +498,7 @@
                                 <Condition Property="IsChecked" Value="False" />
                                 <Condition Property="IsEnabled" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="toggleBorder" Property="Background" Value="#BEBEBE" />
+                            <Setter Property="Background" Value="#BEBEBE" />
                             <Setter TargetName="ellipse" Property="Fill" Value="LightGray" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
@@ -560,7 +603,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="Bd"
+                    <Border x:Name="bd"
                             Padding="{TemplateBinding Padding}"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
@@ -575,13 +618,13 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="ep" Property="Fill" Value="Gray" />
-                            <Setter TargetName="Bd" Property="Opacity" Value="0.8" />
+                            <Setter TargetName="bd" Property="Opacity" Value="0.8" />
                         </Trigger>
                         <!--<MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="ep" Property="Fill" Value="red" />
+                            <Setter TargetName="ep" Property="Fill" Value="Red" />
                         </MultiTrigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -666,8 +709,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <Border Name="Border"
-                                        Padding="{TemplateBinding Padding}"
+                                <Border Padding="{TemplateBinding Padding}"
                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                         Background="{TemplateBinding Background}"
@@ -692,18 +734,18 @@
                                         <MultiTrigger.Conditions>
                                             <Condition Property="IsMouseOver" Value="True" />
                                         </MultiTrigger.Conditions>
-                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemMouseOverBackground}" />
-                                        <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemMouseOverBorder}" />
+                                        <Setter Property="Background" Value="{DynamicResource ListBoxItemMouseOverBackground}" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource ListBoxItemMouseOverBorder}" />
                                         <Setter Property="Foreground" Value="{DynamicResource ListBoxItemMouseOverForeground}" />
                                     </MultiTrigger>
                                     <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemSelectedActiveBackground}" />
-                                        <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemSelectedActiveBorder}" />
+                                        <Setter Property="Background" Value="{DynamicResource ListBoxItemSelectedActiveBackground}" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource ListBoxItemSelectedActiveBorder}" />
                                         <Setter Property="Foreground" Value="{DynamicResource ListBoxItemSelectedActiveForeground}" />
                                     </Trigger>
                                     <Trigger Property="IsEnabled" Value="False">
-                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListBoxItemDisabledBackground}" />
-                                        <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ListBoxItemDisabledBorder}" />
+                                        <Setter Property="Background" Value="{DynamicResource ListBoxItemDisabledBackground}" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource ListBoxItemDisabledBorder}" />
                                         <Setter Property="Foreground" Value="{DynamicResource ListBoxItemDisabledForeground}" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
@@ -1030,18 +1072,17 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="CheckBox">
-                            <TextBlock Name="textBlock"
-                                       Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Margin}"
+                            <TextBlock Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Margin}"
                                        VerticalAlignment="Center"
                                        FontFamily="{StaticResource AliIconfont}"
                                        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
                                        ToolTip="{x:Null}" />
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="textBlock" Property="Opacity" Value="0.7" />
+                                    <Setter Property="Opacity" Value="0.7" />
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="True">
-                                    <Setter TargetName="textBlock" Property="Opacity" Value="0.5" />
+                                    <Setter Property="Opacity" Value="0.5" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -1055,8 +1096,7 @@
                 <ControlTemplate TargetType="controls:PasswordTextBox">
                     <DockPanel>
                         <ContentControl Style="{StaticResource TitleWithTemplatedParent}" />
-                        <Border Name="Border"
-                                Background="{TemplateBinding Background}"
+                        <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
@@ -1106,19 +1146,19 @@
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
                             <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
                             <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />-->
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
                             <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextFocused}" />-->
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -1175,19 +1215,19 @@
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
                             <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
                             <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />-->
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
                             <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextFocused}" />-->
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
                             <Setter TargetName="Calendar" Property="Foreground" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -1240,8 +1280,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:IconButton">
-                    <Border Name="ButtonBorder"
-                            Background="{TemplateBinding Background}"
+                    <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
@@ -1252,10 +1291,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.7" />
+                            <Setter Property="Opacity" Value="0.7" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.5" />
+                            <Setter Property="Opacity" Value="0.5" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -1411,8 +1450,7 @@
                 <ControlTemplate TargetType="controls:NumericUpDown">
                     <DockPanel>
                         <ContentControl Style="{StaticResource TitleWithTemplatedParent}" />
-                        <Border x:Name="Border"
-                                Background="{TemplateBinding Background}"
+                        <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
@@ -1453,19 +1491,19 @@
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundDisabled}" />
                             <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextDisabled}" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderDisabled}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
                             <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />-->
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
+                            <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
                             <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextFocused}" />-->
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderFocused}" />
                             <!--<Setter TargetName="Calendar" Property="Foreground" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />-->
                         </Trigger>
                     </ControlTemplate.Triggers>

@@ -255,6 +255,10 @@
                                     <StackPanel Grid.Row="2"
                                                 Margin="0,10"
                                                 Orientation="Horizontal">
+                                        <Button Margin="10,0" 
+                                                Style="{StaticResource Win10Button}">
+                                            Win10Button
+                                        </Button>
                                         <Button Margin="10,0"
                                                 Click="Button_Click_14"
                                                 Style="{StaticResource ClassicButton}">
