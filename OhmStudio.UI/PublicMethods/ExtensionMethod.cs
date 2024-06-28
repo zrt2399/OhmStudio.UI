@@ -289,40 +289,17 @@ namespace OhmStudio.UI.PublicMethods
         {
             int m = 0, value = 0;
             int height = bitmap.Height;
-            int Gwidth = bitmap.Width;
-            switch (height % 8)
+            int width = bitmap.Width;
+
+            if (height % 8 != 0)
             {
-                case 0:
-                    height += 0;
-                    break;
-                case 1:
-                    height += 7;
-                    break;
-                case 2:
-                    height += 6;
-                    break;
-                case 3:
-                    height += 5;
-                    break;
-                case 4:
-                    height += 4;
-                    break;
-                case 5:
-                    height += 3;
-                    break;
-                case 6:
-                    height += 2;
-                    break;
-                case 7:
-                    height += 1;
-                    break;
-                default:
-                    break;
+                height += 8 - (height % 8);
             }
-            byte[] bytesTemp = new byte[height / 8 * Gwidth];
+
+            byte[] bytesTemp = new byte[height / 8 * width];
             if (bitmap.Palette.Entries.Length == 2)//单色位图
             {
-                for (int j = 0; j < Gwidth; j++)
+                for (int j = 0; j < width; j++)
                 {
                     for (int i = 0; i < height / 8; i++)
                     {
@@ -333,18 +310,15 @@ namespace OhmStudio.UI.PublicMethods
                                 Color color = bitmap.GetPixel(j, i * 8 + k);
                                 if (color.R == Color.Black.R && color.G == Color.Black.G && color.B == Color.Black.B)
                                 {
-                                    //bytesTemp[j * Gheight / 8 + i] = (byte)((byte)(bytesTemp[j * Gheight / 8 + i]) + (byte)(0x80 >> k));
                                     value = (value << 1) | 1;
                                 }
                                 else
                                 {
-                                    //bytesTemp[j * Gheight / 8 + i] = (byte)((byte)(bytesTemp[j * Gheight / 8 + i]) + 0);
                                     value <<= 1;
                                 }
                             }
                             else
                             {
-                                //bytesTemp[j * Gheight / 8 + i] = (byte)((byte)(bytesTemp[j * Gheight / 8 + i]) + 0);
                                 value <<= 1;
                             }
                         }
