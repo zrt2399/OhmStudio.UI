@@ -297,41 +297,38 @@ namespace OhmStudio.UI.PublicMethods
             }
 
             byte[] bytesTemp = new byte[height / 8 * width];
-            if (bitmap.Palette.Entries.Length == 2)//单色位图
+            if (bitmap.Palette.Entries.Length != 2)//不是单色位图
             {
-                for (int j = 0; j < width; j++)
+                return null;
+            }
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height / 8; j++)
                 {
-                    for (int i = 0; i < height / 8; i++)
+                    for (int k = 0; k < 8; k++)
                     {
-                        for (int k = 0; k < 8; k++)
+                        if (j * 8 + k < bitmap.Height)
                         {
-                            if (i * 8 + k < bitmap.Height)
+                            Color color = bitmap.GetPixel(i, j * 8 + k);
+                            if (color.R == Color.Black.R && color.G == Color.Black.G && color.B == Color.Black.B)
                             {
-                                Color color = bitmap.GetPixel(j, i * 8 + k);
-                                if (color.R == Color.Black.R && color.G == Color.Black.G && color.B == Color.Black.B)
-                                {
-                                    value = (value << 1) | 1;
-                                }
-                                else
-                                {
-                                    value <<= 1;
-                                }
+                                value = (value << 1) | 1;
                             }
                             else
                             {
                                 value <<= 1;
                             }
                         }
-                        bytesTemp[m++] = (byte)value;
-                        value = 0;
+                        else
+                        {
+                            value <<= 1;
+                        }
                     }
+                    bytesTemp[m++] = (byte)value;
+                    value = 0;
                 }
-                return bytesTemp;
             }
-            else
-            {
-                return null;
-            }
+            return bytesTemp;
         }
     }
 
