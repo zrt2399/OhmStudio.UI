@@ -462,7 +462,7 @@ namespace OhmStudio.UI.Demo.Views
             folderBrowserDialog.Description = "请选择文件夹";
             if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                LoadTreeView(folderBrowserDialog.SelectedPath);
+                LoadRootDirectory(folderBrowserDialog.SelectedPath);
             }
         }
 
@@ -500,7 +500,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private void LoadTreeView(string rootFolderPath)
+        private void LoadRootDirectory(string rootFolderPath)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
             //创建根节点
@@ -704,7 +704,15 @@ namespace OhmStudio.UI.Demo.Views
             IsFolder = isFolder;
             FullName = fullName;
             Parent = parent;
-            IconImageSource = IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullName);
+            InitIcon();
+               //IconImageSource = IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullName);
+            
+        }
+
+        async void InitIcon( )
+        {
+            var icon= await Task.Run(() => IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullName));
+            IconImageSource = icon;
         }
 
         [DoNotNotify]

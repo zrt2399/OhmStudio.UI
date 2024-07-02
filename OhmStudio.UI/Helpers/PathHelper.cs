@@ -152,10 +152,10 @@ namespace OhmStudio.UI.Helpers
             if (ignore)
             {
                 _iconCahe.TryAdd(extension, iconBitmapSource);
-            } 
+            }
             return iconBitmapSource;
         }
-         
+
         /// <summary>  
         /// 获取文件夹图标。
         /// </summary>  
@@ -164,7 +164,7 @@ namespace OhmStudio.UI.Helpers
         {
             //return null;
             SHFILEINFO _SHFILEINFO = new SHFILEINFO();
-            IntPtr _IconIntPtr = SHGetFileInfo(@"", 0, ref _SHFILEINFO, (uint)Marshal.SizeOf(_SHFILEINFO), (uint)(SHGFI.SHGFI_ICON | SHGFI.SHGFI_LARGEICON));
+            IntPtr _IconIntPtr = SHGetFileInfo("", 0, ref _SHFILEINFO, (uint)Marshal.SizeOf(_SHFILEINFO), (uint)(SHGFI.SHGFI_ICON | SHGFI.SHGFI_LARGEICON));
             if (_IconIntPtr == IntPtr.Zero)
             {
                 return null;
@@ -269,7 +269,7 @@ namespace OhmStudio.UI.Helpers
         /// <param name="showDialog">指示是否显示确认对话框，true-显示确认删除对话框，false-不显示确认删除对话框</param>
         /// <param name="showProgress">指示是否显示进度对话框，true-显示，false-不显示。该参数当指定永久删除文件时有效</param>
         /// <param name="errorMsg">反馈错误消息的字符串</param>
-        /// <returns>操作执行结果标识，删除文件成功返回0，否则，返回错误代码</returns>
+        /// <returns>操作执行结果标识，删除文件成功返回0，否则，返回错误代码。</returns>
         public static int DeletePath(string fileName, bool toRecycle, bool showDialog, bool showProgress, out string errorMsg)
         {
             try
