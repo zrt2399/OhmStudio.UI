@@ -118,6 +118,15 @@ namespace OhmStudio.UI.Controls
                 {
                     SetTop(uIElement, 0);
                 }
+
+                if (GetLeft(uIElement) > ActualWidth - uIElement.RenderSize.Width)
+                {
+                    SetLeft(uIElement, ActualWidth - uIElement.RenderSize.Width);
+                }
+                if (GetTop(uIElement) > ActualHeight - uIElement.RenderSize.Height)
+                {
+                    SetTop(uIElement, ActualHeight - uIElement.RenderSize.Height);
+                }
                 //Debug.WriteLine($"left:{GetLeft(uIElement)},top:{GetTop(uIElement)}");
             }
         }

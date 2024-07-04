@@ -5,6 +5,7 @@ using System.Windows.Data;
 
 namespace OhmStudio.UI.Converters
 {
+    [ValueConversion(typeof(Visibility), typeof(bool))]
     public class VisibilityToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -26,13 +27,14 @@ namespace OhmStudio.UI.Converters
         }
     }
 
-    public class VisibilityToNotBoolConverter : IValueConverter
+    [ValueConversion(typeof(Visibility), typeof(bool))]
+    public class CollapsedToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is Visibility visibility)
             {
-                return visibility != Visibility.Visible;
+                return visibility != Visibility.Visible; 
             }
             if (parameter is Visibility visibilityParam)
             {

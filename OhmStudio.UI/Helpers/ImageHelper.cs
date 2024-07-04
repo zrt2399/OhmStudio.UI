@@ -56,12 +56,12 @@ namespace OhmStudio.UI.Helpers
             var uriString = source.ToString();
             Uri uri = new Uri(uriString);
             if (uriString.IsContains("pack://siteoforigin:"))
-            { 
+            {
                 var localUri = Environment.CurrentDirectory + uri.LocalPath;
                 return new Bitmap(localUri);
             }
             if (uriString.IsContains("pack://application:"))
-            { 
+            {
                 return new Bitmap(Application.GetResourceStream(uri).Stream);
             }
             if (uriString.IsContains("http:") || uriString.IsContains("https:"))
@@ -119,26 +119,26 @@ namespace OhmStudio.UI.Helpers
         /// <summary>
         /// 截图转换成Bitmap。
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="uIElement"></param>
         /// <param name="width">默认控件宽度</param>
         /// <param name="height">默认控件高度</param>
         /// <param name="x">默认0</param>
         /// <param name="y">默认0</param>
         /// <returns></returns>
-        public static Bitmap ToBitmap(FrameworkElement element, int width = 0, int height = 0, int x = 0, int y = 0)
+        public static Bitmap ToBitmap(UIElement uIElement, int width = 0, int height = 0, int x = 0, int y = 0)
         {
             if (width == 0)
             {
-                width = (int)element.ActualWidth;
+                width = (int)uIElement.RenderSize.Width;
             }
 
             if (height == 0)
             {
-                height = (int)element.ActualHeight;
+                height = (int)uIElement.RenderSize.Height;
             }
 
             var rtb = new RenderTargetBitmap(width, height, x, y, PixelFormats.Default);
-            rtb.Render(element);
+            rtb.Render(uIElement);
             var bit = BitmapSourceToBitmap(rtb);
 
             //测试代码
@@ -180,10 +180,18 @@ namespace OhmStudio.UI.Helpers
                 switch (source.Format.ToString())
                 {
                     case "Rgb24":
-                    case "Bgr24": format = System.Drawing.Imaging.PixelFormat.Format24bppRgb; break;
-                    case "Bgra32": format = System.Drawing.Imaging.PixelFormat.Format32bppPArgb; break;
-                    case "Bgr32": format = System.Drawing.Imaging.PixelFormat.Format32bppRgb; break;
-                    case "Pbgra32": format = System.Drawing.Imaging.PixelFormat.Format32bppArgb; break;
+                    case "Bgr24":
+                        format = System.Drawing.Imaging.PixelFormat.Format24bppRgb;
+                        break;
+                    case "Bgra32":
+                        format = System.Drawing.Imaging.PixelFormat.Format32bppPArgb;
+                        break;
+                    case "Bgr32":
+                        format = System.Drawing.Imaging.PixelFormat.Format32bppRgb;
+                        break;
+                    case "Pbgra32":
+                        format = System.Drawing.Imaging.PixelFormat.Format32bppArgb;
+                        break;
                 }
                 bmp = new Bitmap(width, height, format);
                 BitmapData data = bmp.LockBits(new Rectangle(System.Drawing.Point.Empty, bmp.Size),

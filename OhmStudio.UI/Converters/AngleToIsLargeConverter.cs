@@ -4,6 +4,7 @@ using System.Windows.Data;
 
 namespace OhmStudio.UI.Converters
 {
+    [ValueConversion(typeof(double), typeof(bool))]
     public class AngleToIsLargeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

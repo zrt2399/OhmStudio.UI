@@ -32,7 +32,7 @@
     <converters:BrushToColorConverter x:Key="BrushToColorConverter" />
     <converters:AngleToPointConverter x:Key="AngleToPointConverter" />
     <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter" />
-    <converters:EmptyStringToNotBoolConverter x:Key="EmptyStringToNotBoolConverter" />
+    <converters:NotNullOrEmptyToBoolConverter x:Key="NotNullOrEmptyToBoolConverter" />
     <converters:FlipToScaleXValueConverter x:Key="FlipToScaleXValueConverter" />
     <converters:FlipToScaleYValueConverter x:Key="FlipToScaleYValueConverter" />
     <converters:CircleProgressBarMarginConverter x:Key="CircleProgressBarMarginConverter" />
@@ -1355,14 +1355,14 @@
                                     Margin="{TemplateBinding Spacing}"
                                     Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OpenCommand}"
                                     Content="{TemplateBinding OpenButtonContent}"
-                                    IsEnabled="{Binding ElementName=PART_TextBox, Path=Text, Converter={StaticResource EmptyStringToNotBoolConverter}}"
+                                    IsEnabled="{Binding ElementName=PART_TextBox, Path=Text, Converter={StaticResource NotNullOrEmptyToBoolConverter}}"
                                     Style="{DynamicResource CollapseButton}"
                                     ToolTip="{TemplateBinding OpenButtonToolTip}" />
                             <Button Grid.Column="2"
                                     Margin="{TemplateBinding Spacing}"
                                     Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ExploreCommand}"
                                     Content="{TemplateBinding ExploreButtonContent}"
-                                    IsEnabled="{Binding ElementName=PART_TextBox, Path=Text, Converter={StaticResource EmptyStringToNotBoolConverter}}"
+                                    IsEnabled="{Binding ElementName=PART_TextBox, Path=Text, Converter={StaticResource NotNullOrEmptyToBoolConverter}}"
                                     Style="{DynamicResource CollapseButton}"
                                     ToolTip="{TemplateBinding ExploreButtonToolTip}" />
                             <Button Grid.Column="3"

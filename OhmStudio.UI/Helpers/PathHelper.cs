@@ -21,28 +21,28 @@ namespace OhmStudio.UI.Helpers
             return Path.IsPathRooted(path) && !Path.GetPathRoot(path).Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.OrdinalIgnoreCase);
         }
 
-        public static bool FileOrFolderIsExist(string fullName, bool isFolder)
+        public static bool FileOrFolderIsExist(string fullPath, bool isFolder)
         {
             if (isFolder)
             {
-                return Directory.Exists(fullName);
+                return Directory.Exists(fullPath);
             }
             else
             {
-                return File.Exists(fullName);
+                return File.Exists(fullPath);
             }
         }
 
-        public static bool FileOrFolderIsExist(string fullName, out bool isFolder)
+        public static bool FileOrFolderIsExist(string fullPath, out bool isFolder)
         {
             isFolder = false;
-            if (File.Exists(fullName))
+            if (File.Exists(fullPath))
             {
                 return true;
             }
             else
             {
-                if (Directory.Exists(fullName))
+                if (Directory.Exists(fullPath))
                 {
                     isFolder = true;
                     return true;
@@ -51,15 +51,15 @@ namespace OhmStudio.UI.Helpers
             }
         }
 
-        public static bool FileOrFolderIsExist(string fullName)
+        public static bool FileOrFolderIsExist(string fullPath)
         {
-            if (File.Exists(fullName))
+            if (File.Exists(fullPath))
             {
                 return true;
             }
             else
             {
-                return Directory.Exists(fullName);
+                return Directory.Exists(fullPath);
             }
         }
 

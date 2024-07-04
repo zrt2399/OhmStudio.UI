@@ -96,7 +96,7 @@ namespace OhmStudio.UI.Demo.Views
                     StatusBarContent = "CurrentFocusedElement: " + Keyboard.FocusedElement;
                 }
             };
-
+ 
             ZoomInCommand = new RelayCommand(ZoomIn);
             ZoomOutCommand = new RelayCommand(ZoomOut);
             SearchCommand = new RelayCommand(() => UIMessageTip.Show("什么也没搜索到..."));
@@ -107,8 +107,7 @@ namespace OhmStudio.UI.Demo.Views
                     ExpandAllTreeViewModelItem(item, false);
                 }
             });
-
-
+             
             PackIcons = new ObservableCollection<PackIconKind>(PackIconDataFactory.Create().Keys);
 
             Result.Columns.Add("Time");
@@ -466,11 +465,11 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        public static void LoadSubDirectory(TreeViewModel node, string fullName, bool isBreak)
+        public static void LoadSubDirectory(TreeViewModel node, string fullPath, bool isBreak)
         {
             try
             {
-                DirectoryInfo directoryInfo = new DirectoryInfo(fullName);
+                DirectoryInfo directoryInfo = new DirectoryInfo(fullPath);
                 if (directoryInfo.Exists)
                 {
                     //加载子文件夹
@@ -656,7 +655,7 @@ namespace OhmStudio.UI.Demo.Views
             {
                 if (!treeViewModel.IsFolder)
                 {
-                    PathHelper.OpenFlie(treeViewModel.FullName);
+                    PathHelper.OpenFlie(treeViewModel.FullPath);
                 }
             });
             StartRenameCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
@@ -685,11 +684,11 @@ namespace OhmStudio.UI.Demo.Views
             });
             ShowPropertiesCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {
-                PathHelper.ShowPathProperties(treeViewModel?.FullName);
+                PathHelper.ShowPathProperties(treeViewModel?.FullPath);
             });
             DeleteFileCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {
-                if (PathHelper.DeletePath(treeViewModel.FullName, true, true, true, out string errMsg) != 0)
+                if (PathHelper.DeletePath(treeViewModel.FullPath, true, true, true, out string errMsg) != 0)
                 {
                     AlertDialog.ShowError(errMsg);
                 }
@@ -698,20 +697,22 @@ namespace OhmStudio.UI.Demo.Views
 
         public TreeViewModel() { }
 
-        public TreeViewModel(string header, bool isFolder, string fullName, TreeViewModel parent = null) : this()
+        static int _i = 0;
+        public TreeViewModel(string header, bool isFolder, string fullPath, TreeViewModel parent = null) : this()
         {
             Header = header;
             IsFolder = isFolder;
-            FullName = fullName;
+            FullPath = fullPath;
             Parent = parent;
-            InitIcon();
-               //IconImageSource = IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullName);
-            
+            //InitIcon();
+            IconImageSource = IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullPath);
+            _i++;
+            Debug.WriteLine(_i);
         }
 
-        async void InitIcon( )
+        async void InitIcon()
         {
-            var icon= await Task.Run(() => IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullName));
+            var icon = await Task.Run(() => IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullPath));
             IconImageSource = icon;
         }
 
@@ -735,7 +736,7 @@ namespace OhmStudio.UI.Demo.Views
                         Stopwatch stopwatch = Stopwatch.StartNew();
                         foreach (var child in Children)
                         {
-                            MainWindow.LoadSubDirectory(child, child.FullName, false);
+                            MainWindow.LoadSubDirectory(child, child.FullPath, false);
                         }
                         stopwatch.Stop();
                         Messenger.Default.Send($"TreeView子节点加载完成耗时：{stopwatch.Elapsed.TotalMilliseconds}ms", MessageType.TreeViewItemLoaded);
@@ -755,7 +756,7 @@ namespace OhmStudio.UI.Demo.Views
 
         public bool IsEditing { get; set; }
 
-        public string FullName { get; set; }
+        public string FullPath { get; set; }
 
         public ImageSource IconImageSource { get; set; }
 

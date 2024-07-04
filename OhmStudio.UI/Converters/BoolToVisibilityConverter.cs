@@ -5,6 +5,7 @@ using System.Windows.Data;
 
 namespace OhmStudio.UI.Converters
 {
+    [ValueConversion(typeof(bool), typeof(Visibility))]
     public class BoolToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -26,7 +27,8 @@ namespace OhmStudio.UI.Converters
         }
     }
 
-    public class BoolToNotVisibilityConverter : IValueConverter
+    [ValueConversion(typeof(bool), typeof(Visibility))]
+    public class BoolToCollapsedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

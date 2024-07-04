@@ -4,11 +4,11 @@ using System.Windows.Data;
 
 namespace OhmStudio.UI.Converters
 {
-    public class EmptyStringToBoolConverter : IValueConverter
+    public class NullOrEmptyToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.IsNullOrEmpty(value as string);
+            return string.IsNullOrEmpty(value?.ToString());
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -17,11 +17,11 @@ namespace OhmStudio.UI.Converters
         }
     }
 
-    public class EmptyStringToNotBoolConverter : IValueConverter
+    public class NotNullOrEmptyToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return !string.IsNullOrEmpty(value as string);
+            return !string.IsNullOrEmpty(value?.ToString());
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
