@@ -691,8 +691,8 @@
                                     <GridCanvas x:Name="gridCanvas">
                                         <GridCanvas.Resources>
                                             <Style TargetType="Border">
-                                                <Setter Property="Height" Value="40" />
-                                                <Setter Property="Width" Value="40" />
+                                                <Setter Property="Width" Value="80" />
+                                                <Setter Property="Height" Value="60" />
                                                 <Setter Property="BorderThickness" Value="1" />
                                                 <Setter Property="Background" Value="{DynamicResource SystemColorsWindow}" />
                                                 <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />

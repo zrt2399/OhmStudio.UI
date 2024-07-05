@@ -33,6 +33,7 @@
     <converters:AngleToPointConverter x:Key="AngleToPointConverter" />
     <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter" />
     <converters:NotNullOrEmptyToBoolConverter x:Key="NotNullOrEmptyToBoolConverter" />
+    <converters:NotNullOrEmptyToVisibilityConverter x:Key="NotNullOrEmptyToVisibilityConverter" />
     <converters:FlipToScaleXValueConverter x:Key="FlipToScaleXValueConverter" />
     <converters:FlipToScaleYValueConverter x:Key="FlipToScaleYValueConverter" />
     <converters:CircleProgressBarMarginConverter x:Key="CircleProgressBarMarginConverter" />
@@ -560,27 +561,9 @@
                             </Path>
                             <controls:SimplePanel Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                                 <StackPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                    <TextBlock HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Text="{Binding Title, RelativeSource={RelativeSource TemplatedParent}}">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type TextBlock}}" />
-                                                <Setter Property="DynamicStyleProvider.Derived">
-                                                    <Setter.Value>
-                                                        <Style TargetType="TextBlock">
-                                                            <Style.Triggers>
-                                                                <Trigger Property="Text" Value="">
-                                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                                </Trigger>
-                                                                <Trigger Property="Text" Value="{x:Null}">
-                                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
+                                    <TextBlock HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                               Text="{Binding Title, RelativeSource={RelativeSource TemplatedParent}}"
+                                               Visibility="{Binding Title, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NotNullOrEmptyToVisibilityConverter}}" />
                                     <TextBlock HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Text="{Binding Path=Value, StringFormat={}{0}%, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </StackPanel>
                             </controls:SimplePanel>

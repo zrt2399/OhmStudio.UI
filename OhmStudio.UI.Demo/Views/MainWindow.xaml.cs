@@ -152,7 +152,7 @@ namespace OhmStudio.UI.Demo.Views
 
             Stopwatch stopwatch = Stopwatch.StartNew();
             List<Employee> pros = new List<Employee>();
-            for (int i = 0; i < 2000; i++)
+            for (int i = 0; i < 5000; i++)
             {
                 Employee pro = new Employee();
                 pro.Name = "Name:" + (i + 1);
