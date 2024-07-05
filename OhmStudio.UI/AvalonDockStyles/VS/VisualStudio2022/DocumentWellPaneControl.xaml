@@ -72,8 +72,7 @@
                         </Grid.RowDefinitions>
                         <!--  Following border is required to catch mouse events  -->
                         <Border Grid.RowSpan="2" Background="Transparent" />
-                        <Grid Grid.Row="0"
-                              Margin="1,0"
+                        <Grid Margin="1,0"
                               Panel.ZIndex="1"
                               Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}}, Path=Model.ShowHeader, Converter={avalonDockConverters:BoolToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>
@@ -84,7 +83,8 @@
                             <Border x:Name="MainBorder"
                                     Grid.ColumnSpan="2"
                                     BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentTabStateLineActive}}"
-                                    BorderThickness="0,0,0,2" />
+                                    BorderThickness="0,0,0,2"
+                                    UseLayoutRounding="True" />
                             <controls:DocumentWrapPanel x:Name="HeaderPanel"
                                                         Margin="0,0,0,2"
                                                         IsItemsHost="true"
@@ -105,23 +105,6 @@
                                       Fill="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}}}"
                                       Stretch="Uniform" />
                             </avalonDockControls:DropDownButton>
-                            <!--<Button Grid.Column="2" VerticalAlignment="Bottom" Background="Transparent" Margin="0,0,0,2">+
-                                <Button.Triggers>
-                                    <EventTrigger RoutedEvent="Button.Click">
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderPanel" Storyboard.TargetProperty="IsWrap">
-                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0">
-                                                        <DiscreteObjectKeyFrame.Value>
-                                                            <sys:Boolean xmlns:sys="clr-namespace:System;assembly=mscorlib">false</sys:Boolean>
-                                                        </DiscreteObjectKeyFrame.Value>
-                                                    </DiscreteObjectKeyFrame>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </Button.Triggers>
-                            </Button>-->
                         </Grid>
                         <Border x:Name="ContentPanel"
                                 Grid.Row="1"

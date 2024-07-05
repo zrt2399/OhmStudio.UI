@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,6 +15,12 @@ namespace OhmStudio.UI.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GridCanvas), new FrameworkPropertyMetadata(typeof(GridCanvas)));
         }
+
+        private Cursor _cursor;
+        //鼠标按下的位置
+        private Point _mouseDownPosition;
+        //鼠标按下控件的位置
+        private Point _mouseDownControlPosition;
 
         public static readonly DependencyProperty LineBrushProperty =
            DependencyProperty.Register(nameof(LineBrush), typeof(Brush), typeof(GridCanvas),
@@ -35,20 +43,7 @@ namespace OhmStudio.UI.Controls
         }
 
         public static readonly DependencyProperty IsDraggableProperty =
-            DependencyProperty.RegisterAttached("IsDraggable", typeof(bool), typeof(GridCanvas), new PropertyMetadata(true, (sender, e) =>
-            {
-                if (sender is FrameworkElement frameworkElement)
-                {
-                    if ((bool)e.NewValue)
-                    {
-                        frameworkElement.Cursor = Cursors.ScrollAll;
-                    }
-                    else
-                    {
-                        frameworkElement.Cursor = Cursors.Arrow;
-                    }
-                }
-            }));
+            DependencyProperty.RegisterAttached("IsDraggable", typeof(bool), typeof(GridCanvas), new PropertyMetadata(true));
 
         public static void SetIsDraggable(DependencyObject element, bool value)
         {
@@ -65,11 +60,7 @@ namespace OhmStudio.UI.Controls
             base.OnVisualChildrenChanged(visualAdded, visualRemoved);
             if (visualAdded is UIElement uIElement)
             {
-                //uIElement.Focusable = true;
-                if (uIElement is FrameworkElement frameworkElement)
-                {
-                    frameworkElement.Cursor = Cursors.ScrollAll;
-                }
+                //uIElement.Focusable = true; 
                 uIElement.MouseLeftButtonDown += UIElement_MouseLeftButtonDown;
                 uIElement.MouseMove += UIElement_MouseMove;
                 uIElement.MouseLeftButtonUp += UIElement_MouseLeftButtonUp;
@@ -83,16 +74,13 @@ namespace OhmStudio.UI.Controls
             {
                 return;
             }
+            if (sender is FrameworkElement frameworkElement)
+            {
+                frameworkElement.Cursor = _cursor;
+            }
+            SetLeft(uIElement, Adsorb(GetLeft(uIElement)));
+            SetTop(uIElement, Adsorb(GetTop(uIElement)));
             uIElement.ReleaseMouseCapture();
-            if (GetLeft(uIElement) < 0)
-            {
-                SetLeft(uIElement, 0);
-            }
-            if (GetTop(uIElement) < 0)
-            {
-                SetTop(uIElement, 0);
-            }
-            //Debug.WriteLine($"left:{GetLeft(uIElement)},top:{GetTop(uIElement)}");
         }
 
         private void UIElement_MouseMove(object sender, MouseEventArgs e)
@@ -119,22 +107,25 @@ namespace OhmStudio.UI.Controls
                     SetTop(uIElement, 0);
                 }
 
-                if (GetLeft(uIElement) > ActualWidth - uIElement.RenderSize.Width)
-                {
-                    SetLeft(uIElement, ActualWidth - uIElement.RenderSize.Width);
-                }
-                if (GetTop(uIElement) > ActualHeight - uIElement.RenderSize.Height)
-                {
-                    SetTop(uIElement, ActualHeight - uIElement.RenderSize.Height);
-                }
                 //Debug.WriteLine($"left:{GetLeft(uIElement)},top:{GetTop(uIElement)}");
             }
         }
 
-        //鼠标按下的位置
-        private Point _mouseDownPosition;
-        //鼠标按下控件的位置
-        private Point _mouseDownControlPosition;
+        public double Adsorb(double value)
+        {
+            int quotient = (int)(value / GridSize);
+            var min = GridSize * quotient;
+            var max = min + GridSize;
+
+            if (value - min > GridSize / 2)
+            {
+                return max;
+            }
+            else
+            {
+                return min;
+            }
+        }
 
         private void UIElement_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -144,6 +135,11 @@ namespace OhmStudio.UI.Controls
                 return;
             }
             //uIElement.Focus();
+            if (sender is FrameworkElement frameworkElement)
+            {
+                _cursor = frameworkElement.Cursor;
+                frameworkElement.Cursor = Cursors.ScrollAll;
+            }
             _mouseDownPosition = e.GetPosition(this);
             _mouseDownControlPosition = new Point(double.IsNaN(GetLeft(uIElement)) ? 0 : GetLeft(uIElement), double.IsNaN(GetTop(uIElement)) ? 0 : GetTop(uIElement));
             uIElement.CaptureMouse();
