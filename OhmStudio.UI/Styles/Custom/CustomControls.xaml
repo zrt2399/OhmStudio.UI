@@ -1362,10 +1362,11 @@
     </Style>
     <Style BasedOn="{StaticResource PathPickerBaseStyle}" TargetType="controls:PathPicker" />
 
-    <Style x:Key="GridCanvasBaseStyle" TargetType="controls:GridCanvas">
-        <Setter Property="LineBrush" Value="{DynamicResource GridCanvasLineBrush}" />
+    <Style x:Key="DragCanvasBaseStyle" TargetType="controls:DragCanvas">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="LineBrush" Value="{DynamicResource DragCanvasLineBrush}" />
     </Style>
-    <Style BasedOn="{StaticResource GridCanvasBaseStyle}" TargetType="controls:GridCanvas" />
+    <Style BasedOn="{StaticResource DragCanvasBaseStyle}" TargetType="controls:DragCanvas" />
 
     <Style x:Key="LoadingBaseStyle" TargetType="controls:LoadingBase">
         <Setter Property="Focusable" Value="False" />
@@ -1495,5 +1496,64 @@
         </Setter>
     </Style>
     <Style BasedOn="{StaticResource NumericUpDownBaseStyle}" TargetType="controls:NumericUpDown" />
+
+    <Style x:Key="CustomBorderBaseStyle" TargetType="controls:CustomBorder">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Width" Value="80" />
+        <Setter Property="Height" Value="60" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="{DynamicResource SystemColorsWindow}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:CustomBorder">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
+                        <Grid>
+                            <Grid.Resources>
+                                <Style TargetType="Ellipse">
+                                    <Setter Property="Fill" Value="Red" />
+                                    <Setter Property="Stroke" Value="Blue" />
+                                    <Setter Property="Width" Value="8" />
+                                    <Setter Property="Height" Value="8" />
+                                    <Setter Property="Cursor" Value="Cross" />
+                                </Style>
+                            </Grid.Resources>
+
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <!--  顶边的中间圆形  -->
+                            <Ellipse Margin="0,-4,0,0"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Top" />
+                            <!--  右边的中间圆形  -->
+                            <Ellipse Margin="0,0,-4,0"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Center" />
+                            <!--  底边的中间圆形  -->
+                            <Ellipse Margin="0,0,0,-4"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Bottom" />
+                            <!--  左边的中间圆形  -->
+                            <Ellipse Margin="-4,0,0,0"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center" />
+
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="BorderThickness" Value="2" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style BasedOn="{StaticResource CustomBorderBaseStyle}" TargetType="controls:CustomBorder" />
 
 </ResourceDictionary>

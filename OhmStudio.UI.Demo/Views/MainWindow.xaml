@@ -685,35 +685,35 @@
                                     </UniformGrid>
                                 </GroupBox>
                             </LayoutDocument>
-                            <LayoutDocument Title="GridCanvas">
-                                <DockPanel>
-                                    <Button VerticalAlignment="Top" Click="Button_Click_16">清除</Button>
-                                    <GridCanvas x:Name="gridCanvas">
-                                        <GridCanvas.Resources>
-                                            <Style TargetType="Border">
-                                                <Setter Property="Width" Value="80" />
-                                                <Setter Property="Height" Value="60" />
-                                                <Setter Property="BorderThickness" Value="1" />
-                                                <Setter Property="Background" Value="{DynamicResource SystemColorsWindow}" />
-                                                <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />
-                                                <!--<Setter Property="CornerRadius" Value="4" />-->
-                                            </Style>
-                                        </GridCanvas.Resources>
-                                        <Border>
-                                            <TextBlock HorizontalAlignment="Center">开始</TextBlock>
-                                        </Border>
-                                        <Border Canvas.Top="100">
-                                            <TextBlock HorizontalAlignment="Center">abc</TextBlock>
-                                        </Border>
-                                        <Border Canvas.Top="200">
-                                            <TextBlock HorizontalAlignment="Center">123</TextBlock>
-                                        </Border>
-                                        <Border Canvas.Top="300" GridCanvas.IsDraggable="False">
-                                            <TextBlock HorizontalAlignment="Center">结束</TextBlock>
-                                        </Border>
-                                        <!--<Button>456</Button>-->
-                                    </GridCanvas>
-                                </DockPanel>
+                            <LayoutDocument Title="DragCanvas">
+                                <DragCanvas x:Name="DragCanvas">
+                                    <DragCanvas.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Width" Value="80" />
+                                            <Setter Property="Height" Value="60" />
+                                            <Setter Property="BorderThickness" Value="1" />
+                                            <Setter Property="Background" Value="{DynamicResource SystemColorsWindow}" />
+                                            <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />
+                                            <!--<Setter Property="CornerRadius" Value="4" />-->
+                                        </Style>
+                                    </DragCanvas.Resources>
+                                    <CustomBorder>
+                                        <TextBlock HorizontalAlignment="Center">开始</TextBlock>
+                                    </CustomBorder>
+                                    <CustomBorder Canvas.Top="100">
+                                        <TextBlock HorizontalAlignment="Center">中间节点1</TextBlock>
+                                    </CustomBorder>
+                                    <CustomBorder Canvas.Top="200">
+                                        <TextBlock HorizontalAlignment="Center">中间节点2</TextBlock>
+                                    </CustomBorder>
+                                    <CustomBorder Canvas.Top="300" DragCanvas.IsDraggable="False">
+                                        <TextBlock HorizontalAlignment="Center">结束</TextBlock>
+                                    </CustomBorder>
+                                    <CustomBorder Canvas.Top="400">
+                                        <TextBlock HorizontalAlignment="Center">结束</TextBlock>
+                                    </CustomBorder>
+                                    <!--<Button>456</Button>-->
+                                </DragCanvas>
                             </LayoutDocument>
                             <LayoutDocument Title="PackIcons">
                                 <DockPanel>

@@ -139,21 +139,7 @@ namespace OhmStudio.UI.PublicMethods
                 };
             }
         }
-
-        public static T FindParentFrameworkElement<T>(this FrameworkElement obj) where T : FrameworkElement
-        {
-            FrameworkElement parent = obj.Parent as FrameworkElement;
-            while (parent != null)
-            {
-                if (parent is T t)
-                {
-                    return t;
-                }
-                parent = (FrameworkElement)parent.Parent;
-            }
-            return null;
-        }
-
+ 
         public static T FindParentObject<T>(this DependencyObject obj) where T : DependencyObject
         {
             DependencyObject parent = obj is Visual or Visual3D ? VisualTreeHelper.GetParent(obj) : LogicalTreeHelper.GetParent(obj);

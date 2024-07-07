@@ -597,12 +597,7 @@ namespace OhmStudio.UI.Demo.Views
                 TreeViewSelectedItem.IsEditing = true;
             }
         }
-
-        private void Button_Click_16(object sender, RoutedEventArgs e)
-        {
-            gridCanvas.Children.Clear();
-        }
-
+ 
         private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             StatusBarContent = $"DataGrid当前编辑元素：{e.Column.GetCellContent(e.Row)}";
