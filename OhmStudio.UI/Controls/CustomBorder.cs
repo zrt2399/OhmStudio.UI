@@ -13,9 +13,9 @@ namespace OhmStudio.UI.Controls
     {
         public CustomBorder()
         {
-          
+
         }
- 
+
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(CustomBorder));
 
@@ -24,5 +24,7 @@ namespace OhmStudio.UI.Controls
             get => (bool)GetValue(IsSelectedProperty);
             set => SetValue(IsSelectedProperty, value);
         }
+
+        internal Point MouseDownControlPoint { get; set; }
     }
 }

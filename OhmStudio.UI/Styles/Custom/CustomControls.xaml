@@ -1363,6 +1363,7 @@
     <Style BasedOn="{StaticResource PathPickerBaseStyle}" TargetType="controls:PathPicker" />
 
     <Style x:Key="DragCanvasBaseStyle" TargetType="controls:DragCanvas">
+        <Setter Property="ClipToBounds" Value="True" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="LineBrush" Value="{DynamicResource DragCanvasLineBrush}" />
     </Style>
@@ -1514,8 +1515,8 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
-                        <Grid>
-                            <Grid.Resources>
+                        <controls:SimplePanel>
+                            <Panel.Resources>
                                 <Style TargetType="Ellipse">
                                     <Setter Property="Fill" Value="Red" />
                                     <Setter Property="Stroke" Value="Blue" />
@@ -1523,7 +1524,7 @@
                                     <Setter Property="Height" Value="8" />
                                     <Setter Property="Cursor" Value="Cross" />
                                 </Style>
-                            </Grid.Resources>
+                            </Panel.Resources>
 
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                             <!--  顶边的中间圆形  -->
@@ -1543,7 +1544,7 @@
                                      HorizontalAlignment="Left"
                                      VerticalAlignment="Center" />
 
-                        </Grid>
+                        </controls:SimplePanel>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
