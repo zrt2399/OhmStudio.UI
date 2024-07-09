@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using OhmStudio.UI.PublicMethods;
@@ -34,15 +29,15 @@ namespace OhmStudio.UI.Controls
         End
     }
 
-    public class StepControl : ContentControl
+    public class StepItem : ContentControl
     {
-        public StepControl()
+        public StepItem()
         {
-
+             
         }
 
         public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(StepControl));
+            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(StepItem));
 
         public bool IsSelected
         {
@@ -51,43 +46,43 @@ namespace OhmStudio.UI.Controls
         }
 
         public static readonly DependencyProperty LastStepProperty =
-            DependencyProperty.Register(nameof(LastStep), typeof(StepControl), typeof(StepControl));
+            DependencyProperty.Register(nameof(LastStep), typeof(StepItem), typeof(StepItem));
 
-        public StepControl LastStep
+        public StepItem LastStep
         {
-            get => (StepControl)GetValue(LastStepProperty);
+            get => (StepItem)GetValue(LastStepProperty);
             set => SetValue(LastStepProperty, value);
         }
 
         public static readonly DependencyProperty FromStepProperty =
-            DependencyProperty.Register(nameof(FromStep), typeof(StepControl), typeof(StepControl));
+            DependencyProperty.Register(nameof(FromStep), typeof(StepItem), typeof(StepItem));
 
-        public StepControl FromStep
+        public StepItem FromStep
         {
-            get => (StepControl)GetValue(FromStepProperty);
+            get => (StepItem)GetValue(FromStepProperty);
             set => SetValue(FromStepProperty, value);
         }
 
         public static readonly DependencyProperty JumpStepProperty =
-            DependencyProperty.Register(nameof(JumpStep), typeof(StepControl), typeof(StepControl));
+            DependencyProperty.Register(nameof(JumpStep), typeof(StepItem), typeof(StepItem));
 
-        public StepControl JumpStep
+        public StepItem JumpStep
         {
-            get => (StepControl)GetValue(JumpStepProperty);
+            get => (StepItem)GetValue(JumpStepProperty);
             set => SetValue(JumpStepProperty, value);
         }
 
         public static readonly DependencyProperty NextStepProperty =
-            DependencyProperty.Register(nameof(NextStep), typeof(StepControl), typeof(StepControl));
+            DependencyProperty.Register(nameof(NextStep), typeof(StepItem), typeof(StepItem));
 
-        public StepControl NextStep
+        public StepItem NextStep
         {
-            get => (StepControl)GetValue(NextStepProperty);
+            get => (StepItem)GetValue(NextStepProperty);
             set => SetValue(NextStepProperty, value);
         }
 
         public static readonly DependencyProperty FlowTypeProperty =
-            DependencyProperty.Register(nameof(FlowType), typeof(FlowType), typeof(StepControl));
+            DependencyProperty.Register(nameof(FlowType), typeof(FlowType), typeof(StepItem));
 
         public FlowType FlowType
         {

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,6 +29,100 @@ namespace OhmStudio.UI.Controls
             _multiSelectionRectangle.StrokeDashArray = new DoubleCollection(new double[] { 2, 2 });
             _multiSelectionRectangle.MouseLeftButtonDown += MultiSelectionRectangle_MouseLeftButtonDown;
             _multiSelectionRectangle.MouseLeftButtonUp += MultiSelectionRectangle_MouseLeftButtonUp;
+
+            _selectionRectangle = new Rectangle();
+            _selectionRectangle.Fill = "#88AACCEE".ToSolidColorBrush();
+            _selectionRectangle.Stroke = "#FF0F80D9".ToSolidColorBrush();
+            SetZIndex(_selectionRectangle, int.MaxValue);
+        }
+
+        //鼠标选中多个元素的Rectangle遮罩
+        private Rectangle _multiSelectionRectangle;
+        //跟随鼠标运移动绘制的多选Rectangle区域
+        private Rectangle _selectionRectangle;
+        //鼠标选择多个元素起始的位置
+        private Point _selectionStartPoint;
+
+        //正在拖动中
+        private bool _isMoving;
+        //正在绘制曲线中
+        private bool _isDrawing;
+        //正在选择中
+        private bool _isSelecting;
+        //多个选中正在拖动中
+        private bool _isMultiMoving;
+
+        //鼠标指针
+        private Cursor _cursor;
+        //鼠标按下的位置
+        private Point _mouseDownPoint;
+        //鼠标按下控件的位置
+        private Point _mouseDownControlPoint;
+        //多个选中时鼠标按下的位置
+        private Point _multiMouseDownPoint;
+        //多个选中时Rectangle遮罩按下的位置
+        private Point _multiMouseDownRectanglePoint;
+
+        private StepItem _lastStepItem;
+
+        private Point _pathStartPoint;
+        private Path _currentPath;
+        private PathFigure _pathFigure;
+        private BezierSegment _bezierSegment;
+
+        public IEnumerable<StepItem> Items => Children.OfType<StepItem>();
+
+        public IEnumerable<StepItem> SelectedItems => Items.Where(x => x.IsSelected);
+
+        public static readonly DependencyProperty LineBrushProperty =
+           DependencyProperty.Register(nameof(LineBrush), typeof(Brush), typeof(DragCanvas),
+               new FrameworkPropertyMetadata(Brushes.LightGray, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public static readonly DependencyProperty GridSizeProperty =
+            DependencyProperty.Register(nameof(GridSize), typeof(double), typeof(DragCanvas),
+                new FrameworkPropertyMetadata(20d, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public Brush LineBrush
+        {
+            get => (Brush)GetValue(LineBrushProperty);
+            set => SetValue(LineBrushProperty, value);
+        }
+
+        public double GridSize
+        {
+            get => (double)GetValue(GridSizeProperty);
+            set => SetValue(GridSizeProperty, value);
+        }
+
+        public static readonly DependencyProperty IsDraggableProperty =
+            DependencyProperty.RegisterAttached("IsDraggable", typeof(bool), typeof(DragCanvas), new PropertyMetadata(true));
+
+        public static void SetIsDraggable(DependencyObject element, bool value)
+        {
+            element.SetValue(IsDraggableProperty, value);
+        }
+
+        public static bool GetIsDraggable(DependencyObject element)
+        {
+            return (bool)element.GetValue(IsDraggableProperty);
+        }
+
+        protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
+        {
+            base.OnVisualChildrenChanged(visualAdded, visualRemoved);
+            if (visualAdded is StepItem stepItem)
+            {
+                if (double.IsNaN(GetLeft(stepItem)))
+                {
+                    SetLeft(stepItem, 0);
+                }
+                if (double.IsNaN(GetTop(stepItem)))
+                {
+                    SetTop(stepItem, 0);
+                }
+                stepItem.MouseLeftButtonDown += StepItem_MouseLeftButtonDown;
+                stepItem.MouseLeftButtonUp += StepItem_MouseLeftButtonUp;
+            }
         }
 
         private void MultiSelectionRectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -75,110 +167,22 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        public IEnumerable<StepControl> Items => Children.OfType<StepControl>();
-
-        public IEnumerable<StepControl> SelectedItems => Items.Where(x => x.IsSelected);
-
-        //鼠标选中多个元素的Rectangle遮罩
-        private Rectangle _multiSelectionRectangle;
-        //跟随鼠标运移动绘制的多选Rectangle区域
-        private Rectangle _selectionRectangle;
-        //鼠标选择多个元素起始的位置
-        private Point _selectionStartPoint;
-
-        //正在拖动中
-        private bool _isMoving;
-        //正在绘制曲线中
-        private bool _isDrawing;
-        //正在选择中
-        private bool _isSelecting;
-        //多个选中正在拖动中
-        private bool _isMultiMoving;
-
-        //鼠标指针
-        private Cursor _cursor;
-        //鼠标按下的位置
-        private Point _mouseDownPoint;
-        //鼠标按下控件的位置
-        private Point _mouseDownControlPoint;
-        //多个选中时鼠标按下的位置
-        private Point _multiMouseDownPoint;
-        //多个选中时Rectangle遮罩按下的位置
-        private Point _multiMouseDownRectanglePoint;
-
-        private Point _startPoint;
-        private Path _currentPath;
-        private PathFigure _pathFigure;
-        private BezierSegment _bezierSegment;
-
-        public static readonly DependencyProperty LineBrushProperty =
-           DependencyProperty.Register(nameof(LineBrush), typeof(Brush), typeof(DragCanvas),
-               new FrameworkPropertyMetadata(Brushes.LightGray, FrameworkPropertyMetadataOptions.AffectsRender));
-
-        public static readonly DependencyProperty GridSizeProperty =
-            DependencyProperty.Register(nameof(GridSize), typeof(double), typeof(DragCanvas),
-                new FrameworkPropertyMetadata(20d, FrameworkPropertyMetadataOptions.AffectsRender));
-
-        public Brush LineBrush
-        {
-            get => (Brush)GetValue(LineBrushProperty);
-            set => SetValue(LineBrushProperty, value);
-        }
-
-        public double GridSize
-        {
-            get => (double)GetValue(GridSizeProperty);
-            set => SetValue(GridSizeProperty, value);
-        }
-
-        public static readonly DependencyProperty IsDraggableProperty =
-            DependencyProperty.RegisterAttached("IsDraggable", typeof(bool), typeof(DragCanvas), new PropertyMetadata(true));
-
-        public static void SetIsDraggable(DependencyObject element, bool value)
-        {
-            element.SetValue(IsDraggableProperty, value);
-        }
-
-        public static bool GetIsDraggable(DependencyObject element)
-        {
-            return (bool)element.GetValue(IsDraggableProperty);
-        }
-
-        protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
-        {
-            base.OnVisualChildrenChanged(visualAdded, visualRemoved);
-            if (visualAdded is StepControl stepControl)
-            {
-                if (double.IsNaN(GetLeft(stepControl)))
-                {
-                    SetLeft(stepControl, 0);
-                }
-                if (double.IsNaN(GetTop(stepControl)))
-                {
-                    SetTop(stepControl, 0);
-                }
-                stepControl.MouseLeftButtonDown += UIElement_MouseLeftButtonDown;
-                stepControl.MouseMove += UIElement_MouseMove;
-                stepControl.MouseLeftButtonUp += UIElement_MouseLeftButtonUp;
-            }
-        }
-
         private void DragCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (_isMultiMoving)
             {
                 return;
             }
-            Point mousePosition = e.GetPosition(this);
+            Point point = e.GetPosition(this);
             Children.Remove(_multiSelectionRectangle);
-            DependencyObject hitObject = VisualTreeHelper.HitTest(this, mousePosition)?.VisualHit;
             foreach (var item in Items)
             {
                 item.IsSelected = false;
             }
-            if (hitObject?.FindParentObject<StepControl>() is StepControl stepControl)
+            DependencyObject hitObject = VisualTreeHelper.HitTest(this, point)?.VisualHit;
+            if (hitObject?.FindParentObject<StepItem>() is StepItem stepItem)
             {
-                stepControl.IsSelected = true;
+                stepItem.IsSelected = true;
             }
 
             if (_isMoving || _isDrawing)
@@ -186,13 +190,12 @@ namespace OhmStudio.UI.Controls
                 return;
             }
 
-            _selectionRectangle = new Rectangle();
-            _selectionRectangle.Fill = "#88AACCEE".ToSolidColorBrush();
-            _selectionRectangle.Stroke = "#FF0F80D9".ToSolidColorBrush();
+            if (!Children.Contains(_selectionRectangle))
+            {
+                Children.Add(_selectionRectangle);
+            }
 
-            SetZIndex(_selectionRectangle, int.MaxValue);
-            Children.Add(_selectionRectangle);
-            _selectionStartPoint = e.GetPosition(this);
+            _selectionStartPoint = point;
             _isSelecting = true;
 
             // Reset the selection rectangle
@@ -204,15 +207,13 @@ namespace OhmStudio.UI.Controls
 
         private void DragCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_isMoving || _isDrawing || e.LeftButton != MouseButtonState.Pressed)
+            if (e.LeftButton != MouseButtonState.Pressed)
             {
                 return;
             }
-
+            Point point = e.GetPosition(this);
             if (_isMultiMoving)
             {
-                var selected = SelectedItems.Where(x => GetIsDraggable(x));
-                Point point = e.GetPosition(this);
                 Vector vector = point - _multiMouseDownPoint;
 
                 SetLeft(_multiSelectionRectangle, _multiMouseDownRectanglePoint.X + vector.X);
@@ -225,7 +226,7 @@ namespace OhmStudio.UI.Controls
                 {
                     SetTop(_multiSelectionRectangle, 0);
                 }
-                foreach (var item in selected)
+                foreach (var item in SelectedItems.Where(x => GetIsDraggable(x)))
                 {
                     var minX = item.MouseDownControlPoint.X - _multiMouseDownRectanglePoint.X;
                     var minY = item.MouseDownControlPoint.Y - _multiMouseDownRectanglePoint.Y;
@@ -252,8 +253,6 @@ namespace OhmStudio.UI.Controls
             }
             else if (_isSelecting)
             {
-                Point point = e.GetPosition(this);
-
                 double x = Math.Min(point.X, _selectionStartPoint.X);
                 double y = Math.Min(point.Y, _selectionStartPoint.Y);
 
@@ -309,6 +308,61 @@ namespace OhmStudio.UI.Controls
                     Children.Remove(_multiSelectionRectangle);
                 }
             }
+            else if (_isDrawing)
+            {
+                if (_currentPath == null)
+                {
+                    // Initialize the path and the Bezier curve only when mouse moves after the initial click
+                    _currentPath = new Path
+                    {
+                        Stroke = Brushes.Black,
+                        StrokeThickness = 2
+                    };
+
+                    _pathFigure = new PathFigure { StartPoint = _pathStartPoint };
+                    _bezierSegment = new BezierSegment();
+                    _pathFigure.Segments.Add(_bezierSegment);
+                    PathGeometry pathGeometry = new PathGeometry();
+                    pathGeometry.Figures.Add(_pathFigure);
+                    _currentPath.Data = pathGeometry;
+
+                    Children.Add(_currentPath);
+                }
+
+                _bezierSegment.Point1 = new Point((_pathStartPoint.X + point.X) / 2, _pathStartPoint.Y);
+                _bezierSegment.Point2 = new Point((_pathStartPoint.X + point.X) / 2, point.Y);
+                _bezierSegment.Point3 = point;
+                _currentPath.Data = new PathGeometry(new PathFigure[] { _pathFigure });
+            }
+            else if (_isMoving)
+            {
+                var stepItem = _lastStepItem;
+                if (!GetIsDraggable(stepItem))
+                {
+                    return;
+                }
+                Vector vector = point - _mouseDownPoint;
+                SetLeft(stepItem, Math.Round(_mouseDownControlPoint.X + vector.X, 0));
+                SetTop(stepItem, Math.Round(_mouseDownControlPoint.Y + vector.Y, 0));
+
+                if (GetLeft(stepItem) < 0)
+                {
+                    SetLeft(stepItem, 0);
+                }
+                if (GetTop(stepItem) < 0)
+                {
+                    SetTop(stepItem, 0);
+                }
+
+                if (GetLeft(stepItem) > ActualWidth - stepItem.ActualWidth)
+                {
+                    SetLeft(stepItem, ActualWidth - stepItem.ActualWidth);
+                }
+                if (GetTop(stepItem) > ActualHeight - stepItem.ActualHeight)
+                {
+                    SetTop(stepItem, ActualHeight - stepItem.ActualHeight);
+                }
+            }
         }
 
         private void DragCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -321,7 +375,6 @@ namespace OhmStudio.UI.Controls
                 }
 
                 Children.Remove(_selectionRectangle);
-                _selectionRectangle = null;
             }
             finally
             {
@@ -352,103 +405,38 @@ namespace OhmStudio.UI.Controls
             return hitElements.Any(x => x is Ellipse);
         }
 
-        private void UIElement_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void StepItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var stepControl = sender as StepControl;
+            var stepItem = sender as StepItem;
+            _lastStepItem = stepItem;
             Point point = e.GetPosition(this);
-            var ellipseItem = stepControl.IsPoint(point);
+            var ellipseItem = stepItem.IsPoint(point);
             if (ellipseItem != null)
             {
                 _isDrawing = true;
-                _startPoint = ellipseItem.GetEllipsePoint(this);
+                _pathStartPoint = ellipseItem.GetEllipsePoint(this);
             }
             else
             {
                 _isMoving = true;
             }
 
-            if ((!GetIsDraggable(stepControl) && !_isDrawing) || _isSelecting || _isMultiMoving)
+            if ((!GetIsDraggable(stepItem) && !_isDrawing) || _isSelecting || _isMultiMoving)
             {
                 return;
             }
 
-            _cursor = stepControl.Cursor;
-            stepControl.Cursor = _isDrawing ? Cursors.Cross : Cursors.ScrollAll;
+            _cursor = stepItem.Cursor;
+            stepItem.Cursor = _isDrawing ? Cursors.Cross : Cursors.ScrollAll;
             _mouseDownPoint = point;
-            _mouseDownControlPoint = new Point(GetLeft(stepControl), GetTop(stepControl));
-            stepControl.CaptureMouse();
+            _mouseDownControlPoint = new Point(GetLeft(stepItem), GetTop(stepItem));
         }
 
-        private void UIElement_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (_isSelecting || _isMultiMoving)
-            {
-                return;
-            }
-
-            Point point = e.GetPosition(this);
-            var stepControl = sender as StepControl;
-            if (e.LeftButton != MouseButtonState.Pressed)
-            {
-                return;
-            }
-            if (_isDrawing)
-            {
-                if (_currentPath == null)
-                {
-                    // Initialize the path and the Bezier curve only when mouse moves after the initial click
-                    _currentPath = new Path
-                    {
-                        Stroke = Brushes.Black,
-                        StrokeThickness = 2
-                    };
-
-                    _pathFigure = new PathFigure { StartPoint = _startPoint };
-                    _bezierSegment = new BezierSegment();
-                    _pathFigure.Segments.Add(_bezierSegment);
-                    PathGeometry pathGeometry = new PathGeometry();
-                    pathGeometry.Figures.Add(_pathFigure);
-                    _currentPath.Data = pathGeometry;
-
-                    Children.Add(_currentPath);
-                }
-
-                _bezierSegment.Point1 = new Point((_startPoint.X + point.X) / 2, _startPoint.Y);
-                _bezierSegment.Point2 = new Point((_startPoint.X + point.X) / 2, point.Y);
-                _bezierSegment.Point3 = point;
-                _currentPath.Data = new PathGeometry(new PathFigure[] { _pathFigure });
-            }
-            else if (_isMoving && GetIsDraggable(stepControl))
-            {
-                Vector vector = point - _mouseDownPoint;
-                SetLeft(stepControl, Math.Round(_mouseDownControlPoint.X + vector.X, 0));
-                SetTop(stepControl, Math.Round(_mouseDownControlPoint.Y + vector.Y, 0));
-
-                if (GetLeft(stepControl) < 0)
-                {
-                    SetLeft(stepControl, 0);
-                }
-                if (GetTop(stepControl) < 0)
-                {
-                    SetTop(stepControl, 0);
-                }
-
-                if (GetLeft(stepControl) > ActualWidth - stepControl.ActualWidth)
-                {
-                    SetLeft(stepControl, ActualWidth - stepControl.ActualWidth);
-                }
-                if (GetTop(stepControl) > ActualHeight - stepControl.ActualHeight)
-                {
-                    SetTop(stepControl, ActualHeight - stepControl.ActualHeight);
-                }
-            }
-        }
-
-        private void UIElement_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void StepItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             try
             {
-                var stepControl = sender as StepControl;
+                var stepItem = sender as StepItem;
                 if (_isDrawing)
                 {
                     Point point = e.GetPosition(this);
@@ -460,14 +448,13 @@ namespace OhmStudio.UI.Controls
                     _currentPath = null;
                 }
 
-                if ((!GetIsDraggable(stepControl) && !_isDrawing) || _isSelecting || _isMultiMoving)
+                if ((!GetIsDraggable(stepItem) && !_isDrawing) || _isSelecting || _isMultiMoving)
                 {
                     return;
                 }
-                stepControl.Cursor = _cursor;
-                SetLeft(stepControl, Adsorb(GetLeft(stepControl)));
-                SetTop(stepControl, Adsorb(GetTop(stepControl)));
-                stepControl.ReleaseMouseCapture();
+                stepItem.Cursor = _cursor;
+                SetLeft(stepItem, Adsorb(GetLeft(stepItem)));
+                SetTop(stepItem, Adsorb(GetTop(stepItem)));
             }
             finally
             {
@@ -476,7 +463,7 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        public double Adsorb(double value)
+        private double Adsorb(double value)
         {
             if (double.IsNaN(value))
             {

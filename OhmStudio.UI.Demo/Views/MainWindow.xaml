@@ -697,21 +697,21 @@
                                             <!--<Setter Property="CornerRadius" Value="4" />-->
                                         </Style>
                                     </DragCanvas.Resources>
-                                    <StepControl>
+                                    <StepItem>
                                         <TextBlock HorizontalAlignment="Center">开始</TextBlock>
-                                    </StepControl>
-                                    <StepControl Canvas.Top="100">
+                                    </StepItem>
+                                    <StepItem Canvas.Top="100">
                                         <TextBlock HorizontalAlignment="Center">中间节点1</TextBlock>
-                                    </StepControl>
-                                    <StepControl Canvas.Top="200">
+                                    </StepItem>
+                                    <StepItem Canvas.Top="200">
                                         <TextBlock HorizontalAlignment="Center">中间节点2</TextBlock>
-                                    </StepControl>
-                                    <StepControl Canvas.Top="300" DragCanvas.IsDraggable="False">
+                                    </StepItem>
+                                    <StepItem Canvas.Top="300" DragCanvas.IsDraggable="False">
                                         <TextBlock HorizontalAlignment="Center">结束</TextBlock>
-                                    </StepControl>
-                                    <StepControl Canvas.Top="400">
+                                    </StepItem>
+                                    <StepItem Canvas.Top="400">
                                         <TextBlock HorizontalAlignment="Center">结束</TextBlock>
-                                    </StepControl>
+                                    </StepItem>
                                     <!--<Button>456</Button>-->
                                 </DragCanvas>
                             </LayoutDocument>
