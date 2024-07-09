@@ -1498,7 +1498,7 @@
     </Style>
     <Style BasedOn="{StaticResource NumericUpDownBaseStyle}" TargetType="controls:NumericUpDown" />
 
-    <Style x:Key="CustomBorderBaseStyle" TargetType="controls:CustomBorder">
+    <Style x:Key="StepControlBaseStyle" TargetType="controls:StepControl">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -1510,7 +1510,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:CustomBorder">
+                <ControlTemplate TargetType="controls:StepControl">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -1527,22 +1527,27 @@
                             </Panel.Resources>
 
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                            <!--  左边的中间圆形  -->
+                            <Ellipse x:Name="EllipseLeft"
+                                     Margin="-4,0,0,0"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center" />
                             <!--  顶边的中间圆形  -->
-                            <Ellipse Margin="0,-4,0,0"
+                            <Ellipse x:Name="EllipseTop"
+                                     Margin="0,-4,0,0"
                                      HorizontalAlignment="Center"
                                      VerticalAlignment="Top" />
                             <!--  右边的中间圆形  -->
-                            <Ellipse Margin="0,0,-4,0"
+                            <Ellipse x:Name="EllipseRight"
+                                     Margin="0,0,-4,0"
                                      HorizontalAlignment="Right"
                                      VerticalAlignment="Center" />
                             <!--  底边的中间圆形  -->
-                            <Ellipse Margin="0,0,0,-4"
+                            <Ellipse x:Name="EllipseBottom"
+                                     Margin="0,0,0,-4"
                                      HorizontalAlignment="Center"
                                      VerticalAlignment="Bottom" />
-                            <!--  左边的中间圆形  -->
-                            <Ellipse Margin="-4,0,0,0"
-                                     HorizontalAlignment="Left"
-                                     VerticalAlignment="Center" />
 
                         </controls:SimplePanel>
                     </Border>
@@ -1555,6 +1560,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style BasedOn="{StaticResource CustomBorderBaseStyle}" TargetType="controls:CustomBorder" />
+    <Style BasedOn="{StaticResource StepControlBaseStyle}" TargetType="controls:StepControl" />
 
 </ResourceDictionary>

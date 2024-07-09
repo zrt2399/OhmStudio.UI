@@ -2,11 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -31,13 +29,13 @@ namespace OhmStudio.UI.Controls
             _multiSelectionRectangle.Fill = "#44AACCEE".ToSolidColorBrush();
             _multiSelectionRectangle.Stroke = "#FF0F80D9".ToSolidColorBrush();
             _multiSelectionRectangle.StrokeDashArray = new DoubleCollection(new double[] { 2, 2 });
-            _multiSelectionRectangle.MouseLeftButtonDown += _multiSelectionRectangle_MouseLeftButtonDown;
-            _multiSelectionRectangle.MouseLeftButtonUp += _multiSelectionRectangle_MouseLeftButtonUp;
+            _multiSelectionRectangle.MouseLeftButtonDown += MultiSelectionRectangle_MouseLeftButtonDown;
+            _multiSelectionRectangle.MouseLeftButtonUp += MultiSelectionRectangle_MouseLeftButtonUp;
         }
 
-        private void _multiSelectionRectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void MultiSelectionRectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (_isMoving || _isSelecting)
+            if (_isMoving || _isDrawing || _isSelecting)
             {
                 return;
             }
@@ -52,52 +50,34 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        private void _multiSelectionRectangle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void MultiSelectionRectangle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_isMoving || _isSelecting)
+            try
             {
-                return;
+                if (_isMoving || _isDrawing || _isSelecting)
+                {
+                    return;
+                }
+                var frameworkElement = sender as FrameworkElement;
+                frameworkElement.Cursor = null;
+
+                SetLeft(_multiSelectionRectangle, Adsorb(GetLeft(_multiSelectionRectangle)));
+                SetTop(_multiSelectionRectangle, Adsorb(GetTop(_multiSelectionRectangle)));
+                foreach (var item in SelectedItems.Where(x => GetIsDraggable(x)))
+                {
+                    SetLeft(item, Adsorb(GetLeft(item)));
+                    SetTop(item, Adsorb(GetTop(item)));
+                }
             }
-            _isMultiMoving = false;
-            var frameworkElement = sender as FrameworkElement;
-            frameworkElement.Cursor = null;
-            var selected = SelectedItems.Where(x => GetIsDraggable(x));
-            SetLeft(_multiSelectionRectangle, Adsorb(GetLeft(_multiSelectionRectangle)));
-            SetTop(_multiSelectionRectangle, Adsorb(GetTop(_multiSelectionRectangle)));
-            foreach (var item in selected)
+            finally
             {
-                //if (GetLeft(_multiSelectionRectangle) < 0)
-                //{
-                //    SetLeft(_multiSelectionRectangle, 0);
-                //    continue;
-                //}
-                //if (GetTop(_multiSelectionRectangle) < 0)
-                //{
-                //    SetTop(_multiSelectionRectangle, 0);
-                //    continue;
-                //}
-
-                SetLeft(item, Adsorb(GetLeft(item)));
-                SetTop(item, Adsorb(GetTop(item)));
-
-                //SetLeft(item, item.MouseDownControlPoint.X + vector.X);
-                //SetTop(item, item.MouseDownControlPoint.Y + vector.Y);
-
-
-                //if (GetLeft(item) > ActualWidth - item.ActualWidth)
-                //{
-                //    SetLeft(item, ActualWidth - item.ActualWidth);
-                //}
-                //if (GetTop(item) > ActualHeight - item.ActualHeight)
-                //{
-                //    SetTop(item, ActualHeight - item.ActualHeight);
-                //}
+                _isMultiMoving = false;
             }
         }
 
-        public IEnumerable<CustomBorder> Items => Children.OfType<CustomBorder>();
+        public IEnumerable<StepControl> Items => Children.OfType<StepControl>();
 
-        public IEnumerable<CustomBorder> SelectedItems => Items.Where(x => x.IsSelected);
+        public IEnumerable<StepControl> SelectedItems => Items.Where(x => x.IsSelected);
 
         //鼠标选中多个元素的Rectangle遮罩
         private Rectangle _multiSelectionRectangle;
@@ -108,6 +88,8 @@ namespace OhmStudio.UI.Controls
 
         //正在拖动中
         private bool _isMoving;
+        //正在绘制曲线中
+        private bool _isDrawing;
         //正在选择中
         private bool _isSelecting;
         //多个选中正在拖动中
@@ -123,6 +105,11 @@ namespace OhmStudio.UI.Controls
         private Point _multiMouseDownPoint;
         //多个选中时Rectangle遮罩按下的位置
         private Point _multiMouseDownRectanglePoint;
+
+        private Point _startPoint;
+        private Path _currentPath;
+        private PathFigure _pathFigure;
+        private BezierSegment _bezierSegment;
 
         public static readonly DependencyProperty LineBrushProperty =
            DependencyProperty.Register(nameof(LineBrush), typeof(Brush), typeof(DragCanvas),
@@ -160,19 +147,19 @@ namespace OhmStudio.UI.Controls
         protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
         {
             base.OnVisualChildrenChanged(visualAdded, visualRemoved);
-            if (visualAdded is CustomBorder customBorder)
+            if (visualAdded is StepControl stepControl)
             {
-                if (double.IsNaN(GetLeft(customBorder)))
+                if (double.IsNaN(GetLeft(stepControl)))
                 {
-                    SetLeft(customBorder, 0);
+                    SetLeft(stepControl, 0);
                 }
-                if (double.IsNaN(GetTop(customBorder)))
+                if (double.IsNaN(GetTop(stepControl)))
                 {
-                    SetTop(customBorder, 0);
+                    SetTop(stepControl, 0);
                 }
-                customBorder.MouseLeftButtonDown += UIElement_MouseLeftButtonDown;
-                customBorder.MouseMove += UIElement_MouseMove;
-                customBorder.MouseLeftButtonUp += UIElement_MouseLeftButtonUp;
+                stepControl.MouseLeftButtonDown += UIElement_MouseLeftButtonDown;
+                stepControl.MouseMove += UIElement_MouseMove;
+                stepControl.MouseLeftButtonUp += UIElement_MouseLeftButtonUp;
             }
         }
 
@@ -189,12 +176,12 @@ namespace OhmStudio.UI.Controls
             {
                 item.IsSelected = false;
             }
-            if (hitObject?.FindParentObject<CustomBorder>() is CustomBorder customBorder)
+            if (hitObject?.FindParentObject<StepControl>() is StepControl stepControl)
             {
-                customBorder.IsSelected = true;
+                stepControl.IsSelected = true;
             }
 
-            if (_isMoving)
+            if (_isMoving || _isDrawing)
             {
                 return;
             }
@@ -217,38 +204,41 @@ namespace OhmStudio.UI.Controls
 
         private void DragCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_isMoving)
+            if (_isMoving || _isDrawing || e.LeftButton != MouseButtonState.Pressed)
             {
                 return;
             }
 
             if (_isMultiMoving)
             {
-                if (e.LeftButton != MouseButtonState.Pressed)
-                {
-                    return;
-                }
                 var selected = SelectedItems.Where(x => GetIsDraggable(x));
                 Point point = e.GetPosition(this);
                 Vector vector = point - _multiMouseDownPoint;
 
                 SetLeft(_multiSelectionRectangle, _multiMouseDownRectanglePoint.X + vector.X);
                 SetTop(_multiSelectionRectangle, _multiMouseDownRectanglePoint.Y + vector.Y);
+                if (GetLeft(_multiSelectionRectangle) < 0)
+                {
+                    SetLeft(_multiSelectionRectangle, 0);
+                }
+                if (GetTop(_multiSelectionRectangle) < 0)
+                {
+                    SetTop(_multiSelectionRectangle, 0);
+                }
                 foreach (var item in selected)
                 {
-                    //if (GetLeft(_multiSelectionRectangle) < 0)
-                    //{
-                    //    SetLeft(_multiSelectionRectangle, 0);
-                    //    continue;
-                    //}
-                    //if (GetTop(_multiSelectionRectangle) < 0)
-                    //{
-                    //    SetTop(_multiSelectionRectangle, 0);
-                    //    continue;
-                    //}
+                    var minX = item.MouseDownControlPoint.X - _multiMouseDownRectanglePoint.X;
+                    var minY = item.MouseDownControlPoint.Y - _multiMouseDownRectanglePoint.Y;
                     SetLeft(item, item.MouseDownControlPoint.X + vector.X);
                     SetTop(item, item.MouseDownControlPoint.Y + vector.Y);
-
+                    if (GetLeft(item) < minX)
+                    {
+                        SetLeft(item, minX);
+                    }
+                    if (GetTop(item) < minY)
+                    {
+                        SetTop(item, minY);
+                    }
 
                     //if (GetLeft(item) > ActualWidth - item.ActualWidth)
                     //{
@@ -260,12 +250,8 @@ namespace OhmStudio.UI.Controls
                     //}
                 }
             }
-            else
+            else if (_isSelecting)
             {
-                if (!_isSelecting)
-                {
-                    return;
-                }
                 Point point = e.GetPosition(this);
 
                 double x = Math.Min(point.X, _selectionStartPoint.X);
@@ -282,7 +268,7 @@ namespace OhmStudio.UI.Controls
                 foreach (var item in Items)
                 {
                     item.IsSelected = false;
-                    if (IsInside(selectedArea, new Rect(GetLeft(item), GetTop(item), item.ActualWidth, item.ActualHeight)))
+                    if (selectedArea.IntersectsWith(new Rect(GetLeft(item), GetTop(item), item.ActualWidth, item.ActualHeight)))
                     {
                         item.IsSelected = true;
                     }
@@ -327,97 +313,167 @@ namespace OhmStudio.UI.Controls
 
         private void DragCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_isMoving || _isMultiMoving)
+            try
             {
-                return;
+                if (_isMoving || _isDrawing || _isMultiMoving)
+                {
+                    return;
+                }
+
+                Children.Remove(_selectionRectangle);
+                _selectionRectangle = null;
             }
-            _isSelecting = false;
-            Children.Remove(_selectionRectangle);
-            _selectionRectangle = null;
+            finally
+            {
+                _isSelecting = false;
+            }
         }
 
-        public static bool IsInside(Rect outerRect, Rect innerRect)
+        public bool IsPoint(Point point)
         {
-            // 获取内部矩形的四个顶点
-            Point topLeft = new Point(innerRect.Left, innerRect.Top);
-            Point topRight = new Point(innerRect.Right, innerRect.Top);
-            Point bottomLeft = new Point(innerRect.Left, innerRect.Bottom);
-            Point bottomRight = new Point(innerRect.Right, innerRect.Bottom);
+            List<UIElement> hitElements = new List<UIElement>();
 
-            return outerRect.Contains(topLeft) || outerRect.Contains(topRight) || outerRect.Contains(bottomLeft) || outerRect.Contains(bottomRight);
+            // 使用HitTest方法和回调函数获取所有命中的控件
+            VisualTreeHelper.HitTest(
+                this,
+                null,
+                new HitTestResultCallback(
+                    result =>
+                    {
+                        HitTestResultBehavior behavior = HitTestResultBehavior.Continue;
+                        if (result.VisualHit is UIElement hitElement)
+                        {
+                            hitElements.Add(hitElement);
+                        }
+                        return behavior;
+                    }),
+                new PointHitTestParameters(point));
+
+            return hitElements.Any(x => x is Ellipse);
         }
 
         private void UIElement_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _isMoving = true;
-            var frameworkElement = sender as FrameworkElement;
-            if (!GetIsDraggable(frameworkElement) || _isSelecting || _isMultiMoving)
+            var stepControl = sender as StepControl;
+            Point point = e.GetPosition(this);
+            var ellipseItem = stepControl.IsPoint(point);
+            if (ellipseItem != null)
+            {
+                _isDrawing = true;
+                _startPoint = ellipseItem.GetEllipsePoint(this);
+            }
+            else
+            {
+                _isMoving = true;
+            }
+
+            if ((!GetIsDraggable(stepControl) && !_isDrawing) || _isSelecting || _isMultiMoving)
             {
                 return;
             }
 
-            _cursor = frameworkElement.Cursor;
-            frameworkElement.Cursor = Cursors.ScrollAll;
-            _mouseDownPoint = e.GetPosition(this);
-            _mouseDownControlPoint = new Point(GetLeft(frameworkElement), GetTop(frameworkElement));
-            frameworkElement.CaptureMouse();
+            _cursor = stepControl.Cursor;
+            stepControl.Cursor = _isDrawing ? Cursors.Cross : Cursors.ScrollAll;
+            _mouseDownPoint = point;
+            _mouseDownControlPoint = new Point(GetLeft(stepControl), GetTop(stepControl));
+            stepControl.CaptureMouse();
         }
 
         private void UIElement_MouseMove(object sender, MouseEventArgs e)
         {
-            var frameworkElement = sender as FrameworkElement;
-            if (!GetIsDraggable(frameworkElement) || _isSelecting || _isMultiMoving)
+            if (_isSelecting || _isMultiMoving)
             {
                 return;
             }
-            //Debug.WriteLine(e.LeftButton + GetLeft(frameworkElement).ToString() + GetTop(frameworkElement));
-            if (e.LeftButton == MouseButtonState.Pressed)
+
+            Point point = e.GetPosition(this);
+            var stepControl = sender as StepControl;
+            if (e.LeftButton != MouseButtonState.Pressed)
             {
-                Point point = e.GetPosition(this);
-
-                DependencyObject hitObject = VisualTreeHelper.HitTest(this, point)?.VisualHit;
-                if (hitObject is Ellipse)
+                return;
+            }
+            if (_isDrawing)
+            {
+                if (_currentPath == null)
                 {
+                    // Initialize the path and the Bezier curve only when mouse moves after the initial click
+                    _currentPath = new Path
+                    {
+                        Stroke = Brushes.Black,
+                        StrokeThickness = 2
+                    };
 
+                    _pathFigure = new PathFigure { StartPoint = _startPoint };
+                    _bezierSegment = new BezierSegment();
+                    _pathFigure.Segments.Add(_bezierSegment);
+                    PathGeometry pathGeometry = new PathGeometry();
+                    pathGeometry.Figures.Add(_pathFigure);
+                    _currentPath.Data = pathGeometry;
+
+                    Children.Add(_currentPath);
                 }
 
+                _bezierSegment.Point1 = new Point((_startPoint.X + point.X) / 2, _startPoint.Y);
+                _bezierSegment.Point2 = new Point((_startPoint.X + point.X) / 2, point.Y);
+                _bezierSegment.Point3 = point;
+                _currentPath.Data = new PathGeometry(new PathFigure[] { _pathFigure });
+            }
+            else if (_isMoving && GetIsDraggable(stepControl))
+            {
                 Vector vector = point - _mouseDownPoint;
-                SetLeft(frameworkElement, Math.Round(_mouseDownControlPoint.X + vector.X, 0));
-                SetTop(frameworkElement, Math.Round(_mouseDownControlPoint.Y + vector.Y, 0));
+                SetLeft(stepControl, Math.Round(_mouseDownControlPoint.X + vector.X, 0));
+                SetTop(stepControl, Math.Round(_mouseDownControlPoint.Y + vector.Y, 0));
 
-                if (GetLeft(frameworkElement) < 0)
+                if (GetLeft(stepControl) < 0)
                 {
-                    SetLeft(frameworkElement, 0);
+                    SetLeft(stepControl, 0);
                 }
-                if (GetTop(frameworkElement) < 0)
+                if (GetTop(stepControl) < 0)
                 {
-                    SetTop(frameworkElement, 0);
+                    SetTop(stepControl, 0);
                 }
 
-                if (GetLeft(frameworkElement) > ActualWidth - frameworkElement.ActualWidth)
+                if (GetLeft(stepControl) > ActualWidth - stepControl.ActualWidth)
                 {
-                    SetLeft(frameworkElement, ActualWidth - frameworkElement.ActualWidth);
+                    SetLeft(stepControl, ActualWidth - stepControl.ActualWidth);
                 }
-                if (GetTop(frameworkElement) > ActualHeight - frameworkElement.ActualHeight)
+                if (GetTop(stepControl) > ActualHeight - stepControl.ActualHeight)
                 {
-                    SetTop(frameworkElement, ActualHeight - frameworkElement.ActualHeight);
+                    SetTop(stepControl, ActualHeight - stepControl.ActualHeight);
                 }
-                //Debug.WriteLine($"left:{GetLeft(uIElement)},top:{GetTop(uIElement)}");
             }
         }
 
         private void UIElement_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            _isMoving = false;
-            var frameworkElement = sender as FrameworkElement;
-            if (!GetIsDraggable(frameworkElement) || _isSelecting || _isMultiMoving)
+            try
             {
-                return;
+                var stepControl = sender as StepControl;
+                if (_isDrawing)
+                {
+                    Point point = e.GetPosition(this);
+                    if (!IsPoint(point))
+                    {
+                        Children.Remove(_currentPath);
+                    }
+
+                    _currentPath = null;
+                }
+
+                if ((!GetIsDraggable(stepControl) && !_isDrawing) || _isSelecting || _isMultiMoving)
+                {
+                    return;
+                }
+                stepControl.Cursor = _cursor;
+                SetLeft(stepControl, Adsorb(GetLeft(stepControl)));
+                SetTop(stepControl, Adsorb(GetTop(stepControl)));
+                stepControl.ReleaseMouseCapture();
             }
-            frameworkElement.Cursor = _cursor;
-            SetLeft(frameworkElement, Adsorb(GetLeft(frameworkElement)));
-            SetTop(frameworkElement, Adsorb(GetTop(frameworkElement)));
-            frameworkElement.ReleaseMouseCapture();
+            finally
+            {
+                _isMoving = false;
+                _isDrawing = false;
+            }
         }
 
         public double Adsorb(double value)

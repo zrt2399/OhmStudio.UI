@@ -697,21 +697,21 @@
                                             <!--<Setter Property="CornerRadius" Value="4" />-->
                                         </Style>
                                     </DragCanvas.Resources>
-                                    <CustomBorder>
+                                    <StepControl>
                                         <TextBlock HorizontalAlignment="Center">开始</TextBlock>
-                                    </CustomBorder>
-                                    <CustomBorder Canvas.Top="100">
+                                    </StepControl>
+                                    <StepControl Canvas.Top="100">
                                         <TextBlock HorizontalAlignment="Center">中间节点1</TextBlock>
-                                    </CustomBorder>
-                                    <CustomBorder Canvas.Top="200">
+                                    </StepControl>
+                                    <StepControl Canvas.Top="200">
                                         <TextBlock HorizontalAlignment="Center">中间节点2</TextBlock>
-                                    </CustomBorder>
-                                    <CustomBorder Canvas.Top="300" DragCanvas.IsDraggable="False">
+                                    </StepControl>
+                                    <StepControl Canvas.Top="300" DragCanvas.IsDraggable="False">
                                         <TextBlock HorizontalAlignment="Center">结束</TextBlock>
-                                    </CustomBorder>
-                                    <CustomBorder Canvas.Top="400">
+                                    </StepControl>
+                                    <StepControl Canvas.Top="400">
                                         <TextBlock HorizontalAlignment="Center">结束</TextBlock>
-                                    </CustomBorder>
+                                    </StepControl>
                                     <!--<Button>456</Button>-->
                                 </DragCanvas>
                             </LayoutDocument>
