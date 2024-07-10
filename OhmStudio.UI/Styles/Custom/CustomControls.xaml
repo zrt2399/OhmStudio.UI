@@ -1516,38 +1516,32 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
                         <controls:SimplePanel>
-                            <Panel.Resources>
-                                <Style TargetType="Ellipse">
-                                    <Setter Property="Fill" Value="Red" />
-                                    <Setter Property="Stroke" Value="Blue" />
-                                    <Setter Property="Width" Value="8" />
-                                    <Setter Property="Height" Value="8" />
-                                    <Setter Property="Cursor" Value="Cross" />
-                                </Style>
-                            </Panel.Resources>
-
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
                             <!--  左边的中间圆形  -->
-                            <Ellipse x:Name="EllipseLeft"
-                                     Margin="-4,0,0,0"
-                                     HorizontalAlignment="Left"
-                                     VerticalAlignment="Center" />
+                            <controls:EllipseItem x:Name="EllipseLeft"
+                                                  Margin="-4,0,0,0"
+                                                  HorizontalAlignment="Left"
+                                                  VerticalAlignment="Center"
+                                                  EllipseOrientation="Left" />
                             <!--  顶边的中间圆形  -->
-                            <Ellipse x:Name="EllipseTop"
-                                     Margin="0,-4,0,0"
-                                     HorizontalAlignment="Center"
-                                     VerticalAlignment="Top" />
+                            <controls:EllipseItem x:Name="EllipseTop"
+                                                  Margin="0,-4,0,0"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Top"
+                                                  EllipseOrientation="Top" />
                             <!--  右边的中间圆形  -->
-                            <Ellipse x:Name="EllipseRight"
-                                     Margin="0,0,-4,0"
-                                     HorizontalAlignment="Right"
-                                     VerticalAlignment="Center" />
+                            <controls:EllipseItem x:Name="EllipseRight"
+                                                  Margin="0,0,-4,0"
+                                                  HorizontalAlignment="Right"
+                                                  VerticalAlignment="Center"
+                                                  EllipseOrientation="Right" />
                             <!--  底边的中间圆形  -->
-                            <Ellipse x:Name="EllipseBottom"
-                                     Margin="0,0,0,-4"
-                                     HorizontalAlignment="Center"
-                                     VerticalAlignment="Bottom" />
+                            <controls:EllipseItem x:Name="EllipseBottom"
+                                                  Margin="0,0,0,-4"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Bottom"
+                                                  EllipseOrientation="Bottom" />
 
                         </controls:SimplePanel>
                     </Border>
@@ -1561,5 +1555,26 @@
         </Setter>
     </Style>
     <Style BasedOn="{StaticResource StepItemBaseStyle}" TargetType="controls:StepItem" />
+
+    <Style x:Key="EllipseItemBaseStyle" TargetType="controls:EllipseItem">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Width" Value="8" />
+        <Setter Property="Height" Value="8" />
+        <Setter Property="Background" Value="Red" />
+        <Setter Property="BorderBrush" Value="Blue" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:EllipseItem">
+                    <Ellipse Width="{TemplateBinding Width}"
+                             Height="{TemplateBinding Height}"
+                             Margin="{TemplateBinding Padding}"
+                             Fill="{TemplateBinding Background}"
+                             Stroke="{TemplateBinding BorderBrush}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style BasedOn="{StaticResource EllipseItemBaseStyle}" TargetType="controls:EllipseItem" />
 
 </ResourceDictionary>

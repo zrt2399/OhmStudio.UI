@@ -96,7 +96,7 @@ namespace OhmStudio.UI.Demo.Views
                     StatusBarContent = "CurrentFocusedElement: " + Keyboard.FocusedElement;
                 }
             };
- 
+
             ZoomInCommand = new RelayCommand(ZoomIn);
             ZoomOutCommand = new RelayCommand(ZoomOut);
             SearchCommand = new RelayCommand(() => UIMessageTip.Show("什么也没搜索到..."));
@@ -107,7 +107,7 @@ namespace OhmStudio.UI.Demo.Views
                     ExpandAllTreeViewModelItem(item, false);
                 }
             });
-             
+
             PackIcons = new ObservableCollection<PackIconKind>(PackIconDataFactory.Create().Keys);
 
             Result.Columns.Add("Time");
@@ -597,7 +597,7 @@ namespace OhmStudio.UI.Demo.Views
                 TreeViewSelectedItem.IsEditing = true;
             }
         }
- 
+
         private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             StatusBarContent = $"DataGrid当前编辑元素：{e.Column.GetCellContent(e.Row)}";
@@ -692,23 +692,16 @@ namespace OhmStudio.UI.Demo.Views
 
         public TreeViewModel() { }
 
-        static int _i = 0;
         public TreeViewModel(string header, bool isFolder, string fullPath, TreeViewModel parent = null) : this()
         {
             Header = header;
             IsFolder = isFolder;
             FullPath = fullPath;
             Parent = parent;
-            //InitIcon();
-            IconImageSource = IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullPath);
-            _i++;
-            Debug.WriteLine(_i);
-        }
-
-        async void InitIcon()
-        {
-            var icon = await Task.Run(() => IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullPath));
-            IconImageSource = icon;
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                IconImageSource = IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullPath);
+            }, DispatcherPriority.SystemIdle);
         }
 
         [DoNotNotify]

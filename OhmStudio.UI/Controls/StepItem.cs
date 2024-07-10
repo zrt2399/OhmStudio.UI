@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -7,18 +8,22 @@ using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
-    internal class EllipseItem
+    internal class EllipseItem : ContentControl
     {
-        public EllipseItem(Ellipse ellipse)
-        {
-            Ellipse = ellipse;
-        }
-
-        internal Ellipse Ellipse { get; set; }
+        internal EllipseOrientation EllipseOrientation { get; set; }
+        internal StepItem ParentStep { get; set; }
         internal Point GetEllipsePoint(UIElement parent)
         {
-            return Ellipse.TranslatePoint(new Point(Ellipse.ActualWidth / 2, Ellipse.ActualHeight / 2), parent);
+            return TranslatePoint(new Point(ActualWidth / 2, ActualHeight / 2), parent);
         }
+    }
+
+    public enum EllipseOrientation
+    {
+        Left,
+        Top,
+        Right,
+        Bottom
     }
 
     public enum FlowType
@@ -33,7 +38,7 @@ namespace OhmStudio.UI.Controls
     {
         public StepItem()
         {
-             
+
         }
 
         public static readonly DependencyProperty IsSelectedProperty =
@@ -92,14 +97,14 @@ namespace OhmStudio.UI.Controls
 
         internal Point MouseDownControlPoint { get; set; }
 
-        private Ellipse EllipseLeft;
-        private Ellipse EllipseTop;
-        private Ellipse EllipseRight;
-        private Ellipse EllipseBottom;
+        private EllipseItem EllipseLeft;
+        private EllipseItem EllipseTop;
+        private EllipseItem EllipseRight;
+        private EllipseItem EllipseBottom;
 
         public DragCanvas DragCanvas { get; private set; }
 
-        internal EllipseItem[] EllipseItems { get; private set; }
+        internal Dictionary<EllipseOrientation, EllipseItem> EllipseItems { get; private set; }
 
         public bool IsInit { get; private set; }
 
@@ -108,24 +113,60 @@ namespace OhmStudio.UI.Controls
             base.OnApplyTemplate();
             DragCanvas = this.FindParentObject<DragCanvas>();
 
-            EllipseLeft = GetTemplateChild("EllipseLeft") as Ellipse;
-            EllipseTop = GetTemplateChild("EllipseTop") as Ellipse;
-            EllipseRight = GetTemplateChild("EllipseRight") as Ellipse;
-            EllipseBottom = GetTemplateChild("EllipseBottom") as Ellipse;
-            EllipseItems = new EllipseItem[] { new EllipseItem(EllipseLeft), new EllipseItem(EllipseTop), new EllipseItem(EllipseRight), new EllipseItem(EllipseBottom) };
+            EllipseLeft = GetTemplateChild("EllipseLeft") as EllipseItem;
+            EllipseTop = GetTemplateChild("EllipseTop") as EllipseItem;
+            EllipseRight = GetTemplateChild("EllipseRight") as EllipseItem;
+            EllipseBottom = GetTemplateChild("EllipseBottom") as EllipseItem;
+            EllipseItems = new Dictionary<EllipseOrientation, EllipseItem>();
+            EllipseItems.Add(EllipseOrientation.Left, EllipseLeft);
+            EllipseItems.Add(EllipseOrientation.Top, EllipseTop);
+            EllipseItems.Add(EllipseOrientation.Right, EllipseRight);
+            EllipseItems.Add(EllipseOrientation.Bottom, EllipseBottom);
+            foreach (var item in EllipseItems.Values)
+            {
+                item.ParentStep = this;
+            }
             IsInit = true;
         }
 
-        internal EllipseItem IsPoint(Point point)
+        internal EllipseItem GetEllipseItem(Point point)
         {
-            if (VisualTreeHelper.HitTest(DragCanvas, point)?.VisualHit is Ellipse ellipse)
+            var hit = VisualTreeHelper.HitTest(DragCanvas, point)?.VisualHit;
+            if (hit?.FindParentObject<EllipseItem>() is EllipseItem ellipseItem)
             {
-                return EllipseItems.FirstOrDefault(x => x.Ellipse == ellipse);
+                return EllipseItems.Values.FirstOrDefault(x => x == ellipseItem);
             }
             else
             {
                 return null;
             }
+        }
+
+        internal bool SetStep(StepItem fromStep, EllipseItem fromEllipse, EllipseItem ellipseItem)
+        {
+            bool flag = false;
+            if (fromEllipse.EllipseOrientation == EllipseOrientation.Left || ellipseItem.EllipseOrientation == EllipseOrientation.Right)
+            {
+                UIMessageTip.ShowWarning("被跳转节点无法直接设置");
+            }
+            else if (fromEllipse.EllipseOrientation == EllipseOrientation.Top || ellipseItem.EllipseOrientation == EllipseOrientation.Bottom)
+            {
+                UIMessageTip.ShowWarning("上一步下一步节点设置错误");
+            }
+            else if (fromEllipse.EllipseOrientation == EllipseOrientation.Right)
+            {
+                fromStep.JumpStep = this;
+                FromStep = fromStep;
+                flag = true;
+            }
+            else if (fromEllipse.EllipseOrientation == EllipseOrientation.Bottom)
+            {
+                fromStep.NextStep = this;
+                LastStep = fromStep;
+                flag = true;
+            }
+
+            return flag;
         }
     }
 }

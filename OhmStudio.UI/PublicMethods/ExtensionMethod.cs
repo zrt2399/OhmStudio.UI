@@ -21,6 +21,11 @@ namespace OhmStudio.UI.PublicMethods
 {
     public static class ExtensionMethod
     {
+        public static double ToPhysicalPixels(this double logicalPixels)
+        {
+            return logicalPixels * VisualTreeHelper.GetDpi(Application.Current.MainWindow).PixelsPerDip;
+        }
+
         public static bool ComparePropertiesWith<T>(this T t1, T t2, bool ignoreBaseProperties = false)
         {
             return PropertyComparer<T>.CompareProperties(t1, t2, ignoreBaseProperties);
@@ -139,7 +144,7 @@ namespace OhmStudio.UI.PublicMethods
                 };
             }
         }
- 
+
         public static T FindParentObject<T>(this DependencyObject obj) where T : DependencyObject
         {
             DependencyObject parent = obj is Visual or Visual3D ? VisualTreeHelper.GetParent(obj) : LogicalTreeHelper.GetParent(obj);
