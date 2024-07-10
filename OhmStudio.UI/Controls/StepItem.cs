@@ -12,6 +12,9 @@ namespace OhmStudio.UI.Controls
     {
         internal EllipseOrientation EllipseOrientation { get; set; }
         internal StepItem ParentStep { get; set; }
+
+        internal Path Line { get; set; }
+
         internal Point GetEllipsePoint(UIElement parent)
         {
             return TranslatePoint(new Point(ActualWidth / 2, ActualHeight / 2), parent);
@@ -145,6 +148,10 @@ namespace OhmStudio.UI.Controls
         internal bool SetStep(StepItem fromStep, EllipseItem fromEllipse, EllipseItem ellipseItem)
         {
             bool flag = false;
+            if (this == fromStep)
+            {
+                UIMessageTip.ShowWarning("无法设置节点为自己");
+            }
             if (fromEllipse.EllipseOrientation == EllipseOrientation.Left || ellipseItem.EllipseOrientation == EllipseOrientation.Right)
             {
                 UIMessageTip.ShowWarning("被跳转节点无法直接设置");

@@ -701,7 +701,7 @@ namespace OhmStudio.UI.Demo.Views
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 IconImageSource = IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullPath);
-            }, DispatcherPriority.SystemIdle);
+            }, DispatcherPriority.ApplicationIdle);
         }
 
         [DoNotNotify]
