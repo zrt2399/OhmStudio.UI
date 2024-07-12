@@ -119,6 +119,11 @@ namespace OhmStudio.UI.PublicMethods
             return new BrushConverter().ConvertFromString(hexString) as SolidColorBrush;
         }
 
+        public static void SaveAsImage(this UIElement uIElement, string filePath, ImageFormat imageFormat, int dpi = 300)
+        {
+            ImageHelper.SaveAsImage(uIElement, filePath, imageFormat, dpi);
+        }
+
         public static Bitmap ToBitmap(this BitmapImage bitmapImage)
         {
             return ImageHelper.BitmapImageToBitmap(bitmapImage);

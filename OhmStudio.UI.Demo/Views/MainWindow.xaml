@@ -1068,7 +1068,7 @@
                                             </WrapPanel>
                                         </GroupBox>
                                         <GroupBox Margin="10" Header="PathPicker">
-                                            <StackPanel>
+                                            <StackPanel x:Name="stackPanel">
                                                 <PathPicker MinWidth="200"
                                                             ExploreButtonContent="打开文件夹所在位置"
                                                             IsFolder="True"
@@ -1093,6 +1093,7 @@
                                                             OpenButtonContent="打开第一个文件"
                                                             TextBoxAttach.PlaceHolder="请选择单个或多个文件..."
                                                             TextBoxAttach.Title="打开多个文件：" />
+                                                <Button Click="Button_Click_16">截图当前界面</Button>
                                             </StackPanel>
                                         </GroupBox>
                                     </WrapPanel>

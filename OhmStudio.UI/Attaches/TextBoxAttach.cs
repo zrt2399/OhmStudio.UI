@@ -160,8 +160,7 @@ namespace OhmStudio.UI.Attaches
         private static void ComboBoxTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
-            ComboBox comboBox = textBox.FindParentObject<ComboBox>();
-            if (comboBox.IsEditable)
+            if (textBox.TemplatedParent is ComboBox comboBox && comboBox.IsEditable)
             {
                 UpdateHolderVisibility(comboBox, textBox.Text);
             }

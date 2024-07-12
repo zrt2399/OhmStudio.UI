@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
@@ -627,6 +628,11 @@ namespace OhmStudio.UI.Demo.Views
                 }
                 AlertDialog.Show(userPermission.ToString());
             }
+        }
+
+        private void Button_Click_16(object sender, RoutedEventArgs e)
+        {
+            stackPanel.SaveAsImage("1.png", ImageFormat.Png);
         }
     }
 

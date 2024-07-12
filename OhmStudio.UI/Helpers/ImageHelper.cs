@@ -117,40 +117,39 @@ namespace OhmStudio.UI.Helpers
         }
 
         /// <summary>
-        /// 截图转换成Bitmap。
+        /// 保存控件为png。
         /// </summary>
         /// <param name="uIElement"></param>
-        /// <param name="width">默认控件宽度</param>
-        /// <param name="height">默认控件高度</param>
-        /// <param name="x">默认0</param>
-        /// <param name="y">默认0</param>
-        /// <returns></returns>
-        public static Bitmap ToBitmap(UIElement uIElement, int width = 0, int height = 0, int x = 0, int y = 0)
+        /// <param name="filePath"></param>
+        /// <param name="imageFormat"></param>
+        /// <param name="dpi"></param>
+        public static void SaveAsImage(UIElement uIElement, string filePath, ImageFormat imageFormat, int dpi = 300)
         {
-            if (width == 0)
+            // Calculate the render size based on the desired DPI
+            var renderWidth = (int)(uIElement.RenderSize.Width * dpi / 96);
+            var renderHeight = (int)(uIElement.RenderSize.Height * dpi / 96);
+
+            // Create a render target bitmap and render the control on it
+            var renderTargetBitmap = new RenderTargetBitmap(renderWidth, renderHeight, dpi, dpi, PixelFormats.Default);
+            renderTargetBitmap.Render(uIElement);
+
+            BitmapEncoder encoder;
+            if (imageFormat == ImageFormat.Bmp)
             {
-                width = (int)uIElement.RenderSize.Width;
+                encoder = new BmpBitmapEncoder();
             }
-
-            if (height == 0)
+            else if (imageFormat == ImageFormat.Jpeg)
             {
-                height = (int)uIElement.RenderSize.Height;
+                encoder = new JpegBitmapEncoder();
             }
-
-            var rtb = new RenderTargetBitmap(width, height, x, y, PixelFormats.Default);
-            rtb.Render(uIElement);
-            var bit = BitmapSourceToBitmap(rtb);
-
-            //测试代码
-            DirectoryInfo directoryInfo = new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "Cache"));
-            if (!directoryInfo.Exists)
+            else
             {
-                directoryInfo.Create();
-            }
+                encoder = new PngBitmapEncoder();
+            }  
+            encoder.Frames.Add(BitmapFrame.Create(renderTargetBitmap));
 
-            bit.Save(Path.Combine(directoryInfo.FullName, "控件截图.png"));
-
-            return bit;
+            using FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            encoder.Save(fileStream);
         }
 
         /// <summary>

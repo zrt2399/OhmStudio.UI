@@ -141,8 +141,8 @@ namespace OhmStudio.UI.Controls
 
         private StepItem GetHitStepItem(Point point)
         {
-            DependencyObject hitObject = VisualTreeHelper.HitTest(this, point)?.VisualHit;
-            return hitObject?.FindParentObject<StepItem>();
+            var hitObject = VisualTreeHelper.HitTest(this, point)?.VisualHit as FrameworkElement;
+            return hitObject?.TemplatedParent as StepItem;
         }
 
         private void DragCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -419,9 +419,9 @@ namespace OhmStudio.UI.Controls
                     result =>
                     {
                         HitTestResultBehavior behavior = HitTestResultBehavior.Continue;
-                        if (result.VisualHit.FindParentObject<EllipseItem>() is EllipseItem hitElement)
+                        if (result.VisualHit is FrameworkElement frameworkElement && frameworkElement.TemplatedParent is EllipseItem ellipseItem)
                         {
-                            hitElements.Add(hitElement);
+                            hitElements.Add(ellipseItem);
                         }
                         return behavior;
                     }),

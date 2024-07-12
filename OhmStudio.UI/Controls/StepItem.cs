@@ -134,8 +134,8 @@ namespace OhmStudio.UI.Controls
 
         internal EllipseItem GetEllipseItem(Point point)
         {
-            var hit = VisualTreeHelper.HitTest(DragCanvas, point)?.VisualHit;
-            if (hit?.FindParentObject<EllipseItem>() is EllipseItem ellipseItem)
+            var hitResult = VisualTreeHelper.HitTest(DragCanvas, point)?.VisualHit as FrameworkElement;
+            if (hitResult?.TemplatedParent is EllipseItem ellipseItem)
             {
                 return EllipseItems.Values.FirstOrDefault(x => x == ellipseItem);
             }
