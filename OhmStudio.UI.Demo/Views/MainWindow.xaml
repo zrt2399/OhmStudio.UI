@@ -1304,16 +1304,20 @@
                     <Setter Property="CornerRadiusAttach.IsCircular" Value="True" />
                 </Style>
             </StatusBar.Resources>
-
-            <Button Width="Auto" Click="Button_Click_4">切换状态</Button>
-            <StatusBarItem Margin="4,0" Content="{Binding StatusBarContent}" />
+            <PackIcon Kind="MessageBulleted" />
+            <Button Width="Auto"
+                    Margin="4,0"
+                    Click="Button_Click_4">
+                切换状态
+            </Button>
+            <StatusBarItem Content="{Binding StatusBarContent}" />
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
-                    <Button Command="{Binding ZoomInCommand}" Content="-" />
                     <Button Margin="4,0"
-                            Command="{Binding ZoomOutCommand}"
-                            Content="+" />
-                    <TextBlock Text="{Binding WindowScale, StringFormat={}{0:P1}}" />
+                            Command="{Binding ZoomInCommand}"
+                            Content="-" />
+                    <Button Command="{Binding ZoomOutCommand}" Content="+" />
+                    <TextBlock Margin="4,0" Text="{Binding WindowScale, StringFormat={}{0:P1}}" />
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

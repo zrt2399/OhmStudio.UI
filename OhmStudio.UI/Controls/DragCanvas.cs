@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using OhmStudio.UI.Attaches;
 using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
@@ -141,8 +143,8 @@ namespace OhmStudio.UI.Controls
 
         private StepItem GetHitStepItem(Point point)
         {
-            var hitObject = VisualTreeHelper.HitTest(this, point)?.VisualHit as FrameworkElement;
-            return hitObject?.TemplatedParent as StepItem;
+            var hitObject = VisualTreeHelper.HitTest(this, point)?.VisualHit;
+            return hitObject?.FindParentObject<StepItem>();
         }
 
         private void DragCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -224,7 +226,7 @@ namespace OhmStudio.UI.Controls
                     {
                         SetTop(item, minY);
                     }
-
+                    item.UpdatePath();
                     //if (GetLeft(item) > ActualWidth - item.ActualWidth)
                     //{
                     //    SetLeft(item, ActualWidth - item.ActualWidth);
@@ -304,9 +306,19 @@ namespace OhmStudio.UI.Controls
                     PathGeometry pathGeometry = new PathGeometry();
                     pathGeometry.Figures.Add(_pathFigure);
                     _currentPath.Data = pathGeometry;
-                    //var contextMenu = new ContextMenu();
-                    //contextMenu.Items.Add(new MenuItem() { Header = "删除" });
-                    //_currentPath.ContextMenu = contextMenu;
+                    var contextMenu = new ContextMenu();
+                    var menuItem = new MenuItem() { Header = "移除连接" };
+                    menuItem.Click += (sender, e) =>
+                    {
+                        var path = ((ContextMenu)((MenuItem)sender).Parent).PlacementTarget as Path;
+                        Children.Remove(path);
+                        PathAttach.GetStartEllipseItem(path).RemoveStep();
+                        PathAttach.SetStartEllipseItem(path, null);
+                        PathAttach.SetEndEllipseItem(path, null);
+                        path.ContextMenu = null;
+                    };
+                    contextMenu.Items.Add(menuItem);
+                    _currentPath.ContextMenu = contextMenu;
                     Children.Add(_currentPath);
                 }
 
@@ -343,6 +355,7 @@ namespace OhmStudio.UI.Controls
                 {
                     SetTop(stepItem, ActualHeight - stepItem.ActualHeight);
                 }
+                stepItem.UpdatePath();
             }
         }
 
@@ -366,24 +379,34 @@ namespace OhmStudio.UI.Controls
                     if (drawingSuccess)
                     {
                         _bezierSegment.Point3 = ellipseItem.GetEllipsePoint(this);
+                        _lastEllipseItem.Path = _currentPath;
+                        ellipseItem.Path = _currentPath;
+                        PathAttach.SetStartEllipseItem(ellipseItem.Path, _lastEllipseItem);
+                        PathAttach.SetEndEllipseItem(ellipseItem.Path, ellipseItem);
+                        _lastStepItem.UpdatePath();
                     }
                     else
                     {
+                        if (_currentPath != null)
+                        {
+                            _currentPath.ContextMenu = null;
+                        }
                         Children.Remove(_currentPath);
                     }
-
+                    //var s = PathAttach.GetEndEllipse(ellipseItem.Path);
+                    _pathFigure = null;
+                    _bezierSegment = null;
                     _currentPath = null;
                 }
                 else if (_isMoving)
                 {
                     var stepItem = _lastStepItem;
-                    if (stepItem == null && !GetIsDraggable(stepItem) && _isMoving)
+                    if (stepItem == null && !GetIsDraggable(stepItem))
                     {
                         return;
                     }
 
-                    SetLeft(stepItem, Adsorb(GetLeft(stepItem)));
-                    SetTop(stepItem, Adsorb(GetTop(stepItem)));
+                    PositionStepItem(stepItem);
                 }
                 else if (_isMultiMoving)
                 {
@@ -391,8 +414,7 @@ namespace OhmStudio.UI.Controls
                     SetTop(_multiSelectionMask, Adsorb(GetTop(_multiSelectionMask)));
                     foreach (var item in SelectedItems.Where(x => GetIsDraggable(x)))
                     {
-                        SetLeft(item, Adsorb(GetLeft(item)));
-                        SetTop(item, Adsorb(GetTop(item)));
+                        PositionStepItem(item);
                     }
                     _multiSelectionMask.Cursor = null;
                 }
@@ -405,6 +427,16 @@ namespace OhmStudio.UI.Controls
                 _isSelecting = false;
                 _isMultiMoving = false;
             }
+        }
+
+        private void PositionStepItem(StepItem stepItem)
+        {
+            SetLeft(stepItem, Adsorb(GetLeft(stepItem)));
+            SetTop(stepItem, Adsorb(GetTop(stepItem)));
+            Dispatcher.InvokeAsync(() =>
+            {
+                stepItem.UpdatePath();
+            }, DispatcherPriority.Render);
         }
 
         private EllipseItem GetEllipseItem(Point point)
