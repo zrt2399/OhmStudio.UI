@@ -38,6 +38,8 @@
     <converters:FlipToScaleYValueConverter x:Key="FlipToScaleYValueConverter" />
     <converters:CircleProgressBarMarginConverter x:Key="CircleProgressBarMarginConverter" />
     <converters:PathPickerPlaceHolderMarginConverter x:Key="PathPickerPlaceHolderMarginConverter" />
+    <converters:StepItemEllipseItemConverter x:Key="StepItemEllipseItemConverter" />
+    <converters:DoNoThingConverter x:Key="DoNoThingConverter" />
 
     <Style x:Key="ContentHostControl" TargetType="Control">
         <Setter Property="Margin" Value="0" />
@@ -1499,11 +1501,9 @@
     <Style BasedOn="{StaticResource NumericUpDownBaseStyle}" TargetType="controls:NumericUpDown" />
 
     <Style x:Key="StepItemBaseStyle" TargetType="controls:StepItem">
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="Width" Value="80" />
+        <Setter Property="Width" Value="100" />
         <Setter Property="Height" Value="60" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Background" Value="{DynamicResource SystemColorsWindow}" />
@@ -1511,34 +1511,34 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:StepItem">
-                    <Border Background="{TemplateBinding Background}"
+                    <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <controls:SimplePanel>
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
                             <!--  左边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseLeft"
-                                                  Margin="-4,0,0,0"
+                                                  Margin="-5,0,0,0"
                                                   HorizontalAlignment="Left"
                                                   VerticalAlignment="Center"
                                                   EllipseOrientation="Left" />
                             <!--  顶边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseTop"
-                                                  Margin="0,-4,0,0"
+                                                  Margin="0,-5,0,0"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Top"
                                                   EllipseOrientation="Top" />
                             <!--  右边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseRight"
-                                                  Margin="0,0,-4,0"
+                                                  Margin="0,0,-5,0"
                                                   HorizontalAlignment="Right"
                                                   VerticalAlignment="Center"
                                                   EllipseOrientation="Right" />
                             <!--  底边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseBottom"
-                                                  Margin="0,0,0,-4"
+                                                  Margin="0,0,0,-5"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Bottom"
                                                   EllipseOrientation="Bottom" />
@@ -1547,7 +1547,13 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="BorderThickness" Value="2" />
+                            <Setter Property="Background" Value="Orange" />
+                        </Trigger>
+                        <Trigger Property="StepType" Value="Begin">
+                            <Setter TargetName="Border" Property="attaches:CornerRadiusAttach.IsCircular" Value="True" />
+                        </Trigger>
+                        <Trigger Property="StepType" Value="End">
+                            <Setter TargetName="Border" Property="attaches:CornerRadiusAttach.IsCircular" Value="True" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -1559,10 +1565,18 @@
     <Style x:Key="EllipseItemBaseStyle" TargetType="controls:EllipseItem">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="Width" Value="8" />
-        <Setter Property="Height" Value="8" />
+        <Setter Property="Width" Value="10" />
+        <Setter Property="Height" Value="10" />
         <Setter Property="Background" Value="Red" />
         <Setter Property="BorderBrush" Value="Blue" />
+        <Setter Property="Visibility">
+            <Setter.Value>
+                <MultiBinding Converter="{StaticResource StepItemEllipseItemConverter}">
+                    <Binding Path="StepType" RelativeSource="{RelativeSource AncestorType=controls:StepItem}" />
+                    <Binding Path="EllipseOrientation" RelativeSource="{RelativeSource Mode=Self}" />
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:EllipseItem">
@@ -1576,5 +1590,41 @@
         </Setter>
     </Style>
     <Style BasedOn="{StaticResource EllipseItemBaseStyle}" TargetType="controls:EllipseItem" />
+
+    <Style x:Key="PathItemBaseStyle" TargetType="controls:PathItem">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:PathItem">
+                    <Grid>
+                        <Path x:Name="PART_Path"
+                              Stroke="Black"
+                              StrokeThickness="2">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathFigure StartPoint="{Binding StartPoint, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource DoNoThingConverter}}">
+                                        <BezierSegment Point1="{Binding Point1, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
+                                                       Point2="{Binding Point2, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
+                                                       Point3="{Binding Point3, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource DoNoThingConverter}}" />
+                                    </PathFigure>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{TemplateBinding Text}" />
+                        <!--  Arrowhead  -->
+                        <Polygon x:Name="PART_Polygon"
+                                 Fill="Black"
+                                 Points="{Binding Points, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style BasedOn="{StaticResource PathItemBaseStyle}" TargetType="controls:PathItem" />
 
 </ResourceDictionary>

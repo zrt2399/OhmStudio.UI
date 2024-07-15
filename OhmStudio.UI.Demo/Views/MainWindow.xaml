@@ -686,18 +686,8 @@
                                 </GroupBox>
                             </LayoutDocument>
                             <LayoutDocument Title="DragCanvas">
-                                <DragCanvas x:Name="DragCanvas">
-                                    <DragCanvas.Resources>
-                                        <Style TargetType="Border">
-                                            <Setter Property="Width" Value="80" />
-                                            <Setter Property="Height" Value="60" />
-                                            <Setter Property="BorderThickness" Value="1" />
-                                            <Setter Property="Background" Value="{DynamicResource SystemColorsWindow}" />
-                                            <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />
-                                            <!--<Setter Property="CornerRadius" Value="4" />-->
-                                        </Style>
-                                    </DragCanvas.Resources>
-                                    <StepItem>
+                                <DragCanvas>
+                                    <StepItem StepType="Begin">
                                         <TextBlock HorizontalAlignment="Center">开始</TextBlock>
                                     </StepItem>
                                     <StepItem Canvas.Top="100">
@@ -706,10 +696,12 @@
                                     <StepItem Canvas.Top="200">
                                         <TextBlock HorizontalAlignment="Center">中间节点2</TextBlock>
                                     </StepItem>
-                                    <StepItem Canvas.Top="300" DragCanvas.IsDraggable="False">
+                                    <StepItem Canvas.Top="300"
+                                              DragCanvas.IsDraggable="False"
+                                              StepType="End">
                                         <TextBlock HorizontalAlignment="Center">结束</TextBlock>
                                     </StepItem>
-                                    <StepItem Canvas.Top="400">
+                                    <StepItem Canvas.Top="400" StepType="End">
                                         <TextBlock HorizontalAlignment="Center">结束</TextBlock>
                                     </StepItem>
                                     <!--<Button>456</Button>-->

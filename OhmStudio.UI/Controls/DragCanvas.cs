@@ -7,7 +7,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using OhmStudio.UI.Attaches;
 using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
@@ -66,9 +65,9 @@ namespace OhmStudio.UI.Controls
         private EllipseItem _lastEllipseItem;
 
         private Point _pathStartPoint;
-        private Path _currentPath;
-        private PathFigure _pathFigure;
-        private BezierSegment _bezierSegment;
+        private PathItem _currentPath;
+        //private PathFigure _pathFigure;
+        //private BezierSegment _bezierSegment;
 
         public IEnumerable<StepItem> Items => Children.OfType<StepItem>();
 
@@ -226,7 +225,7 @@ namespace OhmStudio.UI.Controls
                     {
                         SetTop(item, minY);
                     }
-                    item.UpdatePath();
+                    item.UpdateCurve();
                     //if (GetLeft(item) > ActualWidth - item.ActualWidth)
                     //{
                     //    SetLeft(item, ActualWidth - item.ActualWidth);
@@ -294,38 +293,44 @@ namespace OhmStudio.UI.Controls
             {
                 if (_currentPath == null)
                 {
-                    _currentPath = new Path
-                    {
-                        Stroke = Brushes.Black,
-                        StrokeThickness = 2
-                    };
-
-                    _pathFigure = new PathFigure { StartPoint = _pathStartPoint };
-                    _bezierSegment = new BezierSegment();
-                    _pathFigure.Segments.Add(_bezierSegment);
-                    PathGeometry pathGeometry = new PathGeometry();
-                    pathGeometry.Figures.Add(_pathFigure);
-                    _currentPath.Data = pathGeometry;
+                    _currentPath = new PathItem();
+                    _currentPath.Background = Brushes.Orange;
+                    _currentPath.StartPoint = _pathStartPoint;
+                    //_pathFigure = new PathFigure { StartPoint = _pathStartPoint };
+                    //_bezierSegment = new BezierSegment();
+                    //_pathFigure.Segments.Add(_bezierSegment);
+                    //PathGeometry pathGeometry = new PathGeometry();
+                    //pathGeometry.Figures.Add(_pathFigure);
+                    //_currentPath.Data = pathGeometry;
                     var contextMenu = new ContextMenu();
                     var menuItem = new MenuItem() { Header = "移除连接" };
                     menuItem.Click += (sender, e) =>
                     {
-                        var path = ((ContextMenu)((MenuItem)sender).Parent).PlacementTarget as Path;
-                        Children.Remove(path);
-                        PathAttach.GetStartEllipseItem(path).RemoveStep();
-                        PathAttach.SetStartEllipseItem(path, null);
-                        PathAttach.SetEndEllipseItem(path, null);
-                        path.ContextMenu = null;
+                        var pathItem = ((ContextMenu)((MenuItem)sender).Parent).PlacementTarget as PathItem;
+                        Children.Remove(pathItem);
+                        pathItem.StartEllipseItem.RemoveStep();
+
+                        pathItem.StartEllipseItem.PathItem = null;
+                        pathItem.StartEllipseItem = null;
+
+                        pathItem.EndEllipseItem.PathItem = null;
+                        pathItem.EndEllipseItem = null;
+
+                        //PathAttach.GetStartEllipseItem(path).RemoveStep();
+                        //PathAttach.SetStartEllipseItem(path, null);
+                        //PathAttach.SetEndEllipseItem(path, null);
+                        pathItem.ContextMenu = null;
                     };
                     contextMenu.Items.Add(menuItem);
                     _currentPath.ContextMenu = contextMenu;
                     Children.Add(_currentPath);
                 }
 
-                _bezierSegment.Point1 = new Point((_pathStartPoint.X + point.X) / 2, _pathStartPoint.Y);
-                _bezierSegment.Point2 = new Point((_pathStartPoint.X + point.X) / 2, point.Y);
-                _bezierSegment.Point3 = point;
-                _currentPath.Data = new PathGeometry(new PathFigure[] { _pathFigure });
+                _currentPath.UpdateBezierCurve(_pathStartPoint, point);
+                //_currentPath.Point1 = new Point((_pathStartPoint.X + point.X) / 2, _pathStartPoint.Y);
+                //_currentPath.Point2 = new Point((_pathStartPoint.X + point.X) / 2, point.Y);
+                //_currentPath.Point3 = point;
+                //_currentPath.Data = new PathGeometry(new PathFigure[] { _pathFigure });
             }
             else if (_isMoving)
             {
@@ -355,7 +360,7 @@ namespace OhmStudio.UI.Controls
                 {
                     SetTop(stepItem, ActualHeight - stepItem.ActualHeight);
                 }
-                stepItem.UpdatePath();
+                stepItem.UpdateCurve();
             }
         }
 
@@ -374,16 +379,19 @@ namespace OhmStudio.UI.Controls
                     var ellipseItem = GetEllipseItem(point);
                     if (ellipseItem != null)
                     {
-                        drawingSuccess = ellipseItem.ParentStep.SetStep(_lastStepItem, _lastEllipseItem, ellipseItem);
+                        drawingSuccess = ellipseItem.StepParent.SetStep(_lastStepItem, _lastEllipseItem, ellipseItem);
                     }
                     if (drawingSuccess)
                     {
-                        _bezierSegment.Point3 = ellipseItem.GetEllipsePoint(this);
-                        _lastEllipseItem.Path = _currentPath;
-                        ellipseItem.Path = _currentPath;
-                        PathAttach.SetStartEllipseItem(ellipseItem.Path, _lastEllipseItem);
-                        PathAttach.SetEndEllipseItem(ellipseItem.Path, ellipseItem);
-                        _lastStepItem.UpdatePath();
+                        _currentPath.Point3 = ellipseItem.GetEllipsePoint(this); 
+                        _lastEllipseItem.PathItem = _currentPath;
+                        ellipseItem.PathItem = _currentPath;
+                        ellipseItem.PathItem.StartEllipseItem = _lastEllipseItem;
+                        ellipseItem.PathItem.EndEllipseItem = ellipseItem;
+
+                        //PathAttach.SetStartEllipseItem(ellipseItem.PathItem, _lastEllipseItem);
+                        //PathAttach.SetEndEllipseItem(ellipseItem.PathItem, ellipseItem);
+                        _lastStepItem.UpdateCurve();
                     }
                     else
                     {
@@ -394,8 +402,8 @@ namespace OhmStudio.UI.Controls
                         Children.Remove(_currentPath);
                     }
                     //var s = PathAttach.GetEndEllipse(ellipseItem.Path);
-                    _pathFigure = null;
-                    _bezierSegment = null;
+                    //_pathFigure = null;
+                    //_bezierSegment = null;
                     _currentPath = null;
                 }
                 else if (_isMoving)
@@ -435,7 +443,7 @@ namespace OhmStudio.UI.Controls
             SetTop(stepItem, Adsorb(GetTop(stepItem)));
             Dispatcher.InvokeAsync(() =>
             {
-                stepItem.UpdatePath();
+                stepItem.UpdateCurve();
             }, DispatcherPriority.Render);
         }
 
