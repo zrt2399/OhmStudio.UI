@@ -687,23 +687,24 @@
                             </LayoutDocument>
                             <LayoutDocument Title="DragCanvas">
                                 <DragCanvas>
-                                    <StepItem StepType="Begin">
-                                        <TextBlock HorizontalAlignment="Center">开始</TextBlock>
-                                    </StepItem>
-                                    <StepItem Canvas.Top="100">
-                                        <TextBlock HorizontalAlignment="Center">中间节点1</TextBlock>
-                                    </StepItem>
-                                    <StepItem Canvas.Top="200">
-                                        <TextBlock HorizontalAlignment="Center">中间节点2</TextBlock>
-                                    </StepItem>
+                                    <DragCanvas.Resources>
+                                        <Style BasedOn="{StaticResource {x:Type StepItem}}" TargetType="StepItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DragCanvas.Resources>
+                                    <StepItem Content="开始" StepType="Begin" />
+                                    <StepItem Canvas.Top="100" Content="中间节点1" />
+                                    <StepItem Canvas.Top="200" Content="中间节点2" />
+                                    <StepItem Canvas.Left="200"
+                                              Canvas.Top="200"
+                                              Content="中间节点3" />
                                     <StepItem Canvas.Top="300"
+                                              Content="结束"
                                               DragCanvas.IsDraggable="False"
-                                              StepType="End">
-                                        <TextBlock HorizontalAlignment="Center">结束</TextBlock>
-                                    </StepItem>
-                                    <StepItem Canvas.Top="400" StepType="End">
-                                        <TextBlock HorizontalAlignment="Center">结束</TextBlock>
-                                    </StepItem>
+                                              StepType="End" />
+                                    <StepItem Canvas.Top="400"
+                                              Content="结束"
+                                              StepType="End" />
                                     <!--<Button>456</Button>-->
                                 </DragCanvas>
                             </LayoutDocument>

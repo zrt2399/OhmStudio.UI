@@ -1503,7 +1503,7 @@
     <Style x:Key="StepItemBaseStyle" TargetType="controls:StepItem">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="Width" Value="100" />
+        <Setter Property="Width" Value="120" />
         <Setter Property="Height" Value="60" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Background" Value="{DynamicResource SystemColorsWindow}" />
@@ -1520,25 +1520,25 @@
 
                             <!--  左边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseLeft"
-                                                  Margin="-5,0,0,0"
+                                                  Margin="-6,0,0,0"
                                                   HorizontalAlignment="Left"
                                                   VerticalAlignment="Center"
                                                   EllipseOrientation="Left" />
                             <!--  顶边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseTop"
-                                                  Margin="0,-5,0,0"
+                                                  Margin="0,-6,0,0"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Top"
                                                   EllipseOrientation="Top" />
                             <!--  右边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseRight"
-                                                  Margin="0,0,-5,0"
+                                                  Margin="0,0,-6,0"
                                                   HorizontalAlignment="Right"
                                                   VerticalAlignment="Center"
                                                   EllipseOrientation="Right" />
                             <!--  底边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseBottom"
-                                                  Margin="0,0,0,-5"
+                                                  Margin="0,0,0,-6"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Bottom"
                                                   EllipseOrientation="Bottom" />
@@ -1565,9 +1565,9 @@
     <Style x:Key="EllipseItemBaseStyle" TargetType="controls:EllipseItem">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="Width" Value="10" />
-        <Setter Property="Height" Value="10" />
-        <Setter Property="Background" Value="Red" />
+        <Setter Property="Width" Value="12" />
+        <Setter Property="Height" Value="12" />
+        <Setter Property="Background" Value="OrangeRed" />
         <Setter Property="BorderBrush" Value="Blue" />
         <Setter Property="Visibility">
             <Setter.Value>
@@ -1592,10 +1592,6 @@
     <Style BasedOn="{StaticResource EllipseItemBaseStyle}" TargetType="controls:EllipseItem" />
 
     <Style x:Key="PathItemBaseStyle" TargetType="controls:PathItem">
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:PathItem">
@@ -1605,21 +1601,22 @@
                               StrokeThickness="2">
                             <Path.Data>
                                 <PathGeometry>
-                                    <PathFigure StartPoint="{Binding StartPoint, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource DoNoThingConverter}}">
-                                        <BezierSegment Point1="{Binding Point1, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
-                                                       Point2="{Binding Point2, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
-                                                       Point3="{Binding Point3, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource DoNoThingConverter}}" />
+                                    <PathFigure StartPoint="{Binding StartPoint, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}">
+                                        <BezierSegment Point1="{Binding Point1, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
+                                                       Point2="{Binding Point2, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
+                                                       Point3="{Binding Point3, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}" />
                                     </PathFigure>
                                 </PathGeometry>
                             </Path.Data>
                         </Path>
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
+                        <TextBlock Margin="10"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Bottom"
                                    Text="{TemplateBinding Text}" />
                         <!--  Arrowhead  -->
                         <Polygon x:Name="PART_Polygon"
                                  Fill="Black"
-                                 Points="{Binding Points, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                 Points="{Binding Points, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

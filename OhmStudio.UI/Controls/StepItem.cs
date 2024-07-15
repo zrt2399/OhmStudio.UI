@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
@@ -20,19 +20,16 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(Point2), typeof(Point), typeof(PathItem));
 
         internal static readonly DependencyProperty Point3Property =
-            DependencyProperty.Register(nameof(Point3), typeof(Point), typeof(PathItem), new PropertyMetadata((sender, e) =>
-            {
-                if (sender is PathItem pathItem && e.NewValue is Point point)
-                {
-                    //UpdateArrowAtEndPoint(pathItem, point);
-                }
-            }));
+            DependencyProperty.Register(nameof(Point3), typeof(Point), typeof(PathItem));
 
         internal static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(nameof(Text), typeof(string), typeof(PathItem));
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(PathItem),new PropertyMetadata("下一节点"));
 
         internal static readonly DependencyProperty PointsProperty =
             DependencyProperty.Register(nameof(Points), typeof(PointCollection), typeof(PathItem));
+
+        internal static readonly DependencyProperty StartEllipseItemProperty =
+            DependencyProperty.Register(nameof(StartEllipseItem), typeof(EllipseItem), typeof(PathItem));
 
         internal Point StartPoint
         {
@@ -73,41 +70,38 @@ namespace OhmStudio.UI.Controls
             set => SetValue(PointsProperty, value);
         }
 
-        internal EllipseItem StartEllipseItem { get; set; }
+        internal EllipseItem StartEllipseItem
+        {
+            get => (EllipseItem)GetValue(StartEllipseItemProperty);
+            set => SetValue(StartEllipseItemProperty, value);
+        }
 
         internal EllipseItem EndEllipseItem { get; set; }
 
         internal void UpdateBezierCurve(Point startPoint, Point endPoint)
         {
-            Dispatcher.InvokeAsync(() =>
-            {
+            //Dispatcher.InvokeAsync(() =>
+            //{
                 StartPoint = startPoint;
-                Point1 = new Point((startPoint.X + endPoint.X) / 2, startPoint.Y);
-                Point2 = new Point((startPoint.X + endPoint.X) / 2, endPoint.Y);
+                Point1 = new Point((startPoint.X + endPoint.X) / 2, endPoint.Y);
+                Point2 = new Point((startPoint.X + endPoint.X) / 2, startPoint.Y);
                 Point3 = endPoint;
 
-                double arrowLength = 20;  // 调整箭头长度
-                double arrowWidth = 10;   // 调整箭头宽度
+                double arrowLength = 10;
+                double arrowWidth = 10;
 
-                // 计算箭头的方向向量
+                // 计算箭头的方向
                 Vector direction = endPoint - Point2;
                 direction.Normalize();
 
-                // 计算箭头的侧向向量（垂直于方向向量）
-                Vector perpendicular = new Vector(-direction.Y, direction.X);
+                // 算出箭头的两个角点
+                Point arrowPoint1 = endPoint - direction * arrowLength + new Vector(-direction.Y, direction.X) * arrowWidth / 2;
+                Point arrowPoint2 = endPoint - direction * arrowLength - new Vector(-direction.Y, direction.X) * arrowWidth / 2;
 
-                // 计算箭头顶点
-                Point arrowPoint1 = endPoint - direction * arrowLength + perpendicular * arrowWidth / 2;
-                Point arrowPoint2 = endPoint - direction * arrowLength - perpendicular * arrowWidth / 2;
-
-                // 更新箭头形状的点集合
+                // 更新箭头形状的点
                 Points = new PointCollection(new[] { endPoint, arrowPoint1, arrowPoint2 });
-
-                Debug.WriteLine($"End Point: {endPoint}, Arrow Point 1: {arrowPoint1}, Arrow Point 2: {arrowPoint2}");
-
-                // 设置跟踪绑定调试信息
-                PresentationTraceSources.SetTraceLevel(this, PresentationTraceLevel.High);
-            }, System.Windows.Threading.DispatcherPriority.Render);
+                //Debug.WriteLine($"End Point: {endPoint}, Arrow Point 1: {arrowPoint1}, Arrow Point 2: {arrowPoint2}");
+            //}, DispatcherPriority.Render);
         }
     }
 
@@ -313,7 +307,7 @@ namespace OhmStudio.UI.Controls
             return flag;
         }
 
-        internal void UpdateCurve()
+        public void UpdateCurve()
         {
             if (LastStep != null)
             {

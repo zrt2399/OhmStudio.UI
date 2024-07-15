@@ -293,8 +293,7 @@ namespace OhmStudio.UI.Controls
             {
                 if (_currentPath == null)
                 {
-                    _currentPath = new PathItem();
-                    _currentPath.Background = Brushes.Orange;
+                    _currentPath = new PathItem(); 
                     _currentPath.StartPoint = _pathStartPoint;
                     //_pathFigure = new PathFigure { StartPoint = _pathStartPoint };
                     //_bezierSegment = new BezierSegment();
