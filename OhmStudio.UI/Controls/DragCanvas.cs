@@ -67,9 +67,11 @@ namespace OhmStudio.UI.Controls
         private Point _pathStartPoint;
         private PathItem _currentPath;
 
-        public IEnumerable<StepItem> Items => Children.OfType<StepItem>();
+        internal IEnumerable<ISelectableElement> SelectableElements => Children.OfType<ISelectableElement>();
 
-        public IEnumerable<StepItem> SelectedItems => Items.Where(x => x.IsSelected);
+        public IEnumerable<StepItem> StepItems => Children.OfType<StepItem>();
+
+        public IEnumerable<StepItem> SelectedItems => StepItems.Where(x => x.IsSelected);
 
         public static readonly DependencyProperty LineBrushProperty =
            DependencyProperty.Register(nameof(LineBrush), typeof(Brush), typeof(DragCanvas),
@@ -117,7 +119,7 @@ namespace OhmStudio.UI.Controls
                 {
                     SetTop(stepItem, 0);
                 }
-                stepItem.DragCanvas = this;
+                stepItem.CanvasParent = this;
                 stepItem.MouseLeftButtonDown += StepItem_MouseLeftButtonDown;
             }
         }
@@ -139,10 +141,10 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        private StepItem GetHitStepItem(Point point)
+        private T GetHitStepItem<T>(Point point) where T : DependencyObject
         {
             var hitObject = VisualTreeHelper.HitTest(this, point)?.VisualHit;
-            return hitObject?.FindParentObject<StepItem>();
+            return hitObject?.FindParentObject<T>();
         }
 
         private void DragCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -153,20 +155,23 @@ namespace OhmStudio.UI.Controls
             }
             Point point = e.GetPosition(this);
             Children.Remove(_multiSelectionMask);
-            IEnumerable<StepItem> stepItems;
-            if (GetHitStepItem(point) is StepItem stepItem)
+
+            IEnumerable<ISelectableElement> selectableElements;
+            if (GetHitStepItem<Control>(point) is ISelectableElement selectableElement)
             {
-                stepItem.IsSelected = true;
-                stepItems = Items.Where(x => !x.Equals(stepItem));
+                selectableElement.IsSelected = true;
+                selectableElements = SelectableElements.Where(x => x != selectableElement);
             }
             else
             {
-                stepItems = Items;
+                selectableElements = SelectableElements;
             }
-            foreach (var item in stepItems)
+
+            foreach (var item in selectableElements)
             {
                 item.IsSelected = false;
             }
+
             if (_isMoving || _isDrawing)
             {
                 return;
@@ -246,7 +251,7 @@ namespace OhmStudio.UI.Controls
                 _selectionArea.Width = width;
                 _selectionArea.Height = height;
                 Rect selectedArea = new Rect(x, y, width, height);
-                foreach (var item in Items)
+                foreach (var item in StepItems)
                 {
                     item.IsSelected = selectedArea.IntersectsWith(new Rect(GetLeft(item), GetTop(item), item.ActualWidth, item.ActualHeight));
                 }
@@ -275,7 +280,6 @@ namespace OhmStudio.UI.Controls
                     _multiSelectionMask.Height = maxY - minY;
                     SetLeft(_multiSelectionMask, minX);
                     SetTop(_multiSelectionMask, minY);
-                    //SetZIndex(multiSelectionRectangle, int.MinValue);
                     if (!Children.Contains(_multiSelectionMask))
                     {
                         Children.Add(_multiSelectionMask);
@@ -291,23 +295,14 @@ namespace OhmStudio.UI.Controls
                 if (_currentPath == null)
                 {
                     _currentPath = new PathItem();
-                    _currentPath.DragCanvas = this;
+                    _currentPath.CanvasParent = this;
                     _currentPath.StartPoint = _pathStartPoint;
                     var contextMenu = new ContextMenu();
-                    var menuItem = new MenuItem() { Header = "移除连接" };
+                    var menuItem = new MenuItem() { Header = "删除连接" };
                     menuItem.Click += (sender, e) =>
                     {
                         var pathItem = ((ContextMenu)((MenuItem)sender).Parent).PlacementTarget as PathItem;
                         pathItem?.Delete();
-                        //pathItem.StartEllipseItem.RemoveStep(); 
-                        //pathItem.StartEllipseItem.PathItem = null;
-                        //pathItem.StartEllipseItem = null;
-
-                        //pathItem.EndEllipseItem.PathItem = null;
-                        //pathItem.EndEllipseItem = null;
-
-                        //pathItem.ContextMenu = null;
-                        //Children.Remove(pathItem);
                     };
                     contextMenu.Items.Add(menuItem);
                     _currentPath.ContextMenu = contextMenu;

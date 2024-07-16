@@ -8,8 +8,16 @@ using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
-    internal class PathItem : Control
+    internal interface ISelectableElement
     {
+        bool IsSelected { get; set; }
+    }
+
+    internal class PathItem : Control, ISelectableElement
+    {
+        public static readonly DependencyProperty IsSelectedProperty =
+            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(PathItem));
+
         internal static readonly DependencyProperty StartPointProperty =
             DependencyProperty.Register(nameof(StartPoint), typeof(Point), typeof(PathItem), new PropertyMetadata((sender, e) =>
             {
@@ -40,6 +48,12 @@ namespace OhmStudio.UI.Controls
 
         internal static readonly DependencyProperty PointsProperty =
             DependencyProperty.Register(nameof(Points), typeof(PointCollection), typeof(PathItem));
+
+        public bool IsSelected
+        {
+            get => (bool)GetValue(IsSelectedProperty);
+            set => SetValue(IsSelectedProperty, value);
+        }
 
         internal Point StartPoint
         {
@@ -96,19 +110,19 @@ namespace OhmStudio.UI.Controls
 
         internal EllipseItem EndEllipseItem { get; set; }
 
-        internal DragCanvas DragCanvas { get; set; }
+        internal DragCanvas CanvasParent { get; set; }
 
         internal void UpdateBezierCurve(Point startPoint, Point endPoint)
         {
             Point startPointTemp = new Point();
             Point endPointTemp = new Point();
-            Point endEllipsePoint = EndEllipseItem == null ? endPoint : EndEllipseItem.GetPoint(DragCanvas);
- 
-            startPointTemp.X = Math.Min(startPoint.X, endEllipsePoint.X); 
+            Point endEllipsePoint = EndEllipseItem == null ? endPoint : EndEllipseItem.GetPoint(CanvasParent);
+
+            startPointTemp.X = Math.Min(startPoint.X, endEllipsePoint.X);
             startPointTemp.Y = Math.Min(startPoint.Y, endEllipsePoint.Y);
             endPointTemp.X = Math.Min(startPoint.X, endPoint.X);
             endPointTemp.Y = Math.Min(startPoint.Y, endPoint.Y);
-              
+
             StartPoint = startPointTemp;
             EndPoint = endPointTemp;
 
@@ -149,19 +163,19 @@ namespace OhmStudio.UI.Controls
             EndEllipseItem.PathItem = null;
             EndEllipseItem = null;
             ContextMenu = null;
-            DragCanvas.Children.Remove(this);
+            CanvasParent.Children.Remove(this);
         }
     }
 
     internal class EllipseItem : Control
     {
-        internal static readonly DependencyProperty EllipseOrientationProperty =
-            DependencyProperty.Register(nameof(EllipseOrientation), typeof(EllipseOrientation), typeof(EllipseItem));
+        internal static readonly DependencyProperty OrientationProperty =
+            DependencyProperty.Register(nameof(Orientation), typeof(EllipseOrientation), typeof(EllipseItem));
 
-        internal EllipseOrientation EllipseOrientation
+        internal EllipseOrientation Orientation
         {
-            get => (EllipseOrientation)GetValue(EllipseOrientationProperty);
-            set => SetValue(EllipseOrientationProperty, value);
+            get => (EllipseOrientation)GetValue(OrientationProperty);
+            set => SetValue(OrientationProperty, value);
         }
 
         internal StepItem StepParent { get; set; }
@@ -175,12 +189,12 @@ namespace OhmStudio.UI.Controls
 
         internal void RemoveStep()
         {
-            if (EllipseOrientation == EllipseOrientation.Right)
+            if (Orientation == EllipseOrientation.Right)
             {
                 StepParent.JumpStep.FromStep = null;
                 StepParent.JumpStep = null;
             }
-            if (EllipseOrientation == EllipseOrientation.Bottom)
+            if (Orientation == EllipseOrientation.Bottom)
             {
                 StepParent.NextStep.LastStep = null;
                 StepParent.NextStep = null;
@@ -204,7 +218,7 @@ namespace OhmStudio.UI.Controls
         End
     }
 
-    public class StepItem : ContentControl
+    public class StepItem : ContentControl, ISelectableElement
     {
         public StepItem()
         {
@@ -272,7 +286,7 @@ namespace OhmStudio.UI.Controls
         private EllipseItem EllipseRight;
         private EllipseItem EllipseBottom;
 
-        public DragCanvas DragCanvas { get; internal set; }
+        public DragCanvas CanvasParent { get; internal set; }
 
         internal Dictionary<EllipseOrientation, EllipseItem> EllipseItems { get; private set; }
 
@@ -281,7 +295,6 @@ namespace OhmStudio.UI.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            //DragCanvas = this.FindParentObject<DragCanvas>();
 
             EllipseLeft = GetTemplateChild("EllipseLeft") as EllipseItem;
             EllipseTop = GetTemplateChild("EllipseTop") as EllipseItem;
@@ -301,7 +314,7 @@ namespace OhmStudio.UI.Controls
 
         internal EllipseItem GetEllipseItem(Point point)
         {
-            var hitResult = VisualTreeHelper.HitTest(DragCanvas, point)?.VisualHit as FrameworkElement;
+            var hitResult = VisualTreeHelper.HitTest(CanvasParent, point)?.VisualHit as FrameworkElement;
             if (hitResult?.TemplatedParent is EllipseItem ellipseItem)
             {
                 return EllipseItems.Values.FirstOrDefault(x => x == ellipseItem);
@@ -327,29 +340,29 @@ namespace OhmStudio.UI.Controls
             {
                 UIMessageTip.ShowWarning("该节点已经存在连接关系，无法创建连接曲线，请删除后再试");
             }
-            else if (fromEllipse.EllipseOrientation == EllipseOrientation.Left || toEllipse.EllipseOrientation == EllipseOrientation.Right)
+            else if (fromEllipse.Orientation == EllipseOrientation.Left || toEllipse.Orientation == EllipseOrientation.Right)
             {
                 UIMessageTip.ShowWarning("被跳转节点无法直接设置");
             }
-            else if (fromEllipse.EllipseOrientation == EllipseOrientation.Top || toEllipse.EllipseOrientation == EllipseOrientation.Bottom)
+            else if (fromEllipse.Orientation == EllipseOrientation.Top || toEllipse.Orientation == EllipseOrientation.Bottom)
             {
                 UIMessageTip.ShowWarning("上一步下一步节点设置错误");
             }
-            else if (fromEllipse.EllipseOrientation == EllipseOrientation.Right && toEllipse.EllipseOrientation == EllipseOrientation.Top)
+            else if (fromEllipse.Orientation == EllipseOrientation.Right && toEllipse.Orientation == EllipseOrientation.Top)
             {
                 UIMessageTip.ShowWarning("跳转节点只能设置为下一节点的被跳转节点");
             }
-            else if (fromEllipse.EllipseOrientation == EllipseOrientation.Bottom && toEllipse.EllipseOrientation == EllipseOrientation.Left)
+            else if (fromEllipse.Orientation == EllipseOrientation.Bottom && toEllipse.Orientation == EllipseOrientation.Left)
             {
                 UIMessageTip.ShowWarning("下一步节点只能设置为下一节点的上一步节点");
             }
-            else if (fromEllipse.EllipseOrientation == EllipseOrientation.Right)
+            else if (fromEllipse.Orientation == EllipseOrientation.Right)
             {
                 fromStep.JumpStep = this;
                 FromStep = fromStep;
                 flag = true;
             }
-            else if (fromEllipse.EllipseOrientation == EllipseOrientation.Bottom)
+            else if (fromEllipse.Orientation == EllipseOrientation.Bottom)
             {
                 fromStep.NextStep = this;
                 LastStep = fromStep;
@@ -365,7 +378,7 @@ namespace OhmStudio.UI.Controls
             {
                 item.PathItem.Delete();
             }
-            DragCanvas.Children.Remove(this);
+            CanvasParent.Children.Remove(this);
         }
 
         public void UpdateCurve()
@@ -390,7 +403,7 @@ namespace OhmStudio.UI.Controls
 
         internal void UpdateCurve(PathItem pathItem)
         {
-            pathItem.UpdateBezierCurve(pathItem.StartEllipseItem.GetPoint(DragCanvas), pathItem.EndEllipseItem.GetPoint(DragCanvas));
+            pathItem.UpdateBezierCurve(pathItem.StartEllipseItem.GetPoint(CanvasParent), pathItem.EndEllipseItem.GetPoint(CanvasParent));
         }
     }
 }

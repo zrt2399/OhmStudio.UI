@@ -1523,25 +1523,25 @@
                                                   Margin="-6,0,0,0"
                                                   HorizontalAlignment="Left"
                                                   VerticalAlignment="Center"
-                                                  EllipseOrientation="Left" />
+                                                  Orientation="Left" />
                             <!--  顶边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseTop"
                                                   Margin="0,-6,0,0"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Top"
-                                                  EllipseOrientation="Top" />
+                                                  Orientation="Top" />
                             <!--  右边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseRight"
                                                   Margin="0,0,-6,0"
                                                   HorizontalAlignment="Right"
                                                   VerticalAlignment="Center"
-                                                  EllipseOrientation="Right" />
+                                                  Orientation="Right" />
                             <!--  底边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseBottom"
                                                   Margin="0,0,0,-6"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Bottom"
-                                                  EllipseOrientation="Bottom" />
+                                                  Orientation="Bottom" />
 
                         </controls:SimplePanel>
                     </Border>
@@ -1573,7 +1573,7 @@
             <Setter.Value>
                 <MultiBinding Converter="{StaticResource StepItemEllipseItemConverter}">
                     <Binding Path="StepType" RelativeSource="{RelativeSource AncestorType=controls:StepItem}" />
-                    <Binding Path="EllipseOrientation" RelativeSource="{RelativeSource Mode=Self}" />
+                    <Binding Path="Orientation" RelativeSource="{RelativeSource Mode=Self}" />
                 </MultiBinding>
             </Setter.Value>
         </Setter>
@@ -1595,8 +1595,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:PathItem">
-                    <Grid>
-                        <Path Fill="#222e2e2e"
+                    <Grid Background="{TemplateBinding Background}">
+                        <Path Fill="#112e2e2e"
                               Stroke="Black"
                               StrokeThickness="2">
                             <Path.Data>
@@ -1615,6 +1615,11 @@
                         <!--  Arrowhead  -->
                         <Polygon Fill="Black" Points="{Binding Points, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#222e2e2e" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
