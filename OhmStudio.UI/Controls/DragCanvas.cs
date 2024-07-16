@@ -66,8 +66,6 @@ namespace OhmStudio.UI.Controls
 
         private Point _pathStartPoint;
         private PathItem _currentPath;
-        //private PathFigure _pathFigure;
-        //private BezierSegment _bezierSegment;
 
         public IEnumerable<StepItem> Items => Children.OfType<StepItem>();
 
@@ -119,6 +117,7 @@ namespace OhmStudio.UI.Controls
                 {
                     SetTop(stepItem, 0);
                 }
+                stepItem.DragCanvas = this;
                 stepItem.MouseLeftButtonDown += StepItem_MouseLeftButtonDown;
             }
         }
@@ -154,22 +153,20 @@ namespace OhmStudio.UI.Controls
             }
             Point point = e.GetPosition(this);
             Children.Remove(_multiSelectionMask);
+            IEnumerable<StepItem> stepItems;
             if (GetHitStepItem(point) is StepItem stepItem)
             {
                 stepItem.IsSelected = true;
-                foreach (var item in Items.Where(x => !x.Equals(stepItem)))
-                {
-                    item.IsSelected = false;
-                }
+                stepItems = Items.Where(x => !x.Equals(stepItem));
             }
             else
             {
-                foreach (var item in Items)
-                {
-                    item.IsSelected = false;
-                }
+                stepItems = Items;
             }
-
+            foreach (var item in stepItems)
+            {
+                item.IsSelected = false;
+            }
             if (_isMoving || _isDrawing)
             {
                 return;
@@ -293,32 +290,24 @@ namespace OhmStudio.UI.Controls
             {
                 if (_currentPath == null)
                 {
-                    _currentPath = new PathItem(); 
+                    _currentPath = new PathItem();
+                    _currentPath.DragCanvas = this;
                     _currentPath.StartPoint = _pathStartPoint;
-                    //_pathFigure = new PathFigure { StartPoint = _pathStartPoint };
-                    //_bezierSegment = new BezierSegment();
-                    //_pathFigure.Segments.Add(_bezierSegment);
-                    //PathGeometry pathGeometry = new PathGeometry();
-                    //pathGeometry.Figures.Add(_pathFigure);
-                    //_currentPath.Data = pathGeometry;
                     var contextMenu = new ContextMenu();
                     var menuItem = new MenuItem() { Header = "移除连接" };
                     menuItem.Click += (sender, e) =>
                     {
                         var pathItem = ((ContextMenu)((MenuItem)sender).Parent).PlacementTarget as PathItem;
-                        Children.Remove(pathItem);
-                        pathItem.StartEllipseItem.RemoveStep();
+                        pathItem?.Delete();
+                        //pathItem.StartEllipseItem.RemoveStep(); 
+                        //pathItem.StartEllipseItem.PathItem = null;
+                        //pathItem.StartEllipseItem = null;
 
-                        pathItem.StartEllipseItem.PathItem = null;
-                        pathItem.StartEllipseItem = null;
+                        //pathItem.EndEllipseItem.PathItem = null;
+                        //pathItem.EndEllipseItem = null;
 
-                        pathItem.EndEllipseItem.PathItem = null;
-                        pathItem.EndEllipseItem = null;
-
-                        //PathAttach.GetStartEllipseItem(path).RemoveStep();
-                        //PathAttach.SetStartEllipseItem(path, null);
-                        //PathAttach.SetEndEllipseItem(path, null);
-                        pathItem.ContextMenu = null;
+                        //pathItem.ContextMenu = null;
+                        //Children.Remove(pathItem);
                     };
                     contextMenu.Items.Add(menuItem);
                     _currentPath.ContextMenu = contextMenu;
@@ -326,10 +315,6 @@ namespace OhmStudio.UI.Controls
                 }
 
                 _currentPath.UpdateBezierCurve(_pathStartPoint, point);
-                //_currentPath.Point1 = new Point((_pathStartPoint.X + point.X) / 2, _pathStartPoint.Y);
-                //_currentPath.Point2 = new Point((_pathStartPoint.X + point.X) / 2, point.Y);
-                //_currentPath.Point3 = point;
-                //_currentPath.Data = new PathGeometry(new PathFigure[] { _pathFigure });
             }
             else if (_isMoving)
             {
@@ -382,14 +367,12 @@ namespace OhmStudio.UI.Controls
                     }
                     if (drawingSuccess)
                     {
-                        _currentPath.Point3 = ellipseItem.GetEllipsePoint(this); 
+                        _currentPath.Point3 = ellipseItem.GetPoint(this);
                         _lastEllipseItem.PathItem = _currentPath;
                         ellipseItem.PathItem = _currentPath;
                         ellipseItem.PathItem.StartEllipseItem = _lastEllipseItem;
                         ellipseItem.PathItem.EndEllipseItem = ellipseItem;
 
-                        //PathAttach.SetStartEllipseItem(ellipseItem.PathItem, _lastEllipseItem);
-                        //PathAttach.SetEndEllipseItem(ellipseItem.PathItem, ellipseItem);
                         _lastStepItem.UpdateCurve();
                     }
                     else
@@ -400,15 +383,12 @@ namespace OhmStudio.UI.Controls
                         }
                         Children.Remove(_currentPath);
                     }
-                    //var s = PathAttach.GetEndEllipse(ellipseItem.Path);
-                    //_pathFigure = null;
-                    //_bezierSegment = null;
                     _currentPath = null;
                 }
                 else if (_isMoving)
                 {
                     var stepItem = _lastStepItem;
-                    if (stepItem == null && !GetIsDraggable(stepItem))
+                    if (stepItem == null || !GetIsDraggable(stepItem))
                     {
                         return;
                     }
@@ -474,11 +454,11 @@ namespace OhmStudio.UI.Controls
             var stepItem = sender as StepItem;
             _lastStepItem = stepItem;
             Point point = e.GetPosition(this);
-            var ellipseItem = stepItem.GetEllipseItem(point);
+            var ellipseItem = GetEllipseItem(point);
             if (ellipseItem != null)
             {
                 _isDrawing = true;
-                _pathStartPoint = ellipseItem.GetEllipsePoint(this);
+                _pathStartPoint = ellipseItem.GetPoint(this);
                 _lastEllipseItem = ellipseItem;
             }
             else

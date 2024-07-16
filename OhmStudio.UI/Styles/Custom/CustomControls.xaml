@@ -1596,12 +1596,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:PathItem">
                     <Grid>
-                        <Path x:Name="PART_Path"
+                        <Path Fill="#222e2e2e"
                               Stroke="Black"
                               StrokeThickness="2">
                             <Path.Data>
                                 <PathGeometry>
-                                    <PathFigure StartPoint="{Binding StartPoint, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}">
+                                    <PathFigure StartPoint="{Binding Point0, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}">
                                         <BezierSegment Point1="{Binding Point1, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
                                                        Point2="{Binding Point2, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
                                                        Point3="{Binding Point3, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}" />
@@ -1609,14 +1609,11 @@
                                 </PathGeometry>
                             </Path.Data>
                         </Path>
-                        <TextBlock Margin="10"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Bottom"
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
                                    Text="{TemplateBinding Text}" />
                         <!--  Arrowhead  -->
-                        <Polygon x:Name="PART_Polygon"
-                                 Fill="Black"
-                                 Points="{Binding Points, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <Polygon Fill="Black" Points="{Binding Points, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

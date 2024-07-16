@@ -695,6 +695,11 @@
                                     <StepItem Content="开始" StepType="Begin" />
                                     <StepItem Canvas.Top="100" Content="中间节点1" />
                                     <StepItem Canvas.Top="200" Content="中间节点2" />
+                                    <StepItem Canvas.Top="200" Content="中间节点3" />
+                                    <StepItem Canvas.Top="200" Content="中间节点4" />
+                                    <StepItem Canvas.Top="200" Content="中间节点5" />
+                                    <StepItem Canvas.Top="200" Content="中间节点6" />
+                                    <StepItem Canvas.Top="200" Content="中间节点7" />
                                     <StepItem Canvas.Left="200"
                                               Canvas.Top="200"
                                               Content="中间节点3" />

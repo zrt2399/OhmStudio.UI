@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
 using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
@@ -11,7 +11,20 @@ namespace OhmStudio.UI.Controls
     internal class PathItem : Control
     {
         internal static readonly DependencyProperty StartPointProperty =
-            DependencyProperty.Register(nameof(StartPoint), typeof(Point), typeof(PathItem));
+            DependencyProperty.Register(nameof(StartPoint), typeof(Point), typeof(PathItem), new PropertyMetadata((sender, e) =>
+            {
+                if (sender is PathItem pathItem && e.NewValue is Point point)
+                {
+                    Canvas.SetLeft(pathItem, point.X);
+                    Canvas.SetTop(pathItem, point.Y);
+                }
+            }));
+
+        internal static readonly DependencyProperty EndPointProperty =
+            DependencyProperty.Register(nameof(EndPoint), typeof(Point), typeof(PathItem));
+
+        internal static readonly DependencyProperty Point0Property =
+            DependencyProperty.Register(nameof(Point0), typeof(Point), typeof(PathItem));
 
         internal static readonly DependencyProperty Point1Property =
             DependencyProperty.Register(nameof(Point1), typeof(Point), typeof(PathItem));
@@ -23,18 +36,27 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(Point3), typeof(Point), typeof(PathItem));
 
         internal static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(nameof(Text), typeof(string), typeof(PathItem),new PropertyMetadata("下一节点"));
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(PathItem), new PropertyMetadata("下一节点"));
 
         internal static readonly DependencyProperty PointsProperty =
             DependencyProperty.Register(nameof(Points), typeof(PointCollection), typeof(PathItem));
-
-        internal static readonly DependencyProperty StartEllipseItemProperty =
-            DependencyProperty.Register(nameof(StartEllipseItem), typeof(EllipseItem), typeof(PathItem));
 
         internal Point StartPoint
         {
             get => (Point)GetValue(StartPointProperty);
             set => SetValue(StartPointProperty, value);
+        }
+
+        internal Point EndPoint
+        {
+            get => (Point)GetValue(EndPointProperty);
+            set => SetValue(EndPointProperty, value);
+        }
+
+        internal Point Point0
+        {
+            get => (Point)GetValue(Point0Property);
+            set => SetValue(Point0Property, value);
         }
 
         internal Point Point1
@@ -64,44 +86,70 @@ namespace OhmStudio.UI.Controls
         /// <summary>
         /// Gets or sets a collection that contains the vertex points of the polygon.
         /// </summary>
-        public PointCollection Points
+        internal PointCollection Points
         {
             get => (PointCollection)GetValue(PointsProperty);
             set => SetValue(PointsProperty, value);
         }
 
-        internal EllipseItem StartEllipseItem
-        {
-            get => (EllipseItem)GetValue(StartEllipseItemProperty);
-            set => SetValue(StartEllipseItemProperty, value);
-        }
+        internal EllipseItem StartEllipseItem { get; set; }
 
         internal EllipseItem EndEllipseItem { get; set; }
 
+        internal DragCanvas DragCanvas { get; set; }
+
         internal void UpdateBezierCurve(Point startPoint, Point endPoint)
         {
-            //Dispatcher.InvokeAsync(() =>
-            //{
-                StartPoint = startPoint;
-                Point1 = new Point((startPoint.X + endPoint.X) / 2, endPoint.Y);
-                Point2 = new Point((startPoint.X + endPoint.X) / 2, startPoint.Y);
-                Point3 = endPoint;
+            Point startPointTemp = new Point();
+            Point endPointTemp = new Point();
+            Point endEllipsePoint = EndEllipseItem == null ? endPoint : EndEllipseItem.GetPoint(DragCanvas);
+ 
+            startPointTemp.X = Math.Min(startPoint.X, endEllipsePoint.X); 
+            startPointTemp.Y = Math.Min(startPoint.Y, endEllipsePoint.Y);
+            endPointTemp.X = Math.Min(startPoint.X, endPoint.X);
+            endPointTemp.Y = Math.Min(startPoint.Y, endPoint.Y);
+              
+            StartPoint = startPointTemp;
+            EndPoint = endPointTemp;
 
-                double arrowLength = 10;
-                double arrowWidth = 10;
+            startPoint.X -= StartPoint.X;
+            startPoint.Y -= StartPoint.Y;
+            endPoint.X -= StartPoint.X;
+            endPoint.Y -= StartPoint.Y;
 
-                // 计算箭头的方向
-                Vector direction = endPoint - Point2;
-                direction.Normalize();
+            Point0 = startPoint;
+            Point1 = new Point((startPoint.X + endPoint.X) / 2, endPoint.Y);
+            Point2 = new Point((startPoint.X + endPoint.X) / 2, startPoint.Y);
+            Point3 = endPoint;
+            UpdateArrow(Point2, endPoint);
+        }
 
-                // 算出箭头的两个角点
-                Point arrowPoint1 = endPoint - direction * arrowLength + new Vector(-direction.Y, direction.X) * arrowWidth / 2;
-                Point arrowPoint2 = endPoint - direction * arrowLength - new Vector(-direction.Y, direction.X) * arrowWidth / 2;
+        private void UpdateArrow(Point point2, Point endPoint)
+        {
+            double arrowLength = 10;
+            double arrowWidth = 10;
 
-                // 更新箭头形状的点
-                Points = new PointCollection(new[] { endPoint, arrowPoint1, arrowPoint2 });
-                //Debug.WriteLine($"End Point: {endPoint}, Arrow Point 1: {arrowPoint1}, Arrow Point 2: {arrowPoint2}");
-            //}, DispatcherPriority.Render);
+            // 计算箭头的方向
+            Vector direction = endPoint - point2;
+            direction.Normalize();
+
+            // 算出箭头的两个角点
+            Point arrowPoint1 = endPoint - direction * arrowLength + new Vector(-direction.Y, direction.X) * arrowWidth / 2;
+            Point arrowPoint2 = endPoint - direction * arrowLength - new Vector(-direction.Y, direction.X) * arrowWidth / 2;
+
+            // 更新箭头形状的点
+            Points = new PointCollection(new[] { endPoint, arrowPoint1, arrowPoint2 });
+        }
+
+        internal void Delete()
+        {
+            StartEllipseItem.RemoveStep();
+            StartEllipseItem.PathItem = null;
+            StartEllipseItem = null;
+            EndEllipseItem.PathItem = null;
+            EndEllipseItem = null;
+            ContextMenu = null;
+            DragCanvas.Children.Remove(this);
         }
     }
 
@@ -120,7 +168,7 @@ namespace OhmStudio.UI.Controls
 
         internal PathItem PathItem { get; set; }
 
-        internal Point GetEllipsePoint(UIElement parent)
+        internal Point GetPoint(UIElement parent)
         {
             return TranslatePoint(new Point(ActualWidth / 2, ActualHeight / 2), parent);
         }
@@ -224,7 +272,7 @@ namespace OhmStudio.UI.Controls
         private EllipseItem EllipseRight;
         private EllipseItem EllipseBottom;
 
-        public DragCanvas DragCanvas { get; private set; }
+        public DragCanvas DragCanvas { get; internal set; }
 
         internal Dictionary<EllipseOrientation, EllipseItem> EllipseItems { get; private set; }
 
@@ -233,7 +281,7 @@ namespace OhmStudio.UI.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            DragCanvas = this.FindParentObject<DragCanvas>();
+            //DragCanvas = this.FindParentObject<DragCanvas>();
 
             EllipseLeft = GetTemplateChild("EllipseLeft") as EllipseItem;
             EllipseTop = GetTemplateChild("EllipseTop") as EllipseItem;
@@ -275,6 +323,10 @@ namespace OhmStudio.UI.Controls
             {
                 UIMessageTip.ShowWarning("无法设置节点为自己");
             }
+            else if (fromEllipse.PathItem != null || toEllipse.PathItem != null)
+            {
+                UIMessageTip.ShowWarning("该节点已经存在连接关系，无法创建连接曲线，请删除后再试");
+            }
             else if (fromEllipse.EllipseOrientation == EllipseOrientation.Left || toEllipse.EllipseOrientation == EllipseOrientation.Right)
             {
                 UIMessageTip.ShowWarning("被跳转节点无法直接设置");
@@ -307,6 +359,15 @@ namespace OhmStudio.UI.Controls
             return flag;
         }
 
+        internal void Delete()
+        {
+            foreach (var item in EllipseItems.Values)
+            {
+                item.PathItem.Delete();
+            }
+            DragCanvas.Children.Remove(this);
+        }
+
         public void UpdateCurve()
         {
             if (LastStep != null)
@@ -329,7 +390,7 @@ namespace OhmStudio.UI.Controls
 
         internal void UpdateCurve(PathItem pathItem)
         {
-            pathItem.UpdateBezierCurve(pathItem.StartEllipseItem.GetEllipsePoint(DragCanvas), pathItem.EndEllipseItem.GetEllipsePoint(DragCanvas));
+            pathItem.UpdateBezierCurve(pathItem.StartEllipseItem.GetPoint(DragCanvas), pathItem.EndEllipseItem.GetPoint(DragCanvas));
         }
     }
 }
