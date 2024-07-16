@@ -433,7 +433,7 @@ namespace OhmStudio.UI.Controls
                     result =>
                     {
                         HitTestResultBehavior behavior = HitTestResultBehavior.Continue;
-                        if (result.VisualHit is FrameworkElement frameworkElement && frameworkElement.TemplatedParent is EllipseItem ellipseItem)
+                        if (result.VisualHit is FrameworkElement frameworkElement && frameworkElement.TemplatedParent is EllipseItem ellipseItem && ellipseItem.IsVisible)
                         {
                             hitElements.Add(ellipseItem);
                         }
@@ -450,15 +450,15 @@ namespace OhmStudio.UI.Controls
             _lastStepItem = stepItem;
             Point point = e.GetPosition(this);
             var ellipseItem = GetEllipseItem(point);
-            if (ellipseItem != null)
+            if (ellipseItem == null)
+            {
+                _isMoving = true;
+            }
+            else
             {
                 _isDrawing = true;
                 _pathStartPoint = ellipseItem.GetPoint(this);
                 _lastEllipseItem = ellipseItem;
-            }
-            else
-            {
-                _isMoving = true;
             }
 
             if ((!GetIsDraggable(stepItem) && _isMoving) || _isSelecting || _isMultiMoving)
