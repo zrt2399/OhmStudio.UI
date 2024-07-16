@@ -1503,8 +1503,8 @@
     <Style x:Key="StepItemBaseStyle" TargetType="controls:StepItem">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="Width" Value="120" />
-        <Setter Property="Height" Value="60" />
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Height" Value="40" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Background" Value="{DynamicResource SystemColorsWindow}" />
         <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />
@@ -1520,25 +1520,25 @@
 
                             <!--  左边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseLeft"
-                                                  Margin="-6,0,0,0"
+                                                  Margin="-5,0,0,0"
                                                   HorizontalAlignment="Left"
                                                   VerticalAlignment="Center"
                                                   Orientation="Left" />
                             <!--  顶边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseTop"
-                                                  Margin="0,-6,0,0"
+                                                  Margin="0,-5,0,0"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Top"
                                                   Orientation="Top" />
                             <!--  右边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseRight"
-                                                  Margin="0,0,-6,0"
+                                                  Margin="0,0,-5,0"
                                                   HorizontalAlignment="Right"
                                                   VerticalAlignment="Center"
                                                   Orientation="Right" />
                             <!--  底边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseBottom"
-                                                  Margin="0,0,0,-6"
+                                                  Margin="0,0,0,-5"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Bottom"
                                                   Orientation="Bottom" />
@@ -1565,8 +1565,8 @@
     <Style x:Key="EllipseItemBaseStyle" TargetType="controls:EllipseItem">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="Width" Value="12" />
-        <Setter Property="Height" Value="12" />
+        <Setter Property="Width" Value="10" />
+        <Setter Property="Height" Value="10" />
         <Setter Property="Background" Value="OrangeRed" />
         <Setter Property="BorderBrush" Value="Blue" />
         <Setter Property="Visibility">

@@ -693,24 +693,30 @@
                                         </Style>
                                     </DragCanvas.Resources>
                                     <StepItem Content="开始" StepType="Begin" />
-                                    <StepItem Canvas.Top="100" Content="中间节点1" />
-                                    <StepItem Canvas.Top="200" Content="中间节点2" />
-                                    <StepItem Canvas.Top="200" Content="中间节点3" />
-                                    <StepItem Canvas.Top="200" Content="中间节点4" />
-                                    <StepItem Canvas.Top="200" Content="中间节点5" />
-                                    <StepItem Canvas.Top="200" Content="中间节点6" />
-                                    <StepItem Canvas.Top="200" Content="中间节点7" />
+                                    <StepItem Canvas.Left="100"
+                                              Canvas.Top="100"
+                                              Content="中间节点1" />
                                     <StepItem Canvas.Left="200"
                                               Canvas.Top="200"
+                                              Content="中间节点2" />
+                                    <StepItem Canvas.Left="300"
+                                              Canvas.Top="300"
                                               Content="中间节点3" />
-                                    <StepItem Canvas.Top="300"
+                                    <StepItem Canvas.Left="400"
+                                              Canvas.Top="400"
+                                              Content="中间节点4" />
+                                    <StepItem Canvas.Left="500"
+                                              Canvas.Top="500"
+                                              Content="中间节点5" />
+                                    <StepItem Canvas.Left="600"
+                                              Canvas.Top="600"
                                               Content="结束"
+                                              StepType="End" />
+                                    <StepItem Canvas.Left="700"
+                                              Canvas.Top="700"
+                                              Content="结束·不可拖拽"
                                               DragCanvas.IsDraggable="False"
                                               StepType="End" />
-                                    <StepItem Canvas.Top="400"
-                                              Content="结束"
-                                              StepType="End" />
-                                    <!--<Button>456</Button>-->
                                 </DragCanvas>
                             </LayoutDocument>
                             <LayoutDocument Title="PackIcons">
