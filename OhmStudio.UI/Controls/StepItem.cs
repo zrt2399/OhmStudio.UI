@@ -202,12 +202,12 @@ namespace OhmStudio.UI.Controls
         {
             Point startPointTemp = new Point();
             Point endPointTemp = new Point();
-            Point endEllipsePoint = EndEllipseItem == null ? endPoint : EndEllipseItem.GetPoint(CanvasParent);
+            Point actualEndPoint = EndEllipseItem == null ? endPoint : EndEllipseItem.GetPoint(CanvasParent);
 
-            startPointTemp.X = Math.Min(startPoint.X, endEllipsePoint.X);
-            startPointTemp.Y = Math.Min(startPoint.Y, endEllipsePoint.Y);
-            endPointTemp.X = Math.Min(startPoint.X, endPoint.X);
-            endPointTemp.Y = Math.Min(startPoint.Y, endPoint.Y);
+            startPointTemp.X = Math.Min(startPoint.X, actualEndPoint.X);
+            startPointTemp.Y = Math.Min(startPoint.Y, actualEndPoint.Y);
+            endPointTemp.X = Math.Max(startPoint.X, actualEndPoint.X);
+            endPointTemp.Y = Math.Max(startPoint.Y, actualEndPoint.Y);
 
             StartPoint = startPointTemp;
             EndPoint = endPointTemp;
