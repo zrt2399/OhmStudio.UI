@@ -197,7 +197,7 @@ namespace OhmStudio.UI.Controls
             var stepItem = sender as StepItem;
             _lastStepItem = stepItem;
             Point point = e.GetPosition(this);
-            var ellipseItem = GetEllipseItem(point);
+            var ellipseItem = this.GetFirstVisualHit<EllipseItem>(point);
             if (ellipseItem == null)
             {
                 _isMoving = true;
@@ -219,12 +219,6 @@ namespace OhmStudio.UI.Controls
             _mouseDownControlPoint = new Point(GetLeft(stepItem), GetTop(stepItem));
         }
 
-        private T GetHitStepItem<T>(Point point) where T : DependencyObject
-        {
-            var hitObject = VisualTreeHelper.HitTest(this, point)?.VisualHit;
-            return hitObject?.FindParentObject<T>();
-        }
-
         private void DragCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (_isMultiMoving)
@@ -234,9 +228,11 @@ namespace OhmStudio.UI.Controls
             Point point = e.GetPosition(this);
             Children.Remove(_multiSelectionMask);
 
+            bool isPathItem = false;
             IEnumerable<ISelectableElement> selectableElements;
-            if (GetHitStepItem<Control>(point) is ISelectableElement selectableElement)
+            if (this.GetVisualHit<Control>(point) is ISelectableElement selectableElement)
             {
+                isPathItem = true;
                 selectableElement.IsSelected = true;
                 selectableElements = SelectableElements.Where(x => x != selectableElement);
             }
@@ -250,7 +246,7 @@ namespace OhmStudio.UI.Controls
                 item.IsSelected = false;
             }
 
-            if (_isMoving || _isDrawing)
+            if (_isMoving || _isDrawing || isPathItem)
             {
                 return;
             }
@@ -438,7 +434,7 @@ namespace OhmStudio.UI.Controls
                 {
                     bool drawingSuccess = false;
                     Point point = e.GetPosition(this);
-                    var ellipseItem = GetEllipseItem(point);
+                    var ellipseItem = this.GetFirstVisualHit<EllipseItem>(point);
                     if (ellipseItem != null)
                     {
                         drawingSuccess = ellipseItem.StepParent.SetStep(_lastStepItem, _lastEllipseItem, ellipseItem);
@@ -502,29 +498,6 @@ namespace OhmStudio.UI.Controls
             {
                 stepItem.UpdateCurve();
             }, DispatcherPriority.Render);
-        }
-
-        private EllipseItem GetEllipseItem(Point point)
-        {
-            List<EllipseItem> hitElements = new List<EllipseItem>();
-
-            // 使用HitTest方法和回调函数获取所有命中的控件
-            VisualTreeHelper.HitTest(
-                this,
-                null,
-                new HitTestResultCallback(
-                    result =>
-                    {
-                        HitTestResultBehavior behavior = HitTestResultBehavior.Continue;
-                        if (result.VisualHit is FrameworkElement frameworkElement && frameworkElement.TemplatedParent is EllipseItem ellipseItem && ellipseItem.IsVisible)
-                        {
-                            hitElements.Add(ellipseItem);
-                        }
-                        return behavior;
-                    }),
-                new PointHitTestParameters(point));
-
-            return hitElements.FirstOrDefault();
         }
 
         private double Adsorb(double value)

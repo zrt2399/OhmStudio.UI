@@ -21,6 +21,35 @@ namespace OhmStudio.UI.PublicMethods
 {
     public static class ExtensionMethod
     {
+        public static T GetFirstVisualHit<T>(this Visual visual, System.Windows.Point point) where T : DependencyObject
+        {
+            List<T> hitElements = new List<T>();
+
+            // 使用HitTest方法和回调函数获取所有命中的控件
+            VisualTreeHelper.HitTest(
+                visual,
+                null,
+                new HitTestResultCallback(
+                    result =>
+                    {
+                        HitTestResultBehavior behavior = HitTestResultBehavior.Continue;
+                        if (result.VisualHit is FrameworkElement frameworkElement && frameworkElement.TemplatedParent is T t && frameworkElement.IsVisible)
+                        {
+                            hitElements.Add(t);
+                        }
+                        return behavior;
+                    }),
+                new PointHitTestParameters(point));
+
+            return hitElements.FirstOrDefault();
+        }
+
+        public static T GetVisualHit<T>(this Visual visual, System.Windows.Point point) where T : DependencyObject
+        {
+            var hitObject = VisualTreeHelper.HitTest(visual, point)?.VisualHit;
+            return hitObject?.FindParentObject<T>();
+        }
+
         public static double ToPhysicalPixels(this double logicalPixels)
         {
             return logicalPixels * VisualTreeHelper.GetDpi(Application.Current.MainWindow).PixelsPerDip;
