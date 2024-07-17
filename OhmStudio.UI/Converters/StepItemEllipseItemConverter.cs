@@ -12,8 +12,8 @@ namespace OhmStudio.UI.Converters
         {
             if (values != null && values.Length > 1)
             {
-                var stepType = (StepType)values[0];
-                var ellipseOrientation = (EllipseOrientation)values[1];
+                EllipseOrientation ellipseOrientation = (EllipseOrientation)values[0];
+                StepType stepType = (StepType)values[1];
                 if (stepType == StepType.Begin)
                 {
                     return GetVisibility(ellipseOrientation is EllipseOrientation.Bottom);

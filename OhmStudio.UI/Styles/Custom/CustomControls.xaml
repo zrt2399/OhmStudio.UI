@@ -10,7 +10,7 @@
         <!--  Common Control Styles  -->
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ControlsBase.xaml" />
         <!--  TextBox Attach Styles  -->
-        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/TextBoxAttachStyle.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/Custom/TextBoxAttach.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Thickness x:Key="InputElementPadding">2</Thickness>
@@ -40,6 +40,7 @@
     <converters:PathPickerPlaceHolderMarginConverter x:Key="PathPickerPlaceHolderMarginConverter" />
     <converters:StepItemEllipseItemConverter x:Key="StepItemEllipseItemConverter" />
     <converters:DoNoThingConverter x:Key="DoNoThingConverter" />
+    <converters:ParallelogramEllipseConverter x:Key="ParallelogramEllipseConverter" />
 
     <Style x:Key="ContentHostControl" TargetType="Control">
         <Setter Property="Margin" Value="0" />
@@ -1364,13 +1365,6 @@
     </Style>
     <Style BasedOn="{StaticResource PathPickerBaseStyle}" TargetType="controls:PathPicker" />
 
-    <Style x:Key="DragCanvasBaseStyle" TargetType="controls:DragCanvas">
-        <Setter Property="ClipToBounds" Value="True" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="LineBrush" Value="{DynamicResource DragCanvasLineBrush}" />
-    </Style>
-    <Style BasedOn="{StaticResource DragCanvasBaseStyle}" TargetType="controls:DragCanvas" />
-
     <Style x:Key="LoadingBaseStyle" TargetType="controls:LoadingBase">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="DotDiameter" Value="10" />
@@ -1511,49 +1505,52 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:StepItem">
-                    <Border x:Name="Border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                    <controls:ShapeBorder x:Name="ShapeBorder"
+                                          Background="{TemplateBinding Background}"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                          BorderThickness="{TemplateBinding BorderThickness}">
                         <controls:SimplePanel>
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
                             <!--  左边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseLeft"
-                                                  Margin="-5,0,0,0"
                                                   HorizontalAlignment="Left"
                                                   VerticalAlignment="Center"
                                                   Orientation="Left" />
                             <!--  顶边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseTop"
-                                                  Margin="0,-5,0,0"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Top"
                                                   Orientation="Top" />
                             <!--  右边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseRight"
-                                                  Margin="0,0,-5,0"
                                                   HorizontalAlignment="Right"
                                                   VerticalAlignment="Center"
                                                   Orientation="Right" />
                             <!--  底边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseBottom"
-                                                  Margin="0,0,0,-5"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Bottom"
                                                   Orientation="Bottom" />
 
                         </controls:SimplePanel>
-                    </Border>
+                    </controls:ShapeBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="Orange" />
+                            <Setter TargetName="ShapeBorder" Property="IsDashed" Value="True" />
                         </Trigger>
                         <Trigger Property="StepType" Value="Begin">
-                            <Setter TargetName="Border" Property="attaches:CornerRadiusAttach.IsCircular" Value="True" />
+                            <Setter TargetName="ShapeBorder" Property="attaches:CornerRadiusAttach.IsCircular" Value="True" />
+                        </Trigger>
+                        <Trigger Property="StepType" Value="Condition">
+                            <Setter TargetName="ShapeBorder" Property="ShapeType" Value="Diamond" />
+                        </Trigger>
+                        <Trigger Property="StepType" Value="Reference">
+                            <Setter TargetName="ShapeBorder" Property="ShapeType" Value="Parallelogram" />
                         </Trigger>
                         <Trigger Property="StepType" Value="End">
-                            <Setter TargetName="Border" Property="attaches:CornerRadiusAttach.IsCircular" Value="True" />
+                            <Setter TargetName="ShapeBorder" Property="attaches:CornerRadiusAttach.IsCircular" Value="True" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -1572,8 +1569,20 @@
         <Setter Property="Visibility">
             <Setter.Value>
                 <MultiBinding Converter="{StaticResource StepItemEllipseItemConverter}">
-                    <Binding Path="StepType" RelativeSource="{RelativeSource AncestorType=controls:StepItem}" />
                     <Binding Path="Orientation" RelativeSource="{RelativeSource Mode=Self}" />
+                    <Binding Path="StepType" RelativeSource="{RelativeSource AncestorType=controls:StepItem}" />
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin">
+            <Setter.Value>
+                <MultiBinding Converter="{StaticResource ParallelogramEllipseConverter}">
+                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Mode=Self}" />
+                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource Mode=Self}" />
+                    <Binding Path="Orientation" RelativeSource="{RelativeSource Mode=Self}" />
+                    <Binding Path="BorderThickness" RelativeSource="{RelativeSource AncestorType=controls:ShapeBorder}" />
+                    <Binding Path="ShapeType" RelativeSource="{RelativeSource AncestorType=controls:ShapeBorder}" />
+                    <Binding Path="Shear" RelativeSource="{RelativeSource AncestorType=controls:ShapeBorder}" />
                 </MultiBinding>
             </Setter.Value>
         </Setter>
@@ -1591,13 +1600,26 @@
     </Style>
     <Style BasedOn="{StaticResource EllipseItemBaseStyle}" TargetType="controls:EllipseItem" />
 
+    <Style x:Key="DragCanvasBaseStyle" TargetType="controls:DragCanvas">
+        <Setter Property="ClipToBounds" Value="True" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="LineBrush" Value="{DynamicResource DragCanvasLineBrush}" />
+        <!--<Setter Property="LayoutTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="{Binding Scale, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                ScaleY="{Binding Scale, RelativeSource={RelativeSource AncestorType=Canvas}}"/>
+            </Setter.Value>
+        </Setter>-->
+    </Style>
+    <Style BasedOn="{StaticResource DragCanvasBaseStyle}" TargetType="controls:DragCanvas" />
+
     <Style x:Key="PathItemBaseStyle" TargetType="controls:PathItem">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:PathItem">
                     <Grid Background="{TemplateBinding Background}">
-                        <Path Fill="#112e2e2e"
-                              Stroke="Black"
+                        <Path Fill="#111E1E1E"
+                              Stroke="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
                               StrokeThickness="2">
                             <Path.Data>
                                 <PathGeometry>
@@ -1608,16 +1630,19 @@
                                     </PathFigure>
                                 </PathGeometry>
                             </Path.Data>
+                            <Path.StrokeDashArray>
+                                <DoubleCollection>2,2</DoubleCollection>
+                            </Path.StrokeDashArray>
                         </Path>
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Text="{TemplateBinding Text}" />
                         <!--  Arrowhead  -->
-                        <Polygon Fill="Black" Points="{Binding Points, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <Polygon Fill="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" Points="{Binding Points, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="#222e2e2e" />
+                            <Setter Property="Background" Value="#122E2E2E" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -3,12 +3,12 @@ using System.Windows;
 using System.Windows.Controls;
 using OhmStudio.UI.PublicMethods;
 
-namespace OhmStudio.UI.Styles.VS
+namespace OhmStudio.UI.Styles.Custom
 {
     /// <summary>
-    /// TextBoxAttachStyle.xaml 的交互逻辑。
+    /// TextBoxAttach.xaml 的交互逻辑。
     /// </summary>
-    public partial class TextBoxAttachStyle : ResourceDictionary
+    public partial class TextBoxAttach : ResourceDictionary
     {
         private void ContentControl_GotFocus(object sender, RoutedEventArgs e)
         {

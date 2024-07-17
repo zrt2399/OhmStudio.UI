@@ -55,7 +55,7 @@ namespace OhmStudio.UI.Attaches
             DependencyProperty.RegisterAttached("PlaceHolder", typeof(object), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolder, (sender, e) =>
             {
                 var newValue = e.NewValue;
-                if (sender.IsTextBoxAttachObject() && CheckIsEmpty(newValue))
+                if (sender.IsPlaceHolderObject() && CheckIsEmpty(newValue))
                 {
                     SetPlaceHolderVisibility(sender, Visibility.Collapsed);
                 }

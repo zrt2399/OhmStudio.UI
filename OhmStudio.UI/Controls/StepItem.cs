@@ -13,6 +13,92 @@ namespace OhmStudio.UI.Controls
         bool IsSelected { get; set; }
     }
 
+    public enum ShapeType
+    {
+        Rectangle,
+        Diamond,
+        Parallelogram
+    }
+
+    public class ShapeBorder : Border
+    {
+        public static readonly DependencyProperty ShapeTypeProperty =
+            DependencyProperty.Register(nameof(ShapeType), typeof(ShapeType), typeof(ShapeBorder), new FrameworkPropertyMetadata(ShapeType.Rectangle, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public static readonly DependencyProperty IsDashedProperty =
+            DependencyProperty.Register(nameof(IsDashed), typeof(bool), typeof(ShapeBorder), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public static readonly DependencyProperty ShearProperty =
+          DependencyProperty.Register(nameof(Shear), typeof(double), typeof(ShapeBorder), new PropertyMetadata(20d));
+
+        public ShapeType ShapeType
+        {
+            get => (ShapeType)GetValue(ShapeTypeProperty);
+            set => SetValue(ShapeTypeProperty, value);
+        }
+
+        public bool IsDashed
+        {
+            get => (bool)GetValue(IsDashedProperty);
+            set => SetValue(IsDashedProperty, value);
+        }
+
+        public double Shear
+        {
+            get => (double)GetValue(ShearProperty);
+            set => SetValue(ShearProperty, value);
+        }
+
+        void DrawPolygon(DrawingContext dc, Brush brush, Pen pen, params Point[] points)
+        {
+            if (!points.Any())
+            {
+                return;
+            }
+
+            var geometry = new StreamGeometry();
+            using (var geometryContext = geometry.Open())
+            {
+                geometryContext.BeginFigure(points[0], true, true);
+                for (var i = 1; i < points.Length; i++)
+                {
+                    geometryContext.LineTo(points[i], true, false);
+                }
+            }
+
+            dc.DrawGeometry(brush, pen, geometry);
+        }
+
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            var background = Background;
+            var pen = new Pen(BorderBrush, new double[] { BorderThickness.Left, BorderThickness.Top, BorderThickness.Right, BorderThickness.Bottom }.Max());
+            if (IsDashed)
+            {
+                pen.DashStyle = DashStyles.Dash;
+            }
+            switch (ShapeType)
+            {
+                case ShapeType.Diamond:
+                    DrawPolygon(drawingContext, background, pen, new Point(ActualWidth / 2, 0), new Point(ActualWidth, ActualHeight / 2), new Point(ActualWidth / 2, ActualHeight), new Point(0, ActualHeight / 2));
+                    break;
+                case ShapeType.Parallelogram:
+                    double shear = Shear;
+                    DrawPolygon(drawingContext, background, pen, new Point(Math.Min(shear, ActualWidth), 0), new Point(ActualWidth, 0), new Point(Math.Max(0, ActualWidth - shear), ActualHeight), new Point(0, ActualHeight));
+                    break;
+                default:
+                    double num = pen.Thickness * 0.5;
+                    Rect rectangle = new Rect(new Point(num, num), new Point(ActualWidth - num, ActualHeight - num));
+                    double radius = new double[] { CornerRadius.TopLeft, CornerRadius.TopRight, CornerRadius.BottomRight, CornerRadius.BottomLeft }.Max();
+                    drawingContext.DrawRoundedRectangle(background, pen, rectangle, radius, radius);
+
+                    //DrawPolygon(drawingContext, background, pen, new Point(0, 0), new Point(ActualWidth, 0), new Point(ActualWidth, ActualHeight), new Point(0, ActualHeight));
+                    //base.OnRender(drawingContext);
+                    break;
+            }
+        }
+    }
+
     internal class PathItem : Control, ISelectableElement
     {
         public static readonly DependencyProperty IsSelectedProperty =
@@ -215,6 +301,7 @@ namespace OhmStudio.UI.Controls
         Begin,
         Nomal,
         Condition,
+        Reference,
         End
     }
 

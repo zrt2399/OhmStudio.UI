@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -23,6 +24,7 @@ namespace OhmStudio.UI.Controls
             MouseLeftButtonDown += DragCanvas_MouseLeftButtonDown;
             MouseMove += DragCanvas_MouseMove;
             MouseLeftButtonUp += DragCanvas_MouseLeftButtonUp;
+            MouseWheel += DragCanvas_MouseWheel;
 
             _multiSelectionMask = new Rectangle();
             _multiSelectionMask.Fill = "#44AACCEE".ToSolidColorBrush();
@@ -34,6 +36,26 @@ namespace OhmStudio.UI.Controls
             _selectionArea.Fill = "#88AACCEE".ToSolidColorBrush();
             _selectionArea.Stroke = "#FF0F80D9".ToSolidColorBrush();
             SetZIndex(_selectionArea, int.MaxValue);
+            ScaleTransform scaleTransform = new ScaleTransform();
+            BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleXProperty, new Binding() { Source = this, Path = new PropertyPath(ScaleProperty) });
+            BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleYProperty, new Binding() { Source = this, Path = new PropertyPath(ScaleProperty) });
+
+            LayoutTransform = scaleTransform;
+        }
+
+        private void DragCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            //Point mousePosition = e.GetPosition(this); 
+            //scaleTransform.CenterX = mousePosition.X;
+            //scaleTransform.CenterY = mousePosition.Y;
+            if (e.Delta > 0)
+            {
+                Scale += 0.2;
+            }
+            else
+            {
+                Scale -= 0.2;
+            }
         }
 
         //鼠标选中多个元素的Rectangle遮罩
@@ -81,6 +103,23 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(GridSize), typeof(double), typeof(DragCanvas),
                 new FrameworkPropertyMetadata(20d, FrameworkPropertyMetadataOptions.AffectsRender));
 
+        public static readonly DependencyProperty ScaleProperty =
+            DependencyProperty.Register(nameof(Scale), typeof(double), typeof(DragCanvas), new PropertyMetadata(1d, (sender, e) =>
+            {
+                DragCanvas dragCanvas = (DragCanvas)sender;
+                if (dragCanvas.Scale < 0.2)
+                {
+                    dragCanvas.Scale = 0.2;
+                }
+                if (dragCanvas.Scale > 3)
+                {
+                    dragCanvas.Scale = 3;
+                }
+            }));
+
+        public static readonly DependencyProperty MousePositionProperty =
+            DependencyProperty.Register(nameof(MousePosition), typeof(Point), typeof(DragCanvas));
+
         public Brush LineBrush
         {
             get => (Brush)GetValue(LineBrushProperty);
@@ -91,6 +130,18 @@ namespace OhmStudio.UI.Controls
         {
             get => (double)GetValue(GridSizeProperty);
             set => SetValue(GridSizeProperty, value);
+        }
+
+        public double Scale
+        {
+            get => (double)GetValue(ScaleProperty);
+            set => SetValue(ScaleProperty, value);
+        }
+
+        public Point MousePosition
+        {
+            get => (Point)GetValue(MousePositionProperty);
+            set => SetValue(MousePositionProperty, value);
         }
 
         public static readonly DependencyProperty IsDraggableProperty =
@@ -139,6 +190,33 @@ namespace OhmStudio.UI.Controls
             {
                 item.MouseDownControlPoint = new Point(GetLeft(item), GetTop(item));
             }
+        }
+
+        private void StepItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var stepItem = sender as StepItem;
+            _lastStepItem = stepItem;
+            Point point = e.GetPosition(this);
+            var ellipseItem = GetEllipseItem(point);
+            if (ellipseItem == null)
+            {
+                _isMoving = true;
+            }
+            else
+            {
+                _isDrawing = true;
+                _pathStartPoint = ellipseItem.GetPoint(this);
+                _lastEllipseItem = ellipseItem;
+            }
+
+            if ((!GetIsDraggable(stepItem) && _isMoving) || _isSelecting || _isMultiMoving)
+            {
+                return;
+            }
+
+            Cursor = _isDrawing ? Cursors.Cross : Cursors.ScrollAll;
+            _mouseDownPoint = point;
+            _mouseDownControlPoint = new Point(GetLeft(stepItem), GetTop(stepItem));
         }
 
         private T GetHitStepItem<T>(Point point) where T : DependencyObject
@@ -194,11 +272,12 @@ namespace OhmStudio.UI.Controls
 
         private void DragCanvas_MouseMove(object sender, MouseEventArgs e)
         {
+            Point point = e.GetPosition(this);
+            MousePosition = point;
             if (e.LeftButton != MouseButtonState.Pressed)
             {
                 return;
             }
-            Point point = e.GetPosition(this);
             if (_isMultiMoving)
             {
                 Vector vector = point - _multiMouseDownPoint;
@@ -297,8 +376,12 @@ namespace OhmStudio.UI.Controls
                     _currentPath = new PathItem();
                     _currentPath.CanvasParent = this;
                     _currentPath.StartPoint = _pathStartPoint;
+                    if (_lastEllipseItem.Orientation == EllipseOrientation.Right)
+                    {
+                        _currentPath.Text = "跳转";
+                    }
                     var contextMenu = new ContextMenu();
-                    var menuItem = new MenuItem() { Header = "删除连接" };
+                    var menuItem = new MenuItem() { Header = "删除连接", Icon = new PackIcon() { Kind = PackIconKind.TrashiOS } };
                     menuItem.Click += (sender, e) =>
                     {
                         var pathItem = ((ContextMenu)((MenuItem)sender).Parent).PlacementTarget as PathItem;
@@ -444,33 +527,6 @@ namespace OhmStudio.UI.Controls
             return hitElements.FirstOrDefault();
         }
 
-        private void StepItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var stepItem = sender as StepItem;
-            _lastStepItem = stepItem;
-            Point point = e.GetPosition(this);
-            var ellipseItem = GetEllipseItem(point);
-            if (ellipseItem == null)
-            {
-                _isMoving = true;
-            }
-            else
-            {
-                _isDrawing = true;
-                _pathStartPoint = ellipseItem.GetPoint(this);
-                _lastEllipseItem = ellipseItem;
-            }
-
-            if ((!GetIsDraggable(stepItem) && _isMoving) || _isSelecting || _isMultiMoving)
-            {
-                return;
-            }
-
-            Cursor = _isDrawing ? Cursors.Cross : Cursors.ScrollAll;
-            _mouseDownPoint = point;
-            _mouseDownControlPoint = new Point(GetLeft(stepItem), GetTop(stepItem));
-        }
-
         private double Adsorb(double value)
         {
             if (double.IsNaN(value))
@@ -500,16 +556,25 @@ namespace OhmStudio.UI.Controls
             double gridSize = GridSize;
 
             Pen pen = new Pen(LineBrush, 0.4);
+            Pen sidePen = new Pen(LineBrush, 1);
 
+            int index = 0;
             for (double x = 0; x < width; x += gridSize)
             {
-                dc.DrawLine(pen, new Point(x, 0), new Point(x, height));
+                dc.DrawLine(IsSide(index) ? sidePen : pen, new Point(x, 0), new Point(x, height));
+                index++;
             }
-
+            index = 0;
             for (double y = 0; y < height; y += gridSize)
             {
-                dc.DrawLine(pen, new Point(0, y), new Point(width, y));
+                dc.DrawLine(IsSide(index) ? sidePen : pen, new Point(0, y), new Point(width, y));
+                index++;
             }
+        }
+
+        private static bool IsSide(int value)
+        {
+            return value != 0 && value % 4 == 0;
         }
     }
 }

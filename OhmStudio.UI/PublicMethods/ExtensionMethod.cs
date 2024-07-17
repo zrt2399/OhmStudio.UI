@@ -104,7 +104,7 @@ namespace OhmStudio.UI.PublicMethods
             return window;
         }
 
-        public static bool IsTextBoxAttachObject(this DependencyObject obj)
+        public static bool IsPlaceHolderObject(this DependencyObject obj)
         {
             var type = obj.GetType();
             if (type == typeof(ComboBox) || type == typeof(TextBox) || type == typeof(PasswordBox) || obj is ITextChanged)
