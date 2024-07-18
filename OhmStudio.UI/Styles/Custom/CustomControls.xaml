@@ -1494,6 +1494,36 @@
     </Style>
     <Style BasedOn="{StaticResource NumericUpDownBaseStyle}" TargetType="controls:NumericUpDown" />
 
+    <Style x:Key="DragCanvasBaseStyle" TargetType="controls:DragCanvas">
+        <Setter Property="ClipToBounds" Value="True" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="LineBrush" Value="{DynamicResource DragCanvasLineBrush}" />
+        <Setter Property="ContextMenu">
+            <Setter.Value>
+                <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
+                    <MenuItem Header="添加流程" ItemsSource="{attaches:EnumBindingSource EnumType=controls:StepType}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding}" />
+                                <Setter Property="Command" Value="{Binding DataContext.AddStepItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header}" />
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                    <MenuItem Command="{Binding DeleteStepItemCommand}" Header="删除选中流程" />
+                    <MenuItem Command="{Binding SaveAsImageCommand}" Header="保存为Png" />
+                </ContextMenu>
+            </Setter.Value>
+        </Setter>
+        <!--<Setter Property="LayoutTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="{Binding Scale, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                ScaleY="{Binding Scale, RelativeSource={RelativeSource AncestorType=Canvas}}"/>
+            </Setter.Value>
+        </Setter>-->
+    </Style>
+    <Style BasedOn="{StaticResource DragCanvasBaseStyle}" TargetType="controls:DragCanvas" />
+
     <Style x:Key="StepItemBaseStyle" TargetType="controls:StepItem">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -1564,8 +1594,8 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Width" Value="10" />
         <Setter Property="Height" Value="10" />
-        <Setter Property="Background" Value="OrangeRed" />
-        <Setter Property="BorderBrush" Value="Blue" />
+        <Setter Property="Background" Value="#FD5618" />
+        <Setter Property="BorderBrush" Value="#7B68EE" />
         <Setter Property="Visibility">
             <Setter.Value>
                 <MultiBinding Converter="{StaticResource StepItemEllipseItemConverter}">
@@ -1594,24 +1624,17 @@
                              Margin="{TemplateBinding Padding}"
                              Fill="{TemplateBinding Background}"
                              Stroke="{TemplateBinding BorderBrush}" />
+                    <!--<ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Height" Value="14" />
+                            <Setter Property="Width" Value="14" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
     <Style BasedOn="{StaticResource EllipseItemBaseStyle}" TargetType="controls:EllipseItem" />
-
-    <Style x:Key="DragCanvasBaseStyle" TargetType="controls:DragCanvas">
-        <Setter Property="ClipToBounds" Value="True" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="LineBrush" Value="{DynamicResource DragCanvasLineBrush}" />
-        <!--<Setter Property="LayoutTransform">
-            <Setter.Value>
-                <ScaleTransform ScaleX="{Binding Scale, RelativeSource={RelativeSource AncestorType=Canvas}}"
-                                ScaleY="{Binding Scale, RelativeSource={RelativeSource AncestorType=Canvas}}"/>
-            </Setter.Value>
-        </Setter>-->
-    </Style>
-    <Style BasedOn="{StaticResource DragCanvasBaseStyle}" TargetType="controls:DragCanvas" />
 
     <Style x:Key="PathItemBaseStyle" TargetType="controls:PathItem">
         <Setter Property="Template">

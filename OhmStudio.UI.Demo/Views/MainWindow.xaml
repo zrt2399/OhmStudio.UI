@@ -1120,7 +1120,7 @@
                     </LayoutDocumentPaneGroup>
                     <LayoutAnchorablePaneGroup DockWidth="400">
                         <LayoutAnchorablePane>
-                            <LayoutAnchorable Title="TreeView" ToolTip="This a TreeView">
+                            <LayoutAnchorable Title="TreeView" ToolTip="This is a TreeView">
                                 <DockPanel>
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                                         <StackPanel.Resources>
@@ -1204,7 +1204,7 @@
                                     </TreeView>
                                 </DockPanel>
                             </LayoutAnchorable>
-                            <LayoutAnchorable Title="ListView" ToolTip="This a ListView">
+                            <LayoutAnchorable Title="ListView" ToolTip="This is a ListView">
                                 <ListView ItemsSource="{Binding Result}">
                                     <ListView.View>
                                         <GridView>
@@ -1290,13 +1290,13 @@
                                     </ListView.ContextMenu>
                                 </ListView>
                             </LayoutAnchorable>
-                            <LayoutAnchorable Title="ListBox" ToolTip="This a ListView">
+                            <LayoutAnchorable Title="ListBox" ToolTip="This is a ListView">
                                 <ListBox BorderBrush="Transparent"
                                          BorderThickness="0"
                                          ItemsSource="{EnumBindingSource EnumType=local:UserPermission}"
                                          SelectionMode="Multiple" />
                             </LayoutAnchorable>
-                            <LayoutAnchorable Title="PropertyGrid" ToolTip="This a PropertyGrid">
+                            <LayoutAnchorable Title="PropertyGrid" ToolTip="This is a PropertyGrid">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition />

@@ -35,8 +35,8 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty InitialDirectoryProperty =
             DependencyProperty.Register(nameof(InitialDirectory), typeof(string), typeof(PathPicker), new PropertyMetadata(string.Empty));
 
-        public static readonly DependencyProperty DefaultExtensionProperty =
-            DependencyProperty.Register(nameof(DefaultExtension), typeof(string), typeof(PathPicker), new PropertyMetadata(string.Empty));
+        public static readonly DependencyProperty DefaultExtProperty =
+            DependencyProperty.Register(nameof(DefaultExt), typeof(string), typeof(PathPicker), new PropertyMetadata(string.Empty));
 
         public static readonly DependencyProperty MultiselectProperty =
             DependencyProperty.Register(nameof(Multiselect), typeof(bool), typeof(PathPicker));
@@ -104,10 +104,10 @@ namespace OhmStudio.UI.Controls
             set => SetValue(InitialDirectoryProperty, value);
         }
 
-        public string DefaultExtension
+        public string DefaultExt
         {
-            get => (string)GetValue(DefaultExtensionProperty);
-            set => SetValue(DefaultExtensionProperty, value);
+            get => (string)GetValue(DefaultExtProperty);
+            set => SetValue(DefaultExtProperty, value);
         }
 
         public bool Multiselect
@@ -226,7 +226,7 @@ namespace OhmStudio.UI.Controls
                 fileDialog.CheckPathExists = true;
                 fileDialog.InitialDirectory = InitialDirectory;
                 fileDialog.Filter = Filter;
-                fileDialog.DefaultExt = DefaultExtension;
+                fileDialog.DefaultExt = DefaultExt;
 
                 if (fileDialog.ShowDialog() != true)
                 {

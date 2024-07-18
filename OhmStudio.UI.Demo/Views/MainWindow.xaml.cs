@@ -632,20 +632,8 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_16(object sender, RoutedEventArgs e)
         {
-            stackPanel.SaveAsImage("1.png", ImageFormat.Png);
+            stackPanel.SaveAsImage("1.png", ImageType.Png);
         }
-    }
-
-    public enum MessageType
-    {
-        AlertDialog,
-        TreeViewItemLoaded
-    }
-
-    public class FontFamilyItem
-    {
-        public string Name { get; set; }
-        public FontFamily FontFamily { get; set; }
     }
 
     public class TreeViewModel : ObservableObject
@@ -847,6 +835,46 @@ namespace OhmStudio.UI.Demo.Views
         M2821
     }
 
+    public enum MessageType
+    {
+        AlertDialog,
+        TreeViewItemLoaded
+    }
+
+    [Flags]
+    [TypeConverter(typeof(EnumDescriptionConverter))]
+    public enum UserPermission
+    {
+        [Description("无")]
+        None = 0,
+        [Description("测试")]
+        Test = 1,
+        [Description("编辑")]
+        Edit = 1 << 1,
+        [Description("设置")]
+        Settings = 1 << 2
+    }
+
+    public class FontFamilyItem
+    {
+        public string Name { get; set; }
+        public FontFamily FontFamily { get; set; }
+    }
+
+
+    public class UserInfoModel
+    {
+        public string UserName { get; set; } = "1";
+
+        public string Password { get; set; } = "1";
+
+        public string Remark { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime LoginAt { get; set; } = DateTime.Now;
+    }
+
     public class BraceFoldingStrategy
     {
         /// <summary>
@@ -918,32 +946,5 @@ namespace OhmStudio.UI.Demo.Views
             newFoldings.Sort((a, b) => a.StartOffset.CompareTo(b.StartOffset));
             return newFoldings;
         }
-    }
-
-    public class UserInfoModel
-    {
-        public string UserName { get; set; } = "1";
-
-        public string Password { get; set; } = "1";
-
-        public string Remark { get; set; }
-
-        public DateTime CreatedAt { get; set; }
-
-        public DateTime LoginAt { get; set; } = DateTime.Now;
-    }
-
-    [Flags]
-    [TypeConverter(typeof(EnumDescriptionConverter))]
-    public enum UserPermission
-    {
-        [Description("无")]
-        None = 0,
-        [Description("测试")]
-        Test = 1,
-        [Description("编辑")]
-        Edit = 1 << 1,
-        [Description("设置")]
-        Settings = 1 << 2
     }
 }

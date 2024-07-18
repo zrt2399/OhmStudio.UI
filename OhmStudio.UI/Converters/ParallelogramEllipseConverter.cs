@@ -13,34 +13,27 @@ namespace OhmStudio.UI.Converters
         {
             double width = (double)values[0];
             double hight = (double)values[1];
-            double halfWidth = width / 2;
-            double halfHight = hight / 2;
             EllipseOrientation orientation = (EllipseOrientation)values[2];
             Thickness borderThickness = (Thickness)values[3];
             ShapeType shapeType = (ShapeType)values[4];
             double shear = (double)values[5];
-            double halfThickness = new double[] { borderThickness.Left, borderThickness.Top, borderThickness.Right, borderThickness.Bottom }.Max() / 2;
-            var thickness = halfThickness * 2;
-            if (orientation == EllipseOrientation.Left)
+
+            double halfWidth = width / 2;
+            double halfHight = hight / 2;
+            double thickness = new double[] { borderThickness.Left, borderThickness.Top, borderThickness.Right, borderThickness.Bottom }.Max();
+            double halfThickness = thickness / 2;
+
+            if (orientation is EllipseOrientation.Left or EllipseOrientation.Right)
             {
                 return shapeType == ShapeType.Parallelogram
                     ? new Thickness(GetOffset(shear, hight) - thickness - halfWidth)
                     : new Thickness(-(halfWidth + halfThickness));
             }
-            else if (orientation == EllipseOrientation.Top)
+            else if (orientation is EllipseOrientation.Top or EllipseOrientation.Bottom)
             {
                 return new Thickness(-(halfHight + halfThickness));
             }
-            else if (orientation == EllipseOrientation.Right)
-            {
-                return shapeType == ShapeType.Parallelogram
-                    ? new Thickness(GetOffset(shear, hight) - thickness - halfWidth)
-                    : new Thickness(-(halfWidth + halfThickness));
-            }
-            else if (orientation == EllipseOrientation.Bottom)
-            {
-                return new Thickness(-(halfHight + halfThickness));
-            }
+
             return new Thickness();
         }
 

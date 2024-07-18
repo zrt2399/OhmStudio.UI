@@ -123,7 +123,7 @@ namespace OhmStudio.UI.Helpers
         /// <param name="filePath"></param>
         /// <param name="imageFormat"></param>
         /// <param name="dpi"></param>
-        public static void SaveAsImage(UIElement uIElement, string filePath, ImageFormat imageFormat, int dpi = 300)
+        public static void SaveAsImage(UIElement uIElement, string filePath, ImageType imageType, int dpi = 300)
         {
             // Calculate the render size based on the desired DPI
             var renderWidth = (int)(uIElement.RenderSize.Width * dpi / 96);
@@ -132,20 +132,12 @@ namespace OhmStudio.UI.Helpers
             // Create a render target bitmap and render the control on it
             var renderTargetBitmap = new RenderTargetBitmap(renderWidth, renderHeight, dpi, dpi, PixelFormats.Default);
             renderTargetBitmap.Render(uIElement);
-
-            BitmapEncoder encoder;
-            if (imageFormat == ImageFormat.Bmp)
+            BitmapEncoder encoder = imageType switch
             {
-                encoder = new BmpBitmapEncoder();
-            }
-            else if (imageFormat == ImageFormat.Jpeg)
-            {
-                encoder = new JpegBitmapEncoder();
-            }
-            else
-            {
-                encoder = new PngBitmapEncoder();
-            }  
+                ImageType.Bmp => new BmpBitmapEncoder(),
+                ImageType.Jpeg => new JpegBitmapEncoder(),
+                _ => new PngBitmapEncoder(),
+            };
             encoder.Frames.Add(BitmapFrame.Create(renderTargetBitmap));
 
             using FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);

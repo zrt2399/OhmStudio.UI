@@ -8,10 +8,26 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Microsoft.Win32;
+using OhmStudio.UI.Commands;
+using OhmStudio.UI.Converters;
 using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
+    public enum CanvasStatus
+    {
+        None,
+        /// <summary>正在拖动中。</summary>
+        Moving,
+        /// <summary>正在绘制曲线中。</summary>
+        Drawing,
+        /// <summary>正在选择中。</summary>
+        Selecting,
+        /// <summary>多个选中正在拖动中。</summary>
+        MultiMoving
+    }
+
     public class DragCanvas : Canvas
     {
         static DragCanvas()
@@ -36,11 +52,41 @@ namespace OhmStudio.UI.Controls
             _selectionArea.Fill = "#88AACCEE".ToSolidColorBrush();
             _selectionArea.Stroke = "#FF0F80D9".ToSolidColorBrush();
             SetZIndex(_selectionArea, int.MaxValue);
+
             ScaleTransform scaleTransform = new ScaleTransform();
             BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleXProperty, new Binding() { Source = this, Path = new PropertyPath(ScaleProperty) });
             BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleYProperty, new Binding() { Source = this, Path = new PropertyPath(ScaleProperty) });
-
             LayoutTransform = scaleTransform;
+
+            AddStepItemCommand = new RelayCommand<StepType>((stepType) =>
+            {
+                var point = ContextMenu.TranslatePoint(new Point(), this);
+                //var point = Mouse.GetPosition(ContextMenu);
+                StepItem stepItem = new StepItem();
+                SetLeft(stepItem, Adsorb(point.X));
+                SetTop(stepItem, Adsorb(point.Y));
+                stepItem.Content = EnumDescriptionConverter.GetEnumDesc(stepType);
+                stepItem.StepType = stepType;
+                Children.Add(stepItem);
+            });
+            DeleteStepItemCommand = new RelayCommand(() =>
+            {
+                for (int i = SelectedItems.Count() - 1; i >= 0; i--)
+                {
+                    SelectedItems.ElementAt(i).Delete();
+                }
+                UpdateMultiSelectionMask();
+            });
+            SaveAsImageCommand = new RelayCommand(() =>
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "PNG 文件|*.png";
+                saveFileDialog.Title = "另存为图片";
+                if (saveFileDialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(saveFileDialog.FileName))
+                {
+                    this.SaveAsImage(saveFileDialog.FileName, ImageType.Png);
+                }
+            });
         }
 
         private void DragCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -65,15 +111,6 @@ namespace OhmStudio.UI.Controls
         //鼠标选择多个元素起始的位置
         private Point _selectionStartPoint;
 
-        //正在拖动中
-        private bool _isMoving;
-        //正在绘制曲线中
-        private bool _isDrawing;
-        //正在选择中
-        private bool _isSelecting;
-        //多个选中正在拖动中
-        private bool _isMultiMoving;
-
         //鼠标按下的位置
         private Point _mouseDownPoint;
         //鼠标按下控件的位置
@@ -88,12 +125,6 @@ namespace OhmStudio.UI.Controls
 
         private Point _pathStartPoint;
         private PathItem _currentPath;
-
-        internal IEnumerable<ISelectableElement> SelectableElements => Children.OfType<ISelectableElement>();
-
-        public IEnumerable<StepItem> StepItems => Children.OfType<StepItem>();
-
-        public IEnumerable<StepItem> SelectedItems => StepItems.Where(x => x.IsSelected);
 
         public static readonly DependencyProperty LineBrushProperty =
            DependencyProperty.Register(nameof(LineBrush), typeof(Brush), typeof(DragCanvas),
@@ -120,6 +151,21 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty MousePositionProperty =
             DependencyProperty.Register(nameof(MousePosition), typeof(Point), typeof(DragCanvas));
 
+        public static readonly DependencyProperty CanvasStatusProperty =
+            DependencyProperty.Register(nameof(CanvasStatus), typeof(CanvasStatus), typeof(DragCanvas));
+
+        internal IEnumerable<ISelectableElement> SelectableElements => Children.OfType<ISelectableElement>();
+
+        public IEnumerable<StepItem> StepItems => Children.OfType<StepItem>();
+
+        public IEnumerable<StepItem> SelectedItems => StepItems.Where(x => x.IsSelected);
+
+        public ICommand AddStepItemCommand { get; }
+
+        public ICommand DeleteStepItemCommand { get; }
+
+        public ICommand SaveAsImageCommand { get; }
+
         public Brush LineBrush
         {
             get => (Brush)GetValue(LineBrushProperty);
@@ -142,6 +188,12 @@ namespace OhmStudio.UI.Controls
         {
             get => (Point)GetValue(MousePositionProperty);
             set => SetValue(MousePositionProperty, value);
+        }
+
+        public CanvasStatus CanvasStatus
+        {
+            get => (CanvasStatus)GetValue(CanvasStatusProperty);
+            set => SetValue(CanvasStatusProperty, value);
         }
 
         public static readonly DependencyProperty IsDraggableProperty =
@@ -177,11 +229,12 @@ namespace OhmStudio.UI.Controls
 
         private void MultiSelectionRectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (_isMoving || _isDrawing || _isSelecting)
+            if (CanvasStatus is CanvasStatus.Moving or CanvasStatus.Drawing or CanvasStatus.Selecting)
             {
                 return;
             }
-            _isMultiMoving = true;
+
+            CanvasStatus = CanvasStatus.MultiMoving;
             var frameworkElement = sender as FrameworkElement;
             frameworkElement.Cursor = Cursors.ScrollAll;
             _multiMouseDownPoint = e.GetPosition(this);
@@ -197,31 +250,49 @@ namespace OhmStudio.UI.Controls
             var stepItem = sender as StepItem;
             _lastStepItem = stepItem;
             Point point = e.GetPosition(this);
-            var ellipseItem = this.GetFirstVisualHit<EllipseItem>(point);
-            if (ellipseItem == null)
+            var startEllipseItem = this.GetFirstVisualHit<EllipseItem>(point);
+            if (startEllipseItem == null)
             {
-                _isMoving = true;
+                CanvasStatus = CanvasStatus.Moving;
             }
             else
             {
-                _isDrawing = true;
-                _pathStartPoint = ellipseItem.GetPoint(this);
-                _lastEllipseItem = ellipseItem;
+                CanvasStatus = CanvasStatus.Drawing;
+                _pathStartPoint = startEllipseItem.GetPoint(this);
+                _lastEllipseItem = startEllipseItem;
+
+                if (_currentPath == null)
+                {
+                    _currentPath = new PathItem();
+                    _currentPath.CanvasParent = this;
+                    _currentPath.StartPoint = _pathStartPoint;
+
+                    var contextMenu = new ContextMenu();
+                    var menuItem = new MenuItem() { Header = "删除连接", Icon = new PackIcon() { Kind = PackIconKind.TrashiOS } };
+                    menuItem.Click += (sender, e) =>
+                    {
+                        var pathItem = ((ContextMenu)((MenuItem)sender).Parent).PlacementTarget as PathItem;
+                        pathItem?.Delete();
+                    };
+                    contextMenu.Items.Add(menuItem);
+                    _currentPath.ContextMenu = contextMenu;
+                    Children.Add(_currentPath);
+                }
             }
 
-            if ((!GetIsDraggable(stepItem) && _isMoving) || _isSelecting || _isMultiMoving)
+            if ((!GetIsDraggable(stepItem) && startEllipseItem == null) || CanvasStatus is CanvasStatus.Selecting or CanvasStatus.MultiMoving)
             {
                 return;
             }
 
-            Cursor = _isDrawing ? Cursors.Cross : Cursors.ScrollAll;
+            Cursor = CanvasStatus == CanvasStatus.Drawing ? Cursors.Cross : Cursors.ScrollAll;
             _mouseDownPoint = point;
             _mouseDownControlPoint = new Point(GetLeft(stepItem), GetTop(stepItem));
         }
 
         private void DragCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (_isMultiMoving)
+            if (CanvasStatus is CanvasStatus.MultiMoving)
             {
                 return;
             }
@@ -246,7 +317,7 @@ namespace OhmStudio.UI.Controls
                 item.IsSelected = false;
             }
 
-            if (_isMoving || _isDrawing || isPathItem)
+            if (CanvasStatus is CanvasStatus.Moving or CanvasStatus.Drawing || isPathItem)
             {
                 return;
             }
@@ -257,7 +328,7 @@ namespace OhmStudio.UI.Controls
             }
 
             _selectionStartPoint = point;
-            _isSelecting = true;
+            CanvasStatus = CanvasStatus.Selecting;
 
             // Reset the selection rectangle
             _selectionArea.Width = 0;
@@ -274,7 +345,8 @@ namespace OhmStudio.UI.Controls
             {
                 return;
             }
-            if (_isMultiMoving)
+
+            if (CanvasStatus == CanvasStatus.MultiMoving)
             {
                 Vector vector = point - _multiMouseDownPoint;
 
@@ -313,7 +385,7 @@ namespace OhmStudio.UI.Controls
                     //}
                 }
             }
-            else if (_isSelecting)
+            else if (CanvasStatus == CanvasStatus.Selecting)
             {
                 double x = Math.Min(point.X, _selectionStartPoint.X);
                 double y = Math.Min(point.Y, _selectionStartPoint.Y);
@@ -330,67 +402,13 @@ namespace OhmStudio.UI.Controls
                 {
                     item.IsSelected = selectedArea.IntersectsWith(new Rect(GetLeft(item), GetTop(item), item.ActualWidth, item.ActualHeight));
                 }
-
-                double minX = double.MaxValue;
-                double minY = double.MaxValue;
-                double maxX = double.MinValue;
-                double maxY = double.MinValue;
-                var selected = SelectedItems.ToArray();
-                foreach (var item in selected)
-                {
-                    double left = GetLeft(item);
-                    double top = GetTop(item);
-                    double right = left + item.ActualWidth;
-                    double bottom = top + item.ActualHeight;
-
-                    minX = Math.Min(left, minX);
-                    minY = Math.Min(top, minY);
-                    maxX = Math.Max(right, maxX);
-                    maxY = Math.Max(bottom, maxY);
-                }
-
-                if (selected.Length > 1)
-                {
-                    _multiSelectionMask.Width = maxX - minX;
-                    _multiSelectionMask.Height = maxY - minY;
-                    SetLeft(_multiSelectionMask, minX);
-                    SetTop(_multiSelectionMask, minY);
-                    if (!Children.Contains(_multiSelectionMask))
-                    {
-                        Children.Add(_multiSelectionMask);
-                    }
-                }
-                else if (selected.Length > 0)
-                {
-                    Children.Remove(_multiSelectionMask);
-                }
+                UpdateMultiSelectionMask();
             }
-            else if (_isDrawing)
+            else if (CanvasStatus == CanvasStatus.Drawing)
             {
-                if (_currentPath == null)
-                {
-                    _currentPath = new PathItem();
-                    _currentPath.CanvasParent = this;
-                    _currentPath.StartPoint = _pathStartPoint;
-                    if (_lastEllipseItem.Orientation == EllipseOrientation.Right)
-                    {
-                        _currentPath.Text = "跳转";
-                    }
-                    var contextMenu = new ContextMenu();
-                    var menuItem = new MenuItem() { Header = "删除连接", Icon = new PackIcon() { Kind = PackIconKind.TrashiOS } };
-                    menuItem.Click += (sender, e) =>
-                    {
-                        var pathItem = ((ContextMenu)((MenuItem)sender).Parent).PlacementTarget as PathItem;
-                        pathItem?.Delete();
-                    };
-                    contextMenu.Items.Add(menuItem);
-                    _currentPath.ContextMenu = contextMenu;
-                    Children.Add(_currentPath);
-                }
-
                 _currentPath.UpdateBezierCurve(_pathStartPoint, point);
             }
-            else if (_isMoving)
+            else if (CanvasStatus == CanvasStatus.Moving)
             {
                 var stepItem = _lastStepItem;
                 if (!GetIsDraggable(stepItem))
@@ -426,26 +444,26 @@ namespace OhmStudio.UI.Controls
         {
             try
             {
-                if (_isSelecting)
+                if (CanvasStatus == CanvasStatus.Selecting)
                 {
                     Children.Remove(_selectionArea);
                 }
-                else if (_isDrawing)
+                else if (CanvasStatus == CanvasStatus.Drawing)
                 {
                     bool drawingSuccess = false;
                     Point point = e.GetPosition(this);
-                    var ellipseItem = this.GetFirstVisualHit<EllipseItem>(point);
-                    if (ellipseItem != null)
+                    var endEllipseItem = this.GetFirstVisualHit<EllipseItem>(point);
+                    if (endEllipseItem != null)
                     {
-                        drawingSuccess = ellipseItem.StepParent.SetStep(_lastStepItem, _lastEllipseItem, ellipseItem);
+                        drawingSuccess = endEllipseItem.StepParent.SetStep(_lastStepItem, _lastEllipseItem, endEllipseItem);
                     }
                     if (drawingSuccess)
                     {
-                        _currentPath.Point3 = ellipseItem.GetPoint(this);
+                        _currentPath.Point3 = endEllipseItem.GetPoint(this);
+                        _currentPath.StartEllipseItem = _lastEllipseItem;
+                        _currentPath.EndEllipseItem = endEllipseItem;
                         _lastEllipseItem.PathItem = _currentPath;
-                        ellipseItem.PathItem = _currentPath;
-                        ellipseItem.PathItem.StartEllipseItem = _lastEllipseItem;
-                        ellipseItem.PathItem.EndEllipseItem = ellipseItem;
+                        endEllipseItem.PathItem = _currentPath;
 
                         _lastStepItem.UpdateCurve();
                     }
@@ -459,7 +477,7 @@ namespace OhmStudio.UI.Controls
                     }
                     _currentPath = null;
                 }
-                else if (_isMoving)
+                else if (CanvasStatus == CanvasStatus.Moving)
                 {
                     var stepItem = _lastStepItem;
                     if (stepItem == null || !GetIsDraggable(stepItem))
@@ -469,7 +487,7 @@ namespace OhmStudio.UI.Controls
 
                     PositionStepItem(stepItem);
                 }
-                else if (_isMultiMoving)
+                else if (CanvasStatus == CanvasStatus.MultiMoving)
                 {
                     SetLeft(_multiSelectionMask, Adsorb(GetLeft(_multiSelectionMask)));
                     SetTop(_multiSelectionMask, Adsorb(GetTop(_multiSelectionMask)));
@@ -483,10 +501,7 @@ namespace OhmStudio.UI.Controls
             finally
             {
                 Cursor = null;
-                _isMoving = false;
-                _isDrawing = false;
-                _isSelecting = false;
-                _isMultiMoving = false;
+                CanvasStatus = CanvasStatus.None;
             }
         }
 
@@ -498,6 +513,43 @@ namespace OhmStudio.UI.Controls
             {
                 stepItem.UpdateCurve();
             }, DispatcherPriority.Render);
+        }
+
+        private void UpdateMultiSelectionMask()
+        {
+            double minX = double.MaxValue;
+            double minY = double.MaxValue;
+            double maxX = double.MinValue;
+            double maxY = double.MinValue;
+
+            foreach (var item in SelectedItems)
+            {
+                double left = GetLeft(item);
+                double top = GetTop(item);
+                double right = left + item.ActualWidth;
+                double bottom = top + item.ActualHeight;
+
+                minX = Math.Min(left, minX);
+                minY = Math.Min(top, minY);
+                maxX = Math.Max(right, maxX);
+                maxY = Math.Max(bottom, maxY);
+            }
+
+            if (SelectedItems.Count() > 1)
+            {
+                _multiSelectionMask.Width = maxX - minX;
+                _multiSelectionMask.Height = maxY - minY;
+                SetLeft(_multiSelectionMask, minX);
+                SetTop(_multiSelectionMask, minY);
+                if (!Children.Contains(_multiSelectionMask))
+                {
+                    Children.Add(_multiSelectionMask);
+                }
+            }
+            else
+            {
+                Children.Remove(_multiSelectionMask);
+            }
         }
 
         private double Adsorb(double value)

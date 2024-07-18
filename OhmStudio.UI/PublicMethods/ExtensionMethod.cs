@@ -19,6 +19,11 @@ using Expression = System.Linq.Expressions.Expression;
 
 namespace OhmStudio.UI.PublicMethods
 {
+    public enum ImageType
+    {
+        Bmp, Png, Jpeg
+    }
+
     public static class ExtensionMethod
     {
         public static T GetFirstVisualHit<T>(this Visual visual, System.Windows.Point point) where T : DependencyObject
@@ -148,9 +153,9 @@ namespace OhmStudio.UI.PublicMethods
             return new BrushConverter().ConvertFromString(hexString) as SolidColorBrush;
         }
 
-        public static void SaveAsImage(this UIElement uIElement, string filePath, ImageFormat imageFormat, int dpi = 300)
+        public static void SaveAsImage(this UIElement uIElement, string filePath, ImageType imageType, int dpi = 300)
         {
-            ImageHelper.SaveAsImage(uIElement, filePath, imageFormat, dpi);
+            ImageHelper.SaveAsImage(uIElement, filePath, imageType, dpi);
         }
 
         public static Bitmap ToBitmap(this BitmapImage bitmapImage)

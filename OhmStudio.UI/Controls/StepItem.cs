@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using OhmStudio.UI.PublicMethods;
 
@@ -20,6 +22,29 @@ namespace OhmStudio.UI.Controls
         Parallelogram
     }
 
+    public enum EllipseOrientation
+    {
+        Left,
+        Top,
+        Right,
+        Bottom
+    }
+
+    //[TypeConverter(typeof(EnumDescriptionConverter))]
+    public enum StepType
+    {
+        [Description("开始")]
+        Begin,
+        [Description("中间节点")]
+        Nomal,
+        [Description("条件节点")]
+        Condition,
+        [Description("标记节点")]
+        Reference,
+        [Description("结束")]
+        End
+    }
+
     public class ShapeBorder : Border
     {
         public static readonly DependencyProperty ShapeTypeProperty =
@@ -29,7 +54,7 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(IsDashed), typeof(bool), typeof(ShapeBorder), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty ShearProperty =
-          DependencyProperty.Register(nameof(Shear), typeof(double), typeof(ShapeBorder), new PropertyMetadata(20d));
+            DependencyProperty.Register(nameof(Shear), typeof(double), typeof(ShapeBorder), new FrameworkPropertyMetadata(20d, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public ShapeType ShapeType
         {
@@ -49,7 +74,7 @@ namespace OhmStudio.UI.Controls
             set => SetValue(ShearProperty, value);
         }
 
-        void DrawPolygon(DrawingContext dc, Brush brush, Pen pen, params Point[] points)
+        private void DrawPolygon(DrawingContext dc, Brush brush, Pen pen, params Point[] points)
         {
             if (!points.Any())
             {
@@ -65,7 +90,7 @@ namespace OhmStudio.UI.Controls
                     geometryContext.LineTo(points[i], true, false);
                 }
             }
-
+            geometry.Freeze();
             dc.DrawGeometry(brush, pen, geometry);
         }
 
@@ -77,22 +102,21 @@ namespace OhmStudio.UI.Controls
             {
                 pen.DashStyle = DashStyles.Dash;
             }
+            double num = pen.Thickness * 0.5;
             switch (ShapeType)
             {
                 case ShapeType.Diamond:
-                    DrawPolygon(drawingContext, background, pen, new Point(ActualWidth / 2, 0), new Point(ActualWidth, ActualHeight / 2), new Point(ActualWidth / 2, ActualHeight), new Point(0, ActualHeight / 2));
+                    DrawPolygon(drawingContext, background, pen, new Point(ActualWidth / 2, num), new Point(ActualWidth - num, ActualHeight / 2), new Point(ActualWidth / 2, ActualHeight - num), new Point(num, ActualHeight / 2));
                     break;
                 case ShapeType.Parallelogram:
                     double shear = Shear;
-                    DrawPolygon(drawingContext, background, pen, new Point(Math.Min(shear, ActualWidth), 0), new Point(ActualWidth, 0), new Point(Math.Max(0, ActualWidth - shear), ActualHeight), new Point(0, ActualHeight));
+                    DrawPolygon(drawingContext, background, pen, new Point(Math.Min(shear, ActualWidth), num), new Point(ActualWidth - num, num), new Point(Math.Max(0, ActualWidth - shear), ActualHeight - num), new Point(num, ActualHeight - num));
                     break;
                 default:
-                    double num = pen.Thickness * 0.5;
                     Rect rectangle = new Rect(new Point(num, num), new Point(ActualWidth - num, ActualHeight - num));
                     double radius = new double[] { CornerRadius.TopLeft, CornerRadius.TopRight, CornerRadius.BottomRight, CornerRadius.BottomLeft }.Max();
                     drawingContext.DrawRoundedRectangle(background, pen, rectangle, radius, radius);
 
-                    //DrawPolygon(drawingContext, background, pen, new Point(0, 0), new Point(ActualWidth, 0), new Point(ActualWidth, ActualHeight), new Point(0, ActualHeight));
                     //base.OnRender(drawingContext);
                     break;
             }
@@ -134,6 +158,12 @@ namespace OhmStudio.UI.Controls
 
         internal static readonly DependencyProperty PointsProperty =
             DependencyProperty.Register(nameof(Points), typeof(PointCollection), typeof(PathItem));
+
+        internal static readonly DependencyProperty StartEllipseItemProperty =
+            DependencyProperty.Register(nameof(StartEllipseItem), typeof(EllipseItem), typeof(PathItem));
+
+        internal static readonly DependencyProperty EndEllipseItemProperty =
+            DependencyProperty.Register(nameof(EndEllipseItem), typeof(EllipseItem), typeof(PathItem));
 
         public bool IsSelected
         {
@@ -192,9 +222,17 @@ namespace OhmStudio.UI.Controls
             set => SetValue(PointsProperty, value);
         }
 
-        internal EllipseItem StartEllipseItem { get; set; }
+        internal EllipseItem StartEllipseItem
+        {
+            get => (EllipseItem)GetValue(StartEllipseItemProperty);
+            set => SetValue(StartEllipseItemProperty, value);
+        }
 
-        internal EllipseItem EndEllipseItem { get; set; }
+        internal EllipseItem EndEllipseItem
+        {
+            get => (EllipseItem)GetValue(EndEllipseItemProperty);
+            set => SetValue(EndEllipseItemProperty, value);
+        }
 
         internal DragCanvas CanvasParent { get; set; }
 
@@ -202,7 +240,7 @@ namespace OhmStudio.UI.Controls
         {
             Point startPointTemp = new Point();
             Point endPointTemp = new Point();
- 
+
             startPointTemp.X = Math.Min(startPoint.X, endPoint.X);
             startPointTemp.Y = Math.Min(startPoint.Y, endPoint.Y);
             endPointTemp.X = Math.Max(startPoint.X, endPoint.X);
@@ -248,6 +286,7 @@ namespace OhmStudio.UI.Controls
             EndEllipseItem.PathItem = null;
             EndEllipseItem = null;
             ContextMenu = null;
+            BindingOperations.ClearAllBindings(this);
             CanvasParent.Children.Remove(this);
         }
     }
@@ -279,29 +318,12 @@ namespace OhmStudio.UI.Controls
                 StepParent.JumpStep.FromStep = null;
                 StepParent.JumpStep = null;
             }
-            if (Orientation == EllipseOrientation.Bottom)
+            else if (Orientation == EllipseOrientation.Bottom)
             {
                 StepParent.NextStep.LastStep = null;
                 StepParent.NextStep = null;
             }
         }
-    }
-
-    public enum EllipseOrientation
-    {
-        Left,
-        Top,
-        Right,
-        Bottom
-    }
-
-    public enum StepType
-    {
-        Begin,
-        Nomal,
-        Condition,
-        Reference,
-        End
     }
 
     public class StepItem : ContentControl, ISelectableElement
@@ -462,8 +484,9 @@ namespace OhmStudio.UI.Controls
         {
             foreach (var item in EllipseItems.Values)
             {
-                item.PathItem.Delete();
+                item.PathItem?.Delete();
             }
+            BindingOperations.ClearAllBindings(this);
             CanvasParent.Children.Remove(this);
         }
 

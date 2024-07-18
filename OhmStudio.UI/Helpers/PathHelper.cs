@@ -62,7 +62,7 @@ namespace OhmStudio.UI.Helpers
                 return Directory.Exists(fullPath);
             }
         }
-
+ 
         public static Process OpenInDirectoryPath(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
