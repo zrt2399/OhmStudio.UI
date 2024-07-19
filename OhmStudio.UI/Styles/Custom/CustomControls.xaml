@@ -1562,7 +1562,12 @@
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Bottom"
                                                   Orientation="Bottom" />
-
+                            <Thumb x:Name="PART_Thumb"
+                                   Width="10"
+                                   Height="10"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Bottom"
+                                   Cursor="SizeNWSE" />
                         </controls:SimplePanel>
                     </controls:ShapeBorder>
                     <ControlTemplate.Triggers>

@@ -4,8 +4,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Threading;
 using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
@@ -389,6 +391,7 @@ namespace OhmStudio.UI.Controls
 
         internal Point MouseDownControlPoint { get; set; }
 
+        private Thumb PART_Thumb;
         private EllipseItem EllipseLeft;
         private EllipseItem EllipseTop;
         private EllipseItem EllipseRight;
@@ -402,13 +405,21 @@ namespace OhmStudio.UI.Controls
 
         public override void OnApplyTemplate()
         {
+            if (PART_Thumb != null)
+            {
+                PART_Thumb.DragDelta -= Thumb_DragDelta;
+                PART_Thumb.DragCompleted -= PART_Thumb_DragCompleted;
+            }
             base.OnApplyTemplate();
-
             EllipseLeft = GetTemplateChild("EllipseLeft") as EllipseItem;
             EllipseTop = GetTemplateChild("EllipseTop") as EllipseItem;
             EllipseRight = GetTemplateChild("EllipseRight") as EllipseItem;
             EllipseBottom = GetTemplateChild("EllipseBottom") as EllipseItem;
             EllipseItems = new Dictionary<EllipseOrientation, EllipseItem>();
+            PART_Thumb = GetTemplateChild("PART_Thumb") as Thumb;
+            PART_Thumb.DragDelta += Thumb_DragDelta;
+            PART_Thumb.DragCompleted += PART_Thumb_DragCompleted;
+
             EllipseItems.Add(EllipseOrientation.Left, EllipseLeft);
             EllipseItems.Add(EllipseOrientation.Top, EllipseTop);
             EllipseItems.Add(EllipseOrientation.Right, EllipseRight);
@@ -418,6 +429,30 @@ namespace OhmStudio.UI.Controls
                 item.StepParent = this;
             }
             IsInit = true;
+        }
+
+        private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            if (Width + e.HorizontalChange > 0)
+            {
+                Width += e.HorizontalChange;
+            }
+            if (Height + e.VerticalChange > 0)
+            {
+                Height += e.VerticalChange;
+            }
+            UpdateCurve();
+        }
+
+        private void PART_Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            var cellSize = CanvasParent.GridSize;
+            Width = Math.Max(cellSize, Width.Adsorb(cellSize));
+            Height = Math.Max(cellSize, Height.Adsorb(cellSize));
+            Dispatcher.InvokeAsync(() =>
+            {
+                UpdateCurve();
+            }, DispatcherPriority.Render);
         }
 
         internal EllipseItem GetEllipseItem(Point point)

@@ -26,6 +26,26 @@ namespace OhmStudio.UI.PublicMethods
 
     public static class ExtensionMethod
     {
+        public static double Adsorb(this double value, double gridSize)
+        {
+            if (double.IsNaN(value))
+            {
+                return value;
+            }
+            int quotient = (int)(value / gridSize);
+            var min = Math.Max(0, gridSize * quotient);
+            var max = min + gridSize;
+
+            if (value - min > gridSize / 2)
+            {
+                return max;
+            }
+            else
+            {
+                return min;
+            }
+        }
+
         public static T GetFirstVisualHit<T>(this Visual visual, System.Windows.Point point) where T : DependencyObject
         {
             List<T> hitElements = new List<T>();

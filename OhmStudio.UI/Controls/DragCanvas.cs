@@ -554,22 +554,7 @@ namespace OhmStudio.UI.Controls
 
         private double Adsorb(double value)
         {
-            if (double.IsNaN(value))
-            {
-                return value;
-            }
-            int quotient = (int)(value / GridSize);
-            var min = Math.Max(0, GridSize * quotient);
-            var max = min + GridSize;
-
-            if (value - min > GridSize / 2)
-            {
-                return max;
-            }
-            else
-            {
-                return min;
-            }
+            return value.Adsorb(GridSize);
         }
 
         protected override void OnRender(DrawingContext dc)
