@@ -301,9 +301,9 @@ namespace OhmStudio.UI.Controls
 
             bool isPathItem = false;
             IEnumerable<ISelectableElement> selectableElements;
-            if (this.GetVisualHit<Control>(point) is ISelectableElement selectableElement)
+            if (this.GetVisualHit<ISelectableElement>(point) is ISelectableElement selectableElement)
             {
-                isPathItem = true;
+                isPathItem = selectableElement is PathItem;
                 selectableElement.IsSelected = true;
                 selectableElements = SelectableElements.Where(x => x != selectableElement);
             }

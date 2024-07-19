@@ -294,7 +294,7 @@ namespace OhmStudio.UI.Controls
     }
 
     internal class EllipseItem : Control
-    {
+    { 
         internal static readonly DependencyProperty OrientationProperty =
             DependencyProperty.Register(nameof(Orientation), typeof(EllipseOrientation), typeof(EllipseItem));
 

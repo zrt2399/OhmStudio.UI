@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -69,10 +70,17 @@ namespace OhmStudio.UI.PublicMethods
             return hitElements.FirstOrDefault();
         }
 
-        public static T GetVisualHit<T>(this Visual visual, System.Windows.Point point) where T : DependencyObject
+        public static T GetVisualHit<T>(this Visual visual, System.Windows.Point point)
         {
             var hitObject = VisualTreeHelper.HitTest(visual, point)?.VisualHit;
-            return hitObject?.FindParentObject<T>();
+            if (hitObject == null)
+            {
+                return default;
+            }
+            else
+            {
+                return hitObject.FindParentObject<T>();
+            }
         }
 
         public static double ToPhysicalPixels(this double logicalPixels)
@@ -204,7 +212,7 @@ namespace OhmStudio.UI.PublicMethods
             }
         }
 
-        public static T FindParentObject<T>(this DependencyObject obj) where T : DependencyObject
+        public static T FindParentObject<T>(this DependencyObject obj)
         {
             DependencyObject parent = obj is Visual or Visual3D ? VisualTreeHelper.GetParent(obj) : LogicalTreeHelper.GetParent(obj);
             while (parent != null)
@@ -215,7 +223,7 @@ namespace OhmStudio.UI.PublicMethods
                 }
                 parent = VisualTreeHelper.GetParent(parent);
             }
-            return null;
+            return default;
         }
 
         /// <summary>
