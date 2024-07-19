@@ -6,8 +6,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using OhmStudio.UI.Commands;
 using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
@@ -127,6 +129,11 @@ namespace OhmStudio.UI.Controls
 
     internal class PathItem : Control, ISelectableElement
     {
+        public PathItem()
+        {
+            DeleteCommand = new RelayCommand(Delete);
+        }
+
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(PathItem));
 
@@ -166,6 +173,18 @@ namespace OhmStudio.UI.Controls
 
         internal static readonly DependencyProperty EndEllipseItemProperty =
             DependencyProperty.Register(nameof(EndEllipseItem), typeof(EllipseItem), typeof(PathItem));
+
+        internal static readonly DependencyProperty IsCurveProperty =
+            DependencyProperty.Register(nameof(IsCurve), typeof(bool), typeof(PathItem), new PropertyMetadata(true, (sender, e) =>
+            {
+                var pathItem = (PathItem)sender;
+                if (pathItem.StartEllipseItem != null && pathItem.EndEllipseItem != null)
+                {
+                    var startPoint = pathItem.StartEllipseItem.GetPoint(pathItem.CanvasParent);
+                    var endPoint = pathItem.EndEllipseItem.GetPoint(pathItem.CanvasParent);
+                    pathItem.UpdateCurveAngle(startPoint, endPoint);
+                }
+            }));
 
         public bool IsSelected
         {
@@ -236,7 +255,15 @@ namespace OhmStudio.UI.Controls
             set => SetValue(EndEllipseItemProperty, value);
         }
 
+        internal bool IsCurve
+        {
+            get => (bool)GetValue(IsCurveProperty);
+            set => SetValue(IsCurveProperty, value);
+        }
+
         internal DragCanvas CanvasParent { get; set; }
+
+        public ICommand DeleteCommand { get; }
 
         internal void UpdateBezierCurve(Point startPoint, Point endPoint)
         {
@@ -251,21 +278,34 @@ namespace OhmStudio.UI.Controls
             StartPoint = startPointTemp;
             EndPoint = endPointTemp;
 
+            UpdateCurveAngle(startPoint, endPoint);
+        }
+
+        private void UpdateCurveAngle(Point startPoint, Point endPoint)
+        {
             startPoint.X -= StartPoint.X;
             startPoint.Y -= StartPoint.Y;
             endPoint.X -= StartPoint.X;
             endPoint.Y -= StartPoint.Y;
-
             Point0 = startPoint;
-            Point1 = new Point((startPoint.X + endPoint.X) / 2, endPoint.Y);
-            Point2 = new Point((startPoint.X + endPoint.X) / 2, startPoint.Y);
+            if (IsCurve)
+            {
+                Point1 = new Point((startPoint.X + endPoint.X) / 2, endPoint.Y);
+                Point2 = new Point((startPoint.X + endPoint.X) / 2, startPoint.Y);
+            }
+            else
+            {
+                Vector vector = endPoint - startPoint;
+                Point1 = startPoint + vector;
+                Point2 = endPoint - vector;
+            }
             Point3 = endPoint;
             UpdateArrow(Point2, endPoint);
         }
 
         private void UpdateArrow(Point point2, Point endPoint)
         {
-            double arrowLength = 10;
+            double arrowLength = 14;
             double arrowWidth = 10;
 
             // 计算箭头的方向
@@ -294,9 +334,12 @@ namespace OhmStudio.UI.Controls
     }
 
     internal class EllipseItem : Control
-    { 
+    {
         internal static readonly DependencyProperty OrientationProperty =
             DependencyProperty.Register(nameof(Orientation), typeof(EllipseOrientation), typeof(EllipseItem));
+
+        internal static readonly DependencyProperty StrokeThicknessProperty =
+            DependencyProperty.Register(nameof(StrokeThickness), typeof(double), typeof(EllipseItem), new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
 
         internal EllipseOrientation Orientation
         {
@@ -304,10 +347,16 @@ namespace OhmStudio.UI.Controls
             set => SetValue(OrientationProperty, value);
         }
 
+        internal double StrokeThickness
+        {
+            get => (double)GetValue(StrokeThicknessProperty);
+            set => SetValue(StrokeThicknessProperty, value);
+        }
+
         internal StepItem StepParent { get; set; }
 
         internal PathItem PathItem { get; set; }
-
+ 
         internal Point GetPoint(UIElement parent)
         {
             return TranslatePoint(new Point(ActualWidth / 2, ActualHeight / 2), parent);
@@ -477,7 +526,7 @@ namespace OhmStudio.UI.Controls
             }
             if (this == fromStep)
             {
-                UIMessageTip.ShowWarning("无法设置节点为自己");
+                UIMessageTip.ShowWarning("无法设置下一节点为自己");
             }
             else if (fromEllipse.PathItem != null || toEllipse.PathItem != null)
             {
@@ -485,7 +534,7 @@ namespace OhmStudio.UI.Controls
             }
             else if (fromEllipse.Orientation == EllipseOrientation.Left || toEllipse.Orientation == EllipseOrientation.Right)
             {
-                UIMessageTip.ShowWarning("被跳转节点无法直接设置");
+                UIMessageTip.ShowWarning("被跳转节点无法直接设置下一节点");
             }
             else if (fromEllipse.Orientation == EllipseOrientation.Top || toEllipse.Orientation == EllipseOrientation.Bottom)
             {
@@ -547,7 +596,7 @@ namespace OhmStudio.UI.Controls
 
         internal void UpdateCurve(PathItem pathItem)
         {
-            pathItem.UpdateBezierCurve(pathItem.StartEllipseItem.GetPoint(CanvasParent), pathItem.EndEllipseItem.GetPoint(CanvasParent));
+            pathItem?.UpdateBezierCurve(pathItem.StartEllipseItem.GetPoint(CanvasParent), pathItem.EndEllipseItem.GetPoint(CanvasParent));
         }
     }
 }

@@ -1563,18 +1563,31 @@
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Bottom"
                                                   Orientation="Bottom" />
+
                             <Thumb x:Name="PART_Thumb"
-                                   Width="10"
-                                   Height="10"
+                                   Width="16"
+                                   Height="16"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Bottom"
-                                   Cursor="SizeNWSE" />
+                                   Cursor="SizeNWSE"
+                                   Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <Thumb.Clip>
+                                    <PathGeometry>
+                                        <PathFigure StartPoint="0,16">
+                                            <LineSegment Point="16,0" />
+                                            <LineSegment Point="16,16" />
+                                            <LineSegment Point="0,16" />
+                                        </PathFigure>
+                                    </PathGeometry>
+                                </Thumb.Clip>
+                            </Thumb>
                         </controls:SimplePanel>
                     </controls:ShapeBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="Orange" />
                             <Setter TargetName="ShapeBorder" Property="IsDashed" Value="True" />
+                            <Setter Property="Panel.ZIndex" Value="2147483646" />
                         </Trigger>
                         <Trigger Property="StepType" Value="Begin">
                             <Setter TargetName="ShapeBorder" Property="attaches:CornerRadiusAttach.IsCircular" Value="True" />
@@ -1598,8 +1611,8 @@
     <Style x:Key="EllipseItemBaseStyle" TargetType="controls:EllipseItem">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="Width" Value="10" />
-        <Setter Property="Height" Value="10" />
+        <Setter Property="Width" Value="8" />
+        <Setter Property="Height" Value="8" />
         <Setter Property="Background" Value="#FD5618" />
         <Setter Property="BorderBrush" Value="#7B68EE" />
         <Setter Property="Visibility">
@@ -1629,12 +1642,41 @@
                              Height="{TemplateBinding Height}"
                              Margin="{TemplateBinding Padding}"
                              Fill="{TemplateBinding Background}"
-                             Stroke="{TemplateBinding BorderBrush}" />
+                             Stroke="{TemplateBinding BorderBrush}"
+                             StrokeThickness="{TemplateBinding StrokeThickness}" />
                     <ControlTemplate.Triggers>
-                        <!--<Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Height" Value="14" />
-                            <Setter Property="Width" Value="14" />
-                        </Trigger>-->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="controls:DragCanvas.CanvasStatus" Value="Drawing" />
+                            </MultiTrigger.Conditions>
+                            <!--<MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard AutoReverse="True" RepeatBehavior="Forever">
+                                        <ColorAnimation Storyboard.TargetProperty="(Control.BorderBrush).(SolidColorBrush.Color)"
+                                                        From="#FD5618"
+                                                        To="#7B68EE"
+                                                        Duration="0:0:1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>-->
+                            <MultiTrigger.Setters>
+                                <Setter Property="Height" Value="14" />
+                                <Setter Property="Width" Value="14" />
+                                <Setter Property="StrokeThickness" Value="3" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="controls:DragCanvas.CanvasStatus" Value="None" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Height" Value="14" />
+                                <Setter Property="Width" Value="14" />
+                                <Setter Property="StrokeThickness" Value="3" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -1643,6 +1685,18 @@
     <Style BasedOn="{StaticResource EllipseItemBaseStyle}" TargetType="controls:EllipseItem" />
 
     <Style x:Key="PathItemBaseStyle" TargetType="controls:PathItem">
+        <Setter Property="ContextMenu">
+            <Setter.Value>
+                <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
+                    <MenuItem Command="{Binding DeleteCommand}"
+                              Header="删除"
+                              Icon="{controls:PackIcon Kind=TrashiOS}" />
+                    <MenuItem Header="是否为曲线"
+                              IsCheckable="True"
+                              IsChecked="{Binding IsCurve}" />
+                </ContextMenu>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:PathItem">

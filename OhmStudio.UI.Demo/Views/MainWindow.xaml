@@ -725,11 +725,17 @@
                                                   StepType="End" />
                                     </DragCanvas>
 
-                                    <TextBlock Grid.Row="1">
-                                        <Run Text="{Binding ElementName=dragCanvas, Path=Scale, StringFormat=Zoom:{0}}" />
-                                        <Run Text="{Binding ElementName=dragCanvas, Path=MousePosition.X, StringFormat=X:{0}}" />
-                                        <Run Text="{Binding ElementName=dragCanvas, Path=MousePosition.Y, StringFormat=Y:{0}}" />
-                                    </TextBlock>
+                                    <Grid Grid.Row="1">
+                                        <TextBlock>
+                                            <Run Text="{Binding ElementName=dragCanvas, Path=MousePosition.X, StringFormat=X:{0}}" />
+                                            <Run Text="{Binding ElementName=dragCanvas, Path=MousePosition.Y, StringFormat=Y:{0}}" />
+                                        </TextBlock>
+                                        <TextBlock HorizontalAlignment="Right">
+                                            <Run Text="{Binding ElementName=dragCanvas, Path=(DragCanvas.CanvasStatus), StringFormat=CanvasStatus:{0}}" />
+                                            <Run Text="{Binding ElementName=dragCanvas, Path=Scale, StringFormat=Zoom:{0}}" />
+                                        </TextBlock>
+                                    </Grid>
+
                                 </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="PackIcons">
