@@ -83,11 +83,11 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        public static readonly DependencyProperty ItemWidthProperty;
+        internal static readonly DependencyProperty ItemWidthProperty;
 
-        public static readonly DependencyProperty ItemHeightProperty;
+        internal static readonly DependencyProperty ItemHeightProperty;
 
-        public static readonly DependencyProperty OrientationProperty;
+        internal static readonly DependencyProperty OrientationProperty;
 
         public static readonly DependencyProperty IsWrapProperty;
 
@@ -98,20 +98,20 @@ namespace OhmStudio.UI.Controls
         private Orientation _orientation;
 
         [TypeConverter(typeof(LengthConverter))]
-        public double ItemWidth
+        internal double ItemWidth
         {
             get => (double)GetValue(ItemWidthProperty);
             set => SetValue(ItemWidthProperty, value);
         }
 
         [TypeConverter(typeof(LengthConverter))]
-        public double ItemHeight
+        internal double ItemHeight
         {
             get => (double)GetValue(ItemHeightProperty);
             set => SetValue(ItemHeightProperty, value);
         }
 
-        public Orientation Orientation
+        internal Orientation Orientation
         {
             get => _orientation;
             set => SetValue(OrientationProperty, value);
@@ -264,15 +264,6 @@ namespace OhmStudio.UI.Controls
             else
             {
                 return base.MeasureOverride(constraint);
-                //Size size = default;
-                //foreach (FrameworkElement child in Children)
-                //{
-                //    child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                //    size.Width += child.DesiredSize.Width;
-                //    size.Height = Math.Max(size.Height, child.DesiredSize.Height);
-                //}
-
-                //return new Size(Math.Min(size.Width, constraint.Width), size.Height);
             }
         }
 
@@ -331,9 +322,6 @@ namespace OhmStudio.UI.Controls
             }
             else
             {
-                //IEnumerable<UIElement> enumerable = from UIElement ch in Children
-                //                                    where ch.Visibility != Visibility.Collapsed
-                //                                    select ch;
                 double num = 0.0;
                 bool flag = false;
                 foreach (var item in Children.OfType<UIElement>().Where(x => x.Visibility != Visibility.Collapsed))
@@ -373,14 +361,7 @@ namespace OhmStudio.UI.Controls
                     {
                         item.Visibility = Visibility.Visible;
                         item.Arrange(new Rect(num, 0.0, item.DesiredSize.Width, finalSize.Height));
-                        if (item is FrameworkElement frameworkElement)
-                        {
-                            num += frameworkElement.ActualWidth + frameworkElement.Margin.Left + frameworkElement.Margin.Right;
-                        }
-                        else
-                        {
-                            num += item.RenderSize.Width;
-                        }
+                        num += item.DesiredSize.Width;
                     }
                 }
 
