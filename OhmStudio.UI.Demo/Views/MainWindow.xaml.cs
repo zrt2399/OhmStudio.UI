@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
@@ -368,21 +367,13 @@ namespace OhmStudio.UI.Demo.Views
 
         void ZoomIn()
         {
-            if (WindowScale <= 0.5)
-            {
-                return;
-            }
-            WindowScale -= 0.25;
+            WindowScale = Math.Max(0.5, WindowScale - 0.25);
             WindowScale = Math.Round(WindowScale, 2);
         }
 
         void ZoomOut()
         {
-            if (WindowScale >= 3)
-            {
-                return;
-            }
-            WindowScale += 0.25;
+            WindowScale = Math.Min(3, WindowScale + 0.25);
             WindowScale = Math.Round(WindowScale, 2);
         }
 
@@ -633,6 +624,16 @@ namespace OhmStudio.UI.Demo.Views
         private void Button_Click_16(object sender, RoutedEventArgs e)
         {
             stackPanel.SaveAsImage("1.png", ImageType.Png);
+        }
+
+        private void StepItem_Selected(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(sender.ToString());
+        }
+
+        private void StepItem_Unselected(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(sender.ToString());
         }
     }
 

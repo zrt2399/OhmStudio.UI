@@ -17,8 +17,12 @@ namespace OhmStudio.UI.Controls
     internal interface ISelectableElement
     {
         bool IsSelected { get; set; }
-    }
 
+        event RoutedEventHandler Selected;
+
+        event RoutedEventHandler Unselected;
+    }
+ 
     public enum ShapeType
     {
         Rectangle,
@@ -60,6 +64,9 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty ShearProperty =
             DependencyProperty.Register(nameof(Shear), typeof(double), typeof(ShapeBorder), new FrameworkPropertyMetadata(20d, FrameworkPropertyMetadataOptions.AffectsRender));
 
+        public static readonly DependencyProperty GeometryProperty =
+            DependencyProperty.Register(nameof(Geometry), typeof(Geometry), typeof(ShapeBorder));
+
         public ShapeType ShapeType
         {
             get => (ShapeType)GetValue(ShapeTypeProperty);
@@ -76,6 +83,12 @@ namespace OhmStudio.UI.Controls
         {
             get => (double)GetValue(ShearProperty);
             set => SetValue(ShearProperty, value);
+        }
+
+        public Geometry Geometry
+        {
+            get => (Geometry)GetValue(GeometryProperty);
+            set => SetValue(GeometryProperty, value);
         }
 
         private void DrawPolygon(DrawingContext dc, Brush brush, Pen pen, params Point[] points)
@@ -95,6 +108,43 @@ namespace OhmStudio.UI.Controls
                 }
             }
             geometry.Freeze();
+            Geometry = geometry;
+            dc.DrawGeometry(brush, pen, geometry);
+        }
+
+        private void DrawRoundedRectangle(DrawingContext dc, Brush brush, Pen pen, Rect rect, CornerRadius cornerRadius)
+        {
+            var geometry = new StreamGeometry();
+            using (StreamGeometryContext ctx = geometry.Open())
+            {
+                var minX = rect.Width / 2;
+                var minY = rect.Height / 2;
+
+                cornerRadius.TopLeft = Math.Min(Math.Min(cornerRadius.TopLeft, minX), minY);
+                cornerRadius.TopRight = Math.Min(Math.Min(cornerRadius.TopRight, minX), minY);
+                cornerRadius.BottomRight = Math.Min(Math.Min(cornerRadius.BottomRight, minX), minY);
+                cornerRadius.BottomLeft = Math.Min(Math.Min(cornerRadius.BottomLeft, minX), minY);
+
+                ctx.BeginFigure(new Point(rect.Left + cornerRadius.TopLeft, rect.Top), true, true);
+
+                // Top line and top-right corner
+                ctx.LineTo(new Point(rect.Right - cornerRadius.TopRight, rect.Top), true, false);
+                ctx.ArcTo(new Point(rect.Right, rect.Top + cornerRadius.TopRight), new Size(cornerRadius.TopRight, cornerRadius.TopRight), 0, false, SweepDirection.Clockwise, true, false);
+
+                // Right line and bottom-right corner
+                ctx.LineTo(new Point(rect.Right, rect.Bottom - cornerRadius.BottomRight), true, false);
+                ctx.ArcTo(new Point(rect.Right - cornerRadius.BottomRight, rect.Bottom), new Size(cornerRadius.BottomRight, cornerRadius.BottomRight), 0, false, SweepDirection.Clockwise, true, false);
+
+                // Bottom line and bottom-left corner
+                ctx.LineTo(new Point(rect.Left + cornerRadius.BottomLeft, rect.Bottom), true, false);
+                ctx.ArcTo(new Point(rect.Left, rect.Bottom - cornerRadius.BottomLeft), new Size(cornerRadius.BottomLeft, cornerRadius.BottomLeft), 0, false, SweepDirection.Clockwise, true, false);
+
+                // Left line and top-left corner
+                ctx.LineTo(new Point(rect.Left, rect.Top + cornerRadius.TopLeft), true, false);
+                ctx.ArcTo(new Point(rect.Left + cornerRadius.TopLeft, rect.Top), new Size(cornerRadius.TopLeft, cornerRadius.TopLeft), 0, false, SweepDirection.Clockwise, true, false);
+            }
+            geometry.Freeze();
+            Geometry = geometry;
             dc.DrawGeometry(brush, pen, geometry);
         }
 
@@ -117,9 +167,11 @@ namespace OhmStudio.UI.Controls
                     DrawPolygon(drawingContext, background, pen, new Point(Math.Min(shear, ActualWidth), num), new Point(ActualWidth - num, num), new Point(Math.Max(0, ActualWidth - shear), ActualHeight - num), new Point(num, ActualHeight - num));
                     break;
                 default:
-                    Rect rectangle = new Rect(new Point(num, num), new Point(ActualWidth - num, ActualHeight - num));
-                    double radius = new double[] { CornerRadius.TopLeft, CornerRadius.TopRight, CornerRadius.BottomRight, CornerRadius.BottomLeft }.Max();
-                    drawingContext.DrawRoundedRectangle(background, pen, rectangle, radius, radius);
+                    Rect rect = new Rect(new Point(num, num), new Point(ActualWidth - num, ActualHeight - num));
+                    //double radius = new double[] { CornerRadius.TopLeft, CornerRadius.TopRight, CornerRadius.BottomRight, CornerRadius.BottomLeft }.Max();
+                    DrawRoundedRectangle(drawingContext, background, pen, rect, CornerRadius);
+
+                    //drawingContext.DrawRoundedRectangle(background, pen, rectangle, radius, radius);
 
                     //base.OnRender(drawingContext);
                     break;
@@ -135,7 +187,13 @@ namespace OhmStudio.UI.Controls
         }
 
         public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(PathItem));
+            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(PathItem), new PropertyMetadata((sender, e) =>
+            {
+                var pathItem = (PathItem)sender;
+                bool newValue = (bool)e.NewValue;
+                var routedEventHandler = newValue ? pathItem.Selected : pathItem.Unselected;
+                routedEventHandler?.Invoke(pathItem, new RoutedEventArgs());
+            }));
 
         internal static readonly DependencyProperty StartPointProperty =
             DependencyProperty.Register(nameof(StartPoint), typeof(Point), typeof(PathItem), new PropertyMetadata((sender, e) =>
@@ -185,6 +243,9 @@ namespace OhmStudio.UI.Controls
                     pathItem.UpdateCurveAngle(startPoint, endPoint);
                 }
             }));
+
+        public event RoutedEventHandler Selected;
+        public event RoutedEventHandler Unselected;
 
         public bool IsSelected
         {
@@ -347,6 +408,7 @@ namespace OhmStudio.UI.Controls
             set => SetValue(OrientationProperty, value);
         }
 
+        [TypeConverter(typeof(LengthConverter))]
         internal double StrokeThickness
         {
             get => (double)GetValue(StrokeThicknessProperty);
@@ -356,7 +418,7 @@ namespace OhmStudio.UI.Controls
         internal StepItem StepParent { get; set; }
 
         internal PathItem PathItem { get; set; }
- 
+
         internal Point GetPoint(UIElement parent)
         {
             return TranslatePoint(new Point(ActualWidth / 2, ActualHeight / 2), parent);
@@ -381,64 +443,37 @@ namespace OhmStudio.UI.Controls
     {
         public StepItem()
         {
-
+            DependencyPropertyDescriptor property = DependencyPropertyDescriptor.FromProperty(IsKeyboardFocusWithinProperty, typeof(StepItem));
+            property?.RemoveValueChanged(this, OnIsKeyboardFocusWithinChanged);
+            property?.AddValueChanged(this, OnIsKeyboardFocusWithinChanged);
         }
 
         public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(StepItem));
-
-        public bool IsSelected
-        {
-            get => (bool)GetValue(IsSelectedProperty);
-            set => SetValue(IsSelectedProperty, value);
-        }
+            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(StepItem), new PropertyMetadata((sender, e) =>
+            {
+                var stepItem = (StepItem)sender;
+                bool newValue = (bool)e.NewValue;
+                var routedEventHandler = newValue ? stepItem.Selected : stepItem.Unselected;
+                routedEventHandler?.Invoke(stepItem, new RoutedEventArgs());
+            }));
 
         public static readonly DependencyProperty LastStepProperty =
             DependencyProperty.Register(nameof(LastStep), typeof(StepItem), typeof(StepItem));
 
-        public StepItem LastStep
-        {
-            get => (StepItem)GetValue(LastStepProperty);
-            set => SetValue(LastStepProperty, value);
-        }
-
         public static readonly DependencyProperty FromStepProperty =
             DependencyProperty.Register(nameof(FromStep), typeof(StepItem), typeof(StepItem));
-
-        public StepItem FromStep
-        {
-            get => (StepItem)GetValue(FromStepProperty);
-            set => SetValue(FromStepProperty, value);
-        }
 
         public static readonly DependencyProperty JumpStepProperty =
             DependencyProperty.Register(nameof(JumpStep), typeof(StepItem), typeof(StepItem));
 
-        public StepItem JumpStep
-        {
-            get => (StepItem)GetValue(JumpStepProperty);
-            set => SetValue(JumpStepProperty, value);
-        }
-
         public static readonly DependencyProperty NextStepProperty =
             DependencyProperty.Register(nameof(NextStep), typeof(StepItem), typeof(StepItem));
-
-        public StepItem NextStep
-        {
-            get => (StepItem)GetValue(NextStepProperty);
-            set => SetValue(NextStepProperty, value);
-        }
 
         public static readonly DependencyProperty StepTypeProperty =
             DependencyProperty.Register(nameof(StepType), typeof(StepType), typeof(StepItem), new PropertyMetadata(StepType.Nomal));
 
-        public StepType StepType
-        {
-            get => (StepType)GetValue(StepTypeProperty);
-            set => SetValue(StepTypeProperty, value);
-        }
-
-        internal Point MouseDownControlPoint { get; set; }
+        public static readonly DependencyProperty GeometryProperty =
+            DependencyProperty.Register(nameof(Geometry), typeof(Geometry), typeof(StepItem));
 
         private Thumb PART_Thumb;
         private EllipseItem EllipseLeft;
@@ -446,11 +481,58 @@ namespace OhmStudio.UI.Controls
         private EllipseItem EllipseRight;
         private EllipseItem EllipseBottom;
 
-        public DragCanvas CanvasParent { get; internal set; }
+        public event RoutedEventHandler Selected;
+        public event RoutedEventHandler Unselected;
+
+        internal Point MouseDownControlPoint { get; set; }
 
         internal Dictionary<EllipseOrientation, EllipseItem> EllipseItems { get; private set; }
 
         public bool IsInit { get; private set; }
+
+        public DragCanvas CanvasParent { get; internal set; }
+
+        public bool IsSelected
+        {
+            get => (bool)GetValue(IsSelectedProperty);
+            set => SetValue(IsSelectedProperty, value);
+        }
+
+        public StepItem LastStep
+        {
+            get => (StepItem)GetValue(LastStepProperty);
+            set => SetValue(LastStepProperty, value);
+        }
+
+        public StepItem FromStep
+        {
+            get => (StepItem)GetValue(FromStepProperty);
+            set => SetValue(FromStepProperty, value);
+        }
+
+        public StepItem JumpStep
+        {
+            get => (StepItem)GetValue(JumpStepProperty);
+            set => SetValue(JumpStepProperty, value);
+        }
+
+        public StepItem NextStep
+        {
+            get => (StepItem)GetValue(NextStepProperty);
+            set => SetValue(NextStepProperty, value);
+        }
+
+        public StepType StepType
+        {
+            get => (StepType)GetValue(StepTypeProperty);
+            set => SetValue(StepTypeProperty, value);
+        }
+
+        public Geometry Geometry
+        {
+            get => (Geometry)GetValue(GeometryProperty);
+            set => SetValue(GeometryProperty, value);
+        }
 
         public override void OnApplyTemplate()
         {
@@ -502,6 +584,19 @@ namespace OhmStudio.UI.Controls
             {
                 UpdateCurve();
             }, DispatcherPriority.Render);
+        }
+
+        private void OnIsKeyboardFocusWithinChanged(object sender, EventArgs e)
+        {
+            if (IsKeyboardFocusWithin)
+            {
+                IsSelected = true;
+                foreach (var item in CanvasParent.SelectableElements.Where(x => x != this))
+                {
+                    item.IsSelected = false;
+                }
+                CanvasParent.UpdateMultiSelectionMask();
+            }
         }
 
         internal EllipseItem GetEllipseItem(Point point)

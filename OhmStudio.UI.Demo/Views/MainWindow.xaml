@@ -441,15 +441,15 @@
                                                                ShowLineNumbers="True"
                                                                SyntaxHighlighting="XML" />
                                     </TabItem>
-                                    <TabItem Header="C#">
-                                        <avalonEdit:TextEditor x:Name="textEditorcs"
-                                                               ShowLineNumbers="True"
-                                                               SyntaxHighlighting="C#" />
-                                    </TabItem>
                                     <TabItem Header="C++">
                                         <avalonEdit:TextEditor x:Name="textEditorcpp"
                                                                ShowLineNumbers="True"
                                                                SyntaxHighlighting="C++" />
+                                    </TabItem>
+                                    <TabItem Header="C#">
+                                        <avalonEdit:TextEditor x:Name="textEditorcs"
+                                                               ShowLineNumbers="True"
+                                                               SyntaxHighlighting="C#" />
                                     </TabItem>
                                 </TabControl>
                             </LayoutDocument>
@@ -513,14 +513,14 @@
                                     <Button Click="Button_Click_8">换行/不换行</Button>
                                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                                         <DocumentWrapPanel VerticalAlignment="Top" IsWrap="{Binding DocumentWrapPanelIsWrap}">
-                                            <DocumentWrapPanel.Resources>
+                                            <Panel.Resources>
                                                 <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                                                     <Setter Property="CornerRadiusAttach.IsCircular" Value="True" />
                                                     <Setter Property="Height" Value="100" />
                                                     <Setter Property="Width" Value="100" />
                                                     <Setter Property="Margin" Value="10" />
                                                 </Style>
-                                            </DocumentWrapPanel.Resources>
+                                            </Panel.Resources>
                                             <Button>1</Button>
                                             <Button>2</Button>
                                             <Button>3</Button>
@@ -691,18 +691,26 @@
                                         <DragCanvas.Resources>
                                             <Style BasedOn="{StaticResource {x:Type StepItem}}" TargetType="StepItem">
                                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                <Setter Property="VerticalContentAlignment" Value="Center" />
                                             </Style>
                                         </DragCanvas.Resources>
                                         <StepItem Content="开始" StepType="Begin" />
                                         <StepItem Canvas.Left="80"
                                                   Canvas.Top="80"
                                                   Content="中间节点1" />
-                                        <StepItem Canvas.Left="160"
-                                                  Canvas.Top="160"
-                                                  Content="中间节点2" />
-                                        <StepItem Canvas.Left="240"
-                                                  Canvas.Top="240"
-                                                  Content="中间节点3" />
+                                        <StepItem Canvas.Left="160" Canvas.Top="160">
+                                            <StepItem.Content>
+                                                <StackPanel>
+                                                    <TextBox>中间节点2</TextBox>
+                                                    <ComboBox />
+                                                </StackPanel>
+                                            </StepItem.Content>
+                                        </StepItem>
+                                        <StepItem Canvas.Left="240" Canvas.Top="240">
+                                            <StepItem.Content>
+                                                <TextBox>中间节点3</TextBox>
+                                            </StepItem.Content>
+                                        </StepItem>
                                         <StepItem Canvas.Left="320"
                                                   Canvas.Top="320"
                                                   Content="标记节点"

@@ -1496,6 +1496,7 @@
     <Style BasedOn="{StaticResource NumericUpDownBaseStyle}" TargetType="controls:NumericUpDown" />
 
     <Style x:Key="DragCanvasBaseStyle" TargetType="controls:DragCanvas">
+        <Setter Property="Focusable" Value="True" />
         <Setter Property="ClipToBounds" Value="True" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="LineBrush" Value="{DynamicResource DragCanvasLineBrush}" />
@@ -1539,7 +1540,8 @@
                     <controls:ShapeBorder x:Name="ShapeBorder"
                                           Background="{TemplateBinding Background}"
                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                          BorderThickness="{TemplateBinding BorderThickness}">
+                                          BorderThickness="{TemplateBinding BorderThickness}"
+                                          Geometry="{Binding Geometry, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}">
                         <controls:SimplePanel>
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
@@ -1688,12 +1690,12 @@
         <Setter Property="ContextMenu">
             <Setter.Value>
                 <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
-                    <MenuItem Command="{Binding DeleteCommand}"
-                              Header="删除"
-                              Icon="{controls:PackIcon Kind=TrashiOS}" />
                     <MenuItem Header="是否为曲线"
                               IsCheckable="True"
                               IsChecked="{Binding IsCurve}" />
+                    <MenuItem Command="{Binding DeleteCommand}"
+                              Header="删除"
+                              Icon="{controls:PackIcon Kind=TrashiOS}" />
                 </ContextMenu>
             </Setter.Value>
         </Setter>
