@@ -80,9 +80,9 @@ namespace OhmStudio.UI.Controls
             });
             DeleteStepItemCommand = new RelayCommand(() =>
             {
-                for (int i = SelectedItems.Count() - 1; i >= 0; i--)
+                for (int i = SelectedStepItems.Count() - 1; i >= 0; i--)
                 {
-                    SelectedItems.ElementAt(i).Delete();
+                    SelectedStepItems.ElementAt(i).Delete();
                 }
                 UpdateMultiSelectionMask();
             });
@@ -152,7 +152,7 @@ namespace OhmStudio.UI.Controls
 
         public IEnumerable<StepItem> StepItems => Children.OfType<StepItem>();
 
-        public IEnumerable<StepItem> SelectedItems => StepItems.Where(x => x.IsSelected);
+        public IEnumerable<StepItem> SelectedStepItems => StepItems.Where(x => x.IsSelected);
 
         public ICommand AddStepItemCommand { get; }
 
@@ -255,7 +255,7 @@ namespace OhmStudio.UI.Controls
             frameworkElement.Cursor = Cursors.ScrollAll;
             _multiMouseDownPoint = e.GetPosition(this);
             _multiMouseDownRectanglePoint = new Point(GetLeft(_multiSelectionMask), GetTop(_multiSelectionMask));
-            foreach (var item in SelectedItems)
+            foreach (var item in SelectedStepItems)
             {
                 item.MouseDownControlPoint = new Point(GetLeft(item), GetTop(item));
             }
@@ -325,6 +325,7 @@ namespace OhmStudio.UI.Controls
                 item.IsSelected = false;
             }
 
+            Focus();
             if (CanvasStatus is CanvasStatus.Moving or CanvasStatus.Drawing || isPathItem)
             {
                 return;
@@ -368,7 +369,7 @@ namespace OhmStudio.UI.Controls
                 {
                     SetTop(_multiSelectionMask, 0);
                 }
-                foreach (var item in SelectedItems.Where(x => GetIsDraggable(x)))
+                foreach (var item in SelectedStepItems.Where(x => GetIsDraggable(x)))
                 {
                     var minX = item.MouseDownControlPoint.X - _multiMouseDownRectanglePoint.X;
                     var minY = item.MouseDownControlPoint.Y - _multiMouseDownRectanglePoint.Y;
@@ -409,9 +410,11 @@ namespace OhmStudio.UI.Controls
                 if (width >= 1 && height >= 1)
                 {
                     Rect selectedArea = new Rect(x, y, width, height);
+                    RectangleGeometry rectangleGeometry = new RectangleGeometry(selectedArea);
                     foreach (var item in StepItems)
                     {
-                        item.IsSelected = selectedArea.IntersectsWith(new Rect(GetLeft(item), GetTop(item), item.ActualWidth, item.ActualHeight));
+                        item.IsSelected = CheckOverlap(rectangleGeometry, item);
+                        //item.IsSelected = selectedArea.IntersectsWith(new Rect(GetLeft(item), GetTop(item), item.ActualWidth, item.ActualHeight));
                     }
                     UpdateMultiSelectionMask();
                 }
@@ -450,6 +453,17 @@ namespace OhmStudio.UI.Controls
                 }
                 stepItem.UpdateCurve();
             }
+        }
+
+        private bool CheckOverlap(RectangleGeometry rectangleGeometry, StepItem stepItem)
+        {
+            GeneralTransform transform = stepItem.TransformToVisual(this);
+            Geometry geometry = stepItem.Geometry?.Clone();
+            if (geometry != null)
+            {
+                geometry.Transform = (Transform)transform;
+            }
+            return rectangleGeometry.FillContainsWithDetail(geometry) != IntersectionDetail.Empty;
         }
 
         private void DragCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -499,7 +513,7 @@ namespace OhmStudio.UI.Controls
                 {
                     SetLeft(_multiSelectionMask, Adsorb(GetLeft(_multiSelectionMask)));
                     SetTop(_multiSelectionMask, Adsorb(GetTop(_multiSelectionMask)));
-                    foreach (var item in SelectedItems.Where(x => GetIsDraggable(x)))
+                    foreach (var item in SelectedStepItems.Where(x => GetIsDraggable(x)))
                     {
                         PositionStepItem(item);
                     }
@@ -543,14 +557,14 @@ namespace OhmStudio.UI.Controls
             SetZIndex(uIElement, (int)zIndexPriority);
         }
 
-        private void UpdateMultiSelectionMask()
+        public void UpdateMultiSelectionMask()
         {
             double minX = double.MaxValue;
             double minY = double.MaxValue;
             double maxX = double.MinValue;
             double maxY = double.MinValue;
 
-            foreach (var item in SelectedItems)
+            foreach (var item in SelectedStepItems)
             {
                 double left = GetLeft(item);
                 double top = GetTop(item);
@@ -563,7 +577,7 @@ namespace OhmStudio.UI.Controls
                 maxY = Math.Max(bottom, maxY);
             }
 
-            if (SelectedItems.Count() > 1)
+            if (SelectedStepItems.Count() > 1)
             {
                 _multiSelectionMask.Width = maxX - minX;
                 _multiSelectionMask.Height = maxY - minY;
