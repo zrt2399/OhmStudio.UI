@@ -444,7 +444,7 @@ namespace OhmStudio.UI.Controls
         public StepItem()
         {
             DependencyPropertyDescriptor property = DependencyPropertyDescriptor.FromProperty(IsKeyboardFocusWithinProperty, typeof(StepItem));
-            property?.RemoveValueChanged(this, OnIsKeyboardFocusWithinChanged);
+            //property?.RemoveValueChanged(this, OnIsKeyboardFocusWithinChanged);
             property?.AddValueChanged(this, OnIsKeyboardFocusWithinChanged);
         }
 

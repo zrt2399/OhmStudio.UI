@@ -624,17 +624,7 @@ namespace OhmStudio.UI.Demo.Views
         private void Button_Click_16(object sender, RoutedEventArgs e)
         {
             stackPanel.SaveAsImage("1.png", ImageType.Png);
-        }
-
-        private void StepItem_Selected(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(sender.ToString());
-        }
-
-        private void StepItem_Unselected(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(sender.ToString());
-        }
+        } 
     }
 
     public class TreeViewModel : ObservableObject

@@ -740,10 +740,10 @@
                                         </TextBlock>
                                         <TextBlock HorizontalAlignment="Right">
                                             <Run Text="{Binding ElementName=dragCanvas, Path=(DragCanvas.CanvasStatus), StringFormat=CanvasStatus:{0}}" />
+                                            <Run Text="{Binding ElementName=dragCanvas, Path=IsKeyboardFocusWithin, StringFormat=IsKeyboardFocusWithin:{0}, Mode=OneWay}" />
                                             <Run Text="{Binding ElementName=dragCanvas, Path=Scale, StringFormat=Zoom:{0}}" />
                                         </TextBlock>
                                     </Grid>
-
                                 </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="PackIcons">
