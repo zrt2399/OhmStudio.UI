@@ -170,6 +170,10 @@ namespace OhmStudio.UI.Demo.Views
             UserInfos.Add(new UserInfoModel());
             UserInfos.Add(new UserInfoModel() { UserName = "jack" });
             UserInfos.Add(new UserInfoModel() { UserName = "rose", Password = "123456" });
+
+            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "love" });
+            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "love", StepType = StepType.Nomal });
+            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "结束" });
             StatusManager.IsRunningChanged += StatusManager_IsRunningChanged;
             XamlThemeDictionary.ThemeChanged += XamlThemeDictionary_ThemeChanged;
         }
@@ -192,6 +196,8 @@ namespace OhmStudio.UI.Demo.Views
         public ObservableCollection<Employee> Employees { get; set; }
 
         public ObservableCollection<PackIconKind> PackIcons { get; set; }
+
+        public ObservableCollection<WorkflowItemViewModel> WorkflowItems { get; set; } = new ObservableCollection<WorkflowItemViewModel>();
 
         public ObservableCollection<TreeViewModel> TreeViewModels { get; set; } = new ObservableCollection<TreeViewModel>();
 
@@ -624,7 +630,7 @@ namespace OhmStudio.UI.Demo.Views
         private void Button_Click_16(object sender, RoutedEventArgs e)
         {
             stackPanel.SaveAsImage("1.png", ImageType.Png);
-        } 
+        }
     }
 
     public class TreeViewModel : ObservableObject
@@ -844,6 +850,20 @@ namespace OhmStudio.UI.Demo.Views
         Edit = 1 << 1,
         [Description("设置")]
         Settings = 1 << 2
+    }
+
+    public class WorkflowItemViewModel : ViewModelBase
+    {
+        public bool IsSelected { get; set; }
+
+        public void OnIsSelectedChanged()
+        {
+            Debug.WriteLine(IsSelected);
+        }
+
+        public string Name { get; set; }
+
+        public StepType StepType { get; set; } = StepType.Begin;
     }
 
     public class FontFamilyItem

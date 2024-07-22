@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,7 +17,7 @@ using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
-    public enum CanvasStatus
+    public enum EditorStatus
     {
         None,
         /// <summary>正在拖动中。</summary>
@@ -36,19 +38,19 @@ namespace OhmStudio.UI.Controls
         Max = int.MaxValue
     }
 
-    public class DragCanvas : Canvas
+    public class WorkflowEditor : Canvas
     {
-        static DragCanvas()
+        static WorkflowEditor()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(DragCanvas), new FrameworkPropertyMetadata(typeof(DragCanvas)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(WorkflowEditor), new FrameworkPropertyMetadata(typeof(WorkflowEditor)));
         }
 
-        public DragCanvas()
+        public WorkflowEditor()
         {
-            MouseLeftButtonDown += DragCanvas_MouseLeftButtonDown;
-            MouseMove += DragCanvas_MouseMove;
-            MouseLeftButtonUp += DragCanvas_MouseLeftButtonUp;
-            MouseWheel += DragCanvas_MouseWheel;
+            MouseLeftButtonDown += WorkflowEditor_MouseLeftButtonDown;
+            MouseMove += WorkflowEditor_MouseMove;
+            MouseLeftButtonUp += WorkflowEditor_MouseLeftButtonUp;
+            MouseWheel += WorkflowEditor_MouseWheel;
 
             _multiSelectionMask = new Rectangle();
             _multiSelectionMask.Fill = "#44AACCEE".ToSolidColorBrush();
@@ -67,22 +69,21 @@ namespace OhmStudio.UI.Controls
             BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleYProperty, new Binding() { Source = this, Path = new PropertyPath(ScaleProperty) });
             LayoutTransform = scaleTransform;
 
-            AddStepItemCommand = new RelayCommand<StepType>((stepType) =>
+            AddWorkflowItemCommand = new RelayCommand<StepType>((stepType) =>
             {
                 var point = ContextMenu.TranslatePoint(new Point(), this);
-                //var point = Mouse.GetPosition(ContextMenu);
-                StepItem stepItem = new StepItem();
-                SetLeft(stepItem, Adsorb(point.X));
-                SetTop(stepItem, Adsorb(point.Y));
-                stepItem.Content = EnumDescriptionConverter.GetEnumDesc(stepType);
-                stepItem.StepType = stepType;
-                Children.Add(stepItem);
+                WorkflowItem workflowItem = new WorkflowItem();
+                SetLeft(workflowItem, Adsorb(point.X));
+                SetTop(workflowItem, Adsorb(point.Y));
+                workflowItem.Content = EnumDescriptionConverter.GetEnumDesc(stepType);
+                workflowItem.StepType = stepType;
+                Children.Add(workflowItem);
             });
-            DeleteStepItemCommand = new RelayCommand(() =>
+            DeleteWorkflowItemCommand = new RelayCommand(() =>
             {
-                for (int i = SelectedStepItems.Count() - 1; i >= 0; i--)
+                for (int i = SelectedWorkflowItems.Count() - 1; i >= 0; i--)
                 {
-                    SelectedStepItems.ElementAt(i).Delete();
+                    SelectedWorkflowItems.ElementAt(i).Delete();
                 }
                 UpdateMultiSelectionMask();
             });
@@ -114,51 +115,93 @@ namespace OhmStudio.UI.Controls
         //多个选中时Rectangle遮罩按下的位置
         private Point _multiMouseDownRectanglePoint;
 
-        private StepItem _lastStepItem;
+        private WorkflowItem _lastWorkflowItem;
         private EllipseItem _lastEllipseItem;
 
         private Point _pathStartPoint;
         private PathItem _currentPath;
 
+        public static readonly DependencyProperty ItemTemplateProperty =
+            DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(WorkflowEditor));
+
+        public static readonly DependencyProperty ItemTemplateSelectorProperty =
+            DependencyProperty.Register(nameof(ItemTemplateSelector), typeof(DataTemplateSelector), typeof(WorkflowEditor));
+
+        public static readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(WorkflowEditor), new PropertyMetadata(OnItemsSourceChanged));
+
+        public static readonly DependencyProperty ItemContainerStyleProperty =
+            DependencyProperty.Register(nameof(ItemContainerStyle), typeof(Style), typeof(WorkflowEditor), new PropertyMetadata(OnContainerStyleChanged));
+
+        public static readonly DependencyProperty ItemContainerStyleSelectorProperty =
+            DependencyProperty.Register(nameof(ItemContainerStyleSelector), typeof(StyleSelector), typeof(WorkflowEditor), new PropertyMetadata(OnContainerStyleSelectorChanged));
+
         public static readonly DependencyProperty LineBrushProperty =
-           DependencyProperty.Register(nameof(LineBrush), typeof(Brush), typeof(DragCanvas),
+           DependencyProperty.Register(nameof(LineBrush), typeof(Brush), typeof(WorkflowEditor),
                new FrameworkPropertyMetadata(Brushes.LightGray, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty GridSizeProperty =
-            DependencyProperty.Register(nameof(GridSize), typeof(double), typeof(DragCanvas),
+            DependencyProperty.Register(nameof(GridSize), typeof(double), typeof(WorkflowEditor),
                 new FrameworkPropertyMetadata(20d, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty ScaleProperty =
-            DependencyProperty.Register(nameof(Scale), typeof(double), typeof(DragCanvas), new PropertyMetadata(1d, (sender, e) =>
+            DependencyProperty.Register(nameof(Scale), typeof(double), typeof(WorkflowEditor), new PropertyMetadata(1d, (sender, e) =>
             {
-                DragCanvas dragCanvas = (DragCanvas)sender;
-                if (dragCanvas.Scale < 0.2)
+                WorkflowEditor workflowEditor = (WorkflowEditor)sender;
+                if (workflowEditor.Scale < 0.2)
                 {
-                    dragCanvas.Scale = 0.2;
+                    workflowEditor.Scale = 0.2;
                 }
-                if (dragCanvas.Scale > 3)
+                if (workflowEditor.Scale > 3)
                 {
-                    dragCanvas.Scale = 3;
+                    workflowEditor.Scale = 3;
                 }
             }));
 
         public static readonly DependencyProperty MousePositionProperty =
-            DependencyProperty.Register(nameof(MousePosition), typeof(Point), typeof(DragCanvas));
-
-        //public static readonly DependencyProperty CanvasStatusProperty =
-        //    DependencyProperty.Register(nameof(CanvasStatus), typeof(CanvasStatus), typeof(DragCanvas));
+            DependencyProperty.Register(nameof(MousePosition), typeof(Point), typeof(WorkflowEditor));
 
         internal IEnumerable<ISelectableElement> SelectableElements => Children.OfType<ISelectableElement>();
 
-        public IEnumerable<StepItem> StepItems => Children.OfType<StepItem>();
+        public IEnumerable<WorkflowItem> WorkflowItems => Children.OfType<WorkflowItem>();
 
-        public IEnumerable<StepItem> SelectedStepItems => StepItems.Where(x => x.IsSelected);
+        public IEnumerable<WorkflowItem> SelectedWorkflowItems => WorkflowItems.Where(x => x.IsSelected);
 
-        public ICommand AddStepItemCommand { get; }
+        public ICommand AddWorkflowItemCommand { get; }
 
-        public ICommand DeleteStepItemCommand { get; }
+        public ICommand DeleteWorkflowItemCommand { get; }
 
         public ICommand SaveAsImageCommand { get; }
+
+        public IEnumerable ItemsSource
+        {
+            get => (IEnumerable)GetValue(ItemsSourceProperty);
+            set => SetValue(ItemsSourceProperty, value);
+        }
+
+        public Style ItemContainerStyle
+        {
+            get => (Style)GetValue(ItemContainerStyleProperty);
+            set => SetValue(ItemContainerStyleProperty, value);
+        }
+
+        public StyleSelector ItemContainerStyleSelector
+        {
+            get => (StyleSelector)GetValue(ItemContainerStyleSelectorProperty);
+            set => SetValue(ItemContainerStyleSelectorProperty, value);
+        }
+
+        public DataTemplate ItemTemplate
+        {
+            get => (DataTemplate)GetValue(ItemTemplateProperty);
+            set => SetValue(ItemTemplateProperty, value);
+        }
+
+        public DataTemplateSelector ItemTemplateSelector
+        {
+            get => (DataTemplateSelector)GetValue(ItemTemplateSelectorProperty);
+            set => SetValue(ItemTemplateSelectorProperty, value);
+        }
 
         public Brush LineBrush
         {
@@ -184,123 +227,237 @@ namespace OhmStudio.UI.Controls
             set => SetValue(MousePositionProperty, value);
         }
 
-        private CanvasStatus _canvasStatus;
-        internal CanvasStatus CanvasStatus
+        private EditorStatus _editorStatus;
+        internal EditorStatus EditorStatus
         {
-            get => _canvasStatus;
+            get => _editorStatus;
             set
             {
-                if (_canvasStatus == value)
+                if (_editorStatus == value)
                 {
                     return;
                 }
-                SetCanvasStatus(this, value);
-                _canvasStatus = value;
+                SetEditorStatus(this, value);
+                _editorStatus = value;
             }
         }
 
-        public static readonly DependencyProperty CanvasStatusProperty =
-            DependencyProperty.RegisterAttached("CanvasStatus", typeof(CanvasStatus), typeof(DragCanvas), new FrameworkPropertyMetadata(CanvasStatus.None, FrameworkPropertyMetadataOptions.Inherits));
+        public static readonly DependencyProperty EditorStatusProperty =
+            DependencyProperty.RegisterAttached(nameof(EditorStatus), typeof(EditorStatus), typeof(WorkflowEditor), new FrameworkPropertyMetadata(EditorStatus.None, FrameworkPropertyMetadataOptions.Inherits));
 
-        public static void SetCanvasStatus(DependencyObject element, CanvasStatus value)
+        public static void SetEditorStatus(DependencyObject element, EditorStatus value)
         {
-            element.SetValue(CanvasStatusProperty, value);
+            element.SetValue(EditorStatusProperty, value);
         }
 
-        public static CanvasStatus GetCanvasStatus(DependencyObject element)
+        public static EditorStatus GetEditorStatus(DependencyObject element)
         {
-            return (CanvasStatus)element.GetValue(CanvasStatusProperty);
+            return (EditorStatus)element.GetValue(EditorStatusProperty);
         }
 
-        public static readonly DependencyProperty IsDraggableProperty =
-            DependencyProperty.RegisterAttached("IsDraggable", typeof(bool), typeof(DragCanvas), new PropertyMetadata(true));
-
-        public static void SetIsDraggable(DependencyObject element, bool value)
+        private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            element.SetValue(IsDraggableProperty, value);
+            var workflowEditor = (WorkflowEditor)d;
+            IEnumerable oldItemsSource = (IEnumerable)e.OldValue;
+            IEnumerable newItemsSource = (IEnumerable)e.NewValue;
+            workflowEditor.OnItemsSourceChanged(oldItemsSource, newItemsSource);
         }
 
-        public static bool GetIsDraggable(DependencyObject element)
+        public virtual void OnItemsSourceChanged(IEnumerable oldItemsSource, IEnumerable newItemsSource)
         {
-            return (bool)element.GetValue(IsDraggableProperty);
+            Children.Clear();
+            if (oldItemsSource != null)
+            {
+                if (oldItemsSource is INotifyCollectionChanged notifyCollectionChanged)
+                {
+                    notifyCollectionChanged.CollectionChanged -= CollectionChanged;
+                }
+            }
+            if (newItemsSource != null)
+            {
+                foreach (var item in newItemsSource.OfType<object>())
+                {
+                    Children.Add(CreateWorkflowItem(item));
+                }
+                if (newItemsSource is INotifyCollectionChanged notifyCollectionChanged)
+                {
+                    notifyCollectionChanged.CollectionChanged += CollectionChanged;
+                }
+            }
+        }
+
+        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action is NotifyCollectionChangedAction.Add)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    Children.Add(CreateWorkflowItem(item));
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                foreach (var oldItem in e.OldItems)
+                {
+                    var old = WorkflowItems.FirstOrDefault(x => x.DataContext == oldItem);
+                    Children.Remove(old);
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Replace)
+            {
+                var newItem = WorkflowItems.FirstOrDefault(x => x.DataContext == e.NewItems[0]);
+                var oldItem = WorkflowItems.FirstOrDefault(x => x.DataContext == e.OldItems[0]);
+                Children.Add(CreateWorkflowItem(newItem));
+                Children.Remove(oldItem);
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                Children.Clear();
+            }
+        }
+
+        private WorkflowItem CreateWorkflowItem(object item)
+        {
+            WorkflowItem result;
+            if (item is WorkflowItem workflowItem)
+            {
+                result = workflowItem;
+                result.DataContext = workflowItem;
+            }
+            else
+            {
+                result = new WorkflowItem()
+                {
+                    DataContext = item,
+                    Content = item,
+                    ContentTemplate = ItemTemplate,
+                    ContentTemplateSelector = ItemTemplateSelector
+                };
+            }
+            AttachWorkflowItems(result);
+            return result;
+        }
+
+        private static void OnContainerStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WorkflowEditor)d).OnContainerStyleChanged(e);
+        }
+
+        protected virtual void OnContainerStyleChanged(DependencyPropertyChangedEventArgs e)
+        {
+            AttachWorkflowItems();
+        }
+
+        private static void OnContainerStyleSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WorkflowEditor)d).OnContainerStyleSelectorChanged(e);
+        }
+
+        protected virtual void OnContainerStyleSelectorChanged(DependencyPropertyChangedEventArgs e)
+        {
+            AttachWorkflowItems();
+        }
+
+        private void AttachWorkflowItems()
+        {
+            foreach (var item in WorkflowItems)
+            {
+                AttachWorkflowItems(item);
+            }
+        }
+
+        private void AttachWorkflowItems(WorkflowItem workflowItem)
+        {
+            if (ItemContainerStyle != null)
+            {
+                workflowItem.Style = ItemContainerStyle;
+            }
+            else if (ItemContainerStyleSelector != null)
+            {
+                workflowItem.Style = ItemContainerStyleSelector.SelectStyle(workflowItem.DataContext, workflowItem);
+            }
         }
 
         protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
-        {
+        { 
             base.OnVisualChildrenChanged(visualAdded, visualRemoved);
-            if (visualAdded is StepItem stepItem)
+            if (visualAdded is WorkflowItem added)
             {
-                if (double.IsNaN(GetLeft(stepItem)))
+                if (double.IsNaN(GetLeft(added)))
                 {
-                    SetLeft(stepItem, 0);
+                    SetLeft(added, 0);
                 }
-                if (double.IsNaN(GetTop(stepItem)))
+                if (double.IsNaN(GetTop(added)))
                 {
-                    SetTop(stepItem, 0);
+                    SetTop(added, 0);
                 }
-                stepItem.CanvasParent = this;
-                stepItem.MouseLeftButtonDown += StepItem_MouseLeftButtonDown;
+                added.EditorParent = this;
+                added.MouseLeftButtonDown += WorkflowItem_MouseLeftButtonDown;
+            }
+            if (visualRemoved is WorkflowItem removed)
+            {
+                removed.EditorParent = null;
+                removed.MouseLeftButtonDown -= WorkflowItem_MouseLeftButtonDown;
             }
         }
 
         private void MultiSelectionRectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (CanvasStatus is CanvasStatus.Moving or CanvasStatus.Drawing or CanvasStatus.Selecting)
-            {
-                return;
-            }
+            //if (CanvasStatus is CanvasStatus.Moving or CanvasStatus.Drawing or CanvasStatus.Selecting)
+            //{
+            //    return;
+            //}
 
-            CanvasStatus = CanvasStatus.MultiMoving;
-            var frameworkElement = sender as FrameworkElement;
-            frameworkElement.Cursor = Cursors.ScrollAll;
+            EditorStatus = EditorStatus.MultiMoving;
+            _multiSelectionMask.Cursor = Cursors.ScrollAll;
             _multiMouseDownPoint = e.GetPosition(this);
             _multiMouseDownRectanglePoint = new Point(GetLeft(_multiSelectionMask), GetTop(_multiSelectionMask));
-            foreach (var item in SelectedStepItems)
+            foreach (var item in SelectedWorkflowItems)
             {
                 item.MouseDownControlPoint = new Point(GetLeft(item), GetTop(item));
             }
         }
 
-        private void StepItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void WorkflowItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var stepItem = sender as StepItem;
-            _lastStepItem = stepItem;
+            var workflowItem = sender as WorkflowItem;
+            _lastWorkflowItem = workflowItem;
             Point point = e.GetPosition(this);
             var startEllipseItem = this.GetVisualHit<EllipseItem>(point);
             if (startEllipseItem == null)
             {
-                CanvasStatus = CanvasStatus.Moving;
+                EditorStatus = EditorStatus.Moving;
             }
             else
             {
-                _lastStepItem = startEllipseItem.StepParent;
+                _lastWorkflowItem = startEllipseItem.WorkflowParent;
                 _pathStartPoint = startEllipseItem.GetPoint(this);
                 _lastEllipseItem = startEllipseItem;
-                CanvasStatus = CanvasStatus.Drawing;
+                EditorStatus = EditorStatus.Drawing;
 
                 if (_currentPath == null)
                 {
                     _currentPath = new PathItem();
                     SetZIndex(_currentPath, ZIndexPriority.Min);
-                    _currentPath.CanvasParent = this;
+                    _currentPath.EditorParent = this;
                     _currentPath.StartPoint = _pathStartPoint;
                     Children.Add(_currentPath);
                 }
             }
 
-            if ((!GetIsDraggable(stepItem) && startEllipseItem == null) || CanvasStatus is CanvasStatus.Selecting or CanvasStatus.MultiMoving)
+            if ((!workflowItem.IsDraggable && startEllipseItem == null) /*|| CanvasStatus is CanvasStatus.Selecting or CanvasStatus.MultiMoving*/)
             {
                 return;
             }
 
-            Cursor = CanvasStatus == CanvasStatus.Drawing ? Cursors.Cross : Cursors.ScrollAll;
+            Cursor = EditorStatus == EditorStatus.Drawing ? Cursors.Cross : Cursors.ScrollAll;
             _mouseDownPoint = point;
-            _mouseDownControlPoint = new Point(GetLeft(stepItem), GetTop(stepItem));
+            _mouseDownControlPoint = new Point(GetLeft(workflowItem), GetTop(workflowItem));
         }
 
-        private void DragCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void WorkflowEditor_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (CanvasStatus is CanvasStatus.MultiMoving)
+            if (EditorStatus is EditorStatus.MultiMoving)
             {
                 return;
             }
@@ -326,7 +483,7 @@ namespace OhmStudio.UI.Controls
             }
 
             Focus();
-            if (CanvasStatus is CanvasStatus.Moving or CanvasStatus.Drawing || isPathItem)
+            if (EditorStatus is EditorStatus.Moving or EditorStatus.Drawing || isPathItem)
             {
                 return;
             }
@@ -337,7 +494,7 @@ namespace OhmStudio.UI.Controls
             }
 
             _selectionStartPoint = point;
-            CanvasStatus = CanvasStatus.Selecting;
+            EditorStatus = EditorStatus.Selecting;
 
             // Reset the selection rectangle
             _selectionArea.Width = 0;
@@ -346,7 +503,7 @@ namespace OhmStudio.UI.Controls
             SetTop(_selectionArea, _selectionStartPoint.Y);
         }
 
-        private void DragCanvas_MouseMove(object sender, MouseEventArgs e)
+        private void WorkflowEditor_MouseMove(object sender, MouseEventArgs e)
         {
             Point point = e.GetPosition(this);
             MousePosition = point;
@@ -355,7 +512,7 @@ namespace OhmStudio.UI.Controls
                 return;
             }
 
-            if (CanvasStatus == CanvasStatus.MultiMoving)
+            if (EditorStatus == EditorStatus.MultiMoving)
             {
                 Vector vector = point - _multiMouseDownPoint;
 
@@ -369,7 +526,7 @@ namespace OhmStudio.UI.Controls
                 {
                     SetTop(_multiSelectionMask, 0);
                 }
-                foreach (var item in SelectedStepItems.Where(x => GetIsDraggable(x)))
+                foreach (var item in SelectedWorkflowItems.Where(x => x.IsDraggable))
                 {
                     var minX = item.MouseDownControlPoint.X - _multiMouseDownRectanglePoint.X;
                     var minY = item.MouseDownControlPoint.Y - _multiMouseDownRectanglePoint.Y;
@@ -394,7 +551,7 @@ namespace OhmStudio.UI.Controls
                     //}
                 }
             }
-            else if (CanvasStatus == CanvasStatus.Selecting)
+            else if (EditorStatus == EditorStatus.Selecting)
             {
                 double x = Math.Min(point.X, _selectionStartPoint.X);
                 double y = Math.Min(point.Y, _selectionStartPoint.Y);
@@ -411,7 +568,7 @@ namespace OhmStudio.UI.Controls
                 {
                     Rect selectedArea = new Rect(x, y, width, height);
                     RectangleGeometry rectangleGeometry = new RectangleGeometry(selectedArea);
-                    foreach (var item in StepItems)
+                    foreach (var item in WorkflowItems)
                     {
                         item.IsSelected = CheckOverlap(rectangleGeometry, item);
                         //item.IsSelected = selectedArea.IntersectsWith(new Rect(GetLeft(item), GetTop(item), item.ActualWidth, item.ActualHeight));
@@ -419,46 +576,46 @@ namespace OhmStudio.UI.Controls
                     UpdateMultiSelectionMask();
                 }
             }
-            else if (CanvasStatus == CanvasStatus.Drawing)
+            else if (EditorStatus == EditorStatus.Drawing)
             {
                 _currentPath.UpdateBezierCurve(_pathStartPoint, point);
             }
-            else if (CanvasStatus == CanvasStatus.Moving)
+            else if (EditorStatus == EditorStatus.Moving)
             {
-                var stepItem = _lastStepItem;
-                if (!GetIsDraggable(stepItem))
+                var workflowItem = _lastWorkflowItem;
+                if (!workflowItem.IsDraggable)
                 {
                     return;
                 }
                 Vector vector = point - _mouseDownPoint;
-                SetLeft(stepItem, Math.Round(_mouseDownControlPoint.X + vector.X, 0));
-                SetTop(stepItem, Math.Round(_mouseDownControlPoint.Y + vector.Y, 0));
+                SetLeft(workflowItem, Math.Round(_mouseDownControlPoint.X + vector.X, 0));
+                SetTop(workflowItem, Math.Round(_mouseDownControlPoint.Y + vector.Y, 0));
 
-                if (GetLeft(stepItem) < 0)
+                if (GetLeft(workflowItem) < 0)
                 {
-                    SetLeft(stepItem, 0);
+                    SetLeft(workflowItem, 0);
                 }
-                if (GetTop(stepItem) < 0)
+                if (GetTop(workflowItem) < 0)
                 {
-                    SetTop(stepItem, 0);
+                    SetTop(workflowItem, 0);
                 }
 
-                if (GetLeft(stepItem) > ActualWidth - stepItem.ActualWidth)
+                if (GetLeft(workflowItem) > ActualWidth - workflowItem.ActualWidth)
                 {
-                    SetLeft(stepItem, ActualWidth - stepItem.ActualWidth);
+                    SetLeft(workflowItem, ActualWidth - workflowItem.ActualWidth);
                 }
-                if (GetTop(stepItem) > ActualHeight - stepItem.ActualHeight)
+                if (GetTop(workflowItem) > ActualHeight - workflowItem.ActualHeight)
                 {
-                    SetTop(stepItem, ActualHeight - stepItem.ActualHeight);
+                    SetTop(workflowItem, ActualHeight - workflowItem.ActualHeight);
                 }
-                stepItem.UpdateCurve();
+                workflowItem.UpdateCurve();
             }
         }
 
-        private bool CheckOverlap(RectangleGeometry rectangleGeometry, StepItem stepItem)
+        private bool CheckOverlap(RectangleGeometry rectangleGeometry, WorkflowItem workflowItem)
         {
-            GeneralTransform transform = stepItem.TransformToVisual(this);
-            Geometry geometry = stepItem.Geometry?.Clone();
+            GeneralTransform transform = workflowItem.TransformToVisual(this);
+            Geometry geometry = workflowItem.Geometry?.Clone();
             if (geometry != null)
             {
                 geometry.Transform = (Transform)transform;
@@ -466,22 +623,22 @@ namespace OhmStudio.UI.Controls
             return rectangleGeometry.FillContainsWithDetail(geometry) != IntersectionDetail.Empty;
         }
 
-        private void DragCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void WorkflowEditor_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             try
             {
-                if (CanvasStatus == CanvasStatus.Selecting)
+                if (EditorStatus == EditorStatus.Selecting)
                 {
                     Children.Remove(_selectionArea);
                 }
-                else if (CanvasStatus == CanvasStatus.Drawing)
+                else if (EditorStatus == EditorStatus.Drawing)
                 {
                     bool drawingSuccess = false;
                     Point point = e.GetPosition(this);
                     var endEllipseItem = this.GetFirstVisualHit<EllipseItem>(point);
                     if (endEllipseItem != null)
                     {
-                        drawingSuccess = endEllipseItem.StepParent.SetStep(_lastStepItem, _lastEllipseItem, endEllipseItem);
+                        drawingSuccess = endEllipseItem.WorkflowParent.SetStep(_lastWorkflowItem, _lastEllipseItem, endEllipseItem);
                     }
                     if (drawingSuccess)
                     {
@@ -491,7 +648,7 @@ namespace OhmStudio.UI.Controls
                         _lastEllipseItem.PathItem = _currentPath;
                         endEllipseItem.PathItem = _currentPath;
 
-                        _lastStepItem.UpdateCurve();
+                        _lastWorkflowItem.UpdateCurve();
                     }
                     else
                     {
@@ -499,23 +656,23 @@ namespace OhmStudio.UI.Controls
                     }
                     _currentPath = null;
                 }
-                else if (CanvasStatus == CanvasStatus.Moving)
+                else if (EditorStatus == EditorStatus.Moving)
                 {
-                    var stepItem = _lastStepItem;
-                    if (stepItem == null || !GetIsDraggable(stepItem))
+                    var workflowItem = _lastWorkflowItem;
+                    if (workflowItem == null || !workflowItem.IsDraggable)
                     {
                         return;
                     }
 
-                    PositionStepItem(stepItem);
+                    PositionWorkflowItem(workflowItem);
                 }
-                else if (CanvasStatus == CanvasStatus.MultiMoving)
+                else if (EditorStatus == EditorStatus.MultiMoving)
                 {
                     SetLeft(_multiSelectionMask, Adsorb(GetLeft(_multiSelectionMask)));
                     SetTop(_multiSelectionMask, Adsorb(GetTop(_multiSelectionMask)));
-                    foreach (var item in SelectedStepItems.Where(x => GetIsDraggable(x)))
+                    foreach (var item in SelectedWorkflowItems.Where(x => x.IsDraggable))
                     {
-                        PositionStepItem(item);
+                        PositionWorkflowItem(item);
                     }
                     _multiSelectionMask.Cursor = null;
                 }
@@ -523,21 +680,21 @@ namespace OhmStudio.UI.Controls
             finally
             {
                 Cursor = null;
-                CanvasStatus = CanvasStatus.None;
+                EditorStatus = EditorStatus.None;
             }
         }
 
-        private void PositionStepItem(StepItem stepItem)
+        private void PositionWorkflowItem(WorkflowItem workflowItem)
         {
-            SetLeft(stepItem, Adsorb(GetLeft(stepItem)));
-            SetTop(stepItem, Adsorb(GetTop(stepItem)));
+            SetLeft(workflowItem, Adsorb(GetLeft(workflowItem)));
+            SetTop(workflowItem, Adsorb(GetTop(workflowItem)));
             Dispatcher.InvokeAsync(() =>
             {
-                stepItem.UpdateCurve();
+                workflowItem.UpdateCurve();
             }, DispatcherPriority.Render);
         }
 
-        private void DragCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
+        private void WorkflowEditor_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             //Point mousePosition = e.GetPosition(this); 
             //scaleTransform.CenterX = mousePosition.X;
@@ -564,7 +721,7 @@ namespace OhmStudio.UI.Controls
             double maxX = double.MinValue;
             double maxY = double.MinValue;
 
-            foreach (var item in SelectedStepItems)
+            foreach (var item in SelectedWorkflowItems)
             {
                 double left = GetLeft(item);
                 double top = GetTop(item);
@@ -577,7 +734,7 @@ namespace OhmStudio.UI.Controls
                 maxY = Math.Max(bottom, maxY);
             }
 
-            if (SelectedStepItems.Count() > 1)
+            if (SelectedWorkflowItems.Count() > 1)
             {
                 _multiSelectionMask.Width = maxX - minX;
                 _multiSelectionMask.Height = maxY - minY;

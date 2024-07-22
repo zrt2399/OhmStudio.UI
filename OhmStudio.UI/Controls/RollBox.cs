@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -50,7 +51,19 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty ItemsSourceProperty =
            DependencyProperty.Register(nameof(ItemsSource), typeof(ObservableCollection<UIElement>), typeof(RollBox), new PropertyMetadata(new ObservableCollection<UIElement>(), (sender, e) =>
            {
-               if (sender is RollBox rollBox)
+               RollBox rollBox = (RollBox)sender;
+               if (e.OldValue is INotifyCollectionChanged oldCollectionChanged)
+               {
+                   oldCollectionChanged.CollectionChanged -= CollectionChanged;
+               }
+               if (e.NewValue is INotifyCollectionChanged newCollectionChanged)
+               {
+                   newCollectionChanged.CollectionChanged += CollectionChanged;
+               }
+
+               rollBox.UpdateListBoxItem();
+
+               void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
                {
                    rollBox.UpdateListBoxItem();
                }

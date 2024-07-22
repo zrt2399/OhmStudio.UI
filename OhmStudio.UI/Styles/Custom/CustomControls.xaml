@@ -39,7 +39,7 @@
     <converters:FlipToScaleYValueConverter x:Key="FlipToScaleYValueConverter" />
     <converters:CircleProgressBarMarginConverter x:Key="CircleProgressBarMarginConverter" />
     <converters:PathPickerPlaceHolderMarginConverter x:Key="PathPickerPlaceHolderMarginConverter" />
-    <converters:StepItemEllipseItemConverter x:Key="StepItemEllipseItemConverter" />
+    <converters:WorkflowItemEllipseItemConverter x:Key="WorkflowItemEllipseItemConverter" />
     <converters:DoNoThingConverter x:Key="DoNoThingConverter" />
     <converters:ParallelogramEllipseConverter x:Key="ParallelogramEllipseConverter" />
 
@@ -1495,11 +1495,11 @@
     </Style>
     <Style BasedOn="{StaticResource NumericUpDownBaseStyle}" TargetType="controls:NumericUpDown" />
 
-    <Style x:Key="DragCanvasBaseStyle" TargetType="controls:DragCanvas">
+    <Style x:Key="WorkflowEditorBaseStyle" TargetType="controls:WorkflowEditor">
         <Setter Property="Focusable" Value="True" />
         <Setter Property="ClipToBounds" Value="True" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="LineBrush" Value="{DynamicResource DragCanvasLineBrush}" />
+        <Setter Property="LineBrush" Value="{DynamicResource WorkflowEditorLineBrush}" />
         <Setter Property="ContextMenu">
             <Setter.Value>
                 <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
@@ -1507,12 +1507,12 @@
                         <MenuItem.ItemContainerStyle>
                             <Style TargetType="MenuItem">
                                 <Setter Property="Header" Value="{Binding}" />
-                                <Setter Property="Command" Value="{Binding DataContext.AddStepItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                <Setter Property="Command" Value="{Binding DataContext.AddWorkflowItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                                 <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header}" />
                             </Style>
                         </MenuItem.ItemContainerStyle>
                     </MenuItem>
-                    <MenuItem Command="{Binding DeleteStepItemCommand}" Header="删除选中流程" />
+                    <MenuItem Command="{Binding DeleteWorkflowItemCommand}" Header="删除选中流程" />
                     <MenuItem Command="{Binding SaveAsImageCommand}" Header="保存为Png" />
                 </ContextMenu>
             </Setter.Value>
@@ -1524,9 +1524,9 @@
             </Setter.Value>
         </Setter>-->
     </Style>
-    <Style BasedOn="{StaticResource DragCanvasBaseStyle}" TargetType="controls:DragCanvas" />
+    <Style BasedOn="{StaticResource WorkflowEditorBaseStyle}" TargetType="controls:WorkflowEditor" />
 
-    <Style x:Key="StepItemBaseStyle" TargetType="controls:StepItem">
+    <Style x:Key="WorkflowItemBaseStyle" TargetType="controls:WorkflowItem">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Width" Value="100" />
@@ -1536,7 +1536,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:StepItem">
+                <ControlTemplate TargetType="controls:WorkflowItem">
                     <controls:ShapeBorder x:Name="ShapeBorder"
                                           Background="{TemplateBinding Background}"
                                           BorderBrush="{TemplateBinding BorderBrush}"
@@ -1589,7 +1589,7 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="Orange" />
                             <Setter TargetName="ShapeBorder" Property="IsDashed" Value="True" />
-                            <Setter Property="Panel.ZIndex" Value="2147483646" />
+                            <Setter Property="Panel.ZIndex" Value="1" />
                         </Trigger>
                         <Trigger Property="StepType" Value="Begin">
                             <Setter TargetName="ShapeBorder" Property="attaches:CornerRadiusAttach.IsCircular" Value="True" />
@@ -1608,7 +1608,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style BasedOn="{StaticResource StepItemBaseStyle}" TargetType="controls:StepItem" />
+    <Style BasedOn="{StaticResource WorkflowItemBaseStyle}" TargetType="controls:WorkflowItem" />
 
     <Style x:Key="EllipseItemBaseStyle" TargetType="controls:EllipseItem">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -1619,9 +1619,9 @@
         <Setter Property="BorderBrush" Value="#7B68EE" />
         <Setter Property="Visibility">
             <Setter.Value>
-                <MultiBinding Converter="{StaticResource StepItemEllipseItemConverter}">
+                <MultiBinding Converter="{StaticResource WorkflowItemEllipseItemConverter}">
                     <Binding Path="Orientation" RelativeSource="{RelativeSource Mode=Self}" />
-                    <Binding Path="StepType" RelativeSource="{RelativeSource AncestorType=controls:StepItem}" />
+                    <Binding Path="StepType" RelativeSource="{RelativeSource AncestorType=controls:WorkflowItem}" />
                 </MultiBinding>
             </Setter.Value>
         </Setter>
@@ -1650,7 +1650,7 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="controls:DragCanvas.CanvasStatus" Value="Drawing" />
+                                <Condition Property="controls:WorkflowEditor.EditorStatus" Value="Drawing" />
                             </MultiTrigger.Conditions>
                             <!--<MultiTrigger.EnterActions>
                                 <BeginStoryboard>
@@ -1671,7 +1671,7 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="controls:DragCanvas.CanvasStatus" Value="None" />
+                                <Condition Property="controls:WorkflowEditor.EditorStatus" Value="None" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter Property="Height" Value="14" />

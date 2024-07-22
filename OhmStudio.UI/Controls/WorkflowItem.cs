@@ -22,7 +22,7 @@ namespace OhmStudio.UI.Controls
 
         event RoutedEventHandler Unselected;
     }
- 
+
     public enum ShapeType
     {
         Rectangle,
@@ -238,8 +238,8 @@ namespace OhmStudio.UI.Controls
                 var pathItem = (PathItem)sender;
                 if (pathItem.StartEllipseItem != null && pathItem.EndEllipseItem != null)
                 {
-                    var startPoint = pathItem.StartEllipseItem.GetPoint(pathItem.CanvasParent);
-                    var endPoint = pathItem.EndEllipseItem.GetPoint(pathItem.CanvasParent);
+                    var startPoint = pathItem.StartEllipseItem.GetPoint(pathItem.EditorParent);
+                    var endPoint = pathItem.EndEllipseItem.GetPoint(pathItem.EditorParent);
                     pathItem.UpdateCurveAngle(startPoint, endPoint);
                 }
             }));
@@ -322,7 +322,7 @@ namespace OhmStudio.UI.Controls
             set => SetValue(IsCurveProperty, value);
         }
 
-        internal DragCanvas CanvasParent { get; set; }
+        internal WorkflowEditor EditorParent { get; set; }
 
         public ICommand DeleteCommand { get; }
 
@@ -390,7 +390,7 @@ namespace OhmStudio.UI.Controls
             EndEllipseItem = null;
             ContextMenu = null;
             BindingOperations.ClearAllBindings(this);
-            CanvasParent.Children.Remove(this);
+            EditorParent.Children.Remove(this);
         }
     }
 
@@ -415,7 +415,7 @@ namespace OhmStudio.UI.Controls
             set => SetValue(StrokeThicknessProperty, value);
         }
 
-        internal StepItem StepParent { get; set; }
+        internal WorkflowItem WorkflowParent { get; set; }
 
         internal PathItem PathItem { get; set; }
 
@@ -428,52 +428,55 @@ namespace OhmStudio.UI.Controls
         {
             if (Orientation == EllipseOrientation.Right)
             {
-                StepParent.JumpStep.FromStep = null;
-                StepParent.JumpStep = null;
+                WorkflowParent.JumpToStep.FromStep = null;
+                WorkflowParent.JumpToStep = null;
             }
             else if (Orientation == EllipseOrientation.Bottom)
             {
-                StepParent.NextStep.LastStep = null;
-                StepParent.NextStep = null;
+                WorkflowParent.NextStep.LastStep = null;
+                WorkflowParent.NextStep = null;
             }
         }
     }
 
-    public class StepItem : ContentControl, ISelectableElement
+    public class WorkflowItem : ContentControl, ISelectableElement
     {
-        public StepItem()
+        public WorkflowItem()
         {
-            DependencyPropertyDescriptor property = DependencyPropertyDescriptor.FromProperty(IsKeyboardFocusWithinProperty, typeof(StepItem));
+            DependencyPropertyDescriptor property = DependencyPropertyDescriptor.FromProperty(IsKeyboardFocusWithinProperty, typeof(WorkflowItem));
             //property?.RemoveValueChanged(this, OnIsKeyboardFocusWithinChanged);
             property?.AddValueChanged(this, OnIsKeyboardFocusWithinChanged);
         }
 
         public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(StepItem), new PropertyMetadata((sender, e) =>
+            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(WorkflowItem), new PropertyMetadata((sender, e) =>
             {
-                var stepItem = (StepItem)sender;
+                var workflowItem = (WorkflowItem)sender;
                 bool newValue = (bool)e.NewValue;
-                var routedEventHandler = newValue ? stepItem.Selected : stepItem.Unselected;
-                routedEventHandler?.Invoke(stepItem, new RoutedEventArgs());
+                var routedEventHandler = newValue ? workflowItem.Selected : workflowItem.Unselected;
+                routedEventHandler?.Invoke(workflowItem, new RoutedEventArgs());
             }));
 
+        public static readonly DependencyProperty IsDraggableProperty =
+            DependencyProperty.Register(nameof(IsDraggable), typeof(bool), typeof(WorkflowItem), new PropertyMetadata(true));
+
         public static readonly DependencyProperty LastStepProperty =
-            DependencyProperty.Register(nameof(LastStep), typeof(StepItem), typeof(StepItem));
+            DependencyProperty.Register(nameof(LastStep), typeof(WorkflowItem), typeof(WorkflowItem));
 
         public static readonly DependencyProperty FromStepProperty =
-            DependencyProperty.Register(nameof(FromStep), typeof(StepItem), typeof(StepItem));
+            DependencyProperty.Register(nameof(FromStep), typeof(WorkflowItem), typeof(WorkflowItem));
 
-        public static readonly DependencyProperty JumpStepProperty =
-            DependencyProperty.Register(nameof(JumpStep), typeof(StepItem), typeof(StepItem));
+        public static readonly DependencyProperty JumpToStepProperty =
+            DependencyProperty.Register(nameof(JumpToStep), typeof(WorkflowItem), typeof(WorkflowItem));
 
         public static readonly DependencyProperty NextStepProperty =
-            DependencyProperty.Register(nameof(NextStep), typeof(StepItem), typeof(StepItem));
+            DependencyProperty.Register(nameof(NextStep), typeof(WorkflowItem), typeof(WorkflowItem));
 
         public static readonly DependencyProperty StepTypeProperty =
-            DependencyProperty.Register(nameof(StepType), typeof(StepType), typeof(StepItem), new PropertyMetadata(StepType.Nomal));
+            DependencyProperty.Register(nameof(StepType), typeof(StepType), typeof(WorkflowItem), new PropertyMetadata(StepType.Nomal));
 
         public static readonly DependencyProperty GeometryProperty =
-            DependencyProperty.Register(nameof(Geometry), typeof(Geometry), typeof(StepItem));
+            DependencyProperty.Register(nameof(Geometry), typeof(Geometry), typeof(WorkflowItem));
 
         private Thumb PART_Thumb;
         private EllipseItem EllipseLeft;
@@ -490,7 +493,7 @@ namespace OhmStudio.UI.Controls
 
         public bool IsInit { get; private set; }
 
-        public DragCanvas CanvasParent { get; internal set; }
+        public WorkflowEditor EditorParent { get; internal set; }
 
         public bool IsSelected
         {
@@ -498,27 +501,33 @@ namespace OhmStudio.UI.Controls
             set => SetValue(IsSelectedProperty, value);
         }
 
-        public StepItem LastStep
+        public bool IsDraggable
         {
-            get => (StepItem)GetValue(LastStepProperty);
+            get => (bool)GetValue(IsDraggableProperty);
+            set => SetValue(IsDraggableProperty, value);
+        }
+
+        public WorkflowItem LastStep
+        {
+            get => (WorkflowItem)GetValue(LastStepProperty);
             set => SetValue(LastStepProperty, value);
         }
 
-        public StepItem FromStep
+        public WorkflowItem FromStep
         {
-            get => (StepItem)GetValue(FromStepProperty);
+            get => (WorkflowItem)GetValue(FromStepProperty);
             set => SetValue(FromStepProperty, value);
         }
 
-        public StepItem JumpStep
+        public WorkflowItem JumpToStep
         {
-            get => (StepItem)GetValue(JumpStepProperty);
-            set => SetValue(JumpStepProperty, value);
+            get => (WorkflowItem)GetValue(JumpToStepProperty);
+            set => SetValue(JumpToStepProperty, value);
         }
 
-        public StepItem NextStep
+        public WorkflowItem NextStep
         {
-            get => (StepItem)GetValue(NextStepProperty);
+            get => (WorkflowItem)GetValue(NextStepProperty);
             set => SetValue(NextStepProperty, value);
         }
 
@@ -557,7 +566,7 @@ namespace OhmStudio.UI.Controls
             EllipseItems.Add(EllipseOrientation.Bottom, EllipseBottom);
             foreach (var item in EllipseItems.Values)
             {
-                item.StepParent = this;
+                item.WorkflowParent = this;
             }
             IsInit = true;
         }
@@ -577,7 +586,7 @@ namespace OhmStudio.UI.Controls
 
         private void PART_Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            var cellSize = CanvasParent.GridSize;
+            var cellSize = EditorParent.GridSize;
             Width = Math.Max(cellSize, Width.Adsorb(cellSize));
             Height = Math.Max(cellSize, Height.Adsorb(cellSize));
             Dispatcher.InvokeAsync(() =>
@@ -591,17 +600,17 @@ namespace OhmStudio.UI.Controls
             if (IsKeyboardFocusWithin)
             {
                 IsSelected = true;
-                foreach (var item in CanvasParent.SelectableElements.Where(x => x != this))
+                foreach (var item in EditorParent.SelectableElements.Where(x => x != this))
                 {
                     item.IsSelected = false;
                 }
-                CanvasParent.UpdateMultiSelectionMask();
+                EditorParent.UpdateMultiSelectionMask();
             }
         }
 
         internal EllipseItem GetEllipseItem(Point point)
         {
-            var hitResult = VisualTreeHelper.HitTest(CanvasParent, point)?.VisualHit as FrameworkElement;
+            var hitResult = VisualTreeHelper.HitTest(EditorParent, point)?.VisualHit as FrameworkElement;
             if (hitResult?.TemplatedParent is EllipseItem ellipseItem)
             {
                 return EllipseItems.Values.FirstOrDefault(x => x == ellipseItem);
@@ -612,7 +621,7 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        internal bool SetStep(StepItem fromStep, EllipseItem fromEllipse, EllipseItem toEllipse)
+        internal bool SetStep(WorkflowItem fromStep, EllipseItem fromEllipse, EllipseItem toEllipse)
         {
             bool flag = false;
             if (fromEllipse == toEllipse)
@@ -645,7 +654,7 @@ namespace OhmStudio.UI.Controls
             }
             else if (fromEllipse.Orientation == EllipseOrientation.Right)
             {
-                fromStep.JumpStep = this;
+                fromStep.JumpToStep = this;
                 FromStep = fromStep;
                 flag = true;
             }
@@ -666,13 +675,16 @@ namespace OhmStudio.UI.Controls
                 item.PathItem?.Delete();
             }
             BindingOperations.ClearAllBindings(this);
-            CanvasParent.Children.Remove(this);
+            EditorParent.Children.Remove(this);
         }
 
         public void UpdateCurve()
         {
             if (LastStep != null)
             {
+                //LastStep.EllipseItems[EllipseOrientation.Bottom].GetPoint(EditorParent);
+                //EllipseItems[EllipseOrientation.Top].GetPoint(EditorParent);
+
                 UpdateCurve(EllipseItems[EllipseOrientation.Top].PathItem);
             }
             if (NextStep != null)
@@ -683,15 +695,15 @@ namespace OhmStudio.UI.Controls
             {
                 UpdateCurve(EllipseItems[EllipseOrientation.Left].PathItem);
             }
-            if (JumpStep != null)
+            if (JumpToStep != null)
             {
                 UpdateCurve(EllipseItems[EllipseOrientation.Right].PathItem);
             }
         }
 
-        internal void UpdateCurve(PathItem pathItem)
+        private void UpdateCurve(PathItem pathItem)
         {
-            pathItem?.UpdateBezierCurve(pathItem.StartEllipseItem.GetPoint(CanvasParent), pathItem.EndEllipseItem.GetPoint(CanvasParent));
+            pathItem?.UpdateBezierCurve(pathItem.StartEllipseItem.GetPoint(EditorParent), pathItem.EndEllipseItem.GetPoint(EditorParent));
         }
     }
 }

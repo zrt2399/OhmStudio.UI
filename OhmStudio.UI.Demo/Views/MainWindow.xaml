@@ -685,63 +685,71 @@
                                     </UniformGrid>
                                 </GroupBox>
                             </LayoutDocument>
-                            <LayoutDocument Title="DragCanvas">
+                            <LayoutDocument Title="WorkflowEditor">
                                 <Grid GridAttach.RowDefinitions="*,Auto">
-                                    <DragCanvas Name="dragCanvas">
-                                        <DragCanvas.Resources>
-                                            <Style BasedOn="{StaticResource {x:Type StepItem}}" TargetType="StepItem">
-                                                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                                    <WorkflowEditor x:Name="WorkflowEditor" ItemsSource="{Binding WorkflowItems}">
+                                        <WorkflowEditor.ItemContainerStyle>
+                                            <Style BasedOn="{StaticResource {x:Type WorkflowItem}}" TargetType="WorkflowItem">
+                                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                                <Setter Property="StepType" Value="{Binding StepType, Mode=TwoWay}" />
                                             </Style>
-                                        </DragCanvas.Resources>
-                                        <StepItem Content="开始" StepType="Begin" />
-                                        <StepItem Canvas.Left="80"
+                                        </WorkflowEditor.ItemContainerStyle>
+                                        <WorkflowEditor.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding IsSelected}" />
+                                                    <TextBox Text="{Binding Name}" /> 
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </WorkflowEditor.ItemTemplate>
+                                        <!--<WorkflowItem Content="开始" StepType="Begin" />
+                                        <WorkflowItem Canvas.Left="80"
                                                   Canvas.Top="80"
                                                   Content="中间节点1" />
-                                        <StepItem Canvas.Left="160" Canvas.Top="160">
-                                            <StepItem.Content>
+                                        <WorkflowItem Canvas.Left="160" Canvas.Top="160">
+                                            <WorkflowItem.Content>
                                                 <StackPanel>
                                                     <TextBox>中间节点2</TextBox>
                                                     <ComboBox />
                                                 </StackPanel>
-                                            </StepItem.Content>
-                                        </StepItem>
-                                        <StepItem Canvas.Left="240" Canvas.Top="240">
-                                            <StepItem.Content>
+                                            </WorkflowItem.Content>
+                                        </WorkflowItem>
+                                        <WorkflowItem Canvas.Left="240" Canvas.Top="240">
+                                            <WorkflowItem.Content>
                                                 <TextBox>中间节点3</TextBox>
-                                            </StepItem.Content>
-                                        </StepItem>
-                                        <StepItem Canvas.Left="320"
+                                            </WorkflowItem.Content>
+                                        </WorkflowItem>
+                                        <WorkflowItem Canvas.Left="320"
                                                   Canvas.Top="320"
                                                   Content="标记节点"
                                                   StepType="Reference" />
-                                        <StepItem Canvas.Left="400"
+                                        <WorkflowItem Canvas.Left="400"
                                                   Canvas.Top="400"
                                                   Content="条件节点"
                                                   StepType="Condition" />
-                                        <StepItem Canvas.Left="480"
+                                        <WorkflowItem Canvas.Left="480"
                                                   Canvas.Top="480"
                                                   Content="中间节点5" />
-                                        <StepItem Canvas.Left="560"
+                                        <WorkflowItem Canvas.Left="560"
                                                   Canvas.Top="560"
                                                   Content="结束"
                                                   StepType="End" />
-                                        <StepItem Canvas.Left="640"
+                                        <WorkflowItem Canvas.Left="640"
                                                   Canvas.Top="640"
                                                   Content="结束·不可拖拽"
-                                                  DragCanvas.IsDraggable="False"
-                                                  StepType="End" />
-                                    </DragCanvas>
+                                                  WorkflowEditor.IsDraggable="False"
+                                                  StepType="End" />-->
+                                    </WorkflowEditor>
 
                                     <Grid Grid.Row="1">
                                         <TextBlock>
-                                            <Run Text="{Binding ElementName=dragCanvas, Path=MousePosition.X, StringFormat=X:{0}}" />
-                                            <Run Text="{Binding ElementName=dragCanvas, Path=MousePosition.Y, StringFormat=Y:{0}}" />
+                                            <Run Text="{Binding ElementName=WorkflowEditor, Path=MousePosition.X, StringFormat=X:{0}}" />
+                                            <Run Text="{Binding ElementName=WorkflowEditor, Path=MousePosition.Y, StringFormat=Y:{0}}" />
                                         </TextBlock>
                                         <TextBlock HorizontalAlignment="Right">
-                                            <Run Text="{Binding ElementName=dragCanvas, Path=(DragCanvas.CanvasStatus), StringFormat=CanvasStatus:{0}}" />
-                                            <Run Text="{Binding ElementName=dragCanvas, Path=IsKeyboardFocusWithin, StringFormat=IsKeyboardFocusWithin:{0}, Mode=OneWay}" />
-                                            <Run Text="{Binding ElementName=dragCanvas, Path=Scale, StringFormat=Zoom:{0}}" />
+                                            <Run Text="{Binding ElementName=WorkflowEditor, Path=(WorkflowEditor.EditorStatus), StringFormat=EditorStatus:{0}}" />
+                                            <Run Text="{Binding ElementName=WorkflowEditor, Path=IsKeyboardFocusWithin, StringFormat=IsKeyboardFocusWithin:{0}, Mode=OneWay}" />
+                                            <Run Text="{Binding ElementName=WorkflowEditor, Path=Scale, StringFormat=Zoom:{0}}" />
                                         </TextBlock>
                                     </Grid>
                                 </Grid>
