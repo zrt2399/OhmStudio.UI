@@ -1500,23 +1500,6 @@
         <Setter Property="ClipToBounds" Value="True" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="LineBrush" Value="{DynamicResource WorkflowEditorLineBrush}" />
-        <Setter Property="ContextMenu">
-            <Setter.Value>
-                <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
-                    <MenuItem Header="添加流程" ItemsSource="{attaches:EnumBindingSource EnumType=controls:StepType}">
-                        <MenuItem.ItemContainerStyle>
-                            <Style TargetType="MenuItem">
-                                <Setter Property="Header" Value="{Binding}" />
-                                <Setter Property="Command" Value="{Binding DataContext.AddWorkflowItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                                <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header}" />
-                            </Style>
-                        </MenuItem.ItemContainerStyle>
-                    </MenuItem>
-                    <MenuItem Command="{Binding DeleteWorkflowItemCommand}" Header="删除选中流程" />
-                    <MenuItem Command="{Binding SaveAsImageCommand}" Header="保存为Png" />
-                </ContextMenu>
-            </Setter.Value>
-        </Setter>
         <!--<Setter Property="LayoutTransform">
             <Setter.Value>
                 <ScaleTransform ScaleX="{Binding Scale, RelativeSource={RelativeSource AncestorType=Canvas}}"
@@ -1687,6 +1670,7 @@
     <Style BasedOn="{StaticResource EllipseItemBaseStyle}" TargetType="controls:EllipseItem" />
 
     <Style x:Key="PathItemBaseStyle" TargetType="controls:PathItem">
+        <Setter Property="Panel.ZIndex" Value="-1" />
         <Setter Property="ContextMenu">
             <Setter.Value>
                 <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">

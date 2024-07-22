@@ -686,19 +686,41 @@
                                 </GroupBox>
                             </LayoutDocument>
                             <LayoutDocument Title="WorkflowEditor">
-                                <Grid GridAttach.RowDefinitions="*,Auto">
-                                    <WorkflowEditor x:Name="WorkflowEditor" ItemsSource="{Binding WorkflowItems}">
+                                <Grid GridAttach.RowDefinitions="*,Auto" UseLayoutRounding="False">
+                                    <WorkflowEditor x:Name="workflowEditor"
+                                                    ItemsSource="{Binding WorkflowItems}"
+                                                    SelectedItems="{Binding SelectedWorkflowItems}">
+                                        <WorkflowEditor.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="添加流程" ItemsSource="{EnumBindingSource EnumType=StepType}">
+                                                    <MenuItem.ItemContainerStyle>
+                                                        <Style TargetType="MenuItem">
+                                                            <Setter Property="Header" Value="{Binding}" />
+                                                            <Setter Property="Command" Value="{Binding PlacementTarget.DataContext.AddWorkflowItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header}" />
+                                                        </Style>
+                                                    </MenuItem.ItemContainerStyle>
+                                                </MenuItem>
+                                                <MenuItem Command="{Binding DeleteWorkflowItemCommand}" Header="删除选中流程" />
+                                                <MenuItem Command="{Binding SaveAsImageCommand}" Header="保存为Png" />
+                                            </ContextMenu>
+                                        </WorkflowEditor.ContextMenu>
+
                                         <WorkflowEditor.ItemContainerStyle>
                                             <Style BasedOn="{StaticResource {x:Type WorkflowItem}}" TargetType="WorkflowItem">
                                                 <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                                                 <Setter Property="StepType" Value="{Binding StepType, Mode=TwoWay}" />
+                                                <Setter Property="Width" Value="{Binding Width, Mode=TwoWay}" />
+                                                <Setter Property="Height" Value="{Binding Height, Mode=TwoWay}" />
+                                                <Setter Property="Canvas.Left" Value="{Binding Left, Mode=TwoWay}" />
+                                                <Setter Property="Canvas.Top" Value="{Binding Top, Mode=TwoWay}" />
                                             </Style>
                                         </WorkflowEditor.ItemContainerStyle>
                                         <WorkflowEditor.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                                     <TextBlock Text="{Binding IsSelected}" />
-                                                    <TextBox Text="{Binding Name}" /> 
+                                                    <TextBox Text="{Binding Name}" />
                                                 </StackPanel>
                                             </DataTemplate>
                                         </WorkflowEditor.ItemTemplate>
@@ -742,14 +764,18 @@
                                     </WorkflowEditor>
 
                                     <Grid Grid.Row="1">
+                                        <!--<TextBlock>
+                                            <Run Text="{Binding ElementName=workflowEditor, Path=MousePosition.X, StringFormat=X:{0}}" />
+                                            <Run Text="{Binding ElementName=workflowEditor, Path=MousePosition.Y, StringFormat=Y:{0}}" />
+                                        </TextBlock>-->
                                         <TextBlock>
-                                            <Run Text="{Binding ElementName=WorkflowEditor, Path=MousePosition.X, StringFormat=X:{0}}" />
-                                            <Run Text="{Binding ElementName=WorkflowEditor, Path=MousePosition.Y, StringFormat=Y:{0}}" />
+                                            <Run Text="{Binding WorkflowItems.Count, StringFormat=WorkflowItems.Count:{0}, Mode=OneWay}" />
+                                            <Run Text="{Binding SelectedWorkflowItems.Count, StringFormat=SelectedWorkflowItems.Count:{0}, Mode=OneWay}" />
                                         </TextBlock>
                                         <TextBlock HorizontalAlignment="Right">
-                                            <Run Text="{Binding ElementName=WorkflowEditor, Path=(WorkflowEditor.EditorStatus), StringFormat=EditorStatus:{0}}" />
-                                            <Run Text="{Binding ElementName=WorkflowEditor, Path=IsKeyboardFocusWithin, StringFormat=IsKeyboardFocusWithin:{0}, Mode=OneWay}" />
-                                            <Run Text="{Binding ElementName=WorkflowEditor, Path=Scale, StringFormat=Zoom:{0}}" />
+                                            <Run Text="{Binding ElementName=workflowEditor, Path=(WorkflowEditor.EditorStatus), StringFormat=EditorStatus:{0}}" />
+                                            <Run Text="{Binding ElementName=workflowEditor, Path=IsKeyboardFocusWithin, StringFormat=IsKeyboardFocusWithin:{0}, Mode=OneWay}" />
+                                            <Run Text="{Binding ElementName=workflowEditor, Path=Scale, StringFormat=Zoom:{0}}" />
                                         </TextBlock>
                                     </Grid>
                                 </Grid>

@@ -22,6 +22,7 @@ using System.Windows.Threading;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Search;
+using Microsoft.Win32;
 using OhmStudio.UI.Attaches;
 using OhmStudio.UI.Commands;
 using OhmStudio.UI.Controls;
@@ -108,7 +109,38 @@ namespace OhmStudio.UI.Demo.Views
                 }
             });
 
-            PackIcons = new ObservableCollection<PackIconKind>(PackIconDataFactory.Create().Keys);
+            AddWorkflowItemCommand = new RelayCommand<StepType>((stepType) =>
+            {
+                var point = workflowEditor.ContextMenu.TranslatePoint(new Point(), workflowEditor);
+                WorkflowItemViewModel workflowItemViewModel = new WorkflowItemViewModel();
+                workflowItemViewModel.Name = EnumDescriptionConverter.GetEnumDesc(stepType);
+                workflowItemViewModel.StepType = stepType;
+                workflowItemViewModel.Left = point.X.Adsorb(workflowEditor.GridSize);
+                workflowItemViewModel.Top = point.Y.Adsorb(workflowEditor.GridSize);
+                WorkflowItems.Add(workflowItemViewModel);
+            });
+            DeleteWorkflowItemCommand = new RelayCommand(() =>
+            {
+                for (int i = SelectedWorkflowItems.Count - 1; i >= 0; i--)
+                {
+                    WorkflowItems.Remove(SelectedWorkflowItems[i] as WorkflowItemViewModel);
+                }
+                //foreach (var item in SelectedWorkflowItems)
+                //{
+                //    WorkflowItems.Remove(item);
+                //}
+                //UpdateMultiSelectionMask();
+            });
+            SaveAsImageCommand = new RelayCommand(() =>
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "PNG 文件|*.png";
+                saveFileDialog.Title = "另存为图片";
+                if (saveFileDialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(saveFileDialog.FileName))
+                {
+                    this.SaveAsImage(saveFileDialog.FileName, ImageType.Png);
+                }
+            });
 
             Result.Columns.Add("Time");
             Result.Columns.Add("V0");
@@ -167,13 +199,15 @@ namespace OhmStudio.UI.Demo.Views
             {
                 AlertDialog.Show("已改变");
             };
+            PackIcons = new ObservableCollection<PackIconKind>(PackIconDataFactory.Create().Keys);
+
             UserInfos.Add(new UserInfoModel());
             UserInfos.Add(new UserInfoModel() { UserName = "jack" });
             UserInfos.Add(new UserInfoModel() { UserName = "rose", Password = "123456" });
 
-            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "love" });
-            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "love", StepType = StepType.Nomal });
-            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "结束" });
+            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "开始", StepType = StepType.Begin, Left = 200 });
+            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "love", StepType = StepType.Nomal, Top = 200 });
+            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "结束", StepType = StepType.End, Left = 200, Top = 200 });
             StatusManager.IsRunningChanged += StatusManager_IsRunningChanged;
             XamlThemeDictionary.ThemeChanged += XamlThemeDictionary_ThemeChanged;
         }
@@ -198,6 +232,8 @@ namespace OhmStudio.UI.Demo.Views
         public ObservableCollection<PackIconKind> PackIcons { get; set; }
 
         public ObservableCollection<WorkflowItemViewModel> WorkflowItems { get; set; } = new ObservableCollection<WorkflowItemViewModel>();
+
+        public IList SelectedWorkflowItems { get; set; }
 
         public ObservableCollection<TreeViewModel> TreeViewModels { get; set; } = new ObservableCollection<TreeViewModel>();
 
@@ -251,9 +287,18 @@ namespace OhmStudio.UI.Demo.Views
         }
 
         public ICommand ZoomInCommand { get; }
+
         public ICommand ZoomOutCommand { get; }
+
         public ICommand SearchCommand { get; }
+
         public ICommand CollapseAllCommand { get; }
+
+        public ICommand AddWorkflowItemCommand { get; }
+
+        public ICommand DeleteWorkflowItemCommand { get; }
+
+        public ICommand SaveAsImageCommand { get; }
 
         private RelayCommand _startCommand;
         public RelayCommand StartCommand
@@ -864,6 +909,12 @@ namespace OhmStudio.UI.Demo.Views
         public string Name { get; set; }
 
         public StepType StepType { get; set; } = StepType.Begin;
+
+        public double Width { get; set; } = 100;
+        public double Height { get; set; } = 40;
+
+        public double Left { get; set; }
+        public double Top { get; set; }
     }
 
     public class FontFamilyItem
