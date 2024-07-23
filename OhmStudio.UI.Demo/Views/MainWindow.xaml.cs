@@ -141,6 +141,20 @@ namespace OhmStudio.UI.Demo.Views
                     this.SaveAsImage(saveFileDialog.FileName, ImageType.Png);
                 }
             });
+            SelectAllCommand = new RelayCommand(() =>
+            {
+                foreach (var item in WorkflowItems)
+                {
+                    item.IsSelected = true;
+                }
+            });
+            UnselectAllCommand = new RelayCommand(() =>
+            {
+                foreach (var item in WorkflowItems)
+                {
+                    item.IsSelected = false;
+                }
+            });
 
             Result.Columns.Add("Time");
             Result.Columns.Add("V0");
@@ -208,6 +222,7 @@ namespace OhmStudio.UI.Demo.Views
             WorkflowItems.Add(new WorkflowItemViewModel() { Name = "开始", StepType = StepType.Begin, Left = 200 });
             WorkflowItems.Add(new WorkflowItemViewModel() { Name = "love", StepType = StepType.Nomal, Top = 200 });
             WorkflowItems.Add(new WorkflowItemViewModel() { Name = "结束", StepType = StepType.End, Left = 200, Top = 200 });
+
             StatusManager.IsRunningChanged += StatusManager_IsRunningChanged;
             XamlThemeDictionary.ThemeChanged += XamlThemeDictionary_ThemeChanged;
         }
@@ -299,6 +314,10 @@ namespace OhmStudio.UI.Demo.Views
         public ICommand DeleteWorkflowItemCommand { get; }
 
         public ICommand SaveAsImageCommand { get; }
+
+        public ICommand SelectAllCommand { get; }
+
+        public ICommand UnselectAllCommand { get; }
 
         private RelayCommand _startCommand;
         public RelayCommand StartCommand

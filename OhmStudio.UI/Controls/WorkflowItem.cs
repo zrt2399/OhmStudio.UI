@@ -186,6 +186,11 @@ namespace OhmStudio.UI.Controls
             DeleteCommand = new RelayCommand(Delete);
         }
 
+        public PathItem(WorkflowEditor editorParent) : this()
+        {
+            EditorParent = editorParent;
+        }
+
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(PathItem), new PropertyMetadata((sender, e) =>
             {
@@ -439,6 +444,9 @@ namespace OhmStudio.UI.Controls
         }
     }
 
+    /// <summary>
+    /// 流程节点。
+    /// </summary>
     public class WorkflowItem : ContentControl, ISelectableElement
     {
         public WorkflowItem()
@@ -599,12 +607,13 @@ namespace OhmStudio.UI.Controls
         {
             if (IsKeyboardFocusWithin)
             {
+                EditorParent.BeginUpdateSelectedItems();
                 IsSelected = true;
                 foreach (var item in EditorParent.SelectableElements.Where(x => x != this))
                 {
                     item.IsSelected = false;
                 }
-                EditorParent.UpdateMultiSelectionMask();
+                EditorParent.EndUpdateSelectedItems();
             }
         }
 

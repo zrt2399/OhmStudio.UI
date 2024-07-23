@@ -81,6 +81,8 @@ namespace OhmStudio.UI.Controls
         private Point _pathStartPoint;
         private PathItem _currentPath;
 
+        private bool _isUpdatingSelectedItems;
+
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(WorkflowEditor), new PropertyMetadata(OnItemsSourceChanged));
 
@@ -123,8 +125,6 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty MousePositionProperty =
             DependencyProperty.Register(nameof(MousePosition), typeof(Point), typeof(WorkflowEditor));
-
-        private bool IsUpdatingSelectedItems { get; set; }
 
         internal IEnumerable<ISelectableElement> SelectableElements => Children.OfType<ISelectableElement>();
 
@@ -251,7 +251,7 @@ namespace OhmStudio.UI.Controls
 
         private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action is NotifyCollectionChangedAction.Add)
+            if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 foreach (var item in e.NewItems)
                 {
@@ -344,6 +344,7 @@ namespace OhmStudio.UI.Controls
         protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
         {
             base.OnVisualChildrenChanged(visualAdded, visualRemoved);
+            UpdateSelectedItems();
             if (visualAdded is WorkflowItem added)
             {
                 if (double.IsNaN(GetLeft(added)))
@@ -366,25 +367,47 @@ namespace OhmStudio.UI.Controls
                 removed.Selected -= WorkflowItem_SelectedChanged;
                 removed.Unselected -= WorkflowItem_SelectedChanged;
             }
-            UpdateSelectedItems();
         }
 
         private void WorkflowItem_SelectedChanged(object sender, RoutedEventArgs e)
         {
-            if (!IsUpdatingSelectedItems)
+            if (!_isUpdatingSelectedItems)
             {
                 UpdateSelectedItems();
             }
         }
 
-        private void UpdateSelectedItems()
+        public void BeginUpdateSelectedItems()
+        {
+            _isUpdatingSelectedItems = true;
+        }
+
+        public void EndUpdateSelectedItems()
+        {
+            _isUpdatingSelectedItems = false;
+            UpdateSelectedItems();
+        }
+
+        internal void UpdateSelectedItems()
         {
             List<object> list = new List<object>();
             foreach (var item in WorkflowItems.Where(x => x.IsSelected))
             {
                 list.Add(item.DataContext);
             }
-            SelectedItems = list;
+
+            if (SelectedItems == null)
+            {
+                SelectedItems = list;
+            }
+            else
+            {
+                if (list.Count != 0 || SelectedItems.Count != 0)
+                {
+                    SelectedItems = list;
+                }
+            }
+
             UpdateMultiSelectionMask();
         }
 
@@ -424,8 +447,7 @@ namespace OhmStudio.UI.Controls
 
                 if (_currentPath == null)
                 {
-                    _currentPath = new PathItem();
-                    _currentPath.EditorParent = this;
+                    _currentPath = new PathItem(this);
                     _currentPath.StartPoint = _pathStartPoint;
                     Children.Add(_currentPath);
                 }
@@ -450,11 +472,11 @@ namespace OhmStudio.UI.Controls
             Point point = e.GetPosition(this);
             Children.Remove(_multiSelectionMask);
 
-            bool isPathItem = false;
+            //bool isPathItem = false;
             IEnumerable<ISelectableElement> selectableElements;
             if (this.GetVisualHit<ISelectableElement>(point) is ISelectableElement selectableElement)
             {
-                isPathItem = selectableElement is PathItem;
+                //isPathItem = selectableElement is PathItem;
                 selectableElement.IsSelected = true;
                 selectableElements = SelectableElements.Where(x => x != selectableElement);
             }
@@ -462,16 +484,15 @@ namespace OhmStudio.UI.Controls
             {
                 selectableElements = SelectableElements;
             }
-            IsUpdatingSelectedItems = true;
+            BeginUpdateSelectedItems();
             foreach (var item in selectableElements)
             {
                 item.IsSelected = false;
             }
-            IsUpdatingSelectedItems = false;
-            UpdateSelectedItems();
+            EndUpdateSelectedItems();
 
             Focus();
-            if (EditorStatus is EditorStatus.Moving or EditorStatus.Drawing || isPathItem)
+            if (EditorStatus is EditorStatus.Moving or EditorStatus.Drawing /*|| isPathItem*/)
             {
                 return;
             }
@@ -556,14 +577,13 @@ namespace OhmStudio.UI.Controls
                 {
                     Rect selectedArea = new Rect(x, y, width, height);
                     RectangleGeometry rectangleGeometry = new RectangleGeometry(selectedArea);
-                    IsUpdatingSelectedItems = true;
+                    BeginUpdateSelectedItems();
                     foreach (var item in WorkflowItems)
                     {
                         item.IsSelected = CheckOverlap(rectangleGeometry, item);
                         //item.IsSelected = selectedArea.IntersectsWith(new Rect(GetLeft(item), GetTop(item), item.ActualWidth, item.ActualHeight));
                     }
-                    IsUpdatingSelectedItems = false;
-                    UpdateSelectedItems();
+                    EndUpdateSelectedItems();
                 }
             }
             else if (EditorStatus == EditorStatus.Drawing)
@@ -701,26 +721,25 @@ namespace OhmStudio.UI.Controls
 
         public void UpdateMultiSelectionMask()
         {
-            double minX = double.MaxValue;
-            double minY = double.MaxValue;
-            double maxX = double.MinValue;
-            double maxY = double.MinValue;
-
-            foreach (var item in WorkflowItems.Where(x => x.IsSelected))
+            if (SelectedItems != null && SelectedItems.Count > 1)
             {
-                double left = GetLeft(item);
-                double top = GetTop(item);
-                double right = left + item.ActualWidth;
-                double bottom = top + item.ActualHeight;
+                double minX = double.MaxValue;
+                double minY = double.MaxValue;
+                double maxX = double.MinValue;
+                double maxY = double.MinValue;
 
-                minX = Math.Min(left, minX);
-                minY = Math.Min(top, minY);
-                maxX = Math.Max(right, maxX);
-                maxY = Math.Max(bottom, maxY);
-            }
+                foreach (var item in WorkflowItems.Where(x => x.IsSelected))
+                {
+                    double left = GetLeft(item);
+                    double top = GetTop(item);
+                    double right = left + item.ActualWidth;
+                    double bottom = top + item.ActualHeight;
 
-            if (SelectedItems.Count > 1)
-            {
+                    minX = Math.Min(left, minX);
+                    minY = Math.Min(top, minY);
+                    maxX = Math.Max(right, maxX);
+                    maxY = Math.Max(bottom, maxY);
+                }
                 _multiSelectionMask.Width = maxX - minX;
                 _multiSelectionMask.Height = maxY - minY;
                 SetLeft(_multiSelectionMask, minX);
