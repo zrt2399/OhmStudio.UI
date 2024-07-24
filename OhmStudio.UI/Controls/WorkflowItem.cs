@@ -160,11 +160,10 @@ namespace OhmStudio.UI.Controls
                     break;
                 default:
                     Rect rect = new Rect(new Point(num, num), new Point(ActualWidth - num, ActualHeight - num));
-                    //double radius = new double[] { CornerRadius.TopLeft, CornerRadius.TopRight, CornerRadius.BottomRight, CornerRadius.BottomLeft }.Max();
                     DrawRoundedRectangle(drawingContext, background, pen, rect, CornerRadius);
 
-                    //drawingContext.DrawRoundedRectangle(background, pen, rectangle, radius, radius);
-
+                    //double radius = new double[] { CornerRadius.TopLeft, CornerRadius.TopRight, CornerRadius.BottomRight, CornerRadius.BottomLeft }.Max();
+                    //drawingContext.DrawRoundedRectangle(background, pen, rectangle, radius, radius); 
                     //base.OnRender(drawingContext);
                     break;
             }
