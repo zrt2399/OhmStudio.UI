@@ -716,14 +716,42 @@
                                                 <Setter Property="Height" Value="{Binding Height, Mode=TwoWay}" />
                                                 <Setter Property="Canvas.Left" Value="{Binding Left, Mode=TwoWay}" />
                                                 <Setter Property="Canvas.Top" Value="{Binding Top, Mode=TwoWay}" />
+                                                <Setter Property="LastStep" Value="{Binding LastStep, Mode=TwoWay}" />
+                                                <Setter Property="NextStep" Value="{Binding NextStep, Mode=TwoWay}" />
+                                                <Setter Property="FromStep" Value="{Binding FromStep, Mode=TwoWay}" />
+                                                <Setter Property="JumpStep" Value="{Binding JumpStep, Mode=TwoWay}" />
                                             </Style>
                                         </WorkflowEditor.ItemContainerStyle>
                                         <WorkflowEditor.ItemTemplate>
                                             <DataTemplate>
-                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                    <TextBlock Text="{Binding IsSelected}" />
-                                                    <TextBox Text="{Binding Name}" />
-                                                </StackPanel>
+                                                <Grid GridAttach.ColumnDefinitions="*,*,*" GridAttach.RowDefinitions="*,*,*">
+                                                    <Grid.Resources>
+                                                        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
+                                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                                        </Style>
+                                                    </Grid.Resources>
+                                                    <!--<Button Content="{Binding IsSelected}"  />
+                                                    <ComboBox  Grid.Column="2" />-->
+                                                    <!--<CheckBox IsChecked="{Binding IsSelected}" />-->
+                                                    <TextBlock Grid.Column="1" Text="{Binding LastStep.Name, StringFormat=上一步：{0}}" />
+                                                    <TextBlock Grid.Row="1" Text="{Binding FromStep.Name, StringFormat=跳转自：{0}}" />
+                                                    <TextBox Grid.Row="1"
+                                                             Grid.Column="1"
+                                                             VerticalContentAlignment="Top"
+                                                             Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                                             TextWrapping="Wrap" />
+                                                    <TextBlock Grid.Row="1"
+                                                               Grid.Column="2"
+                                                               Text="{Binding JumpStep.Name, StringFormat=跳转至：{0}}" />
+
+                                                    <TextBlock Grid.Row="2"
+                                                               Grid.Column="1"
+                                                               Text="{Binding NextStep.Name, StringFormat=下一步：{0}}" />
+
+
+
+                                                </Grid>
                                             </DataTemplate>
                                         </WorkflowEditor.ItemTemplate>
                                         <!--<WorkflowItem Content="开始" StepType="Begin" />

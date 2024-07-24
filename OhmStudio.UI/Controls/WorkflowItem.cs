@@ -30,14 +30,6 @@ namespace OhmStudio.UI.Controls
         Parallelogram
     }
 
-    public enum EllipseOrientation
-    {
-        Left,
-        Top,
-        Right,
-        Bottom
-    }
-
     //[TypeConverter(typeof(EnumDescriptionConverter))]
     public enum StepType
     {
@@ -383,7 +375,7 @@ namespace OhmStudio.UI.Controls
             Point arrowPoint2 = endPoint - direction * arrowLength - new Vector(-direction.Y, direction.X) * arrowWidth / 2;
 
             // 更新箭头形状的点
-            Points = new PointCollection(new[] { endPoint, arrowPoint1, arrowPoint2 });
+            Points = new PointCollection(new Point[] { endPoint, arrowPoint1, arrowPoint2 });
         }
 
         internal void Delete()
@@ -401,16 +393,16 @@ namespace OhmStudio.UI.Controls
 
     internal class EllipseItem : Control
     {
-        internal static readonly DependencyProperty OrientationProperty =
-            DependencyProperty.Register(nameof(Orientation), typeof(EllipseOrientation), typeof(EllipseItem));
+        internal static readonly DependencyProperty DockProperty =
+            DependencyProperty.Register(nameof(Dock), typeof(Dock), typeof(EllipseItem));
 
         internal static readonly DependencyProperty StrokeThicknessProperty =
             DependencyProperty.Register(nameof(StrokeThickness), typeof(double), typeof(EllipseItem), new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
 
-        internal EllipseOrientation Orientation
+        internal Dock Dock
         {
-            get => (EllipseOrientation)GetValue(OrientationProperty);
-            set => SetValue(OrientationProperty, value);
+            get => (Dock)GetValue(DockProperty);
+            set => SetValue(DockProperty, value);
         }
 
         [TypeConverter(typeof(LengthConverter))]
@@ -431,14 +423,15 @@ namespace OhmStudio.UI.Controls
 
         internal void RemoveStep()
         {
-            if (Orientation == EllipseOrientation.Right)
+            if (Dock == Dock.Right)
             {
-                WorkflowParent.JumpToStep.FromStep = null;
-                WorkflowParent.JumpToStep = null;
+                WorkflowParent.FirstOrDefault(WorkflowParent.JumpStep).FromStep = null;
+                WorkflowParent.JumpStep = null;
             }
-            else if (Orientation == EllipseOrientation.Bottom)
+            else if (Dock == Dock.Bottom)
             {
-                WorkflowParent.NextStep.LastStep = null;
+                //var w = WorkflowParent.FirstOrDefault(WorkflowParent.NextStep);
+                WorkflowParent.FirstOrDefault(WorkflowParent.NextStep).LastStep = null;
                 WorkflowParent.NextStep = null;
             }
         }
@@ -469,16 +462,16 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(IsDraggable), typeof(bool), typeof(WorkflowItem), new PropertyMetadata(true));
 
         public static readonly DependencyProperty LastStepProperty =
-            DependencyProperty.Register(nameof(LastStep), typeof(WorkflowItem), typeof(WorkflowItem));
+            DependencyProperty.Register(nameof(LastStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnWorkflowItemChanged));
 
         public static readonly DependencyProperty FromStepProperty =
-            DependencyProperty.Register(nameof(FromStep), typeof(WorkflowItem), typeof(WorkflowItem));
+            DependencyProperty.Register(nameof(FromStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnWorkflowItemChanged));
 
-        public static readonly DependencyProperty JumpToStepProperty =
-            DependencyProperty.Register(nameof(JumpToStep), typeof(WorkflowItem), typeof(WorkflowItem));
+        public static readonly DependencyProperty JumpStepProperty =
+            DependencyProperty.Register(nameof(JumpStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnWorkflowItemChanged));
 
         public static readonly DependencyProperty NextStepProperty =
-            DependencyProperty.Register(nameof(NextStep), typeof(WorkflowItem), typeof(WorkflowItem));
+            DependencyProperty.Register(nameof(NextStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnWorkflowItemChanged));
 
         public static readonly DependencyProperty StepTypeProperty =
             DependencyProperty.Register(nameof(StepType), typeof(StepType), typeof(WorkflowItem), new PropertyMetadata(StepType.Nomal));
@@ -497,7 +490,7 @@ namespace OhmStudio.UI.Controls
 
         internal Point MouseDownControlPoint { get; set; }
 
-        internal Dictionary<EllipseOrientation, EllipseItem> EllipseItems { get; private set; }
+        internal Dictionary<Dock, EllipseItem> EllipseItems { get; private set; }
 
         public bool IsInit { get; private set; }
 
@@ -515,27 +508,27 @@ namespace OhmStudio.UI.Controls
             set => SetValue(IsDraggableProperty, value);
         }
 
-        public WorkflowItem LastStep
+        public object LastStep
         {
-            get => (WorkflowItem)GetValue(LastStepProperty);
+            get => GetValue(LastStepProperty);
             set => SetValue(LastStepProperty, value);
         }
 
-        public WorkflowItem FromStep
+        public object FromStep
         {
-            get => (WorkflowItem)GetValue(FromStepProperty);
+            get => GetValue(FromStepProperty);
             set => SetValue(FromStepProperty, value);
         }
 
-        public WorkflowItem JumpToStep
+        public object JumpStep
         {
-            get => (WorkflowItem)GetValue(JumpToStepProperty);
-            set => SetValue(JumpToStepProperty, value);
+            get => GetValue(JumpStepProperty);
+            set => SetValue(JumpStepProperty, value);
         }
 
-        public WorkflowItem NextStep
+        public object NextStep
         {
-            get => (WorkflowItem)GetValue(NextStepProperty);
+            get => GetValue(NextStepProperty);
             set => SetValue(NextStepProperty, value);
         }
 
@@ -563,15 +556,15 @@ namespace OhmStudio.UI.Controls
             EllipseTop = GetTemplateChild("EllipseTop") as EllipseItem;
             EllipseRight = GetTemplateChild("EllipseRight") as EllipseItem;
             EllipseBottom = GetTemplateChild("EllipseBottom") as EllipseItem;
-            EllipseItems = new Dictionary<EllipseOrientation, EllipseItem>();
+            EllipseItems = new Dictionary<Dock, EllipseItem>();
             PART_Thumb = GetTemplateChild("PART_Thumb") as Thumb;
             PART_Thumb.DragDelta += Thumb_DragDelta;
             PART_Thumb.DragCompleted += PART_Thumb_DragCompleted;
 
-            EllipseItems.Add(EllipseOrientation.Left, EllipseLeft);
-            EllipseItems.Add(EllipseOrientation.Top, EllipseTop);
-            EllipseItems.Add(EllipseOrientation.Right, EllipseRight);
-            EllipseItems.Add(EllipseOrientation.Bottom, EllipseBottom);
+            EllipseItems.Add(EllipseLeft.Dock, EllipseLeft);
+            EllipseItems.Add(EllipseTop.Dock, EllipseTop);
+            EllipseItems.Add(EllipseRight.Dock, EllipseRight);
+            EllipseItems.Add(EllipseBottom.Dock, EllipseBottom);
             foreach (var item in EllipseItems.Values)
             {
                 item.WorkflowParent = this;
@@ -617,102 +610,138 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        internal EllipseItem GetEllipseItem(Point point)
+        internal void Delete()
         {
-            var hitResult = VisualTreeHelper.HitTest(EditorParent, point)?.VisualHit as FrameworkElement;
-            if (hitResult?.TemplatedParent is EllipseItem ellipseItem)
+            if (IsInit)
             {
-                return EllipseItems.Values.FirstOrDefault(x => x == ellipseItem);
+                foreach (var item in EllipseItems.Values)
+                {
+                    item.PathItem?.Delete();
+                }
             }
             else
             {
-                return null;
-            }
-        }
-
-        internal bool SetStep(WorkflowItem fromStep, EllipseItem fromEllipse, EllipseItem toEllipse)
-        {
-            bool flag = false;
-            if (fromEllipse == toEllipse)
-            {
-                return false;
-            }
-            if (this == fromStep)
-            {
-                UIMessageTip.ShowWarning("无法设置下一节点为自己");
-            }
-            else if (fromEllipse.PathItem != null || toEllipse.PathItem != null)
-            {
-                UIMessageTip.ShowWarning("该节点已经存在连接关系，无法创建连接曲线，请删除后再试");
-            }
-            else if (fromEllipse.Orientation == EllipseOrientation.Left || toEllipse.Orientation == EllipseOrientation.Right)
-            {
-                UIMessageTip.ShowWarning("被跳转节点无法直接设置下一节点");
-            }
-            else if (fromEllipse.Orientation == EllipseOrientation.Top || toEllipse.Orientation == EllipseOrientation.Bottom)
-            {
-                UIMessageTip.ShowWarning("上一步下一步节点设置错误");
-            }
-            else if (fromEllipse.Orientation == EllipseOrientation.Right && toEllipse.Orientation == EllipseOrientation.Top)
-            {
-                UIMessageTip.ShowWarning("跳转节点只能设置为下一节点的被跳转节点");
-            }
-            else if (fromEllipse.Orientation == EllipseOrientation.Bottom && toEllipse.Orientation == EllipseOrientation.Left)
-            {
-                UIMessageTip.ShowWarning("下一步节点只能设置为下一节点的上一步节点");
-            }
-            else if (fromEllipse.Orientation == EllipseOrientation.Right)
-            {
-                fromStep.JumpToStep = this;
-                FromStep = fromStep;
-                flag = true;
-            }
-            else if (fromEllipse.Orientation == EllipseOrientation.Bottom)
-            {
-                fromStep.NextStep = this;
-                LastStep = fromStep;
-                flag = true;
-            }
-
-            return flag;
-        }
-
-        internal void Delete()
-        {
-            foreach (var item in EllipseItems.Values)
-            {
-                item.PathItem?.Delete();
+                if (LastStep != null)
+                {
+                    FirstOrDefault(LastStep).NextStep = null;
+                    LastStep = null;
+                }
+                if (NextStep != null)
+                {
+                    FirstOrDefault(NextStep).LastStep = null;
+                    NextStep = null;
+                }
+                if (FromStep != null)
+                {
+                    FirstOrDefault(FromStep).JumpStep = null;
+                    FromStep = null;
+                }
+                if (JumpStep != null)
+                {
+                    FirstOrDefault(JumpStep).FromStep = null;
+                    JumpStep = null;
+                }
             }
             BindingOperations.ClearAllBindings(this);
             EditorParent.Children.Remove(this);
         }
 
+        private static void OnWorkflowItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WorkflowItem)d).OnWorkflowItemChanged(e);
+        }
+
+        protected virtual void OnWorkflowItemChanged(DependencyPropertyChangedEventArgs e)
+        {
+            //if (e.NewValue == DataContext)
+            //{
+            //    SetValue(e.Property, e.OldValue);
+            //    throw new InvalidOperationException("Cannot be set as oneself");
+            //}
+            //if (_updating)
+            //{
+            //    _updating = false;
+            //    return;
+            //}
+            //if (e.Property == LastStepProperty)
+            //{
+            //    _updating = true;
+            //    FirstOrDefault(LastStep).NextStep = LastStep;
+
+            //}
+            //else if (e.Property == NextStepProperty)
+            //{
+            //    _updating = true;
+            //    FirstOrDefault(NextStep).LastStep = NextStep;
+            //}
+            //else if (e.Property == FromStepProperty)
+            //{
+            //    _updating = true;
+            //    FirstOrDefault(FromStep).JumpStep = FromStep; 
+            //}
+            //else if (e.Property == JumpStepProperty)
+            //{
+            //    _updating = true;
+            //    FirstOrDefault(JumpStep).FromStep = JumpStep; 
+            //}
+            UpdateCurve();
+        }
+
+        //private bool _updating;
+
+        internal WorkflowItem FirstOrDefault(object item)
+        {
+            return EditorParent.FirstOrDefault(item);
+        }
+
         public void UpdateCurve()
         {
+            if (!IsInit)
+            {
+                Loaded += WorkflowItem_Loaded;
+                return;
+            }
             if (LastStep != null)
             {
-                //LastStep.EllipseItems[EllipseOrientation.Bottom].GetPoint(EditorParent);
-                //EllipseItems[EllipseOrientation.Top].GetPoint(EditorParent);
-
-                UpdateCurve(EllipseItems[EllipseOrientation.Top].PathItem);
+                UpdateCurve(EllipseItems[Dock.Top].PathItem, FirstOrDefault(LastStep).EllipseItems[Dock.Bottom], EllipseItems[Dock.Top]);
             }
             if (NextStep != null)
             {
-                UpdateCurve(EllipseItems[EllipseOrientation.Bottom].PathItem);
+                UpdateCurve(EllipseItems[Dock.Bottom].PathItem, EllipseItems[Dock.Bottom], FirstOrDefault(NextStep).EllipseItems[Dock.Top]);
             }
             if (FromStep != null)
             {
-                UpdateCurve(EllipseItems[EllipseOrientation.Left].PathItem);
+                UpdateCurve(EllipseItems[Dock.Left].PathItem, FirstOrDefault(FromStep).EllipseItems[Dock.Right], EllipseItems[Dock.Left]);
             }
-            if (JumpToStep != null)
+            if (JumpStep != null)
             {
-                UpdateCurve(EllipseItems[EllipseOrientation.Right].PathItem);
+                UpdateCurve(EllipseItems[Dock.Right].PathItem, EllipseItems[Dock.Right], FirstOrDefault(JumpStep).EllipseItems[Dock.Left]);
             }
         }
 
-        private void UpdateCurve(PathItem pathItem)
+        private void WorkflowItem_Loaded(object sender, RoutedEventArgs e)
         {
-            pathItem?.UpdateBezierCurve(pathItem.StartEllipseItem.GetPoint(EditorParent), pathItem.EndEllipseItem.GetPoint(EditorParent));
+            Loaded -= WorkflowItem_Loaded;
+            UpdateCurve();
+        }
+
+        private void UpdateCurve(PathItem pathItem, EllipseItem startEllipseItem, EllipseItem endEllipseItem)
+        {
+            if (!startEllipseItem.IsVisible || !endEllipseItem.IsVisible)
+            {
+                return;
+            }
+
+            if (pathItem == null)
+            {
+                pathItem = new PathItem(EditorParent);
+                EditorParent.Children.Add(pathItem);
+                startEllipseItem.PathItem = pathItem;
+                endEllipseItem.PathItem = pathItem;
+                pathItem.StartEllipseItem = startEllipseItem;
+                pathItem.EndEllipseItem = endEllipseItem;
+            }
+            pathItem.UpdateBezierCurve(pathItem.StartEllipseItem.GetPoint(EditorParent), pathItem.EndEllipseItem.GetPoint(EditorParent));
         }
     }
 }

@@ -219,9 +219,12 @@ namespace OhmStudio.UI.Demo.Views
             UserInfos.Add(new UserInfoModel() { UserName = "jack" });
             UserInfos.Add(new UserInfoModel() { UserName = "rose", Password = "123456" });
 
-            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "开始", StepType = StepType.Begin, Left = 200 });
-            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "love", StepType = StepType.Nomal, Top = 200 });
-            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "结束", StepType = StepType.End, Left = 200, Top = 200 });
+            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "开始", StepType = StepType.Begin, Left = 100 });
+            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "love", StepType = StepType.Nomal, Left = 200, Top = 200 });
+            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "结束", StepType = StepType.End, Left = 300, Top = 400 });
+
+            WorkflowItems.Last().LastStep = WorkflowItems[1];
+            WorkflowItems[1].NextStep = WorkflowItems.Last();
 
             StatusManager.IsRunningChanged += StatusManager_IsRunningChanged;
             XamlThemeDictionary.ThemeChanged += XamlThemeDictionary_ThemeChanged;
@@ -918,7 +921,17 @@ namespace OhmStudio.UI.Demo.Views
 
     public class WorkflowItemViewModel : ViewModelBase
     {
-        public bool IsSelected { get; set; }
+        private bool _isSelected;
+        [DoNotNotify]
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                _isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            } 
+        }
 
         public void OnIsSelectedChanged()
         {
@@ -929,11 +942,16 @@ namespace OhmStudio.UI.Demo.Views
 
         public StepType StepType { get; set; } = StepType.Begin;
 
-        public double Width { get; set; } = 100;
-        public double Height { get; set; } = 40;
+        public double Width { get; set; } = 200;
+        public double Height { get; set; } = 100;
 
         public double Left { get; set; }
         public double Top { get; set; }
+
+        public WorkflowItemViewModel LastStep { get; set; }
+        public WorkflowItemViewModel NextStep { get; set; }
+        public WorkflowItemViewModel FromStep { get; set; }
+        public WorkflowItemViewModel JumpStep { get; set; }
     }
 
     public class FontFamilyItem

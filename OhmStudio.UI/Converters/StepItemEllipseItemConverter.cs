@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using OhmStudio.UI.Controls;
 
@@ -12,15 +13,15 @@ namespace OhmStudio.UI.Converters
         {
             if (values != null && values.Length > 1)
             {
-                EllipseOrientation ellipseOrientation = (EllipseOrientation)values[0];
+                Dock Dock = (Dock)values[0];
                 StepType stepType = (StepType)values[1];
                 if (stepType == StepType.Begin)
                 {
-                    return GetVisibility(ellipseOrientation is EllipseOrientation.Bottom);
+                    return GetVisibility(Dock is Dock.Bottom);
                 } 
                 else if (stepType == StepType.End)
                 {
-                    return GetVisibility(ellipseOrientation is EllipseOrientation.Top or EllipseOrientation.Left);
+                    return GetVisibility(Dock is Dock.Top or Dock.Left);
                 }
                 else
                 {

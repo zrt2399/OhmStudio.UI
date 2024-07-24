@@ -38,7 +38,7 @@ namespace OhmStudio.UI.Controls
         {
             MouseLeftButtonDown += WorkflowEditor_MouseLeftButtonDown;
             MouseMove += WorkflowEditor_MouseMove;
-            MouseLeftButtonUp += WorkflowEditor_MouseLeftButtonUp;
+            PreviewMouseLeftButtonUp += WorkflowEditor_MouseLeftButtonUp;
             MouseWheel += WorkflowEditor_MouseWheel;
 
             _multiSelectionMask = new Rectangle();
@@ -297,6 +297,7 @@ namespace OhmStudio.UI.Controls
                     ContentTemplateSelector = ItemTemplateSelector
                 };
             }
+            result.EditorParent = this;
             AttachWorkflowItems(result);
             return result;
         }
@@ -355,7 +356,6 @@ namespace OhmStudio.UI.Controls
                 {
                     SetTop(added, 0);
                 }
-                added.EditorParent = this;
                 added.MouseLeftButtonDown += WorkflowItem_MouseLeftButtonDown;
                 added.Selected += WorkflowItem_SelectedChanged;
                 added.Unselected += WorkflowItem_SelectedChanged;
@@ -474,6 +474,7 @@ namespace OhmStudio.UI.Controls
 
             //bool isPathItem = false;
             IEnumerable<ISelectableElement> selectableElements;
+            BeginUpdateSelectedItems();
             if (this.GetVisualHit<ISelectableElement>(point) is ISelectableElement selectableElement)
             {
                 //isPathItem = selectableElement is PathItem;
@@ -484,7 +485,6 @@ namespace OhmStudio.UI.Controls
             {
                 selectableElements = SelectableElements;
             }
-            BeginUpdateSelectedItems();
             foreach (var item in selectableElements)
             {
                 item.IsSelected = false;
@@ -642,28 +642,14 @@ namespace OhmStudio.UI.Controls
                     Children.Remove(_selectionArea);
                 }
                 else if (EditorStatus == EditorStatus.Drawing)
-                {
-                    bool drawingSuccess = false;
+                { 
                     Point point = e.GetPosition(this);
                     var endEllipseItem = this.GetFirstVisualHit<EllipseItem>(point);
                     if (endEllipseItem != null)
                     {
-                        drawingSuccess = endEllipseItem.WorkflowParent.SetStep(_lastWorkflowItem, _lastEllipseItem, endEllipseItem);
+                        SetStep(_lastWorkflowItem.DataContext, endEllipseItem.WorkflowParent.DataContext, _lastEllipseItem, endEllipseItem);
                     }
-                    if (drawingSuccess)
-                    {
-                        _currentPath.Point3 = endEllipseItem.GetPoint(this);
-                        _currentPath.StartEllipseItem = _lastEllipseItem;
-                        _currentPath.EndEllipseItem = endEllipseItem;
-                        _lastEllipseItem.PathItem = _currentPath;
-                        endEllipseItem.PathItem = _currentPath;
-
-                        _lastWorkflowItem.UpdateCurve();
-                    }
-                    else
-                    {
-                        Children.Remove(_currentPath);
-                    }
+                    Children.Remove(_currentPath);
                     _currentPath = null;
                 }
                 else if (EditorStatus == EditorStatus.Moving)
@@ -753,6 +739,60 @@ namespace OhmStudio.UI.Controls
             {
                 Children.Remove(_multiSelectionMask);
             }
+        }
+
+        internal void SetStep(object fromStep, object toStep, EllipseItem fromEllipse, EllipseItem toEllipse)
+        {
+            if (fromEllipse == toEllipse)
+            {
+                return;
+            }
+            if (fromStep == toStep)
+            {
+                UIMessageTip.ShowWarning("无法设置下一节点为自己");
+            }
+            else if (fromEllipse.PathItem != null || toEllipse.PathItem != null)
+            {
+                UIMessageTip.ShowWarning("该节点已经存在连接关系，无法创建连接曲线，请删除后再试");
+            }
+            else if (fromEllipse.Dock == Dock.Left || toEllipse.Dock == Dock.Right)
+            {
+                UIMessageTip.ShowWarning("被跳转节点无法直接设置下一节点");
+            }
+            else if (fromEllipse.Dock == Dock.Top || toEllipse.Dock == Dock.Bottom)
+            {
+                UIMessageTip.ShowWarning("上一步下一步节点设置错误");
+            }
+            else if (fromEllipse.Dock == Dock.Right && toEllipse.Dock == Dock.Top)
+            {
+                UIMessageTip.ShowWarning("跳转节点只能设置为下一节点的被跳转节点");
+            }
+            else if (fromEllipse.Dock == Dock.Bottom && toEllipse.Dock == Dock.Left)
+            {
+                UIMessageTip.ShowWarning("下一步节点只能设置为下一节点的上一步节点");
+            }
+            else
+            {
+                var fromWorkflow = FirstOrDefault(fromStep);
+                var toWorkflow = FirstOrDefault(toStep);
+                if (fromEllipse.Dock == Dock.Right)
+                {
+                    fromWorkflow.JumpStep = toStep;
+                    toWorkflow.FromStep = fromStep;
+                }
+                else if (fromEllipse.Dock == Dock.Bottom)
+                {
+                    fromWorkflow.NextStep = toStep;
+                    toWorkflow.LastStep = fromStep;
+                }
+            }
+        }
+
+        public WorkflowItem FirstOrDefault(object item)
+        {
+            var workflowItem = WorkflowItems.FirstOrDefault(x => x.DataContext == item);
+            workflowItem ??= new WorkflowItem();
+            return workflowItem;
         }
 
         private double Adsorb(double value)

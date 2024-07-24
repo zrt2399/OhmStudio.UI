@@ -1532,22 +1532,22 @@
                             <controls:EllipseItem x:Name="EllipseLeft"
                                                   HorizontalAlignment="Left"
                                                   VerticalAlignment="Center"
-                                                  Orientation="Left" />
+                                                  Dock="Left" />
                             <!--  顶边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseTop"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Top"
-                                                  Orientation="Top" />
+                                                  Dock="Top" />
                             <!--  右边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseRight"
                                                   HorizontalAlignment="Right"
                                                   VerticalAlignment="Center"
-                                                  Orientation="Right" />
+                                                  Dock="Right" />
                             <!--  底边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseBottom"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Bottom"
-                                                  Orientation="Bottom" />
+                                                  Dock="Bottom" />
 
                             <Thumb x:Name="PART_Thumb"
                                    Width="16"
@@ -1603,7 +1603,7 @@
         <Setter Property="Visibility">
             <Setter.Value>
                 <MultiBinding Converter="{StaticResource WorkflowItemEllipseItemConverter}">
-                    <Binding Path="Orientation" RelativeSource="{RelativeSource Mode=Self}" />
+                    <Binding Path="Dock" RelativeSource="{RelativeSource Mode=Self}" />
                     <Binding Path="StepType" RelativeSource="{RelativeSource AncestorType=controls:WorkflowItem}" />
                 </MultiBinding>
             </Setter.Value>
@@ -1613,7 +1613,7 @@
                 <MultiBinding Converter="{StaticResource ParallelogramEllipseConverter}">
                     <Binding Path="ActualWidth" RelativeSource="{RelativeSource Mode=Self}" />
                     <Binding Path="ActualHeight" RelativeSource="{RelativeSource Mode=Self}" />
-                    <Binding Path="Orientation" RelativeSource="{RelativeSource Mode=Self}" />
+                    <Binding Path="Dock" RelativeSource="{RelativeSource Mode=Self}" />
                     <Binding Path="BorderThickness" RelativeSource="{RelativeSource AncestorType=controls:ShapeBorder}" />
                     <Binding Path="ShapeType" RelativeSource="{RelativeSource AncestorType=controls:ShapeBorder}" />
                     <Binding Path="Shear" RelativeSource="{RelativeSource AncestorType=controls:ShapeBorder}" />
