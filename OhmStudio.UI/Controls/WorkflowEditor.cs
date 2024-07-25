@@ -448,7 +448,6 @@ namespace OhmStudio.UI.Controls
                 if (_currentPath == null)
                 {
                     _currentPath = new PathItem(this);
-                    _currentPath.StartPoint = _pathStartPoint;
                     Children.Add(_currentPath);
                 }
             }
@@ -637,20 +636,14 @@ namespace OhmStudio.UI.Controls
         {
             try
             {
-                if (EditorStatus == EditorStatus.Selecting)
+                if (EditorStatus == EditorStatus.Drawing)
                 {
-                    Children.Remove(_selectionArea);
-                }
-                else if (EditorStatus == EditorStatus.Drawing)
-                { 
                     Point point = e.GetPosition(this);
                     var endEllipseItem = this.GetFirstVisualHit<EllipseItem>(point);
                     if (endEllipseItem != null)
                     {
                         SetStep(_lastWorkflowItem.DataContext, endEllipseItem.WorkflowParent.DataContext, _lastEllipseItem, endEllipseItem);
                     }
-                    Children.Remove(_currentPath);
-                    _currentPath = null;
                 }
                 else if (EditorStatus == EditorStatus.Moving)
                 {
@@ -670,12 +663,15 @@ namespace OhmStudio.UI.Controls
                     {
                         PositionWorkflowItem(item);
                     }
-                    _multiSelectionMask.Cursor = null;
                 }
             }
             finally
             {
                 Cursor = null;
+                _multiSelectionMask.Cursor = null;
+                Children.Remove(_selectionArea);
+                Children.Remove(_currentPath);
+                _currentPath = null;
                 EditorStatus = EditorStatus.None;
             }
         }

@@ -437,7 +437,7 @@ namespace OhmStudio.UI.Controls
     }
 
     /// <summary>
-    /// 流程节点。
+    /// 流程节点项。
     /// </summary>
     public class WorkflowItem : ContentControl, ISelectableElement
     {
