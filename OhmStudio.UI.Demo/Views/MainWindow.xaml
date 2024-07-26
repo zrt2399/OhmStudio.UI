@@ -686,129 +686,144 @@
                                 </GroupBox>
                             </LayoutDocument>
                             <LayoutDocument Title="WorkflowEditor">
-                                <Grid GridAttach.RowDefinitions="*,Auto" UseLayoutRounding="False">
-                                    <WorkflowEditor x:Name="workflowEditor"
-                                                    ItemsSource="{Binding WorkflowItems}"
-                                                    SelectedItems="{Binding SelectedWorkflowItems}">
-                                        <WorkflowEditor.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Header="添加流程" ItemsSource="{EnumBindingSource EnumType=StepType}">
-                                                    <MenuItem.ItemContainerStyle>
-                                                        <Style TargetType="MenuItem">
-                                                            <Setter Property="Header" Value="{Binding}" />
-                                                            <Setter Property="Command" Value="{Binding PlacementTarget.DataContext.AddWorkflowItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                                                            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header}" />
-                                                        </Style>
-                                                    </MenuItem.ItemContainerStyle>
-                                                </MenuItem>
-                                                <MenuItem Command="{Binding DeleteWorkflowItemCommand}" Header="删除选中流程" />
-                                                <MenuItem Command="{Binding SelectAllCommand}" Header="选择全部" />
-                                                <MenuItem Command="{Binding UnselectAllCommand}" Header="取消全部" />
-                                                <MenuItem Command="{Binding SaveAsImageCommand}" Header="保存为Png" />
-                                            </ContextMenu>
-                                        </WorkflowEditor.ContextMenu>
-
-                                        <WorkflowEditor.ItemContainerStyle>
-                                            <Style BasedOn="{StaticResource {x:Type WorkflowItem}}" TargetType="WorkflowItem">
-                                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                                <Setter Property="StepType" Value="{Binding StepType, Mode=TwoWay}" />
-                                                <Setter Property="Width" Value="{Binding Width, Mode=TwoWay}" />
-                                                <Setter Property="Height" Value="{Binding Height, Mode=TwoWay}" />
-                                                <Setter Property="Canvas.Left" Value="{Binding Left, Mode=TwoWay}" />
-                                                <Setter Property="Canvas.Top" Value="{Binding Top, Mode=TwoWay}" />
-                                                <Setter Property="LastStep" Value="{Binding LastStep, Mode=TwoWay}" />
-                                                <Setter Property="NextStep" Value="{Binding NextStep, Mode=TwoWay}" />
-                                                <Setter Property="FromStep" Value="{Binding FromStep, Mode=TwoWay}" />
-                                                <Setter Property="JumpStep" Value="{Binding JumpStep, Mode=TwoWay}" />
-                                            </Style>
-                                        </WorkflowEditor.ItemContainerStyle>
-                                        <WorkflowEditor.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid GridAttach.ColumnDefinitions="*,*,*" GridAttach.RowDefinitions="*,*,*">
-                                                    <Grid.Resources>
-                                                        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
-                                                            <Setter Property="HorizontalAlignment" Value="Center" />
-                                                            <Setter Property="TextWrapping" Value="Wrap" />
-                                                        </Style>
-                                                    </Grid.Resources>
-                                                    <!--<Button Content="{Binding IsSelected}"  />
-                                                    <ComboBox  Grid.Column="2" />-->
-                                                    <!--<CheckBox IsChecked="{Binding IsSelected}" />-->
-                                                    <TextBlock Grid.Column="1" Text="{Binding LastStep.Name, StringFormat=上一步：{0}}" />
-                                                    <TextBlock Grid.Row="1" Text="{Binding FromStep.Name, StringFormat=跳转自：{0}}" />
-                                                    <TextBox Grid.Row="1"
-                                                             Grid.Column="1"
-                                                             VerticalContentAlignment="Top"
-                                                             Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-                                                             TextWrapping="Wrap" />
-                                                    <TextBlock Grid.Row="1"
-                                                               Grid.Column="2"
-                                                               Text="{Binding JumpStep.Name, StringFormat=跳转至：{0}}" />
-
-                                                    <TextBlock Grid.Row="2"
-                                                               Grid.Column="1"
-                                                               Text="{Binding NextStep.Name, StringFormat=下一步：{0}}" />
-
-
-
-                                                </Grid>
-                                            </DataTemplate>
-                                        </WorkflowEditor.ItemTemplate>
-                                        <!--<WorkflowItem Content="开始" StepType="Begin" />
-                                        <WorkflowItem Canvas.Left="80"
-                                                  Canvas.Top="80"
-                                                  Content="中间节点1" />
-                                        <WorkflowItem Canvas.Left="160" Canvas.Top="160">
-                                            <WorkflowItem.Content>
-                                                <StackPanel>
+                                <TabControl>
+                                    <TabControl.Resources>
+                                        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                        </Style>
+                                        <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                        </Style>
+                                    </TabControl.Resources>
+                                    <TabItem Header="NoMvvmBinding">
+                                        <WorkflowEditor ItemsSource="{Binding WorkflowItems}" />
+                                    </TabItem>
+                                    <TabItem Header="UseChildren">
+                                        <WorkflowEditor>
+                                            <WorkflowItem Content="开始" StepType="Begin" />
+                                            <WorkflowItem Canvas.Left="80"
+                                                          Canvas.Top="80"
+                                                          Content="中间节点1" />
+                                            <WorkflowItem Canvas.Left="160" Canvas.Top="160">
+                                                <WorkflowItem.Content>
                                                     <TextBox>中间节点2</TextBox>
-                                                    <ComboBox />
-                                                </StackPanel>
-                                            </WorkflowItem.Content>
-                                        </WorkflowItem>
-                                        <WorkflowItem Canvas.Left="240" Canvas.Top="240">
-                                            <WorkflowItem.Content>
-                                                <TextBox>中间节点3</TextBox>
-                                            </WorkflowItem.Content>
-                                        </WorkflowItem>
-                                        <WorkflowItem Canvas.Left="320"
-                                                  Canvas.Top="320"
-                                                  Content="标记节点"
-                                                  StepType="Reference" />
-                                        <WorkflowItem Canvas.Left="400"
-                                                  Canvas.Top="400"
-                                                  Content="条件节点"
-                                                  StepType="Condition" />
-                                        <WorkflowItem Canvas.Left="480"
-                                                  Canvas.Top="480"
-                                                  Content="中间节点5" />
-                                        <WorkflowItem Canvas.Left="560"
-                                                  Canvas.Top="560"
-                                                  Content="结束"
-                                                  StepType="End" />
-                                        <WorkflowItem Canvas.Left="640"
-                                                  Canvas.Top="640"
-                                                  Content="结束·不可拖拽"
-                                                  WorkflowEditor.IsDraggable="False"
-                                                  StepType="End" />-->
-                                    </WorkflowEditor>
+                                                </WorkflowItem.Content>
+                                            </WorkflowItem>
+                                            <WorkflowItem Canvas.Left="240" Canvas.Top="240">
+                                                <ComboBox HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </WorkflowItem>
+                                            <WorkflowItem Canvas.Left="320"
+                                                          Canvas.Top="320"
+                                                          Content="标记节点"
+                                                          StepType="Reference" />
+                                            <WorkflowItem Canvas.Left="400"
+                                                          Canvas.Top="400"
+                                                          Content="条件节点"
+                                                          StepType="Condition" />
+                                            <WorkflowItem Canvas.Left="480"
+                                                          Canvas.Top="480"
+                                                          Content="中间节点5" />
+                                            <WorkflowItem Canvas.Left="560"
+                                                          Canvas.Top="560"
+                                                          Content="结束"
+                                                          StepType="End" />
+                                            <WorkflowItem Canvas.Left="640"
+                                                          Canvas.Top="640"
+                                                          Content="结束·不可拖拽"
+                                                          IsDraggable="False"
+                                                          StepType="End" />
+                                        </WorkflowEditor>
+                                    </TabItem>
+                                    <TabItem Header="MvvmBinding" IsSelected="True">
+                                        <Grid GridAttach.RowDefinitions="*,Auto" UseLayoutRounding="False">
+                                            <WorkflowEditor x:Name="workflowEditor"
+                                                            ItemsSource="{Binding WorkflowItemViewModels}"
+                                                            SelectedItems="{Binding SelectedWorkflowItems}">
+                                                <WorkflowEditor.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Header="添加流程" ItemsSource="{EnumBindingSource EnumType=StepType}">
+                                                            <MenuItem.ItemContainerStyle>
+                                                                <Style TargetType="MenuItem">
+                                                                    <Setter Property="Header" Value="{Binding}" />
+                                                                    <Setter Property="Command" Value="{Binding PlacementTarget.DataContext.AddWorkflowItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                                    <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header}" />
+                                                                </Style>
+                                                            </MenuItem.ItemContainerStyle>
+                                                        </MenuItem>
+                                                        <MenuItem Command="{Binding DeleteWorkflowItemCommand}" Header="删除选中流程" />
+                                                        <MenuItem Command="{Binding SelectAllCommand}" Header="选择全部" />
+                                                        <MenuItem Command="{Binding UnselectAllCommand}" Header="取消全部" />
+                                                        <MenuItem Command="{Binding SaveAsImageCommand}" Header="保存为Png" />
+                                                    </ContextMenu>
+                                                </WorkflowEditor.ContextMenu>
 
-                                    <Grid Grid.Row="1">
-                                        <!--<TextBlock>
-                                            <Run Text="{Binding ElementName=workflowEditor, Path=MousePosition.X, StringFormat=X:{0}}" />
-                                            <Run Text="{Binding ElementName=workflowEditor, Path=MousePosition.Y, StringFormat=Y:{0}}" />
-                                        </TextBlock>-->
-                                        <TextBlock>
-                                            <Run Text="{Binding WorkflowItems.Count, StringFormat=WorkflowItems.Count:{0}, Mode=OneWay}" />
-                                            <Run Text="{Binding SelectedWorkflowItems.Count, StringFormat=SelectedWorkflowItems.Count:{0}, Mode=OneWay}" />
-                                        </TextBlock>
-                                        <TextBlock HorizontalAlignment="Right">
-                                            <Run Text="{Binding ElementName=workflowEditor, Path=(WorkflowEditor.EditorStatus), StringFormat=EditorStatus:{0}}" />
-                                            <Run Text="{Binding ElementName=workflowEditor, Path=IsKeyboardFocusWithin, StringFormat=IsKeyboardFocusWithin:{0}, Mode=OneWay}" />
-                                            <Run Text="{Binding ElementName=workflowEditor, Path=Scale, StringFormat=Zoom:{0}}" />
-                                        </TextBlock>
-                                    </Grid>
-                                </Grid>
+                                                <WorkflowEditor.ItemContainerStyle>
+                                                    <Style BasedOn="{StaticResource {x:Type WorkflowItem}}" TargetType="WorkflowItem">
+                                                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                                        <Setter Property="StepType" Value="{Binding StepType, Mode=TwoWay}" />
+                                                        <Setter Property="Width" Value="{Binding Width, Mode=TwoWay}" />
+                                                        <Setter Property="Height" Value="{Binding Height, Mode=TwoWay}" />
+                                                        <Setter Property="Canvas.Left" Value="{Binding Left, Mode=TwoWay}" />
+                                                        <Setter Property="Canvas.Top" Value="{Binding Top, Mode=TwoWay}" />
+                                                        <Setter Property="LastStep" Value="{Binding LastStep, Mode=TwoWay}" />
+                                                        <Setter Property="NextStep" Value="{Binding NextStep, Mode=TwoWay}" />
+                                                        <Setter Property="FromStep" Value="{Binding FromStep, Mode=TwoWay}" />
+                                                        <Setter Property="JumpStep" Value="{Binding JumpStep, Mode=TwoWay}" />
+                                                    </Style>
+                                                </WorkflowEditor.ItemContainerStyle>
+                                                <WorkflowEditor.PathTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox HorizontalAlignment="Center"
+                                                                 VerticalAlignment="Center"
+                                                                 Style="{StaticResource TransparentTextBox}"
+                                                                 Text="{Binding PathContent}" />
+                                                    </DataTemplate>
+                                                </WorkflowEditor.PathTemplate>
+                                                <WorkflowEditor.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid GridAttach.ColumnDefinitions="*,*,*" GridAttach.RowDefinitions="*,*,*">
+                                                            <!--<Button Content="{Binding IsSelected}" />
+                                                            <ComboBox Grid.Column="2" />
+                                                            <CheckBox IsChecked="{Binding IsSelected}" />-->
+                                                            <TextBlock Grid.Column="1" Text="{Binding LastStep.Name, StringFormat=上一步：{0}}" />
+                                                            <TextBlock Grid.Row="1" Text="{Binding FromStep.Name, StringFormat=跳转自：{0}}" />
+                                                            <TextBox Grid.Row="1"
+                                                                     Grid.Column="1"
+                                                                     VerticalContentAlignment="Top"
+                                                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                                                     TextWrapping="Wrap" />
+                                                            <TextBlock Grid.Row="1"
+                                                                       Grid.Column="2"
+                                                                       Text="{Binding JumpStep.Name, StringFormat=跳转至：{0}}" />
+
+                                                            <TextBlock Grid.Row="2"
+                                                                       Grid.Column="1"
+                                                                       Text="{Binding NextStep.Name, StringFormat=下一步：{0}}" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </WorkflowEditor.ItemTemplate>
+                                            </WorkflowEditor>
+                                            <Grid Grid.Row="1">
+                                                <!--<TextBlock>
+                                                    <Run Text="{Binding ElementName=workflowEditor, Path=MousePosition.X, StringFormat=X:{0}}" />
+                                                    <Run Text="{Binding ElementName=workflowEditor, Path=MousePosition.Y, StringFormat=Y:{0}}" />
+                                                </TextBlock>-->
+                                                <TextBlock HorizontalAlignment="Left">
+                                                    <Run Text="{Binding WorkflowItemViewModels.Count, StringFormat=WorkflowItems.Count:{0}, Mode=OneWay}" />
+                                                    <Run Text="{Binding SelectedWorkflowItems.Count, StringFormat=SelectedWorkflowItems.Count:{0}, Mode=OneWay}" />
+                                                </TextBlock>
+                                                <TextBlock HorizontalAlignment="Right">
+                                                    <Run Text="{Binding ElementName=workflowEditor, Path=(WorkflowEditor.EditorStatus), StringFormat=EditorStatus:{0}}" />
+                                                    <Run Text="{Binding ElementName=workflowEditor, Path=IsKeyboardFocusWithin, StringFormat=IsKeyboardFocusWithin:{0}, Mode=OneWay}" />
+                                                    <Run Text="{Binding ElementName=workflowEditor, Path=Scale, StringFormat=Zoom:{0}}" />
+                                                </TextBlock>
+                                            </Grid>
+                                        </Grid>
+                                    </TabItem>
+                                </TabControl>
                             </LayoutDocument>
                             <LayoutDocument Title="PackIcons">
                                 <DockPanel>
@@ -1369,7 +1384,7 @@
                                 </ListView>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="ListBox" ToolTip="This is a ListView">
-                                <ListBox BorderBrush="Transparent"
+                                <ListBox BorderBrush="Transparent" Name="listb"
                                          BorderThickness="0"
                                          ItemsSource="{EnumBindingSource EnumType=local:UserPermission}"
                                          SelectionMode="Multiple" />

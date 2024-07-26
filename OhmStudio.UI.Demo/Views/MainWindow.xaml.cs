@@ -117,13 +117,13 @@ namespace OhmStudio.UI.Demo.Views
                 workflowItemViewModel.StepType = stepType;
                 workflowItemViewModel.Left = point.X.Adsorb(workflowEditor.GridSize);
                 workflowItemViewModel.Top = point.Y.Adsorb(workflowEditor.GridSize);
-                WorkflowItems.Add(workflowItemViewModel);
+                WorkflowItemViewModels.Add(workflowItemViewModel);
             });
             DeleteWorkflowItemCommand = new RelayCommand(() =>
             {
                 for (int i = SelectedWorkflowItems.Count - 1; i >= 0; i--)
                 {
-                    WorkflowItems.Remove(SelectedWorkflowItems[i] as WorkflowItemViewModel);
+                    WorkflowItemViewModels.Remove(SelectedWorkflowItems[i] as WorkflowItemViewModel);
                 }
                 //foreach (var item in SelectedWorkflowItems)
                 //{
@@ -143,14 +143,14 @@ namespace OhmStudio.UI.Demo.Views
             });
             SelectAllCommand = new RelayCommand(() =>
             {
-                foreach (var item in WorkflowItems)
+                foreach (var item in WorkflowItemViewModels)
                 {
                     item.IsSelected = true;
                 }
             });
             UnselectAllCommand = new RelayCommand(() =>
             {
-                foreach (var item in WorkflowItems)
+                foreach (var item in WorkflowItemViewModels)
                 {
                     item.IsSelected = false;
                 }
@@ -219,12 +219,19 @@ namespace OhmStudio.UI.Demo.Views
             UserInfos.Add(new UserInfoModel() { UserName = "jack" });
             UserInfos.Add(new UserInfoModel() { UserName = "rose", Password = "123456" });
 
-            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "开始", StepType = StepType.Begin, Left = 100 });
-            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "love", StepType = StepType.Nomal, Left = 200, Top = 200 });
-            WorkflowItems.Add(new WorkflowItemViewModel() { Name = "结束", StepType = StepType.End, Left = 300, Top = 400 });
+            WorkflowItemViewModels.Add(new WorkflowItemViewModel() { Name = "开始", StepType = StepType.Begin, Left = 100 });
+            WorkflowItemViewModels.Add(new WorkflowItemViewModel() { Name = "love", StepType = StepType.Nomal, Left = 200, Top = 200 });
+            WorkflowItemViewModels.Add(new WorkflowItemViewModel() { Name = "结束", StepType = StepType.End, Left = 300, Top = 400 });
 
-            WorkflowItems.Last().LastStep = WorkflowItems[1];
-            WorkflowItems[1].NextStep = WorkflowItems.Last();
+            WorkflowItemViewModels.Last().LastStep = WorkflowItemViewModels[1];
+            WorkflowItemViewModels[1].NextStep = WorkflowItemViewModels.Last();
+
+            WorkflowItems.Add(new WorkflowItem() { Content = new TextBox() { Margin = new Thickness(8), Text = "开始" }, StepType = StepType.Begin });
+            var workflowItem = new WorkflowItem() { Content = new TextBlock() { Text = "中间节点" } };
+            Canvas.SetLeft(workflowItem, 100);
+            Canvas.SetTop(workflowItem, 100);
+            WorkflowItems.Add(workflowItem);
+            WorkflowItems.Add(new WorkflowItem() { Content = new TextBox() { Margin = new Thickness(8), Text = "结束" }, StepType = StepType.End });
 
             StatusManager.IsRunningChanged += StatusManager_IsRunningChanged;
             XamlThemeDictionary.ThemeChanged += XamlThemeDictionary_ThemeChanged;
@@ -249,7 +256,9 @@ namespace OhmStudio.UI.Demo.Views
 
         public ObservableCollection<PackIconKind> PackIcons { get; set; }
 
-        public ObservableCollection<WorkflowItemViewModel> WorkflowItems { get; set; } = new ObservableCollection<WorkflowItemViewModel>();
+        public ObservableCollection<WorkflowItem> WorkflowItems { get; set; } = new ObservableCollection<WorkflowItem>();
+
+        public ObservableCollection<WorkflowItemViewModel> WorkflowItemViewModels { get; set; } = new ObservableCollection<WorkflowItemViewModel>();
 
         public IList SelectedWorkflowItems { get; set; }
 
@@ -921,21 +930,11 @@ namespace OhmStudio.UI.Demo.Views
 
     public class WorkflowItemViewModel : ViewModelBase
     {
-        private bool _isSelected;
-        [DoNotNotify]
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                _isSelected = value;
-                OnPropertyChanged(nameof(IsSelected));
-            } 
-        }
+        public bool IsSelected { get; set; }
 
         public void OnIsSelectedChanged()
         {
-            Debug.WriteLine(IsSelected);
+            Debug.WriteLine(PathContent);
         }
 
         public string Name { get; set; }
@@ -943,10 +942,12 @@ namespace OhmStudio.UI.Demo.Views
         public StepType StepType { get; set; } = StepType.Begin;
 
         public double Width { get; set; } = 200;
-        public double Height { get; set; } = 100;
+        public double Height { get; set; } = 80;
 
         public double Left { get; set; }
         public double Top { get; set; }
+
+        public string PathContent { get; set; } = "下一节点";
 
         public WorkflowItemViewModel LastStep { get; set; }
         public WorkflowItemViewModel NextStep { get; set; }

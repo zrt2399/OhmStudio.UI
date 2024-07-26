@@ -14,15 +14,6 @@ using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
-    internal interface ISelectableElement
-    {
-        bool IsSelected { get; set; }
-
-        event RoutedEventHandler Selected;
-
-        event RoutedEventHandler Unselected;
-    }
-
     public enum ShapeType
     {
         Rectangle,
@@ -43,6 +34,28 @@ namespace OhmStudio.UI.Controls
         Reference,
         [Description("结束")]
         End
+    }
+
+    public abstract class SelectionControl : ContentControl
+    {
+        public static readonly DependencyProperty IsSelectedProperty =
+            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(SelectionControl), new PropertyMetadata((sender, e) =>
+            {
+                var selectionControl = (SelectionControl)sender;
+                bool newValue = (bool)e.NewValue;
+                var routedEventHandler = newValue ? selectionControl.Selected : selectionControl.Unselected;
+                routedEventHandler?.Invoke(selectionControl, new RoutedEventArgs());
+            }));
+
+        public bool IsSelected
+        {
+            get => (bool)GetValue(IsSelectedProperty);
+            set => SetValue(IsSelectedProperty, value);
+        }
+
+        public event RoutedEventHandler Selected;
+
+        public event RoutedEventHandler Unselected;
     }
 
     public class ShapeBorder : Border
@@ -170,26 +183,17 @@ namespace OhmStudio.UI.Controls
         }
     }
 
-    internal class PathItem : Control, ISelectableElement
+    internal class PathItem : SelectionControl
     {
-        public PathItem()
+        internal PathItem()
         {
             DeleteCommand = new RelayCommand(Delete);
         }
 
-        public PathItem(WorkflowEditor editorParent) : this()
+        internal PathItem(WorkflowEditor editorParent) : this()
         {
             EditorParent = editorParent;
         }
-
-        public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(PathItem), new PropertyMetadata((sender, e) =>
-            {
-                var pathItem = (PathItem)sender;
-                bool newValue = (bool)e.NewValue;
-                var routedEventHandler = newValue ? pathItem.Selected : pathItem.Unselected;
-                routedEventHandler?.Invoke(pathItem, new RoutedEventArgs());
-            }));
 
         internal static readonly DependencyProperty StartPointProperty =
             DependencyProperty.Register(nameof(StartPoint), typeof(Point), typeof(PathItem), new PropertyMetadata((sender, e) =>
@@ -216,9 +220,6 @@ namespace OhmStudio.UI.Controls
         internal static readonly DependencyProperty Point3Property =
             DependencyProperty.Register(nameof(Point3), typeof(Point), typeof(PathItem));
 
-        internal static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(nameof(Text), typeof(string), typeof(PathItem), new PropertyMetadata("下一节点"));
-
         internal static readonly DependencyProperty PointsProperty =
             DependencyProperty.Register(nameof(Points), typeof(PointCollection), typeof(PathItem));
 
@@ -239,15 +240,6 @@ namespace OhmStudio.UI.Controls
                     pathItem.UpdateCurveAngle(startPoint, endPoint);
                 }
             }));
-
-        public event RoutedEventHandler Selected;
-        public event RoutedEventHandler Unselected;
-
-        public bool IsSelected
-        {
-            get => (bool)GetValue(IsSelectedProperty);
-            set => SetValue(IsSelectedProperty, value);
-        }
 
         internal Point StartPoint
         {
@@ -283,12 +275,6 @@ namespace OhmStudio.UI.Controls
         {
             get => (Point)GetValue(Point3Property);
             set => SetValue(Point3Property, value);
-        }
-
-        internal string Text
-        {
-            get => (string)GetValue(TextProperty);
-            set => SetValue(TextProperty, value);
         }
 
         /// <summary>
@@ -439,7 +425,7 @@ namespace OhmStudio.UI.Controls
     /// <summary>
     /// 流程节点。
     /// </summary>
-    public class WorkflowItem : ContentControl, ISelectableElement
+    public class WorkflowItem : SelectionControl
     {
         public WorkflowItem()
         {
@@ -447,15 +433,6 @@ namespace OhmStudio.UI.Controls
             //property?.RemoveValueChanged(this, OnIsKeyboardFocusWithinChanged);
             property?.AddValueChanged(this, OnIsKeyboardFocusWithinChanged);
         }
-
-        public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(WorkflowItem), new PropertyMetadata((sender, e) =>
-            {
-                var workflowItem = (WorkflowItem)sender;
-                bool newValue = (bool)e.NewValue;
-                var routedEventHandler = newValue ? workflowItem.Selected : workflowItem.Unselected;
-                routedEventHandler?.Invoke(workflowItem, new RoutedEventArgs());
-            }));
 
         public static readonly DependencyProperty IsDraggableProperty =
             DependencyProperty.Register(nameof(IsDraggable), typeof(bool), typeof(WorkflowItem), new PropertyMetadata(true));
@@ -484,9 +461,6 @@ namespace OhmStudio.UI.Controls
         private EllipseItem EllipseRight;
         private EllipseItem EllipseBottom;
 
-        public event RoutedEventHandler Selected;
-        public event RoutedEventHandler Unselected;
-
         internal Point MouseDownControlPoint { get; set; }
 
         internal Dictionary<Dock, EllipseItem> EllipseItems { get; private set; }
@@ -494,12 +468,6 @@ namespace OhmStudio.UI.Controls
         public bool IsInit { get; private set; }
 
         public WorkflowEditor EditorParent { get; internal set; }
-
-        public bool IsSelected
-        {
-            get => (bool)GetValue(IsSelectedProperty);
-            set => SetValue(IsSelectedProperty, value);
-        }
 
         public bool IsDraggable
         {
@@ -734,6 +702,12 @@ namespace OhmStudio.UI.Controls
             if (pathItem == null)
             {
                 pathItem = new PathItem(EditorParent);
+                if (DataContext is not WorkflowItem)
+                {
+                    pathItem.Content = DataContext;
+                    pathItem.ContentTemplate = EditorParent.PathTemplate;
+                    pathItem.ContentTemplateSelector = EditorParent.PathTemplateSelector;
+                }
                 EditorParent.Children.Add(pathItem);
                 startEllipseItem.PathItem = pathItem;
                 endEllipseItem.PathItem = pathItem;

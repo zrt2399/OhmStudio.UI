@@ -40,6 +40,7 @@ namespace OhmStudio.UI.Controls
             MouseMove += WorkflowEditor_MouseMove;
             PreviewMouseLeftButtonUp += WorkflowEditor_MouseLeftButtonUp;
             MouseWheel += WorkflowEditor_MouseWheel;
+            KeyDown += WorkflowEditor_KeyDown;
 
             _multiSelectionMask = new Rectangle();
             _multiSelectionMask.Fill = "#44AACCEE".ToSolidColorBrush();
@@ -57,6 +58,19 @@ namespace OhmStudio.UI.Controls
             BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleXProperty, new Binding() { Source = this, Path = new PropertyPath(ScaleProperty) });
             BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleYProperty, new Binding() { Source = this, Path = new PropertyPath(ScaleProperty) });
             LayoutTransform = scaleTransform;
+        }
+
+        private void WorkflowEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (IsCtrlKeyDown && Keyboard.IsKeyDown(Key.A))
+            {
+                BeginUpdateSelectedItems();
+                foreach (var item in WorkflowItems)
+                {
+                    item.IsSelected = true;
+                }
+                EndUpdateSelectedItems();
+            }
         }
 
         //鼠标选中多个元素的Rectangle遮罩
@@ -88,6 +102,12 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty SelectedItemsProperty =
             DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(IList), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public static readonly DependencyProperty PathTemplateProperty =
+            DependencyProperty.Register(nameof(PathTemplate), typeof(DataTemplate), typeof(WorkflowEditor));
+
+        public static readonly DependencyProperty PathTemplateSelectorProperty =
+            DependencyProperty.Register(nameof(PathTemplateSelector), typeof(DataTemplateSelector), typeof(WorkflowEditor));
 
         public static readonly DependencyProperty ItemTemplateProperty =
             DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(WorkflowEditor));
@@ -126,7 +146,9 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty MousePositionProperty =
             DependencyProperty.Register(nameof(MousePosition), typeof(Point), typeof(WorkflowEditor));
 
-        internal IEnumerable<ISelectableElement> SelectableElements => Children.OfType<ISelectableElement>();
+        private bool IsCtrlKeyDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
+
+        internal IEnumerable<SelectionControl> SelectableElements => Children.OfType<SelectionControl>();
 
         public IEnumerable<WorkflowItem> WorkflowItems => Children.OfType<WorkflowItem>();
 
@@ -152,6 +174,18 @@ namespace OhmStudio.UI.Controls
         {
             get => (StyleSelector)GetValue(ItemContainerStyleSelectorProperty);
             set => SetValue(ItemContainerStyleSelectorProperty, value);
+        }
+
+        public DataTemplate PathTemplate
+        {
+            get => (DataTemplate)GetValue(PathTemplateProperty);
+            set => SetValue(PathTemplateProperty, value);
+        }
+
+        public DataTemplateSelector PathTemplateSelector
+        {
+            get => (DataTemplateSelector)GetValue(PathTemplateSelectorProperty);
+            set => SetValue(PathTemplateSelectorProperty, value);
         }
 
         public DataTemplate ItemTemplate
@@ -356,6 +390,7 @@ namespace OhmStudio.UI.Controls
                 {
                     SetTop(added, 0);
                 }
+                added.EditorParent = this;
                 added.MouseLeftButtonDown += WorkflowItem_MouseLeftButtonDown;
                 added.Selected += WorkflowItem_SelectedChanged;
                 added.Unselected += WorkflowItem_SelectedChanged;
@@ -411,6 +446,38 @@ namespace OhmStudio.UI.Controls
             UpdateMultiSelectionMask();
         }
 
+        public void SelectAll()
+        {
+            SelectElement(true);
+        }
+
+        public void UnselectAll()
+        {
+            SelectElement(false);
+        }
+
+        public void Invert()
+        {
+            SelectElement(true, true);
+        }
+
+        private void SelectElement(bool value, bool invert = false)
+        {
+            BeginUpdateSelectedItems();
+            foreach (var item in WorkflowItems)
+            {
+                if (invert)
+                {
+                    item.IsSelected = !item.IsSelected;
+                }
+                else
+                {
+                    item.IsSelected = value;
+                }
+            }
+            EndUpdateSelectedItems();
+        }
+
         private void MultiSelectionRectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             //if (CanvasStatus is CanvasStatus.Moving or CanvasStatus.Drawing or CanvasStatus.Selecting)
@@ -434,7 +501,7 @@ namespace OhmStudio.UI.Controls
             _lastWorkflowItem = workflowItem;
             Point point = e.GetPosition(this);
             var startEllipseItem = this.GetVisualHit<EllipseItem>(point);
-            if (startEllipseItem == null)
+            if (startEllipseItem == null || !startEllipseItem.IsVisible)
             {
                 EditorStatus = EditorStatus.Moving;
             }
@@ -473,9 +540,9 @@ namespace OhmStudio.UI.Controls
             Children.Remove(_multiSelectionMask);
 
             //bool isPathItem = false;
-            IEnumerable<ISelectableElement> selectableElements;
+            IEnumerable<SelectionControl> selectableElements;
             BeginUpdateSelectedItems();
-            if (this.GetVisualHit<ISelectableElement>(point) is ISelectableElement selectableElement)
+            if (this.GetVisualHit<SelectionControl>(point) is SelectionControl selectableElement)
             {
                 //isPathItem = selectableElement is PathItem;
                 selectableElement.IsSelected = true;
@@ -485,9 +552,12 @@ namespace OhmStudio.UI.Controls
             {
                 selectableElements = SelectableElements;
             }
-            foreach (var item in selectableElements)
+            if (!IsCtrlKeyDown)
             {
-                item.IsSelected = false;
+                foreach (var item in selectableElements)
+                {
+                    item.IsSelected = false;
+                }
             }
             EndUpdateSelectedItems();
 
@@ -642,7 +712,7 @@ namespace OhmStudio.UI.Controls
                     Children.Remove(_selectionArea);
                 }
                 else if (EditorStatus == EditorStatus.Drawing)
-                { 
+                {
                     Point point = e.GetPosition(this);
                     var endEllipseItem = this.GetFirstVisualHit<EllipseItem>(point);
                     if (endEllipseItem != null)

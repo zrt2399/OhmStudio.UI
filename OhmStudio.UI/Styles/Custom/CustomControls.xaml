@@ -1670,6 +1670,11 @@
     <Style BasedOn="{StaticResource EllipseItemBaseStyle}" TargetType="controls:EllipseItem" />
 
     <Style x:Key="PathItemBaseStyle" TargetType="controls:PathItem">
+        <!--<Setter Property="ContentTemplate" Value="{Binding RelativeSource={RelativeSource AncestorType=controls:WorkflowEditor}, Path=PathTemplate}" />
+        <Setter Property="ContentTemplateSelector" Value="{Binding RelativeSource={RelativeSource AncestorType=controls:WorkflowEditor}, Path=PathTemplateSelector}" />-->
+        <!--<Setter Property="Content" Value="{Binding RelativeSource={RelativeSource AncestorType=controls:WorkflowItem}, Path=DataContext}" />-->
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Panel.ZIndex" Value="-1" />
         <Setter Property="ContextMenu">
             <Setter.Value>
@@ -1713,9 +1718,9 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </TextBlock>-->
-                            <TextBox IsReadOnly="False"
-                                     Style="{StaticResource TransparentTextBox}"
-                                     Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </controls:SimplePanel>
 
                         <!--  Arrowhead  -->
