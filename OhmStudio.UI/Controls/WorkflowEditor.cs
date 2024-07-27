@@ -500,8 +500,8 @@ namespace OhmStudio.UI.Controls
             var workflowItem = sender as WorkflowItem;
             _lastWorkflowItem = workflowItem;
             Point point = e.GetPosition(this);
-            var startEllipseItem = this.GetVisualHit<EllipseItem>(point);
-            if (startEllipseItem == null || !startEllipseItem.IsVisible)
+            var startEllipseItem = GetEllipseWithPoint(point);
+            if (startEllipseItem == null)
             {
                 EditorStatus = EditorStatus.Moving;
             }
@@ -702,6 +702,16 @@ namespace OhmStudio.UI.Controls
             return rectangleGeometry.FillContainsWithDetail(geometry) != IntersectionDetail.Empty;
         }
 
+        private EllipseItem GetEllipseWithPoint(Point point)
+        {
+            var ellipseItem = this.GetVisualHit<EllipseItem>(point);
+            if (ellipseItem != null && !ellipseItem.IsVisible)
+            {
+                return null;
+            }
+            return ellipseItem;
+        }
+
         private void WorkflowEditor_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             try
@@ -709,7 +719,7 @@ namespace OhmStudio.UI.Controls
                 if (EditorStatus == EditorStatus.Drawing)
                 {
                     Point point = e.GetPosition(this);
-                    var endEllipseItem = this.GetFirstVisualHit<EllipseItem>(point);
+                    var endEllipseItem = GetEllipseWithPoint(point);
                     if (endEllipseItem != null)
                     {
                         SetStep(_lastWorkflowItem.DataContext, endEllipseItem.WorkflowParent.DataContext, _lastEllipseItem, endEllipseItem);
