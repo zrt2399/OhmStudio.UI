@@ -759,7 +759,14 @@
                                                         <MenuItem Command="{Binding SaveAsImageCommand}" Header="保存为Png" />
                                                     </ContextMenu>
                                                 </WorkflowEditor.ContextMenu>
-
+                                                <WorkflowEditor.PathTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox HorizontalAlignment="Center"
+                                                                 VerticalAlignment="Center"
+                                                                 Style="{StaticResource TransparentTextBox}"
+                                                                 Text="{Binding PathContent}" />
+                                                    </DataTemplate>
+                                                </WorkflowEditor.PathTemplate>
                                                 <WorkflowEditor.ItemContainerStyle>
                                                     <Style BasedOn="{StaticResource {x:Type WorkflowItem}}" TargetType="WorkflowItem">
                                                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
@@ -774,14 +781,6 @@
                                                         <Setter Property="JumpStep" Value="{Binding JumpStep, Mode=TwoWay}" />
                                                     </Style>
                                                 </WorkflowEditor.ItemContainerStyle>
-                                                <WorkflowEditor.PathTemplate>
-                                                    <DataTemplate>
-                                                        <TextBox HorizontalAlignment="Center"
-                                                                 VerticalAlignment="Center"
-                                                                 Style="{StaticResource TransparentTextBox}"
-                                                                 Text="{Binding PathContent}" />
-                                                    </DataTemplate>
-                                                </WorkflowEditor.PathTemplate>
                                                 <WorkflowEditor.ItemTemplate>
                                                     <DataTemplate>
                                                         <Grid GridAttach.ColumnDefinitions="*,*,*" GridAttach.RowDefinitions="*,*,*">
@@ -798,7 +797,6 @@
                                                             <TextBlock Grid.Row="1"
                                                                        Grid.Column="2"
                                                                        Text="{Binding JumpStep.Name, StringFormat=跳转至：{0}}" />
-
                                                             <TextBlock Grid.Row="2"
                                                                        Grid.Column="1"
                                                                        Text="{Binding NextStep.Name, StringFormat=下一步：{0}}" />
@@ -1384,7 +1382,7 @@
                                 </ListView>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="ListBox" ToolTip="This is a ListView">
-                                <ListBox BorderBrush="Transparent" Name="listb"
+                                <ListBox BorderBrush="Transparent"
                                          BorderThickness="0"
                                          ItemsSource="{EnumBindingSource EnumType=local:UserPermission}"
                                          SelectionMode="Multiple" />

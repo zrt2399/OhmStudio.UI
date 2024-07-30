@@ -240,10 +240,13 @@ namespace OhmStudio.UI.Controls
                     pathItem.UpdateCurveAngle(startPoint, endPoint);
                 }
             }));
-
+         
+        internal static readonly DependencyProperty StrokeDashArrayProperty =
+            DependencyProperty.Register(nameof(StrokeDashArray), typeof(DoubleCollection), typeof(PathItem));
+         
         internal Point StartPoint
         {
-            get => (Point)GetValue(StartPointProperty);
+            get => (Point)GetValue(StartPointProperty); 
             set => SetValue(StartPointProperty, value);
         }
 
@@ -302,6 +305,12 @@ namespace OhmStudio.UI.Controls
         {
             get => (bool)GetValue(IsCurveProperty);
             set => SetValue(IsCurveProperty, value);
+        }
+
+        internal DoubleCollection StrokeDashArray
+        {
+            get => (DoubleCollection)GetValue(StrokeDashArrayProperty);
+            set => SetValue(StrokeDashArrayProperty, value);
         }
 
         internal WorkflowEditor EditorParent { get; set; }
