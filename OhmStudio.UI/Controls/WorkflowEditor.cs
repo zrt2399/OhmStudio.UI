@@ -64,12 +64,7 @@ namespace OhmStudio.UI.Controls
         {
             if (IsCtrlKeyDown && Keyboard.IsKeyDown(Key.A))
             {
-                BeginUpdateSelectedItems();
-                foreach (var item in WorkflowItems)
-                {
-                    item.IsSelected = true;
-                }
-                EndUpdateSelectedItems();
+                SelectAll();
             }
         }
 

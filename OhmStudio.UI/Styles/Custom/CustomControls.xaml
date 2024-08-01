@@ -1484,6 +1484,34 @@
     </Style>
     <Style BasedOn="{StaticResource NumericUpDownBaseStyle}" TargetType="controls:NumericUpDown" />
 
+    <Style x:Key="RunningBlockBaseStyle" TargetType="controls:RunningBlock">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:RunningBlock">
+                    <Border Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <controls:SimplePanel ClipToBounds="True">
+                            <controls:SimplePanel x:Name="PART_Panel" HorizontalAlignment="Left">
+                                <ContentPresenter x:Name="PART_ContentElement"
+                                                  HorizontalAlignment="Left"
+                                                  RenderTransformOrigin="0.5,0.5">
+                                    <ContentPresenter.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform />
+                                        </TransformGroup>
+                                    </ContentPresenter.RenderTransform>
+                                </ContentPresenter>
+                            </controls:SimplePanel>
+                        </controls:SimplePanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style BasedOn="{StaticResource RunningBlockBaseStyle}" TargetType="controls:RunningBlock" />
+
     <Style x:Key="WorkflowEditorBaseStyle" TargetType="controls:WorkflowEditor">
         <Setter Property="Focusable" Value="True" />
         <Setter Property="ClipToBounds" Value="True" />
