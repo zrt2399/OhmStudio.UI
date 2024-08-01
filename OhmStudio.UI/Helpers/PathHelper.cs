@@ -13,7 +13,7 @@ namespace OhmStudio.UI.Helpers
 {
     public class PathHelper
     {
-        private static readonly ConcurrentDictionary<string, BitmapSource> _iconCahe = new ConcurrentDictionary<string, BitmapSource>();
+        //private static readonly ConcurrentDictionary<string, BitmapSource> _iconCahe = new ConcurrentDictionary<string, BitmapSource>();
         public static readonly BitmapSource DirectoryIcon = GetDirectoryIcon();
 
         public static bool IsPathFullyQualified(string path)
@@ -62,7 +62,7 @@ namespace OhmStudio.UI.Helpers
                 return Directory.Exists(fullPath);
             }
         }
- 
+
         public static Process OpenInDirectoryPath(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
@@ -116,9 +116,15 @@ namespace OhmStudio.UI.Helpers
             SHGFI_LARGEICON = 0x0,// 获取大图标
             SHGFI_SMALLICON = 0x1,// 获取小图标
             SHGFI_OPENICON = 0x2,// Specify open folder icon (if applicable)
-            SHGFI_USEFILEATTRIBUTES = 0x10,
-            SHGFI_ICON = 0x100
+            SHGFI_USEFILEATTRIBUTES = 0x10,//使用传递的文件属性，而不是实际文件系统中的属性。
+            SHGFI_ICON = 0x100, //检索表示文件图标的句柄，以及系统映像列表中图标的索引。 句柄将复制到 psfi 指定的结构的 hIcon 成员，并将索引复制到 iIcon 成员。
+            SHGFI_DISPLAYNAME = 0x200,//检索文件的显示名称，即 Windows 资源管理器中显示的名称。包含图标的文件的名称将复制到 psfi 指定的结构的 szDisplayName 成员。
+            SHGFI_TYPENAME = 0x400//检索描述文件类型的字符串。字符串将复制到 psfi 中指定的结构的 szTypeName 成员。
         }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool DestroyIcon(IntPtr hIcon);
 
         /// <summary>
         /// 获取文件图标。
@@ -132,27 +138,28 @@ namespace OhmStudio.UI.Helpers
                 return null;
             }
 
-            //SHFILEINFO _SHFILEINFO = new SHFILEINFO();
-            //IntPtr _IconIntPtr = SHGetFileInfo(fileName, 0, ref _SHFILEINFO, (uint)Marshal.SizeOf(_SHFILEINFO), (uint)(SHGFI.SHGFI_ICON | SHGFI.SHGFI_LARGEICON | SHGFI.SHGFI_USEFILEATTRIBUTES));
-            //if (_IconIntPtr == IntPtr.Zero || _SHFILEINFO.hIcon == IntPtr.Zero)
+            SHFILEINFO _SHFILEINFO = new SHFILEINFO();
+            IntPtr _IconIntPtr = SHGetFileInfo(fileName, 0, ref _SHFILEINFO, (uint)Marshal.SizeOf(_SHFILEINFO), (uint)(SHGFI.SHGFI_ICON | SHGFI.SHGFI_LARGEICON | SHGFI.SHGFI_USEFILEATTRIBUTES));
+            if (_IconIntPtr == IntPtr.Zero || _SHFILEINFO.hIcon == IntPtr.Zero)
+            {
+                return null;
+            }
+            using Icon icon = Icon.FromHandle(_SHFILEINFO.hIcon);
+
+            //var extension = Path.GetExtension(fileName).ToLower();
+            //bool ignore = extension != ".exe" && extension != ".lnk" && extension != ".ico";
+            //if (ignore && _iconCahe.TryGetValue(extension, out var bitmapSource))
             //{
-            //    return null;
+            //    return bitmapSource;
             //}
-            //using System.Drawing.Icon icon = System.Drawing.Icon.FromHandle(_SHFILEINFO.hIcon);
 
-            var extension = Path.GetExtension(fileName).ToLower();
-            bool ignore = extension != ".exe" && extension != ".lnk";
-            if (ignore && _iconCahe.TryGetValue(extension, out var bitmapSource))
-            {
-                return bitmapSource;
-            }
-
-            using Icon icon = Icon.ExtractAssociatedIcon(fileName);
+            //using Icon icon = Icon.ExtractAssociatedIcon(fileName);
             var iconBitmapSource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-            if (ignore)
-            {
-                _iconCahe.TryAdd(extension, iconBitmapSource);
-            }
+            //if (ignore)
+            //{
+            //    _iconCahe.TryAdd(extension, iconBitmapSource);
+            //}
+            DestroyIcon(_SHFILEINFO.hIcon);
             return iconBitmapSource;
         }
 

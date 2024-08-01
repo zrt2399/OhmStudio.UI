@@ -535,56 +535,11 @@ namespace OhmStudio.UI.Demo.Views
             folderBrowserDialog.Description = "请选择文件夹";
             if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                LoadRootDirectory(folderBrowserDialog.SelectedPath);
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                TreeViewModel.LoadRootDirectory(TreeViewModels, folderBrowserDialog.SelectedPath);
+                stopwatch.Stop();
+                StatusBarContent = $"TreeView根节点加载完成耗时：{stopwatch.Elapsed.TotalMilliseconds}ms";
             }
-        }
-
-        public static void LoadSubDirectory(TreeViewModel node, string fullPath, bool isBreak)
-        {
-            try
-            {
-                DirectoryInfo directoryInfo = new DirectoryInfo(fullPath);
-                if (directoryInfo.Exists)
-                {
-                    //加载子文件夹
-                    foreach (DirectoryInfo subDirInfo in directoryInfo.GetDirectories().OrderBy(x => x.Name))
-                    {
-                        TreeViewModel subNode = new TreeViewModel(subDirInfo.Name, true, subDirInfo.FullName, node);
-
-                        if (!isBreak)
-                        {
-                            node.IsLoaded = true;
-                            LoadSubDirectory(subNode, subDirInfo.FullName, true);
-                        }
-
-                        node.Children.Add(subNode);
-                    }
-                    //加载文件
-                    foreach (FileInfo fileInfo in directoryInfo.GetFiles().OrderBy(x => x.Name))
-                    {
-                        TreeViewModel subNode = new TreeViewModel(fileInfo.Name, false, fileInfo.FullName, node);
-                        node.Children.Add(subNode);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                AlertDialog.ShowError(ex.Message);
-            }
-        }
-
-        private void LoadRootDirectory(string rootFolderPath)
-        {
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            //创建根节点
-            TreeViewModel rootNode = new TreeViewModel(new DirectoryInfo(rootFolderPath).Name, true, rootFolderPath);
-
-            // 加载根文件夹
-            LoadSubDirectory(rootNode, rootFolderPath, false);
-
-            TreeViewModels.Add(rootNode);
-            stopwatch.Stop();
-            StatusBarContent = $"TreeView根节点加载完成耗时：{stopwatch.Elapsed.TotalMilliseconds}ms";
         }
 
         private void Button_Click_8(object sender, RoutedEventArgs e)
@@ -765,7 +720,7 @@ namespace OhmStudio.UI.Demo.Views
             IsFolder = isFolder;
             FullPath = fullPath;
             Parent = parent;
-            Application.Current.Dispatcher.InvokeAsync(() =>
+            Application.Current?.Dispatcher.InvokeAsync(() =>
             {
                 IconImageSource = IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullPath);
             }, DispatcherPriority.ApplicationIdle);
@@ -791,7 +746,7 @@ namespace OhmStudio.UI.Demo.Views
                         Stopwatch stopwatch = Stopwatch.StartNew();
                         foreach (var child in Children)
                         {
-                            MainWindow.LoadSubDirectory(child, child.FullPath, false);
+                            LoadSubDirectory(child, child.FullPath, false);
                         }
                         stopwatch.Stop();
                         Messenger.Default.Send($"TreeView子节点加载完成耗时：{stopwatch.Elapsed.TotalMilliseconds}ms", MessageType.TreeViewItemLoaded);
@@ -831,6 +786,49 @@ namespace OhmStudio.UI.Demo.Views
         public static ICommand ShowPropertiesCommand { get; }
 
         public static ICommand DeleteFileCommand { get; }
+
+        public static void LoadRootDirectory(Collection<TreeViewModel> source, string rootFolderPath)
+        {
+            try
+            {
+                //创建根节点
+                TreeViewModel rootNode = new TreeViewModel(new DirectoryInfo(rootFolderPath).Name, true, rootFolderPath);
+                // 加载根文件夹
+                LoadSubDirectory(rootNode, rootFolderPath, false);
+                source.Add(rootNode);
+            }
+            catch (Exception ex)
+            {
+                AlertDialog.ShowError(ex.Message);
+            }
+        }
+
+        private static void LoadSubDirectory(TreeViewModel node, string fullPath, bool isBreak)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(fullPath);
+            if (directoryInfo.Exists)
+            {
+                //加载子文件夹
+                foreach (DirectoryInfo subDirInfo in directoryInfo.GetDirectories().OrderBy(x => x.Name))
+                {
+                    TreeViewModel subNode = new TreeViewModel(subDirInfo.Name, true, subDirInfo.FullName, node);
+
+                    if (!isBreak)
+                    {
+                        node.IsLoaded = true;
+                        LoadSubDirectory(subNode, subDirInfo.FullName, true);
+                    }
+
+                    node.Children.Add(subNode);
+                }
+                //加载文件
+                foreach (FileInfo fileInfo in directoryInfo.GetFiles().OrderBy(x => x.Name))
+                {
+                    TreeViewModel subNode = new TreeViewModel(fileInfo.Name, false, fileInfo.FullName, node);
+                    node.Children.Add(subNode);
+                }
+            }
+        }
     }
 
     [BaseObjectIgnore]
