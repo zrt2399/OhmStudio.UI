@@ -9,7 +9,7 @@ namespace OhmStudio.UI.Helpers
     {
         public static int MinHeight { get; set; } = 600;
         public static int MinWidth { get; set; } = 900;
-        public static void WPFWindowFullScreen(Window wpfWindow)
+        public static void SetWPFWindowFullScreen(Window wpfWindow)
         {
             if (wpfWindow == null)
             {
