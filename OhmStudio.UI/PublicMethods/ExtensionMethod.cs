@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -199,7 +201,7 @@ namespace OhmStudio.UI.PublicMethods
         {
             if (window.AllowsTransparency)
             {
-                FullScreenHelper.WPFWindowFullScreen(window);
+                FullScreenHelper.SetWPFWindowFullScreen(window);
             }
             else
             {
@@ -442,6 +444,37 @@ namespace OhmStudio.UI.PublicMethods
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
     public class BaseObjectIgnoreAttribute : Attribute
     {
+    }
+
+    public class BulkObservableCollection<T> : ObservableCollection<T>
+    {
+        private bool _suppressNotification = false;
+
+        public void AddRange(IEnumerable<T> items)
+        {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            _suppressNotification = true;
+
+            foreach (var item in items)
+            {
+                Items.Add(item);
+            }
+
+            _suppressNotification = false;
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
+
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            if (!_suppressNotification)
+            {
+                base.OnCollectionChanged(e);
+            }
+        }
     }
 
     public static class PropertyCloner<T>
