@@ -1246,8 +1246,10 @@
                                                                 </Style>
                                                             </ContextMenu.Resources>
                                                             <MenuItem Command="{x:Static local:TreeViewModel.OpenFileLocationCommand}" Header="打开文件所在位置" />
-                                                            <MenuItem Command="{x:Static local:TreeViewModel.CopyFullPathCommand}" Header="复制完整路径s" />
+                                                            <MenuItem Command="{x:Static local:TreeViewModel.CopyCommand}" Header="复制" />
+                                                            <MenuItem Command="{x:Static local:TreeViewModel.CopyFullPathCommand}" Header="复制完整路径" />
                                                             <MenuItem Command="{x:Static local:TreeViewModel.StartRenameCommand}" Header="重命名" />
+                                                            <MenuItem Command="{x:Static local:TreeViewModel.RemoveCommand}" Header="移除" />
                                                             <MenuItem Command="{x:Static local:TreeViewModel.DeleteFileCommand}" Header="移动到回收站" />
                                                             <MenuItem Command="{x:Static local:TreeViewModel.ShowPropertiesCommand}" Header="属性" />
                                                         </ContextMenu>

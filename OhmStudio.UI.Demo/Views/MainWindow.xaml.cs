@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
@@ -680,6 +681,12 @@ namespace OhmStudio.UI.Demo.Views
             {
                 PathHelper.OpenFileLocation(treeViewModel.FullPath);
             });
+            CopyCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
+            {
+                StringCollection stringCollection = new StringCollection();//收集路径
+                stringCollection.Add(treeViewModel.FullPath);
+                Clipboard.SetFileDropList(stringCollection);
+            });
             CopyFullPathCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {
                 Clipboard.SetDataObject(treeViewModel.FullPath, true);
@@ -711,6 +718,10 @@ namespace OhmStudio.UI.Demo.Views
             ShowPropertiesCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {
                 PathHelper.ShowPathProperties(treeViewModel?.FullPath);
+            });
+            RemoveCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
+            {
+                treeViewModel.Delete();
             });
             DeleteFileCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {
@@ -795,6 +806,8 @@ namespace OhmStudio.UI.Demo.Views
 
         public static ICommand OpenFileLocationCommand { get; }
 
+        public static ICommand CopyCommand { get; }
+
         public static ICommand CopyFullPathCommand { get; }
 
         public static ICommand StartRenameCommand { get; }
@@ -804,6 +817,8 @@ namespace OhmStudio.UI.Demo.Views
         public static ICommand RenameVisibleCommand { get; }
 
         public static ICommand ShowPropertiesCommand { get; }
+
+        public static ICommand RemoveCommand { get; }
 
         public static ICommand DeleteFileCommand { get; }
 

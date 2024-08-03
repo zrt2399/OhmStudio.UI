@@ -61,13 +61,13 @@ namespace OhmStudio.UI.Helpers
             }
         }
 
-        public static Process OpenFileLocation(string fileName)
+        public static Process OpenFileLocation(string fullPath)
         {
-            if (string.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(fullPath))
             {
                 return null;
             }
-            return Process.Start("explorer.exe", "/select, " + fileName);
+            return Process.Start("explorer.exe", $"/select,\"{fullPath}\"");
         }
 
         public static Process OpenFlie(string fileName)
