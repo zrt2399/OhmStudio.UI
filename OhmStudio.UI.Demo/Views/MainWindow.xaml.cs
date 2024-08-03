@@ -101,6 +101,18 @@ namespace OhmStudio.UI.Demo.Views
             ZoomInCommand = new RelayCommand(ZoomIn);
             ZoomOutCommand = new RelayCommand(ZoomOut);
             SearchCommand = new RelayCommand(() => UIMessageTip.Show("什么也没搜索到..."));
+            TreeViewAddCommand = new RelayCommand(() =>
+            {
+                var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+                folderBrowserDialog.Description = "请选择文件夹";
+                if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    Stopwatch stopwatch = Stopwatch.StartNew();
+                    TreeViewModel.LoadRootDirectory(TreeViewModels, folderBrowserDialog.SelectedPath);
+                    stopwatch.Stop();
+                    StatusBarContent = $"TreeView根节点加载完成耗时：{stopwatch.Elapsed.TotalMilliseconds}ms";
+                }
+            });
             CollapseAllCommand = new RelayCommand(() =>
             {
                 foreach (var item in TreeViewModels)
@@ -319,6 +331,8 @@ namespace OhmStudio.UI.Demo.Views
 
         public ICommand SearchCommand { get; }
 
+        public ICommand TreeViewAddCommand { get; }
+
         public ICommand CollapseAllCommand { get; }
 
         public ICommand AddWorkflowItemCommand { get; }
@@ -529,19 +543,6 @@ namespace OhmStudio.UI.Demo.Views
             _can = !_can;
         }
 
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
-        {
-            var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            folderBrowserDialog.Description = "请选择文件夹";
-            if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                Stopwatch stopwatch = Stopwatch.StartNew();
-                TreeViewModel.LoadRootDirectory(TreeViewModels, folderBrowserDialog.SelectedPath);
-                stopwatch.Stop();
-                StatusBarContent = $"TreeView根节点加载完成耗时：{stopwatch.Elapsed.TotalMilliseconds}ms";
-            }
-        }
-
         private void Button_Click_8(object sender, RoutedEventArgs e)
         {
             DocumentWrapPanelIsWrap = !DocumentWrapPanelIsWrap;
@@ -675,6 +676,14 @@ namespace OhmStudio.UI.Demo.Views
                     PathHelper.OpenFlie(treeViewModel.FullPath);
                 }
             });
+            OpenFileLocationCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
+            {
+                PathHelper.OpenFileLocation(treeViewModel.FullPath);
+            });
+            CopyFullPathCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
+            {
+                Clipboard.SetDataObject(treeViewModel.FullPath, true);
+            });
             StartRenameCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {
                 treeViewModel.IsEditing = true;
@@ -705,7 +714,11 @@ namespace OhmStudio.UI.Demo.Views
             });
             DeleteFileCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {
-                if (PathHelper.DeletePath(treeViewModel.FullPath, true, true, true, out string errMsg) != 0)
+                if (PathHelper.DeletePath(treeViewModel.FullPath, true, true, true, out string errMsg) == 0)
+                {
+                    treeViewModel.Delete();
+                }
+                else
                 {
                     AlertDialog.ShowError(errMsg);
                 }
@@ -727,7 +740,7 @@ namespace OhmStudio.UI.Demo.Views
         }
 
         [DoNotNotify]
-        public bool IsLoaded { get; set; }
+        public bool IsLoaded { get; private set; }
 
         public string Header { get; set; }
 
@@ -760,7 +773,7 @@ namespace OhmStudio.UI.Demo.Views
         public bool IsSelected { get; set; }
 
         [DoNotNotify]
-        public bool IsRootNode => Parent == null;
+        public bool IsRootNode => CollectionParent != null;
 
         public bool IsFolder { get; set; }
 
@@ -771,11 +784,18 @@ namespace OhmStudio.UI.Demo.Views
         public ImageSource IconImageSource { get; set; }
 
         [DoNotNotify]
-        public TreeViewModel Parent { get; set; }
+        public TreeViewModel Parent { get; private set; }
+
+        [DoNotNotify]
+        public IList<TreeViewModel> CollectionParent { get; private set; }
 
         public ObservableCollection<TreeViewModel> Children { get; set; } = new ObservableCollection<TreeViewModel>();
 
         public static ICommand OpenFileCommand { get; }
+
+        public static ICommand OpenFileLocationCommand { get; }
+
+        public static ICommand CopyFullPathCommand { get; }
 
         public static ICommand StartRenameCommand { get; }
 
@@ -787,12 +807,30 @@ namespace OhmStudio.UI.Demo.Views
 
         public static ICommand DeleteFileCommand { get; }
 
-        public static void LoadRootDirectory(Collection<TreeViewModel> source, string rootFolderPath)
+        public void Add(TreeViewModel treeViewModel)
+        {
+            Children.Add(treeViewModel);
+        }
+
+        public void Delete()
+        {
+            if (IsRootNode)
+            {
+                CollectionParent?.Remove(this);
+            }
+            else
+            {
+                Parent?.Children.Remove(this);
+            }
+        }
+
+        public static void LoadRootDirectory(IList<TreeViewModel> source, string rootFolderPath)
         {
             try
             {
                 //创建根节点
                 TreeViewModel rootNode = new TreeViewModel(new DirectoryInfo(rootFolderPath).Name, true, rootFolderPath);
+                rootNode.CollectionParent = source;
                 // 加载根文件夹
                 LoadSubDirectory(rootNode, rootFolderPath, false);
                 source.Add(rootNode);
@@ -819,13 +857,13 @@ namespace OhmStudio.UI.Demo.Views
                         LoadSubDirectory(subNode, subDirInfo.FullName, true);
                     }
 
-                    node.Children.Add(subNode);
+                    node.Add(subNode);
                 }
                 //加载文件
                 foreach (FileInfo fileInfo in directoryInfo.GetFiles().OrderBy(x => x.Name))
                 {
                     TreeViewModel subNode = new TreeViewModel(fileInfo.Name, false, fileInfo.FullName, node);
-                    node.Children.Add(subNode);
+                    node.Add(subNode);
                 }
             }
         }

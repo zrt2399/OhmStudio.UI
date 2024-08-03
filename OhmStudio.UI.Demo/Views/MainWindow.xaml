@@ -1219,6 +1219,7 @@
                                                 <Setter Property="Focusable" Value="False" />
                                             </Style>
                                         </StackPanel.Resources>
+                                        <Button Command="{Binding TreeViewAddCommand}" Content="{PackIcon Kind=AddBox}" />
                                         <Button Command="{Binding CollapseAllCommand}" Content="{PackIcon Kind=CollapseAll}" />
                                         <Button Command="{x:Static local:TreeViewModel.ShowPropertiesCommand}"
                                                 CommandParameter="{Binding TreeViewSelectedItem}"
@@ -1239,15 +1240,16 @@
                                                 <Setter Property="ContextMenu">
                                                     <Setter.Value>
                                                         <ContextMenu>
-                                                            <MenuItem Command="{x:Static local:TreeViewModel.StartRenameCommand}"
-                                                                      CommandParameter="{Binding}"
-                                                                      Header="重命名" />
-                                                            <MenuItem Command="{x:Static local:TreeViewModel.DeleteFileCommand}"
-                                                                      CommandParameter="{Binding}"
-                                                                      Header="移动到回收站" />
-                                                            <MenuItem Command="{x:Static local:TreeViewModel.ShowPropertiesCommand}"
-                                                                      CommandParameter="{Binding}"
-                                                                      Header="属性" />
+                                                            <ContextMenu.Resources>
+                                                                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="MenuItem">
+                                                                    <Setter Property="CommandParameter" Value="{Binding}" />
+                                                                </Style>
+                                                            </ContextMenu.Resources>
+                                                            <MenuItem Command="{x:Static local:TreeViewModel.OpenFileLocationCommand}" Header="打开文件所在位置" />
+                                                            <MenuItem Command="{x:Static local:TreeViewModel.CopyFullPathCommand}" Header="复制完整路径s" />
+                                                            <MenuItem Command="{x:Static local:TreeViewModel.StartRenameCommand}" Header="重命名" />
+                                                            <MenuItem Command="{x:Static local:TreeViewModel.DeleteFileCommand}" Header="移动到回收站" />
+                                                            <MenuItem Command="{x:Static local:TreeViewModel.ShowPropertiesCommand}" Header="属性" />
                                                         </ContextMenu>
                                                     </Setter.Value>
                                                 </Setter>
@@ -1255,7 +1257,7 @@
                                         </TreeView.ItemContainerStyle>
                                         <TreeView.ContextMenu>
                                             <ContextMenu>
-                                                <MenuItem Click="MenuItem_Click_2" Header="导入文件夹" />
+                                                <MenuItem Command="{Binding TreeViewAddCommand}" Header="导入文件夹" />
                                                 <!--<MenuItem Click="MenuItem_Click_3" Header="展开全部文件" />
                                                 <MenuItem Click="MenuItem_Click_4" Header="收起全部文件" />-->
                                             </ContextMenu>

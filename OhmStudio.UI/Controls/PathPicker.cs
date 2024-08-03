@@ -254,7 +254,7 @@ namespace OhmStudio.UI.Controls
         {
             if (FileNames?.Length > 0)
             {
-                PathHelper.OpenInDirectoryPath(FileNames.First());
+                PathHelper.OpenFileLocation(FileNames.First());
             }
         }
 
