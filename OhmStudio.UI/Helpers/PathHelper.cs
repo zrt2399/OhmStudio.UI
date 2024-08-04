@@ -12,7 +12,7 @@ namespace OhmStudio.UI.Helpers
 {
     public class PathHelper
     {
-        public static readonly BitmapSource DirectoryIcon = GetFileIcon(string.Empty);
+        public static readonly BitmapSource FolderIcon = GetFolderIcon(string.Empty);
 
         public static bool IsAbsolutePath(string path)
         {
@@ -126,21 +126,23 @@ namespace OhmStudio.UI.Helpers
 
         /// <summary>
         /// 获取文件/文件夹图标。
-        /// </summary>  
-        /// <param name="fileName">文件全路径。</param>  
-        /// <returns>图标。</returns>  
-        public static BitmapSource GetFileIcon(string fileName)
+        /// </summary>
+        /// <param name="fullPath">文件/文件夹完全路径。</param>
+        /// <param name="isFolder">指示路径是文件还是文件夹。</param>
+        /// <param name="smallIcon">是否获取小图标。</param>
+        /// <returns></returns>
+        public static BitmapSource GetIcon(string fullPath, bool isFolder, bool smallIcon = false)
         {
             IntPtr hIcon = IntPtr.Zero;
             try
             {
-                var uFlags = SHGFI.SHGFI_ICON | SHGFI.SHGFI_LARGEICON;
-                if (!string.IsNullOrEmpty(fileName))
+                var uFlags = SHGFI.SHGFI_ICON | (smallIcon ? SHGFI.SHGFI_SMALLICON : SHGFI.SHGFI_LARGEICON);
+                if (!string.IsNullOrEmpty(fullPath) && !isFolder)
                 {
                     uFlags |= SHGFI.SHGFI_USEFILEATTRIBUTES;
                 }
                 SHFILEINFO sHFILEINFO = new SHFILEINFO();
-                IntPtr iconIntPtr = SHGetFileInfo(fileName, 0, ref sHFILEINFO, (uint)Marshal.SizeOf(sHFILEINFO), (uint)uFlags);
+                IntPtr iconIntPtr = SHGetFileInfo(fullPath, 0, ref sHFILEINFO, (uint)Marshal.SizeOf(sHFILEINFO), (uint)uFlags);
                 if (iconIntPtr == IntPtr.Zero || sHFILEINFO.hIcon == IntPtr.Zero)
                 {
                     return null;
@@ -158,6 +160,16 @@ namespace OhmStudio.UI.Helpers
                     DestroyIcon(hIcon);
                 }
             }
+        }
+
+        public static BitmapSource GetFileIcon(string fullPath, bool smallIcon = false)
+        {
+            return GetIcon(fullPath, false, smallIcon);
+        }
+
+        public static BitmapSource GetFolderIcon(string fullPath, bool smallIcon = false)
+        {
+            return GetIcon(fullPath, true, smallIcon);
         }
 
         [StructLayout(LayoutKind.Sequential)]

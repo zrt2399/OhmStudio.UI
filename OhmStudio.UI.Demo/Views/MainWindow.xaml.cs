@@ -682,7 +682,7 @@ namespace OhmStudio.UI.Demo.Views
                     DirectoryInfo directory = new DirectoryInfo(oldPath);
                     string newPath = Path.Combine(directory.Parent?.FullName ?? string.Empty, treeViewModel.Header);
                     string filterate = @"\/:*?""<>|";
- 
+
                     if (Regex.IsMatch(treeViewModel.Header, $"[{filterate}]"))
                     {
                         treeViewModel.Header = treeViewModel.BeforeEditingName;
@@ -856,7 +856,8 @@ namespace OhmStudio.UI.Demo.Views
         {
             Application.Current?.Dispatcher.InvokeAsync(() =>
             {
-                IconImageSource = IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullPath);
+                //IconImageSource = IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullPath);
+                IconImageSource = PathHelper.GetIcon(FullPath, IsFolder);
             }, DispatcherPriority.ApplicationIdle);
         }
 
