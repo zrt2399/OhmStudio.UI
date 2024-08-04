@@ -14,7 +14,7 @@ namespace OhmStudio.UI.Helpers
     {
         public static readonly BitmapSource DirectoryIcon = GetFileIcon(string.Empty);
 
-        public static bool IsPathFullyQualified(string path)
+        public static bool IsAbsolutePath(string path)
         {
             return Path.IsPathRooted(path) && !Path.GetPathRoot(path).Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.OrdinalIgnoreCase);
         }

@@ -1219,11 +1219,16 @@
                                                 <Setter Property="Focusable" Value="False" />
                                             </Style>
                                         </StackPanel.Resources>
-                                        <Button Command="{Binding TreeViewAddCommand}" Content="{PackIcon Kind=AddBox}" />
-                                        <Button Command="{Binding CollapseAllCommand}" Content="{PackIcon Kind=CollapseAll}" />
+                                        <Button Command="{Binding TreeViewAddCommand}"
+                                                Content="{PackIcon Kind=AddBox}"
+                                                ToolTip="导入文件夹" />
+                                        <Button Command="{Binding CollapseAllCommand}"
+                                                Content="{PackIcon Kind=CollapseAll}"
+                                                ToolTip="收起全部文件" />
                                         <Button Command="{x:Static local:TreeViewModel.ShowPropertiesCommand}"
                                                 CommandParameter="{Binding TreeViewSelectedItem}"
-                                                Content="{PackIcon Kind=Wrench}" />
+                                                Content="{PackIcon Kind=Wrench}"
+                                                ToolTip="属性" />
                                     </StackPanel>
 
                                     <TreeView DockPanel.Dock="Bottom"
@@ -1260,8 +1265,7 @@
                                         <TreeView.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Command="{Binding TreeViewAddCommand}" Header="导入文件夹" />
-                                                <!--<MenuItem Click="MenuItem_Click_3" Header="展开全部文件" />
-                                                <MenuItem Click="MenuItem_Click_4" Header="收起全部文件" />-->
+                                                <MenuItem Command="{Binding CollapseAllCommand}" Header="收起全部文件" />
                                             </ContextMenu>
                                         </TreeView.ContextMenu>
                                         <TreeView.ItemTemplate>

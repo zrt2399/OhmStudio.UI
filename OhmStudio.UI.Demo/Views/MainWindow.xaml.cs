@@ -12,6 +12,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -118,7 +119,7 @@ namespace OhmStudio.UI.Demo.Views
             {
                 foreach (var item in TreeViewModels)
                 {
-                    ExpandAllTreeViewModelItem(item, false);
+                    ExpandAllTreeViewItem(item, false);
                 }
             });
 
@@ -596,36 +597,12 @@ namespace OhmStudio.UI.Demo.Views
             rollBox.ItemsSource = new ObservableCollection<UIElement> { new Image() { Source = new BitmapImage(new Uri("https://pic1.zhimg.com/v2-ecac0aedda57bffecbbe90764828a825_r.jpg?source=1940ef5c")) }, new Button() { Content = "This is a new Button" } };
         }
 
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
-        {
-            foreach (var item in TreeViewModels)
-            {
-                ExpandAllTreeViewModelItem(item, true);
-            }
-        }
-
-        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
-        {
-            foreach (var item in TreeViewModels)
-            {
-                ExpandAllTreeViewModelItem(item, false);
-            }
-        }
-
-        void ExpandAllTreeViewModelItem(TreeViewModel treeViewModel, bool isExpand)
+        void ExpandAllTreeViewItem(TreeViewModel treeViewModel, bool isExpand)
         {
             treeViewModel.IsExpanded = isExpand;
             foreach (var item in treeViewModel.Children)
             {
-                ExpandAllTreeViewModelItem(item, isExpand);
-            }
-        }
-
-        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
-        {
-            if (TreeViewSelectedItem != null)
-            {
-                TreeViewSelectedItem.IsEditing = true;
+                ExpandAllTreeViewItem(item, isExpand);
             }
         }
 
@@ -694,10 +671,46 @@ namespace OhmStudio.UI.Demo.Views
             StartRenameCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {
                 treeViewModel.IsEditing = true;
+                treeViewModel.BeforeEditingName = treeViewModel.Header;
             });
             EndRenameCommand = new RelayCommand<TreeViewModel>((treeViewModel) =>
             {
-                treeViewModel.IsEditing = false;
+                try
+                {
+                    treeViewModel.IsEditing = false;
+                    string oldPath = treeViewModel.FullPath;
+                    DirectoryInfo directory = new DirectoryInfo(oldPath);
+                    string newPath = Path.Combine(directory.Parent?.FullName ?? string.Empty, treeViewModel.Header);
+                    string filterate = @"\/:*?""<>|";
+ 
+                    if (Regex.IsMatch(treeViewModel.Header, $"[{filterate}]"))
+                    {
+                        treeViewModel.Header = treeViewModel.BeforeEditingName;
+                        UIMessageTip.ShowWarning($"文件夹和文件命名不能包含以下字符：\r\n{filterate}");
+                        return;
+                    }
+                    if (oldPath == newPath)
+                    {
+                        return;
+                    }
+                    if (treeViewModel.IsFolder)
+                    {
+                        Directory.Move(oldPath, newPath);
+                    }
+                    else
+                    {
+                        File.Move(oldPath, newPath);
+                    }
+
+                    treeViewModel.FullPath = newPath;
+                    treeViewModel.LoadIcon();
+                    RenameSubTreeViewItem(treeViewModel, newPath);
+                }
+                catch (Exception ex)
+                {
+                    treeViewModel.Header = treeViewModel.BeforeEditingName;
+                    UIMessageTip.ShowError("重命名异常：" + ex.Message);
+                }
             });
             RenameVisibleCommand = new RelayCommand<TextBox>((textbox) =>
             {
@@ -744,10 +757,7 @@ namespace OhmStudio.UI.Demo.Views
             IsFolder = isFolder;
             FullPath = fullPath;
             Parent = parent;
-            Application.Current?.Dispatcher.InvokeAsync(() =>
-            {
-                IconImageSource = IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullPath);
-            }, DispatcherPriority.ApplicationIdle);
+            LoadIcon();
         }
 
         [DoNotNotify]
@@ -787,6 +797,9 @@ namespace OhmStudio.UI.Demo.Views
         public bool IsRootNode => CollectionParent != null;
 
         public bool IsFolder { get; set; }
+
+        [DoNotNotify]
+        private string BeforeEditingName { get; set; }
 
         public bool IsEditing { get; set; }
 
@@ -839,6 +852,14 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
+        public void LoadIcon()
+        {
+            Application.Current?.Dispatcher.InvokeAsync(() =>
+            {
+                IconImageSource = IsFolder ? PathHelper.DirectoryIcon : PathHelper.GetFileIcon(FullPath);
+            }, DispatcherPriority.ApplicationIdle);
+        }
+
         public static void LoadRootDirectory(IList<TreeViewModel> source, string rootFolderPath)
         {
             try
@@ -880,6 +901,15 @@ namespace OhmStudio.UI.Demo.Views
                     TreeViewModel subNode = new TreeViewModel(fileInfo.Name, false, fileInfo.FullName, node);
                     node.Add(subNode);
                 }
+            }
+        }
+
+        private static void RenameSubTreeViewItem(TreeViewModel treeViewModel, string newPath)
+        {
+            foreach (var item in treeViewModel.Children)
+            {
+                item.FullPath = Path.Combine(newPath, item.Header);
+                RenameSubTreeViewItem(item, newPath);
             }
         }
     }
