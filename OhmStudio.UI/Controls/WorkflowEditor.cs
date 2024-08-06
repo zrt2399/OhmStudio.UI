@@ -141,7 +141,7 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty MousePositionProperty =
             DependencyProperty.Register(nameof(MousePosition), typeof(Point), typeof(WorkflowEditor));
 
-        private bool IsCtrlKeyDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
+        internal bool IsCtrlKeyDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
 
         internal IEnumerable<SelectionControl> SelectableElements => Children.OfType<SelectionControl>();
 
