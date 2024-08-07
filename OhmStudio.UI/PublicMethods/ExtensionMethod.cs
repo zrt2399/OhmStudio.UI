@@ -32,7 +32,7 @@ namespace OhmStudio.UI.PublicMethods
         {
             if (double.IsNaN(value))
             {
-                return value;
+                return 0;
             }
             int quotient = (int)(value / gridSize);
             var min = Math.Max(0, gridSize * quotient);

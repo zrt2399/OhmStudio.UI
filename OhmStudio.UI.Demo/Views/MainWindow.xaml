@@ -746,7 +746,7 @@
                                                     <ContextMenu>
                                                         <MenuItem Header="添加流程" ItemsSource="{EnumBindingSource EnumType=StepType}">
                                                             <MenuItem.ItemContainerStyle>
-                                                                <Style TargetType="MenuItem">
+                                                                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="MenuItem">
                                                                     <Setter Property="Header" Value="{Binding}" />
                                                                     <Setter Property="Command" Value="{Binding PlacementTarget.DataContext.AddWorkflowItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                                                                     <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header}" />

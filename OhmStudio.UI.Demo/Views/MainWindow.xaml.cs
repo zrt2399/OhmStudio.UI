@@ -129,8 +129,8 @@ namespace OhmStudio.UI.Demo.Views
                 WorkflowItemViewModel workflowItemViewModel = new WorkflowItemViewModel();
                 workflowItemViewModel.Name = EnumDescriptionConverter.GetEnumDesc(stepType);
                 workflowItemViewModel.StepType = stepType;
-                workflowItemViewModel.Left = point.X.Adsorb(workflowEditor.GridSize);
-                workflowItemViewModel.Top = point.Y.Adsorb(workflowEditor.GridSize);
+                workflowItemViewModel.Left = point.X;
+                workflowItemViewModel.Top = point.Y;
                 WorkflowItemViewModels.Add(workflowItemViewModel);
             });
             DeleteWorkflowItemCommand = new RelayCommand(() =>
