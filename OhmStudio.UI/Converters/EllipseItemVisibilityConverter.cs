@@ -7,7 +7,7 @@ using OhmStudio.UI.Controls;
 
 namespace OhmStudio.UI.Converters
 {
-    public class WorkflowItemEllipseItemConverter : IMultiValueConverter
+    public class EllipseItemVisibilityConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
