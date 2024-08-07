@@ -1543,7 +1543,9 @@
                                           BorderThickness="{TemplateBinding BorderThickness}"
                                           Geometry="{Binding Geometry, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}">
                         <controls:SimplePanel>
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
                             <!--  左边的中间圆形  -->
                             <controls:EllipseItem x:Name="EllipseLeft"
