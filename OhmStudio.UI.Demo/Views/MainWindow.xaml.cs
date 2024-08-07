@@ -135,15 +135,13 @@ namespace OhmStudio.UI.Demo.Views
             });
             DeleteWorkflowItemCommand = new RelayCommand(() =>
             {
-                for (int i = SelectedWorkflowItems.Count - 1; i >= 0; i--)
+                if (SelectedWorkflowItems != null)
                 {
-                    WorkflowItemViewModels.Remove(SelectedWorkflowItems[i] as WorkflowItemViewModel);
+                    for (int i = SelectedWorkflowItems.Count - 1; i >= 0; i--)
+                    {
+                        WorkflowItemViewModels.Remove(SelectedWorkflowItems[i] as WorkflowItemViewModel);
+                    }
                 }
-                //foreach (var item in SelectedWorkflowItems)
-                //{
-                //    WorkflowItems.Remove(item);
-                //}
-                //UpdateMultiSelectionMask();
             });
             SaveAsImageCommand = new RelayCommand(() =>
             {

@@ -185,6 +185,11 @@ namespace OhmStudio.UI.Controls
 
     internal class PathItem : SelectionControl
     {
+        static PathItem()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(PathItem), new FrameworkPropertyMetadata(typeof(PathItem)));
+        }
+
         internal PathItem()
         {
             DeleteCommand = new RelayCommand(Delete);
@@ -387,6 +392,11 @@ namespace OhmStudio.UI.Controls
 
     internal class EllipseItem : Control
     {
+        static EllipseItem()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(EllipseItem), new FrameworkPropertyMetadata(typeof(EllipseItem)));
+        }
+
         internal static readonly DependencyProperty DockProperty =
             DependencyProperty.Register(nameof(Dock), typeof(Dock), typeof(EllipseItem));
 
@@ -436,6 +446,11 @@ namespace OhmStudio.UI.Controls
     /// </summary>
     public class WorkflowItem : SelectionControl
     {
+        static WorkflowItem()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(WorkflowItem), new FrameworkPropertyMetadata(typeof(WorkflowItem)));
+        }
+
         public WorkflowItem()
         {
             DependencyPropertyDescriptor property = DependencyPropertyDescriptor.FromProperty(IsKeyboardFocusWithinProperty, typeof(WorkflowItem));
