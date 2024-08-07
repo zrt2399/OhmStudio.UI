@@ -792,8 +792,7 @@
                                                             <TextBox Grid.Row="1"
                                                                      Grid.Column="1"
                                                                      VerticalContentAlignment="Top"
-                                                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-                                                                     TextWrapping="Wrap" />
+                                                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
                                                             <TextBlock Grid.Row="1"
                                                                        Grid.Column="2"
                                                                        Text="{Binding JumpStep.Name, StringFormat=跳转至：{0}}" />
