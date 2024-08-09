@@ -1,12 +1,11 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AvalonDock.Controls;
 using AvalonDock.Layout;
+using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
@@ -82,62 +81,23 @@ namespace OhmStudio.UI.Controls
                 }
             }
         }
+ 
+        public static readonly DependencyProperty IsWrapProperty =
+            DependencyProperty.Register(nameof(IsWrap), typeof(bool), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure, OnIsWrapChanged));
 
-        internal static readonly DependencyProperty ItemWidthProperty;
-
-        internal static readonly DependencyProperty ItemHeightProperty;
-
-        internal static readonly DependencyProperty OrientationProperty;
-
-        public static readonly DependencyProperty IsWrapProperty;
-
-        public static readonly DependencyProperty IsHoldHiddenItemProperty;
-
-        public static readonly DependencyProperty IsMouseWheelWrapProperty;
-
-        private Orientation _orientation;
-
-        [TypeConverter(typeof(LengthConverter))]
-        internal double ItemWidth
-        {
-            get => (double)GetValue(ItemWidthProperty);
-            set => SetValue(ItemWidthProperty, value);
-        }
-
-        [TypeConverter(typeof(LengthConverter))]
-        internal double ItemHeight
-        {
-            get => (double)GetValue(ItemHeightProperty);
-            set => SetValue(ItemHeightProperty, value);
-        }
-
-        internal Orientation Orientation
-        {
-            get => _orientation;
-            set => SetValue(OrientationProperty, value);
-        }
-
+        public static readonly DependencyProperty IsMouseWheelWrapProperty =
+            DependencyProperty.Register(nameof(IsMouseWheelWrap), typeof(bool), typeof(DocumentWrapPanel), new PropertyMetadata(false, OnIsMouseWheelWrapChanged));
+ 
         public bool IsWrap
         {
             get => (bool)GetValue(IsWrapProperty);
             set => SetValue(IsWrapProperty, value);
         }
 
-        public bool IsHoldHiddenItem
-        {
-            get => (bool)GetValue(IsHoldHiddenItemProperty);
-            set => SetValue(IsHoldHiddenItemProperty, value);
-        }
-
         public bool IsMouseWheelWrap
         {
             get => (bool)GetValue(IsMouseWheelWrapProperty);
             set => SetValue(IsMouseWheelWrapProperty, value);
-        }
-
-        public DocumentWrapPanel()
-        {
-            _orientation = (Orientation)OrientationProperty.GetMetadata(this).DefaultValue;
         }
 
         private static void DocumentWrapPanel_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -147,32 +107,13 @@ namespace OhmStudio.UI.Controls
             documentWrapPanel.IsWrap = isWrap;
         }
 
-        static DocumentWrapPanel()
-        {
-            ItemWidthProperty = DependencyProperty.Register(nameof(ItemWidth), typeof(double), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.AffectsMeasure), IsWidthHeightValid);
-            ItemHeightProperty = DependencyProperty.Register(nameof(ItemHeight), typeof(double), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.AffectsMeasure), IsWidthHeightValid);
-            OrientationProperty = StackPanel.OrientationProperty.AddOwner(typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(Orientation.Horizontal, FrameworkPropertyMetadataOptions.AffectsMeasure, OnOrientationChanged));
-            IsWrapProperty = DependencyProperty.Register(nameof(IsWrap), typeof(bool), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure, OnIsWrapChanged));
-            IsHoldHiddenItemProperty = DependencyProperty.Register(nameof(IsHoldHiddenItem), typeof(bool), typeof(DocumentWrapPanel));
-            IsMouseWheelWrapProperty = DependencyProperty.Register(nameof(IsMouseWheelWrap), typeof(bool), typeof(DocumentWrapPanel), new PropertyMetadata(false, OnIsMouseWheelWrapChanged));
-            //ControlsTraceLogger.AddControl(TelemetryControls.DocumentWrapPanel);
-        }
-
         private static void OnIsWrapChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is DocumentWrapPanel documentWrapPanel && e.NewValue is bool newValue)
+            if (sender is DocumentWrapPanel documentWrapPanel && (bool)e.NewValue)
             {
-                //documentWrapPanel.InvalidateMeasure();
-                if (documentWrapPanel.IsWrap != newValue)
+                foreach (var item in documentWrapPanel.Children.OfType<UIElement>().Where(x => x.Visibility == Visibility.Hidden))
                 {
-                    documentWrapPanel.InvalidateVisual();
-                }
-                if (newValue && !documentWrapPanel.IsHoldHiddenItem)
-                {
-                    foreach (var item in documentWrapPanel.Children.OfType<UIElement>().Where(x => x.Visibility == Visibility.Hidden))
-                    {
-                        item.Visibility = Visibility.Visible;
-                    }
+                    item.Visibility = Visibility.Visible;
                 }
             }
         }
@@ -192,40 +133,16 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        private static bool IsWidthHeightValid(object value)
-        {
-            double num = (double)value;
-            if (!DoubleUtil.IsNaN(num))
-            {
-                if (num >= 0.0)
-                {
-                    return !double.IsPositiveInfinity(num);
-                }
-
-                return false;
-            }
-
-            return true;
-        }
-
-        private static void OnOrientationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            DocumentWrapPanel wrapPanel = (DocumentWrapPanel)sender;
-            wrapPanel._orientation = (Orientation)e.NewValue;
-        }
-
         protected override Size MeasureOverride(Size constraint)
         {
             if (IsWrap)
             {
-                UVSize uVSize = new UVSize(Orientation);
-                UVSize uVSize2 = new UVSize(Orientation);
-                UVSize uVSize3 = new UVSize(Orientation, constraint.Width, constraint.Height);
-                double itemWidth = ItemWidth;
-                double itemHeight = ItemHeight;
-                bool flag = !DoubleUtil.IsNaN(itemWidth);
-                bool flag2 = !DoubleUtil.IsNaN(itemHeight);
-                Size availableSize = new Size(flag ? itemWidth : constraint.Width, flag2 ? itemHeight : constraint.Height);
+                var orientation = Orientation.Horizontal;
+                UVSize uVSize = new UVSize(orientation);
+                UVSize uVSize2 = new UVSize(orientation);
+                UVSize uVSize3 = new UVSize(orientation, constraint.Width, constraint.Height);
+
+                Size availableSize = new Size(constraint.Width, constraint.Height);
                 UIElementCollection internalChildren = InternalChildren;
                 int i = 0;
                 for (int count = internalChildren.Count; i < count; i++)
@@ -237,7 +154,7 @@ namespace OhmStudio.UI.Controls
                     }
 
                     uIElement.Measure(availableSize);
-                    UVSize uVSize4 = new UVSize(Orientation, flag ? itemWidth : uIElement.DesiredSize.Width, flag2 ? itemHeight : uIElement.DesiredSize.Height);
+                    UVSize uVSize4 = new UVSize(orientation, uIElement.DesiredSize.Width, uIElement.DesiredSize.Height);
                     if (DoubleUtil.GreaterThan(uVSize.U + uVSize4.U, uVSize3.U))
                     {
                         uVSize2.U = Math.Max(uVSize.U, uVSize2.U);
@@ -247,7 +164,7 @@ namespace OhmStudio.UI.Controls
                         {
                             uVSize2.U = Math.Max(uVSize4.U, uVSize2.U);
                             uVSize2.V += uVSize4.V;
-                            uVSize = new UVSize(Orientation);
+                            uVSize = new UVSize(orientation);
                         }
                     }
                     else
@@ -272,15 +189,11 @@ namespace OhmStudio.UI.Controls
             if (IsWrap)
             {
                 int num = 0;
-                double itemWidth = ItemWidth;
-                double itemHeight = ItemHeight;
                 double num2 = 0.0;
-                double itemU = (Orientation == Orientation.Horizontal) ? itemWidth : itemHeight;
-                UVSize uVSize = new UVSize(Orientation);
-                UVSize uVSize2 = new UVSize(Orientation, finalSize.Width, finalSize.Height);
-                bool flag = !DoubleUtil.IsNaN(itemWidth);
-                bool flag2 = !DoubleUtil.IsNaN(itemHeight);
-                bool useItemU = (Orientation == Orientation.Horizontal) ? flag : flag2;
+                var orientation = Orientation.Horizontal;
+                UVSize uVSize = new UVSize(orientation);
+                UVSize uVSize2 = new UVSize(orientation, finalSize.Width, finalSize.Height);
+
                 UIElementCollection internalChildren = InternalChildren;
                 int i = 0;
                 for (int count = internalChildren.Count; i < count; i++)
@@ -291,17 +204,17 @@ namespace OhmStudio.UI.Controls
                         continue;
                     }
 
-                    UVSize uVSize3 = new UVSize(Orientation, flag ? itemWidth : uIElement.DesiredSize.Width, flag2 ? itemHeight : uIElement.DesiredSize.Height);
+                    UVSize uVSize3 = new UVSize(orientation, uIElement.DesiredSize.Width, uIElement.DesiredSize.Height);
                     if (DoubleUtil.GreaterThan(uVSize.U + uVSize3.U, uVSize2.U))
                     {
-                        ArrangeLine(num2, uVSize.V, num, i, useItemU, itemU);
+                        ArrangeLine(num2, uVSize.V, num, i);
                         num2 += uVSize.V;
                         uVSize = uVSize3;
                         if (DoubleUtil.GreaterThan(uVSize3.U, uVSize2.U))
                         {
-                            ArrangeLine(num2, uVSize3.V, i, ++i, useItemU, itemU);
+                            ArrangeLine(num2, uVSize3.V, i, ++i);
                             num2 += uVSize3.V;
-                            uVSize = new UVSize(Orientation);
+                            uVSize = new UVSize(orientation);
                         }
 
                         num = i;
@@ -315,7 +228,7 @@ namespace OhmStudio.UI.Controls
 
                 if (num < internalChildren.Count)
                 {
-                    ArrangeLine(num2, uVSize.V, num, internalChildren.Count, useItemU, itemU);
+                    ArrangeLine(num2, uVSize.V, num, internalChildren.Count);
                 }
 
                 return finalSize;
@@ -369,195 +282,23 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        private void ArrangeLine(double v, double lineV, int start, int end, bool useItemU, double itemU)
+        private void ArrangeLine(double v, double lineV, int start, int end)
         {
             double num = 0.0;
-            bool flag = Orientation == Orientation.Horizontal;
+            var orientation = Orientation.Horizontal;
+            bool flag = orientation == Orientation.Horizontal;
             UIElementCollection internalChildren = InternalChildren;
             for (int i = start; i < end; i++)
             {
                 UIElement uIElement = internalChildren[i];
                 if (uIElement != null)
                 {
-                    UVSize uVSize = new UVSize(Orientation, uIElement.DesiredSize.Width, uIElement.DesiredSize.Height);
-                    double num2 = useItemU ? itemU : uVSize.U;
+                    UVSize uVSize = new UVSize(orientation, uIElement.DesiredSize.Width, uIElement.DesiredSize.Height);
+                    double num2 = uVSize.U;
                     uIElement.Arrange(new Rect(flag ? num : v, flag ? v : num, flag ? num2 : lineV, flag ? lineV : num2));
                     num += num2;
                 }
             }
-        }
-    }
-
-    public static class DoubleUtil
-    {
-        [StructLayout(LayoutKind.Explicit)]
-        private struct NanUnion
-        {
-            [FieldOffset(0)]
-            internal double DoubleValue;
-
-            [FieldOffset(0)]
-            internal ulong UintValue;
-        }
-
-        internal const double DBL_EPSILON = 2.2204460492503131E-16;
-
-        internal const float FLT_MIN = 1.17549435E-38f;
-
-        public static bool AreClose(double value1, double value2)
-        {
-            if (value1 == value2)
-            {
-                return true;
-            }
-
-            double num = (Math.Abs(value1) + Math.Abs(value2) + 10.0) * 2.2204460492503131E-16;
-            double num2 = value1 - value2;
-            if (0.0 - num < num2)
-            {
-                return num > num2;
-            }
-
-            return false;
-        }
-
-        public static bool LessThan(double value1, double value2)
-        {
-            if (value1 < value2)
-            {
-                return !AreClose(value1, value2);
-            }
-
-            return false;
-        }
-
-        public static bool GreaterThan(double value1, double value2)
-        {
-            if (value1 > value2)
-            {
-                return !AreClose(value1, value2);
-            }
-
-            return false;
-        }
-
-        public static bool LessThanOrClose(double value1, double value2)
-        {
-            if (!(value1 < value2))
-            {
-                return AreClose(value1, value2);
-            }
-
-            return true;
-        }
-
-        public static bool GreaterThanOrClose(double value1, double value2)
-        {
-            if (!(value1 > value2))
-            {
-                return AreClose(value1, value2);
-            }
-
-            return true;
-        }
-
-        public static bool IsOne(double value)
-        {
-            return Math.Abs(value - 1.0) < 2.2204460492503131E-15;
-        }
-
-        public static bool IsZero(double value)
-        {
-            return Math.Abs(value) < 2.2204460492503131E-15;
-        }
-
-        public static bool AreClose(Point point1, Point point2)
-        {
-            if (AreClose(point1.X, point2.X))
-            {
-                return AreClose(point1.Y, point2.Y);
-            }
-
-            return false;
-        }
-
-        public static bool AreClose(Size size1, Size size2)
-        {
-            if (AreClose(size1.Width, size2.Width))
-            {
-                return AreClose(size1.Height, size2.Height);
-            }
-
-            return false;
-        }
-
-        public static bool AreClose(Vector vector1, Vector vector2)
-        {
-            if (AreClose(vector1.X, vector2.X))
-            {
-                return AreClose(vector1.Y, vector2.Y);
-            }
-
-            return false;
-        }
-
-        public static bool AreClose(Rect rect1, Rect rect2)
-        {
-            if (rect1.IsEmpty)
-            {
-                return rect2.IsEmpty;
-            }
-
-            if (!rect2.IsEmpty && AreClose(rect1.X, rect2.X) && AreClose(rect1.Y, rect2.Y) && AreClose(rect1.Height, rect2.Height))
-            {
-                return AreClose(rect1.Width, rect2.Width);
-            }
-
-            return false;
-        }
-
-        public static bool IsBetweenZeroAndOne(double val)
-        {
-            if (GreaterThanOrClose(val, 0.0))
-            {
-                return LessThanOrClose(val, 1.0);
-            }
-
-            return false;
-        }
-
-        public static int DoubleToInt(double val)
-        {
-            if (!(0.0 < val))
-            {
-                return (int)(val - 0.5);
-            }
-
-            return (int)(val + 0.5);
-        }
-
-        public static bool RectHasNaN(Rect r)
-        {
-            if (IsNaN(r.X) || IsNaN(r.Y) || IsNaN(r.Height) || IsNaN(r.Width))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool IsNaN(double value)
-        {
-            NanUnion nanUnion = default(NanUnion);
-            nanUnion.DoubleValue = value;
-            ulong num = nanUnion.UintValue & 0xFFF0000000000000uL;
-            ulong num2 = nanUnion.UintValue & 0xFFFFFFFFFFFFFuL;
-            if (num == 9218868437227405312L || num == 18442240474082181120uL)
-            {
-                return num2 != 0;
-            }
-
-            return false;
         }
     }
 }
