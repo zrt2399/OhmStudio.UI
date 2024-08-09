@@ -15,9 +15,9 @@ namespace OhmStudio.UI.Controls
         {
             SetEmpty();
             GotFocus += CheckComboBox_GotFocus;
-            SelectAllCommand = new RelayCommand(() => SelectElement(true));
-            UnselectAllCommand = new RelayCommand(() => SelectElement(false));
-            InvertSelectionCommand = new RelayCommand(() => SelectElement(false, true));
+            SelectAllCommand = new RelayCommand(SelectAll);
+            UnselectAllCommand = new RelayCommand(UnselectAll);
+            InvertSelectionCommand = new RelayCommand(Invert);
         }
 
         static CheckComboBox()
@@ -31,10 +31,8 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty SelectedItemsProperty =
             DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(CheckComboBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) =>
             {
-                if (sender is CheckComboBox checkComboBox && checkComboBox.PART_ListBox != null)
-                {
-                    checkComboBox.IsSelectedAll = checkComboBox.SelectedItems.Count > 0 && checkComboBox.SelectedItems.Count == checkComboBox.PART_ListBox.Items.Count;
-                }
+                CheckComboBox checkComboBox = (CheckComboBox)sender;
+                 
             }));
 
         public IList SelectedItems
@@ -71,13 +69,7 @@ namespace OhmStudio.UI.Controls
         }
 
         public static readonly DependencyProperty SelectedAllStringProperty =
-            DependencyProperty.Register(nameof(SelectedAllString), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(已选择全部)", (sender, e) =>
-            {
-                if (sender is CheckComboBox checkComboBox && checkComboBox.IsSelectedAll && !string.IsNullOrEmpty((string)e.NewValue))
-                {
-                    checkComboBox.SelectedText = (string)e.NewValue;
-                }
-            }));
+            DependencyProperty.Register(nameof(SelectedAllString), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(已选择全部)"));
 
         public string SelectedAllString
         {
@@ -101,15 +93,6 @@ namespace OhmStudio.UI.Controls
         {
             get => (string)GetValue(SelectedTextProperty);
             set => SetValue(SelectedTextProperty, value);
-        }
-
-        public static readonly DependencyProperty IsSelectedAllProperty =
-            DependencyProperty.Register(nameof(IsSelectedAll), typeof(bool), typeof(CheckComboBox));
-
-        public bool IsSelectedAll
-        {
-            get => (bool)GetValue(IsSelectedAllProperty);
-            set => SetValue(IsSelectedAllProperty, value);
         }
 
         public ICommand SelectAllCommand { get; }
@@ -136,11 +119,30 @@ namespace OhmStudio.UI.Controls
             SetEmpty();
         }
 
-        public void SelectElement(bool isSelectAll, bool isInvertSelection = false)
+        public void SelectAll()
         {
-            PART_ListBox.SelectionChanged -= PART_ListBox_SelectionChanged;
+            SelectElement(true);
+        }
 
-            if (isInvertSelection)
+        public void UnselectAll()
+        {
+            SelectElement(false);
+        }
+
+        public void Invert()
+        {
+            SelectElement(true, true);
+        }
+
+        private void SelectElement(bool value, bool invert = false)
+        {
+            if (PART_ListBox == null)
+            {
+                return;
+            }
+
+            PART_ListBox.SelectionChanged -= PART_ListBox_SelectionChanged;
+            if (invert)
             {
                 foreach (var item in PART_ListBox.Items)
                 {
@@ -156,7 +158,7 @@ namespace OhmStudio.UI.Controls
             }
             else
             {
-                if (isSelectAll)
+                if (value)
                 {
                     PART_ListBox.SelectAll();
                 }
@@ -165,20 +167,10 @@ namespace OhmStudio.UI.Controls
                     PART_ListBox.UnselectAll();
                 }
             }
-            //for (int i = 0; i < PART_ListBox.Items.Count; i++)
-            //{  
-            //    var obj = PART_ListBox.ItemContainerGenerator.ContainerFromIndex(i);
-            //    if (obj is not ListBoxItem listBoxItem)
-            //    {
-            //        PART_ListBox.ScrollIntoView(PART_ListBox.Items[i]);
-            //        listBoxItem = PART_ListBox.ItemContainerGenerator.ContainerFromIndex(i) as ListBoxItem;
-            //    }
-            //    listBoxItem.IsSelected = !listBoxItem.IsSelected;  
-            //}
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
-            //PART_ListBox_SelectionChanged(PART_ListBox, null);
             var eventArg = new SelectionChangedEventArgs(SelectionChangedEvent, Array.Empty<object>(), Array.Empty<object>());
             PART_ListBox.RaiseEvent(eventArg);
+            //PART_ListBox_SelectionChanged(PART_ListBox, eventArg);
         }
 
         void SetEmpty()
@@ -196,19 +188,17 @@ namespace OhmStudio.UI.Controls
                 return;
             }
 
-            var array = new object[listBox.SelectedItems.Count];
-            var stringResult = new string[listBox.SelectedItems.Count];
-            listBox.SelectedItems.CopyTo(array, 0);
+            SelectedItems = listBox.SelectedItems;
+            var stringResult = new string[SelectedItems.Count];
 
-            for (int i = 0; i < array.Length; i++)
+            for (int i = 0; i < SelectedItems.Count; i++)
             {
-                Binding binding = new Binding(DisplayMemberPath) { Source = array[i] };
+                Binding binding = new Binding(DisplayMemberPath) { Source = SelectedItems[i] };
                 TextBlock textBlock = new TextBlock();
                 textBlock.SetBinding(TextBlock.TextProperty, binding);
                 stringResult[i] = textBlock.Text;
                 BindingOperations.ClearAllBindings(textBlock);
             }
-            SelectedItems = array;
 
             if (SelectedItems.Count == listBox.Items.Count && !string.IsNullOrEmpty(SelectedAllString))
             {
