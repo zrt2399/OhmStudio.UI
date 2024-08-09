@@ -2,7 +2,6 @@
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
-              xmlns:converters="clr-namespace:OhmStudio.UI.Demo.Converters"
               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
               xmlns:demo="clr-namespace:OhmStudio.UI.Demo"
               xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -12,11 +11,12 @@
               xmlns:omhui="http://ohmstudio.ui.com"
               xmlns:oxy="http://oxyplot.org/wpf"
               xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+              xmlns:viewModel="clr-namespace:OhmStudio.UI.Demo.ViewModels" 
               Title="{x:Static demo:App.Name}"
               Width="1280"
               Height="720"
-              d:DataContext="{d:DesignInstance Type=local:MainWindow}"
               BorderAttach.CornerRadius="{Binding CornerRadius}"
+              DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}"
               Icon="/icon.ico"
               IsShowIcon="False"
               IsShowTitle="False"
@@ -32,7 +32,6 @@
 
     <Window.Resources>
 
-        <converters:GroupItemConverter x:Key="GroupItemConverter" />
         <GroupIndexConverter x:Key="GroupIndexConverter" />
         <ListViewIndexConverter x:Key="ListViewIndexConverter" />
         <BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -396,7 +395,7 @@
                                                 <!--<DataGridHyperlinkColumn Header="Header" Binding="{Binding Name}"></DataGridHyperlinkColumn>-->
                                                 <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                                                 <DataGridCheckBoxColumn Binding="{Binding IsExpanded}" Header="IsExpanded" />
-                                                <DataGridComboBoxColumn Header="Name1" ItemsSource="{EnumBindingSource local:InstrumentType}" />
+                                                <DataGridComboBoxColumn Header="Name1" ItemsSource="{EnumBindingSource viewModel:InstrumentType}" />
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </GroupBox>
@@ -1037,13 +1036,13 @@
 
                                                 <ComboBox VerticalAlignment="Top"
                                                           Foreground="Red"
-                                                          ItemsSource="{EnumBindingSource EnumType=local:UserPermission}"
+                                                          ItemsSource="{EnumBindingSource EnumType=viewModel:UserPermission}"
                                                           TextBoxAttach.PlaceHolder="IsEditable=False"
                                                           TextBoxAttach.Title="ComboBox："
                                                           TextBoxAttach.TitlePlacement="Top" />
                                                 <ComboBox VerticalAlignment="Top"
                                                           IsEditable="True"
-                                                          ItemsSource="{EnumBindingSource EnumType=local:UserPermission}"
+                                                          ItemsSource="{EnumBindingSource EnumType=viewModel:UserPermission}"
                                                           TextBoxAttach.PlaceHolder="IsEditable=True" />
 
                                                 <CheckComboBox VerticalAlignment="Top"
@@ -1092,6 +1091,7 @@
                                                          Height="50"
                                                          HorizontalContentAlignment="Right"
                                                          VerticalContentAlignment="Bottom"
+                                                         Text="{Binding Range, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                                                          TextBoxAttach.TitleIsHitTestVisible="True">
                                                     <TextBoxAttach.Title>
                                                         <UniformGrid Columns="1">
@@ -1155,7 +1155,7 @@
                                                                HorizontalContentAlignment="Right"
                                                                VerticalContentAlignment="Bottom"
                                                                ItemDisplayStringFormat="权限：{0}"
-                                                               ItemsSource="{EnumBindingSource EnumType=local:UserPermission,
+                                                               ItemsSource="{EnumBindingSource EnumType=viewModel:UserPermission,
                                                                                                IsIgnoreZero=True}"
                                                                SelectedAllString="{x:Null}"
                                                                SelectedItems="{Binding CurrentUserPermission}"
@@ -1391,7 +1391,7 @@
                             <LayoutAnchorable Title="ListBox" ToolTip="This is a ListView">
                                 <ListBox BorderBrush="Transparent"
                                          BorderThickness="0"
-                                         ItemsSource="{EnumBindingSource EnumType=local:UserPermission}"
+                                         ItemsSource="{EnumBindingSource EnumType=viewModel:UserPermission}"
                                          SelectionMode="Multiple" />
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="PropertyGrid" ToolTip="This is a PropertyGrid">
