@@ -34,7 +34,8 @@ namespace OhmStudio.UI.Views
                 if (dateTimePicker.IsDateOnly)
                 {
                     UpdateBtnContent(null);
-                    txtTime.IsEnabled = textBoxDateTime.IsEnabled = btnNow.IsEnabled = false;
+                    //txtTime.IsEnabled = textBoxDateTime.IsEnabled = btnNow.IsEnabled = false;
+                    txtTime.Visibility = textBoxDateTime.Visibility = btnNow.Visibility = Visibility.Hidden;
                 }
                 else
                 {
