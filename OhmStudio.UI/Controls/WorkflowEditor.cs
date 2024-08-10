@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using OhmStudio.UI.Commands;
 using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
@@ -58,6 +59,9 @@ namespace OhmStudio.UI.Controls
             BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleXProperty, new Binding() { Source = this, Path = new PropertyPath(ScaleProperty) });
             BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleYProperty, new Binding() { Source = this, Path = new PropertyPath(ScaleProperty) });
             LayoutTransform = scaleTransform;
+            SelectAllCommand = new RelayCommand(SelectAll);
+            UnselectAllCommand = new RelayCommand(UnselectAll);
+            InvertSelectionCommand = new RelayCommand(Invert);
         }
 
         private void WorkflowEditor_KeyDown(object sender, KeyEventArgs e)
@@ -146,6 +150,12 @@ namespace OhmStudio.UI.Controls
         internal IEnumerable<SelectionControl> SelectableElements => Children.OfType<SelectionControl>();
 
         public IEnumerable<WorkflowItem> WorkflowItems => Children.OfType<WorkflowItem>();
+
+        public ICommand SelectAllCommand { get; }
+
+        public ICommand UnselectAllCommand { get; }
+
+        public ICommand InvertSelectionCommand { get; }
 
         public IEnumerable ItemsSource
         {
