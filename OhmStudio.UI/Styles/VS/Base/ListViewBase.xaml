@@ -1,4 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:OhmStudio.UI.Converters">
+
+    <converters:InfinityToMaxValueConverter x:Key="InfinityToMaxValueConverter" />
 
     <Style x:Key="GridViewScrollViewerBaseStyle" TargetType="{x:Type ScrollViewer}">
         <Setter Property="Focusable" Value="False" />
@@ -47,7 +51,7 @@
                                    Orientation="Horizontal"
                                    ViewportSize="{TemplateBinding ViewportWidth}"
                                    Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
-                                   Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                                   Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource InfinityToMaxValueConverter}}" />
                         <ScrollBar Name="PART_VerticalScrollBar"
                                    Grid.Row="0"
                                    Grid.Column="1"
@@ -57,7 +61,7 @@
                                    Orientation="Vertical"
                                    ViewportSize="{TemplateBinding ViewportHeight}"
                                    Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-                                   Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                                   Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource InfinityToMaxValueConverter}}" />
                         <Rectangle Grid.Row="1"
                                    Grid.Column="1"
                                    Fill="{DynamicResource EnvironmentScrollBarBackground}" />

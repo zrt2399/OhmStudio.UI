@@ -1000,15 +1000,18 @@
                                                 <SearchBar VerticalAlignment="Top" />
 
                                                 <TextBox VerticalAlignment="Top"
+                                                         HorizontalContentAlignment="Right"
                                                          BorderThickness="0,0,0,2"
                                                          Text="{Binding CurrentDateTime}"
                                                          TextBoxAttach.PlaceHolder="请输入文本..."
+                                                         TextBoxAttach.SuffixText="Time"
                                                          TextBoxAttach.Title="TextBox："
                                                          TextBoxAttach.TitlePlacement="Top" />
 
                                                 <TextBox VerticalAlignment="Top"
                                                          Foreground="CornflowerBlue"
-                                                         Text="{Binding NumericUpDownValue}" />
+                                                         Text="{Binding NumericUpDownValue}"
+                                                         TextBoxAttach.SuffixText="Ω" />
                                                 <NumericUpDown x:Name="NumericUpDown"
                                                                VerticalAlignment="Top"
                                                                Maximum="100"

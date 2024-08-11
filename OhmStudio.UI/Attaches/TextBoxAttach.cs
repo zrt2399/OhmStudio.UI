@@ -244,5 +244,21 @@ namespace OhmStudio.UI.Attaches
         {
             target.SetValue(IsShowValidationErrorInfoProperty, value);
         }
+
+        /// <summary>
+        /// SuffixText dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SuffixTextProperty =
+            DependencyProperty.RegisterAttached("SuffixText", typeof(string), typeof(TextBoxAttach));
+
+        public static void SetSuffixText(DependencyObject element, string value)
+        {
+            element.SetValue(SuffixTextProperty, value);
+        }
+
+        public static string GetSuffixText(DependencyObject element)
+        {
+            return (string)element.GetValue(SuffixTextProperty);
+        }
     }
 }
