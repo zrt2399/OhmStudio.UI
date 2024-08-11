@@ -4,13 +4,21 @@ using System.Windows.Data;
 
 namespace OhmStudio.UI.Converters
 {
-    public class InfinityToMaxValueConverter : IValueConverter
+    public class InfinityToMaxOrMinValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double doubleValue)
             {
-                return double.IsInfinity(doubleValue) ? double.MaxValue : doubleValue;
+                if (double.IsPositiveInfinity(doubleValue))
+                {
+                    return double.MaxValue;
+                }
+                else if (double.IsNegativeInfinity(doubleValue))
+                {
+                    return double.MinValue;
+                }
+                return doubleValue;
             }
             return value;
         }

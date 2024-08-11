@@ -3,7 +3,7 @@
                     xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
-    <converters:InfinityToMaxValueConverter x:Key="InfinityToMaxValueConverter" />
+    <converters:InfinityToMaxOrMinValueConverter x:Key="InfinityToMaxOrMinValueConverter" />
 
     <Style x:Key="ScrollBarButton" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -262,7 +262,7 @@
                                    Orientation="Horizontal"
                                    ViewportSize="{TemplateBinding ViewportWidth}"
                                    Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
-                                   Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InfinityToMaxValueConverter}}" />
+                                   Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InfinityToMaxOrMinValueConverter}}" />
                         <ScrollBar x:Name="PART_HorizontalScrollBar"
                                    Grid.Row="0"
                                    Grid.Column="1"
@@ -272,7 +272,7 @@
                                    Minimum="0.0"
                                    ViewportSize="{TemplateBinding ViewportHeight}"
                                    Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-                                   Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InfinityToMaxValueConverter}}" />
+                                   Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InfinityToMaxOrMinValueConverter}}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
