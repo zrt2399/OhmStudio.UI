@@ -8,10 +8,11 @@
               xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
               xmlns:local="clr-namespace:OhmStudio.UI.Demo.Views"
               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:model="clr-namespace:OhmStudio.UI.Demo.Models"
               xmlns:omhui="http://ohmstudio.ui.com"
               xmlns:oxy="http://oxyplot.org/wpf"
               xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-              xmlns:viewModel="clr-namespace:OhmStudio.UI.Demo.ViewModels" 
+              xmlns:viemodels="clr-namespace:OhmStudio.UI.Demo.ViewModels"
               Title="{x:Static demo:App.Name}"
               Width="1280"
               Height="720"
@@ -395,7 +396,7 @@
                                                 <!--<DataGridHyperlinkColumn Header="Header" Binding="{Binding Name}"></DataGridHyperlinkColumn>-->
                                                 <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                                                 <DataGridCheckBoxColumn Binding="{Binding IsExpanded}" Header="IsExpanded" />
-                                                <DataGridComboBoxColumn Header="Name1" ItemsSource="{EnumBindingSource viewModel:InstrumentType}" />
+                                                <DataGridComboBoxColumn Header="Name1" ItemsSource="{EnumBindingSource viemodels:InstrumentType}" />
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </GroupBox>
@@ -739,7 +740,7 @@
                                     <TabItem Header="MvvmBinding" IsSelected="True">
                                         <Grid GridAttach.RowDefinitions="*,Auto" UseLayoutRounding="False">
                                             <WorkflowEditor x:Name="workflowEditor"
-                                                            ItemsSource="{Binding WorkflowItemViewModels}"
+                                                            ItemsSource="{Binding WorkflowItemModels}"
                                                             SelectedItems="{Binding SelectedWorkflowItems}">
                                                 <WorkflowEditor.ContextMenu>
                                                     <ContextMenu>
@@ -753,8 +754,9 @@
                                                             </MenuItem.ItemContainerStyle>
                                                         </MenuItem>
                                                         <MenuItem Command="{Binding DeleteWorkflowItemCommand}" Header="删除选中流程" />
-                                                        <MenuItem Command="{Binding SelectAllCommand}" Header="选择全部" />
-                                                        <MenuItem Command="{Binding UnselectAllCommand}" Header="取消全部" />
+                                                        <MenuItem Command="{Binding PlacementTarget.SelectAllCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Header="选择全部" />
+                                                        <MenuItem Command="{Binding PlacementTarget.UnselectAllCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Header="取消全部" />
+                                                        <MenuItem Command="{Binding PlacementTarget.InvertSelectionCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Header="反选" />
                                                         <MenuItem Command="{Binding SaveAsImageCommand}" Header="保存为Png" />
                                                     </ContextMenu>
                                                 </WorkflowEditor.ContextMenu>
@@ -808,7 +810,7 @@
                                                     <Run Text="{Binding ElementName=workflowEditor, Path=MousePosition.Y, StringFormat=Y:{0}}" />
                                                 </TextBlock>-->
                                                 <TextBlock HorizontalAlignment="Left">
-                                                    <Run Text="{Binding WorkflowItemViewModels.Count, StringFormat=WorkflowItems.Count:{0}, Mode=OneWay}" />
+                                                    <Run Text="{Binding WorkflowItemModels.Count, StringFormat=WorkflowItems.Count:{0}, Mode=OneWay}" />
                                                     <Run Text="{Binding SelectedWorkflowItems.Count, StringFormat=SelectedWorkflowItems.Count:{0}, Mode=OneWay}" />
                                                 </TextBlock>
                                                 <TextBlock HorizontalAlignment="Right">
@@ -1036,13 +1038,13 @@
 
                                                 <ComboBox VerticalAlignment="Top"
                                                           Foreground="Red"
-                                                          ItemsSource="{EnumBindingSource EnumType=viewModel:UserPermission}"
+                                                          ItemsSource="{EnumBindingSource EnumType=viemodels:UserPermission}"
                                                           TextBoxAttach.PlaceHolder="IsEditable=False"
                                                           TextBoxAttach.Title="ComboBox："
                                                           TextBoxAttach.TitlePlacement="Top" />
                                                 <ComboBox VerticalAlignment="Top"
                                                           IsEditable="True"
-                                                          ItemsSource="{EnumBindingSource EnumType=viewModel:UserPermission}"
+                                                          ItemsSource="{EnumBindingSource EnumType=viemodels:UserPermission}"
                                                           TextBoxAttach.PlaceHolder="IsEditable=True" />
 
                                                 <CheckComboBox VerticalAlignment="Top"
@@ -1087,11 +1089,12 @@
                                                         <Button>请输入搜索内容...</Button>
                                                     </TextBoxAttach.PlaceHolder>
                                                 </SearchBar>
+                                                <!--  TextBoxAttach.IsShowValidationErrorInfo="False"  -->
                                                 <TextBox Width="300"
                                                          Height="50"
                                                          HorizontalContentAlignment="Right"
                                                          VerticalContentAlignment="Bottom"
-                                                         Text="{Binding Range, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                                         Text="{Binding Range, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                                                          TextBoxAttach.TitleIsHitTestVisible="True">
                                                     <TextBoxAttach.Title>
                                                         <UniformGrid Columns="1">
@@ -1155,7 +1158,7 @@
                                                                HorizontalContentAlignment="Right"
                                                                VerticalContentAlignment="Bottom"
                                                                ItemDisplayStringFormat="权限：{0}"
-                                                               ItemsSource="{EnumBindingSource EnumType=viewModel:UserPermission,
+                                                               ItemsSource="{EnumBindingSource EnumType=viemodels:UserPermission,
                                                                                                IsIgnoreZero=True}"
                                                                SelectedAllString="{x:Null}"
                                                                SelectedItems="{Binding CurrentUserPermission}"
@@ -1224,7 +1227,7 @@
                                         <Button Command="{Binding CollapseAllCommand}"
                                                 Content="{PackIcon Kind=CollapseAll}"
                                                 ToolTip="收起全部文件" />
-                                        <Button Command="{x:Static local:TreeViewModel.ShowPropertiesCommand}"
+                                        <Button Command="{x:Static model:TreeViewModel.ShowPropertiesCommand}"
                                                 CommandParameter="{Binding TreeViewSelectedItem}"
                                                 Content="{PackIcon Kind=Wrench}"
                                                 ToolTip="属性" />
@@ -1249,13 +1252,13 @@
                                                                     <Setter Property="CommandParameter" Value="{Binding}" />
                                                                 </Style>
                                                             </ContextMenu.Resources>
-                                                            <MenuItem Command="{x:Static local:TreeViewModel.OpenFileLocationCommand}" Header="打开文件所在位置" />
-                                                            <MenuItem Command="{x:Static local:TreeViewModel.CopyCommand}" Header="复制" />
-                                                            <MenuItem Command="{x:Static local:TreeViewModel.CopyFullPathCommand}" Header="复制完整路径" />
-                                                            <MenuItem Command="{x:Static local:TreeViewModel.StartRenameCommand}" Header="重命名" />
-                                                            <MenuItem Command="{x:Static local:TreeViewModel.RemoveCommand}" Header="移除" />
-                                                            <MenuItem Command="{x:Static local:TreeViewModel.DeleteFileCommand}" Header="移动到回收站" />
-                                                            <MenuItem Command="{x:Static local:TreeViewModel.ShowPropertiesCommand}" Header="属性" />
+                                                            <MenuItem Command="{x:Static model:TreeViewModel.OpenFileLocationCommand}" Header="打开文件所在位置" />
+                                                            <MenuItem Command="{x:Static model:TreeViewModel.CopyCommand}" Header="复制" />
+                                                            <MenuItem Command="{x:Static model:TreeViewModel.CopyFullPathCommand}" Header="复制完整路径" />
+                                                            <MenuItem Command="{x:Static model:TreeViewModel.StartRenameCommand}" Header="重命名" />
+                                                            <MenuItem Command="{x:Static model:TreeViewModel.RemoveCommand}" Header="移除" />
+                                                            <MenuItem Command="{x:Static model:TreeViewModel.DeleteFileCommand}" Header="移动到回收站" />
+                                                            <MenuItem Command="{x:Static model:TreeViewModel.ShowPropertiesCommand}" Header="属性" />
                                                         </ContextMenu>
                                                     </Setter.Value>
                                                 </Setter>
@@ -1269,7 +1272,7 @@
                                         </TreeView.ContextMenu>
                                         <TreeView.ItemTemplate>
                                             <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                                                <DockPanel MouseDownAttach.Command="{x:Static local:TreeViewModel.OpenFileCommand}"
+                                                <DockPanel MouseDownAttach.Command="{x:Static model:TreeViewModel.OpenFileCommand}"
                                                            MouseDownAttach.CommandParameter="{Binding}"
                                                            MouseDownAttach.IgnoreElement="TextBoxView"
                                                            MouseDownAttach.MouseClickCount="2"
@@ -1289,10 +1292,10 @@
                                                              Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}">
                                                         <i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="LostFocus">
-                                                                <i:InvokeCommandAction Command="{x:Static local:TreeViewModel.EndRenameCommand}" CommandParameter="{Binding}" />
+                                                                <i:InvokeCommandAction Command="{x:Static model:TreeViewModel.EndRenameCommand}" CommandParameter="{Binding}" />
                                                             </i:EventTrigger>
                                                             <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=IsVisible}" Value="true">
-                                                                <i:InvokeCommandAction Command="{x:Static local:TreeViewModel.RenameVisibleCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}" />
+                                                                <i:InvokeCommandAction Command="{x:Static model:TreeViewModel.RenameVisibleCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}" />
                                                             </i:DataTrigger>
                                                         </i:Interaction.Triggers>
                                                     </TextBox>
@@ -1391,7 +1394,7 @@
                             <LayoutAnchorable Title="ListBox" ToolTip="This is a ListView">
                                 <ListBox BorderBrush="Transparent"
                                          BorderThickness="0"
-                                         ItemsSource="{EnumBindingSource EnumType=viewModel:UserPermission}"
+                                         ItemsSource="{EnumBindingSource EnumType=viemodels:UserPermission}"
                                          SelectionMode="Multiple" />
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="PropertyGrid" ToolTip="This is a PropertyGrid">

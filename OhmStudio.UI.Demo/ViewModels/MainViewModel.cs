@@ -19,8 +19,10 @@ using OhmStudio.UI.Attaches;
 using OhmStudio.UI.Commands;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.Converters;
+using OhmStudio.UI.Demo.Models;
 using OhmStudio.UI.Demo.Views;
 using OhmStudio.UI.Messaging;
+using OhmStudio.UI.Mvvm;
 using OhmStudio.UI.PublicMethods;
 using PropertyChanged;
 
@@ -62,12 +64,12 @@ namespace OhmStudio.UI.Demo.ViewModels
             AddWorkflowItemCommand = new RelayCommand<StepType>((stepType) =>
             {
                 var point = MainWindow.workflowEditor.ContextMenu.TranslatePoint(new Point(), MainWindow.workflowEditor);
-                WorkflowItemViewModel workflowItemViewModel = new WorkflowItemViewModel();
-                workflowItemViewModel.Name = EnumDescriptionConverter.GetEnumDesc(stepType);
-                workflowItemViewModel.StepType = stepType;
-                workflowItemViewModel.Left = point.X;
-                workflowItemViewModel.Top = point.Y;
-                WorkflowItemViewModels.Add(workflowItemViewModel);
+                WorkflowItemModel workflowItemModel = new WorkflowItemModel();
+                workflowItemModel.Name = EnumDescriptionConverter.GetEnumDesc(stepType);
+                workflowItemModel.StepType = stepType;
+                workflowItemModel.Left = point.X;
+                workflowItemModel.Top = point.Y;
+                WorkflowItemModels.Add(workflowItemModel);
             });
             DeleteWorkflowItemCommand = new RelayCommand(() =>
             {
@@ -75,7 +77,7 @@ namespace OhmStudio.UI.Demo.ViewModels
                 {
                     for (int i = SelectedWorkflowItems.Count - 1; i >= 0; i--)
                     {
-                        WorkflowItemViewModels.Remove(SelectedWorkflowItems[i] as WorkflowItemViewModel);
+                        WorkflowItemModels.Remove(SelectedWorkflowItems[i] as WorkflowItemModel);
                     }
                 }
             });
@@ -87,20 +89,6 @@ namespace OhmStudio.UI.Demo.ViewModels
                 if (saveFileDialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(saveFileDialog.FileName))
                 {
                     MainWindow.SaveAsImage(saveFileDialog.FileName, ImageType.Png);
-                }
-            });
-            SelectAllCommand = new RelayCommand(() =>
-            {
-                foreach (var item in WorkflowItemViewModels)
-                {
-                    item.IsSelected = true;
-                }
-            });
-            UnselectAllCommand = new RelayCommand(() =>
-            {
-                foreach (var item in WorkflowItemViewModels)
-                {
-                    item.IsSelected = false;
                 }
             });
 
@@ -167,12 +155,12 @@ namespace OhmStudio.UI.Demo.ViewModels
             UserInfos.Add(new UserInfoModel() { UserName = "jack" });
             UserInfos.Add(new UserInfoModel() { UserName = "rose", Password = "123456" });
 
-            WorkflowItemViewModels.Add(new WorkflowItemViewModel() { Name = "开始", StepType = StepType.Begin, Left = 100 });
-            WorkflowItemViewModels.Add(new WorkflowItemViewModel() { Name = "love", StepType = StepType.Nomal, Left = 200, Top = 200 });
-            WorkflowItemViewModels.Add(new WorkflowItemViewModel() { Name = "结束", StepType = StepType.End, Left = 300, Top = 400 });
+            WorkflowItemModels.Add(new WorkflowItemModel() { Name = "开始", StepType = StepType.Begin, Left = 100 });
+            WorkflowItemModels.Add(new WorkflowItemModel() { Name = "love", StepType = StepType.Nomal, Left = 200, Top = 200 });
+            WorkflowItemModels.Add(new WorkflowItemModel() { Name = "结束", StepType = StepType.End, Left = 300, Top = 400 });
 
-            WorkflowItemViewModels.Last().LastStep = WorkflowItemViewModels[1];
-            WorkflowItemViewModels[1].NextStep = WorkflowItemViewModels.Last();
+            WorkflowItemModels.Last().LastStep = WorkflowItemModels[1];
+            WorkflowItemModels[1].NextStep = WorkflowItemModels.Last();
 
             WorkflowItems.Add(new WorkflowItem() { Content = new TextBox() { Margin = new Thickness(8), Text = "开始" }, StepType = StepType.Begin });
             var workflowItem = new WorkflowItem() { Content = new TextBlock() { Text = "中间节点" } };
@@ -208,7 +196,7 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         public ObservableCollection<WorkflowItem> WorkflowItems { get; set; } = new ObservableCollection<WorkflowItem>();
 
-        public ObservableCollection<WorkflowItemViewModel> WorkflowItemViewModels { get; set; } = new ObservableCollection<WorkflowItemViewModel>();
+        public ObservableCollection<WorkflowItemModel> WorkflowItemModels { get; set; } = new ObservableCollection<WorkflowItemModel>();
 
         public IList SelectedWorkflowItems { get; set; }
 
@@ -281,10 +269,6 @@ namespace OhmStudio.UI.Demo.ViewModels
         public ICommand DeleteWorkflowItemCommand { get; }
 
         public ICommand SaveAsImageCommand { get; }
-
-        public ICommand SelectAllCommand { get; }
-
-        public ICommand UnselectAllCommand { get; }
 
         private RelayCommand _startCommand;
         public RelayCommand StartCommand
@@ -475,34 +459,7 @@ namespace OhmStudio.UI.Demo.ViewModels
         [Description("设置")]
         Settings = 1 << 2
     }
-
-    public class WorkflowItemViewModel : ViewModelBase
-    {
-        public bool IsSelected { get; set; }
-
-        public void OnIsSelectedChanged()
-        {
-            Debug.WriteLine(PathContent);
-        }
-
-        public string Name { get; set; }
-
-        public StepType StepType { get; set; } = StepType.Begin;
-
-        public double Width { get; set; } = 200;
-        public double Height { get; set; } = 80;
-
-        public double Left { get; set; }
-        public double Top { get; set; }
-
-        public string PathContent { get; set; } = "下一节点";
-
-        public WorkflowItemViewModel LastStep { get; set; }
-        public WorkflowItemViewModel NextStep { get; set; }
-        public WorkflowItemViewModel FromStep { get; set; }
-        public WorkflowItemViewModel JumpStep { get; set; }
-    }
-
+ 
     public class FontFamilyItem
     {
         public string Name { get; set; }

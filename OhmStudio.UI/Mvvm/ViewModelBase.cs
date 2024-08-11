@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Windows;
 
-namespace OhmStudio.UI.Commands
+namespace OhmStudio.UI.Mvvm
 {
     public class ViewModelBase : ObservableObject, IDataErrorInfo
     {

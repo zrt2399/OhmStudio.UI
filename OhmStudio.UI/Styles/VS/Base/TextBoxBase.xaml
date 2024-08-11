@@ -30,9 +30,10 @@
                     <StackPanel>
                         <AdornedElementPlaceholder x:Name="AdornedElementPlaceholder" />
                         <StackPanel x:Name="sp"
+                                    HorizontalAlignment="{Binding ElementName=AdornedElementPlaceholder, Path=AdornedElement.HorizontalContentAlignment}"
                                     IsHitTestVisible="False"
-                                    Orientation="Horizontal"
-                                    Visibility="{Binding ElementName=AdornedElementPlaceholder, Path=AdornedElement.(TextBoxAttach.IsShowValidationErrorInfo), Converter={StaticResource BoolToVisibilityConverter}}">
+                                    Orientation="Horizontal">
+                            <!--  Visibility="{Binding ElementName=AdornedElementPlaceholder, Path=AdornedElement.(TextBoxAttach.IsShowValidationErrorInfo), Converter={StaticResource BoolToVisibilityConverter}}"  -->
                             <StackPanel.Triggers>
                                 <EventTrigger RoutedEvent="Loaded">
                                     <BeginStoryboard>
@@ -114,6 +115,9 @@
                             <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxErrorBackground}" />
                             <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxErrorForeground}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxErrorBorder}" />
+                        </Trigger>
+                        <Trigger Property="attaches:TextBoxAttach.IsShowValidationErrorInfo" Value="False">
+                            <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
