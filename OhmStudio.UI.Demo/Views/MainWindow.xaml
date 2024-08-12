@@ -861,7 +861,7 @@
                             <LayoutDocument Title="Other"
                                             CanClose="False"
                                             Description="其他"
-                                            IsSelected="True"
+                                            IsSelected="False"
                                             ToolTip="Other">
                                 <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                                     <!--<Grid>

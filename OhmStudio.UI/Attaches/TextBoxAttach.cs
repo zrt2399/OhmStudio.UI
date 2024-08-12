@@ -65,7 +65,7 @@ namespace OhmStudio.UI.Attaches
                     var comboBox = sender as ComboBox;
                     if (comboBox.IsLoaded)
                     {
-                        InvokeChanged(comboBox);
+                        InvokePlaceHolderChanged(comboBox);
                     }
                     else
                     {
@@ -127,25 +127,26 @@ namespace OhmStudio.UI.Attaches
         {
             ComboBox comboBox = sender as ComboBox;
             comboBox.Loaded -= ComboBox_Loaded;
-            InvokeChanged(comboBox);
+            InvokePlaceHolderChanged(comboBox);
         }
 
-        static void InvokeChanged(ComboBox comboBox)
+        private static void InvokePlaceHolderChanged(ComboBox comboBox)
         {
-            comboBox.Dispatcher.InvokeAsync(() =>
+            if (comboBox.Template?.FindName("PART_EditableTextBox", comboBox) is TextBox textBox)
             {
-                if (comboBox.Template?.FindName("PART_EditableTextBox", comboBox) is TextBox textBox)
+                textBox.TextChanged -= ComboBoxTextBox_TextChanged;
+                comboBox.SelectionChanged -= ComboBox_SelectionChanged;
+                if (!CheckIsEmpty(GetPlaceHolder(comboBox)))
                 {
-                    textBox.TextChanged -= ComboBoxTextBox_TextChanged;
-                    comboBox.SelectionChanged -= ComboBox_SelectionChanged;
-                    if (!CheckIsEmpty(GetPlaceHolder(comboBox)))
-                    {
-                        UpdateHolderVisibility(comboBox, comboBox.IsEditable ? textBox.Text : comboBox.SelectedItem?.ToString());
-                        textBox.TextChanged += ComboBoxTextBox_TextChanged;
-                        comboBox.SelectionChanged += ComboBox_SelectionChanged;
-                    }
+                    UpdateHolderVisibility(comboBox, comboBox.IsEditable ? textBox.Text : comboBox.SelectedItem?.ToString());
+                    textBox.TextChanged += ComboBoxTextBox_TextChanged;
+                    comboBox.SelectionChanged += ComboBox_SelectionChanged;
                 }
-            }, DispatcherPriority.Render);
+            }
+            else
+            {
+                comboBox.Loaded += ComboBox_Loaded;
+            }
         }
 
         private static void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

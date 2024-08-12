@@ -171,6 +171,8 @@ namespace OhmStudio.UI.Demo.ViewModels
 
             StatusManager.IsRunningChanged += StatusManager_IsRunningChanged;
             XamlThemeDictionary.ThemeChanged += XamlThemeDictionary_ThemeChanged;
+
+            CurrentUserPermission = new List<UserPermission>() { UserPermission.Test, UserPermission.Edit, UserPermission.Settings };
         }
 
         public bool Can;
@@ -459,7 +461,7 @@ namespace OhmStudio.UI.Demo.ViewModels
         [Description("设置")]
         Settings = 1 << 2
     }
- 
+
     public class FontFamilyItem
     {
         public string Name { get; set; }

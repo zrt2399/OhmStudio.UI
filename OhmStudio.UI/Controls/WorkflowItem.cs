@@ -57,7 +57,7 @@ namespace OhmStudio.UI.Controls
 
         public event RoutedEventHandler Unselected;
     }
- 
+
     internal class PathItem : SelectionControl
     {
         static PathItem()
@@ -521,43 +521,10 @@ namespace OhmStudio.UI.Controls
         }
 
         protected virtual void OnWorkflowItemChanged(DependencyPropertyChangedEventArgs e)
-        {
-            //if (e.NewValue == DataContext)
-            //{
-            //    SetValue(e.Property, e.OldValue);
-            //    throw new InvalidOperationException("Cannot be set as oneself");
-            //}
-            //if (_updating)
-            //{
-            //    _updating = false;
-            //    return;
-            //}
-            //if (e.Property == LastStepProperty)
-            //{
-            //    _updating = true;
-            //    FirstOrDefault(LastStep).NextStep = LastStep;
-
-            //}
-            //else if (e.Property == NextStepProperty)
-            //{
-            //    _updating = true;
-            //    FirstOrDefault(NextStep).LastStep = NextStep;
-            //}
-            //else if (e.Property == FromStepProperty)
-            //{
-            //    _updating = true;
-            //    FirstOrDefault(FromStep).JumpStep = FromStep; 
-            //}
-            //else if (e.Property == JumpStepProperty)
-            //{
-            //    _updating = true;
-            //    FirstOrDefault(JumpStep).FromStep = JumpStep; 
-            //}
+        { 
             UpdateCurve();
         }
-
-        //private bool _updating;
-
+ 
         internal WorkflowItem FirstOrDefault(object item)
         {
             return EditorParent.FirstOrDefault(item);

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +16,7 @@ namespace OhmStudio.UI.Controls
         public CheckComboBox()
         {
             SetEmpty();
+            Loaded += CheckComboBox_Loaded;
             GotFocus += CheckComboBox_GotFocus;
             SelectAllCommand = new RelayCommand(SelectAll);
             UnselectAllCommand = new RelayCommand(UnselectAll);
@@ -25,15 +28,15 @@ namespace OhmStudio.UI.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CheckComboBox), new FrameworkPropertyMetadata(typeof(CheckComboBox)));
         }
 
-        ListBox PART_ListBox;
-        TextBox PART_TextBox;
+        private ListBox PART_ListBox;
+        private TextBox PART_TextBox;
+        private bool _isUpdatingSelectedItems;
+        private List<Action> _loadedMethodCallQueue = new List<Action>();
+
+        public bool IsInit { get; private set; }
 
         public static readonly DependencyProperty SelectedItemsProperty =
-            DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(CheckComboBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) =>
-            {
-                CheckComboBox checkComboBox = (CheckComboBox)sender;
-                 
-            }));
+            DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(CheckComboBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedItemsChanged));
 
         public IList SelectedItems
         {
@@ -111,6 +114,93 @@ namespace OhmStudio.UI.Controls
             PART_ListBox = GetTemplateChild("PART_ListBox") as ListBox;
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
+            IsInit = true;
+        }
+
+        private void CheckComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (IsInit)
+            {
+                foreach (var item in _loadedMethodCallQueue)
+                {
+                    item?.Invoke();
+                }
+                _loadedMethodCallQueue.Clear();
+                Loaded -= CheckComboBox_Loaded;
+            }
+        }
+
+        private static void OnSelectedItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var checkComboBox = (CheckComboBox)d;
+            IEnumerable oldItemsSource = (IEnumerable)e.OldValue;
+            IEnumerable newItemsSource = (IEnumerable)e.NewValue;
+            checkComboBox.OnSelectedItemsChanged(oldItemsSource, newItemsSource);
+        }
+
+        public virtual void OnSelectedItemsChanged(IEnumerable oldItemsSource, IEnumerable newItemsSource)
+        {
+            if (_isUpdatingSelectedItems)
+            {
+                return;
+            }
+            if (!IsInit)
+            {
+                _loadedMethodCallQueue.Add(() => OnSelectedItemsChanged(oldItemsSource, newItemsSource));
+                return;
+            }
+            PART_ListBox.UnselectAll();
+            if (oldItemsSource != null)
+            {
+                if (oldItemsSource is INotifyCollectionChanged notifyCollectionChanged)
+                {
+                    notifyCollectionChanged.CollectionChanged -= CollectionChanged;
+                }
+            }
+            if (newItemsSource != null)
+            {
+                foreach (var item in newItemsSource)
+                {
+                    PART_ListBox.SelectedItems.Add(item);
+                }
+                if (newItemsSource is INotifyCollectionChanged notifyCollectionChanged)
+                {
+                    notifyCollectionChanged.CollectionChanged += CollectionChanged;
+                }
+            }
+        }
+
+        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (_isUpdatingSelectedItems)
+            {
+                return;
+            }
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    PART_ListBox.SelectedItems.Add(item);
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                foreach (var oldItem in e.OldItems)
+                {
+                    PART_ListBox.SelectedItems.Remove(oldItem);
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Replace)
+            {
+                var newItem = e.NewItems[0];
+                var oldItem = e.OldItems[0];
+                PART_ListBox.SelectedItems.Add(newItem);
+                PART_ListBox.SelectedItems.Remove(oldItem);
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                PART_ListBox.UnselectAll();
+            }
         }
 
         protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
@@ -136,8 +226,9 @@ namespace OhmStudio.UI.Controls
 
         private void SelectElement(bool value, bool invert = false)
         {
-            if (PART_ListBox == null)
+            if (!IsInit)
             {
+                _loadedMethodCallQueue.Add(() => SelectElement(value, invert));
                 return;
             }
 
@@ -168,26 +259,24 @@ namespace OhmStudio.UI.Controls
                 }
             }
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
-            var eventArg = new SelectionChangedEventArgs(SelectionChangedEvent, Array.Empty<object>(), Array.Empty<object>());
-            PART_ListBox.RaiseEvent(eventArg);
-            //PART_ListBox_SelectionChanged(PART_ListBox, eventArg);
+            UpdateSelectedItems(PART_ListBox);
         }
 
-        void SetEmpty()
+        private void SetEmpty()
         {
             SelectedItems = ItemsSource == null ? null : Array.Empty<object>();
             SelectedText = Unselectedstring;
         }
 
-        private void PART_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void UpdateSelectedItems(ListBox listBox)
         {
-            var listBox = sender as ListBox;
-            if (ItemsSource == null || listBox.Items.Count == 0 || listBox.SelectedItems.Count == 0)
+            if (ItemsSource == null || Items.Count == 0 || listBox.SelectedItems.Count == 0)
             {
                 SetEmpty();
                 return;
             }
 
+            _isUpdatingSelectedItems = true;
             SelectedItems = listBox.SelectedItems;
             var stringResult = new string[SelectedItems.Count];
 
@@ -200,7 +289,7 @@ namespace OhmStudio.UI.Controls
                 BindingOperations.ClearAllBindings(textBlock);
             }
 
-            if (SelectedItems.Count == listBox.Items.Count && !string.IsNullOrEmpty(SelectedAllString))
+            if (SelectedItems.Count == Items.Count && !string.IsNullOrEmpty(SelectedAllString))
             {
                 SelectedText = SelectedAllString;
             }
@@ -217,6 +306,12 @@ namespace OhmStudio.UI.Controls
                 }
                 SelectedText = stringBuilder.ToString();
             }
+            _isUpdatingSelectedItems = false;
+        }
+
+        private void PART_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateSelectedItems(sender as ListBox);
         }
 
         private void CheckComboBox_GotFocus(object sender, RoutedEventArgs e)
