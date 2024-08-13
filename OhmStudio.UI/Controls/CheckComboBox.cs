@@ -20,7 +20,7 @@ namespace OhmStudio.UI.Controls
             GotFocus += CheckComboBox_GotFocus;
             SelectAllCommand = new RelayCommand(SelectAll);
             UnselectAllCommand = new RelayCommand(UnselectAll);
-            InvertSelectionCommand = new RelayCommand(Invert);
+            InvertSelectCommand = new RelayCommand(InvertSelect);
         }
 
         static CheckComboBox()
@@ -102,7 +102,7 @@ namespace OhmStudio.UI.Controls
 
         public ICommand UnselectAllCommand { get; }
 
-        public ICommand InvertSelectionCommand { get; }
+        public ICommand InvertSelectCommand { get; }
 
         public override void OnApplyTemplate()
         {
@@ -219,7 +219,7 @@ namespace OhmStudio.UI.Controls
             SelectElement(false);
         }
 
-        public void Invert()
+        public void InvertSelect()
         {
             SelectElement(true, true);
         }

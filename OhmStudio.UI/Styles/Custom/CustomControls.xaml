@@ -804,7 +804,7 @@
                                                         <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
                                                     </Style>
                                                 </StackPanel.Resources>
-                                                <Button Command="{Binding InvertSelectionCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                <Button Command="{Binding InvertSelectCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                     <CheckBox IsChecked="{x:Null}">反选</CheckBox>
                                                 </Button>
                                                 <Button Command="{Binding SelectAllCommand, RelativeSource={RelativeSource TemplatedParent}}">

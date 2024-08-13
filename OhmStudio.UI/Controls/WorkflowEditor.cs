@@ -61,7 +61,7 @@ namespace OhmStudio.UI.Controls
             LayoutTransform = scaleTransform;
             SelectAllCommand = new RelayCommand(SelectAll);
             UnselectAllCommand = new RelayCommand(UnselectAll);
-            InvertSelectionCommand = new RelayCommand(Invert);
+            InvertSelectCommand = new RelayCommand(InvertSelect);
         }
 
         private void WorkflowEditor_KeyDown(object sender, KeyEventArgs e)
@@ -155,7 +155,7 @@ namespace OhmStudio.UI.Controls
 
         public ICommand UnselectAllCommand { get; }
 
-        public ICommand InvertSelectionCommand { get; }
+        public ICommand InvertSelectCommand { get; }
 
         public IEnumerable ItemsSource
         {
@@ -455,7 +455,7 @@ namespace OhmStudio.UI.Controls
             SelectElement(false);
         }
 
-        public void Invert()
+        public void InvertSelect()
         {
             SelectElement(true, true);
         }

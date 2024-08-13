@@ -756,7 +756,7 @@
                                                         <MenuItem Command="{Binding DeleteWorkflowItemCommand}" Header="删除选中流程" />
                                                         <MenuItem Command="{Binding PlacementTarget.SelectAllCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Header="选择全部" />
                                                         <MenuItem Command="{Binding PlacementTarget.UnselectAllCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Header="取消全部" />
-                                                        <MenuItem Command="{Binding PlacementTarget.InvertSelectionCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Header="反选" />
+                                                        <MenuItem Command="{Binding PlacementTarget.InvertSelectCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Header="反选" />
                                                         <MenuItem Command="{Binding SaveAsImageCommand}" Header="保存为Png" />
                                                     </ContextMenu>
                                                 </WorkflowEditor.ContextMenu>
