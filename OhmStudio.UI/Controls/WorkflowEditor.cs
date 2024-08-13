@@ -462,19 +462,25 @@ namespace OhmStudio.UI.Controls
 
         private void SelectElement(bool value, bool invert = false)
         {
-            BeginUpdateSelectedItems();
-            foreach (var item in WorkflowItems)
+            try
             {
-                if (invert)
+                BeginUpdateSelectedItems();
+                foreach (var item in WorkflowItems)
                 {
-                    item.IsSelected = !item.IsSelected;
-                }
-                else
-                {
-                    item.IsSelected = value;
+                    if (invert)
+                    {
+                        item.IsSelected = !item.IsSelected;
+                    }
+                    else
+                    {
+                        item.IsSelected = value;
+                    }
                 }
             }
-            EndUpdateSelectedItems();
+            finally
+            {
+                EndUpdateSelectedItems();
+            }
         }
 
         private void MultiSelectionRectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

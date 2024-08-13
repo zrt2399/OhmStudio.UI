@@ -38,14 +38,29 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty SelectedItemsProperty =
             DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(CheckComboBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedItemsChanged));
 
+        public static readonly DependencyProperty SeparatorProperty =
+            DependencyProperty.Register(nameof(Separator), typeof(string), typeof(CheckComboBox), new PropertyMetadata(","));
+
+        public static readonly DependencyProperty ItemDisplayStringFormatProperty =
+            DependencyProperty.Register(nameof(ItemDisplayStringFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("{0}"));
+
+        public static readonly DependencyProperty UnselectedstringProperty =
+            DependencyProperty.Register(nameof(Unselectedstring), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)"));
+
+        public static readonly DependencyProperty SelectedAllStringProperty =
+            DependencyProperty.Register(nameof(SelectedAllString), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(已选择全部)"));
+
+        public static readonly DependencyProperty TextWrappingProperty =
+            DependencyProperty.Register(nameof(TextWrapping), typeof(TextWrapping), typeof(CheckComboBox), new PropertyMetadata(TextWrapping.NoWrap));
+
+        public static readonly DependencyProperty SelectedTextProperty =
+            DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(CheckComboBox));
+
         public IList SelectedItems
         {
             get => (IList)GetValue(SelectedItemsProperty);
             set => SetValue(SelectedItemsProperty, value);
         }
-
-        public static readonly DependencyProperty SeparatorProperty =
-            DependencyProperty.Register(nameof(Separator), typeof(string), typeof(CheckComboBox), new PropertyMetadata(","));
 
         public string Separator
         {
@@ -53,17 +68,11 @@ namespace OhmStudio.UI.Controls
             set => SetValue(SeparatorProperty, value);
         }
 
-        public static readonly DependencyProperty ItemDisplayStringFormatProperty =
-            DependencyProperty.Register(nameof(ItemDisplayStringFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("{0}"));
-
         public string ItemDisplayStringFormat
         {
             get => (string)GetValue(ItemDisplayStringFormatProperty);
             set => SetValue(ItemDisplayStringFormatProperty, value);
         }
-
-        public static readonly DependencyProperty UnselectedstringProperty =
-            DependencyProperty.Register(nameof(Unselectedstring), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)"));
 
         public string Unselectedstring
         {
@@ -71,26 +80,17 @@ namespace OhmStudio.UI.Controls
             set => SetValue(UnselectedstringProperty, value);
         }
 
-        public static readonly DependencyProperty SelectedAllStringProperty =
-            DependencyProperty.Register(nameof(SelectedAllString), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(已选择全部)"));
-
         public string SelectedAllString
         {
             get => (string)GetValue(SelectedAllStringProperty);
             set => SetValue(SelectedAllStringProperty, value);
         }
 
-        public static readonly DependencyProperty TextWrappingProperty =
-            DependencyProperty.Register(nameof(TextWrapping), typeof(TextWrapping), typeof(CheckComboBox), new PropertyMetadata(TextWrapping.NoWrap));
-
         public TextWrapping TextWrapping
         {
             get => (TextWrapping)GetValue(TextWrappingProperty);
             set => SetValue(TextWrappingProperty, value);
         }
-
-        public static readonly DependencyProperty SelectedTextProperty =
-            DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(CheckComboBox));
 
         public string SelectedText
         {
@@ -133,12 +133,12 @@ namespace OhmStudio.UI.Controls
         private static void OnSelectedItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var checkComboBox = (CheckComboBox)d;
-            IEnumerable oldItemsSource = (IEnumerable)e.OldValue;
-            IEnumerable newItemsSource = (IEnumerable)e.NewValue;
-            checkComboBox.OnSelectedItemsChanged(oldItemsSource, newItemsSource);
+            IList oldSelectedItems = (IList)e.OldValue;
+            IList newSelectedItems = (IList)e.NewValue;
+            checkComboBox.OnSelectedItemsChanged(oldSelectedItems, newSelectedItems);
         }
 
-        public virtual void OnSelectedItemsChanged(IEnumerable oldItemsSource, IEnumerable newItemsSource)
+        public virtual void OnSelectedItemsChanged(IList oldSelectedItems, IList newSelectedItems)
         {
             if (_isUpdatingSelectedItems)
             {
@@ -146,24 +146,24 @@ namespace OhmStudio.UI.Controls
             }
             if (!IsInit)
             {
-                _loadedMethodCallQueue.Add(() => OnSelectedItemsChanged(oldItemsSource, newItemsSource));
+                _loadedMethodCallQueue.Add(() => OnSelectedItemsChanged(oldSelectedItems, newSelectedItems));
                 return;
             }
             PART_ListBox.UnselectAll();
-            if (oldItemsSource != null)
+            if (oldSelectedItems != null)
             {
-                if (oldItemsSource is INotifyCollectionChanged notifyCollectionChanged)
+                if (oldSelectedItems is INotifyCollectionChanged notifyCollectionChanged)
                 {
                     notifyCollectionChanged.CollectionChanged -= CollectionChanged;
                 }
             }
-            if (newItemsSource != null)
+            if (newSelectedItems != null)
             {
-                foreach (var item in newItemsSource)
+                foreach (var item in newSelectedItems)
                 {
                     PART_ListBox.SelectedItems.Add(item);
                 }
-                if (newItemsSource is INotifyCollectionChanged notifyCollectionChanged)
+                if (newSelectedItems is INotifyCollectionChanged notifyCollectionChanged)
                 {
                     notifyCollectionChanged.CollectionChanged += CollectionChanged;
                 }
@@ -232,34 +232,40 @@ namespace OhmStudio.UI.Controls
                 return;
             }
 
-            PART_ListBox.SelectionChanged -= PART_ListBox_SelectionChanged;
-            if (invert)
+            try
             {
-                foreach (var item in PART_ListBox.Items)
+                PART_ListBox.SelectionChanged -= PART_ListBox_SelectionChanged;
+                if (invert)
                 {
-                    if (PART_ListBox.SelectedItems.Contains(item))
+                    foreach (var item in PART_ListBox.Items)
                     {
-                        PART_ListBox.SelectedItems.Remove(item);
+                        if (PART_ListBox.SelectedItems.Contains(item))
+                        {
+                            PART_ListBox.SelectedItems.Remove(item);
+                        }
+                        else
+                        {
+                            PART_ListBox.SelectedItems.Add(item);
+                        }
                     }
-                    else
-                    {
-                        PART_ListBox.SelectedItems.Add(item);
-                    }
-                }
-            }
-            else
-            {
-                if (value)
-                {
-                    PART_ListBox.SelectAll();
                 }
                 else
                 {
-                    PART_ListBox.UnselectAll();
+                    if (value)
+                    {
+                        PART_ListBox.SelectAll();
+                    }
+                    else
+                    {
+                        PART_ListBox.UnselectAll();
+                    }
                 }
             }
-            PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
-            UpdateSelectedItems(PART_ListBox);
+            finally
+            {
+                PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
+                UpdateSelectedItems(PART_ListBox);
+            }
         }
 
         private void SetEmpty()
@@ -276,37 +282,43 @@ namespace OhmStudio.UI.Controls
                 return;
             }
 
-            _isUpdatingSelectedItems = true;
-            SelectedItems = listBox.SelectedItems;
-            var stringResult = new string[SelectedItems.Count];
+            try
+            {
+                _isUpdatingSelectedItems = true;
+                SelectedItems = listBox.SelectedItems;
+                var stringResult = new string[SelectedItems.Count];
 
-            for (int i = 0; i < SelectedItems.Count; i++)
-            {
-                Binding binding = new Binding(DisplayMemberPath) { Source = SelectedItems[i] };
-                TextBlock textBlock = new TextBlock();
-                textBlock.SetBinding(TextBlock.TextProperty, binding);
-                stringResult[i] = textBlock.Text;
-                BindingOperations.ClearAllBindings(textBlock);
-            }
-
-            if (SelectedItems.Count == Items.Count && !string.IsNullOrEmpty(SelectedAllString))
-            {
-                SelectedText = SelectedAllString;
-            }
-            else
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                for (int i = 0; i < stringResult.Length; i++)
+                for (int i = 0; i < SelectedItems.Count; i++)
                 {
-                    stringBuilder.Append(string.Format(ItemDisplayStringFormat, stringResult[i]));
-                    if (i < stringResult.Length - 1)
-                    {
-                        stringBuilder.Append(Separator);
-                    }
+                    Binding binding = new Binding(DisplayMemberPath) { Source = SelectedItems[i] };
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.SetBinding(TextBlock.TextProperty, binding);
+                    stringResult[i] = textBlock.Text;
+                    BindingOperations.ClearAllBindings(textBlock);
                 }
-                SelectedText = stringBuilder.ToString();
+
+                if (SelectedItems.Count == Items.Count && !string.IsNullOrEmpty(SelectedAllString))
+                {
+                    SelectedText = SelectedAllString;
+                }
+                else
+                {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int i = 0; i < stringResult.Length; i++)
+                    {
+                        stringBuilder.Append(string.Format(ItemDisplayStringFormat, stringResult[i]));
+                        if (i < stringResult.Length - 1)
+                        {
+                            stringBuilder.Append(Separator);
+                        }
+                    }
+                    SelectedText = stringBuilder.ToString();
+                }
             }
-            _isUpdatingSelectedItems = false;
+            finally
+            {
+                _isUpdatingSelectedItems = false;
+            }
         }
 
         private void PART_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
