@@ -738,7 +738,7 @@
                                         </WorkflowEditor>
                                     </TabItem>
                                     <TabItem Header="MvvmBinding" IsSelected="True">
-                                        <Grid GridAttach.RowDefinitions="*,Auto" UseLayoutRounding="False">
+                                        <Grid GridAttach.RowDefinitions="*,Auto">
                                             <WorkflowEditor x:Name="workflowEditor"
                                                             ItemsSource="{Binding WorkflowItemModels}"
                                                             SelectedItems="{Binding SelectedWorkflowItems}">
