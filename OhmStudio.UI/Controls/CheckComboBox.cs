@@ -39,16 +39,16 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(CheckComboBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedItemsChanged));
 
         public static readonly DependencyProperty SeparatorProperty =
-            DependencyProperty.Register(nameof(Separator), typeof(string), typeof(CheckComboBox), new PropertyMetadata(","));
+            DependencyProperty.Register(nameof(Separator), typeof(string), typeof(CheckComboBox), new PropertyMetadata(",", UpdateSelectedItems));
 
         public static readonly DependencyProperty ItemDisplayStringFormatProperty =
-            DependencyProperty.Register(nameof(ItemDisplayStringFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("{0}"));
+            DependencyProperty.Register(nameof(ItemDisplayStringFormat), typeof(string), typeof(CheckComboBox), new PropertyMetadata("{0}", UpdateSelectedItems));
 
         public static readonly DependencyProperty UnselectedstringProperty =
-            DependencyProperty.Register(nameof(Unselectedstring), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)"));
+            DependencyProperty.Register(nameof(Unselectedstring), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(未选择)", UpdateSelectedItems));
 
         public static readonly DependencyProperty SelectedAllStringProperty =
-            DependencyProperty.Register(nameof(SelectedAllString), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(已选择全部)"));
+            DependencyProperty.Register(nameof(SelectedAllString), typeof(string), typeof(CheckComboBox), new PropertyMetadata("(已选择全部)", UpdateSelectedItems));
 
         public static readonly DependencyProperty TextWrappingProperty =
             DependencyProperty.Register(nameof(TextWrapping), typeof(TextWrapping), typeof(CheckComboBox), new PropertyMetadata(TextWrapping.NoWrap));
@@ -272,6 +272,15 @@ namespace OhmStudio.UI.Controls
         {
             SelectedItems = ItemsSource == null ? null : Array.Empty<object>();
             SelectedText = Unselectedstring;
+        }
+
+        private static void UpdateSelectedItems(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var checkComboBox = d as CheckComboBox;
+            if (checkComboBox.IsInit)
+            {
+                checkComboBox.UpdateSelectedItems(checkComboBox.PART_ListBox);
+            }
         }
 
         private void UpdateSelectedItems(ListBox listBox)
