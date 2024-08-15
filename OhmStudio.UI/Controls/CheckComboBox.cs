@@ -31,7 +31,7 @@ namespace OhmStudio.UI.Controls
         private ListBox PART_ListBox;
         private TextBox PART_TextBox;
         private bool _isUpdatingSelectedItems;
-        private List<Action> _loadedMethodCallQueue = new List<Action>();
+        private List<Action> _loadedMethods = new List<Action>();
 
         public bool IsInit { get; private set; }
 
@@ -121,12 +121,12 @@ namespace OhmStudio.UI.Controls
         {
             if (IsInit)
             {
-                foreach (var item in _loadedMethodCallQueue)
+                Loaded -= CheckComboBox_Loaded;
+                foreach (var item in _loadedMethods)
                 {
                     item?.Invoke();
                 }
-                _loadedMethodCallQueue.Clear();
-                Loaded -= CheckComboBox_Loaded;
+                _loadedMethods.Clear();
             }
         }
 
@@ -146,7 +146,7 @@ namespace OhmStudio.UI.Controls
             }
             if (!IsInit)
             {
-                _loadedMethodCallQueue.Add(() => OnSelectedItemsChanged(oldSelectedItems, newSelectedItems));
+                _loadedMethods.Add(() => OnSelectedItemsChanged(oldSelectedItems, newSelectedItems));
                 return;
             }
             PART_ListBox.UnselectAll();
@@ -228,7 +228,7 @@ namespace OhmStudio.UI.Controls
         {
             if (!IsInit)
             {
-                _loadedMethodCallQueue.Add(() => SelectElement(value, invert));
+                _loadedMethods.Add(() => SelectElement(value, invert));
                 return;
             }
 
