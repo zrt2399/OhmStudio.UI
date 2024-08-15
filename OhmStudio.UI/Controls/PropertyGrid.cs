@@ -316,4 +316,59 @@ namespace OhmStudio.UI.Controls
             }
         }
     }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyGridAttribute : Attribute
+    {
+        public string DisplayName { get; set; }
+
+        public bool IsReadOnly { get; set; }
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyGridIgnoreAttribute : Attribute
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyChangedUpdateSourceAttribute : Attribute
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PasswordAttribute : Attribute
+    {
+        public bool CanShowPassword { get; set; } = true;
+
+        public char PasswordChar { get; set; } = PasswordTextBox.DefaultPasswordChar;
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class ToolTipAttribute : Attribute
+    {
+        public string ToolTip { get; set; }
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class VirtualizingPanelAttribute : Attribute
+    {
+        public bool IsVirtualizing { get; set; } = true;
+
+        public ScrollUnit ScrollUnit { get; set; }
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class TextBoxPlaceHolderAttribute : Attribute
+    {
+        public string PlaceHolder { get; set; } = TextBoxAttach.PlaceHolder;
+
+        public double PlaceHolderOpacity { get; set; } = TextBoxAttach.PlaceHolderOpacity;
+
+        public bool PlaceHolderIsHitTestVisible { get; set; } = TextBoxAttach.PlaceHolderIsHitTestVisible;
+    }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
+    public class BaseObjectIgnoreAttribute : Attribute
+    {
+    }
 }

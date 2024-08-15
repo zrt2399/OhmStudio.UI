@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -13,7 +11,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
-using OhmStudio.UI.Attaches;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.Helpers;
 using Color = System.Drawing.Color;
@@ -48,7 +45,7 @@ namespace OhmStudio.UI.PublicMethods
             }
         }
 
-        public static T GetFirstVisualHit<T>(this Visual visual, System.Windows.Point point) where T : DependencyObject
+        public static T FindFirstVisualHit<T>(this Visual visual, System.Windows.Point point) where T : DependencyObject
         {
             List<T> hitElements = new List<T>();
 
@@ -60,9 +57,20 @@ namespace OhmStudio.UI.PublicMethods
                     result =>
                     {
                         HitTestResultBehavior behavior = HitTestResultBehavior.Continue;
-                        if (result.VisualHit is FrameworkElement frameworkElement && frameworkElement.TemplatedParent is T t && frameworkElement.IsVisible)
+                        if (result.VisualHit is T t1)
                         {
-                            hitElements.Add(t);
+                            hitElements.Add(t1);
+                        }
+                        else if (result.VisualHit is FrameworkElement frameworkElement)
+                        {
+                            if (frameworkElement.Parent is T t2)
+                            {
+                                hitElements.Add(t2);
+                            }
+                            else if (frameworkElement.TemplatedParent is T t3)
+                            {
+                                hitElements.Add(t3);
+                            }
                         }
                         return behavior;
                     }),
@@ -80,7 +88,7 @@ namespace OhmStudio.UI.PublicMethods
             }
             else
             {
-                return hitObject.FindParentObject<T>();
+                return hitObject.GetParentObject<T>();
             }
         }
 
@@ -213,7 +221,7 @@ namespace OhmStudio.UI.PublicMethods
             }
         }
 
-        public static T FindParentObject<T>(this DependencyObject obj)
+        public static T GetParentObject<T>(this DependencyObject obj)
         {
             DependencyObject parent = obj is Visual or Visual3D ? VisualTreeHelper.GetParent(obj) : LogicalTreeHelper.GetParent(obj);
             while (parent != null)
@@ -388,92 +396,6 @@ namespace OhmStudio.UI.PublicMethods
                 }
             }
             return bytesTemp;
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class PropertyGridAttribute : Attribute
-    {
-        public string DisplayName { get; set; }
-
-        public bool IsReadOnly { get; set; }
-    }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class PropertyGridIgnoreAttribute : Attribute
-    {
-    }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class PropertyChangedUpdateSourceAttribute : Attribute
-    {
-    }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class PasswordAttribute : Attribute
-    {
-        public bool CanShowPassword { get; set; } = true;
-
-        public char PasswordChar { get; set; } = PasswordTextBox.DefaultPasswordChar;
-    }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class ToolTipAttribute : Attribute
-    {
-        public string ToolTip { get; set; }
-    }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class VirtualizingPanelAttribute : Attribute
-    {
-        public bool IsVirtualizing { get; set; } = true;
-
-        public ScrollUnit ScrollUnit { get; set; }
-    }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class TextBoxPlaceHolderAttribute : Attribute
-    {
-        public string PlaceHolder { get; set; } = TextBoxAttach.PlaceHolder;
-
-        public double PlaceHolderOpacity { get; set; } = TextBoxAttach.PlaceHolderOpacity;
-
-        public bool PlaceHolderIsHitTestVisible { get; set; } = TextBoxAttach.PlaceHolderIsHitTestVisible;
-    }
-
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
-    public class BaseObjectIgnoreAttribute : Attribute
-    {
-    }
-
-    public class BulkObservableCollection<T> : ObservableCollection<T>
-    {
-        private bool _suppressNotification = false;
-
-        public void AddRange(IEnumerable<T> items)
-        {
-            if (items == null)
-            {
-                throw new ArgumentNullException(nameof(items));
-            }
-
-            _suppressNotification = true;
-
-            foreach (var item in items)
-            {
-                Items.Add(item);
-            }
-
-            _suppressNotification = false;
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-        }
-
-        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            if (!_suppressNotification)
-            {
-                base.OnCollectionChanged(e);
-            }
         }
     }
 
