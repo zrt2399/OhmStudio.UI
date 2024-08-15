@@ -790,7 +790,8 @@
                                                               Color="Transparent">
                                     <Border Background="{DynamicResource CommonControlsComboBoxListBackground}"
                                             BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
-                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            SnapsToDevicePixels="True">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
@@ -1016,7 +1017,8 @@
                 <ControlTemplate TargetType="controls:GifImage">
                     <Border BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}">
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            SnapsToDevicePixels="True">
                         <Border.Background>
                             <VisualBrush>
                                 <VisualBrush.Visual>
