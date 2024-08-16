@@ -34,8 +34,8 @@ namespace OhmStudio.UI.Demo.ViewModels
         {
             Messenger.Default.Register<string>(this, MessageType.AlertDialog, msg => AlertDialog.Show(msg));
             Messenger.Default.Register<string>(this, MessageType.TreeViewItemLoaded, (message) => StatusBarContent = message);
-            var fontFamilys = new InstalledFontCollection().Families.Select(x => new FontFamilyItem() { Name = x.Name, FontFamily = new FontFamily(x.Name) });
-            FontFamilyList = new ObservableCollection<FontFamilyItem>(fontFamilys);
+            var fontFamilies = new InstalledFontCollection().Families.Select(x => new FontFamilyItem() { Name = x.Name, FontFamily = new FontFamily(x.Name) });
+            FontFamilyList = new ObservableCollection<FontFamilyItem>(fontFamilies);
             FontFamilyList.Insert(0, _defaultFontFamilyItem);
 
             ZoomInCommand = new RelayCommand(ZoomIn);
@@ -393,7 +393,7 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         public SolidColorBrush Brush { get; set; } = Brushes.Transparent;
 
-        public Globals Globals { get; set; } = new Globals();
+        public Global Global { get; set; } = new Global();
     }
 
     public class EmployeeBase : ViewModelBase
@@ -414,7 +414,7 @@ namespace OhmStudio.UI.Demo.ViewModels
     }
 
     [BaseObjectIgnore]
-    public class Globals : EmployeeBase
+    public class Global : EmployeeBase
     {
         public string Name { get; set; }
 

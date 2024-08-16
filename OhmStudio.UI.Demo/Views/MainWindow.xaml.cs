@@ -47,7 +47,7 @@ namespace OhmStudio.UI.Demo.Views
             dispatcherTimer.Tick += delegate
             {
                 _xmlFoldingStrategy.UpdateFoldings(xmlFoldingManager, mainTextEditor.Document);
-                _braceFoldingStrategy.UpdateFoldings(csFoldingManager, textEditorcs.Document);
+                _braceFoldingStrategy.UpdateFolding(csFoldingManager, textEditorcs.Document);
             };
             dispatcherTimer.Start();
 
@@ -251,27 +251,27 @@ namespace OhmStudio.UI.Demo.Views
             ClosingBrace = '}';
         }
 
-        public void UpdateFoldings(FoldingManager manager, TextDocument document)
+        public void UpdateFolding(FoldingManager manager, TextDocument document)
         {
-            IEnumerable<NewFolding> newFoldings = CreateNewFoldings(document, out int firstErrorOffset);
-            manager.UpdateFoldings(newFoldings, firstErrorOffset);
+            IEnumerable<NewFolding> newFolding = CreateNewFolding(document, out int firstErrorOffset);
+            manager.UpdateFoldings(newFolding, firstErrorOffset);
         }
 
         /// <summary>
         /// Create <see cref="NewFolding"/>s for the specified document.
         /// </summary>
-        public IEnumerable<NewFolding> CreateNewFoldings(TextDocument document, out int firstErrorOffset)
+        public IEnumerable<NewFolding> CreateNewFolding(TextDocument document, out int firstErrorOffset)
         {
             firstErrorOffset = -1;
-            return CreateNewFoldings(document);
+            return CreateNewFolding(document);
         }
 
         /// <summary>
         /// Create <see cref="NewFolding"/>s for the specified document.
         /// </summary>
-        public IEnumerable<NewFolding> CreateNewFoldings(ITextSource document)
+        public IEnumerable<NewFolding> CreateNewFolding(ITextSource document)
         {
-            List<NewFolding> newFoldings = new List<NewFolding>();
+            List<NewFolding> newFolding = new List<NewFolding>();
 
             Stack<int> startOffsets = new Stack<int>();
             int lastNewLineOffset = 0;
@@ -290,7 +290,7 @@ namespace OhmStudio.UI.Demo.Views
                     // don't fold if opening and closing brace are on the same line
                     if (startOffset < lastNewLineOffset)
                     {
-                        newFoldings.Add(new NewFolding(startOffset, i + 1));
+                        newFolding.Add(new NewFolding(startOffset, i + 1));
                     }
                 }
                 else if (c is '\r' or '\n')
@@ -298,8 +298,8 @@ namespace OhmStudio.UI.Demo.Views
                     lastNewLineOffset = i + 1;
                 }
             }
-            newFoldings.Sort((a, b) => a.StartOffset.CompareTo(b.StartOffset));
-            return newFoldings;
+            newFolding.Sort((a, b) => a.StartOffset.CompareTo(b.StartOffset));
+            return newFolding;
         }
     }
 }
