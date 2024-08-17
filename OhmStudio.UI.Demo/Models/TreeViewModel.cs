@@ -59,7 +59,7 @@ namespace OhmStudio.UI.Demo.Models
                     string oldPath = treeViewModel.FullPath;
                     DirectoryInfo directory = new DirectoryInfo(oldPath);
                     string newPath = Path.Combine(directory.Parent?.FullName ?? string.Empty, treeViewModel.Header);
-                    string filterate = @"\/:*?""<>|";
+                    string filterate = new string(Path.GetInvalidFileNameChars());
 
                     if (Regex.IsMatch(treeViewModel.Header, $"[{filterate}]"))
                     {
