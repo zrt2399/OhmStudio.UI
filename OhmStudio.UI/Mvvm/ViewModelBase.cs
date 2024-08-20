@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace OhmStudio.UI.Mvvm
 {
@@ -29,6 +30,10 @@ namespace OhmStudio.UI.Mvvm
         }
 
         public bool IsInDesignMode => IsInDesignModeStatic;
+
+        public Dispatcher Dispatcher => Application.Current?.Dispatcher;
+
+        public Dispatcher CurrentDispatcher => Dispatcher.CurrentDispatcher;
 
         public string Error => string.Empty;
 
