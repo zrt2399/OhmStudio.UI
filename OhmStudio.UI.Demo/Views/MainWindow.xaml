@@ -441,6 +441,16 @@
                                                                ShowLineNumbers="True"
                                                                SyntaxHighlighting="XML" />
                                     </TabItem>
+                                    <TabItem Header="Json">
+                                        <avalonEdit:TextEditor x:Name="textEditorxmljson"
+                                                               ShowLineNumbers="True"
+                                                               SyntaxHighlighting="Json" />
+                                    </TabItem>
+                                    <TabItem Header="TSQL">
+                                        <avalonEdit:TextEditor x:Name="textEditorxmltsql"
+                                                               ShowLineNumbers="True"
+                                                               SyntaxHighlighting="TSQL" />
+                                    </TabItem>
                                     <TabItem Header="C++">
                                         <avalonEdit:TextEditor x:Name="textEditorcpp"
                                                                ShowLineNumbers="True"

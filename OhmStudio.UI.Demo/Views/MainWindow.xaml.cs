@@ -25,6 +25,10 @@ namespace OhmStudio.UI.Demo.Views
     /// </summary>
     public partial class MainWindow : ChromeWindow
     {
+        private XmlFoldingStrategy _xmlFoldingStrategy = new XmlFoldingStrategy();
+        private BraceFoldingStrategy _braceFoldingStrategy = new BraceFoldingStrategy();
+        private MainViewModel _mainViewModel = ViewModelLocator.GetInstance<MainViewModel>();
+
         public MainWindow()
         {
             //if (new UserLoginWindow().SetOwner().ShowDialog() != true)
@@ -33,21 +37,27 @@ namespace OhmStudio.UI.Demo.Views
             //}
             InitializeComponent();
 
+            textEditorxmltsql.Text = "select * from ATE_TEST_OS where SN is not null";
+            textEditorxmljson.Text = "{\r\n  \"runtimeOptions\": {\r\n    \"tfm\": \"net6.0\",\r\n    \"frameworks\": [\r\n      {\r\n        \"name\": \"Microsoft.NETCore.App\",\r\n        \"version\": \"6.0.0\"\r\n      },\r\n      {\r\n        \"name\": \"Microsoft.WindowsDesktop.App\",\r\n        \"version\": \"6.0.0\"\r\n      }\r\n    ]\r\n  }\r\n}";
             textEditorcs.Text = "using System;\r\n\r\nclass Program\r\n{\r\n    static void Main()\r\n    {\r\n        Console.WriteLine(\"Hello World\");\r\n    }\r\n}";
-            textEditorcpp.Text = "#include <iostream>\r\n\r\nint main() {\r\n    std::cout << \"Hello World\" << std::endl;\r\n    return 0;\r\n}";
+            textEditorcpp.Text = "#include <iostream>\r\n\r\nint main() \r\n{\r\n    std::cout << \"Hello World\" << std::endl;\r\n    return 0;\r\n}";
             textEditorxml.Text = "<Project Sdk=\"Microsoft.NET.Sdk\">\r\n\r\n\t<PropertyGroup>\r\n\t\t<OutputType>WinExe</OutputType>\r\n\t\t<TargetFramework>net6.0-windows</TargetFramework>\r\n\t\t<UseWPF>true</UseWPF>\r\n\t</PropertyGroup>\r\n \r\n</Project>";
-            var mainTextEditor = textEditorxml;
-            var searchPanel = SearchPanel.Install(mainTextEditor);
+
+            var searchPanel = SearchPanel.Install(textEditorxml);
             searchPanel.MarkerBrush = "#BEAA46".ToSolidColorBrush();
 
-            var xmlFoldingManager = FoldingManager.Install(mainTextEditor.TextArea);
+            var xmlFoldingManager = FoldingManager.Install(textEditorxml.TextArea);
             var csFoldingManager = FoldingManager.Install(textEditorcs.TextArea);
+            var cppFoldingManager = FoldingManager.Install(textEditorcpp.TextArea);
+            var jsonFoldingManager = FoldingManager.Install(textEditorxmljson.TextArea);
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
             dispatcherTimer.Tick += delegate
             {
-                _xmlFoldingStrategy.UpdateFoldings(xmlFoldingManager, mainTextEditor.Document);
+                _xmlFoldingStrategy.UpdateFoldings(xmlFoldingManager, textEditorxml.Document);
                 _braceFoldingStrategy.UpdateFolding(csFoldingManager, textEditorcs.Document);
+                _braceFoldingStrategy.UpdateFolding(cppFoldingManager, textEditorcpp.Document);
+                _braceFoldingStrategy.UpdateFolding(jsonFoldingManager, textEditorxmljson.Document);
             };
             dispatcherTimer.Start();
 
@@ -66,10 +76,6 @@ namespace OhmStudio.UI.Demo.Views
                 }
             };
         }
-
-        private XmlFoldingStrategy _xmlFoldingStrategy = new XmlFoldingStrategy();
-        private BraceFoldingStrategy _braceFoldingStrategy = new BraceFoldingStrategy();
-        private MainViewModel _mainViewModel = ViewModelLocator.GetInstance<MainViewModel>();
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -189,7 +195,7 @@ namespace OhmStudio.UI.Demo.Views
         }
 
         private void Button_Click_15(object sender, RoutedEventArgs e)
-        { 
+        {
             rollBox.ItemsSource = new ObservableCollection<UIElement> { new Image() { Source = new BitmapImage(new Uri("https://pic1.zhimg.com/v2-ecac0aedda57bffecbbe90764828a825_r.jpg?source=1940ef5c")) }, new Button() { Content = "This is a new Button" } };
         }
 
@@ -229,7 +235,7 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
     }
- 
+
     public class BraceFoldingStrategy
     {
         /// <summary>
