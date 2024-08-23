@@ -18,17 +18,17 @@ namespace OhmStudio.UI.PublicMethods
             return false;
         }
 
-        public static string ToUnicode(this string str)
+        public static string ToUnicode(this string value)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            if (string.IsNullOrEmpty(str))
+            if (string.IsNullOrEmpty(value))
             {
-                return stringBuilder.ToString();
+                return string.Empty;
             }
-            for (int i = 0; i < str.Length; i++)
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < value.Length; i++)
             {
-                byte[] bytes = Encoding.Unicode.GetBytes(str[i].ToString());
-                stringBuilder.Append($"{bytes[1]:X2}{bytes[0]:X2}");
+                byte[] bytes = Encoding.BigEndianUnicode.GetBytes(value[i].ToString());
+                stringBuilder.Append($"{bytes[0]:X2}{bytes[1]:X2}");
             }
             return stringBuilder.ToString();
         }
