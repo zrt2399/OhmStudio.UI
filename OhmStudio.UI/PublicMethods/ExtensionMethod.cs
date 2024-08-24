@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.Helpers;
-using Color = System.Drawing.Color;
 using Expression = System.Linq.Expressions.Expression;
 
 namespace OhmStudio.UI.PublicMethods
@@ -25,27 +20,28 @@ namespace OhmStudio.UI.PublicMethods
 
     public static class ExtensionMethod
     {
-        public static double Adsorb(this double value, double gridSize)
+        public static Geometry DrawPolygon(this DrawingContext dc, Brush brush, Pen pen, params Point[] points)
         {
-            if (double.IsNaN(value))
+            if (!points.Any())
             {
-                return 0;
+                return null;
             }
-            int quotient = (int)(value / gridSize);
-            var min = Math.Max(0, gridSize * quotient);
-            var max = min + gridSize;
 
-            if (value - min > gridSize / 2)
+            var geometry = new StreamGeometry();
+            using (var geometryContext = geometry.Open())
             {
-                return max;
+                geometryContext.BeginFigure(points[0], true, true);
+                for (var i = 1; i < points.Length; i++)
+                {
+                    geometryContext.LineTo(points[i], true, false);
+                }
             }
-            else
-            {
-                return min;
-            }
+            geometry.Freeze();
+            dc.DrawGeometry(brush, pen, geometry);
+            return geometry;
         }
 
-        public static T FindFirstVisualHit<T>(this Visual visual, System.Windows.Point point) where T : DependencyObject
+        public static T FindFirstVisualHit<T>(this Visual visual, Point point) where T : DependencyObject
         {
             List<T> hitElements = new List<T>();
 
@@ -79,7 +75,7 @@ namespace OhmStudio.UI.PublicMethods
             return hitElements.FirstOrDefault();
         }
 
-        public static T GetVisualHit<T>(this Visual visual, System.Windows.Point point)
+        public static T GetVisualHit<T>(this Visual visual, Point point)
         {
             var hitObject = VisualTreeHelper.HitTest(visual, point)?.VisualHit;
             if (hitObject == null)
@@ -121,30 +117,6 @@ namespace OhmStudio.UI.PublicMethods
                 yield return leaf;
                 leaf = leaf is Visual or Visual3D ? VisualTreeHelper.GetParent(leaf) : LogicalTreeHelper.GetParent(leaf);
             }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsEven(this int number)
-        {
-            return (number & 1) == 0;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsEven(this long number)
-        {
-            return (number & 1L) == 0L;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsOdd(this int number)
-        {
-            return (number & 1) == 1;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsOdd(this long number)
-        {
-            return (number & 1L) == 1L;
         }
 
         public static bool IsContains(this string str, string value, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
@@ -193,16 +165,6 @@ namespace OhmStudio.UI.PublicMethods
         public static void SaveAsImage(this UIElement uIElement, string filePath, ImageType imageType, int dpi = 300)
         {
             ImageHelper.SaveAsImage(uIElement, filePath, imageType, dpi);
-        }
-
-        public static Bitmap ToBitmap(this BitmapImage bitmapImage)
-        {
-            return ImageHelper.BitmapImageToBitmap(bitmapImage);
-        }
-
-        public static BitmapImage ToBitmapImage(this Bitmap bitmap, ImageFormat imageFormat = null, bool isDisposeBitmap = true)
-        {
-            return ImageHelper.BitmapToBitmapImage(bitmap, imageFormat, isDisposeBitmap);
         }
 
         public static void InitCustomWindowStyle(this Window window)
@@ -319,8 +281,8 @@ namespace OhmStudio.UI.PublicMethods
         }
 
         /// <summary>
-        /// This method is an alternative to WPF's System.Windows.Media.VisualTreeHelper.GetChild(System.Windows.DependencyObject,System.Int32)
-        /// method, which also supports content elements.Keep in mind that for content elements, this method falls back to the logical tree of the element.
+        /// This method is an alternative to WPF's <see cref="VisualTreeHelper.GetChild"/> method,
+        /// which also supports content elements.Keep in mind that for content elements, this method falls back to the logical tree of the element.
         /// </summary>
         /// <param name="parent">The item to be processed.</param>
         /// <param name="forceUsingTheVisualTreeHelper">Sometimes it's better to search in the VisualTree (e.g. in tests)</param>
@@ -350,52 +312,6 @@ namespace OhmStudio.UI.PublicMethods
                     yield return VisualTreeHelper.GetChild(parent, i);
                 }
             }
-        }
-
-        public static byte[] ToBytes(this Bitmap bitmap)
-        {
-            int m = 0, value = 0;
-            int height = bitmap.Height;
-            int width = bitmap.Width;
-
-            if (height % 8 != 0)
-            {
-                height += 8 - (height % 8);
-            }
-
-            byte[] bytesTemp = new byte[height / 8 * width];
-            if (bitmap.Palette.Entries.Length != 2)//不是单色位图
-            {
-                return null;
-            }
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height / 8; j++)
-                {
-                    for (int k = 0; k < 8; k++)
-                    {
-                        if (j * 8 + k < bitmap.Height)
-                        {
-                            Color color = bitmap.GetPixel(i, j * 8 + k);
-                            if (color.R == Color.Black.R && color.G == Color.Black.G && color.B == Color.Black.B)
-                            {
-                                value = (value << 1) | 1;
-                            }
-                            else
-                            {
-                                value <<= 1;
-                            }
-                        }
-                        else
-                        {
-                            value <<= 1;
-                        }
-                    }
-                    bytesTemp[m++] = (byte)value;
-                    value = 0;
-                }
-            }
-            return bytesTemp;
         }
     }
 

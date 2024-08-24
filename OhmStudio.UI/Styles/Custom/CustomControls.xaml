@@ -1514,6 +1514,26 @@
     </Style>
     <Style BasedOn="{StaticResource RunningBlockBaseStyle}" TargetType="controls:RunningBlock" />
 
+    <Style x:Key="TipIconBaseStyle" TargetType="controls:TipIcon">
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:TipIcon">
+                    <Border Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Viewbox>
+                            <controls:Icon IconType="{TemplateBinding IconType}" />
+                        </Viewbox>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style BasedOn="{StaticResource TipIconBaseStyle}" TargetType="controls:TipIcon" />
+
     <Style x:Key="WorkflowEditorBaseStyle" TargetType="controls:WorkflowEditor">
         <Setter Property="Focusable" Value="True" />
         <Setter Property="ClipToBounds" Value="True" />

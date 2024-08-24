@@ -7,11 +7,12 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
+using OhmStudio.UI.Controls;
 using Point = System.Drawing.Point;
 
 namespace OhmStudio.UI.PublicMethods
 {
-    public enum UIStyle
+    public enum IconType
     {
         Info,
         OK,
@@ -27,15 +28,15 @@ namespace OhmStudio.UI.PublicMethods
 
         const int Delay = 2000;
 
-        public static void Show(string message, int delay = Delay) => Show(message, UIStyle.Info, delay);
+        public static void Show(string message, int delay = Delay) => Show(message, IconType.Info, delay);
 
-        public static void ShowOk(string message, int delay = Delay) => Show(message, UIStyle.OK, delay);
+        public static void ShowOk(string message, int delay = Delay) => Show(message, IconType.OK, delay);
 
-        public static void ShowWarning(string message, int delay = Delay) => Show(message, UIStyle.Warning, delay);
+        public static void ShowWarning(string message, int delay = Delay) => Show(message, IconType.Warning, delay);
 
-        public static void ShowError(string message, int delay = Delay) => Show(message, UIStyle.Error, delay);
+        public static void ShowError(string message, int delay = Delay) => Show(message, IconType.Error, delay);
 
-        public static void Show(string message, UIStyle uIStyle, int delay = Delay)
+        public static void Show(string message, IconType iconType, int delay = Delay)
         {
             Application.Current?.Dispatcher?.Invoke(async () =>
             {
@@ -44,11 +45,11 @@ namespace OhmStudio.UI.PublicMethods
                     delay = GlobalDelay;
                 }
 
-                var color = uIStyle switch
+                var color = iconType switch
                 {
-                    UIStyle.Info => "#8C8C8C".ToSolidColorBrush(),
-                    UIStyle.OK => "#6EBE28".ToSolidColorBrush(),
-                    UIStyle.Warning => "#DC9B28".ToSolidColorBrush(),
+                    IconType.Info => "#8C8C8C".ToSolidColorBrush(),
+                    IconType.OK => "#6EBE28".ToSolidColorBrush(),
+                    IconType.Warning => "#DC9B28".ToSolidColorBrush(),
                     _ => "#E65050".ToSolidColorBrush()
                 };
 
@@ -57,20 +58,18 @@ namespace OhmStudio.UI.PublicMethods
                 gridContent.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
                 gridContent.ColumnDefinitions.Add(new ColumnDefinition());
 
-                TextBlock textBlock = new TextBlock();
-                textBlock.TextWrapping = TextWrapping.Wrap;
-                textBlock.VerticalAlignment = VerticalAlignment.Center;
-                textBlock.Text = message;
+                TextBlock textBlock = new TextBlock { TextWrapping = TextWrapping.Wrap, VerticalAlignment = VerticalAlignment.Center, Text = message };
 
                 if (!string.IsNullOrEmpty(textBlock.Text))
                 {
                     textBlock.Margin = new Thickness(4, 0, 0, 0);
                 }
 
-                var image = new System.Windows.Controls.Image();
-                image.Source = PresetsResources.Icons[(int)uIStyle];
+                //var image = new System.Windows.Controls.Image();
+                //image.Source = PresetsResources.Icons[(int)iconType];
                 textBlock.SetValue(Grid.ColumnProperty, 1);
-                gridContent.Children.Add(image);
+                //gridContent.Children.Add(image);
+                gridContent.Children.Add(new TipIcon() { IconType = iconType, Padding = new Thickness(1) });
                 gridContent.Children.Add(textBlock);
 
                 Border border = new Border();
@@ -101,7 +100,7 @@ namespace OhmStudio.UI.PublicMethods
                 popup.IsOpen = true;
                 await Task.Delay(delay);
                 popup.IsOpen = false;
-                image.Source = null;
+                //image.Source = null;
             });
         }
     }

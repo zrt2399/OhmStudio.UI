@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
@@ -44,28 +45,7 @@ namespace OhmStudio.UI.Controls
             set => SetValue(GeometryProperty, value);
         }
 
-        private void DrawPolygon(DrawingContext dc, Brush brush, Pen pen, params Point[] points)
-        {
-            if (!points.Any())
-            {
-                return;
-            }
-
-            var geometry = new StreamGeometry();
-            using (var geometryContext = geometry.Open())
-            {
-                geometryContext.BeginFigure(points[0], true, true);
-                for (var i = 1; i < points.Length; i++)
-                {
-                    geometryContext.LineTo(points[i], true, false);
-                }
-            }
-            geometry.Freeze();
-            Geometry = geometry;
-            dc.DrawGeometry(brush, pen, geometry);
-        }
-
-        private void DrawRoundedRectangle(DrawingContext dc, Brush brush, Pen pen, Rect rect, CornerRadius cornerRadius)
+        private Geometry DrawRoundedRectangle(DrawingContext dc, Brush brush, Pen pen, Rect rect, CornerRadius cornerRadius)
         {
             var geometry = new StreamGeometry();
             using (StreamGeometryContext ctx = geometry.Open())
@@ -97,8 +77,9 @@ namespace OhmStudio.UI.Controls
                 ctx.ArcTo(new Point(rect.Left + cornerRadius.TopLeft, rect.Top), new Size(cornerRadius.TopLeft, cornerRadius.TopLeft), 0, false, SweepDirection.Clockwise, true, false);
             }
             geometry.Freeze();
-            Geometry = geometry;
+            //Geometry = geometry;
             dc.DrawGeometry(brush, pen, geometry);
+            return geometry;
         }
 
         protected override void OnRender(DrawingContext drawingContext)
@@ -113,15 +94,15 @@ namespace OhmStudio.UI.Controls
             switch (ShapeType)
             {
                 case ShapeType.Diamond:
-                    DrawPolygon(drawingContext, background, pen, new Point(ActualWidth / 2, num), new Point(ActualWidth - num, ActualHeight / 2), new Point(ActualWidth / 2, ActualHeight - num), new Point(num, ActualHeight / 2));
+                    Geometry = drawingContext.DrawPolygon(background, pen, new Point(ActualWidth / 2, num), new Point(ActualWidth - num, ActualHeight / 2), new Point(ActualWidth / 2, ActualHeight - num), new Point(num, ActualHeight / 2));
                     break;
                 case ShapeType.Parallelogram:
                     double shear = Shear;
-                    DrawPolygon(drawingContext, background, pen, new Point(Math.Min(shear, ActualWidth), num), new Point(ActualWidth - num, num), new Point(Math.Max(0, ActualWidth - shear), ActualHeight - num), new Point(num, ActualHeight - num));
+                    Geometry = drawingContext.DrawPolygon(background, pen, new Point(Math.Min(shear, ActualWidth), num), new Point(ActualWidth - num, num), new Point(Math.Max(0, ActualWidth - shear), ActualHeight - num), new Point(num, ActualHeight - num));
                     break;
                 default:
                     Rect rect = new Rect(new Point(num, num), new Point(ActualWidth - num, ActualHeight - num));
-                    DrawRoundedRectangle(drawingContext, background, pen, rect, CornerRadius);
+                    Geometry = DrawRoundedRectangle(drawingContext, background, pen, rect, CornerRadius);
 
                     //double radius = new double[] { CornerRadius.TopLeft, CornerRadius.TopRight, CornerRadius.BottomRight, CornerRadius.BottomLeft }.Max();
                     //drawingContext.DrawRoundedRectangle(background, pen, rectangle, radius, radius); 
@@ -129,5 +110,5 @@ namespace OhmStudio.UI.Controls
                     break;
             }
         }
-    } 
-} 
+    }
+}

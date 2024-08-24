@@ -14,6 +14,7 @@ namespace OhmStudio.UI.Demo.Views
         public UserLoginWindow()
         {
             InitializeComponent();
+            image.Source = PresetsResources.Icons[2];
         }
 
         Random _random = new Random();

@@ -1,6 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Media.Imaging;
+using OhmStudio.UI.Helpers;
 
 namespace OhmStudio.UI.PublicMethods
 {
@@ -59,6 +65,106 @@ namespace OhmStudio.UI.PublicMethods
         public static bool ToHexString(this IEnumerable<byte> bytes, string condition, string separator = " ")
         {
             return bytes.ToHexString(separator).Contains(condition);
+        }
+
+        public static byte[] ToBytes(this Bitmap bitmap)
+        {
+            int m = 0, value = 0;
+            int height = bitmap.Height;
+            int width = bitmap.Width;
+
+            if (height % 8 != 0)
+            {
+                height += 8 - (height % 8);
+            }
+
+            byte[] bytesTemp = new byte[height / 8 * width];
+            if (bitmap.Palette.Entries.Length != 2)//不是单色位图
+            {
+                return null;
+            }
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height / 8; j++)
+                {
+                    for (int k = 0; k < 8; k++)
+                    {
+                        if (j * 8 + k < bitmap.Height)
+                        {
+                            Color color = bitmap.GetPixel(i, j * 8 + k);
+                            if (color.R == Color.Black.R && color.G == Color.Black.G && color.B == Color.Black.B)
+                            {
+                                value = (value << 1) | 1;
+                            }
+                            else
+                            {
+                                value <<= 1;
+                            }
+                        }
+                        else
+                        {
+                            value <<= 1;
+                        }
+                    }
+                    bytesTemp[m++] = (byte)value;
+                    value = 0;
+                }
+            }
+            return bytesTemp;
+        }
+
+        public static double Adsorb(this double value, double gridSize)
+        {
+            if (double.IsNaN(value))
+            {
+                return 0;
+            }
+            int quotient = (int)(value / gridSize);
+            var min = Math.Max(0, gridSize * quotient);
+            var max = min + gridSize;
+
+            if (value - min > gridSize / 2)
+            {
+                return max;
+            }
+            else
+            {
+                return min;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsEven(this int number)
+        {
+            return (number & 1) == 0;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsEven(this long number)
+        {
+            return (number & 1L) == 0L;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsOdd(this int number)
+        {
+            return (number & 1) == 1;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsOdd(this long number)
+        {
+            return (number & 1L) == 1L;
+        }
+
+        public static Bitmap ToBitmap(this BitmapImage bitmapImage)
+        {
+            return ImageHelper.BitmapImageToBitmap(bitmapImage);
+        }
+
+        public static BitmapImage ToBitmapImage(this Bitmap bitmap, ImageFormat imageFormat = null, bool isDisposeBitmap = true)
+        {
+            return ImageHelper.BitmapToBitmapImage(bitmap, imageFormat, isDisposeBitmap);
         }
     }
 }
