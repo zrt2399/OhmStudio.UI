@@ -1,10 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Messaging;
 
 namespace OhmStudio.UI.Demo
 {
@@ -14,8 +13,7 @@ namespace OhmStudio.UI.Demo
     public partial class App : Application
     {
         public static readonly string Name = Assembly.GetExecutingAssembly().GetName().Name;
-        public static bool IsInDesignMode => (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
-
+ 
         public static readonly string DocumentDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Name);
 
         protected override void OnStartup(StartupEventArgs e)

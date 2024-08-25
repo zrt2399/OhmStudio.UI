@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Shell;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Messaging;
 
 namespace OhmStudio.UI.Views
 {

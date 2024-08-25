@@ -2,7 +2,7 @@
 using System.Windows;
 using OhmStudio.UI.Attaches;
 using OhmStudio.UI.Controls;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Messaging;
 
 namespace OhmStudio.UI.Demo.Views
 {
@@ -14,7 +14,6 @@ namespace OhmStudio.UI.Demo.Views
         public UserLoginWindow()
         {
             InitializeComponent();
-            image.Source = PresetsResources.Icons[2];
         }
 
         Random _random = new Random();

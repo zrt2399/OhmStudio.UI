@@ -13,11 +13,10 @@
 
     <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TipIcon x:Name="icon" />
+            <TipIcon />
             <TipIcon IconType="Error" />
             <TipIcon IconType="Warning" />
             <TipIcon IconType="OK" />
-            <Image x:Name="image" Height="{Binding ElementName=icon, Path=ActualHeight}" />
         </StackPanel>
         <RunningBlock IsRunning="False">
             <Button>Button</Button>

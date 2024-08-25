@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using OhmStudio.UI.Messaging;
 using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
