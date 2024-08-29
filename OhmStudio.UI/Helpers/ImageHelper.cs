@@ -121,7 +121,7 @@ namespace OhmStudio.UI.Helpers
         /// </summary>
         /// <param name="uIElement"></param>
         /// <param name="filePath"></param>
-        /// <param name="imageFormat"></param>
+        /// <param name="imageType"></param>
         /// <param name="dpi"></param>
         public static void SaveAsImage(UIElement uIElement, string filePath, ImageType imageType, int dpi = 300)
         {
@@ -136,7 +136,7 @@ namespace OhmStudio.UI.Helpers
             {
                 ImageType.Bmp => new BmpBitmapEncoder(),
                 ImageType.Jpeg => new JpegBitmapEncoder(),
-                _ => new PngBitmapEncoder(),
+                _ => new PngBitmapEncoder()
             };
             encoder.Frames.Add(BitmapFrame.Create(renderTargetBitmap));
 
