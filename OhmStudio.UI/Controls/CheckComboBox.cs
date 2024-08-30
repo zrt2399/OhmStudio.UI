@@ -56,6 +56,9 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty SelectedTextProperty =
             DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(CheckComboBox));
 
+        public static readonly DependencyProperty SelectionModeProperty =
+            DependencyProperty.Register(nameof(SelectionMode), typeof(SelectionMode), typeof(CheckComboBox), new PropertyMetadata(SelectionMode.Multiple));
+
         public IList SelectedItems
         {
             get => (IList)GetValue(SelectedItemsProperty);
@@ -96,6 +99,12 @@ namespace OhmStudio.UI.Controls
         {
             get => (string)GetValue(SelectedTextProperty);
             set => SetValue(SelectedTextProperty, value);
+        }
+
+        public SelectionMode SelectionMode
+        {
+            get => (SelectionMode)GetValue(SelectionModeProperty);
+            set => SetValue(SelectionModeProperty, value);
         }
 
         public ICommand SelectAllCommand { get; }
@@ -159,10 +168,18 @@ namespace OhmStudio.UI.Controls
             }
             if (newSelectedItems != null)
             {
-                foreach (var item in newSelectedItems)
+                if (SelectionMode == SelectionMode.Single)
                 {
-                    PART_ListBox.SelectedItems.Add(item);
+                    PART_ListBox.SelectedItem = newSelectedItems.Count > 0 ? newSelectedItems[newSelectedItems.Count - 1] : null;
                 }
+                else
+                {
+                    foreach (var item in newSelectedItems)
+                    {
+                        PART_ListBox.SelectedItems.Add(item);
+                    }
+                }
+
                 if (newSelectedItems is INotifyCollectionChanged notifyCollectionChanged)
                 {
                     notifyCollectionChanged.CollectionChanged += CollectionChanged;
@@ -178,24 +195,45 @@ namespace OhmStudio.UI.Controls
             }
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                foreach (var item in e.NewItems)
+                if (SelectionMode == SelectionMode.Single)
                 {
-                    PART_ListBox.SelectedItems.Add(item);
+                    PART_ListBox.SelectedItem = e.NewItems.Count > 0 ? e.NewItems[e.NewItems.Count - 1] : null;
+                }
+                else
+                {
+                    foreach (var item in e.NewItems)
+                    {
+                        PART_ListBox.SelectedItems.Add(item);
+                    }
                 }
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
-                foreach (var oldItem in e.OldItems)
+                if (SelectionMode == SelectionMode.Single)
                 {
-                    PART_ListBox.SelectedItems.Remove(oldItem);
+                    PART_ListBox.SelectedItem = null;
                 }
+                else
+                {
+                    foreach (var oldItem in e.OldItems)
+                    {
+                        PART_ListBox.SelectedItems.Remove(oldItem);
+                    }
+                } 
             }
             else if (e.Action == NotifyCollectionChangedAction.Replace)
             {
                 var newItem = e.NewItems[0];
                 var oldItem = e.OldItems[0];
-                PART_ListBox.SelectedItems.Add(newItem);
-                PART_ListBox.SelectedItems.Remove(oldItem);
+                if (SelectionMode == SelectionMode.Single)
+                {
+                    PART_ListBox.SelectedItem = newItem;
+                }
+                else
+                {
+                    PART_ListBox.SelectedItems.Add(newItem);
+                    PART_ListBox.SelectedItems.Remove(oldItem);
+                }
             }
             else if (e.Action == NotifyCollectionChangedAction.Reset)
             {

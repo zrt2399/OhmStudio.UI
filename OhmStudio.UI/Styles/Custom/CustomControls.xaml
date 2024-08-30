@@ -25,7 +25,7 @@
     <Thickness x:Key="ListViewItemPadding">4,2</Thickness>
     <Thickness x:Key="ListViewItemMargin">0,0,0,1</Thickness>
 
-    <FontFamily x:Key="AliIconfont">/OhmStudio.UI;component/Fonts/#iconfont</FontFamily>
+    <FontFamily x:Key="AliIconfont">/OhmStudio.UI;component/Assets/Fonts/#iconfont</FontFamily>
 
     <converters:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter" />
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -42,6 +42,7 @@
     <converters:EllipseItemVisibilityConverter x:Key="EllipseItemVisibilityConverter" />
     <converters:DoNoThingConverter x:Key="DoNoThingConverter" />
     <converters:EllipseItemMarginConverter x:Key="EllipseItemMarginConverter" />
+    <converters:NotEqualityParameterToVisibilityConverter x:Key="NotEqualityParameterToVisibilityConverter" />
 
     <Style x:Key="ContentHostControl" TargetType="Control">
         <Setter Property="Margin" Value="0" />
@@ -797,7 +798,7 @@
                                                 <RowDefinition Height="Auto" />
                                                 <RowDefinition />
                                             </Grid.RowDefinitions>
-                                            <StackPanel Orientation="Horizontal">
+                                            <StackPanel Orientation="Horizontal" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectionMode, Converter={StaticResource NotEqualityParameterToVisibilityConverter}, ConverterParameter={x:Static SelectionMode.Single}}">
                                                 <StackPanel.Resources>
                                                     <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="CheckBox">
                                                         <Setter Property="IsHitTestVisible" Value="False" />
@@ -824,7 +825,7 @@
                                                      ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
                                                      SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}}"
                                                      SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}"
-                                                     SelectionMode="Multiple"
+                                                     SelectionMode="{TemplateBinding SelectionMode}"
                                                      VirtualizingPanel.CacheLength="{Binding Path=(VirtualizingPanel.CacheLength), RelativeSource={RelativeSource TemplatedParent}}"
                                                      VirtualizingPanel.CacheLengthUnit="{Binding Path=(VirtualizingPanel.CacheLengthUnit), RelativeSource={RelativeSource TemplatedParent}}"
                                                      VirtualizingPanel.IsContainerVirtualizable="{Binding Path=(VirtualizingPanel.IsContainerVirtualizable), RelativeSource={RelativeSource TemplatedParent}}"
