@@ -26,7 +26,7 @@
                                      HorizontalAlignment="Right"
                                      VerticalAlignment="Center"
                                      Click="IconButton_Click"
-                                     Icon="/OhmStudio.UI;component/Images/close.png"
+                                     Icon="/OhmStudio.UI;component/Assets/Images/close.png"
                                      ToolTip="关闭" />
             </Grid>
             <DataGrid Name="dgMinSex"

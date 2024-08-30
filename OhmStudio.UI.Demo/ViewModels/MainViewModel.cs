@@ -374,7 +374,7 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         public bool IsExpanded { get; set; } = true;
 
-        public ImageSource ImageSource { get; set; } = new BitmapImage(new Uri("/Images/close.png", UriKind.Relative));
+        public ImageSource ImageSource { get; set; } = new BitmapImage(new Uri("/Assets/Images/close.png", UriKind.Relative));
 
         public int? IntString { get; set; } = null;
 

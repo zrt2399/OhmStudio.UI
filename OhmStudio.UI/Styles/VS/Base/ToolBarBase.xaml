@@ -301,7 +301,6 @@
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Rectangle x:Name="DragHandleTexture"
                                Width="5"
-                               RenderOptions.BitmapScalingMode="NearestNeighbor"
                                UseLayoutRounding="true">
                         <Rectangle.Fill>
                             <DrawingBrush TileMode="Tile"

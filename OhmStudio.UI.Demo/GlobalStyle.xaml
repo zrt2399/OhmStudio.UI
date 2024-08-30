@@ -3,9 +3,7 @@
                     xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <FontFamily x:Key="GlobalFontFamily">/Fonts/OPPOSans-M.ttf#OPPOSans M</FontFamily>
-
-    <FontFamily x:Key="DigitalFontFamily">/Fonts/TexasLED.ttf#Texas LED</FontFamily>
+    <FontFamily x:Key="GlobalFontFamily">/Assets/Fonts/OPPOSans-M.ttf#OPPOSans M</FontFamily>
 
     <system:Double x:Key="GlobalFontSize">12</system:Double>
 

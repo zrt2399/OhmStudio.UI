@@ -29,14 +29,11 @@
 		<Reference Include="System.ComponentModel.DataAnnotations" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Resource Include="Fonts\OPPOSans-M.ttf">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
+	<ItemGroup> 
 		<Resource Include="icon.ico">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Images\**">
+		<Resource Include="Assets\**">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 	</ItemGroup>

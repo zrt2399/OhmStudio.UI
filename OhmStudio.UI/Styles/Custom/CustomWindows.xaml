@@ -29,17 +29,17 @@
                         <Image Name="imgContent"
                                Width="20"
                                Height="20"
-                               Source="/OhmStudio.UI;component/Images/Buttons/btnClose.png" />
+                               Source="/OhmStudio.UI;component/Assets/Images/Buttons/btnClose.png" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Images/Buttons/btnClose_Hover.png" />
+                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Assets/Images/Buttons/btnClose_Hover.png" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Images/Buttons/btnClose_Press.png" />
+                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Assets/Images/Buttons/btnClose_Press.png" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="true">
-                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Images/Buttons/btnClose_Hover.png" />
+                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Assets/Images/Buttons/btnClose_Hover.png" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -58,17 +58,17 @@
                         <Image Name="imgContent"
                                Width="20"
                                Height="20"
-                               Source="/OhmStudio.UI;component/Images/Buttons/btnRestore.png" />
+                               Source="/OhmStudio.UI;component/Assets/Images/Buttons/btnRestore.png" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Images/Buttons/btnRestore_Hover.png" />
+                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Assets/Images/Buttons/btnRestore_Hover.png" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Images/Buttons/btnRestore_Press.png" />
+                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Assets/Images/Buttons/btnRestore_Press.png" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="true">
-                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Images/Buttons/btnRestore_Hover.png" />
+                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Assets/Images/Buttons/btnRestore_Hover.png" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -87,17 +87,17 @@
                         <Image Name="imgContent"
                                Width="20"
                                Height="20"
-                               Source="/OhmStudio.UI;component/Images/Buttons/btnMin.png" />
+                               Source="/OhmStudio.UI;component/Assets/Images/Buttons/btnMin.png" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Images/Buttons/btnMin_Hover.png" />
+                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Assets/Images/Buttons/btnMin_Hover.png" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Images/Buttons/btnMin_Press.png" />
+                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Assets/Images/Buttons/btnMin_Press.png" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="true">
-                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Images/Buttons/btnMin_Hover.png" />
+                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Assets/Images/Buttons/btnMin_Hover.png" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -116,17 +116,17 @@
                         <Image Name="imgContent"
                                Width="20"
                                Height="20"
-                               Source="/OhmStudio.UI;component/Images/Buttons/btnMax.png" />
+                               Source="/OhmStudio.UI;component/Assets/Images/Buttons/btnMax.png" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Images/Buttons/btnMax_Hover.png" />
+                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Assets/Images/Buttons/btnMax_Hover.png" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Images/Buttons/btnMax_Press.png" />
+                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Assets/Images/Buttons/btnMax_Press.png" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="true">
-                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Images/Buttons/btnMax_Hover.png" />
+                            <Setter TargetName="imgContent" Property="Source" Value="/OhmStudio.UI;component/Assets/Images/Buttons/btnMax_Hover.png" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

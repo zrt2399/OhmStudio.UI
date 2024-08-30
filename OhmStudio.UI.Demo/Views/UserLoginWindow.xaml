@@ -22,7 +22,7 @@
             <Button>Button</Button>
         </RunningBlock>
         <TextBox>TextBox</TextBox>
-        <Button Click="Button_Click">随机切换</Button>
+        <Button Click="Button_Click">随机切换主题</Button>
         <Button Click="Button_Click_1">提示</Button>
     </StackPanel>
 </ChromeWindow> 
