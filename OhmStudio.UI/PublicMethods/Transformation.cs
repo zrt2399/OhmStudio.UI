@@ -24,7 +24,7 @@ namespace OhmStudio.UI.PublicMethods
             return false;
         }
 
-        public static string ToUnicode(this string value)
+        public static string ToUnicode(this string value, bool bigEndian = true)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -33,7 +33,7 @@ namespace OhmStudio.UI.PublicMethods
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < value.Length; i++)
             {
-                byte[] bytes = Encoding.BigEndianUnicode.GetBytes(value[i].ToString());
+                byte[] bytes = (bigEndian ? Encoding.BigEndianUnicode : Encoding.Unicode).GetBytes(value[i].ToString());
                 stringBuilder.Append($"{bytes[0]:X2}{bytes[1]:X2}");
             }
             return stringBuilder.ToString();
