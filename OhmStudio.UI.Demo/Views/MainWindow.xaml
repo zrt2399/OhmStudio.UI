@@ -873,6 +873,22 @@
                                     </ListBox>
                                 </DockPanel>
                             </LayoutDocument>
+                            <LayoutDocument Title="Expander">
+                                <StackPanel>
+                                    <Expander ExpandDirection="Left" Header="Left">
+                                        <Button Width="100" HorizontalAlignment="Right">Button</Button>
+                                    </Expander>
+                                    <Expander ExpandDirection="Right" Header="Right">
+                                        <Button Width="100" HorizontalAlignment="Left">Button</Button>
+                                    </Expander>
+                                    <Expander ExpandDirection="Up" Header="Up">
+                                        <Button Height="100">Button</Button>
+                                    </Expander>
+                                    <Expander ExpandDirection="Down" Header="Down">
+                                        <Button Height="100">Button</Button>
+                                    </Expander>
+                                </StackPanel>
+                            </LayoutDocument>
                             <LayoutDocument Title="Other"
                                             CanClose="False"
                                             Description="其他"
