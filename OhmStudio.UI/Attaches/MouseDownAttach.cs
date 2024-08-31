@@ -85,7 +85,7 @@ namespace OhmStudio.UI.Attaches
                 var ignoreElement = GetIgnoreElement(uIElement);
                 if (!string.IsNullOrEmpty(ignoreElement))
                 {
-                    var types = ignoreElement.Split(',');
+                    var types = ignoreElement.Split(',', '|');
                     foreach (var item in types)
                     {
                         if (e.OriginalSource.GetType().Name == item)

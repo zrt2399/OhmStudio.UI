@@ -14,6 +14,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Bogus;
 using Microsoft.Win32;
 using OhmStudio.UI.Attaches;
 using OhmStudio.UI.Commands;
@@ -100,6 +101,7 @@ namespace OhmStudio.UI.Demo.ViewModels
             {
                 Result.Rows.Add(DateTime.Now, i, i + 1, "4396");
             }
+
             DengGao.Add("风急天高猿啸哀");
             DengGao.Add("渚清沙白鸟飞回");
             DengGao.Add("无边落木萧萧下");
@@ -151,9 +153,18 @@ namespace OhmStudio.UI.Demo.ViewModels
             };
             PackIcons = new ObservableCollection<PackIconKind>(PackIconDataFactory.Create().Keys);
 
-            UserInfos.Add(new UserInfoModel());
-            UserInfos.Add(new UserInfoModel() { UserName = "jack" });
-            UserInfos.Add(new UserInfoModel() { UserName = "rose", Password = "123456" });
+            //UserInfos.Add(new UserInfoModel());
+            //UserInfos.Add(new UserInfoModel() { UserName = "jack" });
+            //UserInfos.Add(new UserInfoModel() { UserName = "rose", Password = "123456" });
+            var userInfoModels = new Faker<UserInfoModel>("zh_CN")
+                .RuleFor(u => u.UserName, f => f.Name.LastName() + f.Name.FirstName())
+                .RuleFor(u => u.Password, f => f.Internet.Password())
+                .RuleFor(u => u.LoginAt, f => f.Date.Recent())
+                .RuleFor(u => u.CreatedAt, f => f.Date.Recent())
+                .RuleFor(u => u.Remark, f => f.Lorem.Text())
+                .Generate(1000);
+
+            UserInfos = new ObservableCollection<UserInfoModel>(userInfoModels);
 
             WorkflowItemModels.Add(new WorkflowItemModel() { Name = "开始", StepType = StepType.Begin, Left = 100 });
             WorkflowItemModels.Add(new WorkflowItemModel() { Name = "love", StepType = StepType.Nomal, Left = 200, Top = 200 });
@@ -220,7 +231,7 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         public DataTable Result { get; set; } = new DataTable();
 
-        public ObservableCollection<UserInfoModel> UserInfos { get; set; } = new ObservableCollection<UserInfoModel>();
+        public ObservableCollection<UserInfoModel> UserInfos { get; set; }
 
         public IList UserInfoSelectedItems { get; set; }
 
@@ -233,13 +244,13 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         public bool IsAntiAliasing { get; set; } = true;
 
-        public List<string> DengGao { get; set; } = new List<string>();
+        public ObservableCollection<string> DengGao { get; set; } = new ObservableCollection<string>();
 
-        public List<string> JingYeSi { get; set; } = new List<string>();
+        public ObservableCollection<string> JingYeSi { get; set; } = new ObservableCollection<string>();
 
-        public List<string> HuangHeLou { get; set; } = new List<string>();
+        public ObservableCollection<string> HuangHeLou { get; set; } = new ObservableCollection<string>();
 
-        public List<string> DengGuanQueLou { get; set; } = new List<string>();
+        public ObservableCollection<string> DengGuanQueLou { get; set; } = new ObservableCollection<string>();
 
         public CornerRadius CornerRadius { get; set; }
 

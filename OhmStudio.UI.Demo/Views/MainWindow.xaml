@@ -678,6 +678,14 @@
                                             <DataTemplate x:Key="TextHighlight">
                                                 <TextBlock Text="{Binding}" TextBlockAttach.HighlightText="{Binding ElementName=hightLight, Path=Text}" />
                                             </DataTemplate>
+                                            <Style BasedOn="{StaticResource {x:Type ListBox}}" TargetType="ListBox">
+                                                <Setter Property="SelectionMode" Value="Extended" />
+                                                <Setter Property="DragDropAttach.IsDragSource" Value="True" />
+                                                <Setter Property="DragDropAttach.IsDropTarget" Value="True" />
+                                                <Setter Property="DragDropAttach.SelectDroppedItems" Value="True" />
+                                                <Setter Property="DragDropAttach.UseDefaultDragAdorner" Value="True" />
+                                                <Setter Property="DragDropAttach.UseDefaultEffectDataTemplate" Value="True" />
+                                            </Style>
                                         </UniformGrid.Resources>
                                         <ListBox ItemTemplate="{StaticResource TextHighlight}" ItemsSource="{Binding DengGao}" />
                                         <ListBox ItemTemplate="{StaticResource TextHighlight}" ItemsSource="{Binding JingYeSi}" />
