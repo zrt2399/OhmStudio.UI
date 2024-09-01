@@ -57,7 +57,7 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(CheckComboBox));
 
         public static readonly DependencyProperty SelectionModeProperty =
-            DependencyProperty.Register(nameof(SelectionMode), typeof(SelectionMode), typeof(CheckComboBox), new PropertyMetadata(SelectionMode.Multiple));
+            DependencyProperty.Register(nameof(SelectionMode), typeof(SelectionMode), typeof(CheckComboBox), new PropertyMetadata(SelectionMode.Multiple, UpdateSelectedItems));
 
         public IList SelectedItems
         {

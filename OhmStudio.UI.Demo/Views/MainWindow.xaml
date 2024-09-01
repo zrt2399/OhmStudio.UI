@@ -1347,6 +1347,9 @@
                                     </TreeView>
                                 </DockPanel>
                             </LayoutAnchorable>
+                            <LayoutAnchorable Title="ListBox" ToolTip="This is a ListView">
+                                <ListBox ItemsSource="{EnumBindingSource EnumType=viemodels:UserPermission}" SelectionMode="Multiple" />
+                            </LayoutAnchorable>
                             <LayoutAnchorable Title="ListView" ToolTip="This is a ListView">
                                 <ListView ItemsSource="{Binding Result}">
                                     <ListView.View>
@@ -1432,12 +1435,6 @@
                                         </ContextMenu>
                                     </ListView.ContextMenu>
                                 </ListView>
-                            </LayoutAnchorable>
-                            <LayoutAnchorable Title="ListBox" ToolTip="This is a ListView">
-                                <ListBox BorderBrush="Transparent"
-                                         BorderThickness="0"
-                                         ItemsSource="{EnumBindingSource EnumType=viemodels:UserPermission}"
-                                         SelectionMode="Multiple" />
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="PropertyGrid" ToolTip="This is a PropertyGrid">
                                 <Grid>

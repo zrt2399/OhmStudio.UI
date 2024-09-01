@@ -825,6 +825,8 @@
                                                      ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
                                                      SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}}"
                                                      SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     SelectedValue="{TemplateBinding SelectedValue}"
+                                                     SelectedValuePath="{TemplateBinding SelectedValuePath}"
                                                      SelectionMode="{TemplateBinding SelectionMode}"
                                                      VirtualizingPanel.CacheLength="{Binding Path=(VirtualizingPanel.CacheLength), RelativeSource={RelativeSource TemplatedParent}}"
                                                      VirtualizingPanel.CacheLengthUnit="{Binding Path=(VirtualizingPanel.CacheLengthUnit), RelativeSource={RelativeSource TemplatedParent}}"
