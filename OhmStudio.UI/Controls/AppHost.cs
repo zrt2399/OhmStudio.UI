@@ -10,6 +10,9 @@ using System.Windows.Forms.Integration;
 
 namespace OhmStudio.UI.Controls
 {
+    /// <summary>
+    /// 表示可以将exe外部进程嵌入的控件。
+    /// </summary>
     public class AppHost : Control
     {
         private Process _process = null;
@@ -22,7 +25,7 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty ExePathProperty =
             DependencyProperty.Register(nameof(ExePath), typeof(string), typeof(AppHost), new PropertyMetadata(string.Empty, (sender, e) =>
             {
-                if ( sender is AppHost appHost)
+                if (sender is AppHost appHost)
                 {
                     appHost.StartAndEmbedProcess();
                 }
@@ -82,6 +85,9 @@ namespace OhmStudio.UI.Controls
             SetBounds();
         }
 
+        /// <summary>
+        /// 激活嵌入的窗口。
+        /// </summary>
         public void ActivateWindow()
         {
             if (_process == null || EmbededWindowHandle == IntPtr.Zero)
@@ -191,7 +197,9 @@ namespace OhmStudio.UI.Controls
         /// <summary>
         /// 将外进程嵌入到当前程序。
         /// </summary>
-        /// <param name="process"></param>
+        /// <param name="panelHwnd"></param>
+        /// <param name="processHwnd"></param>
+        /// <returns></returns>
         private bool EmbedApp(IntPtr panelHwnd, IntPtr processHwnd)
         {
             //是否嵌入成功标志，用作返回值
@@ -234,6 +242,9 @@ namespace OhmStudio.UI.Controls
             }
         }
 
+        /// <summary>
+        /// 关闭嵌入的进程。
+        /// </summary>
         public void KillProcess()
         {
             KillProcess(_process);
