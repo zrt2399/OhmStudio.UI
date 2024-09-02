@@ -1251,6 +1251,16 @@
                                     </WrapPanel>
                                 </ScrollViewer>
                             </LayoutDocument>
+                            <LayoutDocument Title="EmbeddedWindow">
+                                <Grid GridAttach.RowDefinitions="Auto,*">
+                                    <Button>EmbeddedWindow</Button>
+                                    <AppHost Grid.Row="1"
+                                             Padding="10"
+                                             BorderBrush="Purple"
+                                             BorderThickness="1"
+                                             ExePath="C:\Users\Xtone\Desktop\新建文件夹\FPS\FPS.exe" />
+                                </Grid>
+                            </LayoutDocument>
                         </LayoutDocumentPane>
                     </LayoutDocumentPaneGroup>
                     <LayoutAnchorablePaneGroup DockWidth="400">

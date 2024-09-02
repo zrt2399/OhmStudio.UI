@@ -4,7 +4,8 @@
                     xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
                     xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:o="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
-                    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
+                    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+                    xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms">
 
     <ResourceDictionary.MergedDictionaries>
         <!--  Common Control Styles  -->
@@ -1536,6 +1537,25 @@
         </Setter>
     </Style>
     <Style BasedOn="{StaticResource TipIconBaseStyle}" TargetType="controls:TipIcon" />
+
+    <Style x:Key="AppHostBaseStyle" TargetType="controls:AppHost">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:AppHost">
+                    <Border Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True">
+                        <WindowsFormsHost x:Name="PART_Host">
+                            <wf:Panel />
+                        </WindowsFormsHost>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style BasedOn="{StaticResource AppHostBaseStyle}" TargetType="controls:AppHost" />
 
     <Style x:Key="WorkflowEditorBaseStyle" TargetType="controls:WorkflowEditor">
         <Setter Property="Focusable" Value="True" />
