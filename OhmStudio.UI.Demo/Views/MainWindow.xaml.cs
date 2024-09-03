@@ -61,7 +61,7 @@ namespace OhmStudio.UI.Demo.Views
             };
             dispatcherTimer.Start();
 
-            PreviewMouseWheel += (sender, e) =>
+            MouseWheel += (sender, e) =>
             {
                 if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
                 {

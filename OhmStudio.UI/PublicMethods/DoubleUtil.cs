@@ -175,5 +175,15 @@ namespace OhmStudio.UI.PublicMethods
 
             return false;
         }
+
+        public static bool IsPositiveNumber(double value)
+        {
+            return IsNumber(value) && value > 0;
+        }
+
+        public static bool IsNumber(double value)
+        {
+            return !double.IsNaN(value) && !double.IsInfinity(value);
+        }
     }
 }

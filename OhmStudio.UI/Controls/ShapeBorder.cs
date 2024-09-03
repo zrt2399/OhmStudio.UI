@@ -77,20 +77,31 @@ namespace OhmStudio.UI.Controls
                 ctx.ArcTo(new Point(rect.Left + cornerRadius.TopLeft, rect.Top), new Size(cornerRadius.TopLeft, cornerRadius.TopLeft), 0, false, SweepDirection.Clockwise, true, false);
             }
             geometry.Freeze();
-            //Geometry = geometry;
             dc.DrawGeometry(brush, pen, geometry);
             return geometry;
         }
 
         protected override void OnRender(DrawingContext drawingContext)
         {
+            Pen pen = null;
             var background = Background;
-            var pen = new Pen(BorderBrush, new double[] { BorderThickness.Left, BorderThickness.Top, BorderThickness.Right, BorderThickness.Bottom }.Max());
-            if (IsDashed)
+            var borderBrush = BorderBrush;
+            var thickness = new double[] { BorderThickness.Left, BorderThickness.Top, BorderThickness.Right, BorderThickness.Bottom }.Max();
+
+            if (borderBrush != null)
             {
-                pen.DashStyle = DashStyles.Dash;
+                pen = new Pen(borderBrush, thickness);
+                if (IsDashed)
+                {
+                    pen.DashStyle = DashStyles.Dash;
+                }
+                if (borderBrush.IsFrozen)
+                {
+                    pen.Freeze();
+                }
             }
-            double num = pen.Thickness * 0.5;
+
+            double num = thickness * 0.5;
             switch (ShapeType)
             {
                 case ShapeType.Diamond:

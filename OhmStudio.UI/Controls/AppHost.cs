@@ -57,6 +57,11 @@ namespace OhmStudio.UI.Controls
 
         public IntPtr EmbededWindowHandle => _process?.MainWindowHandle ?? IntPtr.Zero;
 
+        static AppHost()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(AppHost), new FrameworkPropertyMetadata(typeof(AppHost)));
+        }
+
         public override void OnApplyTemplate()
         {
             if (PART_Host != null)
@@ -152,35 +157,49 @@ namespace OhmStudio.UI.Controls
             {
                 KillProcess(runningProcess);
             }
-            ProcessStartInfo processStartInfo = new ProcessStartInfo(processPath);
-            //info.WindowStyle = ProcessWindowStyle.Minimized;//默认最大化，不弹出界面。
-            //info.Arguments = $"-popupwindow";//Unity的命令行参数
-            processStartInfo.Arguments = Arguments;
-            processStartInfo.CreateNoWindow = true;
 
-            _process = Process.Start(processStartInfo);
-
-            if (_process == null)
+            if (string.IsNullOrWhiteSpace(ExePath))
             {
+                KillProcess(runningProcess);
                 return;
             }
-
-            _process.WaitForInputIdle();
-            var hostHandle = PART_Host.Handle;
-            await Task.Factory.StartNew(() =>
+            try
             {
-                for (int i = 0; i < 100 && EmbededWindowHandle == IntPtr.Zero; i++)
+                ProcessStartInfo processStartInfo = new ProcessStartInfo(processPath);
+                //info.WindowStyle = ProcessWindowStyle.Minimized;//默认最大化，不弹出界面。
+                //info.Arguments = $"-popupwindow";//Unity的命令行参数
+                processStartInfo.Arguments = Arguments;
+                processStartInfo.CreateNoWindow = true;
+
+                _process = Process.Start(processStartInfo);
+
+                if (_process == null)
                 {
-                    Thread.Sleep(10);
+                    return;
                 }
-                if (EmbededWindowHandle != IntPtr.Zero)
+
+                _process.WaitForInputIdle();
+                var hostHandle = PART_Host.Handle;
+                await Task.Factory.StartNew(() =>
                 {
-                    if (!EmbedApp(hostHandle, EmbededWindowHandle))
+                    for (int i = 0; i < 100 && EmbededWindowHandle == IntPtr.Zero; i++)
                     {
-                        KillProcess();
+                        Thread.Sleep(10);
                     }
-                }
-            }, TaskCreationOptions.LongRunning);
+                    if (EmbededWindowHandle != IntPtr.Zero)
+                    {
+                        if (!EmbedApp(hostHandle, EmbededWindowHandle))
+                        {
+                            KillProcess();
+                        }
+                    }
+                }, TaskCreationOptions.LongRunning);
+            }
+            catch (Exception)
+            {
+                KillProcess();
+                throw;
+            }
         }
 
         private void AppHost_Loaded(object sender, RoutedEventArgs e)

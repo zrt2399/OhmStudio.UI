@@ -41,7 +41,7 @@ namespace OhmStudio.UI.Controls
             MouseLeftButtonDown += WorkflowEditor_MouseLeftButtonDown;
             MouseMove += WorkflowEditor_MouseMove;
             PreviewMouseLeftButtonUp += WorkflowEditor_MouseLeftButtonUp;
-            MouseWheel += WorkflowEditor_MouseWheel;
+            PreviewMouseWheel += WorkflowEditor_MouseWheel;
             KeyDown += WorkflowEditor_KeyDown;
 
             _multiSelectionMask = new Rectangle();
@@ -85,9 +85,7 @@ namespace OhmStudio.UI.Controls
         //鼠标按下控件的位置
         private Point _mouseDownControlPoint;
         //多个选中时鼠标按下的位置
-        private Point _multiMouseDownPoint;
-        //多个选中时Rectangle遮罩按下的位置
-        private Point _multiMouseDownRectanglePoint;
+        private Point _multiMoveMouseDownPoint;
 
         private WorkflowItem _lastWorkflowItem;
         private EllipseItem _lastEllipseItem;
@@ -303,7 +301,7 @@ namespace OhmStudio.UI.Controls
                 foreach (var oldItem in e.OldItems)
                 {
                     var workflowItem = WorkflowItems.FirstOrDefault(x => x.DataContext == oldItem);
-                    workflowItem.Delete();
+                    workflowItem?.Delete();
                 }
             }
             else if (e.Action == NotifyCollectionChangedAction.Replace)
@@ -311,7 +309,7 @@ namespace OhmStudio.UI.Controls
                 var newItem = WorkflowItems.FirstOrDefault(x => x.DataContext == e.NewItems[0]);
                 var oldItem = WorkflowItems.FirstOrDefault(x => x.DataContext == e.OldItems[0]);
                 Children.Add(CreateWorkflowItem(newItem));
-                oldItem.Delete();
+                oldItem?.Delete();
             }
             else if (e.Action == NotifyCollectionChangedAction.Reset)
             {
@@ -388,8 +386,22 @@ namespace OhmStudio.UI.Controls
             UpdateSelectedItems();
             if (visualAdded is WorkflowItem added)
             {
-                SetLeft(added, Adsorb(GetLeft(added)));
-                SetTop(added, Adsorb(GetTop(added)));
+                var left = Adsorb(GetLeft(added));
+                var top = Adsorb(GetTop(added));
+                if (ActualWidth > 0 && ActualHeight > 0 && DoubleUtil.IsNumber(added.Width) && DoubleUtil.IsNumber(added.Height))
+                {
+                    if (left + added.Width > ActualWidth)
+                    {
+                        left = Adsorb(ActualWidth - added.Width);
+                    }
+                    if (top + added.Height > ActualHeight)
+                    {
+                        top = Adsorb(ActualWidth - added.Height);
+                    }
+                }
+
+                SetLeft(added, left);
+                SetTop(added, top);
                 added.EditorParent = this;
                 added.MouseLeftButtonDown += WorkflowItem_MouseLeftButtonDown;
                 added.Selected += WorkflowItem_SelectedChanged;
@@ -493,11 +505,11 @@ namespace OhmStudio.UI.Controls
 
             EditorStatus = EditorStatus.MultiMoving;
             _multiSelectionMask.Cursor = Cursors.ScrollAll;
-            _multiMouseDownPoint = e.GetPosition(this);
-            _multiMouseDownRectanglePoint = new Point(GetLeft(_multiSelectionMask), GetTop(_multiSelectionMask));
+            _multiMoveMouseDownPoint = e.GetPosition(this);
+            //_multiRectangleMouseDownRect = new Rect(GetLeft(_multiSelectionMask), GetTop(_multiSelectionMask), _multiSelectionMask.Width, _multiSelectionMask.Height);
             foreach (var item in WorkflowItems.Where(x => x.IsSelected))
             {
-                item.MouseDownControlPoint = new Point(GetLeft(item), GetTop(item));
+                item.MouseDownPoint = new Point(GetLeft(item), GetTop(item));
             }
         }
 
@@ -598,42 +610,23 @@ namespace OhmStudio.UI.Controls
 
             if (EditorStatus == EditorStatus.MultiMoving)
             {
-                Vector vector = point - _multiMouseDownPoint;
-
-                SetLeft(_multiSelectionMask, _multiMouseDownRectanglePoint.X + vector.X);
-                SetTop(_multiSelectionMask, _multiMouseDownRectanglePoint.Y + vector.Y);
-                if (GetLeft(_multiSelectionMask) < 0)
-                {
-                    SetLeft(_multiSelectionMask, 0);
-                }
-                if (GetTop(_multiSelectionMask) < 0)
-                {
-                    SetTop(_multiSelectionMask, 0);
-                }
+                Vector vector = point - _multiMoveMouseDownPoint;
                 foreach (var item in WorkflowItems.Where(x => x.IsSelected && x.IsDraggable))
                 {
-                    var minX = item.MouseDownControlPoint.X - _multiMouseDownRectanglePoint.X;
-                    var minY = item.MouseDownControlPoint.Y - _multiMouseDownRectanglePoint.Y;
-                    SetLeft(item, item.MouseDownControlPoint.X + vector.X);
-                    SetTop(item, item.MouseDownControlPoint.Y + vector.Y);
-                    if (GetLeft(item) < minX)
-                    {
-                        SetLeft(item, minX);
-                    }
-                    if (GetTop(item) < minY)
-                    {
-                        SetTop(item, minY);
-                    }
+                    var left = Math.Max(0, item.MouseDownPoint.X + vector.X);
+                    var top = Math.Max(0, item.MouseDownPoint.Y + vector.Y);
+
+                    SetLeft(item, Math.Min(left, ActualWidth - item.ActualWidth));
+                    SetTop(item, Math.Min(top, ActualHeight - item.ActualHeight));
+
+                    //var minX = item.MouseDownRect.X - _multiRectangleMouseDownRect.X;
+                    //var minY = item.MouseDownRect.Y - _multiRectangleMouseDownRect.Y;
+                    //SetLeft(item, Math.Max(minX, item.MouseDownRect.X + vector.X));
+                    //SetTop(item, Math.Max(minY, item.MouseDownRect.Y + vector.Y));
+
                     item.UpdateCurve();
-                    //if (GetLeft(item) > ActualWidth - item.ActualWidth)
-                    //{
-                    //    SetLeft(item, ActualWidth - item.ActualWidth);
-                    //}
-                    //if (GetTop(item) > ActualHeight - item.ActualHeight)
-                    //{
-                    //    SetTop(item, ActualHeight - item.ActualHeight);
-                    //}
                 }
+                UpdateMultiSelectionMask();
             }
             else if (EditorStatus == EditorStatus.Selecting)
             {
@@ -673,30 +666,14 @@ namespace OhmStudio.UI.Controls
                     return;
                 }
                 Vector vector = point - _mouseDownPoint;
-                SetLeft(workflowItem, Math.Round(_mouseDownControlPoint.X + vector.X, 0));
-                SetTop(workflowItem, Math.Round(_mouseDownControlPoint.Y + vector.Y, 0));
-
-                if (GetLeft(workflowItem) < 0)
-                {
-                    SetLeft(workflowItem, 0);
-                }
-                if (GetTop(workflowItem) < 0)
-                {
-                    SetTop(workflowItem, 0);
-                }
-
-                if (GetLeft(workflowItem) > ActualWidth - workflowItem.ActualWidth)
-                {
-                    SetLeft(workflowItem, ActualWidth - workflowItem.ActualWidth);
-                }
-                if (GetTop(workflowItem) > ActualHeight - workflowItem.ActualHeight)
-                {
-                    SetTop(workflowItem, ActualHeight - workflowItem.ActualHeight);
-                }
+                var left = Math.Max(0, _mouseDownControlPoint.X + vector.X);
+                var top = Math.Max(0, _mouseDownControlPoint.Y + vector.Y);
+                SetLeft(workflowItem, Math.Min(left, ActualWidth - workflowItem.ActualWidth));
+                SetTop(workflowItem, Math.Min(top, ActualHeight - workflowItem.ActualHeight));
                 workflowItem.UpdateCurve();
             }
         }
-
+ 
         private bool CheckOverlap(RectangleGeometry rectangleGeometry, WorkflowItem workflowItem)
         {
             GeneralTransform transform = workflowItem.TransformToVisual(this);
@@ -743,12 +720,11 @@ namespace OhmStudio.UI.Controls
                 }
                 else if (EditorStatus == EditorStatus.MultiMoving)
                 {
-                    SetLeft(_multiSelectionMask, Adsorb(GetLeft(_multiSelectionMask)));
-                    SetTop(_multiSelectionMask, Adsorb(GetTop(_multiSelectionMask)));
                     foreach (var item in WorkflowItems.Where(x => x.IsSelected && x.IsDraggable))
                     {
                         PositionWorkflowItem(item);
                     }
+                    UpdateMultiSelectionMask();
                 }
             }
             finally
@@ -777,13 +753,17 @@ namespace OhmStudio.UI.Controls
             //Point mousePosition = e.GetPosition(this); 
             //scaleTransform.CenterX = mousePosition.X;
             //scaleTransform.CenterY = mousePosition.Y;
-            if (e.Delta > 0)
+            if (IsCtrlKeyDown)
             {
-                Scale += 0.2;
-            }
-            else
-            {
-                Scale -= 0.2;
+                if (e.Delta > 0)
+                {
+                    Scale += 0.1;
+                }
+                else
+                {
+                    Scale -= 0.1;
+                }
+                //e.Handled = true;
             }
         }
 

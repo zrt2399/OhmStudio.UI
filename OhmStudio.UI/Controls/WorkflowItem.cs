@@ -360,7 +360,7 @@ namespace OhmStudio.UI.Controls
         private EllipseItem EllipseRight;
         private EllipseItem EllipseBottom;
 
-        internal Point MouseDownControlPoint { get; set; }
+        internal Point MouseDownPoint { get; set; }
 
         internal Dictionary<Dock, EllipseItem> EllipseItems { get; private set; }
 
@@ -521,10 +521,10 @@ namespace OhmStudio.UI.Controls
         }
 
         protected virtual void OnWorkflowItemChanged(DependencyPropertyChangedEventArgs e)
-        { 
+        {
             UpdateCurve();
         }
- 
+
         internal WorkflowItem FirstOrDefault(object item)
         {
             return EditorParent.FirstOrDefault(item);
