@@ -5,7 +5,6 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -41,7 +40,7 @@ namespace OhmStudio.UI.Controls
             MouseLeftButtonDown += WorkflowEditor_MouseLeftButtonDown;
             MouseMove += WorkflowEditor_MouseMove;
             PreviewMouseLeftButtonUp += WorkflowEditor_MouseLeftButtonUp;
-            PreviewMouseWheel += WorkflowEditor_MouseWheel;
+
             KeyDown += WorkflowEditor_KeyDown;
 
             _multiSelectionMask = new Rectangle();
@@ -56,10 +55,6 @@ namespace OhmStudio.UI.Controls
             _selectionArea.Stroke = "#FF0F80D9".ToSolidColorBrush();
             SetZIndex(_selectionArea, int.MaxValue);
 
-            ScaleTransform scaleTransform = new ScaleTransform();
-            BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleXProperty, new Binding() { Source = this, Path = new PropertyPath(ScaleProperty) });
-            BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleYProperty, new Binding() { Source = this, Path = new PropertyPath(ScaleProperty) });
-            LayoutTransform = scaleTransform;
             SelectAllCommand = new RelayCommand(SelectAll);
             UnselectAllCommand = new RelayCommand(UnselectAll);
             InvertSelectCommand = new RelayCommand(InvertSelect);
@@ -126,20 +121,6 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty GridSizeProperty =
             DependencyProperty.Register(nameof(GridSize), typeof(double), typeof(WorkflowEditor),
                 new FrameworkPropertyMetadata(20d, FrameworkPropertyMetadataOptions.AffectsRender));
-
-        public static readonly DependencyProperty ScaleProperty =
-            DependencyProperty.Register(nameof(Scale), typeof(double), typeof(WorkflowEditor), new PropertyMetadata(1d, (sender, e) =>
-            {
-                WorkflowEditor workflowEditor = (WorkflowEditor)sender;
-                if (workflowEditor.Scale < 0.2)
-                {
-                    workflowEditor.Scale = 0.2;
-                }
-                if (workflowEditor.Scale > 3)
-                {
-                    workflowEditor.Scale = 3;
-                }
-            }));
 
         public static readonly DependencyProperty MousePositionProperty =
             DependencyProperty.Register(nameof(MousePosition), typeof(Point), typeof(WorkflowEditor));
@@ -214,12 +195,6 @@ namespace OhmStudio.UI.Controls
         {
             get => (double)GetValue(GridSizeProperty);
             set => SetValue(GridSizeProperty, value);
-        }
-
-        public double Scale
-        {
-            get => (double)GetValue(ScaleProperty);
-            set => SetValue(ScaleProperty, value);
         }
 
         public Point MousePosition
@@ -504,6 +479,7 @@ namespace OhmStudio.UI.Controls
             //}
 
             EditorStatus = EditorStatus.MultiMoving;
+            _multiSelectionMask.CaptureMouse();
             _multiSelectionMask.Cursor = Cursors.ScrollAll;
             _multiMoveMouseDownPoint = e.GetPosition(this);
             //_multiRectangleMouseDownRect = new Rect(GetLeft(_multiSelectionMask), GetTop(_multiSelectionMask), _multiSelectionMask.Width, _multiSelectionMask.Height);
@@ -517,6 +493,7 @@ namespace OhmStudio.UI.Controls
         {
             var workflowItem = sender as WorkflowItem;
             _lastWorkflowItem = workflowItem;
+            _lastWorkflowItem.CaptureMouse();
             Point point = e.GetPosition(this);
             var startEllipseItem = GetEllipseWithPoint(point);
             if (startEllipseItem == null)
@@ -533,6 +510,7 @@ namespace OhmStudio.UI.Controls
                 if (_currentPath == null)
                 {
                     _currentPath = new PathItem(this);
+                    _currentPath.CaptureMouse();
                     Children.Add(_currentPath);
                 }
             }
@@ -592,6 +570,7 @@ namespace OhmStudio.UI.Controls
             _selectionStartPoint = point;
             EditorStatus = EditorStatus.Selecting;
 
+            _selectionArea.CaptureMouse();
             // Reset the selection rectangle
             _selectionArea.Width = 0;
             _selectionArea.Height = 0;
@@ -627,6 +606,7 @@ namespace OhmStudio.UI.Controls
                     item.UpdateCurve();
                 }
                 UpdateMultiSelectionMask();
+                GetOutOfBoundsSide(_multiSelectionMask);
             }
             else if (EditorStatus == EditorStatus.Selecting)
             {
@@ -671,9 +651,54 @@ namespace OhmStudio.UI.Controls
                 SetLeft(workflowItem, Math.Min(left, ActualWidth - workflowItem.ActualWidth));
                 SetTop(workflowItem, Math.Min(top, ActualHeight - workflowItem.ActualHeight));
                 workflowItem.UpdateCurve();
+                GetOutOfBoundsSide(workflowItem);
             }
         }
- 
+
+        private ScrollViewer _scrollViewer;
+        public ScrollViewer ScrollViewer
+        {
+            get
+            {
+                _scrollViewer ??= this.GetParentObject<ScrollViewer>();
+                return _scrollViewer;
+            }
+        }
+
+        public void GetOutOfBoundsSide(FrameworkElement child)
+        {
+            var parent = ScrollViewer;
+            // 获取子控件在父控件中的位置
+            Point childPosition = child.TranslatePoint(new Point(0, 0), parent);
+
+            // 获取子控件的大小
+            Rect childBound = new Rect(childPosition, child.RenderSize);
+
+            // 获取父控件的大小
+            Rect parentBound = new Rect(0, 0, parent.ActualWidth - SystemParameters.HorizontalScrollBarHeight, parent.ActualHeight - SystemParameters.VerticalScrollBarWidth);
+
+            if (childBound.Left < parentBound.Left)
+            {
+                var proportion = (parentBound.Left - childBound.Left) / child.ActualWidth * 10 + 1;
+                ScrollViewer.ScrollToHorizontalOffset(ScrollViewer.HorizontalOffset - proportion);
+            }
+            if (childBound.Right > parentBound.Right)
+            {
+                var proportion = (childBound.Right - parentBound.Right) / child.ActualWidth * 10 + 1;
+                ScrollViewer.ScrollToHorizontalOffset(ScrollViewer.HorizontalOffset + proportion);
+            }
+            if (childBound.Top < parentBound.Top)
+            {
+                var proportion = (parentBound.Top - childBound.Top) / child.ActualHeight * 10 + 1;
+                ScrollViewer.ScrollToVerticalOffset(ScrollViewer.VerticalOffset - proportion);
+            }
+            if (childBound.Bottom > parentBound.Bottom)
+            {
+                var proportion = (childBound.Bottom - parentBound.Bottom) / child.ActualHeight * 10 + 1;
+                ScrollViewer.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + proportion);
+            }
+        }
+
         private bool CheckOverlap(RectangleGeometry rectangleGeometry, WorkflowItem workflowItem)
         {
             GeneralTransform transform = workflowItem.TransformToVisual(this);
@@ -729,12 +754,19 @@ namespace OhmStudio.UI.Controls
             }
             finally
             {
-                Cursor = null;
-                _multiSelectionMask.Cursor = null;
                 Children.Remove(_selectionArea);
                 Children.Remove(_currentPath);
-                _currentPath = null;
+
                 EditorStatus = EditorStatus.None;
+
+                _selectionArea.ReleaseMouseCapture();
+                _multiSelectionMask.ReleaseMouseCapture();
+                _lastWorkflowItem?.ReleaseMouseCapture();
+                _currentPath?.ReleaseMouseCapture();
+
+                _currentPath = null;
+                Cursor = null;
+                _multiSelectionMask.Cursor = null;
             }
         }
 
@@ -746,25 +778,6 @@ namespace OhmStudio.UI.Controls
             {
                 workflowItem.UpdateCurve();
             }, DispatcherPriority.Render);
-        }
-
-        private void WorkflowEditor_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            //Point mousePosition = e.GetPosition(this); 
-            //scaleTransform.CenterX = mousePosition.X;
-            //scaleTransform.CenterY = mousePosition.Y;
-            if (IsCtrlKeyDown)
-            {
-                if (e.Delta > 0)
-                {
-                    Scale += 0.1;
-                }
-                else
-                {
-                    Scale -= 0.1;
-                }
-                //e.Handled = true;
-            }
         }
 
         public void UpdateMultiSelectionMask()
