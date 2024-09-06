@@ -1561,7 +1561,7 @@
         <Setter Property="Focusable" Value="True" />
         <Setter Property="ClipToBounds" Value="True" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="LineBrush" Value="{DynamicResource WorkflowEditorLineBrush}" />
+        <Setter Property="GridLineBrush" Value="{DynamicResource WorkflowEditorLineBrush}" />
         <!--<Setter Property="LayoutTransform">
             <Setter.Value>
                 <ScaleTransform ScaleX="{Binding Scale, RelativeSource={RelativeSource AncestorType=Canvas}}"

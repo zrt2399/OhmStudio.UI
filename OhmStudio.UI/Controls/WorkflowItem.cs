@@ -360,7 +360,7 @@ namespace OhmStudio.UI.Controls
         private EllipseItem EllipseRight;
         private EllipseItem EllipseBottom;
 
-        internal Point MouseDownPoint { get; set; }
+        internal Point LastMouseDownPoint { get; set; }
 
         internal Dictionary<Dock, EllipseItem> EllipseItems { get; private set; }
 
@@ -453,7 +453,7 @@ namespace OhmStudio.UI.Controls
 
         private void PART_Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            var cellSize = EditorParent.GridSize;
+            var cellSize = EditorParent.GridSpacing;
             Width = Math.Max(cellSize, Width.Adsorb(cellSize));
             Height = Math.Max(cellSize, Height.Adsorb(cellSize));
             Dispatcher.InvokeAsync(() =>

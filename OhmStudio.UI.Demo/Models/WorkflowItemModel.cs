@@ -17,8 +17,8 @@ namespace OhmStudio.UI.Demo.Models
 
         public StepType StepType { get; set; } = StepType.Begin;
 
-        public double Width { get; set; } = 195;
-        public double Height { get; set; } = 75;
+        public double Width { get; set; } = 200;
+        public double Height { get; set; } = 80;
 
         public double Left { get; set; }
         public double Top { get; set; }

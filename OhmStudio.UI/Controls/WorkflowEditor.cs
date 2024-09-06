@@ -36,11 +36,10 @@ namespace OhmStudio.UI.Controls
         }
 
         public WorkflowEditor()
-        {
+        { 
             MouseLeftButtonDown += WorkflowEditor_MouseLeftButtonDown;
             MouseMove += WorkflowEditor_MouseMove;
-            PreviewMouseLeftButtonUp += WorkflowEditor_MouseLeftButtonUp;
-
+            MouseLeftButtonUp += WorkflowEditor_MouseLeftButtonUp;
             KeyDown += WorkflowEditor_KeyDown;
 
             _multiSelectionMask = new Rectangle();
@@ -114,12 +113,12 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty ItemContainerStyleSelectorProperty =
             DependencyProperty.Register(nameof(ItemContainerStyleSelector), typeof(StyleSelector), typeof(WorkflowEditor), new PropertyMetadata(OnContainerStyleSelectorChanged));
 
-        public static readonly DependencyProperty LineBrushProperty =
-           DependencyProperty.Register(nameof(LineBrush), typeof(Brush), typeof(WorkflowEditor),
+        public static readonly DependencyProperty GridLineBrushProperty =
+           DependencyProperty.Register(nameof(GridLineBrush), typeof(Brush), typeof(WorkflowEditor),
                new FrameworkPropertyMetadata(Brushes.LightGray, FrameworkPropertyMetadataOptions.AffectsRender));
 
-        public static readonly DependencyProperty GridSizeProperty =
-            DependencyProperty.Register(nameof(GridSize), typeof(double), typeof(WorkflowEditor),
+        public static readonly DependencyProperty GridSpacingProperty =
+            DependencyProperty.Register(nameof(GridSpacing), typeof(double), typeof(WorkflowEditor),
                 new FrameworkPropertyMetadata(20d, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty MousePositionProperty =
@@ -185,16 +184,16 @@ namespace OhmStudio.UI.Controls
             set => SetValue(ItemTemplateSelectorProperty, value);
         }
 
-        public Brush LineBrush
+        public Brush GridLineBrush
         {
-            get => (Brush)GetValue(LineBrushProperty);
-            set => SetValue(LineBrushProperty, value);
+            get => (Brush)GetValue(GridLineBrushProperty);
+            set => SetValue(GridLineBrushProperty, value);
         }
 
-        public double GridSize
+        public double GridSpacing
         {
-            get => (double)GetValue(GridSizeProperty);
-            set => SetValue(GridSizeProperty, value);
+            get => (double)GetValue(GridSpacingProperty);
+            set => SetValue(GridSpacingProperty, value);
         }
 
         public Point MousePosition
@@ -485,7 +484,7 @@ namespace OhmStudio.UI.Controls
             //_multiRectangleMouseDownRect = new Rect(GetLeft(_multiSelectionMask), GetTop(_multiSelectionMask), _multiSelectionMask.Width, _multiSelectionMask.Height);
             foreach (var item in WorkflowItems.Where(x => x.IsSelected))
             {
-                item.MouseDownPoint = new Point(GetLeft(item), GetTop(item));
+                item.LastMouseDownPoint = new Point(GetLeft(item), GetTop(item));
             }
         }
 
@@ -537,7 +536,7 @@ namespace OhmStudio.UI.Controls
             //bool isPathItem = false;
             IEnumerable<SelectionControl> selectableElements;
             BeginUpdateSelectedItems();
-            if (this.GetVisualHit<SelectionControl>(point) is SelectionControl selectableElement)
+            if (this.GetVisualHitOfType<SelectionControl>(point) is SelectionControl selectableElement)
             {
                 //isPathItem = selectableElement is PathItem;
                 selectableElement.IsSelected = true;
@@ -592,8 +591,8 @@ namespace OhmStudio.UI.Controls
                 Vector vector = point - _multiMoveMouseDownPoint;
                 foreach (var item in WorkflowItems.Where(x => x.IsSelected && x.IsDraggable))
                 {
-                    var left = Math.Max(0, item.MouseDownPoint.X + vector.X);
-                    var top = Math.Max(0, item.MouseDownPoint.Y + vector.Y);
+                    var left = Math.Max(0, item.LastMouseDownPoint.X + vector.X);
+                    var top = Math.Max(0, item.LastMouseDownPoint.Y + vector.Y);
 
                     SetLeft(item, Math.Min(left, ActualWidth - item.ActualWidth));
                     SetTop(item, Math.Min(top, ActualHeight - item.ActualHeight));
@@ -660,13 +659,14 @@ namespace OhmStudio.UI.Controls
         {
             get
             {
-                _scrollViewer ??= this.GetParentObject<ScrollViewer>();
+                _scrollViewer ??= this.GetParentOfType<ScrollViewer>();
                 return _scrollViewer;
             }
         }
 
         public void GetOutOfBoundsSide(FrameworkElement child)
         {
+            return;
             var parent = ScrollViewer;
             // 获取子控件在父控件中的位置
             Point childPosition = child.TranslatePoint(new Point(0, 0), parent);
@@ -712,7 +712,7 @@ namespace OhmStudio.UI.Controls
 
         private EllipseItem GetEllipseWithPoint(Point point)
         {
-            var ellipseItem = this.GetVisualHit<EllipseItem>(point);
+            var ellipseItem = this.GetVisualHitOfType<EllipseItem>(point);
             if (ellipseItem != null && !ellipseItem.IsVisible)
             {
                 return null;
@@ -872,7 +872,7 @@ namespace OhmStudio.UI.Controls
 
         private double Adsorb(double value)
         {
-            return value.Adsorb(GridSize);
+            return value.Adsorb(GridSpacing);
         }
 
         protected override void OnRender(DrawingContext dc)
@@ -881,10 +881,10 @@ namespace OhmStudio.UI.Controls
 
             double width = ActualWidth;
             double height = ActualHeight;
-            double gridSize = GridSize;
+            double gridSize = GridSpacing;
 
-            Pen pen = new Pen(LineBrush, 0.4);
-            Pen sidePen = new Pen(LineBrush, 1);
+            Pen pen = new Pen(GridLineBrush, 0.4);
+            Pen sidePen = new Pen(GridLineBrush, 1);
 
             int index = 0;
             for (double x = 0; x < width; x += gridSize)

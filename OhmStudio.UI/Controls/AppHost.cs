@@ -55,6 +55,8 @@ namespace OhmStudio.UI.Controls
             set => SetValue(IsSingleInstanceProperty, value);
         }
 
+        public bool IsInit { get; private set; }
+
         public IntPtr EmbededWindowHandle => _process?.MainWindowHandle ?? IntPtr.Zero;
 
         static AppHost()
@@ -71,6 +73,8 @@ namespace OhmStudio.UI.Controls
             base.OnApplyTemplate();
             PART_Host = (GetTemplateChild("PART_Host") as WindowsFormsHost).Child as System.Windows.Forms.Panel;
             PART_Host.Resize += PART_Host_Resize;
+            IsInit = true;
+            StartAndEmbedProcess();
         }
 
         [DllImport("user32.dll")]
@@ -146,9 +150,8 @@ namespace OhmStudio.UI.Controls
 
         public async void StartAndEmbedProcess()
         {
-            if (PART_Host == null)
+            if (!IsInit)
             {
-                Loaded += AppHost_Loaded;
                 return;
             }
             string processPath = ExePath;
@@ -160,7 +163,7 @@ namespace OhmStudio.UI.Controls
 
             if (string.IsNullOrWhiteSpace(ExePath))
             {
-                KillProcess(runningProcess);
+                KillProcess();
                 return;
             }
             try
@@ -200,12 +203,6 @@ namespace OhmStudio.UI.Controls
                 KillProcess();
                 throw;
             }
-        }
-
-        private void AppHost_Loaded(object sender, RoutedEventArgs e)
-        {
-            Loaded -= AppHost_Loaded;
-            StartAndEmbedProcess();
         }
 
         private const int GWL_STYLE = -16;
@@ -262,7 +259,7 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// 关闭嵌入的进程。
+        /// 关闭当前嵌入的进程。
         /// </summary>
         public void KillProcess()
         {

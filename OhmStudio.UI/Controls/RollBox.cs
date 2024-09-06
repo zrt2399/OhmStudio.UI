@@ -275,7 +275,7 @@ namespace OhmStudio.UI.Controls
             {
                 return uIElement;
             }
-            return uIElement.FindChildren<UIElement>().FirstOrDefault(x => x.Focusable);
+            return uIElement.FindChildrenOfType<UIElement>().FirstOrDefault(x => x.Focusable);
         }
     }
 }

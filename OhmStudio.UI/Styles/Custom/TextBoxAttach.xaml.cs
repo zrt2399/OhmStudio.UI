@@ -24,7 +24,7 @@ namespace OhmStudio.UI.Styles.Custom
                     }
                     else
                     {
-                        var first = uIElement.FindChildren<UIElement>().FirstOrDefault(x => x.Focusable);
+                        var first = uIElement.FindChildrenOfType<UIElement>().FirstOrDefault(x => x.Focusable);
                         if (first != null)
                         {
                             first.Focus();

@@ -41,7 +41,7 @@ namespace OhmStudio.UI.PublicMethods
             return geometry;
         }
 
-        public static T FindFirstVisualHit<T>(this Visual visual, Point point) where T : DependencyObject
+        public static IEnumerable<T> GetVisualHitsOfZ<T>(this Visual visual, Point point) where T : DependencyObject
         {
             List<T> hitElements = new List<T>();
 
@@ -53,29 +53,22 @@ namespace OhmStudio.UI.PublicMethods
                     result =>
                     {
                         HitTestResultBehavior behavior = HitTestResultBehavior.Continue;
-                        if (result.VisualHit is T t1)
+                        if (result.VisualHit is T t1 && !hitElements.Contains(t1))
                         {
                             hitElements.Add(t1);
                         }
-                        else if (result.VisualHit is FrameworkElement frameworkElement)
+                        if (result.VisualHit.GetParentOfType<T>() is T t2 && !hitElements.Contains(t2))
                         {
-                            if (frameworkElement.Parent is T t2)
-                            {
-                                hitElements.Add(t2);
-                            }
-                            else if (frameworkElement.TemplatedParent is T t3)
-                            {
-                                hitElements.Add(t3);
-                            }
+                            hitElements.Add(t2);
                         }
                         return behavior;
                     }),
                 new PointHitTestParameters(point));
 
-            return hitElements.FirstOrDefault();
+            return hitElements;
         }
 
-        public static T GetVisualHit<T>(this Visual visual, Point point)
+        public static T GetVisualHitOfType<T>(this Visual visual, Point point)
         {
             var hitObject = VisualTreeHelper.HitTest(visual, point)?.VisualHit;
             if (hitObject == null)
@@ -84,7 +77,7 @@ namespace OhmStudio.UI.PublicMethods
             }
             else
             {
-                return hitObject.GetParentObject<T>();
+                return hitObject is T t ? t : hitObject.GetParentOfType<T>();
             }
         }
 
@@ -183,7 +176,7 @@ namespace OhmStudio.UI.PublicMethods
             }
         }
 
-        public static T GetParentObject<T>(this DependencyObject obj)
+        public static T GetParentOfType<T>(this DependencyObject obj)
         {
             DependencyObject parent = obj is Visual or Visual3D ? VisualTreeHelper.GetParent(obj) : LogicalTreeHelper.GetParent(obj);
             while (parent != null)
@@ -204,7 +197,7 @@ namespace OhmStudio.UI.PublicMethods
         /// <param name="parent">A direct parent of the queried item.</param>
         /// <param name="childName">x:Name or Name of child.</param>
         /// <returns>The first parent item that matches the submitted type parameter. If not matching item can be found, a null parent is being returned.</returns>
-        public static T FindChild<T>(this DependencyObject parent, string childName = null) where T : DependencyObject
+        public static T FindChildOfType<T>(this DependencyObject parent, string childName = null) where T : DependencyObject
         {
             if (parent == null)
             {
@@ -218,7 +211,7 @@ namespace OhmStudio.UI.PublicMethods
                 DependencyObject child = VisualTreeHelper.GetChild(parent, i);
                 if (child is not T)
                 {
-                    val = child.FindChild<T>(childName);
+                    val = child.FindChildOfType<T>(childName);
                     if (val != null)
                     {
                         break;
@@ -235,7 +228,7 @@ namespace OhmStudio.UI.PublicMethods
                         break;
                     }
 
-                    val = child.FindChild<T>(childName);
+                    val = child.FindChildOfType<T>(childName);
                     if (val != null)
                     {
                         break;
@@ -258,7 +251,7 @@ namespace OhmStudio.UI.PublicMethods
         /// <param name="source">The root element that marks the source of the search. If the source is already of the requested type, it will not be included in the result.</param>
         /// <param name="forceUsingTheVisualTreeHelper">Sometimes it's better to search in the VisualTree (e.g. in tests)</param>
         /// <returns>All descendants of source that match the requested type.</returns>
-        public static IEnumerable<T> FindChildren<T>(this DependencyObject source, bool forceUsingTheVisualTreeHelper = false) where T : DependencyObject
+        public static IEnumerable<T> FindChildrenOfType<T>(this DependencyObject source, bool forceUsingTheVisualTreeHelper = false) where T : DependencyObject
         {
             if (source == null)
             {
@@ -273,7 +266,7 @@ namespace OhmStudio.UI.PublicMethods
                     yield return t;
                 }
 
-                foreach (T item in child.FindChildren<T>(forceUsingTheVisualTreeHelper))
+                foreach (T item in child.FindChildrenOfType<T>(forceUsingTheVisualTreeHelper))
                 {
                     yield return item;
                 }

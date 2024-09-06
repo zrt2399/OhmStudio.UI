@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
 using System.Windows;
@@ -16,7 +15,6 @@ namespace OhmStudio.UI.Controls
         public CheckComboBox()
         {
             SetEmpty();
-            Loaded += CheckComboBox_Loaded;
             GotFocus += CheckComboBox_GotFocus;
             SelectAllCommand = new RelayCommand(SelectAll);
             UnselectAllCommand = new RelayCommand(UnselectAll);
@@ -31,7 +29,6 @@ namespace OhmStudio.UI.Controls
         private ListBox PART_ListBox;
         private TextBox PART_TextBox;
         private bool _isUpdatingSelectedItems;
-        private List<Action> _loadedMethods = new List<Action>();
 
         public bool IsInit { get; private set; }
 
@@ -124,19 +121,7 @@ namespace OhmStudio.UI.Controls
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
             IsInit = true;
-        }
-
-        private void CheckComboBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (IsInit)
-            {
-                Loaded -= CheckComboBox_Loaded;
-                foreach (var item in _loadedMethods)
-                {
-                    item?.Invoke();
-                }
-                _loadedMethods.Clear();
-            }
+            OnSelectedItemsChanged(null, SelectedItems);
         }
 
         private static void OnSelectedItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -149,15 +134,11 @@ namespace OhmStudio.UI.Controls
 
         public virtual void OnSelectedItemsChanged(IList oldSelectedItems, IList newSelectedItems)
         {
-            if (_isUpdatingSelectedItems)
+            if (_isUpdatingSelectedItems || !IsInit)
             {
                 return;
             }
-            if (!IsInit)
-            {
-                _loadedMethods.Add(() => OnSelectedItemsChanged(oldSelectedItems, newSelectedItems));
-                return;
-            }
+
             PART_ListBox.UnselectAll();
             if (oldSelectedItems != null)
             {
@@ -219,7 +200,7 @@ namespace OhmStudio.UI.Controls
                     {
                         PART_ListBox.SelectedItems.Remove(oldItem);
                     }
-                } 
+                }
             }
             else if (e.Action == NotifyCollectionChangedAction.Replace)
             {
@@ -266,7 +247,6 @@ namespace OhmStudio.UI.Controls
         {
             if (!IsInit)
             {
-                _loadedMethods.Add(() => SelectElement(value, invert));
                 return;
             }
 

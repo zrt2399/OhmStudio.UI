@@ -113,17 +113,17 @@ namespace OhmStudio.UI.PublicMethods
             return bytesTemp;
         }
 
-        public static double Adsorb(this double value, double gridSize)
+        public static double Adsorb(this double value, double gridSpacing)
         {
             if (double.IsNaN(value))
             {
                 return 0;
             }
-            int quotient = (int)(value / gridSize);
-            var min = Math.Max(0, gridSize * quotient);
-            var max = min + gridSize;
+            int quotient = (int)(value / gridSpacing);
+            var min = gridSpacing * quotient;
+            var max = min + gridSpacing;
 
-            if (value - min > gridSize / 2)
+            if (value - min > gridSpacing / 2)
             {
                 return max;
             }
