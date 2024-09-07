@@ -163,6 +163,7 @@ namespace OhmStudio.UI.Controls
 
                 if (newSelectedItems is INotifyCollectionChanged notifyCollectionChanged)
                 {
+                    notifyCollectionChanged.CollectionChanged -= CollectionChanged;
                     notifyCollectionChanged.CollectionChanged += CollectionChanged;
                 }
             }
