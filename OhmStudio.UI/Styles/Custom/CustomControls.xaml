@@ -1771,15 +1771,6 @@
                             </Path.Data>
                         </Path>
                         <controls:SimplePanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <!--<TextBlock Text="{TemplateBinding Text}" Background="Transparent" Visibility="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToCollapsedConverter}}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseLeftButtonDown">
-                                        <i:ChangePropertyAction PropertyName="IsSelected"
-                                                                TargetObject="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                                                                Value="True" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </TextBlock>-->
                             <ContentPresenter Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
