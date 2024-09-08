@@ -36,7 +36,7 @@ namespace OhmStudio.UI.Controls
         }
 
         public WorkflowEditor()
-        { 
+        {
             MouseLeftButtonDown += WorkflowEditor_MouseLeftButtonDown;
             MouseMove += WorkflowEditor_MouseMove;
             MouseLeftButtonUp += WorkflowEditor_MouseLeftButtonUp;
@@ -492,7 +492,6 @@ namespace OhmStudio.UI.Controls
         {
             var workflowItem = sender as WorkflowItem;
             _lastWorkflowItem = workflowItem;
-            _lastWorkflowItem.CaptureMouse();
             Point point = e.GetPosition(this);
             var startEllipseItem = GetEllipseWithPoint(point);
             if (startEllipseItem == null)
@@ -509,7 +508,6 @@ namespace OhmStudio.UI.Controls
                 if (_currentPath == null)
                 {
                     _currentPath = new PathItem(this);
-                    _currentPath.CaptureMouse();
                     Children.Add(_currentPath);
                 }
             }
@@ -519,9 +517,18 @@ namespace OhmStudio.UI.Controls
                 return;
             }
 
-            Cursor = EditorStatus == EditorStatus.Drawing ? Cursors.Cross : Cursors.ScrollAll;
             _mouseDownPoint = point;
             _mouseDownControlPoint = new Point(GetLeft(workflowItem), GetTop(workflowItem));
+            if (EditorStatus == EditorStatus.Moving)
+            {
+                Cursor = Cursors.ScrollAll;
+                workflowItem.CaptureMouse();
+            }
+            else
+            {
+                Cursor = Cursors.Cross;
+                _currentPath.CaptureMouse();
+            } 
         }
 
         private void WorkflowEditor_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -605,7 +612,6 @@ namespace OhmStudio.UI.Controls
                     item.UpdateCurve();
                 }
                 UpdateMultiSelectionMask();
-                GetOutOfBoundsSide(_multiSelectionMask);
             }
             else if (EditorStatus == EditorStatus.Selecting)
             {
@@ -650,52 +656,6 @@ namespace OhmStudio.UI.Controls
                 SetLeft(workflowItem, Math.Min(left, ActualWidth - workflowItem.ActualWidth));
                 SetTop(workflowItem, Math.Min(top, ActualHeight - workflowItem.ActualHeight));
                 workflowItem.UpdateCurve();
-                GetOutOfBoundsSide(workflowItem);
-            }
-        }
-
-        private ScrollViewer _scrollViewer;
-        public ScrollViewer ScrollViewer
-        {
-            get
-            {
-                _scrollViewer ??= this.GetParentOfType<ScrollViewer>();
-                return _scrollViewer;
-            }
-        }
-
-        public void GetOutOfBoundsSide(FrameworkElement child)
-        {
-            return;
-            var parent = ScrollViewer;
-            // 获取子控件在父控件中的位置
-            Point childPosition = child.TranslatePoint(new Point(0, 0), parent);
-
-            // 获取子控件的大小
-            Rect childBound = new Rect(childPosition, child.RenderSize);
-
-            // 获取父控件的大小
-            Rect parentBound = new Rect(0, 0, parent.ActualWidth - SystemParameters.HorizontalScrollBarHeight, parent.ActualHeight - SystemParameters.VerticalScrollBarWidth);
-
-            if (childBound.Left < parentBound.Left)
-            {
-                var proportion = (parentBound.Left - childBound.Left) / child.ActualWidth * 10 + 1;
-                ScrollViewer.ScrollToHorizontalOffset(ScrollViewer.HorizontalOffset - proportion);
-            }
-            if (childBound.Right > parentBound.Right)
-            {
-                var proportion = (childBound.Right - parentBound.Right) / child.ActualWidth * 10 + 1;
-                ScrollViewer.ScrollToHorizontalOffset(ScrollViewer.HorizontalOffset + proportion);
-            }
-            if (childBound.Top < parentBound.Top)
-            {
-                var proportion = (parentBound.Top - childBound.Top) / child.ActualHeight * 10 + 1;
-                ScrollViewer.ScrollToVerticalOffset(ScrollViewer.VerticalOffset - proportion);
-            }
-            if (childBound.Bottom > parentBound.Bottom)
-            {
-                var proportion = (childBound.Bottom - parentBound.Bottom) / child.ActualHeight * 10 + 1;
-                ScrollViewer.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + proportion);
             }
         }
 
