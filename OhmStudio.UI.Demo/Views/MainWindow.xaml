@@ -1195,6 +1195,11 @@
                                                           IsReadOnly="True"
                                                           ItemsSource="{Binding Employees}"
                                                           TextBoxAttach.TitleIsHitTestVisible="True">
+                                                    <ComboBox.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <VirtualizingStackPanel />
+                                                        </ItemsPanelTemplate>
+                                                    </ComboBox.ItemsPanel>
                                                     <TextBoxAttach.Title>
                                                         <Button>ComboBox：</Button>
                                                     </TextBoxAttach.Title>
