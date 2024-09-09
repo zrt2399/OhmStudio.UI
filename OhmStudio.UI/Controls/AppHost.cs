@@ -73,8 +73,11 @@ namespace OhmStudio.UI.Controls
             base.OnApplyTemplate();
             PART_Host = (GetTemplateChild("PART_Host") as WindowsFormsHost).Child as System.Windows.Forms.Panel;
             PART_Host.Resize += PART_Host_Resize;
-            IsInit = true;
-            StartAndEmbedProcess();
+            if (!IsInit)
+            {
+                IsInit = true;
+                StartAndEmbedProcess();
+            }
         }
 
         [DllImport("user32.dll")]

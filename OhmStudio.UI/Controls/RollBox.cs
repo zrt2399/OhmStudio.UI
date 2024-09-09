@@ -201,12 +201,15 @@ namespace OhmStudio.UI.Controls
             //PART_ListBox.SetBinding(Selector.SelectedIndexProperty, binding);
 
             dispatcherTimer.Interval = TimeSpan.FromSeconds(RollingInterval);
-            dispatcherTimer.Tick += (sender, e) =>
-            {
-                Index++;
-            };
+            dispatcherTimer.Tick -= DispatcherTimer_Tick;
+            dispatcherTimer.Tick += DispatcherTimer_Tick;
 
             UpdateListBoxItem();
+        }
+
+        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            Index++;
         }
 
         private void PART_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -120,8 +120,11 @@ namespace OhmStudio.UI.Controls
             PART_ListBox = GetTemplateChild("PART_ListBox") as ListBox;
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
             PART_ListBox.SelectionChanged += PART_ListBox_SelectionChanged;
-            IsInit = true;
-            OnSelectedItemsChanged(null, SelectedItems);
+            if (!IsInit)
+            {
+                IsInit = true;
+                OnSelectedItemsChanged(null, SelectedItems);
+            }
         }
 
         private static void OnSelectedItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -163,7 +166,6 @@ namespace OhmStudio.UI.Controls
 
                 if (newSelectedItems is INotifyCollectionChanged notifyCollectionChanged)
                 {
-                    notifyCollectionChanged.CollectionChanged -= CollectionChanged;
                     notifyCollectionChanged.CollectionChanged += CollectionChanged;
                 }
             }
