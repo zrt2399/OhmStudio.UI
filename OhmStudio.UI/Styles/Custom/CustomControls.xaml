@@ -1697,32 +1697,11 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="controls:WorkflowEditor.EditorStatus" Value="Drawing" />
-                            </MultiTrigger.Conditions>
-                            <!--<MultiTrigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard AutoReverse="True" RepeatBehavior="Forever">
-                                        <ColorAnimation Storyboard.TargetProperty="(Control.BorderBrush).(SolidColorBrush.Color)"
-                                                        From="#FD5618"
-                                                        To="#7B68EE"
-                                                        Duration="0:0:1" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </MultiTrigger.EnterActions>-->
-                            <MultiTrigger.Setters>
-                                <Setter Property="Height" Value="14" />
-                                <Setter Property="Width" Value="14" />
-                                <Setter Property="StrokeThickness" Value="3" />
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="controls:WorkflowEditor.EditorStatus" Value="None" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter Property="Height" Value="14" />
-                                <Setter Property="Width" Value="14" />
+                                <Setter Property="Height" Value="16" />
+                                <Setter Property="Width" Value="16" />
                                 <Setter Property="StrokeThickness" Value="3" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>

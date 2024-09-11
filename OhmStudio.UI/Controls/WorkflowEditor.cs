@@ -101,6 +101,9 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty PathTemplateSelectorProperty =
             DependencyProperty.Register(nameof(PathTemplateSelector), typeof(DataTemplateSelector), typeof(WorkflowEditor));
 
+        public static readonly DependencyProperty PathContainerStyleProperty =
+            DependencyProperty.Register(nameof(PathContainerStyle), typeof(Style), typeof(WorkflowEditor));
+
         public static readonly DependencyProperty ItemTemplateProperty =
             DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(WorkflowEditor));
 
@@ -170,6 +173,12 @@ namespace OhmStudio.UI.Controls
         {
             get => (DataTemplateSelector)GetValue(PathTemplateSelectorProperty);
             set => SetValue(PathTemplateSelectorProperty, value);
+        }
+
+        public Style PathContainerStyle
+        {
+            get => (Style)GetValue(PathContainerStyleProperty);
+            set => SetValue(PathContainerStyleProperty, value);
         }
 
         public DataTemplate ItemTemplate
@@ -493,7 +502,7 @@ namespace OhmStudio.UI.Controls
             var workflowItem = sender as WorkflowItem;
             _lastWorkflowItem = workflowItem;
             Point point = e.GetPosition(this);
-            var startEllipseItem = GetEllipseWithPoint(point);
+            var startEllipseItem = GetFrameworkElementWithPoint<EllipseItem>(point);
             if (startEllipseItem == null)
             {
                 EditorStatus = EditorStatus.Moving;
@@ -528,7 +537,7 @@ namespace OhmStudio.UI.Controls
             {
                 Cursor = Cursors.Cross;
                 _currentPath.CaptureMouse();
-            } 
+            }
         }
 
         private void WorkflowEditor_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -670,14 +679,14 @@ namespace OhmStudio.UI.Controls
             return rectangleGeometry.FillContainsWithDetail(geometry) != IntersectionDetail.Empty;
         }
 
-        private EllipseItem GetEllipseWithPoint(Point point)
+        private T GetFrameworkElementWithPoint<T>(Point point) where T : FrameworkElement
         {
-            var ellipseItem = this.GetVisualHitOfType<EllipseItem>(point);
-            if (ellipseItem != null && !ellipseItem.IsVisible)
+            var frameworkElement = this.GetVisualHitOfType<T>(point);
+            if (frameworkElement != null && !frameworkElement.IsVisible)
             {
                 return null;
             }
-            return ellipseItem;
+            return frameworkElement;
         }
 
         private void WorkflowEditor_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -687,10 +696,10 @@ namespace OhmStudio.UI.Controls
                 if (EditorStatus == EditorStatus.Drawing)
                 {
                     Point point = e.GetPosition(this);
-                    var endEllipseItem = GetEllipseWithPoint(point);
-                    if (endEllipseItem != null)
+                    var endWorkflowItem = GetFrameworkElementWithPoint<WorkflowItem>(point);
+                    if (endWorkflowItem != null)
                     {
-                        SetStep(_lastWorkflowItem.DataContext, endEllipseItem.WorkflowParent.DataContext, _lastEllipseItem, endEllipseItem);
+                        SetStep(_lastWorkflowItem, endWorkflowItem, _lastEllipseItem);
                     }
                 }
                 else if (EditorStatus == EditorStatus.Moving)
@@ -776,49 +785,42 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        internal void SetStep(object fromStep, object toStep, EllipseItem fromEllipse, EllipseItem toEllipse)
+        internal void SetStep(WorkflowItem fromStep, WorkflowItem toStep, EllipseItem fromEllipse)
         {
-            if (fromEllipse == toEllipse)
+            if (fromStep == toStep)
             {
                 return;
             }
-            if (fromStep == toStep)
+            EllipseItem toEllipse;
+
+            if (fromEllipse.Dock == Dock.Right)
             {
-                UIMessageTip.ShowWarning("无法设置下一节点为自己");
+                toEllipse = toStep.EllipseItems[Dock.Left];
             }
-            else if (fromEllipse.PathItem != null || toEllipse.PathItem != null)
+            else if (fromEllipse.Dock == Dock.Bottom)
             {
-                UIMessageTip.ShowWarning("该节点已经存在连接关系，无法创建连接曲线，请删除后再试");
-            }
-            else if (fromEllipse.Dock == Dock.Left || toEllipse.Dock == Dock.Right)
-            {
-                UIMessageTip.ShowWarning("被跳转节点无法直接设置下一节点");
-            }
-            else if (fromEllipse.Dock == Dock.Top || toEllipse.Dock == Dock.Bottom)
-            {
-                UIMessageTip.ShowWarning("上一步下一步节点设置错误");
-            }
-            else if (fromEllipse.Dock == Dock.Right && toEllipse.Dock == Dock.Top)
-            {
-                UIMessageTip.ShowWarning("跳转节点只能设置为下一节点的被跳转节点");
-            }
-            else if (fromEllipse.Dock == Dock.Bottom && toEllipse.Dock == Dock.Left)
-            {
-                UIMessageTip.ShowWarning("下一步节点只能设置为下一节点的上一步节点");
+                toEllipse = toStep.EllipseItems[Dock.Top];
             }
             else
             {
-                var fromWorkflow = FirstOrDefault(fromStep);
-                var toWorkflow = FirstOrDefault(toStep);
+                return;
+            }
+
+            if (fromEllipse.PathItem != null || toEllipse.PathItem != null)
+            {
+                UIMessageTip.ShowWarning("该节点已经存在连接关系，无法创建连接曲线，请删除后再试");
+            }
+            else
+            {
                 if (fromEllipse.Dock == Dock.Right)
                 {
-                    fromWorkflow.JumpStep = toStep;
-                    toWorkflow.FromStep = fromStep;
+                    fromStep.JumpStep = toStep.DataContext;
+                    toStep.FromStep = fromStep.DataContext;
                 }
                 else if (fromEllipse.Dock == Dock.Bottom)
                 {
-                    fromWorkflow.NextStep = toStep;
-                    toWorkflow.LastStep = fromStep;
+                    fromStep.NextStep = toStep.DataContext;
+                    toStep.LastStep = fromStep.DataContext;
                 }
             }
         }

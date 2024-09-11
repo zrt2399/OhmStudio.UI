@@ -237,8 +237,8 @@ namespace OhmStudio.UI.Controls
 
         private void UpdateArrow(Point point2, Point endPoint)
         {
-            double arrowLength = 14;
-            double arrowWidth = 10;
+            double arrowLength = 16;
+            double arrowWidth = 12;
 
             // 计算箭头的方向
             Vector direction = endPoint - point2;
@@ -576,6 +576,10 @@ namespace OhmStudio.UI.Controls
                     pathItem.Content = DataContext;
                     pathItem.ContentTemplate = EditorParent.PathTemplate;
                     pathItem.ContentTemplateSelector = EditorParent.PathTemplateSelector;
+                    if (EditorParent.PathContainerStyle != null)
+                    {
+                        pathItem.Style = EditorParent.PathContainerStyle;
+                    }
                 }
                 EditorParent.Children.Add(pathItem);
                 startEllipseItem.PathItem = pathItem;
