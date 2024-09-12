@@ -55,7 +55,7 @@ namespace OhmStudio.UI.Controls
             var transform = new TransformGroup();
             transform.Children.Add(ScaleTransform);
             transform.Children.Add(TranslateTransform);
- 
+
             SetValue(ViewportTransformPropertyKey, transform);
         }
 
@@ -250,9 +250,9 @@ namespace OhmStudio.UI.Controls
 
                 MouseLocation = e.GetPosition(ItemsHost);
 
-                _initialMousePosition = Mouse.GetPosition(this);
-                _previousMousePosition = _initialMousePosition;
-                _currentMousePosition = _initialMousePosition;
+                var initialMousePosition = Mouse.GetPosition(this);
+                _previousMousePosition = initialMousePosition;
+
 
 
                 _startLocation = MouseLocation;
@@ -270,21 +270,21 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        private Point _initialMousePosition;
         private Point _previousMousePosition;
-        private Point _currentMousePosition;
+
         private Point _startLocation;
 
         /// <inheritdoc />
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            MouseLocation = e.GetPosition(ItemsHost);
+            MouseLocation = Mouse.GetPosition(ItemsHost);
 
             if (IsPanning)
             {
-                _currentMousePosition = e.GetPosition(this);
-                ViewportLocation -= (_currentMousePosition - _previousMousePosition) / ViewportZoom;
-                _previousMousePosition = _currentMousePosition;
+                var currentMousePosition = Mouse.GetPosition(this);
+                ViewportLocation -= (currentMousePosition - _previousMousePosition) / ViewportZoom;
+                _previousMousePosition = currentMousePosition;
+                //Debug.WriteLine(ViewportLocation);
             }
             //if (IsSelecting)
             //{

@@ -371,17 +371,17 @@ namespace OhmStudio.UI.Controls
             {
                 var left = Adsorb(GetLeft(added));
                 var top = Adsorb(GetTop(added));
-                if (ActualWidth > 0 && ActualHeight > 0 && DoubleUtil.IsNumber(added.Width) && DoubleUtil.IsNumber(added.Height))
-                {
-                    if (left + added.Width > ActualWidth)
-                    {
-                        left = Adsorb(ActualWidth - added.Width);
-                    }
-                    if (top + added.Height > ActualHeight)
-                    {
-                        top = Adsorb(ActualWidth - added.Height);
-                    }
-                }
+                //if (ActualWidth > 0 && ActualHeight > 0 && DoubleUtil.IsNumber(added.Width) && DoubleUtil.IsNumber(added.Height))
+                //{
+                //    if (left + added.Width > ActualWidth)
+                //    {
+                //        left = Adsorb(ActualWidth - added.Width);
+                //    }
+                //    if (top + added.Height > ActualHeight)
+                //    {
+                //        top = Adsorb(ActualWidth - added.Height);
+                //    }
+                //}
 
                 SetLeft(added, left);
                 SetTop(added, top);
@@ -606,12 +606,9 @@ namespace OhmStudio.UI.Controls
             {
                 Vector vector = point - _multiMoveMouseDownPoint;
                 foreach (var item in WorkflowItems.Where(x => x.IsSelected && x.IsDraggable))
-                {
-                    var left = Math.Max(0, item.LastMouseDownPoint.X + vector.X);
-                    var top = Math.Max(0, item.LastMouseDownPoint.Y + vector.Y);
-
-                    SetLeft(item, Math.Min(left, ActualWidth - item.ActualWidth));
-                    SetTop(item, Math.Min(top, ActualHeight - item.ActualHeight));
+                { 
+                    SetLeft(item, item.LastMouseDownPoint.X + vector.X);
+                    SetTop(item, item.LastMouseDownPoint.Y + vector.Y);
 
                     //var minX = item.MouseDownRect.X - _multiRectangleMouseDownRect.X;
                     //var minY = item.MouseDownRect.Y - _multiRectangleMouseDownRect.Y;
@@ -660,8 +657,7 @@ namespace OhmStudio.UI.Controls
                     return;
                 }
                 Vector vector = point - _mouseDownPoint;
-                var left = Math.Max(0, _mouseDownControlPoint.X + vector.X);
-                var top = Math.Max(0, _mouseDownControlPoint.Y + vector.Y);
+
                 SetLeft(workflowItem, _mouseDownControlPoint.X + vector.X);
                 SetTop(workflowItem, _mouseDownControlPoint.Y + vector.Y);
                 workflowItem.UpdateCurve();
