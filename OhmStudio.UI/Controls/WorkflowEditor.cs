@@ -662,8 +662,8 @@ namespace OhmStudio.UI.Controls
                 Vector vector = point - _mouseDownPoint;
                 var left = Math.Max(0, _mouseDownControlPoint.X + vector.X);
                 var top = Math.Max(0, _mouseDownControlPoint.Y + vector.Y);
-                SetLeft(workflowItem, Math.Min(left, ActualWidth - workflowItem.ActualWidth));
-                SetTop(workflowItem, Math.Min(top, ActualHeight - workflowItem.ActualHeight));
+                SetLeft(workflowItem, _mouseDownControlPoint.X + vector.X);
+                SetTop(workflowItem, _mouseDownControlPoint.Y + vector.Y);
                 workflowItem.UpdateCurve();
             }
         }
@@ -837,34 +837,34 @@ namespace OhmStudio.UI.Controls
             return value.Adsorb(GridSpacing);
         }
 
-        protected override void OnRender(DrawingContext dc)
-        {
-            base.OnRender(dc);
+        //protected override void OnRender(DrawingContext dc)
+        //{
+        //    base.OnRender(dc);
 
-            double width = ActualWidth;
-            double height = ActualHeight;
-            double gridSize = GridSpacing;
+        //    double width = ActualWidth;
+        //    double height = ActualHeight;
+        //    double gridSize = GridSpacing;
 
-            Pen pen = new Pen(GridLineBrush, 0.4);
-            Pen sidePen = new Pen(GridLineBrush, 1);
+        //    Pen pen = new Pen(GridLineBrush, 0.4);
+        //    Pen sidePen = new Pen(GridLineBrush, 1);
 
-            int index = 0;
-            for (double x = 0; x < width; x += gridSize)
-            {
-                dc.DrawLine(IsSide(index) ? sidePen : pen, new Point(x, 0), new Point(x, height));
-                index++;
-            }
-            index = 0;
-            for (double y = 0; y < height; y += gridSize)
-            {
-                dc.DrawLine(IsSide(index) ? sidePen : pen, new Point(0, y), new Point(width, y));
-                index++;
-            }
-        }
+        //    int index = 0;
+        //    for (double x = 0; x < width; x += gridSize)
+        //    {
+        //        dc.DrawLine(IsSide(index) ? sidePen : pen, new Point(x, 0), new Point(x, height));
+        //        index++;
+        //    }
+        //    index = 0;
+        //    for (double y = 0; y < height; y += gridSize)
+        //    {
+        //        dc.DrawLine(IsSide(index) ? sidePen : pen, new Point(0, y), new Point(width, y));
+        //        index++;
+        //    }
+        //}
 
-        private static bool IsSide(int value)
-        {
-            return value != 0 && value % 4 == 0;
-        }
+        //private static bool IsSide(int value)
+        //{
+        //    return value != 0 && value % 4 == 0;
+        //}
     }
 }
