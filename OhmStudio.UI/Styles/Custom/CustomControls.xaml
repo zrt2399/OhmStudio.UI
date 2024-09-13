@@ -1601,7 +1601,7 @@
                                           Drawing="{StaticResource LargeGridGeometry}"
                                           TileMode="Tile"
                                           Transform="{Binding ViewportTransform, RelativeSource={RelativeSource TemplatedParent}}"
-                                          Viewport="{Binding GridSpacing, RelativeSource={RelativeSource TemplatedParent}, Converter={converters:UIntToRectConverter Multiplier=4}}"
+                                          Viewport="{Binding GridSpacing, RelativeSource={RelativeSource TemplatedParent}, Converter={converters:UIntToRectConverter Multiplier=5}}"
                                           ViewportUnits="Absolute" />
                         </Grid.Resources>
                         <Border Background="{StaticResource LargeGridLinesDrawingBrush}" />
@@ -1616,8 +1616,8 @@
                                                          ItemContainerStyleSelector="{TemplateBinding ItemContainerStyleSelector}"
                                                          ItemTemplate="{TemplateBinding ItemTemplate}"
                                                          ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                                         ItemsSource="{TemplateBinding ItemsSource}" 
-                                                         SelectedItems="{TemplateBinding SelectedItems}"/>
+                                                         ItemsSource="{TemplateBinding ItemsSource}"
+                                                         SelectedItems="{TemplateBinding SelectedItems}" />
                                 <Rectangle Canvas.Left="{Binding SelectedArea.X, RelativeSource={RelativeSource TemplatedParent}}"
                                            Canvas.Top="{Binding SelectedArea.Y, RelativeSource={RelativeSource TemplatedParent}}"
                                            Fill="#88AACCEE"

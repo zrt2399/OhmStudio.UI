@@ -35,6 +35,8 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty AutoPanSpeedProperty = DependencyProperty.Register(nameof(AutoPanSpeed), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(10d));
         public static readonly DependencyProperty AutoPanEdgeDistanceProperty = DependencyProperty.Register(nameof(AutoPanEdgeDistance), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(1d));
+        public static readonly DependencyProperty DisableAutoPanningProperty = DependencyProperty.Register(nameof(DisableAutoPanning), typeof(bool), typeof(WorkflowEditor), new FrameworkPropertyMetadata(false, OnDisableAutoPanningChanged));
+
 
         public static readonly DependencyProperty GridSpacingProperty =
             DependencyProperty.Register(nameof(GridSpacing), typeof(double), typeof(WorkflowEditor),
@@ -183,6 +185,18 @@ namespace OhmStudio.UI.Controls
             get => (bool)GetValue(IsPanningProperty);
             protected internal set => SetValue(IsPanningPropertyKey, value);
         }
+
+        public bool DisableAutoPanning
+        {
+            get => (bool)GetValue(DisableAutoPanningProperty);
+            set => SetValue(DisableAutoPanningProperty, value);
+        }
+
+        private static void OnDisableAutoPanningChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WorkflowEditor)d).OnDisableAutoPanningChanged((bool)e.NewValue);
+        }
+
         /// <summary>
         /// Gets or sets the speed used when auto-panning scaled by <see cref="AutoPanningTickRate"/>
         /// </summary>
@@ -317,7 +331,7 @@ namespace OhmStudio.UI.Controls
 
             ItemsHost = GetTemplateChild("PART_ItemsHost") as WorkflowCanvas ?? throw new InvalidOperationException("PART_ItemsHost is missing or is not of type Panel.");
 
-            OnDisableAutoPanningChanged(false);
+            OnDisableAutoPanningChanged(DisableAutoPanning); 
         }
 
         protected override DependencyObject GetContainerForItemOverride()
