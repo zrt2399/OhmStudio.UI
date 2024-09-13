@@ -22,8 +22,6 @@
               IsShowIcon="False"
               IsShowTitle="False"
               ResizeMode="CanResizeWithGrip"
-              SnapsToDevicePixels="{Binding IsAntiAliasing}"
-              UseLayoutRounding="{Binding IsAntiAliasing}"
               WindowStartupLocation="CenterScreen"
               mc:Ignorable="d">
 
@@ -1486,11 +1484,9 @@
                 </Style>
             </StatusBar.Resources>
             <PackIcon Kind="MessageBulleted" />
-            <Button Width="Auto"
-                    Margin="4,0"
-                    Click="Button_Click_4">
-                切换状态
-            </Button>
+            <TextBlock Margin="4,0">
+                <Hyperlink Click="Button_Click_4">切换状态</Hyperlink>
+            </TextBlock>
             <StatusBarItem Content="{Binding StatusBarContent}" />
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">

@@ -242,7 +242,7 @@ namespace OhmStudio.UI.Demo.ViewModels
         [Range(0, 1024, ErrorMessage = "值必须在0-1024之间")]
         public double Range { get; set; }
 
-        public bool IsAntiAliasing { get; set; } = true;
+        public bool IsAntiAliasing { get; set; }
 
         public ObservableCollection<string> DengGao { get; set; } = new ObservableCollection<string>();
 
