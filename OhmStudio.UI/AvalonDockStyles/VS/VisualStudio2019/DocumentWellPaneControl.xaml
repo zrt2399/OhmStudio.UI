@@ -81,8 +81,7 @@
                             <Border x:Name="MainBorder"
                                     Grid.ColumnSpan="2"
                                     BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentWellTabSelectedActiveBackground}}"
-                                    BorderThickness="0,0,0,2"
-                                    UseLayoutRounding="True" />
+                                    BorderThickness="0,0,0,2" />
                             <controls:DocumentWrapPanel x:Name="HeaderPanel"
                                                         Margin="0,0,0,2"
                                                         IsItemsHost="true"

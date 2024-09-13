@@ -83,8 +83,7 @@
                             <Border x:Name="MainBorder"
                                     Grid.ColumnSpan="2"
                                     BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentTabStateLineActive}}"
-                                    BorderThickness="0,0,0,2"
-                                    UseLayoutRounding="True" />
+                                    BorderThickness="0,0,0,2" />
                             <controls:DocumentWrapPanel x:Name="HeaderPanel"
                                                         Margin="0,0,0,2"
                                                         IsItemsHost="true"
@@ -156,7 +155,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TabItem}">
-                                <Grid SnapsToDevicePixels="true" UseLayoutRounding="true">
+                                <Grid SnapsToDevicePixels="true">
                                     <Border x:Name="mainBorder"
                                             Background="{TemplateBinding Background}"
                                             BorderBrush="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentTabItemBorder}}"
