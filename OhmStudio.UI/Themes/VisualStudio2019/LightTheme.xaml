@@ -15,7 +15,7 @@
            G="00"
            R="00" />
 
-    <SolidColorBrush x:Key="WorkflowEditorLineBrush" Color="#FFD3D3D3" />
+    <SolidColorBrush x:Key="WorkflowEditorGridLineBrush" Color="#FFACACAC" />
 
     <SolidColorBrush x:Key="StatusBarBackgroundDefault" Color="#FF007ACC" />
     <SolidColorBrush x:Key="WindowBorderBrushDefault" Color="#FF9B9FB9" />

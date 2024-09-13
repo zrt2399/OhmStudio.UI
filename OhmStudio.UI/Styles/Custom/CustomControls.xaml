@@ -45,6 +45,7 @@
     <converters:EllipseItemMarginConverter x:Key="EllipseItemMarginConverter" />
     <converters:NotEqualityParameterToVisibilityConverter x:Key="NotEqualityParameterToVisibilityConverter" />
     <converters:UnscaleDoubleConverter x:Key="UnscaleDoubleConverter" />
+    <converters:UnscaleTransformConverter x:Key="UnscaleTransformConverter" />
 
     <Style x:Key="ContentHostControl" TargetType="Control">
         <Setter Property="Margin" Value="0" />
@@ -1558,11 +1559,11 @@
     </Style>
     <Style BasedOn="{StaticResource AppHostBaseStyle}" TargetType="controls:AppHost" />
 
-    <Style x:Key="WorkflowEditorBaseStyle" TargetType="controls:WorkflowEditor">
+    <Style x:Key="WorkflowCanvasBaseStyle" TargetType="controls:WorkflowCanvas">
         <Setter Property="Focusable" Value="True" />
         <!--<Setter Property="ClipToBounds" Value="True" />-->
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="GridLineBrush" Value="{DynamicResource WorkflowEditorLineBrush}" />
+        <!--<Setter Property="GridLineBrush" Value="{DynamicResource WorkflowEditorGridLineBrush}" />-->
         <!--<Setter Property="LayoutTransform">
             <Setter.Value>
                 <ScaleTransform ScaleX="{Binding Scale, RelativeSource={RelativeSource AncestorType=Canvas}}"
@@ -1570,67 +1571,73 @@
             </Setter.Value>
         </Setter>-->
     </Style>
-    <Style BasedOn="{StaticResource WorkflowEditorBaseStyle}" TargetType="controls:WorkflowEditor" />
+    <Style BasedOn="{StaticResource WorkflowCanvasBaseStyle}" TargetType="controls:WorkflowCanvas" />
 
-
-
-    <Style TargetType="controls:WorkflowEditorView">
+    <Style TargetType="controls:WorkflowEditor">
         <Setter Property="ClipToBounds" Value="True" />
+        <Setter Property="GridLineBrush" Value="{DynamicResource WorkflowEditorGridLineBrush}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:WorkflowEditorView">
-                    <ControlTemplate.Resources>
-
-                        <GeometryDrawing x:Key="SmallGridGeometry"
-                                         Brush="Gray"
-                                         Geometry="M0,0 L0,1 0.03,1 0.03,0.03 1,0.03 1,0 Z" />
-
-                        <GeometryDrawing x:Key="LargeGridGeometry"
-                                         Brush="Gray"
-                                         Geometry="M0,0 L0,1 0.015,1 0.015,0.015 1,0.015 1,0 Z" />
-
-                    </ControlTemplate.Resources>
+                <ControlTemplate TargetType="controls:WorkflowEditor">
                     <Grid>
-                        <Border>
-                            <Border.Background>
-                                <DrawingBrush Drawing="{StaticResource LargeGridGeometry}"
-                                              TileMode="Tile"
-                                              Transform="{Binding ViewportTransform, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                              Viewport="{Binding GridSpacing, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={converters:UIntToRectConverter Multiplier=4}}"
-                                              ViewportUnits="Absolute" />
-                            </Border.Background>
-                        </Border>
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                            <Border.Background>
-                                <DrawingBrush Drawing="{StaticResource SmallGridGeometry}"
-                                              Opacity="0.6"
-                                              TileMode="Tile"
-                                              Transform="{Binding ViewportTransform, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                              Viewport="{Binding GridSpacing, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={converters:UIntToRectConverter}}"
-                                              ViewportUnits="Absolute" />
-                            </Border.Background>
+                        <Grid.Resources>
+                            <GeometryDrawing x:Key="SmallGridGeometry"
+                                             Brush="{Binding GridLineBrush, RelativeSource={RelativeSource TemplatedParent}}"
+                                             Geometry="M0,0 L0,1 0.03,1 0.03,0.03 1,0.03 1,0 Z" />
 
-                            <controls:WorkflowEditor x:Name="Editor" Background="OrangeRed"
-                                                     ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
-                                                     ItemContainerStyleSelector="{TemplateBinding ItemContainerStyleSelector}"
-                                                     ItemTemplate="{TemplateBinding ItemTemplate}"
-                                                     ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                                     ItemsSource="{TemplateBinding ItemsSource}"
-                                                     RenderTransform="{TemplateBinding ViewportTransform}">
-                                <!--<controls:WorkflowEditor.Width>
-                                    <MultiBinding Converter="{StaticResource UnscaleDoubleConverter}">
-                                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource TemplatedParent}" />
-                                        <Binding Path="ViewportZoom" RelativeSource="{RelativeSource TemplatedParent}" />
-                                    </MultiBinding>
-                                </controls:WorkflowEditor.Width>
-                                <controls:WorkflowEditor.Height>
-                                    <MultiBinding Converter="{StaticResource UnscaleDoubleConverter}">
-                                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource TemplatedParent}" />
-                                        <Binding Path="ViewportZoom" RelativeSource="{RelativeSource TemplatedParent}" />
-                                    </MultiBinding>
-                                </controls:WorkflowEditor.Height>-->
-                            </controls:WorkflowEditor>
+                            <GeometryDrawing x:Key="LargeGridGeometry"
+                                             Brush="{Binding GridLineBrush, RelativeSource={RelativeSource TemplatedParent}}"
+                                             Geometry="M0,0 L0,1 0.015,1 0.015,0.015 1,0.015 1,0 Z" />
 
+                            <DrawingBrush x:Key="SmallGridLinesDrawingBrush"
+                                          Drawing="{StaticResource SmallGridGeometry}"
+                                          Opacity="0.6"
+                                          TileMode="Tile"
+                                          Transform="{Binding ViewportTransform, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Viewport="{Binding GridSpacing, RelativeSource={RelativeSource TemplatedParent}, Converter={converters:UIntToRectConverter}}"
+                                          ViewportUnits="Absolute" />
+
+                            <DrawingBrush x:Key="LargeGridLinesDrawingBrush"
+                                          Drawing="{StaticResource LargeGridGeometry}"
+                                          TileMode="Tile"
+                                          Transform="{Binding ViewportTransform, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Viewport="{Binding GridSpacing, RelativeSource={RelativeSource TemplatedParent}, Converter={converters:UIntToRectConverter Multiplier=4}}"
+                                          ViewportUnits="Absolute" />
+                        </Grid.Resources>
+                        <Border Background="{StaticResource LargeGridLinesDrawingBrush}" />
+                        <Border Background="{StaticResource SmallGridLinesDrawingBrush}" />
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <Canvas RenderTransform="{TemplateBinding ViewportTransform}">
+                                <controls:WorkflowCanvas x:Name="PART_ItemsHost"
+                                                         GridSpacing="{TemplateBinding GridSpacing}"
+                                                         ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                                         ItemContainerStyleSelector="{TemplateBinding ItemContainerStyleSelector}"
+                                                         ItemTemplate="{TemplateBinding ItemTemplate}"
+                                                         ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                         ItemsSource="{TemplateBinding ItemsSource}" 
+                                                         SelectedItems="{TemplateBinding SelectedItems}"/>
+                                <Rectangle Canvas.Left="{Binding SelectedArea.X, RelativeSource={RelativeSource TemplatedParent}}"
+                                           Canvas.Top="{Binding SelectedArea.Y, RelativeSource={RelativeSource TemplatedParent}}"
+                                           Fill="#88AACCEE"
+                                           RenderTransform="{Binding ViewportTransform, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource UnscaleTransformConverter}}"
+                                           Stroke="#FF0F80D9"
+                                           Visibility="{Binding IsSelecting, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <Rectangle.Width>
+                                        <MultiBinding Converter="{StaticResource UnscaleDoubleConverter}">
+                                            <Binding Path="SelectedArea.Width" RelativeSource="{RelativeSource TemplatedParent}" />
+                                            <Binding Path="ViewportZoom" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        </MultiBinding>
+                                    </Rectangle.Width>
+                                    <Rectangle.Height>
+                                        <MultiBinding Converter="{StaticResource UnscaleDoubleConverter}">
+                                            <Binding Path="SelectedArea.Height" RelativeSource="{RelativeSource TemplatedParent}" />
+                                            <Binding Path="ViewportZoom" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        </MultiBinding>
+                                    </Rectangle.Height>
+                                </Rectangle>
+                            </Canvas>
                         </Border>
                     </Grid>
                 </ControlTemplate>
@@ -1653,7 +1660,7 @@
                                           Background="{TemplateBinding Background}"
                                           BorderBrush="{TemplateBinding BorderBrush}"
                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                          Geometry="{Binding Geometry, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}">
+                                          Geometry="{Binding Geometry, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
                         <controls:SimplePanel>
                             <ContentPresenter Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -1686,7 +1693,7 @@
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Bottom"
                                    Cursor="SizeNWSE"
-                                   Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                   Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Thumb.Clip>
                                     <PathGeometry>
                                         <PathFigure StartPoint="0,16">
@@ -1764,7 +1771,7 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="controls:WorkflowEditor.EditorStatus" Value="None" />
+                                <!--<Condition Property="controls:WorkflowCanvas.EditorStatus" Value="None" />-->
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter Property="Height" Value="16" />
@@ -1780,8 +1787,8 @@
     <Style BasedOn="{StaticResource EllipseItemBaseStyle}" TargetType="controls:EllipseItem" />
 
     <Style x:Key="PathItemBaseStyle" TargetType="controls:PathItem">
-        <!--<Setter Property="ContentTemplate" Value="{Binding RelativeSource={RelativeSource AncestorType=controls:WorkflowEditor}, Path=PathTemplate}" />
-        <Setter Property="ContentTemplateSelector" Value="{Binding RelativeSource={RelativeSource AncestorType=controls:WorkflowEditor}, Path=PathTemplateSelector}" />-->
+        <!--<Setter Property="ContentTemplate" Value="{Binding RelativeSource={RelativeSource AncestorType=controls:WorkflowCanvas}, Path=PathTemplate}" />
+        <Setter Property="ContentTemplateSelector" Value="{Binding RelativeSource={RelativeSource AncestorType=controls:WorkflowCanvas}, Path=PathTemplateSelector}" />-->
         <!--<Setter Property="Content" Value="{Binding RelativeSource={RelativeSource AncestorType=controls:WorkflowItem}, Path=DataContext}" />-->
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />

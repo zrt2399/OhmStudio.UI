@@ -3,10 +3,11 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
+using System.Windows.Media;
 
 namespace OhmStudio.UI.Converters
 {
-    public class UIntToRectConverter : MarkupExtension, IValueConverter
+    internal class UIntToRectConverter : MarkupExtension, IValueConverter
     {
         public uint Multiplier { get; set; } = 1;
 
@@ -24,7 +25,7 @@ namespace OhmStudio.UI.Converters
         public override object ProvideValue(IServiceProvider serviceProvider) => this;
     }
 
-    public class UnscaleDoubleConverter : IMultiValueConverter
+    internal class UnscaleDoubleConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
@@ -35,6 +36,20 @@ namespace OhmStudio.UI.Converters
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    internal class UnscaleTransformConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            Transform result = (Transform)((TransformGroup)value).Children[0].Inverse;
+            return result;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
         }
     }
 }

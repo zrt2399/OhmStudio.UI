@@ -70,7 +70,7 @@ namespace OhmStudio.UI.Controls
             DeleteCommand = new RelayCommand(Delete);
         }
 
-        internal PathItem(WorkflowEditor editorParent) : this()
+        internal PathItem(WorkflowCanvas editorParent) : this()
         {
             EditorParent = editorParent;
         }
@@ -193,7 +193,7 @@ namespace OhmStudio.UI.Controls
             set => SetValue(StrokeDashArrayProperty, value);
         }
 
-        internal WorkflowEditor EditorParent { get; set; }
+        internal WorkflowCanvas EditorParent { get; set; }
 
         public ICommand DeleteCommand { get; }
 
@@ -366,7 +366,7 @@ namespace OhmStudio.UI.Controls
 
         public bool IsInit { get; private set; }
 
-        public WorkflowEditor EditorParent { get; internal set; }
+        public WorkflowCanvas EditorParent { get; internal set; }
 
         public bool IsDraggable
         {

@@ -1,196 +1,56 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using OhmStudio.UI.Commands;
-using OhmStudio.UI.Messaging;
-using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
-    public enum EditorStatus
+    public class WorkflowEditor : ItemsControl
     {
-        None,
-        /// <summary>正在拖动中。</summary>
-        Moving,
-        /// <summary>正在绘制曲线中。</summary>
-        Drawing,
-        /// <summary>正在选择中。</summary>
-        Selecting,
-        /// <summary>多个选中正在拖动中。</summary>
-        MultiMoving
-    }
+        public static readonly DependencyProperty ViewportZoomProperty = DependencyProperty.Register(nameof(ViewportZoom), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnViewportZoomChanged, ConstrainViewportZoomToRange));
+        public static readonly DependencyProperty MinViewportZoomProperty = DependencyProperty.Register(nameof(MinViewportZoom), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(0.1d, OnMinViewportZoomChanged, CoerceMinViewportZoom));
+        public static readonly DependencyProperty MaxViewportZoomProperty = DependencyProperty.Register(nameof(MaxViewportZoom), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(2d, OnMaxViewportZoomChanged, CoerceMaxViewportZoom));
+        public static readonly DependencyProperty ViewportLocationProperty = DependencyProperty.Register(nameof(ViewportLocation), typeof(Point), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Point), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnViewportLocationChanged));
+        public static readonly DependencyProperty ViewportSizeProperty = DependencyProperty.Register(nameof(ViewportSize), typeof(Size), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Size)));
+        public static readonly DependencyProperty ItemsExtentProperty = DependencyProperty.Register(nameof(ItemsExtent), typeof(Rect), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Rect)));
+        public static readonly DependencyProperty DecoratorsExtentProperty = DependencyProperty.Register(nameof(DecoratorsExtent), typeof(Rect), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Rect)));
+        protected internal static readonly DependencyPropertyKey ViewportTransformPropertyKey = DependencyProperty.RegisterReadOnly(nameof(ViewportTransform), typeof(Transform), typeof(WorkflowEditor), new FrameworkPropertyMetadata(new TransformGroup()));
+        public static readonly DependencyProperty ViewportTransformProperty = ViewportTransformPropertyKey.DependencyProperty;
 
-    public class WorkflowEditor : Canvas
-    {
-        static WorkflowEditor()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(WorkflowEditor), new FrameworkPropertyMetadata(typeof(WorkflowEditor)));
-        }
+        protected static readonly DependencyPropertyKey IsSelectingPropertyKey = DependencyProperty.RegisterReadOnly(nameof(IsSelecting), typeof(bool), typeof(WorkflowEditor), new FrameworkPropertyMetadata(false));
+        public static readonly DependencyProperty IsSelectingProperty = IsSelectingPropertyKey.DependencyProperty;
 
-        public WorkflowEditor()
-        {
-            MouseLeftButtonDown += WorkflowEditor_MouseLeftButtonDown;
-            MouseMove += WorkflowEditor_MouseMove;
-            MouseLeftButtonUp += WorkflowEditor_MouseLeftButtonUp;
-            KeyDown += WorkflowEditor_KeyDown;
+        public static readonly DependencyPropertyKey IsPanningPropertyKey = DependencyProperty.RegisterReadOnly(nameof(IsPanning), typeof(bool), typeof(WorkflowEditor), new FrameworkPropertyMetadata(false));
+        public static readonly DependencyProperty IsPanningProperty = IsPanningPropertyKey.DependencyProperty;
 
-            _multiSelectionMask = new Rectangle();
-            _multiSelectionMask.Fill = "#44AACCEE".ToSolidColorBrush();
-            _multiSelectionMask.Stroke = "#FF0F80D9".ToSolidColorBrush();
-            _multiSelectionMask.StrokeDashArray = new DoubleCollection(new double[] { 2, 2 });
-            _multiSelectionMask.MouseLeftButtonDown += MultiSelectionRectangle_MouseLeftButtonDown;
-            SetZIndex(_multiSelectionMask, int.MaxValue - 1);
+        protected static readonly DependencyPropertyKey MouseLocationPropertyKey = DependencyProperty.RegisterReadOnly(nameof(MouseLocation), typeof(Point), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Point)));
+        public static readonly DependencyProperty MouseLocationProperty = MouseLocationPropertyKey.DependencyProperty;
 
-            _selectionArea = new Rectangle();
-            _selectionArea.Fill = "#88AACCEE".ToSolidColorBrush();
-            _selectionArea.Stroke = "#FF0F80D9".ToSolidColorBrush();
-            SetZIndex(_selectionArea, int.MaxValue);
+        protected static readonly DependencyPropertyKey SelectedAreaPropertyKey = DependencyProperty.RegisterReadOnly(nameof(SelectedArea), typeof(Rect), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Rect)));
+        public static readonly DependencyProperty SelectedAreaProperty = SelectedAreaPropertyKey.DependencyProperty;
 
-            SelectAllCommand = new RelayCommand(SelectAll);
-            UnselectAllCommand = new RelayCommand(UnselectAll);
-            InvertSelectCommand = new RelayCommand(InvertSelect);
-        }
+        public static readonly DependencyProperty AutoPanSpeedProperty = DependencyProperty.Register(nameof(AutoPanSpeed), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(10d));
+        public static readonly DependencyProperty AutoPanEdgeDistanceProperty = DependencyProperty.Register(nameof(AutoPanEdgeDistance), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(1d));
 
-        private void WorkflowEditor_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (IsCtrlKeyDown && Keyboard.IsKeyDown(Key.A))
-            {
-                SelectAll();
-            }
-        }
+        public static readonly DependencyProperty GridSpacingProperty =
+            DependencyProperty.Register(nameof(GridSpacing), typeof(double), typeof(WorkflowEditor),
+                new FrameworkPropertyMetadata(20d));
 
-        //鼠标选中多个元素的Rectangle遮罩
-        private Rectangle _multiSelectionMask;
-        //跟随鼠标运移动绘制的多选Rectangle区域
-        private Rectangle _selectionArea;
-        //鼠标选择多个元素起始的位置
-        private Point _selectionStartPoint;
-
-        //鼠标按下的位置
-        private Point _mouseDownPoint;
-        //鼠标按下控件的位置
-        private Point _mouseDownControlPoint;
-        //多个选中时鼠标按下的位置
-        private Point _multiMoveMouseDownPoint;
-
-        private WorkflowItem _lastWorkflowItem;
-        private EllipseItem _lastEllipseItem;
-
-        private Point _pathStartPoint;
-        private PathItem _currentPath;
-
-        private bool _isUpdatingSelectedItems;
-
-        public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(WorkflowEditor), new PropertyMetadata(OnItemsSourceChanged));
+        public static readonly DependencyProperty GridLineBrushProperty =
+            DependencyProperty.Register(nameof(GridLineBrush), typeof(Brush), typeof(WorkflowEditor),
+                new FrameworkPropertyMetadata(Brushes.LightGray));
 
         public static readonly DependencyProperty SelectedItemsProperty =
             DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(IList), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-        public static readonly DependencyProperty PathTemplateProperty =
-            DependencyProperty.Register(nameof(PathTemplate), typeof(DataTemplate), typeof(WorkflowEditor));
-
-        public static readonly DependencyProperty PathTemplateSelectorProperty =
-            DependencyProperty.Register(nameof(PathTemplateSelector), typeof(DataTemplateSelector), typeof(WorkflowEditor));
-
-        public static readonly DependencyProperty PathContainerStyleProperty =
-            DependencyProperty.Register(nameof(PathContainerStyle), typeof(Style), typeof(WorkflowEditor));
-
-        public static readonly DependencyProperty ItemTemplateProperty =
-            DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(WorkflowEditor));
-
-        public static readonly DependencyProperty ItemTemplateSelectorProperty =
-            DependencyProperty.Register(nameof(ItemTemplateSelector), typeof(DataTemplateSelector), typeof(WorkflowEditor));
-
-        public static readonly DependencyProperty ItemContainerStyleProperty =
-            DependencyProperty.Register(nameof(ItemContainerStyle), typeof(Style), typeof(WorkflowEditor), new PropertyMetadata(OnContainerStyleChanged));
-
-        public static readonly DependencyProperty ItemContainerStyleSelectorProperty =
-            DependencyProperty.Register(nameof(ItemContainerStyleSelector), typeof(StyleSelector), typeof(WorkflowEditor), new PropertyMetadata(OnContainerStyleSelectorChanged));
-
-        public static readonly DependencyProperty GridLineBrushProperty =
-           DependencyProperty.Register(nameof(GridLineBrush), typeof(Brush), typeof(WorkflowEditor),
-               new FrameworkPropertyMetadata(Brushes.LightGray, FrameworkPropertyMetadataOptions.AffectsRender));
-
-        public static readonly DependencyProperty GridSpacingProperty =
-            DependencyProperty.Register(nameof(GridSpacing), typeof(double), typeof(WorkflowEditor),
-                new FrameworkPropertyMetadata(20d, FrameworkPropertyMetadataOptions.AffectsRender));
-
-        public static readonly DependencyProperty MousePositionProperty =
-            DependencyProperty.Register(nameof(MousePosition), typeof(Point), typeof(WorkflowEditor));
-
-        internal bool IsCtrlKeyDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
-
-        internal IEnumerable<SelectionControl> SelectableElements => Children.OfType<SelectionControl>();
-
-        public IEnumerable<WorkflowItem> WorkflowItems => Children.OfType<WorkflowItem>();
-
-        public ICommand SelectAllCommand { get; }
-
-        public ICommand UnselectAllCommand { get; }
-
-        public ICommand InvertSelectCommand { get; }
-
-        public IEnumerable ItemsSource
+        public double GridSpacing
         {
-            get => (IEnumerable)GetValue(ItemsSourceProperty);
-            set => SetValue(ItemsSourceProperty, value);
-        }
-
-        public IList SelectedItems
-        {
-            get => (IList)GetValue(SelectedItemsProperty);
-            set => SetValue(SelectedItemsProperty, value);
-        }
-
-        public Style ItemContainerStyle
-        {
-            get => (Style)GetValue(ItemContainerStyleProperty);
-            set => SetValue(ItemContainerStyleProperty, value);
-        }
-
-        public StyleSelector ItemContainerStyleSelector
-        {
-            get => (StyleSelector)GetValue(ItemContainerStyleSelectorProperty);
-            set => SetValue(ItemContainerStyleSelectorProperty, value);
-        }
-
-        public DataTemplate PathTemplate
-        {
-            get => (DataTemplate)GetValue(PathTemplateProperty);
-            set => SetValue(PathTemplateProperty, value);
-        }
-
-        public DataTemplateSelector PathTemplateSelector
-        {
-            get => (DataTemplateSelector)GetValue(PathTemplateSelectorProperty);
-            set => SetValue(PathTemplateSelectorProperty, value);
-        }
-
-        public Style PathContainerStyle
-        {
-            get => (Style)GetValue(PathContainerStyleProperty);
-            set => SetValue(PathContainerStyleProperty, value);
-        }
-
-        public DataTemplate ItemTemplate
-        {
-            get => (DataTemplate)GetValue(ItemTemplateProperty);
-            set => SetValue(ItemTemplateProperty, value);
-        }
-
-        public DataTemplateSelector ItemTemplateSelector
-        {
-            get => (DataTemplateSelector)GetValue(ItemTemplateSelectorProperty);
-            set => SetValue(ItemTemplateSelectorProperty, value);
+            get => (double)GetValue(GridSpacingProperty);
+            set => SetValue(GridSpacingProperty, value);
         }
 
         public Brush GridLineBrush
@@ -199,247 +59,153 @@ namespace OhmStudio.UI.Controls
             set => SetValue(GridLineBrushProperty, value);
         }
 
-        public double GridSpacing
+        public IList SelectedItems
         {
-            get => (double)GetValue(GridSpacingProperty);
-            set => SetValue(GridSpacingProperty, value);
+            get => (IList)GetValue(SelectedItemsProperty);
+            set => SetValue(SelectedItemsProperty, value);
         }
 
-        public Point MousePosition
+        /// <summary>
+        /// Gets the transform used to offset the viewport.
+        /// </summary>
+        protected readonly TranslateTransform TranslateTransform = new TranslateTransform();
+
+        /// <summary>
+        /// Gets the transform used to zoom on the viewport.
+        /// </summary>
+        protected readonly ScaleTransform ScaleTransform = new ScaleTransform();
+
+        static WorkflowEditor()
         {
-            get => (Point)GetValue(MousePositionProperty);
-            set => SetValue(MousePositionProperty, value);
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(WorkflowEditor), new FrameworkPropertyMetadata(typeof(WorkflowEditor)));
         }
 
-        private EditorStatus _editorStatus;
-        internal EditorStatus EditorStatus
+        public WorkflowEditor()
         {
-            get => _editorStatus;
-            set
-            {
-                if (_editorStatus == value)
-                {
-                    return;
-                }
-                SetEditorStatus(this, value);
-                _editorStatus = value;
-            }
+            var transform = new TransformGroup();
+            transform.Children.Add(ScaleTransform);
+            transform.Children.Add(TranslateTransform);
+            SetValue(ViewportTransformPropertyKey, transform);
+            SelectAllCommand = new RelayCommand(SelectAll);
+            UnselectAllCommand = new RelayCommand(UnselectAll);
+            InvertSelectCommand = new RelayCommand(InvertSelect); 
         }
 
-        public static readonly DependencyProperty EditorStatusProperty =
-            DependencyProperty.RegisterAttached(nameof(EditorStatus), typeof(EditorStatus), typeof(WorkflowEditor), new FrameworkPropertyMetadata(EditorStatus.None, FrameworkPropertyMetadataOptions.Inherits));
+        /// <summary>
+        /// Gets the transform that is applied to all child controls.
+        /// </summary>
+        public Transform ViewportTransform => (Transform)GetValue(ViewportTransformProperty);
 
-        public static void SetEditorStatus(DependencyObject element, EditorStatus value)
+        public Size ViewportSize
         {
-            element.SetValue(EditorStatusProperty, value);
+            get => (Size)GetValue(ViewportSizeProperty);
+            set => SetValue(ViewportSizeProperty, value);
         }
 
-        public static EditorStatus GetEditorStatus(DependencyObject element)
+        /// <summary>
+        /// Gets or sets the viewport's top-left coordinates in graph space coordinates.
+        /// </summary>
+        public Point ViewportLocation
         {
-            return (EditorStatus)element.GetValue(EditorStatusProperty);
+            get => (Point)GetValue(ViewportLocationProperty);
+            set => SetValue(ViewportLocationProperty, value);
         }
 
-        private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+
+        /// <summary>
+        /// Gets or sets the zoom factor of the viewport.
+        /// </summary>
+        public double ViewportZoom
         {
-            var workflowEditor = (WorkflowEditor)d;
-            IEnumerable oldItemsSource = (IEnumerable)e.OldValue;
-            IEnumerable newItemsSource = (IEnumerable)e.NewValue;
-            workflowEditor.OnItemsSourceChanged(oldItemsSource, newItemsSource);
+            get => (double)GetValue(ViewportZoomProperty);
+            set => SetValue(ViewportZoomProperty, value);
         }
 
-        public virtual void OnItemsSourceChanged(IEnumerable oldItemsSource, IEnumerable newItemsSource)
+        /// <summary>
+        /// Gets or sets the minimum zoom factor of the viewport
+        /// </summary>
+        public double MinViewportZoom
         {
-            Children.Clear();
-            if (oldItemsSource != null)
-            {
-                if (oldItemsSource is INotifyCollectionChanged notifyCollectionChanged)
-                {
-                    notifyCollectionChanged.CollectionChanged -= CollectionChanged;
-                }
-            }
-            if (newItemsSource != null)
-            {
-                foreach (var item in newItemsSource.OfType<object>())
-                {
-                    Children.Add(CreateWorkflowItem(item));
-                }
-                if (newItemsSource is INotifyCollectionChanged notifyCollectionChanged)
-                {
-                    notifyCollectionChanged.CollectionChanged += CollectionChanged;
-                }
-            }
+            get => (double)GetValue(MinViewportZoomProperty);
+            set => SetValue(MinViewportZoomProperty, value);
         }
 
-        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        /// <summary>
+        /// Gets or sets the maximum zoom factor of the viewport
+        /// </summary>
+        public double MaxViewportZoom
         {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                foreach (var item in e.NewItems)
-                {
-                    Children.Add(CreateWorkflowItem(item));
-                }
-            }
-            else if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
-                foreach (var oldItem in e.OldItems)
-                {
-                    var workflowItem = WorkflowItems.FirstOrDefault(x => x.DataContext == oldItem);
-                    workflowItem?.Delete();
-                }
-            }
-            else if (e.Action == NotifyCollectionChangedAction.Replace)
-            {
-                var newItem = WorkflowItems.FirstOrDefault(x => x.DataContext == e.NewItems[0]);
-                var oldItem = WorkflowItems.FirstOrDefault(x => x.DataContext == e.OldItems[0]);
-                Children.Add(CreateWorkflowItem(newItem));
-                oldItem?.Delete();
-            }
-            else if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                Children.Clear();
-            }
+            get => (double)GetValue(MaxViewportZoomProperty);
+            set => SetValue(MaxViewportZoomProperty, value);
         }
 
-        private WorkflowItem CreateWorkflowItem(object item)
+        /// <summary>
+        /// The area covered by the <see cref="ItemContainer"/>s.
+        /// </summary>
+        public Rect ItemsExtent
         {
-            WorkflowItem result;
-            if (item is WorkflowItem workflowItem)
-            {
-                result = workflowItem;
-                result.DataContext = workflowItem;
-            }
-            else
-            {
-                result = new WorkflowItem()
-                {
-                    DataContext = item,
-                    Content = item,
-                    ContentTemplate = ItemTemplate,
-                    ContentTemplateSelector = ItemTemplateSelector
-                };
-            }
-            result.EditorParent = this;
-            AttachWorkflowItems(result);
-            return result;
+            get => (Rect)GetValue(ItemsExtentProperty);
+            set => SetValue(ItemsExtentProperty, value);
         }
 
-        private static void OnContainerStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// The area covered by the <see cref="ItemContainer"/>s.
+        /// </summary>
+        public Rect DecoratorsExtent
         {
-            ((WorkflowEditor)d).OnContainerStyleChanged(e);
+            get => (Rect)GetValue(DecoratorsExtentProperty);
+            set => SetValue(DecoratorsExtentProperty, value);
         }
 
-        protected virtual void OnContainerStyleChanged(DependencyPropertyChangedEventArgs e)
+        public bool IsSelecting
         {
-            AttachWorkflowItems();
+            get => (bool)GetValue(IsSelectingProperty);
+            internal set => SetValue(IsSelectingPropertyKey, value);
         }
 
-        private static void OnContainerStyleSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public Rect SelectedArea
         {
-            ((WorkflowEditor)d).OnContainerStyleSelectorChanged(e);
+            get => (Rect)GetValue(SelectedAreaProperty);
+            internal set => SetValue(SelectedAreaPropertyKey, value);
         }
 
-        protected virtual void OnContainerStyleSelectorChanged(DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Gets the current mouse location in graph space coordinates (relative to the <see cref="ItemsHost" />).
+        /// </summary>
+        public Point MouseLocation
         {
-            AttachWorkflowItems();
+            get => (Point)GetValue(MouseLocationProperty);
+            protected set => SetValue(MouseLocationPropertyKey, value);
         }
 
-        private void AttachWorkflowItems()
+        public bool IsPanning
         {
-            foreach (var item in WorkflowItems)
-            {
-                AttachWorkflowItems(item);
-            }
+            get => (bool)GetValue(IsPanningProperty);
+            protected internal set => SetValue(IsPanningPropertyKey, value);
+        }
+        /// <summary>
+        /// Gets or sets the speed used when auto-panning scaled by <see cref="AutoPanningTickRate"/>
+        /// </summary>
+        public double AutoPanSpeed
+        {
+            get => (double)GetValue(AutoPanSpeedProperty);
+            set => SetValue(AutoPanSpeedProperty, value);
         }
 
-        private void AttachWorkflowItems(WorkflowItem workflowItem)
+        /// <summary>
+        /// Gets or sets the maximum distance in pixels from the edge of the editor that will trigger auto-panning.
+        /// </summary>
+        public double AutoPanEdgeDistance
         {
-            if (ItemContainerStyle != null)
-            {
-                workflowItem.Style = ItemContainerStyle;
-            }
-            else if (ItemContainerStyleSelector != null)
-            {
-                workflowItem.Style = ItemContainerStyleSelector.SelectStyle(workflowItem.DataContext, workflowItem);
-            }
+            get => (double)GetValue(AutoPanEdgeDistanceProperty);
+            set => SetValue(AutoPanEdgeDistanceProperty, value);
         }
 
-        protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
-        {
-            base.OnVisualChildrenChanged(visualAdded, visualRemoved);
-            UpdateSelectedItems();
-            if (visualAdded is WorkflowItem added)
-            {
-                var left = Adsorb(GetLeft(added));
-                var top = Adsorb(GetTop(added));
-                //if (ActualWidth > 0 && ActualHeight > 0 && DoubleUtil.IsNumber(added.Width) && DoubleUtil.IsNumber(added.Height))
-                //{
-                //    if (left + added.Width > ActualWidth)
-                //    {
-                //        left = Adsorb(ActualWidth - added.Width);
-                //    }
-                //    if (top + added.Height > ActualHeight)
-                //    {
-                //        top = Adsorb(ActualWidth - added.Height);
-                //    }
-                //}
+        public ICommand SelectAllCommand { get; }
 
-                SetLeft(added, left);
-                SetTop(added, top);
-                added.EditorParent = this;
-                added.MouseLeftButtonDown += WorkflowItem_MouseLeftButtonDown;
-                added.Selected += WorkflowItem_SelectedChanged;
-                added.Unselected += WorkflowItem_SelectedChanged;
-            }
-            if (visualRemoved is WorkflowItem removed)
-            {
-                removed.EditorParent = null;
-                removed.MouseLeftButtonDown -= WorkflowItem_MouseLeftButtonDown;
-                removed.Selected -= WorkflowItem_SelectedChanged;
-                removed.Unselected -= WorkflowItem_SelectedChanged;
-            }
-        }
+        public ICommand UnselectAllCommand { get; }
 
-        private void WorkflowItem_SelectedChanged(object sender, RoutedEventArgs e)
-        {
-            if (!_isUpdatingSelectedItems)
-            {
-                UpdateSelectedItems();
-            }
-        }
-
-        public void BeginUpdateSelectedItems()
-        {
-            _isUpdatingSelectedItems = true;
-        }
-
-        public void EndUpdateSelectedItems()
-        {
-            _isUpdatingSelectedItems = false;
-            UpdateSelectedItems();
-        }
-
-        internal void UpdateSelectedItems()
-        {
-            List<object> list = new List<object>();
-            foreach (var item in WorkflowItems.Where(x => x.IsSelected))
-            {
-                list.Add(item.DataContext);
-            }
-
-            if (SelectedItems == null)
-            {
-                SelectedItems = list;
-            }
-            else
-            {
-                if (list.Count != 0 || SelectedItems.Count != 0)
-                {
-                    SelectedItems = list;
-                }
-            }
-
-            UpdateMultiSelectionMask();
-        }
+        public ICommand InvertSelectCommand { get; }
 
         public void SelectAll()
         {
@@ -460,8 +226,8 @@ namespace OhmStudio.UI.Controls
         {
             try
             {
-                BeginUpdateSelectedItems();
-                foreach (var item in WorkflowItems)
+                ItemsHost.BeginUpdateSelectedItems();
+                foreach (var item in ItemsHost.WorkflowItems)
                 {
                     if (invert)
                     {
@@ -475,198 +241,175 @@ namespace OhmStudio.UI.Controls
             }
             finally
             {
-                EndUpdateSelectedItems();
+                ItemsHost.EndUpdateSelectedItems();
             }
         }
 
-        private void MultiSelectionRectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private static void OnViewportLocationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            //if (CanvasStatus is CanvasStatus.Moving or CanvasStatus.Drawing or CanvasStatus.Selecting)
-            //{
-            //    return;
-            //}
+            var editor = (WorkflowEditor)d;
+            var translate = (Point)e.NewValue;
 
-            EditorStatus = EditorStatus.MultiMoving;
-            _multiSelectionMask.CaptureMouse();
-            _multiSelectionMask.Cursor = Cursors.ScrollAll;
-            _multiMoveMouseDownPoint = e.GetPosition(this);
-            //_multiRectangleMouseDownRect = new Rect(GetLeft(_multiSelectionMask), GetTop(_multiSelectionMask), _multiSelectionMask.Width, _multiSelectionMask.Height);
-            foreach (var item in WorkflowItems.Where(x => x.IsSelected))
-            {
-                item.LastMouseDownPoint = new Point(GetLeft(item), GetTop(item));
-            }
+            editor.TranslateTransform.X = -translate.X * editor.ViewportZoom;
+            editor.TranslateTransform.Y = -translate.Y * editor.ViewportZoom;
+
+            //editor.OnViewportUpdated();
         }
 
-        private void WorkflowItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private static void OnViewportZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var workflowItem = sender as WorkflowItem;
-            _lastWorkflowItem = workflowItem;
-            Point point = e.GetPosition(this);
-            var startEllipseItem = GetFrameworkElementWithPoint<EllipseItem>(point);
-            if (startEllipseItem == null)
-            {
-                EditorStatus = EditorStatus.Moving;
-            }
-            else
-            {
-                _lastWorkflowItem = startEllipseItem.WorkflowParent;
-                _pathStartPoint = startEllipseItem.GetPoint(this);
-                _lastEllipseItem = startEllipseItem;
-                EditorStatus = EditorStatus.Drawing;
+            var editor = (WorkflowEditor)d;
+            double zoom = (double)e.NewValue;
 
-                if (_currentPath == null)
-                {
-                    _currentPath = new PathItem(this);
-                    Children.Add(_currentPath);
-                }
-            }
+            editor.ScaleTransform.ScaleX = zoom;
+            editor.ScaleTransform.ScaleY = zoom;
 
-            if ((!workflowItem.IsDraggable && startEllipseItem == null) /*|| CanvasStatus is CanvasStatus.Selecting or CanvasStatus.MultiMoving*/)
-            {
-                return;
-            }
+            editor.ViewportSize = new Size(editor.ActualWidth / zoom, editor.ActualHeight / zoom);
 
-            _mouseDownPoint = point;
-            _mouseDownControlPoint = new Point(GetLeft(workflowItem), GetTop(workflowItem));
-            if (EditorStatus == EditorStatus.Moving)
-            {
-                Cursor = Cursors.ScrollAll;
-                workflowItem.CaptureMouse();
-            }
-            else
-            {
-                Cursor = Cursors.Cross;
-                _currentPath.CaptureMouse();
-            }
+            //editor.ApplyRenderingOptimizations();
+            //editor.OnViewportUpdated();
         }
 
-        private void WorkflowEditor_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private static void OnMinViewportZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (EditorStatus is EditorStatus.MultiMoving)
-            {
-                return;
-            }
-            Point point = e.GetPosition(this);
-            Children.Remove(_multiSelectionMask);
+            var zoom = (WorkflowEditor)d;
+            zoom.CoerceValue(MaxViewportZoomProperty);
+            zoom.CoerceValue(ViewportZoomProperty);
+        }
 
-            //bool isPathItem = false;
-            IEnumerable<SelectionControl> selectableElements;
-            BeginUpdateSelectedItems();
-            if (this.GetVisualHitOfType<SelectionControl>(point) is SelectionControl selectableElement)
-            {
-                //isPathItem = selectableElement is PathItem;
-                selectableElement.IsSelected = true;
-                selectableElements = SelectableElements.Where(x => x != selectableElement);
-            }
-            else
-            {
-                selectableElements = SelectableElements;
-            }
-            if (!IsCtrlKeyDown)
-            {
-                foreach (var item in selectableElements)
-                {
-                    item.IsSelected = false;
-                }
-            }
-            EndUpdateSelectedItems();
+        private static object CoerceMinViewportZoom(DependencyObject d, object value)
+            => (double)value > 0.1d ? value : 0.1d;
 
+        private static void OnMaxViewportZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var zoom = (WorkflowEditor)d;
+            zoom.CoerceValue(ViewportZoomProperty);
+        }
+
+        private static object CoerceMaxViewportZoom(DependencyObject d, object value)
+        {
+            var editor = (WorkflowEditor)d;
+            double min = editor.MinViewportZoom;
+
+            return (double)value < min ? min : value;
+        }
+
+        private static object ConstrainViewportZoomToRange(DependencyObject d, object value)
+        {
+            var editor = (WorkflowEditor)d;
+
+            var num = (double)value;
+            double minimum = editor.MinViewportZoom;
+            if (num < minimum)
+            {
+                return minimum;
+            }
+
+            double maximum = editor.MaxViewportZoom;
+            return num > maximum ? maximum : value;
+        }
+
+        protected internal WorkflowCanvas ItemsHost { get; private set; }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            ItemsHost = GetTemplateChild("PART_ItemsHost") as WorkflowCanvas ?? throw new InvalidOperationException("PART_ItemsHost is missing or is not of type Panel.");
+
+            OnDisableAutoPanningChanged(false);
+        }
+
+        protected override DependencyObject GetContainerForItemOverride()
+        {
+            return new WorkflowItem()
+            {
+                EditorParent = ItemsHost,
+                RenderTransform = new TranslateTransform()
+            };
+        }
+
+        protected override bool IsItemItsOwnContainerOverride(object item)
+        {
+            return item is WorkflowItem;
+        }
+
+        private DispatcherTimer _autoPanningTimer;
+        public static double AutoPanningTickRate { get; set; } = 1;
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            ItemsHost.HandleLMouseDown(e);
+            MouseLocation = e.GetPosition(ItemsHost);
             Focus();
-            if (EditorStatus is EditorStatus.Moving or EditorStatus.Drawing /*|| isPathItem*/)
+
+            _previousMousePosition = e.GetPosition(this);
+
+            _startLocation = MouseLocation;
+
+            if (ItemsHost.EditorStatus == EditorStatus.None)
             {
-                return;
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    IsSelecting = true;
+                    IsPanning = false;
+                    SelectedArea = new Rect();
+                }
+                else if (e.RightButton == MouseButtonState.Pressed)
+                {
+                    IsPanning = true;
+                    IsSelecting = false;
+                }
             }
-
-            if (!Children.Contains(_selectionArea))
+            if (!IsMouseCaptureWithin)
             {
-                Children.Add(_selectionArea);
+                CaptureMouse();
             }
-
-            _selectionStartPoint = point;
-            EditorStatus = EditorStatus.Selecting;
-
-            _selectionArea.CaptureMouse();
-            // Reset the selection rectangle
-            _selectionArea.Width = 0;
-            _selectionArea.Height = 0;
-            SetLeft(_selectionArea, _selectionStartPoint.X);
-            SetTop(_selectionArea, _selectionStartPoint.Y);
         }
 
-        private void WorkflowEditor_MouseMove(object sender, MouseEventArgs e)
+        private Point _previousMousePosition;
+
+        private Point _startLocation;
+
+        /// <inheritdoc />
+        protected override void OnMouseMove(MouseEventArgs e)
         {
-            Point point = e.GetPosition(this);
-            MousePosition = point;
-            if (e.LeftButton != MouseButtonState.Pressed)
+            MouseLocation = Mouse.GetPosition(ItemsHost);
+
+            if (IsPanning)
             {
-                return;
+                var currentMousePosition = Mouse.GetPosition(this);
+                ViewportLocation -= (currentMousePosition - _previousMousePosition) / ViewportZoom;
+                _previousMousePosition = currentMousePosition;
+                //Debug.WriteLine(ViewportLocation);
             }
-
-            if (EditorStatus == EditorStatus.MultiMoving)
+            if (IsSelecting)
             {
-                Vector vector = point - _multiMoveMouseDownPoint;
-                foreach (var item in WorkflowItems.Where(x => x.IsSelected && x.IsDraggable))
-                { 
-                    SetLeft(item, item.LastMouseDownPoint.X + vector.X);
-                    SetTop(item, item.LastMouseDownPoint.Y + vector.Y);
+                var endLocation = MouseLocation;
+                double left = endLocation.X < _startLocation.X ? endLocation.X : _startLocation.X;
+                double top = endLocation.Y < _startLocation.Y ? endLocation.Y : _startLocation.Y;
+                double width = Math.Abs(endLocation.X - _startLocation.X);
+                double height = Math.Abs(endLocation.Y - _startLocation.Y);
 
-                    //var minX = item.MouseDownRect.X - _multiRectangleMouseDownRect.X;
-                    //var minY = item.MouseDownRect.Y - _multiRectangleMouseDownRect.Y;
-                    //SetLeft(item, Math.Max(minX, item.MouseDownRect.X + vector.X));
-                    //SetTop(item, Math.Max(minY, item.MouseDownRect.Y + vector.Y));
-
-                    item.UpdateCurve();
-                }
-                UpdateMultiSelectionMask();
-            }
-            else if (EditorStatus == EditorStatus.Selecting)
-            {
-                double x = Math.Min(point.X, _selectionStartPoint.X);
-                double y = Math.Min(point.Y, _selectionStartPoint.Y);
-
-                double width = Math.Abs(point.X - _selectionStartPoint.X);
-                double height = Math.Abs(point.Y - _selectionStartPoint.Y);
-
-                SetLeft(_selectionArea, x);
-                SetTop(_selectionArea, y);
-                _selectionArea.Width = width;
-                _selectionArea.Height = height;
+                SelectedArea = new Rect(left, top, width, height);
 
                 if (width >= 1 || height >= 1)
                 {
-                    Rect selectedArea = new Rect(x, y, width, height);
-                    RectangleGeometry rectangleGeometry = new RectangleGeometry(selectedArea);
-                    BeginUpdateSelectedItems();
-                    foreach (var item in WorkflowItems)
+                    RectangleGeometry rectangleGeometry = new RectangleGeometry(SelectedArea);
+                    ItemsHost.BeginUpdateSelectedItems();
+                    foreach (var item in ItemsHost.WorkflowItems)
                     {
                         item.IsSelected = CheckOverlap(rectangleGeometry, item);
                         //item.IsSelected = selectedArea.IntersectsWith(new Rect(GetLeft(item), GetTop(item), item.ActualWidth, item.ActualHeight));
                     }
-                    EndUpdateSelectedItems();
+                    ItemsHost.EndUpdateSelectedItems();
                 }
-            }
-            else if (EditorStatus == EditorStatus.Drawing)
-            {
-                _currentPath.UpdateBezierCurve(_pathStartPoint, point);
-            }
-            else if (EditorStatus == EditorStatus.Moving)
-            {
-                var workflowItem = _lastWorkflowItem;
-                if (!workflowItem.IsDraggable)
-                {
-                    return;
-                }
-                Vector vector = point - _mouseDownPoint;
-
-                SetLeft(workflowItem, _mouseDownControlPoint.X + vector.X);
-                SetTop(workflowItem, _mouseDownControlPoint.Y + vector.Y);
-                workflowItem.UpdateCurve();
             }
         }
 
         private bool CheckOverlap(RectangleGeometry rectangleGeometry, WorkflowItem workflowItem)
         {
-            GeneralTransform transform = workflowItem.TransformToVisual(this);
+            GeneralTransform transform = workflowItem.TransformToVisual(ItemsHost);
             Geometry geometry = workflowItem.Geometry?.Clone();
             if (geometry != null)
             {
@@ -675,192 +418,133 @@ namespace OhmStudio.UI.Controls
             return rectangleGeometry.FillContainsWithDetail(geometry) != IntersectionDetail.Empty;
         }
 
-        private T GetFrameworkElementWithPoint<T>(Point point) where T : FrameworkElement
+        protected override void OnMouseUp(MouseButtonEventArgs e)
         {
-            var frameworkElement = this.GetVisualHitOfType<T>(point);
-            if (frameworkElement != null && !frameworkElement.IsVisible)
+            MouseLocation = e.GetPosition(ItemsHost);
+
+            // Release the mouse capture if all the mouse buttons are released
+            if (IsMouseCaptured && e.RightButton == MouseButtonState.Released && e.LeftButton == MouseButtonState.Released && e.MiddleButton == MouseButtonState.Released)
             {
-                return null;
+                ReleaseMouseCapture();
             }
-            return frameworkElement;
+
+            // Disable context menu if selecting
+            if (IsSelecting)
+            {
+                e.Handled = true;
+            }
+            IsPanning = false;
+            IsSelecting = false;
         }
 
-        private void WorkflowEditor_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        protected override void OnLostMouseCapture(MouseEventArgs e)
+        { }
+
+        internal bool IsCtrlKeyDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
+
+        protected override void OnKeyDown(KeyEventArgs e)
         {
-            try
+            base.OnKeyDown(e);
+            if (IsCtrlKeyDown && Keyboard.IsKeyDown(Key.A))
             {
-                if (EditorStatus == EditorStatus.Drawing)
-                {
-                    Point point = e.GetPosition(this);
-                    var endWorkflowItem = GetFrameworkElementWithPoint<WorkflowItem>(point);
-                    if (endWorkflowItem != null)
-                    {
-                        SetStep(_lastWorkflowItem, endWorkflowItem, _lastEllipseItem);
-                    }
-                }
-                else if (EditorStatus == EditorStatus.Moving)
-                {
-                    var workflowItem = _lastWorkflowItem;
-                    if (workflowItem == null || !workflowItem.IsDraggable)
-                    {
-                        return;
-                    }
-
-                    PositionWorkflowItem(workflowItem);
-                }
-                else if (EditorStatus == EditorStatus.MultiMoving)
-                {
-                    foreach (var item in WorkflowItems.Where(x => x.IsSelected && x.IsDraggable))
-                    {
-                        PositionWorkflowItem(item);
-                    }
-                    UpdateMultiSelectionMask();
-                }
-            }
-            finally
-            {
-                Children.Remove(_selectionArea);
-                Children.Remove(_currentPath);
-
-                EditorStatus = EditorStatus.None;
-
-                _selectionArea.ReleaseMouseCapture();
-                _multiSelectionMask.ReleaseMouseCapture();
-                _lastWorkflowItem?.ReleaseMouseCapture();
-                _currentPath?.ReleaseMouseCapture();
-
-                _currentPath = null;
-                Cursor = null;
-                _multiSelectionMask.Cursor = null;
+                SelectAll();
             }
         }
 
-        private void PositionWorkflowItem(WorkflowItem workflowItem)
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
-            SetLeft(workflowItem, Adsorb(GetLeft(workflowItem)));
-            SetTop(workflowItem, Adsorb(GetTop(workflowItem)));
-            Dispatcher.InvokeAsync(() =>
+            double zoom = Math.Pow(2.0, e.Delta / 3.0 / Mouse.MouseWheelDeltaForOneLine);
+            ZoomAtPosition(zoom, e.GetPosition(ItemsHost));
+
+            // Handle it for nested editors
+            if (e.Source is WorkflowEditor)
             {
-                workflowItem.UpdateCurve();
-            }, DispatcherPriority.Render);
+                e.Handled = true;
+            }
         }
 
-        public void UpdateMultiSelectionMask()
+        private void HandleAutoPanning(object sender, EventArgs e)
         {
-            if (SelectedItems != null && SelectedItems.Count > 1)
+            if (!IsPanning && IsMouseCaptureWithin)
             {
-                double minX = double.MaxValue;
-                double minY = double.MaxValue;
-                double maxX = double.MinValue;
-                double maxY = double.MinValue;
+                Point mousePosition = Mouse.GetPosition(this);
+                double edgeDistance = AutoPanEdgeDistance;
+                double autoPanSpeed = Math.Min(AutoPanSpeed, AutoPanSpeed * AutoPanningTickRate) / (ViewportZoom * 2);
+                double x = ViewportLocation.X;
+                double y = ViewportLocation.Y;
 
-                foreach (var item in WorkflowItems.Where(x => x.IsSelected))
+                if (mousePosition.X <= edgeDistance)
                 {
-                    double left = GetLeft(item);
-                    double top = GetTop(item);
-                    double right = left + item.ActualWidth;
-                    double bottom = top + item.ActualHeight;
+                    x -= autoPanSpeed;
+                }
+                else if (mousePosition.X >= ActualWidth - edgeDistance)
+                {
+                    x += autoPanSpeed;
+                }
 
-                    minX = Math.Min(left, minX);
-                    minY = Math.Min(top, minY);
-                    maxX = Math.Max(right, maxX);
-                    maxY = Math.Max(bottom, maxY);
-                }
-                _multiSelectionMask.Width = maxX - minX;
-                _multiSelectionMask.Height = maxY - minY;
-                SetLeft(_multiSelectionMask, minX);
-                SetTop(_multiSelectionMask, minY);
-                if (!Children.Contains(_multiSelectionMask))
+                if (mousePosition.Y <= edgeDistance)
                 {
-                    Children.Add(_multiSelectionMask);
+                    y -= autoPanSpeed;
                 }
+                else if (mousePosition.Y >= ActualHeight - edgeDistance)
+                {
+                    y += autoPanSpeed;
+                }
+
+                ViewportLocation = new Point(x, y);
+                MouseLocation = Mouse.GetPosition(ItemsHost);
+
+                OnMouseMove(new MouseEventArgs(Mouse.PrimaryDevice, 0));
+            }
+        }
+
+        protected virtual void OnDisableAutoPanningChanged(bool shouldDisable)
+        {
+            if (shouldDisable)
+            {
+                _autoPanningTimer?.Stop();
+            }
+            else if (_autoPanningTimer == null)
+            {
+                _autoPanningTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(AutoPanningTickRate),
+                    DispatcherPriority.Render, HandleAutoPanning, Dispatcher);
             }
             else
             {
-                Children.Remove(_multiSelectionMask);
+                _autoPanningTimer.Interval = TimeSpan.FromMilliseconds(AutoPanningTickRate);
+                _autoPanningTimer.Start();
             }
         }
 
-        internal void SetStep(WorkflowItem fromStep, WorkflowItem toStep, EllipseItem fromEllipse)
+        public void ZoomAtPosition(double zoom, Point location)
         {
-            if (fromStep == toStep)
-            {
-                return;
-            }
-            EllipseItem toEllipse;
+            //if (!DisableZooming)
+            //{
+            double prevZoom = ViewportZoom;
+            ViewportZoom *= zoom;
 
-            if (fromEllipse.Dock == Dock.Right)
+            if (Math.Abs(prevZoom - ViewportZoom) > 0.001)
             {
-                toEllipse = toStep.EllipseItems[Dock.Left];
-            }
-            else if (fromEllipse.Dock == Dock.Bottom)
-            {
-                toEllipse = toStep.EllipseItems[Dock.Top];
-            }
-            else
-            {
-                return;
-            }
+                // get the actual zoom value because Zoom might have been coerced
+                zoom = ViewportZoom / prevZoom;
+                Vector position = (Vector)location;
 
-            if (fromEllipse.PathItem != null || toEllipse.PathItem != null)
-            {
-                UIMessageTip.ShowWarning("该节点已经存在连接关系，无法创建连接曲线，请删除后再试");
+                var dist = position - (Vector)ViewportLocation;
+                var zoomedDist = dist * zoom;
+                var diff = zoomedDist - dist;
+                ViewportLocation += diff / zoom;
             }
-            else
-            {
-                if (fromEllipse.Dock == Dock.Right)
-                {
-                    fromStep.JumpStep = toStep.DataContext;
-                    toStep.FromStep = fromStep.DataContext;
-                }
-                else if (fromEllipse.Dock == Dock.Bottom)
-                {
-                    fromStep.NextStep = toStep.DataContext;
-                    toStep.LastStep = fromStep.DataContext;
-                }
-            }
+            //}
         }
 
-        public WorkflowItem FirstOrDefault(object item)
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
-            var workflowItem = WorkflowItems.FirstOrDefault(x => x.DataContext == item);
-            workflowItem ??= new WorkflowItem();
-            return workflowItem;
+            base.OnRenderSizeChanged(sizeInfo);
+
+            double zoom = ViewportZoom;
+            ViewportSize = new Size(ActualWidth / zoom, ActualHeight / zoom);
+
+            //OnViewportUpdated();
         }
-
-        private double Adsorb(double value)
-        {
-            return value.Adsorb(GridSpacing);
-        }
-
-        //protected override void OnRender(DrawingContext dc)
-        //{
-        //    base.OnRender(dc);
-
-        //    double width = ActualWidth;
-        //    double height = ActualHeight;
-        //    double gridSize = GridSpacing;
-
-        //    Pen pen = new Pen(GridLineBrush, 0.4);
-        //    Pen sidePen = new Pen(GridLineBrush, 1);
-
-        //    int index = 0;
-        //    for (double x = 0; x < width; x += gridSize)
-        //    {
-        //        dc.DrawLine(IsSide(index) ? sidePen : pen, new Point(x, 0), new Point(x, height));
-        //        index++;
-        //    }
-        //    index = 0;
-        //    for (double y = 0; y < height; y += gridSize)
-        //    {
-        //        dc.DrawLine(IsSide(index) ? sidePen : pen, new Point(0, y), new Point(width, y));
-        //        index++;
-        //    }
-        //}
-
-        //private static bool IsSide(int value)
-        //{
-        //    return value != 0 && value % 4 == 0;
-        //}
     }
 }
