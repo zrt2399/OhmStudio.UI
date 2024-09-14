@@ -375,7 +375,7 @@
 
     <SolidColorBrush x:Key="{x:Static reskeys:ResourceKeys.DocumentTabItemBorder}"
                      options:Freeze="true"
-                     Color="#E2E2E2" />
+                     Color="Transparent" />
     <SolidColorBrush x:Key="{x:Static reskeys:ResourceKeys.DocumentTabItemBorderActive}"
                      options:Freeze="true"
                      Color="#006CBE" />

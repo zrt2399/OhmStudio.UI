@@ -393,7 +393,7 @@ namespace OhmStudio.UI.Controls
                 {
                     RectangleGeometry rectangleGeometry = new RectangleGeometry(SelectedArea);
                     ItemsHost.BeginUpdateSelectedItems();
-                    foreach (WorkflowItem item in ItemsHost.WorkflowItems)
+                    foreach (var item in ItemsHost.WorkflowItems)
                     {
                         item.IsSelected = CheckOverlap(rectangleGeometry, item);
                     }
