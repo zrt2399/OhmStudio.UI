@@ -98,7 +98,8 @@
                         VerticalAlignment="Center"
                         BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
                         BorderThickness="1"
-                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource AncestorType=UserControl}}">
+                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        SnapsToDevicePixels="True">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />

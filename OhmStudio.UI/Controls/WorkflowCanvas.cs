@@ -36,10 +36,6 @@ namespace OhmStudio.UI.Controls
 
         public WorkflowCanvas()
         {
-            MouseLeftButtonDown += WorkflowCanvas_MouseLeftButtonDown;
-            MouseMove += WorkflowCanvas_MouseMove;
-            MouseLeftButtonUp += WorkflowCanvas_MouseLeftButtonUp;
-             
             _multiSelectionMask = new Rectangle();
             _multiSelectionMask.Fill = "#44AACCEE".ToSolidColorBrush();
             _multiSelectionMask.Stroke = "#FF0F80D9".ToSolidColorBrush();
@@ -50,7 +46,7 @@ namespace OhmStudio.UI.Controls
 
         //鼠标选中多个元素的Rectangle遮罩
         private Rectangle _multiSelectionMask;
- 
+
         //鼠标按下的位置
         private Point _moveMouseDownPoint;
         //鼠标按下控件的位置
@@ -94,11 +90,7 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(ItemContainerStyleSelector), typeof(StyleSelector), typeof(WorkflowCanvas), new PropertyMetadata(OnContainerStyleSelectorChanged));
 
         public static readonly DependencyProperty GridSpacingProperty =
-            DependencyProperty.Register(nameof(GridSpacing), typeof(double), typeof(WorkflowCanvas),
-                new FrameworkPropertyMetadata(20d));
-
-        public static readonly DependencyProperty MousePositionProperty =
-            DependencyProperty.Register(nameof(MousePosition), typeof(Point), typeof(WorkflowCanvas));
+            DependencyProperty.Register(nameof(GridSpacing), typeof(uint), typeof(WorkflowCanvas), new FrameworkPropertyMetadata(20u));
 
         internal bool IsCtrlKeyDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
 
@@ -160,24 +152,17 @@ namespace OhmStudio.UI.Controls
             set => SetValue(ItemTemplateSelectorProperty, value);
         }
 
-        public double GridSpacing
+        public uint GridSpacing
         {
-            get => (double)GetValue(GridSpacingProperty);
+            get => (uint)GetValue(GridSpacingProperty);
             set => SetValue(GridSpacingProperty, value);
         }
 
-        public Point MousePosition
-        {
-            get => (Point)GetValue(MousePositionProperty);
-            set => SetValue(MousePositionProperty, value);
-        }
-         
         internal EditorStatus EditorStatus { get; set; }
 
         private static void OnSelectedItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var workflowCanvas = (WorkflowCanvas)d;
-
         }
 
         private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -423,9 +408,9 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        internal void HandleLMouseDown(MouseButtonEventArgs e)
+        internal void HandleMouseDown(MouseButtonEventArgs e)
         {
-            if (EditorStatus is EditorStatus.MultiMoving || e.LeftButton != MouseButtonState.Pressed)
+            if (e.LeftButton != MouseButtonState.Pressed || EditorStatus is EditorStatus.MultiMoving)
             {
                 return;
             }
@@ -455,20 +440,15 @@ namespace OhmStudio.UI.Controls
             EndUpdateSelectedItems();
         }
 
-        private void WorkflowCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        protected override void OnMouseMove(MouseEventArgs e)
         {
-            HandleLMouseDown(e);
-        }
-
-        private void WorkflowCanvas_MouseMove(object sender, MouseEventArgs e)
-        {
-            Point point = e.GetPosition(this);
-            MousePosition = point;
+            base.OnMouseMove(e);
             if (e.LeftButton != MouseButtonState.Pressed)
             {
                 return;
             }
 
+            Point point = e.GetPosition(this);
             if (EditorStatus == EditorStatus.MultiMoving)
             {
                 Vector vector = point - _multiMoveMouseDownPoint;
@@ -500,18 +480,9 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        private T GetElementWithPoint<T>(Point point) where T : FrameworkElement
+        protected override void OnMouseUp(MouseButtonEventArgs e)
         {
-            var frameworkElement = this.GetVisualHitOfType<T>(point);
-            if (frameworkElement != null && !frameworkElement.IsVisible)
-            {
-                return null;
-            }
-            return frameworkElement;
-        }
-
-        private void WorkflowCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
+            base.OnMouseUp(e);
             try
             {
                 if (EditorStatus == EditorStatus.Drawing)
@@ -525,13 +496,10 @@ namespace OhmStudio.UI.Controls
                 }
                 else if (EditorStatus == EditorStatus.Moving)
                 {
-                    var workflowItem = _lastWorkflowItem;
-                    if (workflowItem == null || !workflowItem.IsDraggable)
+                    if (_lastWorkflowItem?.IsDraggable == true)
                     {
-                        return;
+                        PositionWorkflowItem(_lastWorkflowItem);
                     }
-
-                    PositionWorkflowItem(workflowItem);
                 }
                 else if (EditorStatus == EditorStatus.MultiMoving)
                 {
@@ -544,12 +512,10 @@ namespace OhmStudio.UI.Controls
             }
             finally
             {
-                //Children.Remove(_selectionArea);
                 Children.Remove(_currentPath);
 
                 EditorStatus = EditorStatus.None;
 
-                //_selectionArea.ReleaseMouseCapture();
                 _multiSelectionMask.ReleaseMouseCapture();
                 _lastWorkflowItem?.ReleaseMouseCapture();
                 _currentPath?.ReleaseMouseCapture();
@@ -558,6 +524,16 @@ namespace OhmStudio.UI.Controls
                 Cursor = null;
                 _multiSelectionMask.Cursor = null;
             }
+        }
+
+        private T GetElementWithPoint<T>(Point point) where T : FrameworkElement
+        {
+            var frameworkElement = this.GetVisualHitOfType<T>(point);
+            if (frameworkElement != null && !frameworkElement.IsVisible)
+            {
+                return null;
+            }
+            return frameworkElement;
         }
 
         private void PositionWorkflowItem(WorkflowItem workflowItem)

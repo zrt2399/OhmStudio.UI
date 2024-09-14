@@ -11,47 +11,65 @@ namespace OhmStudio.UI.Controls
 {
     public class WorkflowEditor : ItemsControl
     {
-        public static readonly DependencyProperty ViewportZoomProperty = DependencyProperty.Register(nameof(ViewportZoom), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnViewportZoomChanged, ConstrainViewportZoomToRange));
-        public static readonly DependencyProperty MinViewportZoomProperty = DependencyProperty.Register(nameof(MinViewportZoom), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(0.1d, OnMinViewportZoomChanged, CoerceMinViewportZoom));
-        public static readonly DependencyProperty MaxViewportZoomProperty = DependencyProperty.Register(nameof(MaxViewportZoom), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(2d, OnMaxViewportZoomChanged, CoerceMaxViewportZoom));
-        public static readonly DependencyProperty ViewportLocationProperty = DependencyProperty.Register(nameof(ViewportLocation), typeof(Point), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Point), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnViewportLocationChanged));
-        public static readonly DependencyProperty ViewportSizeProperty = DependencyProperty.Register(nameof(ViewportSize), typeof(Size), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Size)));
-        public static readonly DependencyProperty ItemsExtentProperty = DependencyProperty.Register(nameof(ItemsExtent), typeof(Rect), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Rect)));
-        public static readonly DependencyProperty DecoratorsExtentProperty = DependencyProperty.Register(nameof(DecoratorsExtent), typeof(Rect), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Rect)));
-        protected internal static readonly DependencyPropertyKey ViewportTransformPropertyKey = DependencyProperty.RegisterReadOnly(nameof(ViewportTransform), typeof(Transform), typeof(WorkflowEditor), new FrameworkPropertyMetadata(new TransformGroup()));
-        public static readonly DependencyProperty ViewportTransformProperty = ViewportTransformPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty ViewportZoomProperty;
 
-        protected static readonly DependencyPropertyKey IsSelectingPropertyKey = DependencyProperty.RegisterReadOnly(nameof(IsSelecting), typeof(bool), typeof(WorkflowEditor), new FrameworkPropertyMetadata(false));
-        public static readonly DependencyProperty IsSelectingProperty = IsSelectingPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty MinViewportZoomProperty;
 
-        public static readonly DependencyPropertyKey IsPanningPropertyKey = DependencyProperty.RegisterReadOnly(nameof(IsPanning), typeof(bool), typeof(WorkflowEditor), new FrameworkPropertyMetadata(false));
-        public static readonly DependencyProperty IsPanningProperty = IsPanningPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty MaxViewportZoomProperty;
 
-        protected static readonly DependencyPropertyKey MouseLocationPropertyKey = DependencyProperty.RegisterReadOnly(nameof(MouseLocation), typeof(Point), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Point)));
-        public static readonly DependencyProperty MouseLocationProperty = MouseLocationPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty ViewportLocationProperty;
 
-        protected static readonly DependencyPropertyKey SelectedAreaPropertyKey = DependencyProperty.RegisterReadOnly(nameof(SelectedArea), typeof(Rect), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Rect)));
-        public static readonly DependencyProperty SelectedAreaProperty = SelectedAreaPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty ViewportSizeProperty;
 
-        public static readonly DependencyProperty AutoPanSpeedProperty = DependencyProperty.Register(nameof(AutoPanSpeed), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(10d));
-        public static readonly DependencyProperty AutoPanEdgeDistanceProperty = DependencyProperty.Register(nameof(AutoPanEdgeDistance), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(1d));
-        public static readonly DependencyProperty DisableAutoPanningProperty = DependencyProperty.Register(nameof(DisableAutoPanning), typeof(bool), typeof(WorkflowEditor), new FrameworkPropertyMetadata(false, OnDisableAutoPanningChanged));
+        public static readonly DependencyProperty ItemsExtentProperty;
 
+        public static readonly DependencyProperty DecoratorsExtentProperty;
 
-        public static readonly DependencyProperty GridSpacingProperty =
-            DependencyProperty.Register(nameof(GridSpacing), typeof(double), typeof(WorkflowEditor),
-                new FrameworkPropertyMetadata(20d));
+        public static readonly DependencyProperty DisableAutoPanningProperty;
 
-        public static readonly DependencyProperty GridLineBrushProperty =
-            DependencyProperty.Register(nameof(GridLineBrush), typeof(Brush), typeof(WorkflowEditor),
-                new FrameworkPropertyMetadata(Brushes.LightGray));
+        protected internal static readonly DependencyPropertyKey ViewportTransformPropertyKey;
 
-        public static readonly DependencyProperty SelectedItemsProperty =
-            DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(IList), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty ViewportTransformProperty;
 
-        public double GridSpacing
+        protected static readonly DependencyPropertyKey IsSelectingPropertyKey;
+
+        public static readonly DependencyProperty IsSelectingProperty;
+
+        public static readonly DependencyPropertyKey IsPanningPropertyKey;
+
+        public static readonly DependencyProperty IsPanningProperty;
+
+        protected static readonly DependencyPropertyKey MouseLocationPropertyKey;
+
+        public static readonly DependencyProperty MouseLocationProperty;
+
+        protected static readonly DependencyPropertyKey SelectedAreaPropertyKey;
+
+        public static readonly DependencyProperty SelectedAreaProperty;
+
+        public static readonly DependencyProperty AutoPanSpeedProperty;
+
+        public static readonly DependencyProperty AutoPanEdgeDistanceProperty;
+
+        public static readonly DependencyProperty GridSpacingProperty;
+
+        public static readonly DependencyProperty GridLineBrushProperty;
+
+        public static readonly DependencyProperty SelectedItemsProperty;
+
+        protected readonly TranslateTransform TranslateTransform = new TranslateTransform();
+
+        protected readonly ScaleTransform ScaleTransform = new ScaleTransform();
+
+        private DispatcherTimer _autoPanningTimer;
+
+        private Point _previousMousePosition;
+
+        private Point _startLocation;
+
+        public uint GridSpacing
         {
-            get => (double)GetValue(GridSpacingProperty);
+            get => (uint)GetValue(GridSpacingProperty);
             set => SetValue(GridSpacingProperty, value);
         }
 
@@ -67,35 +85,6 @@ namespace OhmStudio.UI.Controls
             set => SetValue(SelectedItemsProperty, value);
         }
 
-        /// <summary>
-        /// Gets the transform used to offset the viewport.
-        /// </summary>
-        protected readonly TranslateTransform TranslateTransform = new TranslateTransform();
-
-        /// <summary>
-        /// Gets the transform used to zoom on the viewport.
-        /// </summary>
-        protected readonly ScaleTransform ScaleTransform = new ScaleTransform();
-
-        static WorkflowEditor()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(WorkflowEditor), new FrameworkPropertyMetadata(typeof(WorkflowEditor)));
-        }
-
-        public WorkflowEditor()
-        {
-            var transform = new TransformGroup();
-            transform.Children.Add(ScaleTransform);
-            transform.Children.Add(TranslateTransform);
-            SetValue(ViewportTransformPropertyKey, transform);
-            SelectAllCommand = new RelayCommand(SelectAll);
-            UnselectAllCommand = new RelayCommand(UnselectAll);
-            InvertSelectCommand = new RelayCommand(InvertSelect); 
-        }
-
-        /// <summary>
-        /// Gets the transform that is applied to all child controls.
-        /// </summary>
         public Transform ViewportTransform => (Transform)GetValue(ViewportTransformProperty);
 
         public Size ViewportSize
@@ -104,55 +93,36 @@ namespace OhmStudio.UI.Controls
             set => SetValue(ViewportSizeProperty, value);
         }
 
-        /// <summary>
-        /// Gets or sets the viewport's top-left coordinates in graph space coordinates.
-        /// </summary>
         public Point ViewportLocation
         {
             get => (Point)GetValue(ViewportLocationProperty);
             set => SetValue(ViewportLocationProperty, value);
         }
 
-
-        /// <summary>
-        /// Gets or sets the zoom factor of the viewport.
-        /// </summary>
         public double ViewportZoom
         {
             get => (double)GetValue(ViewportZoomProperty);
             set => SetValue(ViewportZoomProperty, value);
         }
 
-        /// <summary>
-        /// Gets or sets the minimum zoom factor of the viewport
-        /// </summary>
         public double MinViewportZoom
         {
             get => (double)GetValue(MinViewportZoomProperty);
             set => SetValue(MinViewportZoomProperty, value);
         }
 
-        /// <summary>
-        /// Gets or sets the maximum zoom factor of the viewport
-        /// </summary>
         public double MaxViewportZoom
         {
             get => (double)GetValue(MaxViewportZoomProperty);
             set => SetValue(MaxViewportZoomProperty, value);
         }
 
-        /// <summary>
-        /// The area covered by the <see cref="ItemContainer"/>s.
-        /// </summary>
         public Rect ItemsExtent
         {
             get => (Rect)GetValue(ItemsExtentProperty);
             set => SetValue(ItemsExtentProperty, value);
         }
 
-        /// <summary>
-        /// The area covered by the <see cref="ItemContainer"/>s.
-        /// </summary>
         public Rect DecoratorsExtent
         {
             get => (Rect)GetValue(DecoratorsExtentProperty);
@@ -162,28 +132,25 @@ namespace OhmStudio.UI.Controls
         public bool IsSelecting
         {
             get => (bool)GetValue(IsSelectingProperty);
-            internal set => SetValue(IsSelectingPropertyKey, value);
+            set => SetValue(IsSelectingPropertyKey, value);
         }
 
         public Rect SelectedArea
         {
             get => (Rect)GetValue(SelectedAreaProperty);
-            internal set => SetValue(SelectedAreaPropertyKey, value);
+            set => SetValue(SelectedAreaPropertyKey, value);
         }
 
-        /// <summary>
-        /// Gets the current mouse location in graph space coordinates (relative to the <see cref="ItemsHost" />).
-        /// </summary>
         public Point MouseLocation
         {
             get => (Point)GetValue(MouseLocationProperty);
-            protected set => SetValue(MouseLocationPropertyKey, value);
+            set => SetValue(MouseLocationPropertyKey, value);
         }
 
         public bool IsPanning
         {
             get => (bool)GetValue(IsPanningProperty);
-            protected internal set => SetValue(IsPanningPropertyKey, value);
+            set => SetValue(IsPanningPropertyKey, value);
         }
 
         public bool DisableAutoPanning
@@ -192,23 +159,12 @@ namespace OhmStudio.UI.Controls
             set => SetValue(DisableAutoPanningProperty, value);
         }
 
-        private static void OnDisableAutoPanningChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((WorkflowEditor)d).OnDisableAutoPanningChanged((bool)e.NewValue);
-        }
-
-        /// <summary>
-        /// Gets or sets the speed used when auto-panning scaled by <see cref="AutoPanningTickRate"/>
-        /// </summary>
         public double AutoPanSpeed
         {
             get => (double)GetValue(AutoPanSpeedProperty);
             set => SetValue(AutoPanSpeedProperty, value);
         }
 
-        /// <summary>
-        /// Gets or sets the maximum distance in pixels from the edge of the editor that will trigger auto-panning.
-        /// </summary>
         public double AutoPanEdgeDistance
         {
             get => (double)GetValue(AutoPanEdgeDistanceProperty);
@@ -220,6 +176,51 @@ namespace OhmStudio.UI.Controls
         public ICommand UnselectAllCommand { get; }
 
         public ICommand InvertSelectCommand { get; }
+
+        protected internal WorkflowCanvas ItemsHost { get; private set; }
+
+        public static double AutoPanningTickRate { get; set; } = 1;
+
+        internal bool IsCtrlKeyDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
+
+        static WorkflowEditor()
+        {
+            ViewportZoomProperty = DependencyProperty.Register(nameof(ViewportZoom), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(1.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnViewportZoomChanged, ConstrainViewportZoomToRange));
+            MinViewportZoomProperty = DependencyProperty.Register(nameof(MinViewportZoom), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(0.1, OnMinViewportZoomChanged, CoerceMinViewportZoom));
+            MaxViewportZoomProperty = DependencyProperty.Register(nameof(MaxViewportZoom), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(2.0, OnMaxViewportZoomChanged, CoerceMaxViewportZoom));
+            ViewportLocationProperty = DependencyProperty.Register(nameof(ViewportLocation), typeof(Point), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Point), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnViewportLocationChanged));
+            ViewportSizeProperty = DependencyProperty.Register(nameof(ViewportSize), typeof(Size), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Size)));
+            ItemsExtentProperty = DependencyProperty.Register(nameof(ItemsExtent), typeof(Rect), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Rect)));
+            DecoratorsExtentProperty = DependencyProperty.Register(nameof(DecoratorsExtent), typeof(Rect), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Rect)));
+            DisableAutoPanningProperty = DependencyProperty.Register(nameof(DisableAutoPanning), typeof(bool), typeof(WorkflowEditor), new FrameworkPropertyMetadata(false, OnDisableAutoPanningChanged));
+            ViewportTransformPropertyKey = DependencyProperty.RegisterReadOnly(nameof(ViewportTransform), typeof(Transform), typeof(WorkflowEditor), new FrameworkPropertyMetadata(new TransformGroup()));
+            ViewportTransformProperty = ViewportTransformPropertyKey.DependencyProperty;
+            IsSelectingPropertyKey = DependencyProperty.RegisterReadOnly(nameof(IsSelecting), typeof(bool), typeof(WorkflowEditor), new FrameworkPropertyMetadata(false));
+            IsSelectingProperty = IsSelectingPropertyKey.DependencyProperty;
+            IsPanningPropertyKey = DependencyProperty.RegisterReadOnly(nameof(IsPanning), typeof(bool), typeof(WorkflowEditor), new FrameworkPropertyMetadata(false));
+            IsPanningProperty = IsPanningPropertyKey.DependencyProperty;
+            MouseLocationPropertyKey = DependencyProperty.RegisterReadOnly(nameof(MouseLocation), typeof(Point), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Point)));
+            MouseLocationProperty = MouseLocationPropertyKey.DependencyProperty;
+            SelectedAreaPropertyKey = DependencyProperty.RegisterReadOnly(nameof(SelectedArea), typeof(Rect), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Rect)));
+            SelectedAreaProperty = SelectedAreaPropertyKey.DependencyProperty;
+            AutoPanSpeedProperty = DependencyProperty.Register(nameof(AutoPanSpeed), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(10.0));
+            AutoPanEdgeDistanceProperty = DependencyProperty.Register(nameof(AutoPanEdgeDistance), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(1.0));
+            GridSpacingProperty = DependencyProperty.Register(nameof(GridSpacing), typeof(uint), typeof(WorkflowEditor), new FrameworkPropertyMetadata(20u));
+            GridLineBrushProperty = DependencyProperty.Register(nameof(GridLineBrush), typeof(Brush), typeof(WorkflowEditor), new FrameworkPropertyMetadata(Brushes.LightGray));
+            SelectedItemsProperty = DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(WorkflowEditor), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(WorkflowEditor), new FrameworkPropertyMetadata(typeof(WorkflowEditor)));
+        }
+
+        public WorkflowEditor()
+        {
+            var transform = new TransformGroup();
+            transform.Children.Add(ScaleTransform);
+            transform.Children.Add(TranslateTransform);
+            SetValue(ViewportTransformPropertyKey, transform);
+            SelectAllCommand = new RelayCommand(SelectAll);
+            UnselectAllCommand = new RelayCommand(UnselectAll);
+            InvertSelectCommand = new RelayCommand(InvertSelect);
+        }
 
         public void SelectAll()
         {
@@ -238,10 +239,14 @@ namespace OhmStudio.UI.Controls
 
         private void SelectElement(bool value, bool invert = false)
         {
+            if (ItemsHost == null)
+            {
+                return;
+            }
             try
             {
                 ItemsHost.BeginUpdateSelectedItems();
-                foreach (var item in ItemsHost.WorkflowItems)
+                foreach (WorkflowItem item in ItemsHost.WorkflowItems)
                 {
                     if (invert)
                     {
@@ -259,84 +264,76 @@ namespace OhmStudio.UI.Controls
             }
         }
 
+        private static void OnDisableAutoPanningChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WorkflowEditor)d).OnDisableAutoPanningChanged((bool)e.NewValue);
+        }
+
         private static void OnViewportLocationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var editor = (WorkflowEditor)d;
-            var translate = (Point)e.NewValue;
-
+            WorkflowEditor editor = (WorkflowEditor)d;
+            Point translate = (Point)e.NewValue;
             editor.TranslateTransform.X = -translate.X * editor.ViewportZoom;
             editor.TranslateTransform.Y = -translate.Y * editor.ViewportZoom;
-
-            //editor.OnViewportUpdated();
         }
 
         private static void OnViewportZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var editor = (WorkflowEditor)d;
+            WorkflowEditor editor = (WorkflowEditor)d;
             double zoom = (double)e.NewValue;
-
             editor.ScaleTransform.ScaleX = zoom;
             editor.ScaleTransform.ScaleY = zoom;
-
             editor.ViewportSize = new Size(editor.ActualWidth / zoom, editor.ActualHeight / zoom);
-
-            //editor.ApplyRenderingOptimizations();
-            //editor.OnViewportUpdated();
         }
 
         private static void OnMinViewportZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var zoom = (WorkflowEditor)d;
+            WorkflowEditor zoom = (WorkflowEditor)d;
             zoom.CoerceValue(MaxViewportZoomProperty);
             zoom.CoerceValue(ViewportZoomProperty);
         }
 
         private static object CoerceMinViewportZoom(DependencyObject d, object value)
-            => (double)value > 0.1d ? value : 0.1d;
+        {
+            return ((double)value > 0.1) ? value : 0.1;
+        }
 
         private static void OnMaxViewportZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var zoom = (WorkflowEditor)d;
+            WorkflowEditor zoom = (WorkflowEditor)d;
             zoom.CoerceValue(ViewportZoomProperty);
         }
 
         private static object CoerceMaxViewportZoom(DependencyObject d, object value)
         {
-            var editor = (WorkflowEditor)d;
+            WorkflowEditor editor = (WorkflowEditor)d;
             double min = editor.MinViewportZoom;
-
-            return (double)value < min ? min : value;
+            return ((double)value < min) ? min : value;
         }
 
         private static object ConstrainViewportZoomToRange(DependencyObject d, object value)
         {
-            var editor = (WorkflowEditor)d;
-
-            var num = (double)value;
+            WorkflowEditor editor = (WorkflowEditor)d;
+            double num = (double)value;
             double minimum = editor.MinViewportZoom;
             if (num < minimum)
             {
                 return minimum;
             }
-
             double maximum = editor.MaxViewportZoom;
-            return num > maximum ? maximum : value;
+            return (num > maximum) ? maximum : value;
         }
-
-        protected internal WorkflowCanvas ItemsHost { get; private set; }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-
-            ItemsHost = GetTemplateChild("PART_ItemsHost") as WorkflowCanvas ?? throw new InvalidOperationException("PART_ItemsHost is missing or is not of type Panel.");
-
-            OnDisableAutoPanningChanged(DisableAutoPanning); 
+            ItemsHost = (GetTemplateChild("PART_ItemsHost") as WorkflowCanvas) ?? throw new InvalidOperationException("PART_ItemsHost is missing or is not of type Panel.");
+            OnDisableAutoPanningChanged(DisableAutoPanning);
         }
 
         protected override DependencyObject GetContainerForItemOverride()
         {
-            return new WorkflowItem()
+            return new WorkflowItem
             {
                 EditorParent = ItemsHost,
                 RenderTransform = new TranslateTransform()
@@ -348,26 +345,20 @@ namespace OhmStudio.UI.Controls
             return item is WorkflowItem;
         }
 
-        private DispatcherTimer _autoPanningTimer;
-        public static double AutoPanningTickRate { get; set; } = 1;
-
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
-            ItemsHost.HandleLMouseDown(e);
+            ItemsHost.HandleMouseDown(e);
             MouseLocation = e.GetPosition(ItemsHost);
             Focus();
-
             _previousMousePosition = e.GetPosition(this);
-
             _startLocation = MouseLocation;
-
             if (ItemsHost.EditorStatus == EditorStatus.None)
             {
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
                     IsSelecting = true;
                     IsPanning = false;
-                    SelectedArea = new Rect();
+                    SelectedArea = default;
                 }
                 else if (e.RightButton == MouseButtonState.Pressed)
                 {
@@ -381,40 +372,30 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        private Point _previousMousePosition;
-
-        private Point _startLocation;
-
-        /// <inheritdoc />
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            MouseLocation = Mouse.GetPosition(ItemsHost);
-
+            MouseLocation = e.GetPosition(ItemsHost);
             if (IsPanning)
             {
-                var currentMousePosition = Mouse.GetPosition(this);
+                Point currentMousePosition = e.GetPosition(this);
                 ViewportLocation -= (currentMousePosition - _previousMousePosition) / ViewportZoom;
                 _previousMousePosition = currentMousePosition;
-                //Debug.WriteLine(ViewportLocation);
             }
-            if (IsSelecting)
+            else if (IsSelecting)
             {
-                var endLocation = MouseLocation;
-                double left = endLocation.X < _startLocation.X ? endLocation.X : _startLocation.X;
-                double top = endLocation.Y < _startLocation.Y ? endLocation.Y : _startLocation.Y;
+                Point endLocation = MouseLocation;
+                double left = ((endLocation.X < _startLocation.X) ? endLocation.X : _startLocation.X);
+                double top = ((endLocation.Y < _startLocation.Y) ? endLocation.Y : _startLocation.Y);
                 double width = Math.Abs(endLocation.X - _startLocation.X);
                 double height = Math.Abs(endLocation.Y - _startLocation.Y);
-
                 SelectedArea = new Rect(left, top, width, height);
-
-                if (width >= 1 || height >= 1)
+                if (width >= 1.0 || height >= 1.0)
                 {
                     RectangleGeometry rectangleGeometry = new RectangleGeometry(SelectedArea);
                     ItemsHost.BeginUpdateSelectedItems();
-                    foreach (var item in ItemsHost.WorkflowItems)
+                    foreach (WorkflowItem item in ItemsHost.WorkflowItems)
                     {
                         item.IsSelected = CheckOverlap(rectangleGeometry, item);
-                        //item.IsSelected = selectedArea.IntersectsWith(new Rect(GetLeft(item), GetTop(item), item.ActualWidth, item.ActualHeight));
                     }
                     ItemsHost.EndUpdateSelectedItems();
                 }
@@ -435,14 +416,10 @@ namespace OhmStudio.UI.Controls
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             MouseLocation = e.GetPosition(ItemsHost);
-
-            // Release the mouse capture if all the mouse buttons are released
             if (IsMouseCaptured && e.RightButton == MouseButtonState.Released && e.LeftButton == MouseButtonState.Released && e.MiddleButton == MouseButtonState.Released)
             {
                 ReleaseMouseCapture();
             }
-
-            // Disable context menu if selecting
             if (IsSelecting)
             {
                 e.Handled = true;
@@ -450,11 +427,6 @@ namespace OhmStudio.UI.Controls
             IsPanning = false;
             IsSelecting = false;
         }
-
-        protected override void OnLostMouseCapture(MouseEventArgs e)
-        { }
-
-        internal bool IsCtrlKeyDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
@@ -467,10 +439,8 @@ namespace OhmStudio.UI.Controls
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
-            double zoom = Math.Pow(2.0, e.Delta / 3.0 / Mouse.MouseWheelDeltaForOneLine);
+            double zoom = Math.Pow(2.0, e.Delta / 3.0 / 120.0);
             ZoomAtPosition(zoom, e.GetPosition(ItemsHost));
-
-            // Handle it for nested editors
             if (e.Source is WorkflowEditor)
             {
                 e.Handled = true;
@@ -483,10 +453,9 @@ namespace OhmStudio.UI.Controls
             {
                 Point mousePosition = Mouse.GetPosition(this);
                 double edgeDistance = AutoPanEdgeDistance;
-                double autoPanSpeed = Math.Min(AutoPanSpeed, AutoPanSpeed * AutoPanningTickRate) / (ViewportZoom * 2);
+                double autoPanSpeed = Math.Min(AutoPanSpeed, AutoPanSpeed * AutoPanningTickRate) / (ViewportZoom * 2.0);
                 double x = ViewportLocation.X;
                 double y = ViewportLocation.Y;
-
                 if (mousePosition.X <= edgeDistance)
                 {
                     x -= autoPanSpeed;
@@ -495,7 +464,6 @@ namespace OhmStudio.UI.Controls
                 {
                     x += autoPanSpeed;
                 }
-
                 if (mousePosition.Y <= edgeDistance)
                 {
                     y -= autoPanSpeed;
@@ -504,10 +472,8 @@ namespace OhmStudio.UI.Controls
                 {
                     y += autoPanSpeed;
                 }
-
                 ViewportLocation = new Point(x, y);
                 MouseLocation = Mouse.GetPosition(ItemsHost);
-
                 OnMouseMove(new MouseEventArgs(Mouse.PrimaryDevice, 0));
             }
         }
@@ -517,48 +483,38 @@ namespace OhmStudio.UI.Controls
             if (shouldDisable)
             {
                 _autoPanningTimer?.Stop();
+                return;
             }
-            else if (_autoPanningTimer == null)
+            if (_autoPanningTimer == null)
             {
-                _autoPanningTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(AutoPanningTickRate),
-                    DispatcherPriority.Render, HandleAutoPanning, Dispatcher);
+                _autoPanningTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(AutoPanningTickRate), DispatcherPriority.Render, HandleAutoPanning, Dispatcher);
+                return;
             }
-            else
-            {
-                _autoPanningTimer.Interval = TimeSpan.FromMilliseconds(AutoPanningTickRate);
-                _autoPanningTimer.Start();
-            }
+            _autoPanningTimer.Interval = TimeSpan.FromMilliseconds(AutoPanningTickRate);
+            _autoPanningTimer.Start();
         }
 
         public void ZoomAtPosition(double zoom, Point location)
         {
-            //if (!DisableZooming)
-            //{
             double prevZoom = ViewportZoom;
             ViewportZoom *= zoom;
-
             if (Math.Abs(prevZoom - ViewportZoom) > 0.001)
             {
-                // get the actual zoom value because Zoom might have been coerced
                 zoom = ViewportZoom / prevZoom;
                 Vector position = (Vector)location;
-
-                var dist = position - (Vector)ViewportLocation;
-                var zoomedDist = dist * zoom;
-                var diff = zoomedDist - dist;
+                Vector dist = position - (Vector)ViewportLocation;
+                Vector zoomedDist = dist * zoom;
+                Vector diff = zoomedDist - dist;
                 ViewportLocation += diff / zoom;
             }
-            //}
         }
 
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
-
             double zoom = ViewportZoom;
             ViewportSize = new Size(ActualWidth / zoom, ActualHeight / zoom);
-
-            //OnViewportUpdated();
         }
     }
+
 }

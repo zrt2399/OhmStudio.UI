@@ -175,7 +175,8 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="Transparent"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}">
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                SnapsToDevicePixels="True">
                             <Border.Effect>
                                 <DropShadowEffect BlurRadius="{Binding BlurRadius, RelativeSource={RelativeSource TemplatedParent}}"
                                                   Direction="{Binding ShadowDirection, RelativeSource={RelativeSource TemplatedParent}}"
@@ -188,7 +189,8 @@
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}">
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                SnapsToDevicePixels="True">
                             <ContentPresenter Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
@@ -1575,6 +1577,7 @@
 
     <Style TargetType="controls:WorkflowEditor">
         <Setter Property="ClipToBounds" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="False" />
         <Setter Property="GridLineBrush" Value="{DynamicResource WorkflowEditorGridLineBrush}" />
         <Setter Property="Template">
             <Setter.Value>

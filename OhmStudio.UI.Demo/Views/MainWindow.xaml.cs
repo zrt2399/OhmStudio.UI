@@ -60,21 +60,22 @@ namespace OhmStudio.UI.Demo.Views
                 _braceFoldingStrategy.UpdateFolding(jsonFoldingManager, textEditorxmljson.Document);
             };
             dispatcherTimer.Start();
+        }
 
-            MouseWheel += (sender, e) =>
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            base.OnMouseWheel(e);
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
             {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                if (e.Delta > 0)
                 {
-                    if (e.Delta > 0)
-                    {
-                        _mainViewModel.ZoomOut();
-                    }
-                    else
-                    {
-                        _mainViewModel.ZoomIn();
-                    }
+                    _mainViewModel.ZoomOut();
                 }
-            };
+                else
+                {
+                    _mainViewModel.ZoomIn();
+                }
+            }
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -93,9 +94,8 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(200);
             var version = Assembly.GetAssembly(typeof(ChromeWindow)).GetName().Version.ToString();
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 1; i <= 100; i++)
@@ -110,11 +110,11 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            //Task.Run(() =>
-            //{
-            //    AlertDialog.ShowError("AlertDialog.ShowError");
-            //});
-            Messenger.Default.Send("AlertDialog.Show", MessageType.AlertDialog);
+            Task.Run(() =>
+            {
+                AlertDialog.ShowError("AlertDialog.ShowError(In Task)");
+            });
+            //Messenger.Default.Send("AlertDialog.Show", MessageType.AlertDialog);
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)

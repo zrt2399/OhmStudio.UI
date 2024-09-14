@@ -12,11 +12,6 @@
     <!--<system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">100</system:Double>
     <system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">100</system:Double>-->
 
-    <Style TargetType="Border">
-        <Setter Property="UseLayoutRounding" Value="False" />
-        <Setter Property="SnapsToDevicePixels" Value="False" />
-    </Style>
-
     <Style BasedOn="{StaticResource {x:Type ScrollViewer}}" TargetType="ScrollViewer">
         <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}" />
         <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}" />
