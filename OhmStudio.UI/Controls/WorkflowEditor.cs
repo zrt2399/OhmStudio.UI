@@ -213,7 +213,7 @@ namespace OhmStudio.UI.Controls
 
         protected internal WorkflowCanvas ItemsHost { get; private set; }
 
-        public static double AutoPanningTickRate { get; set; } = 1;
+        public double AutoPanningTickRate { get; set; } = 1;
 
         internal bool IsCtrlKeyDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
 
