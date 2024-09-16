@@ -639,6 +639,7 @@
                                             <RadioButton>RadioButton</RadioButton>
                                             <RadioButton>123</RadioButton>
                                             <RadioButton>456</RadioButton>
+                                            <RadioButton RadioButtonAttach.RadioButtonSize="20" />
                                             <RadioButton RadioButtonAttach.RadioButtonSize="30" />
                                             <RadioButton RadioButtonAttach.RadioButtonSize="40" />
                                             <RadioButton RadioButtonAttach.RadioButtonSize="50" />
@@ -648,6 +649,7 @@
                                         <WrapPanel Orientation="Horizontal">
                                             <CheckBox />
                                             <CheckBox Content="CheckBox" IsChecked="{x:Null}" />
+                                            <CheckBox CheckBoxAttach.CheckBoxSize="20" IsChecked="{x:Null}" />
                                             <CheckBox CheckBoxAttach.CheckBoxSize="30" IsChecked="{x:Null}" />
                                             <CheckBox CheckBoxAttach.CheckBoxSize="40" IsChecked="{x:Null}" />
                                             <CheckBox CheckBoxAttach.CheckBoxSize="50" IsChecked="{x:Null}" />
@@ -756,9 +758,12 @@
                                         </WorkflowCanvas>
                                     </TabItem>-->
                                     <TabItem Header="MvvmBinding" IsSelected="True">
-                                        <Grid GridAttach.RowDefinitions="*,Auto">
-                                            <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">-->
-                                            <WorkflowEditor x:Name="WorkflowEditor"
+                                        <Grid GridAttach.RowDefinitions="Auto,*,Auto">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Click="Button_Click_19">BringIntoView</Button>
+                                            </StackPanel>
+                                            <WorkflowEditor x:Name="workflowEditor"
+                                                            Grid.Row="1"
                                                             ItemsSource="{Binding WorkflowItemModels}"
                                                             SelectedItems="{Binding SelectedWorkflowItems}">
 
@@ -807,7 +812,10 @@
                                                     <DataTemplate>
                                                         <Grid GridAttach.ColumnDefinitions="*,*,*" GridAttach.RowDefinitions="*,*,*">
                                                             <!--<Button Content="{Binding IsSelected}" />-->
-                                                            <ComboBox Grid.Column="2" />
+                                                            <TextBlock Grid.Column="2">
+                                                                <Run Text="{Binding Top, StringFormat=Top:{0}}" />
+                                                                <Run Text="{Binding Left, StringFormat=Left:{0}}" />
+                                                            </TextBlock>
                                                             <CheckBox HorizontalAlignment="Right"
                                                                       VerticalAlignment="Center"
                                                                       IsChecked="{Binding IsDraggable}">
@@ -829,22 +837,28 @@
                                                     </DataTemplate>
                                                 </WorkflowEditor.ItemTemplate>
                                             </WorkflowEditor>
-                                            <!--</ScrollViewer>-->
 
-                                            <Grid Grid.Row="1">
+                                            <Grid Grid.Row="2">
                                                 <!--<TextBlock>
-                                                    <Run Text="{Binding ElementName=WorkflowEditor, Path=MousePosition.X, StringFormat=X:{0}}" />
-                                                    <Run Text="{Binding ElementName=WorkflowEditor, Path=MousePosition.Y, StringFormat=Y:{0}}" />
+                                                    <Run Text="{Binding ElementName=workflowEditor, Path=MousePosition.X, StringFormat=X:{0}}" />
+                                                    <Run Text="{Binding ElementName=workflowEditor, Path=MousePosition.Y, StringFormat=Y:{0}}" />
                                                 </TextBlock>-->
                                                 <TextBlock HorizontalAlignment="Left">
                                                     <Run Text="{Binding WorkflowItemModels.Count, StringFormat=WorkflowItems.Count:{0}, Mode=OneWay}" />
                                                     <Run Text="{Binding SelectedWorkflowItems.Count, StringFormat=SelectedWorkflowItems.Count:{0}, Mode=OneWay}" />
                                                 </TextBlock>
-                                                <TextBlock HorizontalAlignment="Right">
-                                                    <!--<Run Text="{Binding ElementName=WorkflowEditor, Path=(WorkflowCanvas.EditorStatus), StringFormat=EditorStatus:{0}}" />-->
-                                                    <Run Text="{Binding ElementName=WorkflowEditor, Path=IsKeyboardFocusWithin, StringFormat=IsKeyboardFocusWithin:{0}, Mode=OneWay}" />
-                                                    <Run Text="{Binding ElementName=WorkflowEditor, Path=ViewportZoom, StringFormat=Zoom:{0}}" />
-                                                </TextBlock>
+                                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                    <TextBlock>
+                                                        <!--<Run Text="{Binding ElementName=workflowEditor, Path=(WorkflowCanvas.EditorStatus), StringFormat=EditorStatus:{0}}" />-->
+                                                        <Run Text="{Binding ElementName=workflowEditor, Path=IsKeyboardFocusWithin, StringFormat=IsKeyboardFocusWithin:{0}, Mode=OneWay}" />
+                                                        <Run Text="{Binding ElementName=workflowEditor, Path=ViewportZoom, StringFormat=Zoom:{0}}" />
+                                                    </TextBlock>
+                                                    <Slider Width="100"
+                                                            Maximum="{Binding ElementName=workflowEditor, Path=MaxViewportZoom}"
+                                                            Minimum="{Binding ElementName=workflowEditor, Path=MinViewportZoom}"
+                                                            Value="{Binding ElementName=workflowEditor, Path=ViewportZoom}" />
+                                                </StackPanel>
+
                                             </Grid>
                                         </Grid>
                                     </TabItem>

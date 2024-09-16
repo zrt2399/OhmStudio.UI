@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using OhmStudio.UI.Commands;
+using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
@@ -56,6 +57,15 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty GridLineBrushProperty;
 
         public static readonly DependencyProperty SelectedItemsProperty;
+
+        public static readonly DependencyProperty BringIntoViewSpeedProperty = DependencyProperty.Register(nameof(BringIntoViewSpeed), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(1000d));
+
+        public static readonly DependencyProperty DisablePanningProperty = DependencyProperty.Register(nameof(DisablePanning), typeof(bool), typeof(WorkflowEditor), new FrameworkPropertyMetadata(false, OnDisablePanningChanged));
+
+        public static readonly DependencyProperty DisableZoomingProperty = DependencyProperty.Register(nameof(DisableZooming), typeof(bool), typeof(WorkflowEditor), new FrameworkPropertyMetadata(false));
+
+        public static readonly DependencyProperty BringIntoViewMaxDurationProperty = DependencyProperty.Register(nameof(BringIntoViewMaxDuration), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(1d));
+
 
         protected readonly TranslateTransform TranslateTransform = new TranslateTransform();
 
@@ -171,6 +181,30 @@ namespace OhmStudio.UI.Controls
             set => SetValue(AutoPanEdgeDistanceProperty, value);
         }
 
+        public double BringIntoViewSpeed
+        {
+            get => (double)GetValue(BringIntoViewSpeedProperty);
+            set => SetValue(BringIntoViewSpeedProperty, value);
+        }
+
+        public bool DisablePanning
+        {
+            get => (bool)GetValue(DisablePanningProperty);
+            set => SetValue(DisablePanningProperty, value);
+        }
+
+        public bool DisableZooming
+        {
+            get => (bool)GetValue(DisableZoomingProperty);
+            set => SetValue(DisableZoomingProperty, value);
+        }
+
+        public double BringIntoViewMaxDuration
+        {
+            get => (double)GetValue(BringIntoViewMaxDurationProperty);
+            set => SetValue(BringIntoViewMaxDurationProperty, value);
+        }
+
         public ICommand SelectAllCommand { get; }
 
         public ICommand UnselectAllCommand { get; }
@@ -203,7 +237,7 @@ namespace OhmStudio.UI.Controls
             MouseLocationProperty = MouseLocationPropertyKey.DependencyProperty;
             SelectedAreaPropertyKey = DependencyProperty.RegisterReadOnly(nameof(SelectedArea), typeof(Rect), typeof(WorkflowEditor), new FrameworkPropertyMetadata(default(Rect)));
             SelectedAreaProperty = SelectedAreaPropertyKey.DependencyProperty;
-            AutoPanSpeedProperty = DependencyProperty.Register(nameof(AutoPanSpeed), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(10.0));
+            AutoPanSpeedProperty = DependencyProperty.Register(nameof(AutoPanSpeed), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(15.0));
             AutoPanEdgeDistanceProperty = DependencyProperty.Register(nameof(AutoPanEdgeDistance), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(1.0));
             GridSpacingProperty = DependencyProperty.Register(nameof(GridSpacing), typeof(uint), typeof(WorkflowEditor), new FrameworkPropertyMetadata(20u));
             GridLineBrushProperty = DependencyProperty.Register(nameof(GridLineBrush), typeof(Brush), typeof(WorkflowEditor), new FrameworkPropertyMetadata(Brushes.LightGray));
@@ -322,6 +356,42 @@ namespace OhmStudio.UI.Controls
             }
             double maximum = editor.MaxViewportZoom;
             return (num > maximum) ? maximum : value;
+        }
+
+        private static void OnDisablePanningChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var editor = (WorkflowEditor)d;
+            editor.OnDisableAutoPanningChanged(editor.DisableAutoPanning || editor.DisablePanning);
+        }
+
+        public void BringIntoView(Point point, bool animated = true, Action onFinish = null)
+        {
+            Point newLocation = (Point)((Vector)point - (Vector)ViewportSize / 2);
+
+            if (animated && newLocation != ViewportLocation)
+            {
+                IsPanning = true;
+                DisablePanning = true;
+                DisableZooming = true;
+
+                double distance = (newLocation - ViewportLocation).Length;
+                double duration = distance / (BringIntoViewSpeed + (distance / 10)) * ViewportZoom;
+                duration = Math.Max(0.1, Math.Min(duration, BringIntoViewMaxDuration));
+
+                this.StartAnimation(ViewportLocationProperty, newLocation, duration, (s, e) =>
+                {
+                    IsPanning = false;
+                    DisablePanning = false;
+                    DisableZooming = false;
+
+                    onFinish?.Invoke();
+                });
+            }
+            else
+            {
+                ViewportLocation = newLocation;
+                onFinish?.Invoke();
+            }
         }
 
         public override void OnApplyTemplate()
@@ -496,16 +566,19 @@ namespace OhmStudio.UI.Controls
 
         public void ZoomAtPosition(double zoom, Point location)
         {
-            double prevZoom = ViewportZoom;
-            ViewportZoom *= zoom;
-            if (Math.Abs(prevZoom - ViewportZoom) > 0.001)
+            if (!DisableZooming)
             {
-                zoom = ViewportZoom / prevZoom;
-                Vector position = (Vector)location;
-                Vector dist = position - (Vector)ViewportLocation;
-                Vector zoomedDist = dist * zoom;
-                Vector diff = zoomedDist - dist;
-                ViewportLocation += diff / zoom;
+                double prevZoom = ViewportZoom;
+                ViewportZoom *= zoom;
+                if (Math.Abs(prevZoom - ViewportZoom) > 0.001)
+                {
+                    zoom = ViewportZoom / prevZoom;
+                    Vector position = (Vector)location;
+                    Vector dist = position - (Vector)ViewportLocation;
+                    Vector zoomedDist = dist * zoom;
+                    Vector diff = zoomedDist - dist;
+                    ViewportLocation += diff / zoom;
+                }
             }
         }
 

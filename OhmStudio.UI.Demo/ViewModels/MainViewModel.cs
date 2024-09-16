@@ -64,7 +64,7 @@ namespace OhmStudio.UI.Demo.ViewModels
 
             AddWorkflowItemCommand = new RelayCommand<StepType>((stepType) =>
             {
-                var point = MainWindow.WorkflowEditor.MouseLocation;
+                var point = MainWindow.workflowEditor.MouseLocation;
                 WorkflowItemModel workflowItemModel = new WorkflowItemModel();
                 workflowItemModel.Name = EnumDescriptionConverter.GetEnumDesc(stepType);
                 workflowItemModel.StepType = stepType;

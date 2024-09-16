@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.Helpers;
@@ -20,6 +21,52 @@ namespace OhmStudio.UI.PublicMethods
 
     public static class ExtensionMethod
     {
+        public static void StartAnimation(this UIElement animatableElement, DependencyProperty dependencyProperty, Point toValue, double animationDurationSeconds, EventHandler completedEvent = null)
+        {
+            var fromValue = (Point)animatableElement.GetValue(dependencyProperty);
+
+            PointAnimation animation = new PointAnimation
+            {
+                From = fromValue,
+                To = toValue,
+                Duration = TimeSpan.FromSeconds(animationDurationSeconds)
+            };
+
+            animation.Completed += delegate (object sender, EventArgs e)
+            {
+                animatableElement.SetValue(dependencyProperty, animatableElement.GetValue(dependencyProperty));
+                CancelAnimation(animatableElement, dependencyProperty);
+
+                completedEvent?.Invoke(sender, e);
+            };
+
+            animation.Freeze();
+
+            animatableElement.BeginAnimation(dependencyProperty, animation);
+        }
+
+        public static void StartLoopingAnimation(this UIElement animatableElement, DependencyProperty dependencyProperty, double toValue, double durationInSeconds)
+        {
+            var fromValue = (double)animatableElement.GetValue(dependencyProperty);
+
+            var animation = new DoubleAnimation
+            {
+                From = fromValue,
+                To = toValue,
+                Duration = TimeSpan.FromSeconds(durationInSeconds)
+            };
+
+            animation.RepeatBehavior = RepeatBehavior.Forever;
+
+            animation.Freeze();
+            animatableElement.BeginAnimation(dependencyProperty, animation);
+        }
+
+        public static void CancelAnimation(this UIElement animatableElement, DependencyProperty dependencyProperty)
+        {
+            animatableElement.BeginAnimation(dependencyProperty, null);
+        }
+
         public static Geometry DrawPolygon(this DrawingContext dc, Brush brush, Pen pen, params Point[] points)
         {
             if (!points.Any())

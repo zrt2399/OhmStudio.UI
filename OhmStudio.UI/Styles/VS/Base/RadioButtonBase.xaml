@@ -8,7 +8,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Foreground" Value="{DynamicResource CommonControlsRadioButtonText}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="attaches:RadioButtonAttach.RadioButtonSize" Value="12" />
+        <Setter Property="attaches:RadioButtonAttach.RadioButtonSize" Value="14" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">

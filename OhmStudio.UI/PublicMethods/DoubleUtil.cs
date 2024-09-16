@@ -185,5 +185,24 @@ namespace OhmStudio.UI.PublicMethods
         {
             return !double.IsNaN(value) && !double.IsInfinity(value);
         }
+
+        internal static double RoundLayoutValue(double value, double dpiScale)
+        {
+            double num;
+            if (!AreClose(dpiScale, 1.0))
+            {
+                num = Math.Round(value * dpiScale) / dpiScale;
+                if (IsNaN(num) || double.IsInfinity(num) || AreClose(num, double.MaxValue))
+                {
+                    num = value;
+                }
+            }
+            else
+            {
+                num = Math.Round(value);
+            }
+
+            return num;
+        }
     }
 }

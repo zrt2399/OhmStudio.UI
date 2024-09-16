@@ -234,6 +234,11 @@ namespace OhmStudio.UI.Demo.Views
                 AlertDialog.Show(userPermission.ToString());
             }
         }
+
+        private void Button_Click_19(object sender, RoutedEventArgs e)
+        {
+            workflowEditor.BringIntoView(new Point());
+        }
     }
 
     public class BraceFoldingStrategy
