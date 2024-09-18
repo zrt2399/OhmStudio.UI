@@ -70,9 +70,9 @@ namespace OhmStudio.UI.Controls
             DeleteCommand = new RelayCommand(Delete);
         }
 
-        internal PathItem(WorkflowCanvas editorParent) : this()
+        internal PathItem(WorkflowCanvas canvasParent) : this()
         {
-            EditorParent = editorParent;
+            CanvasParent = canvasParent;
         }
 
         internal static readonly DependencyProperty StartPointProperty =
@@ -115,8 +115,8 @@ namespace OhmStudio.UI.Controls
                 var pathItem = (PathItem)sender;
                 if (pathItem.StartEllipseItem != null && pathItem.EndEllipseItem != null)
                 {
-                    var startPoint = pathItem.StartEllipseItem.GetPoint(pathItem.EditorParent);
-                    var endPoint = pathItem.EndEllipseItem.GetPoint(pathItem.EditorParent);
+                    var startPoint = pathItem.StartEllipseItem.GetPoint(pathItem.CanvasParent);
+                    var endPoint = pathItem.EndEllipseItem.GetPoint(pathItem.CanvasParent);
                     pathItem.UpdateCurveAngle(startPoint, endPoint);
                 }
             }));
@@ -193,7 +193,7 @@ namespace OhmStudio.UI.Controls
             set => SetValue(StrokeDashArrayProperty, value);
         }
 
-        internal WorkflowCanvas EditorParent { get; set; }
+        internal WorkflowCanvas CanvasParent { get; set; }
 
         public ICommand DeleteCommand { get; }
 
@@ -261,7 +261,7 @@ namespace OhmStudio.UI.Controls
             EndEllipseItem = null;
             ContextMenu = null;
             BindingOperations.ClearAllBindings(this);
-            EditorParent.Children.Remove(this);
+            CanvasParent.Children.Remove(this);
         }
     }
 
@@ -366,7 +366,9 @@ namespace OhmStudio.UI.Controls
 
         public bool IsInit { get; private set; }
 
-        public WorkflowCanvas EditorParent { get; internal set; }
+        public WorkflowCanvas CanvasParent { get; internal set; }
+
+        public WorkflowEditor EditorParent => CanvasParent.EditorParent;
 
         public bool IsDraggable
         {
@@ -422,15 +424,20 @@ namespace OhmStudio.UI.Controls
             EllipseTop = GetTemplateChild("EllipseTop") as EllipseItem;
             EllipseRight = GetTemplateChild("EllipseRight") as EllipseItem;
             EllipseBottom = GetTemplateChild("EllipseBottom") as EllipseItem;
-            EllipseItems = new Dictionary<Dock, EllipseItem>();
+
             PART_Thumb = GetTemplateChild("PART_Thumb") as Thumb;
             PART_Thumb.DragDelta += Thumb_DragDelta;
             PART_Thumb.DragCompleted += PART_Thumb_DragCompleted;
 
-            EllipseItems.Add(EllipseLeft.Dock, EllipseLeft);
-            EllipseItems.Add(EllipseTop.Dock, EllipseTop);
-            EllipseItems.Add(EllipseRight.Dock, EllipseRight);
-            EllipseItems.Add(EllipseBottom.Dock, EllipseBottom);
+            if (EllipseItems == null)
+            {
+                EllipseItems = new Dictionary<Dock, EllipseItem>();
+                EllipseItems.Add(EllipseLeft.Dock, EllipseLeft);
+                EllipseItems.Add(EllipseTop.Dock, EllipseTop);
+                EllipseItems.Add(EllipseRight.Dock, EllipseRight);
+                EllipseItems.Add(EllipseBottom.Dock, EllipseBottom);
+            }
+      
             foreach (var item in EllipseItems.Values)
             {
                 item.WorkflowParent = this;
@@ -466,16 +473,16 @@ namespace OhmStudio.UI.Controls
         {
             if (IsKeyboardFocusWithin)
             {
-                EditorParent.BeginUpdateSelectedItems();
+                CanvasParent.BeginUpdateSelectedItems();
                 IsSelected = true;
-                if (!EditorParent.IsCtrlKeyDown)
+                if (!CanvasParent.IsCtrlKeyDown)
                 {
-                    foreach (var item in EditorParent.SelectableElements.Where(x => x != this))
+                    foreach (var item in CanvasParent.SelectableElements.Where(x => x != this))
                     {
                         item.IsSelected = false;
                     }
                 }
-                EditorParent.EndUpdateSelectedItems();
+                CanvasParent.EndUpdateSelectedItems();
             }
         }
 
@@ -512,7 +519,7 @@ namespace OhmStudio.UI.Controls
                 }
             }
             BindingOperations.ClearAllBindings(this);
-            EditorParent.Children.Remove(this);
+            CanvasParent.Children.Remove(this);
         }
 
         private static void OnWorkflowItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -527,7 +534,7 @@ namespace OhmStudio.UI.Controls
 
         internal WorkflowItem FirstOrDefault(object item)
         {
-            return EditorParent.FirstOrDefault(item);
+            return CanvasParent.FirstOrDefault(item);
         }
 
         public void UpdateCurve()
@@ -555,6 +562,17 @@ namespace OhmStudio.UI.Controls
             }
         }
 
+        internal bool CheckOverlap(RectangleGeometry rectangleGeometry)
+        {
+            GeneralTransform transform = TransformToVisual(CanvasParent);
+            Geometry geometry = Geometry?.Clone();
+            if (geometry != null)
+            {
+                geometry.Transform = (Transform)transform;
+            }
+            return rectangleGeometry.FillContainsWithDetail(geometry) != IntersectionDetail.Empty;
+        }
+
         private void WorkflowItem_Loaded(object sender, RoutedEventArgs e)
         {
             Loaded -= WorkflowItem_Loaded;
@@ -570,24 +588,29 @@ namespace OhmStudio.UI.Controls
 
             if (pathItem == null)
             {
-                pathItem = new PathItem(EditorParent);
+                pathItem = new PathItem(CanvasParent);
                 if (DataContext is not WorkflowItem)
                 {
                     pathItem.Content = DataContext;
+                    pathItem.DataContext = DataContext;
                     pathItem.ContentTemplate = EditorParent.PathTemplate;
                     pathItem.ContentTemplateSelector = EditorParent.PathTemplateSelector;
                     if (EditorParent.PathContainerStyle != null)
                     {
                         pathItem.Style = EditorParent.PathContainerStyle;
                     }
+                    else if (EditorParent.PathContainerStyleSelector != null)
+                    {
+                        pathItem.Style = EditorParent.PathContainerStyleSelector.SelectStyle(DataContext, pathItem);
+                    }
                 }
-                EditorParent.Children.Add(pathItem);
+                CanvasParent.Children.Add(pathItem);
                 startEllipseItem.PathItem = pathItem;
                 endEllipseItem.PathItem = pathItem;
                 pathItem.StartEllipseItem = startEllipseItem;
                 pathItem.EndEllipseItem = endEllipseItem;
             }
-            pathItem.UpdateBezierCurve(pathItem.StartEllipseItem.GetPoint(EditorParent), pathItem.EndEllipseItem.GetPoint(EditorParent));
+            pathItem.UpdateBezierCurve(pathItem.StartEllipseItem.GetPoint(CanvasParent), pathItem.EndEllipseItem.GetPoint(CanvasParent));
         }
     }
 }

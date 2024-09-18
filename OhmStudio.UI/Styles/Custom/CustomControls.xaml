@@ -1614,13 +1614,8 @@
                                 BorderThickness="{TemplateBinding BorderThickness}">
                             <Canvas RenderTransform="{TemplateBinding ViewportTransform}">
                                 <controls:WorkflowCanvas x:Name="PART_ItemsHost"
-                                                         GridSpacing="{TemplateBinding GridSpacing}"
-                                                         ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
-                                                         ItemContainerStyleSelector="{TemplateBinding ItemContainerStyleSelector}"
-                                                         ItemTemplate="{TemplateBinding ItemTemplate}"
-                                                         ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                                         ItemsSource="{TemplateBinding ItemsSource}"
-                                                         SelectedItems="{TemplateBinding SelectedItems}" />
+                                                         EditorParent="{Binding ., RelativeSource={RelativeSource TemplatedParent}}"
+                                                         ItemsSource="{TemplateBinding ItemsSource}" />
                                 <Rectangle Canvas.Left="{Binding SelectedArea.X, RelativeSource={RelativeSource TemplatedParent}}"
                                            Canvas.Top="{Binding SelectedArea.Y, RelativeSource={RelativeSource TemplatedParent}}"
                                            Fill="#88AACCEE"

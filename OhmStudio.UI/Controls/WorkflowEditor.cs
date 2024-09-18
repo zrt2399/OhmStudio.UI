@@ -67,6 +67,18 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty BringIntoViewMaxDurationProperty = DependencyProperty.Register(nameof(BringIntoViewMaxDuration), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(1d));
 
 
+        public static readonly DependencyProperty PathTemplateProperty =
+            DependencyProperty.Register(nameof(PathTemplate), typeof(DataTemplate), typeof(WorkflowEditor));
+
+        public static readonly DependencyProperty PathTemplateSelectorProperty =
+            DependencyProperty.Register(nameof(PathTemplateSelector), typeof(DataTemplateSelector), typeof(WorkflowEditor));
+
+        public static readonly DependencyProperty PathContainerStyleProperty =
+            DependencyProperty.Register(nameof(PathContainerStyle), typeof(Style), typeof(WorkflowEditor));
+
+        public static readonly DependencyProperty PathContainerStyleSelectorProperty =
+            DependencyProperty.Register(nameof(PathContainerStyleSelector), typeof(StyleSelector), typeof(WorkflowEditor));
+ 
         protected readonly TranslateTransform TranslateTransform = new TranslateTransform();
 
         protected readonly ScaleTransform ScaleTransform = new ScaleTransform();
@@ -204,7 +216,31 @@ namespace OhmStudio.UI.Controls
             get => (double)GetValue(BringIntoViewMaxDurationProperty);
             set => SetValue(BringIntoViewMaxDurationProperty, value);
         }
+ 
+        public DataTemplate PathTemplate
+        {
+            get => (DataTemplate)GetValue(PathTemplateProperty);
+            set => SetValue(PathTemplateProperty, value);
+        }
 
+        public DataTemplateSelector PathTemplateSelector
+        {
+            get => (DataTemplateSelector)GetValue(PathTemplateSelectorProperty);
+            set => SetValue(PathTemplateSelectorProperty, value);
+        }
+
+        public Style PathContainerStyle
+        {
+            get => (Style)GetValue(PathContainerStyleProperty);
+            set => SetValue(PathContainerStyleProperty, value);
+        }
+
+        public StyleSelector PathContainerStyleSelector
+        {
+            get => (StyleSelector)GetValue(PathContainerStyleSelectorProperty);
+            set => SetValue(PathContainerStyleSelectorProperty, value);
+        }
+ 
         public ICommand SelectAllCommand { get; }
 
         public ICommand UnselectAllCommand { get; }
@@ -405,7 +441,7 @@ namespace OhmStudio.UI.Controls
         {
             return new WorkflowItem
             {
-                EditorParent = ItemsHost,
+                CanvasParent = ItemsHost,
                 RenderTransform = new TranslateTransform()
             };
         }
@@ -454,8 +490,8 @@ namespace OhmStudio.UI.Controls
             else if (IsSelecting)
             {
                 Point endLocation = MouseLocation;
-                double left = ((endLocation.X < _startLocation.X) ? endLocation.X : _startLocation.X);
-                double top = ((endLocation.Y < _startLocation.Y) ? endLocation.Y : _startLocation.Y);
+                double left = Math.Min(endLocation.X, _startLocation.X);
+                double top = Math.Min(endLocation.Y, _startLocation.Y);
                 double width = Math.Abs(endLocation.X - _startLocation.X);
                 double height = Math.Abs(endLocation.Y - _startLocation.Y);
                 SelectedArea = new Rect(left, top, width, height);
@@ -465,22 +501,11 @@ namespace OhmStudio.UI.Controls
                     ItemsHost.BeginUpdateSelectedItems();
                     foreach (var item in ItemsHost.WorkflowItems)
                     {
-                        item.IsSelected = CheckOverlap(rectangleGeometry, item);
+                        item.IsSelected = item.CheckOverlap(rectangleGeometry);
                     }
                     ItemsHost.EndUpdateSelectedItems();
                 }
             }
-        }
-
-        private bool CheckOverlap(RectangleGeometry rectangleGeometry, WorkflowItem workflowItem)
-        {
-            GeneralTransform transform = workflowItem.TransformToVisual(ItemsHost);
-            Geometry geometry = workflowItem.Geometry?.Clone();
-            if (geometry != null)
-            {
-                geometry.Transform = (Transform)transform;
-            }
-            return rectangleGeometry.FillContainsWithDetail(geometry) != IntersectionDetail.Empty;
         }
 
         protected override void OnMouseUp(MouseButtonEventArgs e)
@@ -589,5 +614,4 @@ namespace OhmStudio.UI.Controls
             ViewportSize = new Size(ActualWidth / zoom, ActualHeight / zoom);
         }
     }
-
 }
