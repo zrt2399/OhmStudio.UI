@@ -795,6 +795,7 @@
                                                         <Setter Property="NextStep" Value="{Binding NextStep, Mode=TwoWay}" />
                                                         <Setter Property="FromStep" Value="{Binding FromStep, Mode=TwoWay}" />
                                                         <Setter Property="JumpStep" Value="{Binding JumpStep, Mode=TwoWay}" />
+                                                        <Setter Property="BorderThickness" Value="2" />
                                                     </Style>
                                                 </WorkflowEditor.ItemContainerStyle>
                                                 <WorkflowEditor.ItemTemplate>
@@ -812,8 +813,9 @@
                                                                          Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
                                                                 <Button Grid.Column="2"
                                                                         Width="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"
-                                                                        Margin="10">
-                                                                    X
+                                                                        Margin="10"
+                                                                        Command="{Binding DeleteCommand}">
+                                                                    <PackIcon Padding="2" Kind="CloseMD" />
                                                                 </Button>
                                                             </Grid>
                                                             <DockPanel Grid.Row="1">

@@ -1562,9 +1562,9 @@
     <Style BasedOn="{StaticResource AppHostBaseStyle}" TargetType="controls:AppHost" />
 
     <Style x:Key="WorkflowCanvasBaseStyle" TargetType="controls:WorkflowCanvas">
-        <Setter Property="Focusable" Value="True" />
+        <!--<Setter Property="Focusable" Value="True" />-->
         <!--<Setter Property="ClipToBounds" Value="True" />-->
-        <Setter Property="Background" Value="Transparent" />
+        <!--<Setter Property="Background" Value="Transparent" />-->
         <!--<Setter Property="GridLineBrush" Value="{DynamicResource WorkflowEditorGridLineBrush}" />-->
         <!--<Setter Property="LayoutTransform">
             <Setter.Value>
