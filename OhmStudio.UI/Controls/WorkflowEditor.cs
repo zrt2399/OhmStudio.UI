@@ -67,17 +67,17 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty BringIntoViewMaxDurationProperty = DependencyProperty.Register(nameof(BringIntoViewMaxDuration), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(1d));
 
 
-        public static readonly DependencyProperty PathTemplateProperty =
-            DependencyProperty.Register(nameof(PathTemplate), typeof(DataTemplate), typeof(WorkflowEditor));
+        public static readonly DependencyProperty LineTemplateProperty =
+            DependencyProperty.Register(nameof(LineTemplate), typeof(DataTemplate), typeof(WorkflowEditor));
 
-        public static readonly DependencyProperty PathTemplateSelectorProperty =
-            DependencyProperty.Register(nameof(PathTemplateSelector), typeof(DataTemplateSelector), typeof(WorkflowEditor));
+        public static readonly DependencyProperty LineTemplateSelectorProperty =
+            DependencyProperty.Register(nameof(LineTemplateSelector), typeof(DataTemplateSelector), typeof(WorkflowEditor));
 
-        public static readonly DependencyProperty PathContainerStyleProperty =
-            DependencyProperty.Register(nameof(PathContainerStyle), typeof(Style), typeof(WorkflowEditor));
+        public static readonly DependencyProperty LineContainerStyleProperty =
+            DependencyProperty.Register(nameof(LineContainerStyle), typeof(Style), typeof(WorkflowEditor));
 
-        public static readonly DependencyProperty PathContainerStyleSelectorProperty =
-            DependencyProperty.Register(nameof(PathContainerStyleSelector), typeof(StyleSelector), typeof(WorkflowEditor));
+        public static readonly DependencyProperty LineContainerStyleSelectorProperty =
+            DependencyProperty.Register(nameof(LineContainerStyleSelector), typeof(StyleSelector), typeof(WorkflowEditor));
 
         protected readonly TranslateTransform TranslateTransform = new TranslateTransform();
 
@@ -217,28 +217,28 @@ namespace OhmStudio.UI.Controls
             set => SetValue(BringIntoViewMaxDurationProperty, value);
         }
 
-        public DataTemplate PathTemplate
+        public DataTemplate LineTemplate
         {
-            get => (DataTemplate)GetValue(PathTemplateProperty);
-            set => SetValue(PathTemplateProperty, value);
+            get => (DataTemplate)GetValue(LineTemplateProperty);
+            set => SetValue(LineTemplateProperty, value);
         }
 
-        public DataTemplateSelector PathTemplateSelector
+        public DataTemplateSelector LineTemplateSelector
         {
-            get => (DataTemplateSelector)GetValue(PathTemplateSelectorProperty);
-            set => SetValue(PathTemplateSelectorProperty, value);
+            get => (DataTemplateSelector)GetValue(LineTemplateSelectorProperty);
+            set => SetValue(LineTemplateSelectorProperty, value);
         }
 
-        public Style PathContainerStyle
+        public Style LineContainerStyle
         {
-            get => (Style)GetValue(PathContainerStyleProperty);
-            set => SetValue(PathContainerStyleProperty, value);
+            get => (Style)GetValue(LineContainerStyleProperty);
+            set => SetValue(LineContainerStyleProperty, value);
         }
 
-        public StyleSelector PathContainerStyleSelector
+        public StyleSelector LineContainerStyleSelector
         {
-            get => (StyleSelector)GetValue(PathContainerStyleSelectorProperty);
-            set => SetValue(PathContainerStyleSelectorProperty, value);
+            get => (StyleSelector)GetValue(LineContainerStyleSelectorProperty);
+            set => SetValue(LineContainerStyleSelectorProperty, value);
         }
 
         public ICommand SelectAllCommand { get; }

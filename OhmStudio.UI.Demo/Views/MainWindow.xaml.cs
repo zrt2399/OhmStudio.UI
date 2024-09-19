@@ -204,11 +204,6 @@ namespace OhmStudio.UI.Demo.Views
             _mainViewModel.StatusBarContent = $"DataGrid当前编辑元素：{e.Column.GetCellContent(e.Row)}";
         }
 
-        private void Button_Click_16(object sender, RoutedEventArgs e)
-        {
-            stackPanel.SaveAsImage("1.png", ImageType.Png);
-        }
-
         private void Button_Click_17(object sender, RoutedEventArgs e)
         {
             if (_mainViewModel.EmployeeSelectedItems != null)

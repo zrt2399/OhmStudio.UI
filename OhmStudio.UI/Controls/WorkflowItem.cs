@@ -38,14 +38,12 @@ namespace OhmStudio.UI.Controls
 
     public abstract class SelectionControl : ContentControl
     {
+        public event RoutedEventHandler Selected;
+
+        public event RoutedEventHandler Unselected;
+
         public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(SelectionControl), new PropertyMetadata((sender, e) =>
-            {
-                var selectionControl = (SelectionControl)sender;
-                bool newValue = (bool)e.NewValue;
-                var routedEventHandler = newValue ? selectionControl.Selected : selectionControl.Unselected;
-                routedEventHandler?.Invoke(selectionControl, new RoutedEventArgs());
-            }));
+            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(SelectionControl), new PropertyMetadata(OnIsSelectedChanged));
 
         public bool IsSelected
         {
@@ -53,108 +51,125 @@ namespace OhmStudio.UI.Controls
             set => SetValue(IsSelectedProperty, value);
         }
 
-        public event RoutedEventHandler Selected;
-
-        public event RoutedEventHandler Unselected;
-    }
-
-    internal class PathItem : SelectionControl
-    {
-        static PathItem()
+        public static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(PathItem), new FrameworkPropertyMetadata(typeof(PathItem)));
+            var selectionControl = (SelectionControl)d;
+            selectionControl.OnIsSelectedChanged();
         }
 
-        internal PathItem()
+        public virtual void OnIsSelectedChanged()
+        {
+            var routedEventHandler = IsSelected ? Selected : Unselected;
+            routedEventHandler?.Invoke(this, new RoutedEventArgs());
+        }
+    }
+
+    public class LineItem : SelectionControl
+    {
+        static LineItem()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(LineItem), new FrameworkPropertyMetadata(typeof(LineItem)));
+        }
+
+        public LineItem()
         {
             DeleteCommand = new RelayCommand(Delete);
         }
 
-        internal PathItem(WorkflowCanvas canvasParent) : this()
+        public LineItem(WorkflowCanvas canvasParent) : this()
         {
             CanvasParent = canvasParent;
         }
 
-        internal static readonly DependencyProperty StartPointProperty =
-            DependencyProperty.Register(nameof(StartPoint), typeof(Point), typeof(PathItem), new PropertyMetadata((sender, e) =>
+        public static readonly DependencyProperty StartPointProperty =
+            DependencyProperty.Register(nameof(StartPoint), typeof(Point), typeof(LineItem), new PropertyMetadata((sender, e) =>
             {
-                if (sender is PathItem pathItem && e.NewValue is Point point)
+                if (sender is LineItem lineItem && e.NewValue is Point point)
                 {
-                    Canvas.SetLeft(pathItem, point.X);
-                    Canvas.SetTop(pathItem, point.Y);
+                    Canvas.SetLeft(lineItem, point.X);
+                    Canvas.SetTop(lineItem, point.Y);
                 }
             }));
 
-        internal static readonly DependencyProperty EndPointProperty =
-            DependencyProperty.Register(nameof(EndPoint), typeof(Point), typeof(PathItem));
+        public static readonly DependencyProperty EndPointProperty =
+            DependencyProperty.Register(nameof(EndPoint), typeof(Point), typeof(LineItem));
 
-        internal static readonly DependencyProperty Point0Property =
-            DependencyProperty.Register(nameof(Point0), typeof(Point), typeof(PathItem));
+        public static readonly DependencyProperty Point0Property =
+            DependencyProperty.Register(nameof(Point0), typeof(Point), typeof(LineItem));
 
-        internal static readonly DependencyProperty Point1Property =
-            DependencyProperty.Register(nameof(Point1), typeof(Point), typeof(PathItem));
+        public static readonly DependencyProperty Point1Property =
+            DependencyProperty.Register(nameof(Point1), typeof(Point), typeof(LineItem));
 
-        internal static readonly DependencyProperty Point2Property =
-            DependencyProperty.Register(nameof(Point2), typeof(Point), typeof(PathItem));
+        public static readonly DependencyProperty Point2Property =
+            DependencyProperty.Register(nameof(Point2), typeof(Point), typeof(LineItem));
 
-        internal static readonly DependencyProperty Point3Property =
-            DependencyProperty.Register(nameof(Point3), typeof(Point), typeof(PathItem));
+        public static readonly DependencyProperty Point3Property =
+            DependencyProperty.Register(nameof(Point3), typeof(Point), typeof(LineItem));
 
-        internal static readonly DependencyProperty PointsProperty =
-            DependencyProperty.Register(nameof(Points), typeof(PointCollection), typeof(PathItem));
+        public static readonly DependencyProperty PointsProperty =
+            DependencyProperty.Register(nameof(Points), typeof(PointCollection), typeof(LineItem));
 
-        internal static readonly DependencyProperty StartEllipseItemProperty =
-            DependencyProperty.Register(nameof(StartEllipseItem), typeof(EllipseItem), typeof(PathItem));
+        public static readonly DependencyProperty StartEllipseItemProperty =
+            DependencyProperty.Register(nameof(StartEllipseItem), typeof(EllipseItem), typeof(LineItem));
 
-        internal static readonly DependencyProperty EndEllipseItemProperty =
-            DependencyProperty.Register(nameof(EndEllipseItem), typeof(EllipseItem), typeof(PathItem));
+        public static readonly DependencyProperty EndEllipseItemProperty =
+            DependencyProperty.Register(nameof(EndEllipseItem), typeof(EllipseItem), typeof(LineItem));
 
-        internal static readonly DependencyProperty IsCurveProperty =
-            DependencyProperty.Register(nameof(IsCurve), typeof(bool), typeof(PathItem), new PropertyMetadata(true, (sender, e) =>
+        public static readonly DependencyProperty IsCurveProperty =
+            DependencyProperty.Register(nameof(IsCurve), typeof(bool), typeof(LineItem), new PropertyMetadata(true, (sender, e) =>
             {
-                var pathItem = (PathItem)sender;
-                if (pathItem.StartEllipseItem != null && pathItem.EndEllipseItem != null)
+                var lineItem = (LineItem)sender;
+                if (lineItem.StartEllipseItem != null && lineItem.EndEllipseItem != null)
                 {
-                    var startPoint = pathItem.StartEllipseItem.GetPoint(pathItem.CanvasParent);
-                    var endPoint = pathItem.EndEllipseItem.GetPoint(pathItem.CanvasParent);
-                    pathItem.UpdateCurveAngle(startPoint, endPoint);
+                    var startPoint = lineItem.StartEllipseItem.GetPoint(lineItem.CanvasParent);
+                    var endPoint = lineItem.EndEllipseItem.GetPoint(lineItem.CanvasParent);
+                    lineItem.UpdateCurveAngle(startPoint, endPoint);
                 }
             }));
 
-        internal static readonly DependencyProperty StrokeDashArrayProperty =
-            DependencyProperty.Register(nameof(StrokeDashArray), typeof(DoubleCollection), typeof(PathItem));
+        public static readonly DependencyProperty StrokeDashArrayProperty =
+            DependencyProperty.Register(nameof(StrokeDashArray), typeof(DoubleCollection), typeof(LineItem));
 
-        internal Point StartPoint
+        public static readonly DependencyProperty HighlightLineBrushProperty =
+            DependencyProperty.Register(nameof(HighlightLineBrush), typeof(Brush), typeof(LineItem), new PropertyMetadata(Brushes.Orange));
+
+        public static readonly DependencyProperty LineBrushProperty =
+            DependencyProperty.Register(nameof(LineBrush), typeof(Brush), typeof(LineItem));
+
+        public static readonly DependencyProperty LineThicknessProperty =
+            DependencyProperty.Register(nameof(LineThickness), typeof(double), typeof(LineItem), new PropertyMetadata(2d));
+
+        public Point StartPoint
         {
             get => (Point)GetValue(StartPointProperty);
             set => SetValue(StartPointProperty, value);
         }
 
-        internal Point EndPoint
+        public Point EndPoint
         {
             get => (Point)GetValue(EndPointProperty);
             set => SetValue(EndPointProperty, value);
         }
 
-        internal Point Point0
+        public Point Point0
         {
             get => (Point)GetValue(Point0Property);
             set => SetValue(Point0Property, value);
         }
 
-        internal Point Point1
+        public Point Point1
         {
             get => (Point)GetValue(Point1Property);
             set => SetValue(Point1Property, value);
         }
 
-        internal Point Point2
+        public Point Point2
         {
             get => (Point)GetValue(Point2Property);
             set => SetValue(Point2Property, value);
         }
 
-        internal Point Point3
+        public Point Point3
         {
             get => (Point)GetValue(Point3Property);
             set => SetValue(Point3Property, value);
@@ -163,41 +178,60 @@ namespace OhmStudio.UI.Controls
         /// <summary>
         /// Gets or sets a collection that contains the vertex points of the polygon.
         /// </summary>
-        internal PointCollection Points
+        public PointCollection Points
         {
             get => (PointCollection)GetValue(PointsProperty);
             set => SetValue(PointsProperty, value);
         }
 
-        internal EllipseItem StartEllipseItem
+        public EllipseItem StartEllipseItem
         {
             get => (EllipseItem)GetValue(StartEllipseItemProperty);
             set => SetValue(StartEllipseItemProperty, value);
         }
 
-        internal EllipseItem EndEllipseItem
+        public EllipseItem EndEllipseItem
         {
             get => (EllipseItem)GetValue(EndEllipseItemProperty);
             set => SetValue(EndEllipseItemProperty, value);
         }
 
-        internal bool IsCurve
+        public bool IsCurve
         {
             get => (bool)GetValue(IsCurveProperty);
             set => SetValue(IsCurveProperty, value);
         }
 
-        internal DoubleCollection StrokeDashArray
+        public DoubleCollection StrokeDashArray
         {
             get => (DoubleCollection)GetValue(StrokeDashArrayProperty);
             set => SetValue(StrokeDashArrayProperty, value);
         }
 
-        internal WorkflowCanvas CanvasParent { get; set; }
+        public Brush LineBrush
+        {
+            get => (Brush)GetValue(LineBrushProperty);
+            set => SetValue(LineBrushProperty, value);
+        }
+
+        public Brush HighlightLineBrush
+        {
+            get => (Brush)GetValue(HighlightLineBrushProperty);
+            set => SetValue(HighlightLineBrushProperty, value);
+        }
+
+        [TypeConverter(typeof(LengthConverter))]
+        public double LineThickness
+        {
+            get => (double)GetValue(LineThicknessProperty);
+            set => SetValue(LineThicknessProperty, value);
+        }
+
+        public WorkflowCanvas CanvasParent { get; private set; }
 
         public ICommand DeleteCommand { get; }
 
-        internal void UpdateBezierCurve(Point startPoint, Point endPoint)
+        public void UpdateBezierCurve(Point startPoint, Point endPoint)
         {
             Point startPointTemp = new Point();
             Point endPointTemp = new Point();
@@ -255,9 +289,9 @@ namespace OhmStudio.UI.Controls
         internal void Delete()
         {
             StartEllipseItem.RemoveStep();
-            StartEllipseItem.PathItem = null;
+            StartEllipseItem.LineItem = null;
             StartEllipseItem = null;
-            EndEllipseItem.PathItem = null;
+            EndEllipseItem.LineItem = null;
             EndEllipseItem = null;
             ContextMenu = null;
             BindingOperations.ClearAllBindings(this);
@@ -265,39 +299,39 @@ namespace OhmStudio.UI.Controls
         }
     }
 
-    internal class EllipseItem : Control
+    public class EllipseItem : Control
     {
         static EllipseItem()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(EllipseItem), new FrameworkPropertyMetadata(typeof(EllipseItem)));
         }
 
-        internal static readonly DependencyProperty DockProperty =
+        public static readonly DependencyProperty DockProperty =
             DependencyProperty.Register(nameof(Dock), typeof(Dock), typeof(EllipseItem));
 
-        internal static readonly DependencyProperty StrokeThicknessProperty =
+        public static readonly DependencyProperty StrokeThicknessProperty =
             DependencyProperty.Register(nameof(StrokeThickness), typeof(double), typeof(EllipseItem), new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
 
-        internal Dock Dock
+        public Dock Dock
         {
             get => (Dock)GetValue(DockProperty);
             set => SetValue(DockProperty, value);
         }
 
         [TypeConverter(typeof(LengthConverter))]
-        internal double StrokeThickness
+        public double StrokeThickness
         {
             get => (double)GetValue(StrokeThicknessProperty);
             set => SetValue(StrokeThicknessProperty, value);
         }
 
-        internal WorkflowItem WorkflowParent { get; set; }
+        public WorkflowItem WorkflowParent { get; internal set; }
 
-        internal PathItem PathItem { get; set; }
+        public LineItem LineItem { get; internal set; }
 
-        internal Point GetPoint(UIElement parent)
+        public Point GetPoint(UIElement parent)
         {
-            return TranslatePoint(new Point(ActualWidth / 2, ActualHeight / 2), parent);
+            return TranslatePoint(new Point(ActualWidth / 2, ActualHeight / 2), parent);  
         }
 
         internal void RemoveStep()
@@ -309,7 +343,6 @@ namespace OhmStudio.UI.Controls
             }
             else if (Dock == Dock.Bottom)
             {
-                //var w = WorkflowParent.FirstOrDefault(WorkflowParent.NextStep);
                 WorkflowParent.FirstOrDefault(WorkflowParent.NextStep).LastStep = null;
                 WorkflowParent.NextStep = null;
             }
@@ -353,6 +386,9 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty GeometryProperty =
             DependencyProperty.Register(nameof(Geometry), typeof(Geometry), typeof(WorkflowItem));
+
+        public static readonly DependencyProperty HighlightBrushProperty =
+            DependencyProperty.Register(nameof(HighlightBrush), typeof(Brush), typeof(WorkflowItem), new PropertyMetadata(Brushes.Orange));
 
         private Thumb PART_Thumb;
         private EllipseItem EllipseLeft;
@@ -412,6 +448,12 @@ namespace OhmStudio.UI.Controls
             set => SetValue(GeometryProperty, value);
         }
 
+        public Brush HighlightBrush
+        {
+            get => (Brush)GetValue(HighlightBrushProperty);
+            set => SetValue(HighlightBrushProperty, value);
+        }
+
         public override void OnApplyTemplate()
         {
             if (PART_Thumb != null)
@@ -437,7 +479,7 @@ namespace OhmStudio.UI.Controls
                 EllipseItems.Add(EllipseRight.Dock, EllipseRight);
                 EllipseItems.Add(EllipseBottom.Dock, EllipseBottom);
             }
-      
+
             foreach (var item in EllipseItems.Values)
             {
                 item.WorkflowParent = this;
@@ -492,7 +534,7 @@ namespace OhmStudio.UI.Controls
             {
                 foreach (var item in EllipseItems.Values)
                 {
-                    item.PathItem?.Delete();
+                    item.LineItem?.Delete();
                 }
             }
             else
@@ -546,19 +588,19 @@ namespace OhmStudio.UI.Controls
             }
             if (LastStep != null)
             {
-                UpdateCurve(EllipseItems[Dock.Top].PathItem, FirstOrDefault(LastStep).EllipseItems[Dock.Bottom], EllipseItems[Dock.Top]);
+                UpdateCurve(EllipseItems[Dock.Top].LineItem, FirstOrDefault(LastStep).EllipseItems[Dock.Bottom], EllipseItems[Dock.Top]);
             }
             if (NextStep != null)
             {
-                UpdateCurve(EllipseItems[Dock.Bottom].PathItem, EllipseItems[Dock.Bottom], FirstOrDefault(NextStep).EllipseItems[Dock.Top]);
+                UpdateCurve(EllipseItems[Dock.Bottom].LineItem, EllipseItems[Dock.Bottom], FirstOrDefault(NextStep).EllipseItems[Dock.Top]);
             }
             if (FromStep != null)
             {
-                UpdateCurve(EllipseItems[Dock.Left].PathItem, FirstOrDefault(FromStep).EllipseItems[Dock.Right], EllipseItems[Dock.Left]);
+                UpdateCurve(EllipseItems[Dock.Left].LineItem, FirstOrDefault(FromStep).EllipseItems[Dock.Right], EllipseItems[Dock.Left]);
             }
             if (JumpStep != null)
             {
-                UpdateCurve(EllipseItems[Dock.Right].PathItem, EllipseItems[Dock.Right], FirstOrDefault(JumpStep).EllipseItems[Dock.Left]);
+                UpdateCurve(EllipseItems[Dock.Right].LineItem, EllipseItems[Dock.Right], FirstOrDefault(JumpStep).EllipseItems[Dock.Left]);
             }
         }
 
@@ -579,38 +621,38 @@ namespace OhmStudio.UI.Controls
             UpdateCurve();
         }
 
-        private void UpdateCurve(PathItem pathItem, EllipseItem startEllipseItem, EllipseItem endEllipseItem)
+        private void UpdateCurve(LineItem lineItem, EllipseItem startEllipseItem, EllipseItem endEllipseItem)
         {
             if (!startEllipseItem.IsVisible || !endEllipseItem.IsVisible)
             {
                 return;
             }
 
-            if (pathItem == null)
+            if (lineItem == null)
             {
-                pathItem = new PathItem(CanvasParent);
+                lineItem = new LineItem(CanvasParent);
                 if (DataContext is not WorkflowItem)
                 {
-                    pathItem.Content = DataContext;
-                    pathItem.DataContext = DataContext;
-                    pathItem.ContentTemplate = EditorParent.PathTemplate;
-                    pathItem.ContentTemplateSelector = EditorParent.PathTemplateSelector;
-                    if (EditorParent.PathContainerStyle != null)
+                    lineItem.Content = DataContext;
+                    lineItem.DataContext = DataContext;
+                    lineItem.ContentTemplate = EditorParent.LineTemplate;
+                    lineItem.ContentTemplateSelector = EditorParent.LineTemplateSelector;
+                    if (EditorParent.LineContainerStyle != null)
                     {
-                        pathItem.Style = EditorParent.PathContainerStyle;
+                        lineItem.Style = EditorParent.LineContainerStyle;
                     }
-                    else if (EditorParent.PathContainerStyleSelector != null)
+                    else if (EditorParent.LineContainerStyleSelector != null)
                     {
-                        pathItem.Style = EditorParent.PathContainerStyleSelector.SelectStyle(DataContext, pathItem);
+                        lineItem.Style = EditorParent.LineContainerStyleSelector.SelectStyle(DataContext, lineItem);
                     }
                 }
-                CanvasParent.Children.Add(pathItem);
-                startEllipseItem.PathItem = pathItem;
-                endEllipseItem.PathItem = pathItem;
-                pathItem.StartEllipseItem = startEllipseItem;
-                pathItem.EndEllipseItem = endEllipseItem;
+                CanvasParent.Children.Add(lineItem);
+                startEllipseItem.LineItem = lineItem;
+                endEllipseItem.LineItem = lineItem;
+                lineItem.StartEllipseItem = startEllipseItem;
+                lineItem.EndEllipseItem = endEllipseItem;
             }
-            pathItem.UpdateBezierCurve(pathItem.StartEllipseItem.GetPoint(CanvasParent), pathItem.EndEllipseItem.GetPoint(CanvasParent));
+            lineItem.UpdateBezierCurve(lineItem.StartEllipseItem.GetPoint(CanvasParent), lineItem.EndEllipseItem.GetPoint(CanvasParent));
         }
     }
 }

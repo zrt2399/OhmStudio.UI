@@ -23,7 +23,7 @@ namespace OhmStudio.UI.Demo.Models
 
         public string Name { get; set; }
 
-        public StepType StepType { get; set; } = StepType.Begin;
+        public StepType StepType { get; set; } = StepType.Nomal;
 
         public double Width { get; set; } = 200;
         public double Height { get; set; } = 200;
@@ -31,9 +31,9 @@ namespace OhmStudio.UI.Demo.Models
         public double Left { get; set; }
         public double Top { get; set; }
 
-        public bool IsDraggable { get; set; } = true;
+        public bool IsLock { get; set; }  
 
-        public string PathContent { get; set; } = "下一节点";
+        public string LineContent { get; set; } = "下一节点";
 
         public WorkflowItemModel LastStep { get; set; }
         public WorkflowItemModel NextStep { get; set; }

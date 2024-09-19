@@ -1645,6 +1645,7 @@
     </Style>
 
     <Style x:Key="WorkflowItemBaseStyle" TargetType="controls:WorkflowItem">
+        <!--<Setter Property="HighlightBrush" Value="Red" />-->
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Width" Value="100" />
@@ -1707,7 +1708,7 @@
                     </controls:ShapeBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="Orange" />
+                            <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=HighlightBrush}" />
                             <Setter TargetName="ShapeBorder" Property="IsDashed" Value="True" />
                             <Setter Property="Panel.ZIndex" Value="1" />
                         </Trigger>
@@ -1785,10 +1786,11 @@
     </Style>
     <Style BasedOn="{StaticResource EllipseItemBaseStyle}" TargetType="controls:EllipseItem" />
 
-    <Style x:Key="PathItemBaseStyle" TargetType="controls:PathItem">
+    <Style x:Key="LineItemBaseStyle" TargetType="controls:LineItem">
         <!--<Setter Property="ContentTemplate" Value="{Binding RelativeSource={RelativeSource AncestorType=controls:WorkflowCanvas}, Path=PathTemplate}" />
         <Setter Property="ContentTemplateSelector" Value="{Binding RelativeSource={RelativeSource AncestorType=controls:WorkflowCanvas}, Path=PathTemplateSelector}" />-->
         <!--<Setter Property="Content" Value="{Binding RelativeSource={RelativeSource AncestorType=controls:WorkflowItem}, Path=DataContext}" />-->
+        <Setter Property="LineBrush" Value="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Panel.ZIndex" Value="-1" />
@@ -1806,12 +1808,12 @@
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:PathItem">
+                <ControlTemplate TargetType="controls:LineItem">
                     <Grid Background="{TemplateBinding Background}">
                         <Path Fill="#111E1E1E"
-                              Stroke="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}"
+                              Stroke="{TemplateBinding LineBrush}"
                               StrokeDashArray="{TemplateBinding StrokeDashArray}"
-                              StrokeThickness="2">
+                              StrokeThickness="{TemplateBinding LineThickness}">
                             <Path.Data>
                                 <PathGeometry>
                                     <PathFigure StartPoint="{Binding Point0, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}">
@@ -1822,14 +1824,13 @@
                                 </PathGeometry>
                             </Path.Data>
                         </Path>
-                        <controls:SimplePanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <ContentPresenter Margin="{TemplateBinding Padding}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </controls:SimplePanel>
+
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
                         <!--  Arrowhead  -->
-                        <Polygon Fill="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" Points="{Binding Points, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <Polygon Fill="{TemplateBinding LineBrush}" Points="{Binding Points, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
@@ -1840,11 +1841,15 @@
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="LineBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=HighlightLineBrush}" />
+                            <Setter Property="LineThickness" Value="4" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    <Style BasedOn="{StaticResource PathItemBaseStyle}" TargetType="controls:PathItem" />
+    <Style BasedOn="{StaticResource LineItemBaseStyle}" TargetType="controls:LineItem" />
 
 </ResourceDictionary>

@@ -156,7 +156,7 @@ namespace OhmStudio.UI.Demo.ViewModels
                 AlertDialog.Show("已改变");
             };
             PackIcons = new ObservableCollection<PackIconKind>(PackIconDataFactory.Create().Keys);
- 
+
             var userInfoModels = new Faker<UserInfoModel>("zh_CN")
                 .RuleFor(u => u.UserName, f => f.Name.LastName() + f.Name.FirstName())
                 .RuleFor(u => u.Password, f => f.Internet.Password())
@@ -168,8 +168,8 @@ namespace OhmStudio.UI.Demo.ViewModels
             UserInfos = new ObservableCollection<UserInfoModel>(userInfoModels);
 
             WorkflowItemModels.Add(new WorkflowItemModel() { Name = "开始", StepType = StepType.Nomal, Left = 100 });
-            WorkflowItemModels.Add(new WorkflowItemModel() { Name = "测试", StepType = StepType.Nomal, Left = 200, Top = 200 });
-            WorkflowItemModels.Add(new WorkflowItemModel() { Name = "结束", StepType = StepType.Nomal, Left = 300, Top = 400 });
+            WorkflowItemModels.Add(new WorkflowItemModel() { Name = "测试", StepType = StepType.Nomal, Left = 200, Top = 240 });
+            WorkflowItemModels.Add(new WorkflowItemModel() { Name = "结束", StepType = StepType.Nomal, Left = 300, Top = 480 });
 
             WorkflowItemModels.Last().LastStep = WorkflowItemModels[1];
             WorkflowItemModels[1].NextStep = WorkflowItemModels.Last();
@@ -188,11 +188,11 @@ namespace OhmStudio.UI.Demo.ViewModels
         }
 
         public bool Can;
-        const string DefaultFontName = "默认";
+        private const string DefaultFontName = "默认";
         public const string GlobalFontSize = nameof(GlobalFontSize);
         public const string GlobalFontFamily = nameof(GlobalFontFamily);
-        static readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily];
-        static readonly FontFamilyItem _defaultFontFamilyItem = new FontFamilyItem() { Name = DefaultFontName, FontFamily = _defaultFontFamily };
+        private static readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily];
+        private static readonly FontFamilyItem _defaultFontFamilyItem = new FontFamilyItem() { Name = DefaultFontName, FontFamily = _defaultFontFamily };
 
         public MainWindow MainWindow => Application.Current.MainWindow as MainWindow;
 

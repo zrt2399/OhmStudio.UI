@@ -57,8 +57,8 @@ namespace OhmStudio.UI.Controls
         private WorkflowItem _lastWorkflowItem;
         private EllipseItem _lastEllipseItem;
 
-        private Point _pathStartPoint;
-        private PathItem _currentPath;
+        private Point _lineStartPoint;
+        private LineItem _currentLine;
 
         private bool _isUpdatingSelectedItems;
 
@@ -282,14 +282,14 @@ namespace OhmStudio.UI.Controls
             else
             {
                 _lastWorkflowItem = startEllipseItem.WorkflowParent;
-                _pathStartPoint = startEllipseItem.GetPoint(this);
+                _lineStartPoint = startEllipseItem.GetPoint(this);
                 _lastEllipseItem = startEllipseItem;
                 EditorStatus = EditorStatus.Drawing;
 
-                if (_currentPath == null)
+                if (_currentLine == null)
                 {
-                    _currentPath = new PathItem(this);
-                    Children.Add(_currentPath);
+                    _currentLine = new LineItem(this);
+                    Children.Add(_currentLine);
                 }
             }
 
@@ -308,7 +308,7 @@ namespace OhmStudio.UI.Controls
             else
             {
                 Cursor = Cursors.Cross;
-                _currentPath.CaptureMouse();
+                _currentLine.CaptureMouse();
             }
         }
 
@@ -321,12 +321,12 @@ namespace OhmStudio.UI.Controls
             Point point = Mouse.GetPosition(this);
             Children.Remove(_multiSelectionMask);
 
-            //bool isPathItem = false;
+            //bool isLineItem = false;
             IEnumerable<SelectionControl> selectableElements;
             BeginUpdateSelectedItems();
             if (this.GetVisualHitOfType<SelectionControl>(point) is SelectionControl selectableElement)
             {
-                //isPathItem = selectableElement is PathItem;
+                //isLineItem = selectableElement is LineItem;
                 selectableElement.IsSelected = true;
                 selectableElements = SelectableElements.Where(x => x != selectableElement);
             }
@@ -367,7 +367,7 @@ namespace OhmStudio.UI.Controls
             }
             else if (EditorStatus == EditorStatus.Drawing)
             {
-                _currentPath.UpdateBezierCurve(_pathStartPoint, point);
+                _currentLine.UpdateBezierCurve(_lineStartPoint, point);
             }
             else if (EditorStatus == EditorStatus.Moving)
             {
@@ -416,15 +416,15 @@ namespace OhmStudio.UI.Controls
             }
             finally
             {
-                Children.Remove(_currentPath);
+                Children.Remove(_currentLine);
 
                 EditorStatus = EditorStatus.None;
 
                 _multiSelectionMask.ReleaseMouseCapture();
                 _lastWorkflowItem?.ReleaseMouseCapture();
-                _currentPath?.ReleaseMouseCapture();
+                _currentLine?.ReleaseMouseCapture();
 
-                _currentPath = null;
+                _currentLine = null;
                 Cursor = null;
                 _multiSelectionMask.Cursor = null;
             }
@@ -507,7 +507,7 @@ namespace OhmStudio.UI.Controls
                 return;
             }
 
-            if (fromEllipse.PathItem != null || toEllipse.PathItem != null)
+            if (fromEllipse.LineItem != null || toEllipse.LineItem != null)
             {
                 UIMessageTip.ShowWarning("该节点已经存在连接关系，无法创建连接曲线，请删除后再试");
             }

@@ -37,6 +37,7 @@
         <ListViewIndexConverter x:Key="ListViewIndexConverter" />
         <BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <BoolToCollapsedConverter x:Key="BoolToCollapsedConverter" />
+        <ReverseBoolConverter x:Key="ReverseBoolConverter" />
 
     </Window.Resources>
 
@@ -774,18 +775,18 @@
                                                         <i:InvokeCommandAction Command="{Binding WorkflowEditorDropCommand}" PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
-                                                <WorkflowEditor.PathTemplate>
+                                                <WorkflowEditor.LineTemplate>
                                                     <DataTemplate>
                                                         <TextBox HorizontalAlignment="Center"
                                                                  VerticalAlignment="Center"
                                                                  Style="{StaticResource TransparentTextBox}"
-                                                                 Text="{Binding PathContent}" />
+                                                                 Text="{Binding LineContent}" />
                                                     </DataTemplate>
-                                                </WorkflowEditor.PathTemplate>
+                                                </WorkflowEditor.LineTemplate>
                                                 <WorkflowEditor.ItemContainerStyle>
                                                     <Style BasedOn="{StaticResource {x:Type WorkflowItem}}" TargetType="WorkflowItem">
                                                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                                        <Setter Property="IsDraggable" Value="{Binding IsDraggable, Mode=TwoWay}" />
+                                                        <Setter Property="IsDraggable" Value="{Binding IsLock, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}" />
                                                         <Setter Property="StepType" Value="{Binding StepType, Mode=TwoWay}" />
                                                         <Setter Property="Width" Value="{Binding Width, Mode=TwoWay}" />
                                                         <Setter Property="Height" Value="{Binding Height, Mode=TwoWay}" />
@@ -801,12 +802,11 @@
                                                 <WorkflowEditor.ItemTemplate>
                                                     <DataTemplate>
                                                         <Grid GridAttach.RowDefinitions="Auto,*">
-                                                            <Grid Background="Gray" GridAttach.ColumnDefinitions="Auto,*,Auto">
+                                                            <Grid Background="{DynamicResource CommonControlsButtonBackground}" GridAttach.ColumnDefinitions="Auto,*,Auto">
                                                                 <CheckBox Margin="10"
-                                                                          HorizontalAlignment="Right"
                                                                           VerticalAlignment="Center"
-                                                                          IsChecked="{Binding IsDraggable}">
-                                                                    可拖拽
+                                                                          IsChecked="{Binding IsLock}">
+                                                                    锁定
                                                                 </CheckBox>
                                                                 <TextBox Grid.Column="1"
                                                                          Margin="0,10"
@@ -814,7 +814,8 @@
                                                                 <Button Grid.Column="2"
                                                                         Width="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"
                                                                         Margin="10"
-                                                                        Command="{Binding DeleteCommand}">
+                                                                        Command="{Binding DeleteCommand}"
+                                                                        ToolTip="移除此节点">
                                                                     <PackIcon Padding="2" Kind="CloseMD" />
                                                                 </Button>
                                                             </Grid>
@@ -1276,7 +1277,6 @@
                                                             OpenButtonContent="打开第一个文件"
                                                             TextBoxAttach.PlaceHolder="请选择单个或多个文件..."
                                                             TextBoxAttach.Title="打开多个文件：" />
-                                                <Button Click="Button_Click_16">截图当前界面</Button>
                                             </StackPanel>
                                         </GroupBox>
                                     </WrapPanel>
