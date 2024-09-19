@@ -463,7 +463,7 @@ namespace OhmStudio.UI.Controls
             Focus();
             _previousMousePosition = e.GetPosition(this);
             _startLocation = MouseLocation;
-            if (ItemsHost.EditorStatus == EditorStatus.None)
+            if (ItemsHost.CanvasStatus == CanvasStatus.None)
             {
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {

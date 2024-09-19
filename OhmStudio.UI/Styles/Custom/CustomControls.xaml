@@ -1843,8 +1843,17 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="LineBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=HighlightLineBrush}" />
-                            <Setter Property="LineThickness" Value="4" />
+
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="controls:WorkflowCanvas.EditorStatus" Value="None" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="LineThickness" Value="4" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

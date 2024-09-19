@@ -14,7 +14,7 @@ using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
-    public enum EditorStatus
+    public enum CanvasStatus
     {
         None,
         /// <summary>正在拖动中。</summary>
@@ -68,6 +68,13 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(WorkflowCanvas), new PropertyMetadata(OnItemsSourceChanged));
 
+        public static readonly DependencyProperty EditorStatusProperty =
+            DependencyProperty.RegisterAttached("EditorStatus", typeof(CanvasStatus), typeof(WorkflowCanvas), new FrameworkPropertyMetadata(default(CanvasStatus), FrameworkPropertyMetadataOptions.Inherits));
+
+        public static void SetEditorStatus(DependencyObject element, CanvasStatus value) => element.SetValue(EditorStatusProperty, value);
+
+        public static CanvasStatus GetEditorStatus(DependencyObject element) => (CanvasStatus)element.GetValue(EditorStatusProperty);
+
         internal bool IsCtrlKeyDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
 
         internal IEnumerable<SelectionControl> SelectableElements => Children.OfType<SelectionControl>();
@@ -95,7 +102,11 @@ namespace OhmStudio.UI.Controls
                 EditorParent.SelectedItems = value;//}
         }
 
-        internal EditorStatus EditorStatus { get; set; }
+        internal CanvasStatus CanvasStatus
+        {
+            get => GetEditorStatus(this);
+            set => SetEditorStatus(this, value);
+        }
 
         private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -263,7 +274,7 @@ namespace OhmStudio.UI.Controls
 
         private void MultiSelectionRectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            EditorStatus = EditorStatus.MultiMoving;
+            CanvasStatus = CanvasStatus.MultiMoving;
             _multiSelectionMask.Cursor = Cursors.ScrollAll;
             _multiMoveMouseDownPoint = e.GetPosition(this);
             foreach (var item in WorkflowItems.Where(x => x.IsSelected))
@@ -281,14 +292,14 @@ namespace OhmStudio.UI.Controls
             var startEllipseItem = GetElementWithPoint<EllipseItem>(point);
             if (startEllipseItem == null)
             {
-                EditorStatus = EditorStatus.Moving;
+                CanvasStatus = CanvasStatus.Moving;
             }
             else
             {
                 _lastWorkflowItem = startEllipseItem.WorkflowParent;
                 _lineStartPoint = startEllipseItem.GetPoint(this);
                 _lastEllipseItem = startEllipseItem;
-                EditorStatus = EditorStatus.Drawing;
+                CanvasStatus = CanvasStatus.Drawing;
 
                 if (_currentLine == null)
                 {
@@ -297,14 +308,14 @@ namespace OhmStudio.UI.Controls
                 }
             }
 
-            if (EditorStatus == EditorStatus.Moving && !workflowItem.IsDraggable /*|| CanvasStatus is CanvasStatus.Selecting or CanvasStatus.MultiMoving*/)
+            if (CanvasStatus == CanvasStatus.Moving && !workflowItem.IsDraggable /*|| CanvasStatus is CanvasStatus.Selecting or CanvasStatus.MultiMoving*/)
             {
                 return;
             }
 
             _moveMouseDownPoint = point;
             _moveMouseDownControlPoint = new Point(GetLeft(workflowItem), GetTop(workflowItem));
-            if (EditorStatus == EditorStatus.Moving)
+            if (CanvasStatus == CanvasStatus.Moving)
             {
                 Cursor = Cursors.ScrollAll;
                 workflowItem.CaptureMouse();
@@ -318,7 +329,7 @@ namespace OhmStudio.UI.Controls
 
         internal void HandleMouseDown(MouseButtonEventArgs e)
         {
-            if (e.LeftButton != MouseButtonState.Pressed || EditorStatus is EditorStatus.MultiMoving)
+            if (e.LeftButton != MouseButtonState.Pressed || CanvasStatus is CanvasStatus.MultiMoving)
             {
                 return;
             }
@@ -357,7 +368,7 @@ namespace OhmStudio.UI.Controls
             }
 
             Point point = e.GetPosition(this);
-            if (EditorStatus == EditorStatus.MultiMoving)
+            if (CanvasStatus == CanvasStatus.MultiMoving)
             {
                 Vector vector = point - _multiMoveMouseDownPoint;
                 foreach (var item in WorkflowItems.Where(x => x.IsSelected && x.IsDraggable))
@@ -369,11 +380,11 @@ namespace OhmStudio.UI.Controls
                 }
                 UpdateMultiSelectionMask();
             }
-            else if (EditorStatus == EditorStatus.Drawing)
+            else if (CanvasStatus == CanvasStatus.Drawing)
             {
                 _currentLine.UpdateBezierCurve(_lineStartPoint, point);
             }
-            else if (EditorStatus == EditorStatus.Moving)
+            else if (CanvasStatus == CanvasStatus.Moving)
             {
                 var workflowItem = _lastWorkflowItem;
                 if (!workflowItem.IsDraggable)
@@ -393,7 +404,7 @@ namespace OhmStudio.UI.Controls
             base.OnMouseUp(e);
             try
             {
-                if (EditorStatus == EditorStatus.Drawing)
+                if (CanvasStatus == CanvasStatus.Drawing)
                 {
                     Point point = e.GetPosition(this);
                     var endWorkflowItem = GetElementWithPoint<WorkflowItem>(point);
@@ -402,14 +413,14 @@ namespace OhmStudio.UI.Controls
                         SetStep(_lastWorkflowItem, endWorkflowItem, _lastEllipseItem);
                     }
                 }
-                else if (EditorStatus == EditorStatus.Moving)
+                else if (CanvasStatus == CanvasStatus.Moving)
                 {
                     if (_lastWorkflowItem?.IsDraggable == true)
                     {
                         PositionWorkflowItem(_lastWorkflowItem);
                     }
                 }
-                else if (EditorStatus == EditorStatus.MultiMoving)
+                else if (CanvasStatus == CanvasStatus.MultiMoving)
                 {
                     foreach (var item in WorkflowItems.Where(x => x.IsSelected && x.IsDraggable))
                     {
@@ -422,7 +433,7 @@ namespace OhmStudio.UI.Controls
             {
                 Children.Remove(_currentLine);
 
-                EditorStatus = EditorStatus.None;
+                CanvasStatus = CanvasStatus.None;
 
                 _multiSelectionMask.ReleaseMouseCapture();
                 _lastWorkflowItem?.ReleaseMouseCapture();
