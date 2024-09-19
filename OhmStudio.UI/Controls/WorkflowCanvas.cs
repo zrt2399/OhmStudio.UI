@@ -67,7 +67,7 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(WorkflowCanvas), new PropertyMetadata(OnItemsSourceChanged));
- 
+
         internal bool IsCtrlKeyDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
 
         internal IEnumerable<SelectionControl> SelectableElements => Children.OfType<SelectionControl>();
@@ -94,7 +94,7 @@ namespace OhmStudio.UI.Controls
                 //{
                 EditorParent.SelectedItems = value;//}
         }
- 
+
         internal EditorStatus EditorStatus { get; set; }
 
         private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -107,6 +107,10 @@ namespace OhmStudio.UI.Controls
 
         public virtual void OnItemsSourceChanged(IEnumerable oldItemsSource, IEnumerable newItemsSource)
         {
+            if (EditorParent == null)
+            {
+                throw new InvalidOperationException("The EditorParent is not loaded!");
+            }
             Children.Clear();
             if (oldItemsSource != null)
             {
@@ -176,11 +180,11 @@ namespace OhmStudio.UI.Controls
                     ContentTemplateSelector = EditorParent.ItemTemplateSelector
                 };
             }
- 
+
             AttachWorkflowItems(result);
             return result;
         }
- 
+
         private void AttachWorkflowItems(WorkflowItem workflowItem)
         {
             if (EditorParent.ItemContainerStyle != null)
