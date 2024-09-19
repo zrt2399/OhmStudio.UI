@@ -78,7 +78,7 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty PathContainerStyleSelectorProperty =
             DependencyProperty.Register(nameof(PathContainerStyleSelector), typeof(StyleSelector), typeof(WorkflowEditor));
- 
+
         protected readonly TranslateTransform TranslateTransform = new TranslateTransform();
 
         protected readonly ScaleTransform ScaleTransform = new ScaleTransform();
@@ -216,7 +216,7 @@ namespace OhmStudio.UI.Controls
             get => (double)GetValue(BringIntoViewMaxDurationProperty);
             set => SetValue(BringIntoViewMaxDurationProperty, value);
         }
- 
+
         public DataTemplate PathTemplate
         {
             get => (DataTemplate)GetValue(PathTemplateProperty);
@@ -240,7 +240,7 @@ namespace OhmStudio.UI.Controls
             get => (StyleSelector)GetValue(PathContainerStyleSelectorProperty);
             set => SetValue(PathContainerStyleSelectorProperty, value);
         }
- 
+
         public ICommand SelectAllCommand { get; }
 
         public ICommand UnselectAllCommand { get; }
@@ -332,6 +332,11 @@ namespace OhmStudio.UI.Controls
             {
                 ItemsHost.EndUpdateSelectedItems();
             }
+        }
+
+        public Point GetDragPosition(DragEventArgs dragEventArgs)
+        {
+            return dragEventArgs.GetPosition(ItemsHost);
         }
 
         private static void OnDisableAutoPanningChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

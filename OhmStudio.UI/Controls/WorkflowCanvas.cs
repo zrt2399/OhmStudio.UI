@@ -67,22 +67,7 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(WorkflowCanvas), new PropertyMetadata(OnItemsSourceChanged));
-
-        //public static readonly DependencyProperty ItemTemplateProperty =
-        //    DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(WorkflowCanvas));
-
-        //public static readonly DependencyProperty ItemTemplateSelectorProperty =
-        //    DependencyProperty.Register(nameof(ItemTemplateSelector), typeof(DataTemplateSelector), typeof(WorkflowCanvas));
-
-        //public static readonly DependencyProperty ItemContainerStyleProperty =
-        //    DependencyProperty.Register(nameof(ItemContainerStyle), typeof(Style), typeof(WorkflowCanvas), new PropertyMetadata(OnContainerStyleChanged));
-
-        //public static readonly DependencyProperty ItemContainerStyleSelectorProperty =
-        //    DependencyProperty.Register(nameof(ItemContainerStyleSelector), typeof(StyleSelector), typeof(WorkflowCanvas), new PropertyMetadata(OnContainerStyleSelectorChanged));
-
-        //public static readonly DependencyProperty GridSpacingProperty =
-        //    DependencyProperty.Register(nameof(GridSpacing), typeof(uint), typeof(WorkflowCanvas), new FrameworkPropertyMetadata(20u));
-
+ 
         internal bool IsCtrlKeyDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
 
         internal IEnumerable<SelectionControl> SelectableElements => Children.OfType<SelectionControl>();
@@ -109,37 +94,7 @@ namespace OhmStudio.UI.Controls
                 //{
                 EditorParent.SelectedItems = value;//}
         }
-
-        //public Style ItemContainerStyle
-        //{
-        //    get => (Style)GetValue(ItemContainerStyleProperty);
-        //    set => SetValue(ItemContainerStyleProperty, value);
-        //}
-
-        //public StyleSelector ItemContainerStyleSelector
-        //{
-        //    get => (StyleSelector)GetValue(ItemContainerStyleSelectorProperty);
-        //    set => SetValue(ItemContainerStyleSelectorProperty, value);
-        //}
-
-        //public DataTemplate ItemTemplate
-        //{
-        //    get => (DataTemplate)GetValue(ItemTemplateProperty);
-        //    set => SetValue(ItemTemplateProperty, value);
-        //}
-
-        //public DataTemplateSelector ItemTemplateSelector
-        //{
-        //    get => (DataTemplateSelector)GetValue(ItemTemplateSelectorProperty);
-        //    set => SetValue(ItemTemplateSelectorProperty, value);
-        //}
-
-        //public uint GridSpacing
-        //{
-        //    get => (uint)GetValue(GridSpacingProperty);
-        //    set => SetValue(GridSpacingProperty, value);
-        //}
-
+ 
         internal EditorStatus EditorStatus { get; set; }
 
         private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -221,39 +176,11 @@ namespace OhmStudio.UI.Controls
                     ContentTemplateSelector = EditorParent.ItemTemplateSelector
                 };
             }
-            //result.CanvasParent = this;
+ 
             AttachWorkflowItems(result);
             return result;
         }
-
-        //private static void OnContainerStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    ((WorkflowCanvas)d).OnContainerStyleChanged(e);
-        //}
-
-        //protected virtual void OnContainerStyleChanged(DependencyPropertyChangedEventArgs e)
-        //{
-        //    AttachWorkflowItems();
-        //}
-
-        //private static void OnContainerStyleSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    ((WorkflowCanvas)d).OnContainerStyleSelectorChanged(e);
-        //}
-
-        //protected virtual void OnContainerStyleSelectorChanged(DependencyPropertyChangedEventArgs e)
-        //{
-        //    AttachWorkflowItems();
-        //}
-
-        //private void AttachWorkflowItems()
-        //{
-        //    foreach (var item in WorkflowItems)
-        //    {
-        //        AttachWorkflowItems(item);
-        //    }
-        //}
-
+ 
         private void AttachWorkflowItems(WorkflowItem workflowItem)
         {
             if (EditorParent.ItemContainerStyle != null)

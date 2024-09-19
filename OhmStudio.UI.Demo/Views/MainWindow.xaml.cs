@@ -239,6 +239,39 @@ namespace OhmStudio.UI.Demo.Views
         {
             workflowEditor.BringIntoView(new Point());
         }
+
+        private Point _dragStartPoint;
+        private void SourceListBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            // 如果没有按住鼠标左键，返回
+            if (e.LeftButton != MouseButtonState.Pressed)
+            {
+                return;
+            }
+
+            Vector diff = _dragStartPoint - e.GetPosition(null);
+
+            // 如果拖动距离很小，则不处理拖动
+            if (Math.Abs(diff.X) < SystemParameters.MinimumHorizontalDragDistance &&
+                Math.Abs(diff.Y) < SystemParameters.MinimumVerticalDragDistance)
+            {
+                return;
+            }
+
+            // 获取当前选中的项
+            var listBox = sender as ListBox;
+            if (listBox.SelectedItem != null)
+            {
+                // 开始拖动
+                DragDrop.DoDragDrop(listBox, listBox.SelectedItem, DragDropEffects.Move);
+            }
+        }
+
+        // 记录鼠标按下的位置
+        private void SourceListBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _dragStartPoint = e.GetPosition(null);
+        }
     }
 
     public class BraceFoldingStrategy

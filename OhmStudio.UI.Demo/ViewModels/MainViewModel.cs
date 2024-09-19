@@ -62,16 +62,6 @@ namespace OhmStudio.UI.Demo.ViewModels
                 }
             });
 
-            AddWorkflowItemCommand = new RelayCommand<StepType>((stepType) =>
-            {
-                var point = MainWindow.workflowEditor.MouseLocation;
-                WorkflowItemModel workflowItemModel = new WorkflowItemModel();
-                workflowItemModel.Name = EnumDescriptionConverter.GetEnumDesc(stepType);
-                workflowItemModel.StepType = stepType;
-                workflowItemModel.Left = point.X;
-                workflowItemModel.Top = point.Y;
-                WorkflowItemModels.Add(workflowItemModel);
-            });
             DeleteWorkflowItemCommand = new RelayCommand(() =>
             {
                 if (SelectedWorkflowItems != null)
@@ -85,11 +75,25 @@ namespace OhmStudio.UI.Demo.ViewModels
             SaveAsImageCommand = new RelayCommand(() =>
             {
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.Filter = "PNG 文件|*.png";
+                saveFileDialog.Filter = "PNG 图片|*.png";
                 saveFileDialog.Title = "另存为图片";
                 if (saveFileDialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(saveFileDialog.FileName))
                 {
                     MainWindow.SaveAsImage(saveFileDialog.FileName, ImageType.Png);
+                }
+            });
+            WorkflowEditorDropCommand = new RelayCommand<DragEventArgs>((e) =>
+            {
+                if (e.Data.GetData(typeof(StepType)) is StepType stepType)
+                {
+                    Point point = MainWindow.workflowEditor.GetDragPosition(e);
+
+                    WorkflowItemModel workflowItemModel = new WorkflowItemModel();
+                    workflowItemModel.Name = EnumDescriptionConverter.GetEnumDesc(stepType);
+                    workflowItemModel.StepType = stepType;
+                    workflowItemModel.Left = point.X;
+                    workflowItemModel.Top = point.Y;
+                    WorkflowItemModels.Add(workflowItemModel);
                 }
             });
 
@@ -152,10 +156,7 @@ namespace OhmStudio.UI.Demo.ViewModels
                 AlertDialog.Show("已改变");
             };
             PackIcons = new ObservableCollection<PackIconKind>(PackIconDataFactory.Create().Keys);
-
-            //UserInfos.Add(new UserInfoModel());
-            //UserInfos.Add(new UserInfoModel() { UserName = "jack" });
-            //UserInfos.Add(new UserInfoModel() { UserName = "rose", Password = "123456" });
+ 
             var userInfoModels = new Faker<UserInfoModel>("zh_CN")
                 .RuleFor(u => u.UserName, f => f.Name.LastName() + f.Name.FirstName())
                 .RuleFor(u => u.Password, f => f.Internet.Password())
@@ -166,9 +167,9 @@ namespace OhmStudio.UI.Demo.ViewModels
 
             UserInfos = new ObservableCollection<UserInfoModel>(userInfoModels);
 
-            WorkflowItemModels.Add(new WorkflowItemModel() { Name = "开始", StepType = StepType.Begin, Left = 100 });
-            WorkflowItemModels.Add(new WorkflowItemModel() { Name = "love", StepType = StepType.Nomal, Left = 200, Top = 200 });
-            WorkflowItemModels.Add(new WorkflowItemModel() { Name = "结束", StepType = StepType.End, Left = 300, Top = 400 });
+            WorkflowItemModels.Add(new WorkflowItemModel() { Name = "开始", StepType = StepType.Nomal, Left = 100 });
+            WorkflowItemModels.Add(new WorkflowItemModel() { Name = "测试", StepType = StepType.Nomal, Left = 200, Top = 200 });
+            WorkflowItemModels.Add(new WorkflowItemModel() { Name = "结束", StepType = StepType.Nomal, Left = 300, Top = 400 });
 
             WorkflowItemModels.Last().LastStep = WorkflowItemModels[1];
             WorkflowItemModels[1].NextStep = WorkflowItemModels.Last();
@@ -283,8 +284,10 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         public ICommand SaveAsImageCommand { get; }
 
-        private RelayCommand _startCommand;
-        public RelayCommand StartCommand
+        public ICommand WorkflowEditorDropCommand { get; }
+
+        private ICommand _startCommand;
+        public ICommand StartCommand
         {
             get => _startCommand ??= new RelayCommand(() =>
             {

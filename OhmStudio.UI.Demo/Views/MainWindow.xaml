@@ -707,21 +707,10 @@
                             </LayoutDocument>
                             <LayoutDocument Title="WorkflowEditor">
                                 <TabControl>
-                                    <TabControl.Resources>
-                                        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
-                                            <Setter Property="HorizontalAlignment" Value="Center" />
-                                            <Setter Property="TextWrapping" Value="Wrap" />
-                                        </Style>
-                                        <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
-                                            <Setter Property="VerticalAlignment" Value="Center" />
-                                            <Setter Property="HorizontalAlignment" Value="Center" />
-                                            <Setter Property="TextWrapping" Value="Wrap" />
-                                        </Style>
-                                    </TabControl.Resources>
                                     <!--<TabItem Header="NoMvvmBinding">
                                         <WorkflowCanvas ItemsSource="{Binding WorkflowItems}" />
-                                    </TabItem>
-                                    <TabItem Header="UseChildren" IsSelected="True">
+                                    </TabItem>-->
+                                    <!--<TabItem Header="UseChildren" IsSelected="True">
                                         <WorkflowEditor>
                                             <WorkflowItem Content="开始" StepType="Begin" />
                                             <WorkflowItem Canvas.Left="80"
@@ -759,18 +748,20 @@
                                     </TabItem>-->
                                     <TabItem Header="MvvmBinding">
                                         <Grid GridAttach.ColumnDefinitions="200,*" GridAttach.RowDefinitions="Auto,*,Auto">
-                                            <!--
-                                                DragDropAttach.IsDragSource="True"
-                                                DragDropAttach.IsDropTarget="True"
-                                                DragDropAttach.SelectDroppedItems="True"
-                                                DragDropAttach.UseDefaultDragAdorner="True"
-                                                DragDropAttach.UseDefaultEffectDataTemplate="True"
-                                            -->
-                                            <ListBox Grid.Row="1" ItemsSource="{EnumBindingSource EnumType=StepType}" />
 
-                                            <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal">
+                                            <ListBox Grid.Row="1"
+                                                     ItemsSource="{EnumBindingSource EnumType=StepType}"
+                                                     MouseLeftButtonDown="SourceListBox_MouseLeftButtonDown"
+                                                     MouseMove="SourceListBox_MouseMove" />
+
+                                            <UniformGrid Grid.ColumnSpan="2" Rows="1">
                                                 <Button Click="Button_Click_19">BringIntoView</Button>
-                                            </StackPanel>
+                                                <Button Command="{Binding DeleteWorkflowItemCommand}">删除选中流程</Button>
+                                                <Button Command="{Binding ElementName=workflowEditor, Path=SelectAllCommand}">选择全部</Button>
+                                                <Button Command="{Binding ElementName=workflowEditor, Path=UnselectAllCommand}">取消全部</Button>
+                                                <Button Command="{Binding ElementName=workflowEditor, Path=InvertSelectCommand}">反选</Button>
+                                                <Button Command="{Binding SaveAsImageCommand}">保存为Png</Button>
+                                            </UniformGrid>
                                             <WorkflowEditor x:Name="workflowEditor"
                                                             Grid.Row="1"
                                                             Grid.Column="1"
@@ -778,24 +769,11 @@
                                                             ItemsSource="{Binding WorkflowItemModels}"
                                                             SelectedItems="{Binding SelectedWorkflowItems}">
 
-                                                <WorkflowEditor.ContextMenu>
-                                                    <ContextMenu>
-                                                        <MenuItem Header="添加流程" ItemsSource="{EnumBindingSource EnumType=StepType}">
-                                                            <MenuItem.ItemContainerStyle>
-                                                                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="MenuItem">
-                                                                    <Setter Property="Header" Value="{Binding}" />
-                                                                    <Setter Property="Command" Value="{Binding PlacementTarget.DataContext.AddWorkflowItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                                                                    <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header}" />
-                                                                </Style>
-                                                            </MenuItem.ItemContainerStyle>
-                                                        </MenuItem>
-                                                        <MenuItem Command="{Binding DeleteWorkflowItemCommand}" Header="删除选中流程" />
-                                                        <MenuItem Command="{Binding PlacementTarget.SelectAllCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Header="选择全部" />
-                                                        <MenuItem Command="{Binding PlacementTarget.UnselectAllCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Header="取消全部" />
-                                                        <MenuItem Command="{Binding PlacementTarget.InvertSelectCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Header="反选" />
-                                                        <MenuItem Command="{Binding SaveAsImageCommand}" Header="保存为Png" />
-                                                    </ContextMenu>
-                                                </WorkflowEditor.ContextMenu>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Drop">
+                                                        <i:InvokeCommandAction Command="{Binding WorkflowEditorDropCommand}" PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
                                                 <WorkflowEditor.PathTemplate>
                                                     <DataTemplate>
                                                         <TextBox HorizontalAlignment="Center"
@@ -821,29 +799,47 @@
                                                 </WorkflowEditor.ItemContainerStyle>
                                                 <WorkflowEditor.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Grid GridAttach.ColumnDefinitions="*,*,*" GridAttach.RowDefinitions="*,*,*">
-                                                            <!--<Button Content="{Binding IsSelected}" />-->
-                                                            <TextBlock Grid.Column="2">
-                                                                <Run Text="{Binding Top, StringFormat=Top:{0}}" />
-                                                                <Run Text="{Binding Left, StringFormat=Left:{0}}" />
-                                                            </TextBlock>
-                                                            <CheckBox HorizontalAlignment="Right"
-                                                                      VerticalAlignment="Center"
-                                                                      IsChecked="{Binding IsDraggable}">
-                                                                可拖拽
-                                                            </CheckBox>
-                                                            <TextBlock Grid.Column="1" Text="{Binding LastStep.Name, StringFormat=上一步：{0}}" />
-                                                            <TextBlock Grid.Row="1" Text="{Binding FromStep.Name, StringFormat=跳转自：{0}}" />
-                                                            <TextBox Grid.Row="1"
-                                                                     Grid.Column="1"
-                                                                     VerticalContentAlignment="Top"
-                                                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
-                                                            <TextBlock Grid.Row="1"
-                                                                       Grid.Column="2"
-                                                                       Text="{Binding JumpStep.Name, StringFormat=跳转至：{0}}" />
-                                                            <TextBlock Grid.Row="2"
-                                                                       Grid.Column="1"
-                                                                       Text="{Binding NextStep.Name, StringFormat=下一步：{0}}" />
+                                                        <Grid GridAttach.RowDefinitions="Auto,*">
+                                                            <Grid Background="Gray" GridAttach.ColumnDefinitions="Auto,*,Auto">
+                                                                <CheckBox Margin="10"
+                                                                          HorizontalAlignment="Right"
+                                                                          VerticalAlignment="Center"
+                                                                          IsChecked="{Binding IsDraggable}">
+                                                                    可拖拽
+                                                                </CheckBox>
+                                                                <TextBox Grid.Column="1"
+                                                                         Margin="0,10"
+                                                                         Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                                                                <Button Grid.Column="2"
+                                                                        Width="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"
+                                                                        Margin="10">
+                                                                    X
+                                                                </Button>
+                                                            </Grid>
+                                                            <DockPanel Grid.Row="1">
+                                                                <TextBlock HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Top"
+                                                                           DockPanel.Dock="Top"
+                                                                           Text="{Binding LastStep.Name, StringFormat=上一步：{0}}" />
+                                                                <TextBlock HorizontalAlignment="Left"
+                                                                           VerticalAlignment="Center"
+                                                                           DockPanel.Dock="Left"
+                                                                           Text="{Binding FromStep.Name, StringFormat=跳转自：{0}}" />
+
+                                                                <TextBlock HorizontalAlignment="Right"
+                                                                           VerticalAlignment="Center"
+                                                                           DockPanel.Dock="Right"
+                                                                           Text="{Binding JumpStep.Name, StringFormat=跳转至：{0}}" />
+                                                                <TextBlock HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Bottom"
+                                                                           DockPanel.Dock="Bottom"
+                                                                           Text="{Binding NextStep.Name, StringFormat=下一步：{0}}" />
+                                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                    <TextBlock Text="{Binding Top, StringFormat=Top:{0}}" />
+                                                                    <TextBlock Text="{Binding Left, StringFormat=Left:{0}}" />
+                                                                </StackPanel>
+                                                            </DockPanel>
+
                                                         </Grid>
                                                     </DataTemplate>
                                                 </WorkflowEditor.ItemTemplate>
@@ -860,16 +856,10 @@
                                                 </TextBlock>
                                                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                                                     <TextBlock>
-                                                        <!--<Run Text="{Binding ElementName=workflowEditor, Path=(WorkflowCanvas.EditorStatus), StringFormat=EditorStatus:{0}}" />-->
                                                         <Run Text="{Binding ElementName=workflowEditor, Path=IsKeyboardFocusWithin, StringFormat=IsKeyboardFocusWithin:{0}, Mode=OneWay}" />
                                                         <Run Text="{Binding ElementName=workflowEditor, Path=ViewportZoom, StringFormat=Zoom:{0}}" />
                                                     </TextBlock>
-                                                    <Slider Width="100"
-                                                            Maximum="{Binding ElementName=workflowEditor, Path=MaxViewportZoom}"
-                                                            Minimum="{Binding ElementName=workflowEditor, Path=MinViewportZoom}"
-                                                            Value="{Binding ElementName=workflowEditor, Path=ViewportZoom}" />
                                                 </StackPanel>
-
                                             </Grid>
                                         </Grid>
                                     </TabItem>

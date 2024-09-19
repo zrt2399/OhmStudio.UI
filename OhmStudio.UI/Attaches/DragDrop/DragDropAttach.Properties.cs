@@ -12,7 +12,7 @@ namespace OhmStudio.UI.Attaches.DragDrop
         /// <summary>
         /// The default data format which will be used for the drag and drop actions.
         /// </summary>
-        public static DataFormat DataFormat { get; } = DataFormats.GetDataFormat("OhmStudio.UI.Attaches.DragDrop");
+        public static DataFormat DataFormat { get; } = DataFormats.GetDataFormat(nameof(DragDropAttach));
 
         /// <summary>
         /// Gets the default DragHandler.
