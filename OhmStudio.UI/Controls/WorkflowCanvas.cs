@@ -459,10 +459,7 @@ namespace OhmStudio.UI.Controls
         {
             SetLeft(workflowItem, Adsorb(GetLeft(workflowItem)));
             SetTop(workflowItem, Adsorb(GetTop(workflowItem)));
-            Dispatcher.InvokeAsync(() =>
-            {
-                workflowItem.UpdateCurve();
-            }, DispatcherPriority.Render);
+            workflowItem.UpdateCurve();
         }
 
         public void UpdateMultiSelectionMask()

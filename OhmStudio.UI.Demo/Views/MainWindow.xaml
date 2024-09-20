@@ -757,10 +757,11 @@
 
                                             <UniformGrid Grid.ColumnSpan="2" Rows="1">
                                                 <Button Click="Button_Click_19">BringIntoView</Button>
-                                                <Button Command="{Binding DeleteWorkflowItemCommand}">删除选中流程</Button>
+                                                <Button Command="{Binding WorkflowEditorTestCommand}">添加测试节点</Button>
                                                 <Button Command="{Binding ElementName=workflowEditor, Path=SelectAllCommand}">选择全部</Button>
                                                 <Button Command="{Binding ElementName=workflowEditor, Path=UnselectAllCommand}">取消全部</Button>
                                                 <Button Command="{Binding ElementName=workflowEditor, Path=InvertSelectCommand}">反选</Button>
+                                                <Button Command="{Binding DeleteWorkflowItemCommand}">删除选中流程</Button>
                                                 <Button Command="{Binding SaveAsImageCommand}">保存为Png</Button>
                                             </UniformGrid>
                                             <WorkflowEditor x:Name="workflowEditor"
@@ -837,10 +838,10 @@
                                                                            VerticalAlignment="Bottom"
                                                                            DockPanel.Dock="Bottom"
                                                                            Text="{Binding NextStep.Name, StringFormat=下一步：{0}}" />
-                                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <!--<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                                                     <TextBlock Text="{Binding Top, StringFormat=Top:{0}}" />
                                                                     <TextBlock Text="{Binding Left, StringFormat=Left:{0}}" />
-                                                                </StackPanel>
+                                                                </StackPanel>-->
                                                             </DockPanel>
 
                                                         </Grid>

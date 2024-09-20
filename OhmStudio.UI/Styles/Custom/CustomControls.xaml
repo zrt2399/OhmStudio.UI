@@ -1810,8 +1810,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:LineItem">
                     <Grid Background="{TemplateBinding Background}">
-                        <Path Fill="#111E1E1E"
-                              Stroke="{TemplateBinding LineBrush}"
+                        <!--  Fill="#111E1E1E"  -->
+                        <Path Stroke="{TemplateBinding LineBrush}"
                               StrokeDashArray="{TemplateBinding StrokeDashArray}"
                               StrokeThickness="{TemplateBinding LineThickness}">
                             <Path.Data>

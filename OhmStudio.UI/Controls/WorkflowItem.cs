@@ -256,8 +256,25 @@ namespace OhmStudio.UI.Controls
             Point0 = startPoint;
             if (IsCurve)
             {
-                Point1 = new Point((startPoint.X + endPoint.X) / 2, endPoint.Y);
-                Point2 = new Point((startPoint.X + endPoint.X) / 2, startPoint.Y);
+                Point controlPoint1 = new Point((startPoint.X + endPoint.X) / 2, endPoint.Y);
+                Point controlPoint2 = new Point((startPoint.X + endPoint.X) / 2, startPoint.Y);
+                if (StartEllipseItem != null)
+                {
+                    double offset = 200;
+                    if (StartEllipseItem.Dock == Dock.Right)
+                    {
+                        controlPoint1 = new Point(startPoint.X + offset, startPoint.Y);
+                        controlPoint2 = new Point(endPoint.X - offset, endPoint.Y);
+                    }
+                    else if (StartEllipseItem.Dock == Dock.Bottom)
+                    {
+                        controlPoint1 = new Point(startPoint.X, startPoint.Y + offset);
+                        controlPoint2 = new Point(endPoint.X, endPoint.Y - offset);
+                    }
+                }
+
+                Point1 = controlPoint1;
+                Point2 = controlPoint2;
             }
             else
             {
@@ -331,7 +348,7 @@ namespace OhmStudio.UI.Controls
 
         public Point GetPoint(UIElement parent)
         {
-            return TranslatePoint(new Point(ActualWidth / 2, ActualHeight / 2), parent);  
+            return TranslatePoint(new Point(ActualWidth / 2, ActualHeight / 2), parent);
         }
 
         internal void RemoveStep()
@@ -485,6 +502,7 @@ namespace OhmStudio.UI.Controls
                 item.WorkflowParent = this;
             }
             IsInit = true;
+            UpdateCurve();
         }
 
         private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
@@ -505,10 +523,7 @@ namespace OhmStudio.UI.Controls
             var cellSize = EditorParent.GridSpacing;
             Width = Math.Max(cellSize, Width.Adsorb(cellSize));
             Height = Math.Max(cellSize, Height.Adsorb(cellSize));
-            Dispatcher.InvokeAsync(() =>
-            {
-                UpdateCurve();
-            }, DispatcherPriority.Render);
+            UpdateCurve();
         }
 
         private void OnIsKeyboardFocusWithinChanged(object sender, EventArgs e)
@@ -581,27 +596,30 @@ namespace OhmStudio.UI.Controls
 
         public void UpdateCurve()
         {
-            if (!IsInit)
+            //if (!IsInit)
+            //{
+            //    Loaded += WorkflowItem_Loaded;
+            //    return;
+            //}
+            Dispatcher.InvokeAsync(() =>
             {
-                Loaded += WorkflowItem_Loaded;
-                return;
-            }
-            if (LastStep != null)
-            {
-                UpdateCurve(EllipseItems[Dock.Top].LineItem, FirstOrDefault(LastStep).EllipseItems[Dock.Bottom], EllipseItems[Dock.Top]);
-            }
-            if (NextStep != null)
-            {
-                UpdateCurve(EllipseItems[Dock.Bottom].LineItem, EllipseItems[Dock.Bottom], FirstOrDefault(NextStep).EllipseItems[Dock.Top]);
-            }
-            if (FromStep != null)
-            {
-                UpdateCurve(EllipseItems[Dock.Left].LineItem, FirstOrDefault(FromStep).EllipseItems[Dock.Right], EllipseItems[Dock.Left]);
-            }
-            if (JumpStep != null)
-            {
-                UpdateCurve(EllipseItems[Dock.Right].LineItem, EllipseItems[Dock.Right], FirstOrDefault(JumpStep).EllipseItems[Dock.Left]);
-            }
+                if (LastStep != null)
+                {
+                    UpdateCurve(EllipseItems[Dock.Top].LineItem, FirstOrDefault(LastStep).EllipseItems[Dock.Bottom], EllipseItems[Dock.Top]);
+                }
+                if (NextStep != null)
+                {
+                    UpdateCurve(EllipseItems[Dock.Bottom].LineItem, EllipseItems[Dock.Bottom], FirstOrDefault(NextStep).EllipseItems[Dock.Top]);
+                }
+                if (FromStep != null)
+                {
+                    UpdateCurve(EllipseItems[Dock.Left].LineItem, FirstOrDefault(FromStep).EllipseItems[Dock.Right], EllipseItems[Dock.Left]);
+                }
+                if (JumpStep != null)
+                {
+                    UpdateCurve(EllipseItems[Dock.Right].LineItem, EllipseItems[Dock.Right], FirstOrDefault(JumpStep).EllipseItems[Dock.Left]);
+                }
+            }, DispatcherPriority.Render);
         }
 
         internal bool CheckOverlap(RectangleGeometry rectangleGeometry)
