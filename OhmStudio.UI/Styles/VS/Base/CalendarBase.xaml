@@ -11,6 +11,7 @@
     <Style x:Key="CalendarBaseStyle" TargetType="Calendar">
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Background" Value="{DynamicResource SystemColorsWindow}" />
+        <Setter Property="CalendarDayButtonStyle" Value="{DynamicResource {x:Type CalendarDayButton}}" />
         <Setter Property="CalendarItemStyle">
             <Setter.Value>
                 <Style TargetType="CalendarItem">
@@ -19,6 +20,54 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <ControlTemplate x:Key="CalendarButtonTemplate" TargetType="ContentControl">
+
+        <Border x:Name="Border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}">
+
+            <ContentPresenter Margin="{TemplateBinding Padding}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+        </Border>
+
+
+
+
+
+    </ControlTemplate>
+
+    <Style TargetType="CalendarDayButton">
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
+
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Template" Value="{StaticResource CalendarButtonTemplate}" />
+
+        <Style.Triggers>
+
+            <Trigger Property="IsInactive" Value="True">
+                <Setter Property="Foreground" Value="Black" />
+            </Trigger>
+
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="Black" />
+                <Setter Property="Foreground" Value="Black" />
+
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+
 
     <ControlTemplate x:Key="CalendarItemStyle" TargetType="CalendarItem">
         <ControlTemplate.Resources>
@@ -83,8 +132,7 @@
 
                     <Grid x:Name="PART_MonthView"
                           Grid.Row="1"
-                          Grid.ColumnSpan="3"
-                          Background="White">
+                          Grid.ColumnSpan="3">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
@@ -108,7 +156,6 @@
                     <Grid x:Name="PART_YearView"
                           Grid.Row="1"
                           Grid.ColumnSpan="3"
-                          Background="White"
                           Visibility="Hidden">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
