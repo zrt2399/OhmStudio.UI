@@ -96,6 +96,26 @@ namespace OhmStudio.UI.Demo.ViewModels
                     WorkflowItemModels.Add(workflowItemModel);
                 }
             });
+            WorkflowEditorTestCommand = new RelayCommand(() =>
+            {
+                Random random = new Random();
+                for (int i = 0; i < 20; i++)
+                {
+                    WorkflowItemModel workflowItemModel = new WorkflowItemModel();
+                    workflowItemModel.Name = "测试节点";
+                    workflowItemModel.StepType = StepType.Nomal;
+                    workflowItemModel.Left = random.Next(-2000, 2000);
+                    workflowItemModel.Top = random.Next(-2000, 2000);
+                    WorkflowItemModels.Add(workflowItemModel);
+                    if (WorkflowItemModels.Count > 1)
+                    {
+                        var index = WorkflowItemModels.IndexOf(workflowItemModel);
+                        var last = WorkflowItemModels[index - 1];
+                        workflowItemModel.LastStep = last;
+                        last.NextStep = workflowItemModel;
+                    }
+                }
+            });
 
             Result.Columns.Add("Time");
             Result.Columns.Add("V0");
@@ -285,6 +305,8 @@ namespace OhmStudio.UI.Demo.ViewModels
         public ICommand SaveAsImageCommand { get; }
 
         public ICommand WorkflowEditorDropCommand { get; }
+
+        public ICommand WorkflowEditorTestCommand { get; }
 
         private ICommand _startCommand;
         public ICommand StartCommand
