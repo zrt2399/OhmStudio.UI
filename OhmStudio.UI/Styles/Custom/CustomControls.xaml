@@ -1693,7 +1693,7 @@
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Bottom"
                                    Cursor="SizeNWSE"
-                                   Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                   Visibility="Collapsed">
                                 <Thumb.Clip>
                                     <PathGeometry>
                                         <PathFigure StartPoint="0,16">
@@ -1711,6 +1711,11 @@
                             <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=HighlightBrush}" />
                             <Setter TargetName="ShapeBorder" Property="IsDashed" Value="True" />
                             <Setter Property="Panel.ZIndex" Value="1" />
+                            <Setter TargetName="PART_Thumb" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="PART_Thumb" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="StepType" Value="Begin">
                             <Setter TargetName="ShapeBorder" Property="attaches:CornerRadiusAttach.IsCircular" Value="True" />
@@ -1809,9 +1814,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:LineItem">
-                    <Grid Background="{TemplateBinding Background}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <!--  Fill="#111E1E1E"  -->
-                        <Path Stroke="{TemplateBinding LineBrush}"
+                        <!--<Path Stroke="{TemplateBinding LineBrush}"
                               StrokeDashArray="{TemplateBinding StrokeDashArray}"
                               StrokeThickness="{TemplateBinding LineThickness}">
                             <Path.Data>
@@ -1823,15 +1830,15 @@
                                     </PathFigure>
                                 </PathGeometry>
                             </Path.Data>
-                        </Path>
+                        </Path>-->
 
                         <ContentPresenter Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
                         <!--  Arrowhead  -->
-                        <Polygon Fill="{TemplateBinding LineBrush}" Points="{Binding Points, RelativeSource={RelativeSource TemplatedParent}}" />
-                    </Grid>
+                        <!--<Polygon Fill="{TemplateBinding LineBrush}" Points="{Binding Points, RelativeSource={RelativeSource TemplatedParent}}" />-->
+                    </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="#122E2E2E" />

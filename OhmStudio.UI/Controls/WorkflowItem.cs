@@ -94,20 +94,20 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty EndPointProperty =
             DependencyProperty.Register(nameof(EndPoint), typeof(Point), typeof(LineItem));
 
-        public static readonly DependencyProperty Point0Property =
-            DependencyProperty.Register(nameof(Point0), typeof(Point), typeof(LineItem));
+        //public static readonly DependencyProperty Point0Property =
+        //    DependencyProperty.Register(nameof(Point0), typeof(Point), typeof(LineItem));
 
-        public static readonly DependencyProperty Point1Property =
-            DependencyProperty.Register(nameof(Point1), typeof(Point), typeof(LineItem));
+        //public static readonly DependencyProperty Point1Property =
+        //    DependencyProperty.Register(nameof(Point1), typeof(Point), typeof(LineItem));
 
-        public static readonly DependencyProperty Point2Property =
-            DependencyProperty.Register(nameof(Point2), typeof(Point), typeof(LineItem));
+        //public static readonly DependencyProperty Point2Property =
+        //    DependencyProperty.Register(nameof(Point2), typeof(Point), typeof(LineItem));
 
-        public static readonly DependencyProperty Point3Property =
-            DependencyProperty.Register(nameof(Point3), typeof(Point), typeof(LineItem));
+        //public static readonly DependencyProperty Point3Property =
+        //    DependencyProperty.Register(nameof(Point3), typeof(Point), typeof(LineItem));
 
-        public static readonly DependencyProperty PointsProperty =
-            DependencyProperty.Register(nameof(Points), typeof(PointCollection), typeof(LineItem));
+        //public static readonly DependencyProperty PointsProperty =
+        //    DependencyProperty.Register(nameof(Points), typeof(PointCollection), typeof(LineItem));
 
         public static readonly DependencyProperty StartEllipseItemProperty =
             DependencyProperty.Register(nameof(StartEllipseItem), typeof(EllipseItem), typeof(LineItem));
@@ -134,10 +134,10 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(HighlightLineBrush), typeof(Brush), typeof(LineItem), new PropertyMetadata(Brushes.Orange));
 
         public static readonly DependencyProperty LineBrushProperty =
-            DependencyProperty.Register(nameof(LineBrush), typeof(Brush), typeof(LineItem));
+            DependencyProperty.Register(nameof(LineBrush), typeof(Brush), typeof(LineItem), new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty LineThicknessProperty =
-            DependencyProperty.Register(nameof(LineThickness), typeof(double), typeof(LineItem), new PropertyMetadata(2d));
+            DependencyProperty.Register(nameof(LineThickness), typeof(double), typeof(LineItem), new FrameworkPropertyMetadata(2d, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public Point StartPoint
         {
@@ -151,38 +151,38 @@ namespace OhmStudio.UI.Controls
             set => SetValue(EndPointProperty, value);
         }
 
-        public Point Point0
-        {
-            get => (Point)GetValue(Point0Property);
-            set => SetValue(Point0Property, value);
-        }
+        //public Point Point0
+        //{
+        //    get => (Point)GetValue(Point0Property);
+        //    set => SetValue(Point0Property, value);
+        //}
 
-        public Point Point1
-        {
-            get => (Point)GetValue(Point1Property);
-            set => SetValue(Point1Property, value);
-        }
+        //public Point Point1
+        //{
+        //    get => (Point)GetValue(Point1Property);
+        //    set => SetValue(Point1Property, value);
+        //}
 
-        public Point Point2
-        {
-            get => (Point)GetValue(Point2Property);
-            set => SetValue(Point2Property, value);
-        }
+        //public Point Point2
+        //{
+        //    get => (Point)GetValue(Point2Property);
+        //    set => SetValue(Point2Property, value);
+        //}
 
-        public Point Point3
-        {
-            get => (Point)GetValue(Point3Property);
-            set => SetValue(Point3Property, value);
-        }
+        //public Point Point3
+        //{
+        //    get => (Point)GetValue(Point3Property);
+        //    set => SetValue(Point3Property, value);
+        //}
 
-        /// <summary>
-        /// Gets or sets a collection that contains the vertex points of the polygon.
-        /// </summary>
-        public PointCollection Points
-        {
-            get => (PointCollection)GetValue(PointsProperty);
-            set => SetValue(PointsProperty, value);
-        }
+        ///// <summary>
+        ///// Gets or sets a collection that contains the vertex points of the polygon.
+        ///// </summary>
+        //public PointCollection Points
+        //{
+        //    get => (PointCollection)GetValue(PointsProperty);
+        //    set => SetValue(PointsProperty, value);
+        //}
 
         public EllipseItem StartEllipseItem
         {
@@ -231,6 +231,13 @@ namespace OhmStudio.UI.Controls
 
         public ICommand DeleteCommand { get; }
 
+        public Point Point1 { get; set; }
+        public Point Point2 { get; set; }
+        public Point Point3 { get; set; }
+        public Point Point4 { get; set; }
+        public Point Point5 { get; set; }
+        public Point Point6 { get; set; }
+
         public void UpdateBezierCurve(Point startPoint, Point endPoint)
         {
             Point startPointTemp = new Point();
@@ -253,55 +260,221 @@ namespace OhmStudio.UI.Controls
             startPoint.Y -= StartPoint.Y;
             endPoint.X -= StartPoint.X;
             endPoint.Y -= StartPoint.Y;
-            Point0 = startPoint;
+            Source = startPoint;
+            Target = endPoint;
+            Point1 = startPoint;
             if (IsCurve)
             {
-                Point controlPoint1 = new Point((startPoint.X + endPoint.X) / 2, endPoint.Y);
-                Point controlPoint2 = new Point((startPoint.X + endPoint.X) / 2, startPoint.Y);
-                if (StartEllipseItem != null)
-                {
-                    double offset = 200;
-                    if (StartEllipseItem.Dock == Dock.Right)
-                    {
-                        controlPoint1 = new Point(startPoint.X + offset, startPoint.Y);
-                        controlPoint2 = new Point(endPoint.X - offset, endPoint.Y);
-                    }
-                    else if (StartEllipseItem.Dock == Dock.Bottom)
-                    {
-                        controlPoint1 = new Point(startPoint.X, startPoint.Y + offset);
-                        controlPoint2 = new Point(endPoint.X, endPoint.Y - offset);
-                    }
-                }
+                //Point controlPoint1 = new Point((startPoint.X + endPoint.X) / 2, endPoint.Y);
+                //Point controlPoint2 = new Point((startPoint.X + endPoint.X) / 2, startPoint.Y);
+                //Point2 = startPoint;
+                //Point5 = endPoint;
+                //if (StartEllipseItem != null)
+                //{
+                //    double offset = 20;
+                //    if (StartEllipseItem.Dock == Dock.Right)
+                //    {
+                //        Point2 = new Point(startPoint.X + offset, startPoint.Y);
+                //        Point5 = new Point(endPoint.X - offset, endPoint.Y);
+                //    }
+                //    else if (StartEllipseItem.Dock == Dock.Bottom)
+                //    {
+                //        Point2 = new Point(startPoint.X, startPoint.Y + offset);
+                //        Point5 = new Point(endPoint.X, endPoint.Y - offset);
+                //    }
+                //}
 
-                Point1 = controlPoint1;
-                Point2 = controlPoint2;
+
+                //Point3 = controlPoint1;
+                //Point4 = controlPoint2;
+
+
             }
             else
             {
                 Vector vector = endPoint - startPoint;
-                Point1 = startPoint + vector;
-                Point2 = endPoint - vector;
+                Point3 = startPoint + vector;
+                Point4 = endPoint - vector;
             }
-            Point3 = endPoint;
-            UpdateArrow(Point2, endPoint);
+            Point6 = endPoint;
+            Width = Math.Abs(startPoint.X - endPoint.X);
+            Height = Math.Abs(startPoint.Y - endPoint.Y);
+            InvalidateVisual();
+         
         }
 
-        private void UpdateArrow(Point point2, Point endPoint)
+        private const double _baseOffset = 100d;
+        private const double _offsetGrowthRate = 25d;
+        private double Spacing { get; set; } = 20;
+        private uint DirectionalArrowsCount { get; set; } = 2;
+
+        private double DirectionalArrowsOffset { get; set; } = 0;
+
+        public Size ArrowSize { get; set; } = new Size(8, 8);
+
+        private Point Source { get; set; }
+        private Point Target { get; set; }
+
+        protected override void OnRender(DrawingContext drawingContext)
         {
-            double arrowLength = 16;
-            double arrowWidth = 12;
+            //base.OnRender(drawingContext);
+            bool isForward = true;
+            double direction = isForward ? 1d : -1d;
+            var spacing = new Vector(Spacing * direction, 0d);
+            var spacingVertical = new Vector(spacing.Y, spacing.X);
 
-            // 计算箭头的方向
-            Vector direction = endPoint - point2;
-            direction.Normalize();
+            var source = Source;
 
-            // 算出箭头的两个角点
-            Point arrowPoint1 = endPoint - direction * arrowLength + new Vector(-direction.Y, direction.X) * arrowWidth / 2;
-            Point arrowPoint2 = endPoint - direction * arrowLength - new Vector(-direction.Y, direction.X) * arrowWidth / 2;
+            var target = Target;
 
-            // 更新箭头形状的点
-            Points = new PointCollection(new Point[] { endPoint, arrowPoint1, arrowPoint2 });
+            var SourceOrientation = Orientation.Vertical;
+            var TargetOrientation = Orientation.Vertical;
+
+            Point startPoint = source + (SourceOrientation == Orientation.Vertical ? spacingVertical : spacing);
+            Point endPoint = target - (TargetOrientation == Orientation.Vertical ? spacingVertical : spacing);
+
+            Vector delta = target - source;
+            double height = Math.Abs(delta.Y);
+            double width = Math.Abs(delta.X);
+
+            // Smooth curve when distance is lower than base offset
+            double smooth = Math.Min(_baseOffset, height);
+            // Calculate offset based on distance
+            double offset = Math.Max(smooth, width / 2d);
+            // Grow slowly with distance
+            offset = Math.Min(_baseOffset + Math.Sqrt(width * _offsetGrowthRate), offset);
+
+            var controlPoint = new Vector(offset * direction, 0d);
+            var controlPointVertical = new Vector(controlPoint.Y, controlPoint.X);
+
+            // Avoid sharp bend if orientation different (when close to each other)
+            if (TargetOrientation != SourceOrientation)
+            {
+                controlPoint *= 0.5;
+            }
+
+            Point p0 = startPoint;
+            Point p1 = startPoint + (SourceOrientation == Orientation.Vertical ? controlPointVertical : controlPoint);
+            Point p2 = endPoint - (TargetOrientation == Orientation.Vertical ? controlPointVertical : controlPoint);
+            Point p3 = endPoint;
+
+            var pen = new Pen(LineBrush, LineThickness);
+            if (LineBrush != null && pen.IsFrozen)
+            {
+                pen.Freeze();
+            }
+
+            StreamGeometry geometry = new StreamGeometry();
+            using (StreamGeometryContext ctx = geometry.Open())
+            {
+                ctx.BeginFigure(source, false, false);
+                ctx.LineTo(p0, true, true);
+                ctx.BezierTo(p1, p2, p3, true, true);
+                ctx.LineTo(target, true, true);
+
+                DrawDirectionalArrowsGeometry(ctx, p0, p1, p2, p3);
+                DrawDefaultArrowhead(ctx, source, target, isForward, TargetOrientation);
+            }
+            geometry.Freeze();
+
+            drawingContext.DrawGeometry(null, pen, geometry);
         }
+
+        private void DrawDefaultArrowhead(StreamGeometryContext context, Point source, Point target, bool isForward, Orientation orientation = Orientation.Horizontal)
+        {
+            double direction = isForward ? 1d : -1d;
+
+            if (orientation == Orientation.Horizontal)
+            {
+                double headWidth = ArrowSize.Width;
+                double headHeight = ArrowSize.Height / 2;
+
+                var from = new Point(target.X - headWidth * direction, target.Y + headHeight);
+                var to = new Point(target.X - headWidth * direction, target.Y - headHeight);
+
+                context.BeginFigure(target, true, true);
+                context.LineTo(from, true, true);
+                context.LineTo(to, true, true);
+            }
+            else
+            {
+                double headWidth = ArrowSize.Width / 2;
+                double headHeight = ArrowSize.Height;
+
+                var from = new Point(target.X - headWidth, target.Y - headHeight * direction);
+                var to = new Point(target.X + headWidth, target.Y - headHeight * direction);
+
+                context.BeginFigure(target, true, true);
+                context.LineTo(from, true, true);
+                context.LineTo(to, true, true);
+            }
+        }
+
+        private void DrawDirectionalArrowsGeometry(StreamGeometryContext context, Point p0, Point p1, Point p2, Point p3)
+        {
+            double spacing = 1d / (DirectionalArrowsCount + 1);
+            for (int i = 1; i <= DirectionalArrowsCount; i++)
+            {
+                double t = (spacing * i + DirectionalArrowsOffset).WrapToRange(0d, 1d);
+                var to = InterpolateCubicBezier(p0, p1, p2, p3, t);
+                var direction = GetBezierTangent(p0, p1, p2, p3, t);
+
+                DrawDirectionalArrowheadGeometry(context, direction, to);
+            }
+        }
+
+        private void DrawDirectionalArrowheadGeometry(StreamGeometryContext context, Vector direction, Point location)
+        {
+            double headWidth = ArrowSize.Width;
+            double headHeight = ArrowSize.Height / 2;
+
+            double angle = Math.Atan2(direction.Y, direction.X);
+            double sinT = Math.Sin(angle);
+            double cosT = Math.Cos(angle);
+
+            var from = new Point(location.X + (headWidth * cosT - headHeight * sinT), location.Y + (headWidth * sinT + headHeight * cosT));
+            var to = new Point(location.X + (headWidth * cosT + headHeight * sinT), location.Y - (headHeight * cosT - headWidth * sinT));
+
+            context.BeginFigure(location, true, true);
+            context.LineTo(from, true, true);
+            context.LineTo(to, true, true);
+        }
+
+        private static Vector GetBezierTangent(Point P0, Point P1, Point P2, Point P3, double t)
+        {
+            // Calculate the derivatives of the Bezier curve equation and negate the result
+            return -(-3 * (1 - t) * (1 - t) * (Vector)P0 +
+                    (3 * (1 - t) * (1 - t) * (Vector)P1 - 6 * t * (1 - t) * (Vector)P1) +
+                    (6 * t * (1 - t) * (Vector)P2 - 3 * t * t * (Vector)P2) +
+                    3 * t * t * (Vector)P3);
+        }
+
+        private static Point InterpolateCubicBezier(Point P0, Point P1, Point P2, Point P3, double t)
+        {
+            // B = (1 − t)^3 * P0 + 3 * t * (1 − t)^2 * P1 + 3 * t^2 * (1 − t) * P2 + t^3 * P3
+            return (Point)
+                 ((Vector)P0 * (1 - t) * (1 - t) * (1 - t)
+                + (Vector)P1 * 3 * t * (1 - t) * (1 - t)
+                + (Vector)P2 * 3 * t * t * (1 - t)
+                + (Vector)P3 * t * t * t);
+        }
+
+        //private void UpdateArrow(Point point2, Point endPoint)
+        //{
+        //    double arrowLength = 16;
+        //    double arrowWidth = 12;
+
+        //    // 计算箭头的方向
+        //    Vector direction = endPoint - point2;
+        //    direction.Normalize();
+
+        //    // 算出箭头的两个角点
+        //    Point arrowPoint1 = endPoint - direction * arrowLength + new Vector(-direction.Y, direction.X) * arrowWidth / 2;
+        //    Point arrowPoint2 = endPoint - direction * arrowLength - new Vector(-direction.Y, direction.X) * arrowWidth / 2;
+
+        //    // 更新箭头形状的点
+        //    Points = new PointCollection(new Point[] { endPoint, arrowPoint1, arrowPoint2 });
+        //}
 
         internal void Delete()
         {

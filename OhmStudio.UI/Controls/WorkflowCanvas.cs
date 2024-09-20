@@ -8,7 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 using OhmStudio.UI.Messaging;
 using OhmStudio.UI.PublicMethods;
 
