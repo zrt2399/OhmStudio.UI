@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using OhmStudio.UI.Commands;
+using OhmStudio.UI.Helpers;
 using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
@@ -36,14 +37,21 @@ namespace OhmStudio.UI.Controls
         End
     }
 
-    public abstract class SelectionControl : ContentControl
+    public abstract class CanvasItem : ContentControl
     {
         public event RoutedEventHandler Selected;
 
         public event RoutedEventHandler Unselected;
 
         public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(SelectionControl), new PropertyMetadata(OnIsSelectedChanged));
+            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(CanvasItem), new PropertyMetadata(OnIsSelectedChanged));
+
+        public CanvasItem()
+        {
+            DependencyPropertyDescriptor property = DependencyPropertyDescriptor.FromProperty(IsKeyboardFocusWithinProperty, typeof(CanvasItem));
+            //property?.RemoveValueChanged(this, OnIsKeyboardFocusWithinChanged);
+            property?.AddValueChanged(this, OnIsKeyboardFocusWithinChanged);
+        }
 
         public bool IsSelected
         {
@@ -51,10 +59,29 @@ namespace OhmStudio.UI.Controls
             set => SetValue(IsSelectedProperty, value);
         }
 
+        public WorkflowCanvas CanvasParent { get; internal set; }
+
+        private void OnIsKeyboardFocusWithinChanged(object sender, EventArgs e)
+        {
+            if (CanvasParent != null && IsKeyboardFocusWithin)
+            {
+                CanvasParent.BeginUpdateSelectedItems();
+                IsSelected = true;
+                if (!KeyboardHelper.IsCtrlKeyDown)
+                {
+                    foreach (var item in CanvasParent.CanvasItems.Where(x => x != this))
+                    {
+                        item.IsSelected = false;
+                    }
+                }
+                CanvasParent.EndUpdateSelectedItems();
+            }
+        }
+
         public static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var selectionControl = (SelectionControl)d;
-            selectionControl.OnIsSelectedChanged();
+            var canvasItem = (CanvasItem)d;
+            canvasItem.OnIsSelectedChanged();
         }
 
         public virtual void OnIsSelectedChanged()
@@ -64,7 +91,7 @@ namespace OhmStudio.UI.Controls
         }
     }
 
-    public class LineItem : SelectionControl
+    public class LineItem : CanvasItem
     {
         static LineItem()
         {
@@ -151,8 +178,6 @@ namespace OhmStudio.UI.Controls
             get => (double)GetValue(LineThicknessProperty);
             set => SetValue(LineThicknessProperty, value);
         }
-
-        public WorkflowCanvas CanvasParent { get; private set; }
 
         public ICommand DeleteCommand { get; }
 
@@ -429,18 +454,11 @@ namespace OhmStudio.UI.Controls
     /// <summary>
     /// 流程节点项。
     /// </summary>
-    public class WorkflowItem : SelectionControl
+    public class WorkflowItem : CanvasItem
     {
         static WorkflowItem()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WorkflowItem), new FrameworkPropertyMetadata(typeof(WorkflowItem)));
-        }
-
-        public WorkflowItem()
-        {
-            DependencyPropertyDescriptor property = DependencyPropertyDescriptor.FromProperty(IsKeyboardFocusWithinProperty, typeof(WorkflowItem));
-            //property?.RemoveValueChanged(this, OnIsKeyboardFocusWithinChanged);
-            property?.AddValueChanged(this, OnIsKeyboardFocusWithinChanged);
         }
 
         public static readonly DependencyProperty IsDraggableProperty =
@@ -478,8 +496,6 @@ namespace OhmStudio.UI.Controls
         internal Dictionary<Dock, EllipseItem> EllipseItems { get; private set; }
 
         public bool IsInit { get; private set; }
-
-        public WorkflowCanvas CanvasParent { get; internal set; }
 
         public WorkflowEditor EditorParent => CanvasParent.EditorParent;
 
@@ -584,23 +600,6 @@ namespace OhmStudio.UI.Controls
             Width = Math.Max(cellSize, Width.Adsorb(cellSize));
             Height = Math.Max(cellSize, Height.Adsorb(cellSize));
             UpdateCurve();
-        }
-
-        private void OnIsKeyboardFocusWithinChanged(object sender, EventArgs e)
-        {
-            if (IsKeyboardFocusWithin)
-            {
-                CanvasParent.BeginUpdateSelectedItems();
-                IsSelected = true;
-                if (!CanvasParent.IsCtrlKeyDown)
-                {
-                    foreach (var item in CanvasParent.SelectableElements.Where(x => x != this))
-                    {
-                        item.IsSelected = false;
-                    }
-                }
-                CanvasParent.EndUpdateSelectedItems();
-            }
         }
 
         internal void Delete()

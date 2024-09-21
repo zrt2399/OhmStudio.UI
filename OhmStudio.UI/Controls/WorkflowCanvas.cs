@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using OhmStudio.UI.Helpers;
 using OhmStudio.UI.Messaging;
 using OhmStudio.UI.PublicMethods;
 
@@ -73,10 +74,8 @@ namespace OhmStudio.UI.Controls
         public static void SetEditorStatus(DependencyObject element, CanvasStatus value) => element.SetValue(EditorStatusProperty, value);
 
         public static CanvasStatus GetEditorStatus(DependencyObject element) => (CanvasStatus)element.GetValue(EditorStatusProperty);
-
-        internal bool IsCtrlKeyDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
-
-        internal IEnumerable<SelectionControl> SelectableElements => Children.OfType<SelectionControl>();
+ 
+        internal IEnumerable<CanvasItem> CanvasItems => Children.OfType<CanvasItem>();
 
         public IEnumerable<WorkflowItem> WorkflowItems => Children.OfType<WorkflowItem>();
 
@@ -337,21 +336,21 @@ namespace OhmStudio.UI.Controls
             Children.Remove(_multiSelectionMask);
 
             //bool isLineItem = false;
-            IEnumerable<SelectionControl> selectableElements;
+            IEnumerable<CanvasItem> canvasItems;
             BeginUpdateSelectedItems();
-            if (this.GetVisualHitOfType<SelectionControl>(point) is SelectionControl selectableElement)
+            if (this.GetVisualHitOfType<CanvasItem>(point) is CanvasItem canvasItem)
             {
                 //isLineItem = selectableElement is LineItem;
-                selectableElement.IsSelected = true;
-                selectableElements = SelectableElements.Where(x => x != selectableElement);
+                canvasItem.IsSelected = true;
+                canvasItems = CanvasItems.Where(x => x != canvasItem);
             }
             else
             {
-                selectableElements = SelectableElements;
+                canvasItems = CanvasItems;
             }
-            if (!IsCtrlKeyDown)
+            if (!KeyboardHelper.IsCtrlKeyDown)
             {
-                foreach (var item in selectableElements)
+                foreach (var item in canvasItems)
                 {
                     item.IsSelected = false;
                 }

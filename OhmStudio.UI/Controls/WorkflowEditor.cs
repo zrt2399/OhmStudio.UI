@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using OhmStudio.UI.Commands;
+using OhmStudio.UI.Helpers;
 using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
@@ -250,8 +251,6 @@ namespace OhmStudio.UI.Controls
         protected internal WorkflowCanvas ItemsHost { get; private set; }
 
         public double AutoPanningTickRate { get; set; } = 1;
-
-        internal bool IsCtrlKeyDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
 
         static WorkflowEditor()
         {
@@ -531,7 +530,7 @@ namespace OhmStudio.UI.Controls
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            if (IsCtrlKeyDown && Keyboard.IsKeyDown(Key.A))
+            if (KeyboardHelper.IsCtrlKeyDown && Keyboard.IsKeyDown(Key.A))
             {
                 SelectAll();
             }
