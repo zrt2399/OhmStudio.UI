@@ -94,41 +94,11 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty EndPointProperty =
             DependencyProperty.Register(nameof(EndPoint), typeof(Point), typeof(LineItem));
 
-        //public static readonly DependencyProperty Point0Property =
-        //    DependencyProperty.Register(nameof(Point0), typeof(Point), typeof(LineItem));
-
-        //public static readonly DependencyProperty Point1Property =
-        //    DependencyProperty.Register(nameof(Point1), typeof(Point), typeof(LineItem));
-
-        //public static readonly DependencyProperty Point2Property =
-        //    DependencyProperty.Register(nameof(Point2), typeof(Point), typeof(LineItem));
-
-        //public static readonly DependencyProperty Point3Property =
-        //    DependencyProperty.Register(nameof(Point3), typeof(Point), typeof(LineItem));
-
-        //public static readonly DependencyProperty PointsProperty =
-        //    DependencyProperty.Register(nameof(Points), typeof(PointCollection), typeof(LineItem));
-
         public static readonly DependencyProperty StartEllipseItemProperty =
             DependencyProperty.Register(nameof(StartEllipseItem), typeof(EllipseItem), typeof(LineItem));
 
         public static readonly DependencyProperty EndEllipseItemProperty =
             DependencyProperty.Register(nameof(EndEllipseItem), typeof(EllipseItem), typeof(LineItem));
-
-        public static readonly DependencyProperty IsCurveProperty =
-            DependencyProperty.Register(nameof(IsCurve), typeof(bool), typeof(LineItem), new PropertyMetadata(true, (sender, e) =>
-            {
-                var lineItem = (LineItem)sender;
-                if (lineItem.StartEllipseItem != null && lineItem.EndEllipseItem != null)
-                {
-                    var startPoint = lineItem.StartEllipseItem.GetPoint(lineItem.CanvasParent);
-                    var endPoint = lineItem.EndEllipseItem.GetPoint(lineItem.CanvasParent);
-                    lineItem.UpdateCurveAngle(startPoint, endPoint);
-                }
-            }));
-
-        public static readonly DependencyProperty StrokeDashArrayProperty =
-            DependencyProperty.Register(nameof(StrokeDashArray), typeof(DoubleCollection), typeof(LineItem));
 
         public static readonly DependencyProperty HighlightLineBrushProperty =
             DependencyProperty.Register(nameof(HighlightLineBrush), typeof(Brush), typeof(LineItem), new PropertyMetadata(Brushes.Orange));
@@ -151,39 +121,6 @@ namespace OhmStudio.UI.Controls
             set => SetValue(EndPointProperty, value);
         }
 
-        //public Point Point0
-        //{
-        //    get => (Point)GetValue(Point0Property);
-        //    set => SetValue(Point0Property, value);
-        //}
-
-        //public Point Point1
-        //{
-        //    get => (Point)GetValue(Point1Property);
-        //    set => SetValue(Point1Property, value);
-        //}
-
-        //public Point Point2
-        //{
-        //    get => (Point)GetValue(Point2Property);
-        //    set => SetValue(Point2Property, value);
-        //}
-
-        //public Point Point3
-        //{
-        //    get => (Point)GetValue(Point3Property);
-        //    set => SetValue(Point3Property, value);
-        //}
-
-        ///// <summary>
-        ///// Gets or sets a collection that contains the vertex points of the polygon.
-        ///// </summary>
-        //public PointCollection Points
-        //{
-        //    get => (PointCollection)GetValue(PointsProperty);
-        //    set => SetValue(PointsProperty, value);
-        //}
-
         public EllipseItem StartEllipseItem
         {
             get => (EllipseItem)GetValue(StartEllipseItemProperty);
@@ -194,18 +131,6 @@ namespace OhmStudio.UI.Controls
         {
             get => (EllipseItem)GetValue(EndEllipseItemProperty);
             set => SetValue(EndEllipseItemProperty, value);
-        }
-
-        public bool IsCurve
-        {
-            get => (bool)GetValue(IsCurveProperty);
-            set => SetValue(IsCurveProperty, value);
-        }
-
-        public DoubleCollection StrokeDashArray
-        {
-            get => (DoubleCollection)GetValue(StrokeDashArrayProperty);
-            set => SetValue(StrokeDashArrayProperty, value);
         }
 
         public Brush LineBrush
@@ -231,13 +156,6 @@ namespace OhmStudio.UI.Controls
 
         public ICommand DeleteCommand { get; }
 
-        public Point Point1 { get; set; }
-        public Point Point2 { get; set; }
-        public Point Point3 { get; set; }
-        public Point Point4 { get; set; }
-        public Point Point5 { get; set; }
-        public Point Point6 { get; set; }
-
         public void UpdateBezierCurve(Point startPoint, Point endPoint)
         {
             Point startPointTemp = new Point();
@@ -262,45 +180,21 @@ namespace OhmStudio.UI.Controls
             endPoint.Y -= StartPoint.Y;
             Source = startPoint;
             Target = endPoint;
-            Point1 = startPoint;
-            if (IsCurve)
+
+            var width = Math.Abs(startPoint.X - endPoint.X);
+            var height = Math.Abs(startPoint.Y - endPoint.Y);
+            if (this.FindChildOfType<UIElement>() is UIElement child)
             {
-                //Point controlPoint1 = new Point((startPoint.X + endPoint.X) / 2, endPoint.Y);
-                //Point controlPoint2 = new Point((startPoint.X + endPoint.X) / 2, startPoint.Y);
-                //Point2 = startPoint;
-                //Point5 = endPoint;
-                //if (StartEllipseItem != null)
-                //{
-                //    double offset = 20;
-                //    if (StartEllipseItem.Dock == Dock.Right)
-                //    {
-                //        Point2 = new Point(startPoint.X + offset, startPoint.Y);
-                //        Point5 = new Point(endPoint.X - offset, endPoint.Y);
-                //    }
-                //    else if (StartEllipseItem.Dock == Dock.Bottom)
-                //    {
-                //        Point2 = new Point(startPoint.X, startPoint.Y + offset);
-                //        Point5 = new Point(endPoint.X, endPoint.Y - offset);
-                //    }
-                //}
-
-
-                //Point3 = controlPoint1;
-                //Point4 = controlPoint2;
-
-
+                Width = Math.Max(width, child.DesiredSize.Width);
+                Height = Math.Max(height, child.DesiredSize.Height);
             }
             else
             {
-                Vector vector = endPoint - startPoint;
-                Point3 = startPoint + vector;
-                Point4 = endPoint - vector;
+                Width = width;
+                Height = height;
             }
-            Point6 = endPoint;
-            Width = Math.Abs(startPoint.X - endPoint.X);
-            Height = Math.Abs(startPoint.Y - endPoint.Y);
+
             InvalidateVisual();
-         
         }
 
         private const double _baseOffset = 100d;
@@ -324,14 +218,13 @@ namespace OhmStudio.UI.Controls
             var spacingVertical = new Vector(spacing.Y, spacing.X);
 
             var source = Source;
-
             var target = Target;
 
-            var SourceOrientation = Orientation.Vertical;
-            var TargetOrientation = Orientation.Vertical;
+            var sourceOrientation = StartEllipseItem.Dock == Dock.Bottom ? Orientation.Vertical : Orientation.Horizontal;
+            var targetOrientation = StartEllipseItem.Dock == Dock.Bottom ? Orientation.Vertical : Orientation.Horizontal;
 
-            Point startPoint = source + (SourceOrientation == Orientation.Vertical ? spacingVertical : spacing);
-            Point endPoint = target - (TargetOrientation == Orientation.Vertical ? spacingVertical : spacing);
+            Point startPoint = source + (sourceOrientation == Orientation.Vertical ? spacingVertical : spacing);
+            Point endPoint = target - (targetOrientation == Orientation.Vertical ? spacingVertical : spacing);
 
             Vector delta = target - source;
             double height = Math.Abs(delta.Y);
@@ -348,18 +241,19 @@ namespace OhmStudio.UI.Controls
             var controlPointVertical = new Vector(controlPoint.Y, controlPoint.X);
 
             // Avoid sharp bend if orientation different (when close to each other)
-            if (TargetOrientation != SourceOrientation)
+            if (targetOrientation != sourceOrientation)
             {
                 controlPoint *= 0.5;
             }
 
             Point p0 = startPoint;
-            Point p1 = startPoint + (SourceOrientation == Orientation.Vertical ? controlPointVertical : controlPoint);
-            Point p2 = endPoint - (TargetOrientation == Orientation.Vertical ? controlPointVertical : controlPoint);
+            Point p1 = startPoint + (sourceOrientation == Orientation.Vertical ? controlPointVertical : controlPoint);
+            Point p2 = endPoint - (targetOrientation == Orientation.Vertical ? controlPointVertical : controlPoint);
             Point p3 = endPoint;
 
-            var pen = new Pen(LineBrush, LineThickness);
-            if (LineBrush != null && pen.IsFrozen)
+            var lineBrush = LineBrush;
+            var pen = new Pen(lineBrush, LineThickness);
+            if (lineBrush != null && pen.IsFrozen)
             {
                 pen.Freeze();
             }
@@ -373,11 +267,11 @@ namespace OhmStudio.UI.Controls
                 ctx.LineTo(target, true, true);
 
                 DrawDirectionalArrowsGeometry(ctx, p0, p1, p2, p3);
-                DrawDefaultArrowhead(ctx, source, target, isForward, TargetOrientation);
+                DrawDefaultArrowhead(ctx, source, target, isForward, targetOrientation);
             }
             geometry.Freeze();
 
-            drawingContext.DrawGeometry(null, pen, geometry);
+            drawingContext.DrawGeometry(lineBrush, pen, geometry);
         }
 
         private void DrawDefaultArrowhead(StreamGeometryContext context, Point source, Point target, bool isForward, Orientation orientation = Orientation.Horizontal)
@@ -412,6 +306,16 @@ namespace OhmStudio.UI.Controls
 
         private void DrawDirectionalArrowsGeometry(StreamGeometryContext context, Point p0, Point p1, Point p2, Point p3)
         {
+            //DirectionalArrowsCount = 2;
+            //if (Source.X == Target.X && Math.Abs(Source.Y - Target.Y) < Spacing * 6)
+            //{
+            //    DirectionalArrowsCount = 0;
+            //}
+            //if (Source.Y == Target.Y && Math.Abs(Source.X - Target.X) < Spacing * 6)
+            //{
+            //    DirectionalArrowsCount = 0;
+            //}
+
             double spacing = 1d / (DirectionalArrowsCount + 1);
             for (int i = 1; i <= DirectionalArrowsCount; i++)
             {
@@ -458,23 +362,6 @@ namespace OhmStudio.UI.Controls
                 + (Vector)P2 * 3 * t * t * (1 - t)
                 + (Vector)P3 * t * t * t);
         }
-
-        //private void UpdateArrow(Point point2, Point endPoint)
-        //{
-        //    double arrowLength = 16;
-        //    double arrowWidth = 12;
-
-        //    // 计算箭头的方向
-        //    Vector direction = endPoint - point2;
-        //    direction.Normalize();
-
-        //    // 算出箭头的两个角点
-        //    Point arrowPoint1 = endPoint - direction * arrowLength + new Vector(-direction.Y, direction.X) * arrowWidth / 2;
-        //    Point arrowPoint2 = endPoint - direction * arrowLength - new Vector(-direction.Y, direction.X) * arrowWidth / 2;
-
-        //    // 更新箭头形状的点
-        //    Points = new PointCollection(new Point[] { endPoint, arrowPoint1, arrowPoint2 });
-        //}
 
         internal void Delete()
         {
@@ -769,11 +656,10 @@ namespace OhmStudio.UI.Controls
 
         public void UpdateCurve()
         {
-            //if (!IsInit)
-            //{
-            //    Loaded += WorkflowItem_Loaded;
-            //    return;
-            //}
+            if (!IsInit)
+            {
+                return;
+            }
             Dispatcher.InvokeAsync(() =>
             {
                 if (LastStep != null)
@@ -804,12 +690,6 @@ namespace OhmStudio.UI.Controls
                 geometry.Transform = (Transform)transform;
             }
             return rectangleGeometry.FillContainsWithDetail(geometry) != IntersectionDetail.Empty;
-        }
-
-        private void WorkflowItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            Loaded -= WorkflowItem_Loaded;
-            UpdateCurve();
         }
 
         private void UpdateCurve(LineItem lineItem, EllipseItem startEllipseItem, EllipseItem endEllipseItem)

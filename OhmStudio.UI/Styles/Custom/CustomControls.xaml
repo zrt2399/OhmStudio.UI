@@ -1688,13 +1688,20 @@
                                                   Dock="Bottom" />
 
                             <Thumb x:Name="PART_Thumb"
-                                   Width="16"
-                                   Height="16"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Bottom"
                                    Cursor="SizeNWSE"
                                    Visibility="Collapsed">
-                                <Thumb.Clip>
+                                <Thumb.Resources>
+                                    <SolidColorBrush x:Key="ResizeGripperForeground" attaches:SolidColorBrushAttach.Color="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" />
+                                </Thumb.Resources>
+                                <Thumb.Template>
+                                    <ControlTemplate>
+                                        <ResizeGrip Template="{StaticResource ResizeGripControlTemplate}" />
+                                        <!--<Polygon Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=controls:WorkflowItem}}" Points="0,16 16,16 16,0" />-->
+                                    </ControlTemplate>
+                                </Thumb.Template>
+                                <!--<Thumb.Clip>
                                     <PathGeometry>
                                         <PathFigure StartPoint="0,16">
                                             <LineSegment Point="16,0" />
@@ -1702,7 +1709,7 @@
                                             <LineSegment Point="0,16" />
                                         </PathFigure>
                                     </PathGeometry>
-                                </Thumb.Clip>
+                                </Thumb.Clip>-->
                             </Thumb>
                         </controls:SimplePanel>
                     </controls:ShapeBorder>
@@ -1802,9 +1809,6 @@
         <Setter Property="ContextMenu">
             <Setter.Value>
                 <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
-                    <MenuItem Header="是否为曲线"
-                              IsCheckable="True"
-                              IsChecked="{Binding IsCurve}" />
                     <MenuItem Command="{Binding DeleteCommand}"
                               Header="删除"
                               Icon="{controls:PackIcon Kind=TrashiOS}" />
@@ -1842,11 +1846,11 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="#122E2E2E" />
-                            <Setter Property="StrokeDashArray">
+                            <!--<Setter Property="StrokeDashArray">
                                 <Setter.Value>
                                     <DoubleCollection>2,2</DoubleCollection>
                                 </Setter.Value>
-                            </Setter>
+                            </Setter>-->
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="LineBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=HighlightLineBrush}" />

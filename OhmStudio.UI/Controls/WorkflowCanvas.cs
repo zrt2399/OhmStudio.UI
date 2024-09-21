@@ -303,6 +303,7 @@ namespace OhmStudio.UI.Controls
                 if (_currentLine == null)
                 {
                     _currentLine = new LineItem(this);
+                    _currentLine.StartEllipseItem = startEllipseItem;
                     Children.Add(_currentLine);
                 }
             }
@@ -518,7 +519,7 @@ namespace OhmStudio.UI.Controls
                 return;
             }
 
-            if (fromEllipse.LineItem != null || toEllipse.LineItem != null)
+            if (toEllipse.LineItem != null)
             {
                 UIMessageTip.ShowWarning("该节点已经存在连接关系，无法创建连接曲线，请删除后再试");
             }
