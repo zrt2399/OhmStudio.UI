@@ -476,7 +476,7 @@
 
                                             <ProgressBar Orientation="Vertical"
                                                          ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
-                                                         Value="60" />
+                                                         Value="{Binding ProgressBarValue}" />
 
                                             <ProgressBar Height="50"
                                                          VerticalAlignment="Center"
@@ -484,7 +484,7 @@
                                                          Value="50" />
                                             <ProgressBar VerticalAlignment="Center"
                                                          ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
-                                                         Value="60" />
+                                                         Value="{Binding ProgressBarValue}" />
                                         </UniformGrid>
                                     </GroupBox>
 
@@ -803,7 +803,7 @@
                                                 <WorkflowEditor.ItemTemplate>
                                                     <DataTemplate>
                                                         <Grid GridAttach.RowDefinitions="Auto,*">
-                                                            <Grid Background="{DynamicResource CommonControlsButtonBackground}" GridAttach.ColumnDefinitions="Auto,*,Auto">
+                                                            <Grid GridAttach.ColumnDefinitions="Auto,*,Auto">
                                                                 <CheckBox Margin="10"
                                                                           VerticalAlignment="Center"
                                                                           IsChecked="{Binding IsLock}">
@@ -820,29 +820,25 @@
                                                                     <PackIcon Padding="2" Kind="CloseMD" />
                                                                 </Button>
                                                             </Grid>
-                                                            <DockPanel Grid.Row="1">
+                                                            <Grid Grid.Row="1">
                                                                 <TextBlock HorizontalAlignment="Center"
                                                                            VerticalAlignment="Top"
-                                                                           DockPanel.Dock="Top"
                                                                            Text="{Binding LastStep.Name, StringFormat=上一步：{0}}" />
                                                                 <TextBlock HorizontalAlignment="Left"
                                                                            VerticalAlignment="Center"
-                                                                           DockPanel.Dock="Left"
                                                                            Text="{Binding FromStep.Name, StringFormat=跳转自：{0}}" />
 
                                                                 <TextBlock HorizontalAlignment="Right"
                                                                            VerticalAlignment="Center"
-                                                                           DockPanel.Dock="Right"
                                                                            Text="{Binding JumpStep.Name, StringFormat=跳转至：{0}}" />
                                                                 <TextBlock HorizontalAlignment="Center"
                                                                            VerticalAlignment="Bottom"
-                                                                           DockPanel.Dock="Bottom"
                                                                            Text="{Binding NextStep.Name, StringFormat=下一步：{0}}" />
                                                                 <!--<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                                                     <TextBlock Text="{Binding Top, StringFormat=Top:{0}}" />
                                                                     <TextBlock Text="{Binding Left, StringFormat=Left:{0}}" />
                                                                 </StackPanel>-->
-                                                            </DockPanel>
+                                                            </Grid>
 
                                                         </Grid>
                                                     </DataTemplate>
@@ -1279,6 +1275,9 @@
                                                             TextBoxAttach.PlaceHolder="请选择单个或多个文件..."
                                                             TextBoxAttach.Title="打开多个文件：" />
                                             </StackPanel>
+                                        </GroupBox>
+                                        <GroupBox Margin="10" Header="Calendar">
+                                            <Calendar BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" BorderThickness="1" />
                                         </GroupBox>
                                     </WrapPanel>
                                 </ScrollViewer>
