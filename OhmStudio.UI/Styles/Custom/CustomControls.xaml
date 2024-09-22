@@ -1811,7 +1811,7 @@
                 <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
                     <MenuItem Command="{Binding DeleteCommand}"
                               Header="删除"
-                              Icon="{controls:PackIcon Kind=TrashiOS}" />
+                              Icon="{controls:PackIcon Kind=Trashcan}" />
                 </ContextMenu>
             </Setter.Value>
         </Setter>
