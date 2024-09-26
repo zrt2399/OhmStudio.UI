@@ -93,6 +93,17 @@ namespace OhmStudio.UI.Controls
 
     public class LineItem : CanvasItem
     {
+        private const double _baseOffset = 0d;
+        private const double _offsetGrowthRate = 25d;
+
+        private double Spacing { get; set; } = 20;
+        private uint DirectionalArrowsCount { get; set; } = 2;
+
+        private Point Source { get; set; }
+        private Point Target { get; set; }
+
+        private double DirectionalArrowsOffset { get; set; } = 0;
+
         static LineItem()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(LineItem), new FrameworkPropertyMetadata(typeof(LineItem)));
@@ -121,11 +132,8 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty EndPointProperty =
             DependencyProperty.Register(nameof(EndPoint), typeof(Point), typeof(LineItem));
 
-        public static readonly DependencyProperty StartEllipseItemProperty =
-            DependencyProperty.Register(nameof(StartEllipseItem), typeof(EllipseItem), typeof(LineItem));
-
-        public static readonly DependencyProperty EndEllipseItemProperty =
-            DependencyProperty.Register(nameof(EndEllipseItem), typeof(EllipseItem), typeof(LineItem));
+        public static readonly DependencyProperty ArrowSizeProperty =
+           DependencyProperty.Register(nameof(ArrowSize), typeof(Size), typeof(LineItem), new PropertyMetadata(new Size(8, 8)));
 
         public static readonly DependencyProperty HighlightLineBrushProperty =
             DependencyProperty.Register(nameof(HighlightLineBrush), typeof(Brush), typeof(LineItem), new PropertyMetadata(Brushes.Orange));
@@ -148,16 +156,10 @@ namespace OhmStudio.UI.Controls
             set => SetValue(EndPointProperty, value);
         }
 
-        public EllipseItem StartEllipseItem
+        public Size ArrowSize
         {
-            get => (EllipseItem)GetValue(StartEllipseItemProperty);
-            set => SetValue(StartEllipseItemProperty, value);
-        }
-
-        public EllipseItem EndEllipseItem
-        {
-            get => (EllipseItem)GetValue(EndEllipseItemProperty);
-            set => SetValue(EndEllipseItemProperty, value);
+            get => (Size)GetValue(ArrowSizeProperty);
+            set => SetValue(ArrowSizeProperty, value);
         }
 
         public Brush LineBrush
@@ -180,6 +182,10 @@ namespace OhmStudio.UI.Controls
         }
 
         public ICommand DeleteCommand { get; }
+
+        public EllipseItem StartEllipseItem { get; internal set; }
+
+        public EllipseItem EndEllipseItem { get; internal set; }
 
         public void UpdateBezierCurve(Point startPoint, Point endPoint)
         {
@@ -210,6 +216,7 @@ namespace OhmStudio.UI.Controls
             var height = Math.Abs(startPoint.Y - endPoint.Y);
             if (this.FindChildOfType<UIElement>() is UIElement child)
             {
+                child.Measure(new Size(double.MaxValue, double.MaxValue));
                 Width = Math.Max(width, child.DesiredSize.Width);
                 Height = Math.Max(height, child.DesiredSize.Height);
             }
@@ -221,18 +228,6 @@ namespace OhmStudio.UI.Controls
 
             InvalidateVisual();
         }
-
-        private const double _baseOffset = 100d;
-        private const double _offsetGrowthRate = 25d;
-        private double Spacing { get; set; } = 20;
-        private uint DirectionalArrowsCount { get; set; } = 2;
-
-        private double DirectionalArrowsOffset { get; set; } = 0;
-
-        public Size ArrowSize { get; set; } = new Size(8, 8);
-
-        private Point Source { get; set; }
-        private Point Target { get; set; }
 
         protected override void OnRender(DrawingContext drawingContext)
         {
@@ -299,34 +294,29 @@ namespace OhmStudio.UI.Controls
             drawingContext.DrawGeometry(lineBrush, pen, geometry);
         }
 
-        private void DrawDefaultArrowhead(StreamGeometryContext context, Point source, Point target, bool isForward, Orientation orientation = Orientation.Horizontal)
+        private void DrawDefaultArrowhead(StreamGeometryContext context, Point source, Point target, bool isForward, Orientation orientation)
         {
             double direction = isForward ? 1d : -1d;
-
+            Point from, to;
             if (orientation == Orientation.Horizontal)
             {
                 double headWidth = ArrowSize.Width;
                 double headHeight = ArrowSize.Height / 2;
 
-                var from = new Point(target.X - headWidth * direction, target.Y + headHeight);
-                var to = new Point(target.X - headWidth * direction, target.Y - headHeight);
-
-                context.BeginFigure(target, true, true);
-                context.LineTo(from, true, true);
-                context.LineTo(to, true, true);
+                from = new Point(target.X - headWidth * direction, target.Y + headHeight);
+                to = new Point(target.X - headWidth * direction, target.Y - headHeight);
             }
             else
             {
                 double headWidth = ArrowSize.Width / 2;
                 double headHeight = ArrowSize.Height;
 
-                var from = new Point(target.X - headWidth, target.Y - headHeight * direction);
-                var to = new Point(target.X + headWidth, target.Y - headHeight * direction);
-
-                context.BeginFigure(target, true, true);
-                context.LineTo(from, true, true);
-                context.LineTo(to, true, true);
+                from = new Point(target.X - headWidth, target.Y - headHeight * direction);
+                to = new Point(target.X + headWidth, target.Y - headHeight * direction);
             }
+            context.BeginFigure(target, true, true);
+            context.LineTo(from, true, true);
+            context.LineTo(to, true, true);
         }
 
         private void DrawDirectionalArrowsGeometry(StreamGeometryContext context, Point p0, Point p1, Point p2, Point p3)

@@ -1562,11 +1562,11 @@
     <Style BasedOn="{StaticResource AppHostBaseStyle}" TargetType="controls:AppHost" />
 
     <Style x:Key="WorkflowCanvasBaseStyle" TargetType="controls:WorkflowCanvas">
-        <!--<Setter Property="Focusable" Value="True" />-->
-        <!--<Setter Property="ClipToBounds" Value="True" />-->
-        <!--<Setter Property="Background" Value="Transparent" />-->
-        <!--<Setter Property="GridLineBrush" Value="{DynamicResource WorkflowEditorGridLineBrush}" />-->
-        <!--<Setter Property="LayoutTransform">
+        <!--<Setter Property="Focusable" Value="True" />
+        <Setter Property="ClipToBounds" Value="True" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="GridLineBrush" Value="{DynamicResource WorkflowEditorGridLineBrush}" />
+        <Setter Property="LayoutTransform">
             <Setter.Value>
                 <ScaleTransform ScaleX="{Binding Scale, RelativeSource={RelativeSource AncestorType=Canvas}}"
                                 ScaleY="{Binding Scale, RelativeSource={RelativeSource AncestorType=Canvas}}"/>
@@ -1698,18 +1698,8 @@
                                 <Thumb.Template>
                                     <ControlTemplate>
                                         <ResizeGrip Template="{StaticResource ResizeGripControlTemplate}" />
-                                        <!--<Polygon Fill="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=controls:WorkflowItem}}" Points="0,16 16,16 16,0" />-->
                                     </ControlTemplate>
                                 </Thumb.Template>
-                                <!--<Thumb.Clip>
-                                    <PathGeometry>
-                                        <PathFigure StartPoint="0,16">
-                                            <LineSegment Point="16,0" />
-                                            <LineSegment Point="16,16" />
-                                            <LineSegment Point="0,16" />
-                                        </PathFigure>
-                                    </PathGeometry>
-                                </Thumb.Clip>-->
                             </Thumb>
                         </controls:SimplePanel>
                     </controls:ShapeBorder>
@@ -1821,36 +1811,13 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <!--  Fill="#111E1E1E"  -->
-                        <!--<Path Stroke="{TemplateBinding LineBrush}"
-                              StrokeDashArray="{TemplateBinding StrokeDashArray}"
-                              StrokeThickness="{TemplateBinding LineThickness}">
-                            <Path.Data>
-                                <PathGeometry>
-                                    <PathFigure StartPoint="{Binding Point0, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}">
-                                        <BezierSegment Point1="{Binding Point1, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
-                                                       Point2="{Binding Point2, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
-                                                       Point3="{Binding Point3, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}" />
-                                    </PathFigure>
-                                </PathGeometry>
-                            </Path.Data>
-                        </Path>-->
-
                         <ContentPresenter Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-
-                        <!--  Arrowhead  -->
-                        <!--<Polygon Fill="{TemplateBinding LineBrush}" Points="{Binding Points, RelativeSource={RelativeSource TemplatedParent}}" />-->
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="#122E2E2E" />
-                            <!--<Setter Property="StrokeDashArray">
-                                <Setter.Value>
-                                    <DoubleCollection>2,2</DoubleCollection>
-                                </Setter.Value>
-                            </Setter>-->
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="LineBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=HighlightLineBrush}" />
