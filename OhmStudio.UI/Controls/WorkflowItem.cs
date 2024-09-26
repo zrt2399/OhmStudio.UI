@@ -93,7 +93,7 @@ namespace OhmStudio.UI.Controls
 
     public class LineItem : CanvasItem
     {
-        private const double _baseOffset = 0d;
+        private const double _baseOffset = 100d;
         private const double _offsetGrowthRate = 25d;
 
         private double Spacing { get; set; } = 20;
@@ -232,7 +232,7 @@ namespace OhmStudio.UI.Controls
         protected override void OnRender(DrawingContext drawingContext)
         {
             //base.OnRender(drawingContext);
-            bool isForward = true;
+            bool isForward = StartEllipseItem.Dock is Dock.Right or Dock.Bottom;
             double direction = isForward ? 1d : -1d;
             var spacing = new Vector(Spacing * direction, 0d);
             var spacingVertical = new Vector(spacing.Y, spacing.X);
@@ -240,8 +240,8 @@ namespace OhmStudio.UI.Controls
             var source = Source;
             var target = Target;
 
-            var sourceOrientation = StartEllipseItem.Dock == Dock.Bottom ? Orientation.Vertical : Orientation.Horizontal;
-            var targetOrientation = StartEllipseItem.Dock == Dock.Bottom ? Orientation.Vertical : Orientation.Horizontal;
+            var sourceOrientation = StartEllipseItem.Dock is Dock.Bottom or Dock.Top ? Orientation.Vertical : Orientation.Horizontal;
+            var targetOrientation = StartEllipseItem.Dock is Dock.Bottom or Dock.Top ? Orientation.Vertical : Orientation.Horizontal;
 
             Point startPoint = source + (sourceOrientation == Orientation.Vertical ? spacingVertical : spacing);
             Point endPoint = target - (targetOrientation == Orientation.Vertical ? spacingVertical : spacing);
@@ -321,18 +321,9 @@ namespace OhmStudio.UI.Controls
 
         private void DrawDirectionalArrowsGeometry(StreamGeometryContext context, Point p0, Point p1, Point p2, Point p3)
         {
-            //DirectionalArrowsCount = 2;
-            //if (Source.X == Target.X && Math.Abs(Source.Y - Target.Y) < Spacing * 6)
-            //{
-            //    DirectionalArrowsCount = 0;
-            //}
-            //if (Source.Y == Target.Y && Math.Abs(Source.X - Target.X) < Spacing * 6)
-            //{
-            //    DirectionalArrowsCount = 0;
-            //}
-
-            double spacing = 1d / (DirectionalArrowsCount + 1);
-            for (int i = 1; i <= DirectionalArrowsCount; i++)
+            uint directionalArrowsCount = GetDirectionalArrowsCount();
+            double spacing = 1d / (directionalArrowsCount + 1);
+            for (int i = 1; i <= directionalArrowsCount; i++)
             {
                 double t = (spacing * i + DirectionalArrowsOffset).WrapToRange(0d, 1d);
                 var to = InterpolateCubicBezier(p0, p1, p2, p3, t);
@@ -340,6 +331,20 @@ namespace OhmStudio.UI.Controls
 
                 DrawDirectionalArrowheadGeometry(context, direction, to);
             }
+        }
+
+        private uint GetDirectionalArrowsCount()
+        {
+            double offset = 5d, minDistance = 120d;
+            if (Math.Abs(Source.X - Target.X) < offset && Math.Abs(Source.Y - Target.Y) < minDistance)
+            {
+                return 0;
+            }
+            if (Math.Abs(Source.Y - Target.Y) < offset && Math.Abs(Source.X - Target.X) < minDistance)
+            {
+                return 0;
+            }
+            return DirectionalArrowsCount;
         }
 
         private void DrawDirectionalArrowheadGeometry(StreamGeometryContext context, Vector direction, Point location)
