@@ -7,6 +7,7 @@
               xmlns:hc="https://handyorg.github.io/handycontrol"
               xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
               xmlns:local="clr-namespace:OhmStudio.UI.Demo.Views"
+              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveChartsExt.Wpf"
               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
               xmlns:model="clr-namespace:OhmStudio.UI.Demo.Models"
               xmlns:omhui="http://ohmstudio.ui.com"
@@ -920,6 +921,41 @@
                                         <Button Height="100">Button</Button>
                                     </Expander>
                                 </StackPanel>
+                            </LayoutDocument>
+                            <LayoutDocument Title="LiveCharts">
+                                <Grid GridAttach.RowDefinitions="Auto,*">
+                                    <CheckBox Margin="10" IsChecked="{Binding DisableAnimations}">禁用动画</CheckBox>
+                                    <UniformGrid Grid.Row="1" Columns="2">
+                                        <lvc:CartesianChart DisableAnimations="{Binding DisableAnimations}" LegendLocation="Bottom">
+                                            <lvc:CartesianChart.AxisX>
+                                                <lvc:Axis Title="X 轴" />
+                                            </lvc:CartesianChart.AxisX>
+                                            <lvc:CartesianChart.AxisY>
+                                                <lvc:Axis Title="Y 轴" LabelFormatter="{Binding YAxisLabelFormatter}" />
+                                            </lvc:CartesianChart.AxisY>
+                                            <lvc:CartesianChart.Series>
+                                                <lvc:LineSeries Title="正弦曲线" Values="{Binding LineValues}" />
+                                                <lvc:LineSeries Title="余弦曲线" Values="{Binding CosValues}" />
+                                            </lvc:CartesianChart.Series>
+                                        </lvc:CartesianChart>
+                                        <lvc:PieChart DisableAnimations="{Binding DisableAnimations}" LegendLocation="Bottom">
+                                            <lvc:PieChart.Series>
+                                                <lvc:PieSeries Title="Maria"
+                                                               DataLabels="True"
+                                                               Values="3" />
+                                                <lvc:PieSeries Title="Charles"
+                                                               DataLabels="True"
+                                                               Values="4" />
+                                                <lvc:PieSeries Title="Frida"
+                                                               DataLabels="True"
+                                                               Values="6" />
+                                                <lvc:PieSeries Title="Frederic"
+                                                               DataLabels="True"
+                                                               Values="2" />
+                                            </lvc:PieChart.Series>
+                                        </lvc:PieChart>
+                                    </UniformGrid>
+                                </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="Other"
                                             CanClose="False"

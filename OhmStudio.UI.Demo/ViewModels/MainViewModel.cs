@@ -8,6 +8,8 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing.Text;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Bogus;
+using LiveCharts;
 using Microsoft.Win32;
 using OhmStudio.UI.Attaches;
 using OhmStudio.UI.Commands;
@@ -201,6 +204,17 @@ namespace OhmStudio.UI.Demo.ViewModels
             WorkflowItems.Add(workflowItem);
             WorkflowItems.Add(new WorkflowItem() { Content = new TextBox() { Margin = new Thickness(8), Text = "结束" }, StepType = StepType.End });
 
+            Task.Factory.StartNew(() =>
+            {
+                for (double x = 0; x <= 360; x += 10)
+                {
+                    double radians = x * (Math.PI / 180); // 角度转弧度
+                    LineValues.Add(Math.Sin(radians));    // 将正弦值添加到数据集合中
+                    CosValues.Add(Math.Cos(radians));     // 将余弦值添加到数据集合中
+                    Thread.Sleep(1000);
+                }
+            });
+
             StatusManager.IsRunningChanged += StatusManager_IsRunningChanged;
             XamlThemeDictionary.ThemeChanged += XamlThemeDictionary_ThemeChanged;
 
@@ -272,6 +286,14 @@ namespace OhmStudio.UI.Demo.ViewModels
         public ObservableCollection<string> HuangHeLou { get; set; } = new ObservableCollection<string>();
 
         public ObservableCollection<string> DengGuanQueLou { get; set; } = new ObservableCollection<string>();
+
+        public ChartValues<double> LineValues { get; set; } = new ChartValues<double>(); // 正弦值
+
+        public ChartValues<double> CosValues { get; set; } = new ChartValues<double>(); // 余弦值
+
+        public Func<double, string> YAxisLabelFormatter => value => value.ToString("F2");
+
+        public bool DisableAnimations { get; set; } = false;
 
         public CornerRadius CornerRadius { get; set; }
 

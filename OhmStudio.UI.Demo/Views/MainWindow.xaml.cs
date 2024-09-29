@@ -15,6 +15,7 @@ using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Search;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.Demo.ViewModels;
+using OhmStudio.UI.Helpers;
 using OhmStudio.UI.Messaging;
 using OhmStudio.UI.PublicMethods;
 
@@ -65,7 +66,7 @@ namespace OhmStudio.UI.Demo.Views
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             base.OnMouseWheel(e);
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            if (KeyboardHelper.IsCtrlKeyDown)
             {
                 if (e.Delta > 0)
                 {

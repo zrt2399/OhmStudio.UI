@@ -16,21 +16,22 @@
 	<PropertyGroup Condition="'$(TargetFramework.StartsWith(net4))' == false">
 		<DebugType>embedded</DebugType>
 	</PropertyGroup>
- 
+
 	<ItemGroup>
 		<ProjectReference Include="..\OhmStudio.UI\OhmStudio.UI.csproj" />
 		<PackageReference Include="AvalonEdit" Version="6.3.0.90" />
-		<PackageReference Include="Bogus" Version="35.6.0" />
+		<PackageReference Include="Bogus" Version="35.6.1" />
 		<PackageReference Include="HandyControl" Version="3.5.1" />
+		<PackageReference Include="LiveChartsExt.Wpf" Version="1.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-		<PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" /> 
+		<PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(DefineConstants.Contains(NETCOREAPP)) == false"> 
+	<ItemGroup Condition="$(DefineConstants.Contains(NETCOREAPP)) == false">
 		<Reference Include="System.ComponentModel.DataAnnotations" />
 	</ItemGroup>
 
-	<ItemGroup> 
+	<ItemGroup>
 		<Resource Include="icon.ico">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
