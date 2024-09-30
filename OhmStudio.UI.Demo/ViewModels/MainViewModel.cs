@@ -206,8 +206,13 @@ namespace OhmStudio.UI.Demo.ViewModels
 
             Task.Factory.StartNew(() =>
             {
-                for (double x = 0; x <= 360; x += 10)
+                for (double x = 0; x <= double.MaxValue; x += 10)
                 {
+                    if (LineValues.Count > 100)
+                    {
+                        LineValues.RemoveAt(0);
+                        CosValues.RemoveAt(0);
+                    }
                     double radians = x * (Math.PI / 180); // 角度转弧度
                     LineValues.Add(Math.Sin(radians));    // 将正弦值添加到数据集合中
                     CosValues.Add(Math.Cos(radians));     // 将余弦值添加到数据集合中

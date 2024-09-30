@@ -48,37 +48,37 @@ namespace OhmStudio.UI.Controls
             set => SetValue(VerticalScrollBarVisibilityProperty, value);
         }
 
-        internal static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register(nameof(ItemsSource), typeof(ObservableCollection<UIElement>), typeof(PropertyGrid));
+        internal static readonly DependencyProperty ItemsCollectionProperty =
+            DependencyProperty.Register(nameof(ItemsCollection), typeof(ObservableCollection<UIElement>), typeof(PropertyGrid));
 
-        internal ObservableCollection<UIElement> ItemsSource
+        internal ObservableCollection<UIElement> ItemsCollection
         {
-            get => (ObservableCollection<UIElement>)GetValue(ItemsSourceProperty);
-            set => SetValue(ItemsSourceProperty, value);
+            get => (ObservableCollection<UIElement>)GetValue(ItemsCollectionProperty);
+            set => SetValue(ItemsCollectionProperty, value); 
         }
 
         public static readonly DependencyProperty SelectedObjectProperty =
             DependencyProperty.Register(nameof(SelectedObject), typeof(object), typeof(PropertyGrid), new PropertyMetadata(null, (sender, e) =>
             {
                 if (sender is PropertyGrid propertyGrid)
-                {
-                    propertyGrid.ItemsSource ??= new ObservableCollection<UIElement>();
-                    foreach (var item in propertyGrid.ItemsSource.OfType<DockPanel>())
+                { 
+                    propertyGrid.ItemsCollection ??= new ObservableCollection<UIElement>();
+                    foreach (var item in propertyGrid.ItemsCollection.OfType<DockPanel>())
                     {
                         foreach (var uIElement in item.Children.OfType<UIElement>())
                         {
                             BindingOperations.ClearAllBindings(uIElement);
                         }
                     }
-                    for (int i = 0; i < propertyGrid.ItemsSource.Count; i++)
+                    for (int i = 0; i < propertyGrid.ItemsCollection.Count; i++)
                     {
-                        propertyGrid.ItemsSource[i] = null;
+                        propertyGrid.ItemsCollection[i] = null;
                     }
-                    propertyGrid.ItemsSource.Clear();
+                    propertyGrid.ItemsCollection.Clear();
                     propertyGrid._widths.Clear();
                     if (e.NewValue != null)
                     {
-                        propertyGrid.Create(e.NewValue, propertyGrid.ItemsSource);
+                        propertyGrid.Create(e.NewValue, propertyGrid.ItemsCollection);
                     }
                 }
             }));

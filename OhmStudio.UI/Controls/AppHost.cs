@@ -11,7 +11,7 @@ using System.Windows.Forms.Integration;
 namespace OhmStudio.UI.Controls
 {
     /// <summary>
-    /// 表示可以将exe外部进程嵌入的控件。
+    /// 表示可以将外部exe进程嵌入的控件。
     /// </summary>
     public class AppHost : Control
     {
