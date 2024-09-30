@@ -135,7 +135,7 @@ namespace OhmStudio.UI.Controls
             checkComboBox.OnSelectedItemsChanged(oldSelectedItems, newSelectedItems);
         }
 
-        public virtual void OnSelectedItemsChanged(IList oldSelectedItems, IList newSelectedItems)
+        protected virtual void OnSelectedItemsChanged(IList oldSelectedItems, IList newSelectedItems)
         {
             if (_isUpdatingSelectedItems || !IsInit)
             {

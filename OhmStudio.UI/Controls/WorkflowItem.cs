@@ -78,15 +78,15 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        public static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var canvasItem = (CanvasItem)d;
-            canvasItem.OnIsSelectedChanged();
+            canvasItem.OnIsSelectedChanged(canvasItem.IsSelected);
         }
 
-        public virtual void OnIsSelectedChanged()
+        protected virtual void OnIsSelectedChanged(bool isSelected)
         {
-            var routedEventHandler = IsSelected ? Selected : Unselected;
+            var routedEventHandler = isSelected ? Selected : Unselected;
             routedEventHandler?.Invoke(this, new RoutedEventArgs());
         }
     }
@@ -460,16 +460,16 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(IsDraggable), typeof(bool), typeof(WorkflowItem), new PropertyMetadata(true));
 
         public static readonly DependencyProperty LastStepProperty =
-            DependencyProperty.Register(nameof(LastStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnWorkflowItemChanged));
+            DependencyProperty.Register(nameof(LastStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnAnyStepChanged));
 
         public static readonly DependencyProperty FromStepProperty =
-            DependencyProperty.Register(nameof(FromStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnWorkflowItemChanged));
+            DependencyProperty.Register(nameof(FromStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnAnyStepChanged));
 
         public static readonly DependencyProperty JumpStepProperty =
-            DependencyProperty.Register(nameof(JumpStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnWorkflowItemChanged));
+            DependencyProperty.Register(nameof(JumpStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnAnyStepChanged));
 
         public static readonly DependencyProperty NextStepProperty =
-            DependencyProperty.Register(nameof(NextStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnWorkflowItemChanged));
+            DependencyProperty.Register(nameof(NextStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnAnyStepChanged));
 
         public static readonly DependencyProperty StepTypeProperty =
             DependencyProperty.Register(nameof(StepType), typeof(StepType), typeof(WorkflowItem), new PropertyMetadata(StepType.Nomal));
@@ -633,12 +633,12 @@ namespace OhmStudio.UI.Controls
             CanvasParent.Children.Remove(this);
         }
 
-        private static void OnWorkflowItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnAnyStepChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((WorkflowItem)d).OnWorkflowItemChanged(e);
+            ((WorkflowItem)d).OnAnyStepChanged(e);
         }
 
-        protected virtual void OnWorkflowItemChanged(DependencyPropertyChangedEventArgs e)
+        protected virtual void OnAnyStepChanged(DependencyPropertyChangedEventArgs e)
         {
             UpdateCurve();
         }

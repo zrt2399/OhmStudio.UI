@@ -16,6 +16,8 @@ namespace OhmStudio.UI.Controls
 {
     public class PropertyGrid : Control
     {
+        private readonly List<double> _widths = new List<double>();
+
         static PropertyGrid()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PropertyGrid), new FrameworkPropertyMetadata(typeof(PropertyGrid)));
@@ -48,48 +50,32 @@ namespace OhmStudio.UI.Controls
             set => SetValue(VerticalScrollBarVisibilityProperty, value);
         }
 
+        public static readonly DependencyProperty PropertyBindingFlagsProperty =
+            DependencyProperty.Register(nameof(PropertyBindingFlags), typeof(BindingFlags), typeof(PropertyGrid), new PropertyMetadata(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, OnUpdateSelectedObject));
+
+        public BindingFlags PropertyBindingFlags
+        {
+            get => (BindingFlags)GetValue(PropertyBindingFlagsProperty);
+            set => SetValue(PropertyBindingFlagsProperty, value);
+        }
+
         internal static readonly DependencyProperty ItemsCollectionProperty =
             DependencyProperty.Register(nameof(ItemsCollection), typeof(ObservableCollection<UIElement>), typeof(PropertyGrid));
 
         internal ObservableCollection<UIElement> ItemsCollection
         {
             get => (ObservableCollection<UIElement>)GetValue(ItemsCollectionProperty);
-            set => SetValue(ItemsCollectionProperty, value); 
+            set => SetValue(ItemsCollectionProperty, value);
         }
 
         public static readonly DependencyProperty SelectedObjectProperty =
-            DependencyProperty.Register(nameof(SelectedObject), typeof(object), typeof(PropertyGrid), new PropertyMetadata(null, (sender, e) =>
-            {
-                if (sender is PropertyGrid propertyGrid)
-                { 
-                    propertyGrid.ItemsCollection ??= new ObservableCollection<UIElement>();
-                    foreach (var item in propertyGrid.ItemsCollection.OfType<DockPanel>())
-                    {
-                        foreach (var uIElement in item.Children.OfType<UIElement>())
-                        {
-                            BindingOperations.ClearAllBindings(uIElement);
-                        }
-                    }
-                    for (int i = 0; i < propertyGrid.ItemsCollection.Count; i++)
-                    {
-                        propertyGrid.ItemsCollection[i] = null;
-                    }
-                    propertyGrid.ItemsCollection.Clear();
-                    propertyGrid._widths.Clear();
-                    if (e.NewValue != null)
-                    {
-                        propertyGrid.Create(e.NewValue, propertyGrid.ItemsCollection);
-                    }
-                }
-            }));
+            DependencyProperty.Register(nameof(SelectedObject), typeof(object), typeof(PropertyGrid), new PropertyMetadata(default, OnUpdateSelectedObject));
 
         public object SelectedObject
         {
             get => GetValue(SelectedObjectProperty);
             set => SetValue(SelectedObjectProperty, value);
         }
-
-        private List<double> _widths = new List<double>();
 
         public static List<Type> NumericTypes { get; } = new List<Type>()
         {
@@ -120,7 +106,35 @@ namespace OhmStudio.UI.Controls
             typeof(char?)
         };
 
-        void SetVirtualizing(PropertyInfo propertyInfo, UIElement uIElement)
+        private static void OnUpdateSelectedObject(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var propertyGrid = (PropertyGrid)d;
+            propertyGrid.OnUpdateSelectedObject(propertyGrid.SelectedObject);
+        }
+
+        protected virtual void OnUpdateSelectedObject(object selectedObject)
+        {
+            ItemsCollection ??= new ObservableCollection<UIElement>();
+            foreach (var item in ItemsCollection.OfType<Panel>())
+            {
+                foreach (var uIElement in item.Children.OfType<UIElement>())
+                {
+                    BindingOperations.ClearAllBindings(uIElement);
+                }
+            }
+            for (int i = 0; i < ItemsCollection.Count; i++)
+            {
+                ItemsCollection[i] = null;
+            }
+            _widths.Clear();
+            ItemsCollection.Clear();
+            if (selectedObject != null)
+            {
+                Create(selectedObject, ItemsCollection);
+            }
+        }
+
+        private void SetVirtualizing(PropertyInfo propertyInfo, UIElement uIElement)
         {
             if (uIElement is ComboBox comboBox)
             {
@@ -139,7 +153,7 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        void SetPlaceHolder(PropertyInfo propertyInfo, UIElement uIElement)
+        private void SetPlaceHolder(PropertyInfo propertyInfo, UIElement uIElement)
         {
             if (uIElement.IsPlaceHolderObject() && propertyInfo.GetCustomAttribute<TextBoxPlaceHolderAttribute>() is TextBoxPlaceHolderAttribute placeHolder)
             {
@@ -149,7 +163,7 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        PropertyGridAttribute GetAttribute(PropertyInfo propertyInfo)
+        private PropertyGridAttribute GetAttribute(PropertyInfo propertyInfo)
         {
             if (propertyInfo.GetCustomAttribute<PropertyGridIgnoreAttribute>() != null)
             {
@@ -166,7 +180,7 @@ namespace OhmStudio.UI.Controls
             return result;
         }
 
-        bool IsNotSystemClass(Type type)
+        private bool IsNotSystemClass(Type type)
         {
             bool isStruct = !type.IsPrimitive && !type.IsEnum && type.IsValueType;
             return (type.IsClass || type.IsInterface || isStruct) &&
@@ -174,7 +188,7 @@ namespace OhmStudio.UI.Controls
                 !type.Namespace.StartsWith("Microsoft", StringComparison.OrdinalIgnoreCase);
         }
 
-        Binding GetBinding(object obj, PropertyInfo propertyInfo)
+        private Binding GetBinding(object obj, PropertyInfo propertyInfo)
         {
             var mode = propertyInfo.CanWrite ? BindingMode.TwoWay : BindingMode.OneWay;
             var binding = new Binding() { Source = obj, Path = new PropertyPath(propertyInfo.Name), Mode = mode };
@@ -185,9 +199,9 @@ namespace OhmStudio.UI.Controls
             return binding;
         }
 
-        BindingFlags GetBindingFlags(Type type)
+        private BindingFlags GetBindingFlags(Type type)
         {
-            var flag = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public;
+            var flag = PropertyBindingFlags;
             if (type.GetCustomAttribute<BaseObjectIgnoreAttribute>() != null)
             {
                 flag |= BindingFlags.DeclaredOnly;
@@ -195,7 +209,7 @@ namespace OhmStudio.UI.Controls
             return flag;
         }
 
-        void Create(object obj, ObservableCollection<UIElement> itemsControl)
+        private void Create(object obj, ObservableCollection<UIElement> itemsControl)
         {
             if (obj == null)
             {
