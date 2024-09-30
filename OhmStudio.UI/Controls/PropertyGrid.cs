@@ -60,11 +60,11 @@ namespace OhmStudio.UI.Controls
         }
 
         internal static readonly DependencyProperty ItemsCollectionProperty =
-            DependencyProperty.Register(nameof(ItemsCollection), typeof(ObservableCollection<UIElement>), typeof(PropertyGrid));
+            DependencyProperty.Register(nameof(ItemsCollection), typeof(ObservableCollection<Panel>), typeof(PropertyGrid));
 
-        internal ObservableCollection<UIElement> ItemsCollection
+        internal ObservableCollection<Panel> ItemsCollection
         {
-            get => (ObservableCollection<UIElement>)GetValue(ItemsCollectionProperty);
+            get => (ObservableCollection<Panel>)GetValue(ItemsCollectionProperty);
             set => SetValue(ItemsCollectionProperty, value);
         }
 
@@ -114,16 +114,14 @@ namespace OhmStudio.UI.Controls
 
         protected virtual void OnUpdateSelectedObject(object selectedObject)
         {
-            ItemsCollection ??= new ObservableCollection<UIElement>();
-            foreach (var item in ItemsCollection.OfType<Panel>())
-            {
-                foreach (var uIElement in item.Children.OfType<UIElement>())
-                {
-                    BindingOperations.ClearAllBindings(uIElement);
-                }
-            }
+            ItemsCollection ??= new ObservableCollection<Panel>();
             for (int i = 0; i < ItemsCollection.Count; i++)
             {
+                var item = ItemsCollection[i];
+                for (int j = 0; j < item.Children.Count; j++)
+                {
+                    BindingOperations.ClearAllBindings(item.Children[j]);
+                }
                 ItemsCollection[i] = null;
             }
             _widths.Clear();
@@ -209,7 +207,7 @@ namespace OhmStudio.UI.Controls
             return flag;
         }
 
-        private void Create(object obj, ObservableCollection<UIElement> itemsControl)
+        private void Create(object obj, ObservableCollection<Panel> itemsCollection)
         {
             if (obj == null)
             {
@@ -271,7 +269,7 @@ namespace OhmStudio.UI.Controls
                 }
                 else if (IsNotSystemClass(item.PropertyType))
                 {
-                    Create(item.GetValue(obj), itemsControl);
+                    Create(item.GetValue(obj), itemsCollection);
                 }
                 else
                 {
@@ -282,8 +280,8 @@ namespace OhmStudio.UI.Controls
                 {
                     var toolTipAttribute = item.GetCustomAttribute<ToolTipAttribute>();
                     string toolTip = toolTipAttribute == null ? attribute.DisplayName : toolTipAttribute.ToolTip;
-                    DockPanel dockPanel = new DockPanel();
-                    TextBox textBlock = new TextBox()
+
+                    TextBox textBox = new TextBox()
                     {
                         Text = attribute.DisplayName,
                         ToolTip = toolTip,
@@ -296,30 +294,23 @@ namespace OhmStudio.UI.Controls
                     };
                     SetPlaceHolder(item, uIElement);
                     SetVirtualizing(item, uIElement);
-                    if (uIElement is TextBox textBox)
+                    if (uIElement is TextBoxBase textBoxBase)
                     {
-                        textBox.IsReadOnly = attribute.IsReadOnly;
-                        if (isUnknown || !item.CanWrite)
-                        {
-                            textBox.IsReadOnly = true;
-                        }
+                        textBoxBase.IsReadOnly = isUnknown || !item.CanWrite || attribute.IsReadOnly;
                     }
                     else
                     {
-                        uIElement.IsEnabled = !attribute.IsReadOnly;
-                        if (!item.CanWrite)
-                        {
-                            uIElement.IsEnabled = false;
-                        }
+                        uIElement.IsEnabled = item.CanWrite && !attribute.IsReadOnly;
                     }
-                    dockPanel.Children.Add(textBlock);
+                    DockPanel dockPanel = new DockPanel();
+                    dockPanel.Children.Add(textBox);
                     dockPanel.Children.Add(uIElement);
-                    dockPanel.Margin = itemsControl.Count > 0 ? ItemSpacing : new Thickness(0);
-                    itemsControl.Add(dockPanel);
-                    textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                    _widths.Add(textBlock.DesiredSize.Width + 20);
+                    dockPanel.Margin = itemsCollection.Count > 0 ? ItemSpacing : new Thickness(0);
+                    itemsCollection.Add(dockPanel);
+                    textBox.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                    _widths.Add(textBox.DesiredSize.Width + 20);
                     var max = _widths.Max();
-                    foreach (var panel in itemsControl.OfType<DockPanel>())
+                    foreach (var panel in itemsCollection)
                     {
                         foreach (var text in panel.Children.OfType<TextBox>().Where(x => x.Tag?.ToString() == "Text_Title" && (double.IsNaN(x.Width) || x.Width < max)))
                         {
