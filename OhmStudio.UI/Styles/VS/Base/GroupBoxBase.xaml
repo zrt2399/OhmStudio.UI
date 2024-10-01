@@ -30,16 +30,16 @@
                                                     Grid.Column="0"
                                                     Grid.ColumnSpan="4"
                                                     Background="{TemplateBinding Background}"
-                                                    BlurRadius="{Binding Path=(attaches:DropShadowAttach.BlurRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    BlurRadius="{Binding Path=(controls:DropShadowControl.BlurRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                                     BorderBrush="Transparent"
                                                     BorderThickness="{TemplateBinding BorderThickness}"
                                                     CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    IsShowShadow="{Binding Path=(attaches:DropShadowAttach.IsShowShadow), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    RenderingBias="{Binding Path=(attaches:DropShadowAttach.RenderingBias), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    ShadowColor="{Binding Path=(attaches:DropShadowAttach.ShadowColor), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    ShadowDepth="{Binding Path=(attaches:DropShadowAttach.ShadowDepth), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    ShadowDirection="{Binding Path=(attaches:DropShadowAttach.ShadowDirection), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    ShadowOpacity="{Binding Path=(attaches:DropShadowAttach.ShadowOpacity), RelativeSource={RelativeSource TemplatedParent}}" />
+                                                    IsShowShadow="{Binding Path=(controls:DropShadowControl.IsShowShadow), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    RenderingBias="{Binding Path=(controls:DropShadowControl.RenderingBias), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    ShadowColor="{Binding Path=(controls:DropShadowControl.ShadowColor), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    ShadowDepth="{Binding Path=(controls:DropShadowControl.ShadowDepth), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    ShadowDirection="{Binding Path=(controls:DropShadowControl.ShadowDirection), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    ShadowOpacity="{Binding Path=(controls:DropShadowControl.ShadowOpacity), RelativeSource={RelativeSource TemplatedParent}}" />
 
                         <Border Grid.Row="1"
                                 Grid.RowSpan="3"

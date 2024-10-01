@@ -1232,7 +1232,8 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <ItemsControl Margin="{TemplateBinding Padding}"
+                        <ItemsControl x:Name="PART_ItemsHost"
+                                      Margin="{TemplateBinding Padding}"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                       ItemsSource="{Binding ItemsCollection, RelativeSource={RelativeSource TemplatedParent}}"
@@ -1245,13 +1246,26 @@
                                       VirtualizingPanel.VirtualizationMode="{Binding Path=(VirtualizingPanel.VirtualizationMode), RelativeSource={RelativeSource TemplatedParent}}">
                             <ItemsControl.Template>
                                 <ControlTemplate TargetType="ItemsControl">
-                                    <ScrollViewer HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}" VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}">
-                                        <StackPanel IsItemsHost="True" ScrollViewer.CanContentScroll="True" />
+                                    <ScrollViewer CanContentScroll="True"
+                                                  HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}"
+                                                  VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}">
+                                        <ItemsPresenter />
                                     </ScrollViewer>
                                 </ControlTemplate>
                             </ItemsControl.Template>
                         </ItemsControl>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="True">
+                            <Setter TargetName="PART_ItemsHost" Property="ItemsPanel">
+                                <Setter.Value>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -1826,7 +1840,7 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="controls:WorkflowCanvas.EditorStatus" Value="None" />
+                                <Condition Property="controls:WorkflowCanvas.CanvasStatus" Value="None" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter Property="LineThickness" Value="4" />

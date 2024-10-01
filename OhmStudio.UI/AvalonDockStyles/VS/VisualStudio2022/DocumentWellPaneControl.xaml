@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
                     xmlns:avalonDock="clr-namespace:AvalonDock;assembly=AvalonDock"
                     xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
                     xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock"
@@ -87,8 +86,8 @@
                             <controls:DocumentWrapPanel x:Name="HeaderPanel"
                                                         Margin="0,0,0,2"
                                                         IsItemsHost="true"
-                                                        IsMouseWheelWrap="{Binding RelativeSource={RelativeSource AncestorType=avalonDock:DockingManager}, Path=(attaches:DocumentWrapPanelAttach.IsMouseWheelWrap)}"
-                                                        IsWrap="{Binding RelativeSource={RelativeSource AncestorType=avalonDock:DockingManager}, Path=(attaches:DocumentWrapPanelAttach.IsWrap)}"
+                                                        IsMouseWheelWrap="{Binding RelativeSource={RelativeSource AncestorType=avalonDock:DockingManager}, Path=(controls:DocumentWrapPanel.IsMouseWheelWrap)}"
+                                                        IsWrap="{Binding RelativeSource={RelativeSource AncestorType=avalonDock:DockingManager}, Path=(controls:DocumentWrapPanel.IsWrap)}"
                                                         KeyboardNavigation.TabIndex="1" />
                             <avalonDockControls:DropDownButton x:Name="MenuDropDownButton"
                                                                Grid.Column="1"

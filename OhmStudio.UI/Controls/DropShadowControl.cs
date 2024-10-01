@@ -13,37 +13,37 @@ namespace OhmStudio.UI.Controls
         }
 
         public static readonly DependencyProperty IsShowShadowProperty =
-           DependencyProperty.Register(nameof(IsShowShadow), typeof(bool), typeof(DropShadowControl), new FrameworkPropertyMetadata(true));
+           DependencyProperty.RegisterAttached(nameof(IsShowShadow), typeof(bool), typeof(DropShadowControl), new FrameworkPropertyMetadata(true));
 
         public static readonly DependencyProperty ShadowBrushProperty =
-            DependencyProperty.Register(nameof(ShadowBrush), typeof(SolidColorBrush), typeof(DropShadowControl), new FrameworkPropertyMetadata(Brushes.DarkGray, (sender, e) =>
+            DependencyProperty.RegisterAttached(nameof(ShadowBrush), typeof(SolidColorBrush), typeof(DropShadowControl), new FrameworkPropertyMetadata(Brushes.DarkGray, (sender, e) =>
             {
                 if (sender is DropShadowControl dropShadowControl)
                 {
-                    dropShadowControl.ShadowColor = e.NewValue is not SolidColorBrush brush ? Brushes.Transparent.Color : brush.Color;
+                    dropShadowControl.ShadowColor = e.NewValue is SolidColorBrush brush ? brush.Color : Brushes.Transparent.Color;
                 }
             }));
 
         public static readonly DependencyProperty ShadowColorProperty =
-            DependencyProperty.Register(nameof(ShadowColor), typeof(Color), typeof(DropShadowControl), new FrameworkPropertyMetadata(Brushes.DarkGray.Color, FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.RegisterAttached(nameof(ShadowColor), typeof(Color), typeof(DropShadowControl), new FrameworkPropertyMetadata(Brushes.DarkGray.Color, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(DropShadowControl), new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+            DependencyProperty.RegisterAttached(nameof(CornerRadius), typeof(CornerRadius), typeof(DropShadowControl), new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty ShadowDepthProperty =
-            DependencyProperty.Register(nameof(ShadowDepth), typeof(double), typeof(DropShadowControl), new FrameworkPropertyMetadata(5d, FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.RegisterAttached(nameof(ShadowDepth), typeof(double), typeof(DropShadowControl), new FrameworkPropertyMetadata(5d, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty BlurRadiusProperty =
-            DependencyProperty.Register(nameof(BlurRadius), typeof(double), typeof(DropShadowControl), new FrameworkPropertyMetadata(5d, FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.RegisterAttached(nameof(BlurRadius), typeof(double), typeof(DropShadowControl), new FrameworkPropertyMetadata(5d, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty ShadowDirectionProperty =
-            DependencyProperty.Register(nameof(ShadowDirection), typeof(double), typeof(DropShadowControl), new FrameworkPropertyMetadata(315d, FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.RegisterAttached(nameof(ShadowDirection), typeof(double), typeof(DropShadowControl), new FrameworkPropertyMetadata(315d, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty ShadowOpacityProperty =
-          DependencyProperty.Register(nameof(ShadowOpacity), typeof(double), typeof(DropShadowControl), new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender));
+          DependencyProperty.RegisterAttached(nameof(ShadowOpacity), typeof(double), typeof(DropShadowControl), new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty RenderingBiasProperty =
-            DependencyProperty.Register(nameof(RenderingBias), typeof(RenderingBias), typeof(DropShadowControl), new FrameworkPropertyMetadata(RenderingBias.Performance, FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.RegisterAttached(nameof(RenderingBias), typeof(RenderingBias), typeof(DropShadowControl), new FrameworkPropertyMetadata(RenderingBias.Performance, FrameworkPropertyMetadataOptions.AffectsRender));
 
         /// <summary>
         /// 是否显示阴影，默认值为true。
@@ -124,6 +124,96 @@ namespace OhmStudio.UI.Controls
         {
             get => (RenderingBias)GetValue(RenderingBiasProperty);
             set => SetValue(RenderingBiasProperty, value);
+        }
+
+        public static void SetIsShowShadow(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsShowShadowProperty, value);
+        }
+
+        public static bool GetIsShowShadow(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsShowShadowProperty);
+        }
+
+        public static void SetShadowBrush(DependencyObject obj, SolidColorBrush value)
+        {
+            obj.SetValue(ShadowBrushProperty, value);
+        }
+
+        public static SolidColorBrush GetShadowBrush(DependencyObject obj)
+        {
+            return (SolidColorBrush)obj.GetValue(ShadowBrushProperty);
+        }
+
+        public static void SetShadowColor(DependencyObject obj, Color value)
+        {
+            obj.SetValue(ShadowColorProperty, value);
+        }
+
+        public static Color GetShadowColor(DependencyObject obj)
+        {
+            return (Color)obj.GetValue(ShadowColorProperty);
+        }
+
+        public static void SetCornerRadius(DependencyObject obj, CornerRadius value)
+        {
+            obj.SetValue(CornerRadiusProperty, value);
+        }
+
+        public static CornerRadius GetCornerRadius(DependencyObject obj)
+        {
+            return (CornerRadius)obj.GetValue(CornerRadiusProperty);
+        }
+
+        public static void SetShadowDepth(DependencyObject obj, double value)
+        {
+            obj.SetValue(ShadowDepthProperty, value);
+        }
+
+        public static double GetShadowDepth(DependencyObject obj)
+        {
+            return (double)obj.GetValue(ShadowDepthProperty);
+        }
+
+        public static void SetBlurRadius(DependencyObject obj, double value)
+        {
+            obj.SetValue(BlurRadiusProperty, value);
+        }
+
+        public static double GetBlurRadius(DependencyObject obj)
+        {
+            return (double)obj.GetValue(BlurRadiusProperty);
+        }
+
+        public static void SetShadowDirection(DependencyObject obj, double value)
+        {
+            obj.SetValue(ShadowDirectionProperty, value);
+        }
+
+        public static double GetShadowDirection(DependencyObject obj)
+        {
+            return (double)obj.GetValue(ShadowDirectionProperty);
+        }
+
+        public static void SetShadowOpacity(DependencyObject obj, double value)
+        {
+            obj.SetValue(ShadowOpacityProperty, value);
+        }
+
+        public static double GetShadowOpacity(DependencyObject obj)
+        {
+            return (double)obj.GetValue(ShadowOpacityProperty);
+        }
+
+        public static void SetRenderingBias(DependencyObject obj, RenderingBias value)
+        {
+            obj.SetValue(RenderingBiasProperty, value);
+        }
+
+        public static RenderingBias GetRenderingBias(DependencyObject obj)
+        {
+            return (RenderingBias)obj.GetValue(RenderingBiasProperty);
         }
     }
 }

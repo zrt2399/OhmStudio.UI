@@ -83,11 +83,19 @@ namespace OhmStudio.UI.Controls
         }
  
         public static readonly DependencyProperty IsWrapProperty =
-            DependencyProperty.Register(nameof(IsWrap), typeof(bool), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure, OnIsWrapChanged));
+            DependencyProperty.RegisterAttached(nameof(IsWrap), typeof(bool), typeof(DocumentWrapPanel), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure, OnIsWrapChanged));
 
         public static readonly DependencyProperty IsMouseWheelWrapProperty =
-            DependencyProperty.Register(nameof(IsMouseWheelWrap), typeof(bool), typeof(DocumentWrapPanel), new PropertyMetadata(false, OnIsMouseWheelWrapChanged));
- 
+            DependencyProperty.RegisterAttached(nameof(IsMouseWheelWrap), typeof(bool), typeof(DocumentWrapPanel), new PropertyMetadata(false, OnIsMouseWheelWrapChanged));
+         
+        public static void SetIsWrap(DependencyObject element, bool value) => element.SetValue(IsWrapProperty, value);
+
+        public static bool GetIsWrap(DependencyObject element) => (bool)element.GetValue(IsWrapProperty);
+
+        public static void SetIsMouseWheelWrap(DependencyObject element, bool value) => element.SetValue(IsMouseWheelWrapProperty, value);
+
+        public static bool GetIsMouseWheelWrap(DependencyObject element) => (bool)element.GetValue(IsMouseWheelWrapProperty);
+
         public bool IsWrap
         {
             get => (bool)GetValue(IsWrapProperty);

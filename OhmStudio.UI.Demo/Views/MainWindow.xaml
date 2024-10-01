@@ -24,6 +24,7 @@
               IsShowTitle="False"
               ResizeMode="CanResizeWithGrip"
               SnapsToDevicePixels="{Binding IsAntiAliasing}"
+              Topmost="{Binding IsTopmost}"
               UseLayoutRounding="{Binding IsAntiAliasing}"
               WindowStartupLocation="CenterScreen"
               mc:Ignorable="d">
@@ -118,8 +119,7 @@
                         <Button Margin="4,0,0,0"
                                 Content="{PackIcon Kind=SaveAll}"
                                 ToolTip="保存全部文件&amp;设置" />
-                        <RadioButton>选择</RadioButton>
-                        <RadioButton>不选择</RadioButton>
+                        <CheckBox IsChecked="{Binding IsTopmost}">窗口置顶</CheckBox>
                         <CheckBox IsChecked="{Binding IsAntiAliasing}">抗锯齿</CheckBox>
                     </ToolBar>
                     <ToolBar BandIndex="1">
@@ -231,54 +231,100 @@
         </Grid.RowDefinitions>
         <DockingManager x:Name="dockingManager"
                         AutoHideDelay="0"
-                        DocumentWrapPanelAttach.IsMouseWheelWrap="True"
-                        DocumentWrapPanelAttach.IsWrap="True"
+                        DocumentWrapPanel.IsMouseWheelWrap="True"
+                        DocumentWrapPanel.IsWrap="True"
                         ShowSystemMenu="False">
             <LayoutRoot>
                 <LayoutPanel Orientation="Horizontal">
                     <LayoutDocumentPaneGroup>
                         <LayoutDocumentPane>
-                            <LayoutDocument Title="Button">
-                                <Grid GridAttach.RowDefinitions="Auto,Auto,Auto,*">
-                                    <StackPanel Margin="0,10" Orientation="Horizontal">
-                                        <Button Margin="10,0" Click="Button_Click">Show MessageBoxResult</Button>
-                                        <Button Margin="10,0" Click="Button_Click_1">AlertDialog.Show</Button>
-                                        <Button Margin="10,0" Click="Button_Click_2">GC</Button>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="1"
-                                                Margin="0,10"
-                                                Orientation="Horizontal">
-                                        <Button Margin="10,0" Click="Button_Click_9">UIMessageTip.Show</Button>
-                                        <Button Margin="10,0" Click="Button_Click_10">UIMessageTip.ShowOk</Button>
-                                        <Button Margin="10,0" Click="Button_Click_11">UIMessageTip.ShowWarning</Button>
-                                        <Button Margin="10,0" Click="Button_Click_12">UIMessageTip.ShowError</Button>
-                                        <Button Margin="10,0" Click="Button_Click_13">UIMessageTip.ShowErrorMultiLine</Button>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="2"
-                                                Margin="0,10"
-                                                Orientation="Horizontal">
-                                        <Button Margin="10,0" Style="{StaticResource Win10Button}">
-                                            Win10Button
-                                        </Button>
-                                        <Button Margin="10,0"
-                                                Click="Button_Click_14"
-                                                Style="{StaticResource ClassicButton}">
-                                            ClassicButton
-                                        </Button>
-                                        <Button Margin="10,0" Style="{StaticResource ClassicButtonBlue}">
-                                            ClassicButtonBlue
-                                        </Button>
-                                        <Button Margin="10,0"
-                                                ButtonAttach.PressedBackground="IndianRed"
-                                                ButtonAttach.PressedBorderBrush="IndianRed"
-                                                Style="{StaticResource ClassicButtonGreen}">
-                                            ClassicButtonGreen
-                                        </Button>
-                                        <Button Margin="10,0" Style="{StaticResource ClassicButtonRed}">
-                                            ClassicButtonRed
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
+                            <LayoutDocument Title="ButtonBase">
+                                <TabControl>
+                                    <TabItem Header="Button">
+                                        <Grid GridAttach.RowDefinitions="Auto,Auto,Auto,*">
+                                            <StackPanel Margin="0,10" Orientation="Horizontal">
+                                                <Button Margin="10,0" Click="Button_Click">Show MessageBoxResult</Button>
+                                                <Button Margin="10,0" Click="Button_Click_1">AlertDialog.Show</Button>
+                                                <Button Margin="10,0" Click="Button_Click_2">GC</Button>
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="1"
+                                                        Margin="0,10"
+                                                        Orientation="Horizontal">
+                                                <Button Margin="10,0" Click="Button_Click_9">UIMessageTip.Show</Button>
+                                                <Button Margin="10,0" Click="Button_Click_10">UIMessageTip.ShowOk</Button>
+                                                <Button Margin="10,0" Click="Button_Click_11">UIMessageTip.ShowWarning</Button>
+                                                <Button Margin="10,0" Click="Button_Click_12">UIMessageTip.ShowError</Button>
+                                                <Button Margin="10,0" Click="Button_Click_13">UIMessageTip.ShowErrorMultiLine</Button>
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="2"
+                                                        Margin="0,10"
+                                                        Orientation="Horizontal">
+                                                <Button Margin="10,0" Style="{StaticResource Win10Button}">
+                                                    Win10Button
+                                                </Button>
+                                                <Button Margin="10,0"
+                                                        Click="Button_Click_14"
+                                                        Style="{StaticResource ClassicButton}">
+                                                    ClassicButton
+                                                </Button>
+                                                <Button Margin="10,0" Style="{StaticResource ClassicButtonBlue}">
+                                                    ClassicButtonBlue
+                                                </Button>
+                                                <Button Margin="10,0"
+                                                        ButtonAttach.PressedBackground="IndianRed"
+                                                        ButtonAttach.PressedBorderBrush="IndianRed"
+                                                        Style="{StaticResource ClassicButtonGreen}">
+                                                    ClassicButtonGreen
+                                                </Button>
+                                                <Button Margin="10,0" Style="{StaticResource ClassicButtonRed}">
+                                                    ClassicButtonRed
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
+                                    </TabItem>
+                                    <TabItem Header="ToggleButton">
+                                        <WrapPanel VerticalAlignment="Top" Orientation="Horizontal">
+                                            <GroupBox Margin="10" Header="RadioButton">
+                                                <WrapPanel Orientation="Horizontal">
+                                                    <RadioButton />
+                                                    <RadioButton>RadioButton</RadioButton>
+                                                    <RadioButton>123</RadioButton>
+                                                    <RadioButton>456</RadioButton>
+                                                    <RadioButton RadioButtonAttach.RadioButtonSize="20" />
+                                                    <RadioButton RadioButtonAttach.RadioButtonSize="30" />
+                                                    <RadioButton RadioButtonAttach.RadioButtonSize="40" />
+                                                    <RadioButton RadioButtonAttach.RadioButtonSize="50" />
+                                                </WrapPanel>
+                                            </GroupBox>
+                                            <GroupBox Margin="10" Header="CheckBox">
+                                                <WrapPanel Orientation="Horizontal">
+                                                    <CheckBox />
+                                                    <CheckBox Content="CheckBox" IsChecked="{x:Null}" />
+                                                    <CheckBox CheckBoxAttach.CheckBoxSize="20" IsChecked="{x:Null}" />
+                                                    <CheckBox CheckBoxAttach.CheckBoxSize="30" IsChecked="{x:Null}" />
+                                                    <CheckBox CheckBoxAttach.CheckBoxSize="40" IsChecked="{x:Null}" />
+                                                    <CheckBox CheckBoxAttach.CheckBoxSize="50" IsChecked="{x:Null}" />
+                                                </WrapPanel>
+                                            </GroupBox>
+                                            <GroupBox Margin="10" Header="ToggleButton">
+                                                <WrapPanel Orientation="Horizontal">
+                                                    <ToggleButton>ToggleButton</ToggleButton>
+                                                    <ToggleButton Height="30">ToggleButton</ToggleButton>
+                                                    <ToggleButton Height="40">ToggleButton</ToggleButton>
+                                                    <ToggleButton Height="50">ToggleButton</ToggleButton>
+                                                </WrapPanel>
+                                            </GroupBox>
+                                            <GroupBox Margin="10" Header="ToggleButtonSwitchStyle">
+                                                <WrapPanel Orientation="Horizontal">
+                                                    <ToggleButton Style="{StaticResource ToggleButtonSwitch}" />
+                                                    <ToggleButton Height="30" Style="{StaticResource ToggleButtonSwitch}" />
+                                                    <ToggleButton Height="40" Style="{StaticResource ToggleButtonSwitch}" />
+                                                    <ToggleButton Height="50" Style="{StaticResource ToggleButtonSwitch}" />
+                                                </WrapPanel>
+                                            </GroupBox>
+                                        </WrapPanel>
+                                    </TabItem>
+                                </TabControl>
                             </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
                                 <UniformGrid Rows="3">
@@ -586,7 +632,7 @@
                                 </UniformGrid>
 
                             </LayoutDocument>
-                            <LayoutDocument Title="UserInfos">
+                            <LayoutDocument Title="CanExecute">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
@@ -611,7 +657,7 @@
                                     <GroupBox Margin="10"
                                               Background="Orange"
                                               BorderBrush="Blue"
-                                              DropShadowAttach.ShadowColor="Orange"
+                                              DropShadowControl.ShadowColor="Orange"
                                               Header="GroupBox">
                                         <TextBox>GroupBox</TextBox>
                                     </GroupBox>
@@ -632,48 +678,6 @@
                                         <TextBox Margin="10">Border</TextBox>
                                     </Border>
                                 </Grid>
-                            </LayoutDocument>
-                            <LayoutDocument Title="ToggleButton">
-                                <WrapPanel VerticalAlignment="Top" Orientation="Horizontal">
-                                    <GroupBox Margin="10" Header="RadioButton">
-                                        <WrapPanel Orientation="Horizontal">
-                                            <RadioButton />
-                                            <RadioButton>RadioButton</RadioButton>
-                                            <RadioButton>123</RadioButton>
-                                            <RadioButton>456</RadioButton>
-                                            <RadioButton RadioButtonAttach.RadioButtonSize="20" />
-                                            <RadioButton RadioButtonAttach.RadioButtonSize="30" />
-                                            <RadioButton RadioButtonAttach.RadioButtonSize="40" />
-                                            <RadioButton RadioButtonAttach.RadioButtonSize="50" />
-                                        </WrapPanel>
-                                    </GroupBox>
-                                    <GroupBox Margin="10" Header="CheckBox">
-                                        <WrapPanel Orientation="Horizontal">
-                                            <CheckBox />
-                                            <CheckBox Content="CheckBox" IsChecked="{x:Null}" />
-                                            <CheckBox CheckBoxAttach.CheckBoxSize="20" IsChecked="{x:Null}" />
-                                            <CheckBox CheckBoxAttach.CheckBoxSize="30" IsChecked="{x:Null}" />
-                                            <CheckBox CheckBoxAttach.CheckBoxSize="40" IsChecked="{x:Null}" />
-                                            <CheckBox CheckBoxAttach.CheckBoxSize="50" IsChecked="{x:Null}" />
-                                        </WrapPanel>
-                                    </GroupBox>
-                                    <GroupBox Margin="10" Header="ToggleButton">
-                                        <WrapPanel Orientation="Horizontal">
-                                            <ToggleButton>ToggleButton</ToggleButton>
-                                            <ToggleButton Height="30">ToggleButton</ToggleButton>
-                                            <ToggleButton Height="40">ToggleButton</ToggleButton>
-                                            <ToggleButton Height="50">ToggleButton</ToggleButton>
-                                        </WrapPanel>
-                                    </GroupBox>
-                                    <GroupBox Margin="10" Header="ToggleButtonSwitchStyle">
-                                        <WrapPanel Orientation="Horizontal">
-                                            <ToggleButton Style="{StaticResource ToggleButtonSwitch}" />
-                                            <ToggleButton Height="30" Style="{StaticResource ToggleButtonSwitch}" />
-                                            <ToggleButton Height="40" Style="{StaticResource ToggleButtonSwitch}" />
-                                            <ToggleButton Height="50" Style="{StaticResource ToggleButtonSwitch}" />
-                                        </WrapPanel>
-                                    </GroupBox>
-                                </WrapPanel>
                             </LayoutDocument>
                             <LayoutDocument Title="TextBlock">
                                 <GroupBox Margin="10" Header="TextHighlight">
@@ -1520,7 +1524,9 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <PropertyGrid SelectedObject="{Binding SelectedObject}" />
+                                    <PropertyGrid SelectedObject="{Binding SelectedObject}"
+                                                  VirtualizingPanel.IsVirtualizing="True"
+                                                  VirtualizingPanel.VirtualizationMode="Recycling" />
                                     <Button Grid.Row="1" Click="Button_Click_3">显示InstrumentType选中项</Button>
                                     <Button Grid.Row="2" Click="Button_Click_7">SelectedObject=MainWindow</Button>
                                 </Grid>

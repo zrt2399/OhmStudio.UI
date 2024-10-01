@@ -9,14 +9,14 @@ namespace OhmStudio.UI.Attaches
         #region RowDefinitions attached property
 
         /// <summary>
-        /// Identified the RowDefinitions attached property
+        /// Identified the RowDefinitions attached property.
         /// </summary>
         public static readonly DependencyProperty RowDefinitionsProperty =
             DependencyProperty.RegisterAttached("RowDefinitions", typeof(string), typeof(GridAttach),
-                new PropertyMetadata(string.Empty, new PropertyChangedCallback(OnRowDefinitionsPropertyChanged)));
+                new PropertyMetadata(string.Empty, OnRowDefinitionsPropertyChanged));
 
         /// <summary>
-        /// Gets the value of the RowDefinitions property
+        /// Gets the value of the RowDefinitions property.
         /// </summary>
         public static string GetRowDefinitions(DependencyObject obj)
         {
@@ -24,7 +24,7 @@ namespace OhmStudio.UI.Attaches
         }
 
         /// <summary>
-        /// Sets the value of the RowDefinitions property
+        /// Sets the value of the RowDefinitions property.
         /// </summary>
         public static void SetRowDefinitions(DependencyObject obj, string value)
         {
@@ -37,12 +37,14 @@ namespace OhmStudio.UI.Attaches
         /// </summary>
         private static void OnRowDefinitionsPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            Grid targetGrid = sender as Grid;
-
+            if (sender is not Grid targetGrid)
+            {
+                return;
+            }
             // construct the required row definitions
             targetGrid.RowDefinitions.Clear();
             string rowDefs = e.NewValue as string;
-            var rowDefArray = rowDefs.Split(',');
+            var rowDefArray = rowDefs?.Split(',') ?? Array.Empty<string>();
             foreach (string rowDefinition in rowDefArray)
             {
                 if (string.IsNullOrWhiteSpace(rowDefinition))
@@ -65,14 +67,14 @@ namespace OhmStudio.UI.Attaches
         #region ColumnDefinitions attached property
 
         /// <summary>
-        /// Identifies the ColumnDefinitions attached property
+        /// Identifies the ColumnDefinitions attached property.
         /// </summary>
         public static readonly DependencyProperty ColumnDefinitionsProperty =
             DependencyProperty.RegisterAttached("ColumnDefinitions", typeof(string), typeof(GridAttach),
-                new PropertyMetadata(string.Empty, new PropertyChangedCallback(OnColumnDefinitionsPropertyChanged)));
+                new PropertyMetadata(string.Empty, OnColumnDefinitionsPropertyChanged));
 
         /// <summary>
-        /// Gets the value of the ColumnDefinitions property
+        /// Gets the value of the ColumnDefinitions property.
         /// </summary>
         public static string GetColumnDefinitions(DependencyObject obj)
         {
@@ -80,7 +82,7 @@ namespace OhmStudio.UI.Attaches
         }
 
         /// <summary>
-        /// Sets the value of the ColumnDefinitions property
+        /// Sets the value of the ColumnDefinitions property.
         /// </summary>
         public static void SetColumnDefinitions(DependencyObject obj, string value)
         {
@@ -93,12 +95,15 @@ namespace OhmStudio.UI.Attaches
         /// </summary>
         private static void OnColumnDefinitionsPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            Grid targetGrid = sender as Grid;
+            if (sender is not Grid targetGrid)
+            {
+                return;
+            }
 
             // construct the required column definitions
             targetGrid.ColumnDefinitions.Clear();
             string columnDefs = e.NewValue as string;
-            var columnDefArray = columnDefs.Split(',');
+            var columnDefArray = columnDefs?.Split(',') ?? Array.Empty<string>();
             foreach (string columnDefinition in columnDefArray)
             {
                 if (string.IsNullOrWhiteSpace(columnDefinition))
@@ -118,7 +123,7 @@ namespace OhmStudio.UI.Attaches
         #endregion
 
         /// <summary>
-        /// Parses a string to create a GridLength
+        /// Parses a string to create a GridLength.
         /// </summary>
         private static GridLength ParseLength(string length)
         {

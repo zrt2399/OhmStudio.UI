@@ -300,6 +300,8 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         public bool DisableAnimations { get; set; } = false;
 
+        public bool IsTopmost { get; set; }
+
         public CornerRadius CornerRadius { get; set; }
 
         private int _globalCornerRadius;

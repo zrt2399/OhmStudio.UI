@@ -68,13 +68,13 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(WorkflowCanvas), new PropertyMetadata(OnItemsSourceChanged));
 
-        public static readonly DependencyProperty EditorStatusProperty =
-            DependencyProperty.RegisterAttached("EditorStatus", typeof(CanvasStatus), typeof(WorkflowCanvas), new FrameworkPropertyMetadata(default(CanvasStatus), FrameworkPropertyMetadataOptions.Inherits));
+        public static readonly DependencyProperty CanvasStatusProperty =
+            DependencyProperty.RegisterAttached(nameof(CanvasStatus), typeof(CanvasStatus), typeof(WorkflowCanvas), new FrameworkPropertyMetadata(default(CanvasStatus), FrameworkPropertyMetadataOptions.Inherits));
 
-        public static void SetEditorStatus(DependencyObject element, CanvasStatus value) => element.SetValue(EditorStatusProperty, value);
+        public static void SetCanvasStatus(DependencyObject element, CanvasStatus value) => element.SetValue(CanvasStatusProperty, value);
 
-        public static CanvasStatus GetEditorStatus(DependencyObject element) => (CanvasStatus)element.GetValue(EditorStatusProperty);
- 
+        public static CanvasStatus GetCanvasStatus(DependencyObject element) => (CanvasStatus)element.GetValue(CanvasStatusProperty);
+
         internal IEnumerable<CanvasItem> CanvasItems => Children.OfType<CanvasItem>();
 
         public IEnumerable<WorkflowItem> WorkflowItems => Children.OfType<WorkflowItem>();
@@ -100,10 +100,10 @@ namespace OhmStudio.UI.Controls
                 EditorParent.SelectedItems = value;//}
         }
 
-        internal CanvasStatus CanvasStatus
+        public CanvasStatus CanvasStatus
         {
-            get => GetEditorStatus(this);
-            set => SetEditorStatus(this, value);
+            get => (CanvasStatus)GetValue(CanvasStatusProperty);
+            set => SetValue(CanvasStatusProperty, value);
         }
 
         private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
