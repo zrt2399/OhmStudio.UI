@@ -8,12 +8,13 @@ namespace OhmStudio.UI.Attaches
 {
     public enum ThemeType
     {
-        VS2019Blue,
-        VS2019Dark,
-        VS2019Light,
-        VS2022Blue,
-        VS2022Dark,
-        VS2022Light
+        SyncWithSystem,
+        Blue2019,
+        Dark2019,
+        Light2019,
+        Blue2022,
+        Dark2022,
+        Light2022
     }
 
     public class XamlThemeDictionary : ResourceDictionary
@@ -21,7 +22,7 @@ namespace OhmStudio.UI.Attaches
         public XamlThemeDictionary()
         {
             _instance = this;
-            UpdateTheme(Theme, true);
+            UpdateTheme(Theme);
         }
 
         private const string UIPath = "pack://application:,,,/OhmStudio.UI;component/";
@@ -41,7 +42,7 @@ namespace OhmStudio.UI.Attaches
             }
         }
 
-        private ThemeType _theme = ThemeType.VS2022Blue;
+        private ThemeType _theme;
         public ThemeType Theme
         {
             get => _theme;
@@ -52,35 +53,12 @@ namespace OhmStudio.UI.Attaches
                     return;
                 }
                 UpdateTheme(_theme = value);
-                ThemeChanged?.Invoke(value, EventArgs.Empty);
+                ThemeChanged?.Invoke(this, EventArgs.Empty);
                 StatusManager.Update();
             }
         }
 
-        private bool _isSyncWithSystem;
-        public bool IsSyncWithSystem
-        {
-            get => _isSyncWithSystem;
-            set
-            {
-                if (_isSyncWithSystem == value)
-                {
-                    return;
-                }
-                _isSyncWithSystem = value;
-                if (value)
-                {
-                    SyncWithSystemTheme();
-                    SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
-                }
-                else
-                {
-                    SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
-                }
-            }
-        }
-
-        void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             if (e.Category == UserPreferenceCategory.General)
             {
@@ -88,25 +66,36 @@ namespace OhmStudio.UI.Attaches
             }
         }
 
-        void SyncWithSystemTheme()
+        private void SyncWithSystemTheme()
         {
-            Theme = SystemHelper.DetermineIfInLightThemeMode ? ThemeType.VS2022Light : ThemeType.VS2022Dark;
+            UpdateTheme(SystemHelper.DetermineIfInLightThemeMode ? ThemeType.Light2022 : ThemeType.Dark2022);
         }
 
-        void UpdateTheme(ThemeType themeType, bool isInitialisation = false)
+        private void UpdateTheme(ThemeType themeType)
         {
+            if (themeType == ThemeType.SyncWithSystem)
+            {
+                SyncWithSystemTheme();
+                SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
+                SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+                return;
+            }
+            if (Theme != ThemeType.SyncWithSystem)
+            {
+                SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
+            }
             string url = themeType switch
             {
-                ThemeType.VS2019Blue => "VisualStudio2019/BlueTheme.xaml",
-                ThemeType.VS2019Dark => "VisualStudio2019/DarkTheme.xaml",
-                ThemeType.VS2019Light => "VisualStudio2019/LightTheme.xaml",
-                ThemeType.VS2022Blue => "VisualStudio2022/BlueTheme.xaml",
-                ThemeType.VS2022Dark => "VisualStudio2022/DarkTheme.xaml",
+                ThemeType.Blue2019 => "VisualStudio2019/BlueTheme.xaml",
+                ThemeType.Dark2019 => "VisualStudio2019/DarkTheme.xaml",
+                ThemeType.Light2019 => "VisualStudio2019/LightTheme.xaml",
+                ThemeType.Blue2022 => "VisualStudio2022/BlueTheme.xaml",
+                ThemeType.Dark2022 => "VisualStudio2022/DarkTheme.xaml",
                 _ => "VisualStudio2022/LightTheme.xaml"
             };
             url = $"{UIPath}Themes/{url}";
 
-            if (isInitialisation)
+            if (MergedDictionaries.Count == 0)
             {
                 MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(url) });
                 MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(UIPath + "Styles/VisualStudio.xaml") });

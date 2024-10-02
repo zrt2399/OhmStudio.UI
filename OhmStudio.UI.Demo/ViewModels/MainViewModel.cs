@@ -185,7 +185,7 @@ namespace OhmStudio.UI.Demo.ViewModels
                 .RuleFor(u => u.Password, f => f.Internet.Password())
                 .RuleFor(u => u.LoginAt, f => f.Date.Recent())
                 .RuleFor(u => u.CreatedAt, f => f.Date.Recent())
-                .RuleFor(u => u.Remark, f => f.Lorem.Text())
+                .RuleFor(u => u.Remark, f => f.Lorem.Sentence())
                 .Generate(1000);
 
             UserInfos = new ObservableCollection<UserInfoModel>(userInfoModels);
@@ -401,8 +401,8 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         private void XamlThemeDictionary_ThemeChanged(object sender, EventArgs e)
         {
-            CurrentTheme = (ThemeType)sender;
-            StatusBarContent = "软件主题已改变为" + (ThemeType)sender;
+            CurrentTheme = (sender as XamlThemeDictionary).Theme;
+            StatusBarContent = "软件主题已改变为" + CurrentTheme;
         }
 
         private void StatusManager_IsRunningChanged(object sender, EventArgs e)
