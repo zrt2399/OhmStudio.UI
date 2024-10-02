@@ -23,6 +23,7 @@ namespace OhmStudio.UI.Attaches
         {
             _instance = this;
             UpdateTheme(Theme);
+            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         }
 
         private const string UIPath = "pack://application:,,,/OhmStudio.UI;component/";
@@ -68,22 +69,20 @@ namespace OhmStudio.UI.Attaches
 
         private void SyncWithSystemTheme()
         {
-            UpdateTheme(SystemHelper.DetermineIfInLightThemeMode ? ThemeType.Light2022 : ThemeType.Dark2022);
+            if (Theme == ThemeType.SyncWithSystem)
+            {
+                UpdateTheme(SystemHelper.DetermineIfInLightThemeMode ? ThemeType.Light2022 : ThemeType.Dark2022);
+            }
         }
 
         private void UpdateTheme(ThemeType themeType)
         {
             if (themeType == ThemeType.SyncWithSystem)
             {
-                SyncWithSystemTheme();
-                SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
-                SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+                SyncWithSystemTheme();  
                 return;
             }
-            if (Theme != ThemeType.SyncWithSystem)
-            {
-                SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
-            }
+            
             string url = themeType switch
             {
                 ThemeType.Blue2019 => "VisualStudio2019/BlueTheme.xaml",
