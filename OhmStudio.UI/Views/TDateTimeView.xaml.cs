@@ -93,15 +93,15 @@ namespace OhmStudio.UI.Views
         private void btnNow_Click(object sender, RoutedEventArgs e)
         {
             popChioce.IsOpen = false;//THourView 或 TMinSexView 所在pop 的关闭动作
-            if (btnNow.Content.ToString() == "零点")
+            if (btnNow.Content.ToString() == Properties.Resources.DateTimePicker_Midnight)
             {
                 UpdateBtnContent(null);
-                btnNow.Content = "当前";
+                btnNow.Content = Properties.Resources.DateTimePicker_Current;
             }
             else
             {
                 UpdateBtnContent(DateTime.Now);
-                btnNow.Content = "零点";
+                btnNow.Content = Properties.Resources.DateTimePicker_Midnight;
             }
         }
 
@@ -139,6 +139,7 @@ namespace OhmStudio.UI.Views
                 popChioce.IsOpen = false;
             }
             TMinSexView minSexView = new TMinSexView();//TMinSexView 构造函数传递 分钟数据
+            minSexView.tbTitleMinute.Visibility = Visibility.Visible;
             minSexView.MinClick += (minStr) => //TMinSexView 中 点击选择的分钟数据的 传递动作
             {
                 btnmm.Content = minStr;
@@ -162,7 +163,7 @@ namespace OhmStudio.UI.Views
             }
             //秒钟 跟分钟 都是60，所有秒钟共用 分钟的窗口即可
             TMinSexView minSexView = new TMinSexView();//TMinSexView 构造函数 传入秒钟数据
-            minSexView.textBlockTitle.Text = "秒   钟";//修改 TMinSexView 的标题名称为秒钟
+            minSexView.tbTitleSecond.Visibility = Visibility.Visible;
             minSexView.MinClick += (sexStr) => //TMinSexView 中 所选择确定的 秒钟数据 的传递动作
             {
                 btnss.Content = sexStr;

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:OhmStudio.UI.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ohmProperties="clr-namespace:OhmStudio.UI.Properties"
              d:DesignHeight="250"
              d:DesignWidth="400"
              mc:Ignorable="d">
@@ -20,14 +21,14 @@
                            Margin="4"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           Text="小   时" />
+                           Text="{x:Static ohmProperties:Resources.DateTimePicker_Hour}" />
                 <controls:IconButton Height="16"
                                      Margin="4"
                                      HorizontalAlignment="Right"
                                      VerticalAlignment="Center"
                                      Click="IconButton_Click"
                                      Icon="/OhmStudio.UI;component/Assets/Images/close.png"
-                                     ToolTip="关闭" />
+                                     ToolTip="{x:Static ohmProperties:Resources.Common_Close}" />
             </Grid>
             <DataGrid Name="dgHour"
                       Grid.Row="1"

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Shell;
-using OhmStudio.UI.Messaging;
 
 namespace OhmStudio.UI.Views
 {
@@ -10,29 +9,34 @@ namespace OhmStudio.UI.Views
     /// </summary>
     public partial class MessageWindow : Window
     {
+        public MessageBoxResult MessageBoxResult { get; private set; }
+
         public MessageWindow(MessageBoxButton messageBoxButton)
         {
             InitializeComponent();
-            _messageBoxButton = messageBoxButton;
             MaxHeight = SystemParameters.WorkArea.Height;
             MaxWidth = SystemParameters.WorkArea.Width;
-            if (AlertDialog.Language == LanguageType.Zh_CHT)
+            if (messageBoxButton == MessageBoxButton.OK)
             {
-                btnOK.Content = "確定";
-                btnNo.Content = "否";
-                btnCancel.Content = "取消";
+                btnOK.Visibility = Visibility.Visible;
             }
-            else if (AlertDialog.Language == LanguageType.En_US)
+            else if (messageBoxButton == MessageBoxButton.OKCancel)
             {
-                btnOK.Content = "OK";
-                btnNo.Content = "No";
-                btnCancel.Content = "Cancel";
+                btnOK.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Visible;
+            }
+            else if (messageBoxButton == MessageBoxButton.YesNoCancel)
+            {
+                btnYes.Visibility = Visibility.Visible;
+                btnNo.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Visible;
+            }
+            else if (messageBoxButton == MessageBoxButton.YesNo)
+            {
+                btnYes.Visibility = Visibility.Visible;
+                btnNo.Visibility = Visibility.Visible;
             }
         }
-
-        readonly MessageBoxButton _messageBoxButton;
-
-        public MessageBoxResult MessageBoxResult { get; set; }
 
         protected override void OnSourceInitialized(EventArgs e)
         {
@@ -43,9 +47,21 @@ namespace OhmStudio.UI.Views
             }
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            imageInfo.Source = null;
+        }
+
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult = _messageBoxButton is MessageBoxButton.OK or MessageBoxButton.OKCancel ? MessageBoxResult.OK : MessageBoxResult.Yes;
+            MessageBoxResult = MessageBoxResult.OK;
+            DialogResult = true;
+        }
+
+        private void btnYes_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult = MessageBoxResult.Yes;
             DialogResult = true;
         }
 
@@ -64,11 +80,6 @@ namespace OhmStudio.UI.Views
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
-        }
-
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            imageInfo.Source = null;
         }
     }
 }

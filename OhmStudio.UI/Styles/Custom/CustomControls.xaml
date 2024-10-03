@@ -4,6 +4,7 @@
                     xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
                     xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:o="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    xmlns:ohmProperties="clr-namespace:OhmStudio.UI.Properties"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
                     xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms">
 
@@ -812,13 +813,13 @@
                                                     </Style>
                                                 </StackPanel.Resources>
                                                 <Button Command="{Binding InvertSelectCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                    <CheckBox IsChecked="{x:Null}">反选</CheckBox>
+                                                    <CheckBox Content="{x:Static ohmProperties:Resources.Common_InvertSelect}" IsChecked="{x:Null}" />
                                                 </Button>
                                                 <Button Command="{Binding SelectAllCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                    <CheckBox IsChecked="True">选择全部</CheckBox>
+                                                    <CheckBox Content="{x:Static ohmProperties:Resources.Common_SelectAll}" IsChecked="True" />
                                                 </Button>
                                                 <Button Command="{Binding UnselectAllCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                    <CheckBox IsChecked="False">取消全部</CheckBox>
+                                                    <CheckBox Content="{x:Static ohmProperties:Resources.Common_UnselectAll}" IsChecked="False" />
                                                 </Button>
                                             </StackPanel>
                                             <ListBox x:Name="PART_ListBox"
@@ -1111,20 +1112,20 @@
                                           IsChecked="{Binding IsCleared, RelativeSource={RelativeSource TemplatedParent}}"
                                           IsTabStop="{Binding ClearButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
                                           Style="{StaticResource CheckBoxStyle}"
-                                          ToolTip="清除"
+                                          ToolTip="{x:Static ohmProperties:Resources.Common_Clear}"
                                           Visibility="{TemplateBinding ClearVisibility}" />
                                 <controls:SimplePanel Grid.Column="2" Visibility="{Binding CanShowPassword, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <CheckBox Content="&#xe6f9;"
                                               IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
                                               IsTabStop="{Binding ShowPasswordButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
                                               Style="{StaticResource CheckBoxStyle}"
-                                              ToolTip="点击隐藏密码"
+                                              ToolTip="{x:Static ohmProperties:Resources.PasswordTextBox_HidePassword}"
                                               Visibility="{Binding ElementName=PART_TextBox, Path=Visibility}" />
                                     <CheckBox Content="&#xe6fb;"
                                               IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
                                               IsTabStop="{Binding ShowPasswordButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
                                               Style="{StaticResource CheckBoxStyle}"
-                                              ToolTip="点击显示密码"
+                                              ToolTip="{x:Static ohmProperties:Resources.PasswordTextBox_ShowPassword}"
                                               Visibility="{Binding ElementName=PART_PasswordBox, Path=Visibility}" />
                                 </controls:SimplePanel>
                             </Grid>
@@ -1814,7 +1815,7 @@
             <Setter.Value>
                 <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
                     <MenuItem Command="{Binding DeleteCommand}"
-                              Header="删除"
+                              Header="{x:Static ohmProperties:Resources.Common_Delete}"
                               Icon="{controls:PackIcon Kind=Trashcan}" />
                 </ContextMenu>
             </Setter.Value>

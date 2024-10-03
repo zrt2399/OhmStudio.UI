@@ -103,8 +103,7 @@ namespace OhmStudio.UI.Demo.Views
             {
                 stringBuilder.Append("Item:" + i + Environment.NewLine);
             }
-
-            AlertDialog.Language = LanguageType.En_US;
+ 
             var result = AlertDialog.Show(stringBuilder.ToString(), version, MessageBoxButton.YesNoCancel, MessageBoxImage.Error);
             MessageBox.Show("点击了" + result, version);
         }

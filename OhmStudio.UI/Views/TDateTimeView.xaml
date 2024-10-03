@@ -6,6 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:OhmStudio.UI.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ohmProperties="clr-namespace:OhmStudio.UI.Properties"
              Focusable="True"
              mc:Ignorable="d">
 
@@ -35,53 +36,27 @@
                 <TextBlock Margin="4"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Center">
-                    <Hyperlink Click="Hyperlink_Click">今日</Hyperlink>
+                    <Hyperlink Click="Hyperlink_Click">
+                        <Run Text="{x:Static ohmProperties:Resources.DateTimePicker_Today}" />
+                    </Hyperlink>
                 </TextBlock>
                 <TextBlock x:Name="tbTitle"
                            Margin="4"
                            HorizontalAlignment="Center"
-                           VerticalAlignment="Center">
-                    日期
-                </TextBlock>
+                           VerticalAlignment="Center"
+                           Text="{x:Static ohmProperties:Resources.DateTimePicker_Date}" />
                 <controls:IconButton Height="16"
                                      Margin="4"
                                      HorizontalAlignment="Right"
                                      VerticalAlignment="Center"
                                      Click="IconButton_Click"
                                      Icon="/OhmStudio.UI;component/Assets/Images/close.png"
-                                     ToolTip="关闭" />
+                                     ToolTip="{x:Static ohmProperties:Resources.Common_Close}" />
             </Grid>
             <Grid Grid.Row="1">
                 <Calendar Name="calendar"
-                          Margin="0,-3"
-                          PreviewMouseUp="calendar_PreviewMouseUp">
-                    <!--<Calendar.CalendarDayButtonStyle>
-                    <Style TargetType="CalendarDayButton">
-                        <Setter Property="Background" Value="White"/>-->
-                    <!--<Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ContentControl">
-                                    <Button Content="{TemplateBinding Content}"
-                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                      Margin="{TemplateBinding Padding}"
-                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>-->
-                    <!--<Style.Triggers>
-                            <Trigger Property="IsInactive" Value="True">
-                                <Setter Property="Background" Value="Blue"/>
-                                <Setter Property="TextElement.Foreground" Value="Blue"/>
-                            </Trigger>
-                            <Trigger Property="IsInactive" Value="False">
-                                <Setter Property="Background" Value="Red"/>
-                                <Setter Property="TextElement.Foreground" Value="Red"/>
-                            </Trigger>
-                        </Style.Triggers>-->
-                    <!--</Style>
-                </Calendar.CalendarDayButtonStyle>-->
-                </Calendar>
+                          Margin="0,-2"
+                          PreviewMouseUp="calendar_PreviewMouseUp" />
             </Grid>
             <Grid Grid.Row="2" Margin="4">
                 <Grid.ColumnDefinitions>
@@ -90,7 +65,9 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="txtTime" VerticalAlignment="Center">时间</TextBlock>
+                <TextBlock x:Name="txtTime"
+                           VerticalAlignment="Center"
+                           Text="{x:Static ohmProperties:Resources.DateTimePicker_Time}" />
                 <Border x:Name="textBoxDateTime"
                         Grid.Column="1"
                         Margin="4,0,0,0"
@@ -141,16 +118,14 @@
                         Grid.Column="2"
                         Margin="4,0,0,0"
                         VerticalAlignment="Center"
-                        Click="btnNow_Click">
-                    当前
-                </Button>
+                        Click="btnNow_Click"
+                        Content="{x:Static ohmProperties:Resources.DateTimePicker_Current}" />
                 <Button Name="btnOK"
                         Grid.Column="3"
                         Margin="4,0,0,0"
                         VerticalAlignment="Center"
-                        Click="btnOK_Click">
-                    确定
-                </Button>
+                        Click="btnOK_Click"
+                        Content="{x:Static ohmProperties:Resources.Common_OK}" />
             </Grid>
             <Popup x:Name="popChioce"
                    AllowsTransparency="True"

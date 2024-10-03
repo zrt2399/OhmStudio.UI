@@ -5,10 +5,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:OhmStudio.UI.Views"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Title="系统提示"
+        xmlns:ohmProperties="clr-namespace:OhmStudio.UI.Properties"
         MinWidth="160"
         MinHeight="140"
-        Closed="Window_Closed"
         ResizeMode="NoResize"
         SizeToContent="WidthAndHeight"
         SnapsToDevicePixels="True"
@@ -146,8 +145,7 @@
                 <Image x:Name="imageInfo"
                        Height="32"
                        Margin="10,10,0,0"
-                       VerticalAlignment="Top"
-                       d:Source="/Images/info.png">
+                       VerticalAlignment="Top">
                     <Image.Style>
                         <Style TargetType="Image">
                             <Style.Triggers>
@@ -173,29 +171,28 @@
             </Grid>
         </Grid>
         <Grid Grid.Row="2" Background="{DynamicResource MessageBoxButtonAreaBackground}">
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                        <Setter Property="Margin" Value="10" />
+                        <Setter Property="Padding" Value="20,4" />
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </Style>
+                </StackPanel.Resources>
                 <Button x:Name="btnOK"
-                        Margin="10"
-                        Padding="20,4"
-                        VerticalAlignment="Center"
-                        Click="btnOK_Click">
-                    确定
-                </Button>
+                        Click="btnOK_Click"
+                        Content="{x:Static ohmProperties:Resources.Common_OK}" />
+                <Button x:Name="btnYes"
+                        Click="btnYes_Click"
+                        Content="{x:Static ohmProperties:Resources.Common_Yes}" />
                 <Button x:Name="btnNo"
-                        Margin="10"
-                        Padding="20,4"
-                        VerticalAlignment="Center"
                         Click="btnNo_Click"
-                        Visibility="Collapsed">
-                    否
-                </Button>
+                        Content="{x:Static ohmProperties:Resources.Common_No}" />
                 <Button x:Name="btnCancel"
-                        Margin="10"
-                        Padding="20,4"
-                        VerticalAlignment="Center"
-                        Click="btnCancel_Click">
-                    取消
-                </Button>
+                        Click="btnCancel_Click"
+                        Content="{x:Static ohmProperties:Resources.Common_Cancel}" />
             </StackPanel>
         </Grid>
     </Grid>
