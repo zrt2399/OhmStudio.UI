@@ -41,8 +41,8 @@ namespace OhmStudio.UI.Controls
                 }
             }));
 
-        public static readonly DependencyProperty DateTimeFormatProperty =
-            DependencyProperty.Register(nameof(DateTimeFormat), typeof(string), typeof(DateTimePicker), new PropertyMetadata("yyyy/MM/dd HH:mm:ss", UpdateDateTimeText));
+        public static readonly DependencyProperty SelectedDateTimeFormatProperty =
+            DependencyProperty.Register(nameof(SelectedDateTimeFormat), typeof(string), typeof(DateTimePicker), new PropertyMetadata("yyyy/MM/dd HH:mm:ss", UpdateDateTimeText));
 
         public static readonly DependencyProperty IsReadOnlyProperty =
             DependencyProperty.Register(nameof(IsReadOnly), typeof(bool), typeof(DateTimePicker));
@@ -91,10 +91,10 @@ namespace OhmStudio.UI.Controls
             set => SetValue(IsDateOnlyProperty, value);
         }
 
-        public string DateTimeFormat
+        public string SelectedDateTimeFormat
         {
-            get => (string)GetValue(DateTimeFormatProperty);
-            set => SetValue(DateTimeFormatProperty, value);
+            get => (string)GetValue(SelectedDateTimeFormatProperty);
+            set => SetValue(SelectedDateTimeFormatProperty, value);
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace OhmStudio.UI.Controls
             }
             else
             {
-                DateTimeText = SelectedDateTime?.ToString(DateTimeFormat);
+                DateTimeText = SelectedDateTime?.ToString(SelectedDateTimeFormat);
             }
         }
 

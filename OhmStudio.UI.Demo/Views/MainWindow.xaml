@@ -1084,12 +1084,12 @@
                                         <GroupBox Margin="10" Header="InputControl">
                                             <WrapPanel>
                                                 <DateTimePicker VerticalAlignment="Top"
-                                                                DateTimeFormat="yyyy-MM-dd"
                                                                 DisplayDateEnd="2022-1-1 13:00:00"
                                                                 DisplayDateStart="2020-1-1"
                                                                 Foreground="Green"
                                                                 IsDateOnly="True"
                                                                 SelectedDateTime="{Binding CurrentDateTime}"
+                                                                SelectedDateTimeFormat="yyyy-MM-dd"
                                                                 TextBoxAttach.PlaceHolder="请选择日期..."
                                                                 TextBoxAttach.Title="DateTimePicker："
                                                                 TextBoxAttach.TitlePlacement="Top" />
