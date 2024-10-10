@@ -486,7 +486,7 @@ namespace OhmStudio.UI.Controls
         private EllipseItem EllipseRight;
         private EllipseItem EllipseBottom;
 
-        internal Point LastMouseDownPoint { get; set; }
+        internal Point PreviousMouseDownPoint { get; set; }
 
         internal Dictionary<Dock, EllipseItem> EllipseItems { get; private set; }
 

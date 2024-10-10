@@ -208,13 +208,13 @@ namespace OhmStudio.UI.Demo.ViewModels
             {
                 for (double x = 0; x <= double.MaxValue; x += 10)
                 {
-                    if (LineValues.Count > 100)
+                    if (SinValues.Count > 100)
                     {
-                        LineValues.RemoveAt(0);
+                        SinValues.RemoveAt(0);
                         CosValues.RemoveAt(0);
                     }
                     double radians = x * (Math.PI / 180); // 角度转弧度
-                    LineValues.Add(Math.Sin(radians));    // 将正弦值添加到数据集合中
+                    SinValues.Add(Math.Sin(radians));    // 将正弦值添加到数据集合中
                     CosValues.Add(Math.Cos(radians));     // 将余弦值添加到数据集合中
                     Thread.Sleep(1000);
                 }
@@ -292,7 +292,7 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         public ObservableCollection<string> DengGuanQueLou { get; set; } = new ObservableCollection<string>();
 
-        public ChartValues<double> LineValues { get; set; } = new ChartValues<double>(); // 正弦值
+        public ChartValues<double> SinValues { get; set; } = new ChartValues<double>(); // 正弦值
 
         public ChartValues<double> CosValues { get; set; } = new ChartValues<double>(); // 余弦值
 

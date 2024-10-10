@@ -454,30 +454,35 @@
                                 <Grid GridAttach.RowDefinitions="*,Auto,Auto">
                                     <RollBox Name="rollBox"
                                              DockPanel.Dock="Top"
-                                             RollingInterval="3">
-                                        <RollBox.ItemsSource>
-                                            <!--<Image Source="https://pic4.zhimg.com/v2-177d137cb3266e217cc0bb45c2e5b1ef_r.jpg" />
-                                            <Image Source="https://pic3.zhimg.com/v2-1260ce85d93a13a45a3bd7b224634222_r.jpg" />-->
-                                            <Image Source="https://pica.zhimg.com/v2-a23f3078d20eba31f367a605cdb94c14_r.jpg?source=1940ef5c" />
-                                            <Image Source="/Assets/Images/1.jpg" />
-                                            <Image Source="/Assets/Images/1a.jpg" />
-                                            <Image Source="/Assets/Images/1b.jpg" />
-                                            <Image Source="/Assets/Images/2.jpg" />
-                                            <Image Source="/Assets/Images/2a.jpg" />
-                                            <Image Source="/Assets/Images/3.jpg" />
-                                            <Image Source="/Assets/Images/3a.jpg" />
-                                            <Button>Button</Button>
-                                            <UniformGrid Columns="1" Rows="2">
-                                                <Button>Button1</Button>
-                                                <Button>Button2</Button>
-                                            </UniformGrid>
-                                        </RollBox.ItemsSource>
+                                             Interval="0:0:3">
+
+                                        <!--<Image Source="https://pic4.zhimg.com/v2-177d137cb3266e217cc0bb45c2e5b1ef_r.jpg" />
+                                        <Image Source="https://pic3.zhimg.com/v2-1260ce85d93a13a45a3bd7b224634222_r.jpg" />-->
+                                        <Image Source="https://pica.zhimg.com/v2-a23f3078d20eba31f367a605cdb94c14_r.jpg?source=1940ef5c" />
+                                        <Image Source="/Assets/Images/1.jpg" />
+                                        <Image Source="/Assets/Images/1a.jpg" />
+                                        <Image Source="/Assets/Images/1b.jpg" />
+                                        <Image Source="/Assets/Images/2.jpg" />
+                                        <Image Source="/Assets/Images/2a.jpg" />
+                                        <Image Source="/Assets/Images/3.jpg" />
+                                        <Image Source="/Assets/Images/3a.jpg" />
+                                        <Button>Button</Button>
+                                        <UniformGrid Columns="1" Rows="2">
+                                            <Button>Button1</Button>
+                                            <Button>Button2</Button>
+                                        </UniformGrid>
+
                                     </RollBox>
-                                    <Button Grid.Row="1" Click="Button_Click_15">
-                                        切换ItemsSource
-                                    </Button>
+                                    <UniformGrid Grid.Row="1" Rows="1">
+                                        <Button Click="Button_Click_15">
+                                            切换ItemsSource
+                                        </Button>
+                                        <Button Click="Button_Click_16">
+                                            重置
+                                        </Button>
+                                    </UniformGrid>
                                     <Grid Grid.Row="2">
-                                        <TextBlock Text="{Binding ElementName=rollBox, Path=RollingInterval, StringFormat=当前滚动间隔：{0}s}" />
+                                        <TextBlock Text="{Binding ElementName=rollBox, Path=Interval, StringFormat=当前滚动间隔：{0}}" />
                                         <TextBlock HorizontalAlignment="Right" Text="{Binding ElementName=rollBox, Path=ItemsSource.Count, StringFormat=ItemsSource.Count:{0}}" />
                                     </Grid>
                                 </Grid>
@@ -648,12 +653,7 @@
                                 </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="GroupBox">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
+                                <UniformGrid Columns="1">
                                     <GroupBox Margin="10"
                                               Background="Orange"
                                               BorderBrush="Blue"
@@ -661,23 +661,26 @@
                                               Header="GroupBox">
                                         <TextBox>GroupBox</TextBox>
                                     </GroupBox>
-                                    <DropShadowControl Grid.Row="1"
-                                                       Margin="10"
+                                    <DropShadowControl Margin="10"
                                                        Background="OrangeRed"
                                                        BlurRadius="40"
-                                                       BorderBrush="Gray"
                                                        BorderThickness="2"
                                                        CornerRadius="10"
                                                        ShadowColor="IndianRed"
                                                        ShadowDepth="0">
+                                        <DropShadowControl.BorderBrush>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                <GradientStop Offset="0" Color="Yellow" />
+                                                <GradientStop Offset="0.5" Color="Orange" />
+                                                <GradientStop Offset="1" Color="Red" />
+                                            </LinearGradientBrush>
+                                        </DropShadowControl.BorderBrush>
                                         <TextBox Margin="10">DropShadowControl</TextBox>
                                     </DropShadowControl>
-                                    <Border Grid.Row="2"
-                                            Margin="10"
-                                            Background="Green">
+                                    <Border Margin="10" Background="Green">
                                         <TextBox Margin="10">Border</TextBox>
                                     </Border>
-                                </Grid>
+                                </UniformGrid>
                             </LayoutDocument>
                             <LayoutDocument Title="TextBlock">
                                 <GroupBox Margin="10" Header="TextHighlight">
@@ -938,7 +941,7 @@
                                                 <lvc:Axis Title="Y 轴" LabelFormatter="{Binding YAxisLabelFormatter}" />
                                             </lvc:CartesianChart.AxisY>
                                             <lvc:CartesianChart.Series>
-                                                <lvc:LineSeries Title="正弦曲线" Values="{Binding LineValues}" />
+                                                <lvc:LineSeries Title="正弦曲线" Values="{Binding SinValues}" />
                                                 <lvc:LineSeries Title="余弦曲线" Values="{Binding CosValues}" />
                                             </lvc:CartesianChart.Series>
                                         </lvc:CartesianChart>

@@ -8,7 +8,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <XamlThemeDictionary />
+                <XamlThemeDictionary Theme="Blue2022" />
                 <!--<ResourceDictionary Source="/OhmStudio.UI;Component/Themes/VisualStudio2022/DarkTheme.xaml" />
                 <ResourceDictionary Source="/OhmStudio.UI;Component/Styles/VisualStudio.xaml" />-->
                 <ResourceDictionary Source="/GlobalStyle.xaml" />

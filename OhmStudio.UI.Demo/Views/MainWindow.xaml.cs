@@ -103,7 +103,7 @@ namespace OhmStudio.UI.Demo.Views
             {
                 stringBuilder.Append("Item:" + i + Environment.NewLine);
             }
- 
+
             var result = AlertDialog.Show(stringBuilder.ToString(), version, MessageBoxButton.YesNoCancel, MessageBoxImage.Error);
             MessageBox.Show("点击了" + result, version);
         }
@@ -196,7 +196,12 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_15(object sender, RoutedEventArgs e)
         {
-            rollBox.ItemsSource = new ObservableCollection<UIElement> { new Image() { Source = new BitmapImage(new Uri("https://pic1.zhimg.com/v2-ecac0aedda57bffecbbe90764828a825_r.jpg?source=1940ef5c")) }, new Button() { Content = "This is a new Button" } };
+            rollBox.ItemsSource = new ObservableCollection<object> { new Image() { Source = new BitmapImage(new Uri("https://pic1.zhimg.com/v2-ecac0aedda57bffecbbe90764828a825_r.jpg?source=1940ef5c")) }, new Button() { Content = "This is a new Button" }, "string" };
+        }
+
+        private void Button_Click_16(object sender, RoutedEventArgs e)
+        {
+            rollBox.ItemsSource = null;
         }
 
         private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)

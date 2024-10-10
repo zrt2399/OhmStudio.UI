@@ -54,8 +54,8 @@ namespace OhmStudio.UI.Controls
         //多个选中时鼠标按下的位置
         private Point _multiMoveMouseDownPoint;
 
-        private WorkflowItem _lastWorkflowItem;
-        private EllipseItem _lastEllipseItem;
+        private WorkflowItem _previousWorkflowItem;
+        private EllipseItem _previousEllipseItem;
 
         private Point _lineStartPoint;
         private LineItem _currentLine;
@@ -277,7 +277,7 @@ namespace OhmStudio.UI.Controls
             _multiMoveMouseDownPoint = e.GetPosition(this);
             foreach (var item in WorkflowItems.Where(x => x.IsSelected))
             {
-                item.LastMouseDownPoint = new Point(GetLeft(item), GetTop(item));
+                item.PreviousMouseDownPoint = new Point(GetLeft(item), GetTop(item));
             }
             _multiSelectionMask.CaptureMouse();
         }
@@ -285,7 +285,7 @@ namespace OhmStudio.UI.Controls
         private void WorkflowItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var workflowItem = sender as WorkflowItem;
-            _lastWorkflowItem = workflowItem;
+            _previousWorkflowItem = workflowItem;
             Point point = e.GetPosition(this);
             var startEllipseItem = GetElementWithPoint<EllipseItem>(point);
             if (startEllipseItem == null)
@@ -294,9 +294,9 @@ namespace OhmStudio.UI.Controls
             }
             else
             {
-                _lastWorkflowItem = startEllipseItem.WorkflowParent;
+                _previousWorkflowItem = startEllipseItem.WorkflowParent;
                 _lineStartPoint = startEllipseItem.GetPoint(this);
-                _lastEllipseItem = startEllipseItem;
+                _previousEllipseItem = startEllipseItem;
                 CanvasStatus = CanvasStatus.Drawing;
 
                 if (_currentLine == null)
@@ -372,8 +372,8 @@ namespace OhmStudio.UI.Controls
                 Vector vector = point - _multiMoveMouseDownPoint;
                 foreach (var item in WorkflowItems.Where(x => x.IsSelected && x.IsDraggable))
                 {
-                    SetLeft(item, item.LastMouseDownPoint.X + vector.X);
-                    SetTop(item, item.LastMouseDownPoint.Y + vector.Y);
+                    SetLeft(item, item.PreviousMouseDownPoint.X + vector.X);
+                    SetTop(item, item.PreviousMouseDownPoint.Y + vector.Y);
 
                     item.UpdateCurve();
                 }
@@ -385,7 +385,7 @@ namespace OhmStudio.UI.Controls
             }
             else if (CanvasStatus == CanvasStatus.Moving)
             {
-                var workflowItem = _lastWorkflowItem;
+                var workflowItem = _previousWorkflowItem;
                 if (!workflowItem.IsDraggable)
                 {
                     return;
@@ -409,14 +409,14 @@ namespace OhmStudio.UI.Controls
                     var endWorkflowItem = GetElementWithPoint<WorkflowItem>(point);
                     if (endWorkflowItem != null)
                     {
-                        SetStep(_lastWorkflowItem, endWorkflowItem, _lastEllipseItem);
+                        SetStep(_previousWorkflowItem, endWorkflowItem, _previousEllipseItem);
                     }
                 }
                 else if (CanvasStatus == CanvasStatus.Moving)
                 {
-                    if (_lastWorkflowItem?.IsDraggable == true)
+                    if (_previousWorkflowItem?.IsDraggable == true)
                     {
-                        PositionWorkflowItem(_lastWorkflowItem);
+                        PositionWorkflowItem(_previousWorkflowItem);
                     }
                 }
                 else if (CanvasStatus == CanvasStatus.MultiMoving)
@@ -435,7 +435,7 @@ namespace OhmStudio.UI.Controls
                 CanvasStatus = CanvasStatus.None;
 
                 _multiSelectionMask.ReleaseMouseCapture();
-                _lastWorkflowItem?.ReleaseMouseCapture();
+                _previousWorkflowItem?.ReleaseMouseCapture();
                 _currentLine?.ReleaseMouseCapture();
 
                 _currentLine = null;

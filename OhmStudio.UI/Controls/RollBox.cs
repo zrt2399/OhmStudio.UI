@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using OhmStudio.UI.Commands;
@@ -12,88 +13,65 @@ using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
-    //[TemplatePart(Name = "PART_CURR_Content", Type = typeof(ContentControl))]
-    //[TemplatePart(Name = "PART_NEXT_Content", Type = typeof(ContentControl))]
-    //[TemplatePart(Name = "PART_ListBox", Type = typeof(ListBox))]
+    [ContentProperty(nameof(ItemsSource))]
     public class RollBox : Control
     {
-        public RollBox()
-        {
-            PreviousCommand = new RelayCommand(() => Index--);
-            NextCommand = new RelayCommand(() => Index++);
-            GotFocus += RollBox_GotFocus;
-        }
-
-        static RollBox()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(RollBox), new FrameworkPropertyMetadata(typeof(RollBox)));
-        }
-
-        ~RollBox()
-        {
-            dispatcherTimer?.Stop();
-            dispatcherTimer = null;
-        }
-
-        //int preindex = 0;
         DispatcherTimer dispatcherTimer = new DispatcherTimer();
         ContentControl PART_CURR_Content;
         //ContentControl PART_NEXT_Content;
         ListBox PART_ListBox;
         Button PART_PreviousButton;
 
-        //public List<UIElement> Items { get; set; } = new List<UIElement>();
-
-        public ICommand PreviousCommand { get; }
-
-        public ICommand NextCommand { get; }
-
         public static readonly DependencyProperty ItemsSourceProperty =
-           DependencyProperty.Register(nameof(ItemsSource), typeof(ObservableCollection<UIElement>), typeof(RollBox), new PropertyMetadata(new ObservableCollection<UIElement>(), (sender, e) =>
-           {
-               RollBox rollBox = (RollBox)sender;
-               if (e.OldValue is INotifyCollectionChanged oldCollectionChanged)
-               {
-                   oldCollectionChanged.CollectionChanged -= CollectionChanged;
-               }
-               if (e.NewValue is INotifyCollectionChanged newCollectionChanged)
-               {
-                   newCollectionChanged.CollectionChanged += CollectionChanged;
-               }
-
-               rollBox.UpdateListBoxItem();
-
-               void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-               {
-                   rollBox.UpdateListBoxItem();
-               }
-           }));
-
-        public ObservableCollection<UIElement> ItemsSource
-        {
-            get => (ObservableCollection<UIElement>)GetValue(ItemsSourceProperty);
-            set => SetValue(ItemsSourceProperty, value);
-        }
-
-        public static readonly DependencyProperty RollingIntervalProperty =
-            DependencyProperty.Register(nameof(RollingInterval), typeof(double), typeof(RollBox), new PropertyMetadata(5d, (sender, e) =>
+            DependencyProperty.Register(nameof(ItemsSource), typeof(ObservableCollection<object>), typeof(RollBox), new PropertyMetadata(new ObservableCollection<object>(), (sender, e) =>
             {
-                if (sender is RollBox rollBox && e.NewValue is double newValue)
+                RollBox rollBox = (RollBox)sender;
+                if (e.OldValue is INotifyCollectionChanged oldCollectionChanged)
                 {
-                    rollBox.dispatcherTimer.Interval = TimeSpan.FromSeconds(newValue);
+                    oldCollectionChanged.CollectionChanged -= CollectionChanged;
+                }
+                if (e.NewValue is INotifyCollectionChanged newCollectionChanged)
+                {
+                    newCollectionChanged.CollectionChanged += CollectionChanged;
+                }
+
+                rollBox.UpdateListBoxItem();
+
+                void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+                {
+                    rollBox.UpdateListBoxItem();
+                }
+            }));
+
+        public static readonly DependencyProperty IntervalProperty =
+            DependencyProperty.Register(nameof(Interval), typeof(TimeSpan), typeof(RollBox), new PropertyMetadata(TimeSpan.FromSeconds(5), (sender, e) =>
+            {
+                if (sender is RollBox rollBox && e.NewValue is TimeSpan newValue)
+                {
+                    rollBox.dispatcherTimer.Interval = newValue;
                     rollBox.dispatcherTimer.Stop();
                     rollBox.dispatcherTimer.Start();
                 }
             }));
 
-        /// <summary>
-        /// 获取或设置滚动的间隔，默认值为5。
-        /// </summary>
-        public double RollingInterval
+        public ObservableCollection<object> ItemsSource
         {
-            get => (double)GetValue(RollingIntervalProperty);
-            set => SetValue(RollingIntervalProperty, value);
+            get => (ObservableCollection<object>)GetValue(ItemsSourceProperty);
+            set => SetValue(ItemsSourceProperty, value);
         }
+
+        /// <summary>
+        /// 获取或设置滚动的间隔，默认值为5s。
+        /// </summary>
+        public TimeSpan Interval
+        {
+            get => (TimeSpan)GetValue(IntervalProperty);
+            set => SetValue(IntervalProperty, value);
+        }
+
+        public ICommand PreviousCommand { get; }
+
+        public ICommand NextCommand { get; }
 
         public int Index
         {
@@ -117,11 +95,28 @@ namespace OhmStudio.UI.Controls
                 {
                     PART_ListBox.SelectedIndex = value;
                 }
-                //IndexChange();
             }
         }
 
-        void IndexChange()
+        public RollBox()
+        {
+            PreviousCommand = new RelayCommand(() => Index--);
+            NextCommand = new RelayCommand(() => Index++);
+            GotFocus += RollBox_GotFocus;
+        }
+
+        static RollBox()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(RollBox), new FrameworkPropertyMetadata(typeof(RollBox)));
+        }
+
+        ~RollBox()
+        {
+            dispatcherTimer?.Stop();
+            dispatcherTimer = null;
+        }
+
+        private void AnimationStart()
         {
             if (PART_CURR_Content == null /*|| PART_NEXT_Content == null*/ || PART_ListBox == null)
             {
@@ -134,11 +129,7 @@ namespace OhmStudio.UI.Controls
             }
             dispatcherTimer.Stop();
             dispatcherTimer.Start();//重新开始计时
-            AnimationStart();
-        }
 
-        void AnimationStart()
-        {
             //System.Diagnostics.Debug.WriteLine($"next{Index}  curr{preindex}");
             //PART_NEXT_Content.Content = Items[Index];
             //PART_CURR_Content.Content = Items[preindex];
@@ -200,7 +191,7 @@ namespace OhmStudio.UI.Controls
             //binding.Mode = BindingMode.TwoWay;
             //PART_ListBox.SetBinding(Selector.SelectedIndexProperty, binding);
 
-            dispatcherTimer.Interval = TimeSpan.FromSeconds(RollingInterval);
+            dispatcherTimer.Interval = Interval;
             dispatcherTimer.Tick -= DispatcherTimer_Tick;
             dispatcherTimer.Tick += DispatcherTimer_Tick;
 
@@ -217,16 +208,17 @@ namespace OhmStudio.UI.Controls
             var listBox = sender as ListBox;
             if (listBox.SelectedIndex >= 0)
             {
-                IndexChange();
+                AnimationStart();
             }
         }
 
-        void UpdateListBoxItem()
+        private void UpdateListBoxItem()
         {
             if (PART_ListBox == null || PART_CURR_Content == null)
             {
                 return;
             }
+            dispatcherTimer.Stop();
             PART_ListBox.Items.Clear();
             PART_CURR_Content.Content = null;
             if (ItemsSource == null || ItemsSource.Count == 0)
@@ -238,7 +230,6 @@ namespace OhmStudio.UI.Controls
                 PART_ListBox.Items.Add(new ListBoxItem());
             }
             Index = 0;
-            dispatcherTimer.Stop();
             dispatcherTimer.Start();
         }
 
@@ -268,7 +259,7 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        UIElement GetFirstFocusable(object obj)
+        private UIElement GetFirstFocusable(object obj)
         {
             if (obj is not UIElement uIElement)
             {
