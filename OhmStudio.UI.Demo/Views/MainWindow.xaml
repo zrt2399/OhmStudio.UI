@@ -452,14 +452,13 @@
                             </LayoutDocument>
                             <LayoutDocument Title="RollBox">
                                 <Grid GridAttach.RowDefinitions="*,Auto,Auto">
-                                    <RollBox Name="rollBox"
-                                             DockPanel.Dock="Top"
-                                             Interval="0:0:3">
+                                    <RollBox x:Name="rollBox" Interval="0:0:3">
 
                                         <!--<Image Source="https://pic4.zhimg.com/v2-177d137cb3266e217cc0bb45c2e5b1ef_r.jpg" />
                                         <Image Source="https://pic3.zhimg.com/v2-1260ce85d93a13a45a3bd7b224634222_r.jpg" />-->
-                                        <Image Source="https://pica.zhimg.com/v2-a23f3078d20eba31f367a605cdb94c14_r.jpg?source=1940ef5c" />
+
                                         <Image Source="/Assets/Images/1.jpg" />
+                                        <Image Source="https://pica.zhimg.com/v2-a23f3078d20eba31f367a605cdb94c14_r.jpg?source=1940ef5c" />
                                         <Image Source="/Assets/Images/1a.jpg" />
                                         <Image Source="/Assets/Images/1b.jpg" />
                                         <Image Source="/Assets/Images/2.jpg" />
@@ -656,9 +655,15 @@
                                 <UniformGrid Columns="1">
                                     <GroupBox Margin="10"
                                               Background="Orange"
-                                              BorderBrush="Blue"
                                               DropShadowControl.ShadowColor="Orange"
                                               Header="GroupBox">
+                                        <GroupBox.BorderBrush>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                <GradientStop Offset="0" Color="Red" />
+                                                <GradientStop Offset="0.5" Color="Green" />
+                                                <GradientStop Offset="1" Color="Blue" />
+                                            </LinearGradientBrush>
+                                        </GroupBox.BorderBrush>
                                         <TextBox>GroupBox</TextBox>
                                     </GroupBox>
                                     <DropShadowControl Margin="10"
