@@ -612,6 +612,10 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="ep" Property="Fill" Value="Gray" />
+                            <Setter TargetName="ep" Property="Height" Value="14" />
+                            <Setter TargetName="ep" Property="Width" Value="14" />
+                            <Setter TargetName="ep" Property="StrokeThickness" Value="1" />
+                            <Setter TargetName="ep" Property="Stroke" Value="White" />
                             <Setter TargetName="bd" Property="Opacity" Value="0.8" />
                         </Trigger>
                         <!--<MultiTrigger>
