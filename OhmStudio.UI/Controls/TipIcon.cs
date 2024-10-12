@@ -6,15 +6,10 @@ using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
-    public class TipIcon : Control
+    public class IconBase : Control
     {
         public static readonly DependencyProperty IconTypeProperty =
-            DependencyProperty.Register(nameof(IconType), typeof(IconType), typeof(TipIcon), new FrameworkPropertyMetadata(IconType.Info, FrameworkPropertyMetadataOptions.AffectsRender));
-
-        static TipIcon()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(TipIcon), new FrameworkPropertyMetadata(typeof(TipIcon)));
-        }
+            DependencyProperty.Register(nameof(IconType), typeof(IconType), typeof(IconBase), new FrameworkPropertyMetadata(IconType.Info, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public IconType IconType
         {
@@ -23,17 +18,16 @@ namespace OhmStudio.UI.Controls
         }
     }
 
-    internal class Icon : FrameworkElement
+    public class TipIcon : IconBase
     {
-        public static readonly DependencyProperty IconTypeProperty =
-            DependencyProperty.Register(nameof(IconType), typeof(IconType), typeof(Icon), new FrameworkPropertyMetadata(IconType.Info, FrameworkPropertyMetadataOptions.AffectsRender));
-
-        public IconType IconType
+        static TipIcon()
         {
-            get => (IconType)GetValue(IconTypeProperty);
-            set => SetValue(IconTypeProperty, value);
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(TipIcon), new FrameworkPropertyMetadata(typeof(TipIcon)));
         }
+    }
 
+    internal class Icon : IconBase
+    {
         public Icon()
         {
             Height = 20;
@@ -47,7 +41,7 @@ namespace OhmStudio.UI.Controls
                 var background = new SolidColorBrush(Color.FromRgb(103, 148, 186));
                 var pen = new Pen(background, 2);
                 drawingContext.DrawEllipse(background, pen, new Point(ActualHeight / 2, ActualWidth / 2), ActualHeight / 2 - 1, ActualWidth / 2 - 1);
- 
+
                 var exclamationPen = new Pen(new SolidColorBrush(Color.FromRgb(245, 245, 245)), 2);
                 drawingContext.DrawLine(exclamationPen, new Point(10, 4), new Point(10, 6));
                 drawingContext.DrawLine(exclamationPen, new Point(10, 8), new Point(10, 16));
@@ -76,7 +70,7 @@ namespace OhmStudio.UI.Controls
                 drawingContext.DrawLine(exclamationPen, new Point(10, 16), new Point(10, 18));
             }
             else if (IconType == IconType.Error)
-            { 
+            {
                 var pen = new Pen(new SolidColorBrush(Color.FromRgb(230, 80, 80)), 4);
                 drawingContext.DrawLine(pen, new Point(2, 2), new Point(18, 18));
                 drawingContext.DrawLine(pen, new Point(18, 2), new Point(2, 18));

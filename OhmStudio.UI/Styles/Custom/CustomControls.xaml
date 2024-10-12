@@ -179,12 +179,12 @@
                                 CornerRadius="{TemplateBinding CornerRadius}"
                                 SnapsToDevicePixels="True">
                             <Border.Effect>
-                                <DropShadowEffect BlurRadius="{Binding BlurRadius, RelativeSource={RelativeSource TemplatedParent}}"
-                                                  Direction="{Binding ShadowDirection, RelativeSource={RelativeSource TemplatedParent}}"
-                                                  Opacity="{Binding ShadowOpacity, RelativeSource={RelativeSource TemplatedParent}}"
-                                                  RenderingBias="{Binding RenderingBias, RelativeSource={RelativeSource TemplatedParent}}"
-                                                  ShadowDepth="{Binding ShadowDepth, RelativeSource={RelativeSource TemplatedParent}}"
-                                                  Color="{Binding ShadowColor, RelativeSource={RelativeSource TemplatedParent}}" />
+                                <DropShadowEffect BlurRadius="{Binding BlurRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
+                                                  Direction="{Binding ShadowDirection, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
+                                                  Opacity="{Binding ShadowOpacity, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
+                                                  RenderingBias="{Binding RenderingBias, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
+                                                  ShadowDepth="{Binding ShadowDepth, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}"
+                                                  Color="{Binding ShadowColor, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoNoThingConverter}}" />
                             </Border.Effect>
                         </Border>
                         <Border Background="{TemplateBinding Background}"
@@ -1278,10 +1278,10 @@
     <Style BasedOn="{StaticResource PropertyGridBaseStyle}" TargetType="controls:PropertyGrid" />
 
     <Style x:Key="IconButtonBaseStyle" TargetType="controls:IconButton">
-        <Setter Property="Padding" Value="0" />
+        <!--<Setter Property="Padding" Value="0" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:IconButton">
