@@ -133,7 +133,7 @@
                     Click="btnClose_Click"
                     Focusable="False"
                     Style="{StaticResource CloseButtonStyle}"
-                    ToolTip="关闭"
+                    ToolTip="{x:Static ohmProperties:Resources.Common_Close}"
                     WindowChrome.IsHitTestVisibleInChrome="True" />
         </Grid>
         <Grid Grid.Row="1">
