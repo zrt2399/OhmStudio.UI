@@ -66,8 +66,7 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty DisableZoomingProperty = DependencyProperty.Register(nameof(DisableZooming), typeof(bool), typeof(WorkflowEditor), new FrameworkPropertyMetadata(false));
 
         public static readonly DependencyProperty BringIntoViewMaxDurationProperty = DependencyProperty.Register(nameof(BringIntoViewMaxDuration), typeof(double), typeof(WorkflowEditor), new FrameworkPropertyMetadata(1d));
-
-
+ 
         public static readonly DependencyProperty LineTemplateProperty =
             DependencyProperty.Register(nameof(LineTemplate), typeof(DataTemplate), typeof(WorkflowEditor));
 
