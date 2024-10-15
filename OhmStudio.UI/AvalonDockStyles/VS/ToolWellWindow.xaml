@@ -206,8 +206,8 @@
                                     <RowDefinition Height="Auto" MinHeight="22" />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <ctrls:CustomizeTitleBar ContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
-                                                         ContextMenuDataContext="{Binding Path=SingleContentLayoutItem, RelativeSource={RelativeSource TemplatedParent}}"
+                                <ctrls:CustomizeTitleBar DataContext="{Binding Path=SingleContentLayoutItem, RelativeSource={RelativeSource TemplatedParent}}"
+                                                         ContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
                                                          IsShowSystemMenu="{Binding Path=Model.Root.Manager.ShowSystemMenu, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
                                     <Border x:Name="Header"
                                             Padding="4"

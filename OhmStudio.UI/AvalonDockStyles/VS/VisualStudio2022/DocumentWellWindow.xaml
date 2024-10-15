@@ -6,6 +6,7 @@
                     xmlns:avalonDockProperties="clr-namespace:AvalonDock.Properties;assembly=AvalonDock"
                     xmlns:controlz="urn:controlzex"
                     xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
+                    xmlns:ctrls="clr-namespace:OhmStudio.UI.Controls"
                     xmlns:reskeys="clr-namespace:OhmStudio.UI.AvalonDockThemes"
                     xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=AvalonDock">
 
@@ -106,10 +107,11 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <Border x:Name="Header"
-                                    controlz:NonClientControlProperties.HitTestResult="CAPTION"
-                                    Background="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentFloatingWindowTitleBarBackground}}"
-                                    TextElement.Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentFloatingWindowTitleBarTextActive}}">
+                            <ctrls:CustomizeTitleBar x:Name="Header"
+                                                     controlz:NonClientControlProperties.HitTestResult="CAPTION"
+                                                     Background="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentFloatingWindowTitleBarBackground}}"
+                                                     IsShowSystemMenu="{Binding Path=Model.Root.Manager.ShowSystemMenu, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                     TextElement.Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentFloatingWindowTitleBarTextActive}}">
                                 <Grid UseLayoutRounding="true">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
@@ -186,7 +188,7 @@
                                               Stretch="Uniform" />
                                     </Button>
                                 </Grid>
-                            </Border>
+                            </ctrls:CustomizeTitleBar>
                             <ContentPresenter Grid.Row="2"
                                               Margin="6"
                                               Content="{TemplateBinding Content}" />

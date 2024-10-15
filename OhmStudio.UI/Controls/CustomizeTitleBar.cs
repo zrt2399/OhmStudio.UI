@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -20,18 +19,7 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty IsWindowTitleBarProperty =
             DependencyProperty.Register("IsWindowTitleBar", typeof(bool),
                 typeof(CustomizeTitleBar), new PropertyMetadata(true));
-
-        public static readonly DependencyProperty ContextMenuDataContextProperty =
-            DependencyProperty.Register(nameof(ContextMenuDataContext), typeof(object),
-                typeof(CustomizeTitleBar), new FrameworkPropertyMetadata(null));
-
-        [Bindable(true), Description("Gets/sets the DataContext to set for the context menu property."), Category("Menu")]
-        public object ContextMenuDataContext
-        {
-            get => GetValue(ContextMenuDataContextProperty);
-            set => SetValue(ContextMenuDataContextProperty, value);
-        }
-
+ 
         public bool IsShowSystemMenu
         {
             get => (bool)GetValue(IsShowSystemMenuProperty);
@@ -104,7 +92,6 @@ namespace OhmStudio.UI.Controls
                 {
                     if (ContextMenu != null)
                     {
-                        ContextMenu.DataContext = ContextMenuDataContext;
                         ContextMenu.IsOpen = true;
                     }
                 }
