@@ -20,9 +20,9 @@
               Height="720"
               BorderAttach.CornerRadius="{Binding CornerRadius}"
               Icon="/icon.ico"
-              IsShowIcon="False"
-              IsShowTitle="False"
               ResizeMode="CanResizeWithGrip"
+              ShowIcon="False"
+              ShowTitle="False"
               SnapsToDevicePixels="{Binding IsAntiAliasing}"
               Topmost="{Binding IsTopmost}"
               UseLayoutRounding="{Binding IsAntiAliasing}"
@@ -231,8 +231,8 @@
         </Grid.RowDefinitions>
         <DockingManager x:Name="dockingManager"
                         AutoHideDelay="0"
-                        DocumentWrapPanel.IsMouseWheelWrap="True"
                         DocumentWrapPanel.IsWrap="True"
+                        DocumentWrapPanel.UseMouseWheelWrap="True"
                         ShowSystemMenu="False">
             <LayoutRoot>
                 <LayoutPanel Orientation="Horizontal">
@@ -348,8 +348,8 @@
                                     <GroupBox Margin="10" Header="DataGridWithGroup">
                                         <DataGrid AutoGenerateColumns="False"
                                                   CanUserAddRows="False"
-                                                  DataGridAttach.IsSelectionChangedUpdateRowNumber="True"
-                                                  DataGridAttach.IsShowRowNumber="True"
+                                                  DataGridAttach.SelectionChangedUpdateRowNumber="True"
+                                                  DataGridAttach.ShowRowNumber="True"
                                                   ItemsSource="{Binding Source={StaticResource ItemCollectionViewSource}}"
                                                   VirtualizingPanel.IsVirtualizing="True"
                                                   VirtualizingPanel.IsVirtualizingWhenGrouping="True"
@@ -419,7 +419,7 @@
                                     <GroupBox Margin="10" Header="DataGridWithAutoGenerateColumns">
                                         <DataGrid CellEditEnding="DataGrid_CellEditEnding"
                                                   DataGridAttach.IsEnableEditBoxAssist="True"
-                                                  DataGridAttach.IsShowRowNumber="True"
+                                                  DataGridAttach.ShowRowNumber="True"
                                                   ItemsSource="{Binding Employees}"
                                                   RowDetailsVisibilityMode="VisibleWhenSelected"
                                                   ScrollViewerAttach.Orientation="Horizontal">
@@ -437,7 +437,7 @@
                                     <GroupBox Margin="10" Header="DataGridWithManualGenerateColumns">
                                         <DataGrid AutoGenerateColumns="False"
                                                   CanUserAddRows="False"
-                                                  DataGridAttach.IsShowRowNumber="True"
+                                                  DataGridAttach.ShowRowNumber="True"
                                                   ItemsSource="{Binding Employees}"
                                                   SelectionUnit="CellOrRowHeader">
                                             <DataGrid.Columns>
@@ -643,7 +643,7 @@
                                         <RowDefinition />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <DataGrid DataGridAttach.IsShowRowNumber="True"
+                                    <DataGrid DataGridAttach.ShowRowNumber="True"
                                               ItemsSource="{Binding UserInfos}"
                                               SelectorAttach.SelectedItems="{Binding UserInfoSelectedItems}"
                                               SelectorAttach.SelectedItemsAttach="True" />
@@ -1203,7 +1203,7 @@
                                                         <Button>请输入搜索内容...</Button>
                                                     </TextBoxAttach.PlaceHolder>
                                                 </SearchBar>
-                                                <!--  TextBoxAttach.IsShowValidationErrorInfo="False"  -->
+                                                <!--  TextBoxAttach.ShowValidationErrorInfo="False"  -->
                                                 <TextBox Width="300"
                                                          Height="50"
                                                          HorizontalContentAlignment="Right"
@@ -1307,10 +1307,10 @@
                                                 <PathPicker MinWidth="200"
                                                             ExploreButtonContent="打开文件所在位置"
                                                             Filter="Excel 工作簿|*.xlsx"
-                                                            IsSave="True"
                                                             OpenButtonContent="打开文件"
                                                             TextBoxAttach.PlaceHolder="请选择保存的文件路径..."
-                                                            TextBoxAttach.Title="保存文件：" />
+                                                            TextBoxAttach.Title="保存文件："
+                                                            UseSaveDialog="True" />
                                                 <PathPicker MinWidth="200"
                                                             ExploreButtonContent="打开文件所在位置"
                                                             OpenButtonContent="打开文件"

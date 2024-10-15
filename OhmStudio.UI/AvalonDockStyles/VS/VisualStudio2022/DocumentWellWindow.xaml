@@ -110,7 +110,7 @@
                             <ctrls:CustomizeTitleBar x:Name="Header"
                                                      controlz:NonClientControlProperties.HitTestResult="CAPTION"
                                                      Background="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentFloatingWindowTitleBarBackground}}"
-                                                     IsShowSystemMenu="{Binding Path=Model.Root.Manager.ShowSystemMenu, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                     ShowSystemMenu="{Binding Path=Model.Root.Manager.ShowSystemMenu, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                                      TextElement.Foreground="{DynamicResource {x:Static reskeys:ResourceKeys.DocumentFloatingWindowTitleBarTextActive}}">
                                 <Grid UseLayoutRounding="true">
                                     <Grid.ColumnDefinitions>

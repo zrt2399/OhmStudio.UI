@@ -10,30 +10,30 @@ namespace OhmStudio.UI.Attaches
 {
     public class DataGridAttach
     {
-        public static readonly DependencyProperty IsSelectionChangedUpdateRowNumberProperty =
-            DependencyProperty.RegisterAttached("IsSelectionChangedUpdateRowNumber", typeof(bool), typeof(DataGridAttach));
+        public static readonly DependencyProperty SelectionChangedUpdateRowNumberProperty =
+            DependencyProperty.RegisterAttached("SelectionChangedUpdateRowNumber", typeof(bool), typeof(DataGridAttach));
 
-        public static bool GetIsSelectionChangedUpdateRowNumber(DependencyObject target)
+        public static bool GetSelectionChangedUpdateRowNumber(DependencyObject target)
         {
-            return (bool)target.GetValue(IsSelectionChangedUpdateRowNumberProperty);
+            return (bool)target.GetValue(SelectionChangedUpdateRowNumberProperty);
         }
 
-        public static void SetIsSelectionChangedUpdateRowNumber(DependencyObject target, bool value)
+        public static void SetSelectionChangedUpdateRowNumber(DependencyObject target, bool value)
         {
-            target.SetValue(IsSelectionChangedUpdateRowNumberProperty, value);
+            target.SetValue(SelectionChangedUpdateRowNumberProperty, value);
         }
 
-        public static DependencyProperty IsShowRowNumberProperty =
-            DependencyProperty.RegisterAttached("IsShowRowNumber", typeof(bool), typeof(DataGridAttach), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits, OnShowRowNumberChanged));
+        public static DependencyProperty ShowRowNumberProperty =
+            DependencyProperty.RegisterAttached("ShowRowNumber", typeof(bool), typeof(DataGridAttach), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits, OnShowRowNumberChanged));
 
-        public static bool GetIsShowRowNumber(DependencyObject target)
+        public static bool GetShowRowNumber(DependencyObject target)
         {
-            return (bool)target.GetValue(IsShowRowNumberProperty);
+            return (bool)target.GetValue(ShowRowNumberProperty);
         }
 
-        public static void SetIsShowRowNumber(DependencyObject target, bool value)
+        public static void SetShowRowNumber(DependencyObject target, bool value)
         {
-            target.SetValue(IsShowRowNumberProperty, value);
+            target.SetValue(ShowRowNumberProperty, value);
         }
 
         private static void OnShowRowNumberChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
@@ -59,7 +59,7 @@ namespace OhmStudio.UI.Attaches
 
             void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
             {
-                if (sender is DataGrid data && GetIsSelectionChangedUpdateRowNumber(data))
+                if (sender is DataGrid data && GetSelectionChangedUpdateRowNumber(data))
                 {
                     ItemContainerGeneratorItemsChanged(sender, null);
                 }

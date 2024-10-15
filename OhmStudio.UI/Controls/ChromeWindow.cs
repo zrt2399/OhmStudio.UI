@@ -63,52 +63,52 @@ namespace OhmStudio.UI.Controls
                 typeof(ChromeWindow), new FrameworkPropertyMetadata(ObjectBoxes.NullBox));
 
         /// <summary>
-        /// Identifies the <see cref="IsShowIcon"/> dependency property.
+        /// Identifies the <see cref="ShowIcon"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsShowIconProperty =
-            DependencyProperty.Register(nameof(IsShowIcon), typeof(bool),
+        public static readonly DependencyProperty ShowIconProperty =
+            DependencyProperty.Register(nameof(ShowIcon), typeof(bool),
                 typeof(ChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
-        /// Identifies the <see cref="IsShowTitle"/> dependency property.
+        /// Identifies the <see cref="ShowTitle"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsShowTitleProperty =
-            DependencyProperty.Register(nameof(IsShowTitle), typeof(bool),
+        public static readonly DependencyProperty ShowTitleProperty =
+            DependencyProperty.Register(nameof(ShowTitle), typeof(bool),
                 typeof(ChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
-        /// Identifies the <see cref="IsShowTitleBar"/> dependency property.
+        /// Identifies the <see cref="ShowTitleBar"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsShowTitleBarProperty =
-            DependencyProperty.Register(nameof(IsShowTitleBar), typeof(bool),
+        public static readonly DependencyProperty ShowTitleBarProperty =
+            DependencyProperty.Register(nameof(ShowTitleBar), typeof(bool),
                 typeof(ChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
-        /// Identifies the <see cref="IsShowMinimizeButton"/> dependency property.
+        /// Identifies the <see cref="ShowMinimizeButton"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsShowMinimizeButtonProperty =
-            DependencyProperty.Register(nameof(IsShowMinimizeButton), typeof(bool),
+        public static readonly DependencyProperty ShowMinimizeButtonProperty =
+            DependencyProperty.Register(nameof(ShowMinimizeButton), typeof(bool),
                 typeof(ChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
-        /// Identifies the <see cref="IsShowMaximizeButton"/> dependency property.
+        /// Identifies the <see cref="ShowMaximizeButton"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsShowMaximizeButtonProperty =
-            DependencyProperty.Register(nameof(IsShowMaximizeButton), typeof(bool),
+        public static readonly DependencyProperty ShowMaximizeButtonProperty =
+            DependencyProperty.Register(nameof(ShowMaximizeButton), typeof(bool),
                 typeof(ChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
-        /// Identifies the <see cref="IsShowRestoreButton"/> dependency property.
+        /// Identifies the <see cref="ShowRestoreButton"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsShowRestoreButtonProperty =
-            DependencyProperty.Register(nameof(IsShowRestoreButton), typeof(bool),
+        public static readonly DependencyProperty ShowRestoreButtonProperty =
+            DependencyProperty.Register(nameof(ShowRestoreButton), typeof(bool),
                 typeof(ChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
-        /// Identifies the <see cref="IsShowCloseButton"/> dependency property.
+        /// Identifies the <see cref="ShowCloseButton"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsShowCloseButtonProperty =
-            DependencyProperty.Register(nameof(IsShowCloseButton), typeof(bool),
+        public static readonly DependencyProperty ShowCloseButtonProperty =
+            DependencyProperty.Register(nameof(ShowCloseButton), typeof(bool),
                 typeof(ChromeWindow), new FrameworkPropertyMetadata(true));
 
         /// <summary>
@@ -164,10 +164,10 @@ namespace OhmStudio.UI.Controls
         [Bindable(true)]
         [DefaultValue(true)]
         [Category("Appearance")]
-        public bool IsShowIcon
+        public bool ShowIcon
         {
-            get => (bool)GetValue(IsShowIconProperty);
-            set => SetValue(IsShowIconProperty, value);
+            get => (bool)GetValue(ShowIconProperty);
+            set => SetValue(ShowIconProperty, value);
         }
 
         /// <summary>
@@ -176,10 +176,10 @@ namespace OhmStudio.UI.Controls
         [Bindable(true)]
         [DefaultValue(true)]
         [Category("Appearance")]
-        public bool IsShowTitle
+        public bool ShowTitle
         {
-            get => (bool)GetValue(IsShowTitleProperty);
-            set => SetValue(IsShowTitleProperty, value);
+            get => (bool)GetValue(ShowTitleProperty);
+            set => SetValue(ShowTitleProperty, value);
         }
 
         /// <summary>
@@ -188,10 +188,10 @@ namespace OhmStudio.UI.Controls
         [Bindable(true)]
         [DefaultValue(true)]
         [Category("Appearance")]
-        public bool IsShowTitleBar
+        public bool ShowTitleBar
         {
-            get => (bool)GetValue(IsShowTitleBarProperty);
-            set => SetValue(IsShowTitleBarProperty, value);
+            get => (bool)GetValue(ShowTitleBarProperty);
+            set => SetValue(ShowTitleBarProperty, value);
         }
 
         /// <summary>
@@ -200,10 +200,10 @@ namespace OhmStudio.UI.Controls
         [Bindable(true)]
         [DefaultValue(true)]
         [Category("Appearance")]
-        public bool IsShowMinimizeButton
+        public bool ShowMinimizeButton
         {
-            get => (bool)GetValue(IsShowMinimizeButtonProperty);
-            set => SetValue(IsShowMinimizeButtonProperty, value);
+            get => (bool)GetValue(ShowMinimizeButtonProperty);
+            set => SetValue(ShowMinimizeButtonProperty, value);
         }
 
         /// <summary>
@@ -212,10 +212,10 @@ namespace OhmStudio.UI.Controls
         [Bindable(true)]
         [DefaultValue(true)]
         [Category("Appearance")]
-        public bool IsShowMaximizeButton
+        public bool ShowMaximizeButton
         {
-            get => (bool)GetValue(IsShowMaximizeButtonProperty);
-            set => SetValue(IsShowMaximizeButtonProperty, value);
+            get => (bool)GetValue(ShowMaximizeButtonProperty);
+            set => SetValue(ShowMaximizeButtonProperty, value);
         }
 
         /// <summary>
@@ -224,10 +224,10 @@ namespace OhmStudio.UI.Controls
         [Bindable(true)]
         [DefaultValue(true)]
         [Category("Appearance")]
-        public bool IsShowRestoreButton
+        public bool ShowRestoreButton
         {
-            get => (bool)GetValue(IsShowRestoreButtonProperty);
-            set => SetValue(IsShowRestoreButtonProperty, value);
+            get => (bool)GetValue(ShowRestoreButtonProperty);
+            set => SetValue(ShowRestoreButtonProperty, value);
         }
 
         /// <summary>
@@ -236,10 +236,10 @@ namespace OhmStudio.UI.Controls
         [Bindable(true)]
         [DefaultValue(true)]
         [Category("Appearance")]
-        public bool IsShowCloseButton
+        public bool ShowCloseButton
         {
-            get => (bool)GetValue(IsShowCloseButtonProperty);
-            set => SetValue(IsShowCloseButtonProperty, value);
+            get => (bool)GetValue(ShowCloseButtonProperty);
+            set => SetValue(ShowCloseButtonProperty, value);
         }
 
         /// <summary>
@@ -307,9 +307,9 @@ namespace OhmStudio.UI.Controls
             var behavior = new WindowChromeBehavior();
 
             BindingOperations.SetBinding(behavior, WindowChromeBehavior.EnableMinimizeProperty,
-                new Binding { Path = new PropertyPath(IsShowMinimizeButtonProperty), Source = this });
+                new Binding { Path = new PropertyPath(ShowMinimizeButtonProperty), Source = this });
             BindingOperations.SetBinding(behavior, WindowChromeBehavior.EnableMaxRestoreProperty,
-                new Binding { Path = new PropertyPath(IsShowMaximizeButtonProperty), Source = this });
+                new Binding { Path = new PropertyPath(ShowMaximizeButtonProperty), Source = this });
 
             Interaction.GetBehaviors(this).Add(behavior);
         }

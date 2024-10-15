@@ -8,6 +8,7 @@
               Title="LoginWindow"
               Width="800"
               Height="450"
+              ResizeMode="CanMinimize"
               WindowStartupLocation="CenterOwner"
               mc:Ignorable="d">
 

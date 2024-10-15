@@ -12,18 +12,18 @@ namespace OhmStudio.UI.Controls
 {
     public class CustomizeTitleBar : Border
     {
-        public static readonly DependencyProperty IsShowSystemMenuProperty =
-            DependencyProperty.Register("IsShowSystemMenu", typeof(bool),
+        public static readonly DependencyProperty ShowSystemMenuProperty =
+            DependencyProperty.Register("ShowSystemMenu", typeof(bool),
                 typeof(CustomizeTitleBar), new PropertyMetadata(true));
 
         public static readonly DependencyProperty IsWindowTitleBarProperty =
             DependencyProperty.Register("IsWindowTitleBar", typeof(bool),
                 typeof(CustomizeTitleBar), new PropertyMetadata(true));
  
-        public bool IsShowSystemMenu
+        public bool ShowSystemMenu
         {
-            get => (bool)GetValue(IsShowSystemMenuProperty);
-            set => SetValue(IsShowSystemMenuProperty, value);
+            get => (bool)GetValue(ShowSystemMenuProperty);
+            set => SetValue(ShowSystemMenuProperty, value);
         }
 
         public bool IsWindowTitleBar
@@ -82,7 +82,7 @@ namespace OhmStudio.UI.Controls
 
             if (Window.GetWindow(this) is Window window)
             {
-                if (IsShowSystemMenu)
+                if (ShowSystemMenu)
                 {
 #pragma warning disable CS0618
                     ControlzEx.SystemCommands.ShowSystemMenu(window, PointFromScreen(MouseHelper.GetMousePosition()));

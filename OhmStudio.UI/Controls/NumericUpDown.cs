@@ -18,7 +18,7 @@ namespace OhmStudio.UI.Controls
             PreviewKeyDown += NumericUpDown_KeyDown;
             PreviewMouseWheel += NumericUpDown_PreviewMouseWheel;
             IncreaseCommand = new RelayCommand(Increase);
-            ReduceCommand = new RelayCommand(Reduce);
+            DecreaseCommand = new RelayCommand(Decrease);
         }
 
         TextBox PART_TextBox;
@@ -26,17 +26,17 @@ namespace OhmStudio.UI.Controls
         internal static readonly DependencyProperty ValueTextProperty =
             DependencyProperty.Register(nameof(ValueText), typeof(string), typeof(NumericUpDown), new PropertyMetadata("0"));
 
-        internal static readonly DependencyProperty IsIncreaseEnabledProperty =
-            DependencyProperty.Register(nameof(IsIncreaseEnabled), typeof(bool), typeof(NumericUpDown), new PropertyMetadata(true));
+        internal static readonly DependencyProperty IncreaseEnabledProperty =
+            DependencyProperty.Register(nameof(IncreaseEnabled), typeof(bool), typeof(NumericUpDown), new PropertyMetadata(true));
 
-        internal static readonly DependencyProperty IsReduceEnabledProperty =
-            DependencyProperty.Register(nameof(IsReduceEnabled), typeof(bool), typeof(NumericUpDown), new PropertyMetadata(true));
+        internal static readonly DependencyProperty DecreaseEnabledProperty =
+            DependencyProperty.Register(nameof(DecreaseEnabled), typeof(bool), typeof(NumericUpDown), new PropertyMetadata(true));
 
         public static readonly DependencyProperty IncrementProperty =
             DependencyProperty.Register(nameof(Increment), typeof(double), typeof(NumericUpDown), new PropertyMetadata(1d));
 
-        public static readonly DependencyProperty IsMouseWheelProperty =
-            DependencyProperty.Register(nameof(IsMouseWheel), typeof(bool), typeof(NumericUpDown), new PropertyMetadata(true, (sender, e) =>
+        public static readonly DependencyProperty UseMouseWheelProperty =
+            DependencyProperty.Register(nameof(UseMouseWheel), typeof(bool), typeof(NumericUpDown), new PropertyMetadata(true, (sender, e) =>
             {
                 if (sender is NumericUpDown numericUpDown && e.NewValue is bool newValue)
                 {
@@ -67,7 +67,7 @@ namespace OhmStudio.UI.Controls
                         numericUpDown.Value = newValue;
                     }
                     CoerceRange(numericUpDown);
-                    numericUpDown.IsIncreaseEnabled = numericUpDown.Value < newValue;
+                    numericUpDown.IncreaseEnabled = numericUpDown.Value < newValue;
                 }
             }));
 
@@ -81,7 +81,7 @@ namespace OhmStudio.UI.Controls
                         numericUpDown.Value = newValue;
                     }
                     CoerceRange(numericUpDown);
-                    numericUpDown.IsReduceEnabled = numericUpDown.Value > newValue;
+                    numericUpDown.DecreaseEnabled = numericUpDown.Value > newValue;
                 }
             }));
 
@@ -95,16 +95,16 @@ namespace OhmStudio.UI.Controls
             set => SetValue(ValueTextProperty, value);
         }
 
-        internal bool IsIncreaseEnabled
+        internal bool IncreaseEnabled
         {
-            get => (bool)GetValue(IsIncreaseEnabledProperty);
-            set => SetValue(IsIncreaseEnabledProperty, value);
+            get => (bool)GetValue(IncreaseEnabledProperty);
+            set => SetValue(IncreaseEnabledProperty, value);
         }
 
-        internal bool IsReduceEnabled
+        internal bool DecreaseEnabled
         {
-            get => (bool)GetValue(IsReduceEnabledProperty);
-            set => SetValue(IsReduceEnabledProperty, value);
+            get => (bool)GetValue(DecreaseEnabledProperty);
+            set => SetValue(DecreaseEnabledProperty, value);
         }
 
         public double Increment
@@ -113,10 +113,10 @@ namespace OhmStudio.UI.Controls
             set => SetValue(IncrementProperty, value);
         }
 
-        public bool IsMouseWheel
+        public bool UseMouseWheel
         {
-            get => (bool)GetValue(IsMouseWheelProperty);
-            set => SetValue(IsMouseWheelProperty, value);
+            get => (bool)GetValue(UseMouseWheelProperty);
+            set => SetValue(UseMouseWheelProperty, value);
         }
 
         public bool IsReadOnly
@@ -157,7 +157,7 @@ namespace OhmStudio.UI.Controls
 
         public ICommand IncreaseCommand { get; }
 
-        public ICommand ReduceCommand { get; }
+        public ICommand DecreaseCommand { get; }
 
         public override void OnApplyTemplate()
         {
@@ -177,7 +177,7 @@ namespace OhmStudio.UI.Controls
             Value = (double)temp;
         }
 
-        public void Reduce()
+        public void Decrease()
         {
             var temp = (decimal)Value;
             temp -= (decimal)Increment;
@@ -233,8 +233,8 @@ namespace OhmStudio.UI.Controls
                 var integer = (long)Value;
                 ValueText = string.Format(StringFormat, integer == Value ? integer.ToString(ValueFormat) : Value.ToString(ValueFormat));
 
-                IsIncreaseEnabled = Value < Maximum;
-                IsReduceEnabled = Value > Minimum;
+                IncreaseEnabled = Value < Maximum;
+                DecreaseEnabled = Value > Minimum;
             }
         }
 
@@ -247,7 +247,7 @@ namespace OhmStudio.UI.Controls
             }
             else if (e.Key == Key.Down)
             {
-                Reduce();
+                Decrease();
                 e.Handled = true;
             }
         }
@@ -261,8 +261,9 @@ namespace OhmStudio.UI.Controls
             }
             else
             {
-                numericUpDown.Reduce();
+                numericUpDown.Decrease();
             }
+            e.Handled = true;
         }
 
         private void NumericUpDown_GotFocus(object sender, RoutedEventArgs e)

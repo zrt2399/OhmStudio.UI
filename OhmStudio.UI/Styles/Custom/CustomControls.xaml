@@ -196,7 +196,7 @@
                         </Border>
                     </controls:SimplePanel>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsShowShadow" Value="False">
+                        <Trigger Property="ShowShadow" Value="False">
                             <Setter TargetName="ShadowBorder" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -227,19 +227,19 @@
                                                 BorderBrush="{TemplateBinding BorderBrush}"
                                                 BorderThickness="{TemplateBinding BorderThickness}"
                                                 CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
-                                                IsShowShadow="False"
                                                 ShadowColor="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BrushToColorConverter}}"
-                                                ShadowDepth="0">
+                                                ShadowDepth="0"
+                                                ShowShadow="False">
                         <ContentPresenter Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </controls:DropShadowControl>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="DropShadowControl" Property="IsShowShadow" Value="True" />
+                            <Setter TargetName="DropShadowControl" Property="ShowShadow" Value="True" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="DropShadowControl" Property="IsShowShadow" Value="True" />
+                            <Setter TargetName="DropShadowControl" Property="ShowShadow" Value="True" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" Value="{Binding Path=(attaches:ButtonAttach.PressedBackground), RelativeSource={RelativeSource Mode=Self}}" />
@@ -1473,13 +1473,13 @@
                                     </Grid.Resources>
                                     <Button Padding="2"
                                             Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IncreaseCommand}"
-                                            IsEnabled="{TemplateBinding IsIncreaseEnabled}">
+                                            IsEnabled="{TemplateBinding IncreaseEnabled}">
                                         <Path Data="M 0 3 L 3 0 L 6 3 Z" />
                                     </Button>
                                     <Button Grid.Row="1"
                                             Padding="2"
-                                            Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ReduceCommand}"
-                                            IsEnabled="{TemplateBinding IsReduceEnabled}">
+                                            Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DecreaseCommand}"
+                                            IsEnabled="{TemplateBinding DecreaseEnabled}">
                                         <Path Data="M 0 0 L 3 3 L 6 0 Z" />
                                     </Button>
                                 </Grid>

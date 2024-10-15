@@ -12,8 +12,8 @@ namespace OhmStudio.UI.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DropShadowControl), new FrameworkPropertyMetadata(typeof(DropShadowControl)));
         }
 
-        public static readonly DependencyProperty IsShowShadowProperty =
-           DependencyProperty.RegisterAttached(nameof(IsShowShadow), typeof(bool), typeof(DropShadowControl), new FrameworkPropertyMetadata(true));
+        public static readonly DependencyProperty ShowShadowProperty =
+           DependencyProperty.RegisterAttached(nameof(ShowShadow), typeof(bool), typeof(DropShadowControl), new FrameworkPropertyMetadata(true));
 
         public static readonly DependencyProperty ShadowBrushProperty =
             DependencyProperty.RegisterAttached(nameof(ShadowBrush), typeof(SolidColorBrush), typeof(DropShadowControl), new FrameworkPropertyMetadata(Brushes.DarkGray, (sender, e) =>
@@ -48,10 +48,10 @@ namespace OhmStudio.UI.Controls
         /// <summary>
         /// 是否显示阴影，默认值为true。
         /// </summary>
-        public bool IsShowShadow
+        public bool ShowShadow
         {
-            get => (bool)GetValue(IsShowShadowProperty);
-            set => SetValue(IsShowShadowProperty, value);
+            get => (bool)GetValue(ShowShadowProperty);
+            set => SetValue(ShowShadowProperty, value);
         }
 
         /// <summary>
@@ -126,14 +126,14 @@ namespace OhmStudio.UI.Controls
             set => SetValue(RenderingBiasProperty, value);
         }
 
-        public static void SetIsShowShadow(DependencyObject obj, bool value)
+        public static void SetShowShadow(DependencyObject obj, bool value)
         {
-            obj.SetValue(IsShowShadowProperty, value);
+            obj.SetValue(ShowShadowProperty, value);
         }
 
-        public static bool GetIsShowShadow(DependencyObject obj)
+        public static bool GetShowShadow(DependencyObject obj)
         {
-            return (bool)obj.GetValue(IsShowShadowProperty);
+            return (bool)obj.GetValue(ShowShadowProperty);
         }
 
         public static void SetShadowBrush(DependencyObject obj, SolidColorBrush value)

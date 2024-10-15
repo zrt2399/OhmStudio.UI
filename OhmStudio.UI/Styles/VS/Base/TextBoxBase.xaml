@@ -34,7 +34,7 @@
                                     HorizontalAlignment="{Binding ElementName=AdornedElementPlaceholder, Path=AdornedElement.HorizontalContentAlignment}"
                                     IsHitTestVisible="False"
                                     Orientation="Horizontal">
-                            <!--  Visibility="{Binding ElementName=AdornedElementPlaceholder, Path=AdornedElement.(TextBoxAttach.IsShowValidationErrorInfo), Converter={StaticResource BoolToVisibilityConverter}}"  -->
+                            <!--  Visibility="{Binding ElementName=AdornedElementPlaceholder, Path=AdornedElement.(TextBoxAttach.ShowValidationErrorInfo), Converter={StaticResource BoolToVisibilityConverter}}"  -->
                             <StackPanel.Triggers>
                                 <EventTrigger RoutedEvent="Loaded">
                                     <BeginStoryboard>
@@ -126,7 +126,7 @@
                             <Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxErrorForeground}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxErrorBorder}" />
                         </Trigger>
-                        <Trigger Property="attaches:TextBoxAttach.IsShowValidationErrorInfo" Value="False">
+                        <Trigger Property="attaches:TextBoxAttach.ShowValidationErrorInfo" Value="False">
                             <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
                         </Trigger>
                     </ControlTemplate.Triggers>

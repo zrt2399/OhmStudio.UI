@@ -53,8 +53,8 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty IsFolderProperty =
             DependencyProperty.Register(nameof(IsFolder), typeof(bool), typeof(PathPicker));
 
-        public static readonly DependencyProperty IsSaveProperty =
-            DependencyProperty.Register(nameof(IsSave), typeof(bool), typeof(PathPicker));
+        public static readonly DependencyProperty UseSaveDialogProperty =
+            DependencyProperty.Register(nameof(UseSaveDialog), typeof(bool), typeof(PathPicker));
 
         public static readonly DependencyProperty BrowseButtonContentProperty =
             DependencyProperty.Register(nameof(BrowseButtonContent), typeof(object), typeof(PathPicker), new PropertyMetadata(" . . . "));
@@ -140,10 +140,10 @@ namespace OhmStudio.UI.Controls
             set => SetValue(IsFolderProperty, value);
         }
 
-        public bool IsSave
+        public bool UseSaveDialog
         {
-            get => (bool)GetValue(IsSaveProperty);
-            set => SetValue(IsSaveProperty, value);
+            get => (bool)GetValue(UseSaveDialogProperty);
+            set => SetValue(UseSaveDialogProperty, value);
         }
 
         public object BrowseButtonContent
@@ -214,7 +214,7 @@ namespace OhmStudio.UI.Controls
             else
             {
                 FileDialog fileDialog;
-                if (IsSave)
+                if (UseSaveDialog)
                 {
                     fileDialog = new SaveFileDialog();
                 }

@@ -208,7 +208,7 @@
                                 </Grid.RowDefinitions>
                                 <ctrls:CustomizeTitleBar DataContext="{Binding Path=SingleContentLayoutItem, RelativeSource={RelativeSource TemplatedParent}}"
                                                          ContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
-                                                         IsShowSystemMenu="{Binding Path=Model.Root.Manager.ShowSystemMenu, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+                                                         ShowSystemMenu="{Binding Path=Model.Root.Manager.ShowSystemMenu, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
                                     <Border x:Name="Header"
                                             Padding="4"
                                             Background="{DynamicResource {x:Static reskeys:ResourceKeys.ToolWindowCaptionInactiveBackground}}"

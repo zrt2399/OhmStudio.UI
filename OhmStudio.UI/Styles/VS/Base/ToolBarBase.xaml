@@ -373,7 +373,7 @@
                                 <Thumb x:Name="ToolBarThumb"
                                        Width="10"
                                        Style="{StaticResource ToolBarThumbStyle}"
-                                       Visibility="{Binding Path=(attaches:ToolBarAttach.IsShowToolBarThumb), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                       Visibility="{Binding Path=(attaches:ToolBarAttach.ShowToolBarThumb), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}" />
 
                                 <ContentPresenter x:Name="ToolBarHeader"
                                                   HorizontalAlignment="Center"
