@@ -35,10 +35,10 @@ namespace OhmStudio.UI.Demo.Models
 
         public string LineContent { get; set; } = "下一节点";
 
-        public WorkflowItemModel LastStep { get; set; }
+        public WorkflowItemModel PreviousStep { get; set; }
         public WorkflowItemModel NextStep { get; set; }
         public WorkflowItemModel FromStep { get; set; }
-        public WorkflowItemModel JumpStep { get; set; }
+        public WorkflowItemModel JumpToStep { get; set; }
 
         public ICommand DeleteCommand { get; }
 

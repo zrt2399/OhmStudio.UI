@@ -114,7 +114,7 @@ namespace OhmStudio.UI.Demo.ViewModels
                     {
                         var index = WorkflowItemModels.IndexOf(workflowItemModel);
                         var last = WorkflowItemModels[index - 1];
-                        workflowItemModel.LastStep = last;
+                        workflowItemModel.PreviousStep = last;
                         last.NextStep = workflowItemModel;
                     }
                 }
@@ -194,7 +194,7 @@ namespace OhmStudio.UI.Demo.ViewModels
             WorkflowItemModels.Add(new WorkflowItemModel() { Name = "测试", StepType = StepType.Nomal, Left = 200, Top = 240 });
             WorkflowItemModels.Add(new WorkflowItemModel() { Name = "结束", StepType = StepType.Nomal, Left = 300, Top = 480 });
 
-            WorkflowItemModels.Last().LastStep = WorkflowItemModels[1];
+            WorkflowItemModels.Last().PreviousStep = WorkflowItemModels[1];
             WorkflowItemModels[1].NextStep = WorkflowItemModels.Last();
 
             WorkflowItems.Add(new WorkflowItem() { Content = new TextBox() { Margin = new Thickness(8), Text = "开始" }, StepType = StepType.Begin });

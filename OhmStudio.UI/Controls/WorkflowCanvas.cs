@@ -526,13 +526,13 @@ namespace OhmStudio.UI.Controls
             {
                 if (fromEllipse.Dock == Dock.Right)
                 {
-                    fromStep.JumpStep = toStep.DataContext;
+                    fromStep.JumpToStep = toStep.DataContext;
                     toStep.FromStep = fromStep.DataContext;
                 }
                 else if (fromEllipse.Dock == Dock.Bottom)
                 {
                     fromStep.NextStep = toStep.DataContext;
-                    toStep.LastStep = fromStep.DataContext;
+                    toStep.PreviousStep = fromStep.DataContext;
                 }
             }
         }

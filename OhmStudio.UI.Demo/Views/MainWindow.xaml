@@ -806,10 +806,10 @@
                                                         <Setter Property="Height" Value="{Binding Height, Mode=TwoWay}" />
                                                         <Setter Property="Canvas.Left" Value="{Binding Left, Mode=TwoWay}" />
                                                         <Setter Property="Canvas.Top" Value="{Binding Top, Mode=TwoWay}" />
-                                                        <Setter Property="LastStep" Value="{Binding LastStep, Mode=TwoWay}" />
+                                                        <Setter Property="PreviousStep" Value="{Binding PreviousStep, Mode=TwoWay}" />
                                                         <Setter Property="NextStep" Value="{Binding NextStep, Mode=TwoWay}" />
                                                         <Setter Property="FromStep" Value="{Binding FromStep, Mode=TwoWay}" />
-                                                        <Setter Property="JumpStep" Value="{Binding JumpStep, Mode=TwoWay}" />
+                                                        <Setter Property="JumpToStep" Value="{Binding JumpToStep, Mode=TwoWay}" />
                                                         <Setter Property="BorderThickness" Value="2" />
                                                     </Style>
                                                 </WorkflowEditor.ItemContainerStyle>
@@ -836,14 +836,14 @@
                                                             <Grid Grid.Row="1">
                                                                 <TextBlock HorizontalAlignment="Center"
                                                                            VerticalAlignment="Top"
-                                                                           Text="{Binding LastStep.Name, StringFormat=上一步：{0}}" />
+                                                                           Text="{Binding PreviousStep.Name, StringFormat=上一步：{0}}" />
                                                                 <TextBlock HorizontalAlignment="Left"
                                                                            VerticalAlignment="Center"
                                                                            Text="{Binding FromStep.Name, StringFormat=跳转自：{0}}" />
 
                                                                 <TextBlock HorizontalAlignment="Right"
                                                                            VerticalAlignment="Center"
-                                                                           Text="{Binding JumpStep.Name, StringFormat=跳转至：{0}}" />
+                                                                           Text="{Binding JumpToStep.Name, StringFormat=跳转至：{0}}" />
                                                                 <TextBlock HorizontalAlignment="Center"
                                                                            VerticalAlignment="Bottom"
                                                                            Text="{Binding NextStep.Name, StringFormat=下一步：{0}}" />

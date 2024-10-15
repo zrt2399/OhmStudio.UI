@@ -435,12 +435,12 @@ namespace OhmStudio.UI.Controls
         {
             if (Dock == Dock.Right)
             {
-                WorkflowParent.FirstOrDefault(WorkflowParent.JumpStep).FromStep = null;
-                WorkflowParent.JumpStep = null;
+                WorkflowParent.FirstOrDefault(WorkflowParent.JumpToStep).FromStep = null;
+                WorkflowParent.JumpToStep = null;
             }
             else if (Dock == Dock.Bottom)
             {
-                WorkflowParent.FirstOrDefault(WorkflowParent.NextStep).LastStep = null;
+                WorkflowParent.FirstOrDefault(WorkflowParent.NextStep).PreviousStep = null;
                 WorkflowParent.NextStep = null;
             }
         }
@@ -459,14 +459,14 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty IsDraggableProperty =
             DependencyProperty.Register(nameof(IsDraggable), typeof(bool), typeof(WorkflowItem), new PropertyMetadata(true));
 
-        public static readonly DependencyProperty LastStepProperty =
-            DependencyProperty.Register(nameof(LastStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnAnyStepChanged));
+        public static readonly DependencyProperty PreviousStepProperty =
+            DependencyProperty.Register(nameof(PreviousStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnAnyStepChanged));
 
         public static readonly DependencyProperty FromStepProperty =
             DependencyProperty.Register(nameof(FromStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnAnyStepChanged));
 
-        public static readonly DependencyProperty JumpStepProperty =
-            DependencyProperty.Register(nameof(JumpStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnAnyStepChanged));
+        public static readonly DependencyProperty JumpToStepProperty =
+            DependencyProperty.Register(nameof(JumpToStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnAnyStepChanged));
 
         public static readonly DependencyProperty NextStepProperty =
             DependencyProperty.Register(nameof(NextStep), typeof(object), typeof(WorkflowItem), new PropertyMetadata(OnAnyStepChanged));
@@ -500,10 +500,10 @@ namespace OhmStudio.UI.Controls
             set => SetValue(IsDraggableProperty, value);
         }
 
-        public object LastStep
+        public object PreviousStep
         {
-            get => GetValue(LastStepProperty);
-            set => SetValue(LastStepProperty, value);
+            get => GetValue(PreviousStepProperty);
+            set => SetValue(PreviousStepProperty, value);
         }
 
         public object FromStep
@@ -512,10 +512,10 @@ namespace OhmStudio.UI.Controls
             set => SetValue(FromStepProperty, value);
         }
 
-        public object JumpStep
+        public object JumpToStep
         {
-            get => GetValue(JumpStepProperty);
-            set => SetValue(JumpStepProperty, value);
+            get => GetValue(JumpToStepProperty);
+            set => SetValue(JumpToStepProperty, value);
         }
 
         public object NextStep
@@ -608,25 +608,25 @@ namespace OhmStudio.UI.Controls
             }
             else
             {
-                if (LastStep != null)
+                if (PreviousStep != null)
                 {
-                    FirstOrDefault(LastStep).NextStep = null;
-                    LastStep = null;
+                    FirstOrDefault(PreviousStep).NextStep = null;
+                    PreviousStep = null;
                 }
                 if (NextStep != null)
                 {
-                    FirstOrDefault(NextStep).LastStep = null;
+                    FirstOrDefault(NextStep).PreviousStep = null;
                     NextStep = null;
                 }
                 if (FromStep != null)
                 {
-                    FirstOrDefault(FromStep).JumpStep = null;
+                    FirstOrDefault(FromStep).JumpToStep = null;
                     FromStep = null;
                 }
-                if (JumpStep != null)
+                if (JumpToStep != null)
                 {
-                    FirstOrDefault(JumpStep).FromStep = null;
-                    JumpStep = null;
+                    FirstOrDefault(JumpToStep).FromStep = null;
+                    JumpToStep = null;
                 }
             }
             BindingOperations.ClearAllBindings(this);
@@ -656,9 +656,9 @@ namespace OhmStudio.UI.Controls
             }
             Dispatcher.InvokeAsync(() =>
             {
-                if (LastStep != null)
+                if (PreviousStep != null)
                 {
-                    UpdateCurve(EllipseItems[Dock.Top].LineItem, FirstOrDefault(LastStep).EllipseItems[Dock.Bottom], EllipseItems[Dock.Top]);
+                    UpdateCurve(EllipseItems[Dock.Top].LineItem, FirstOrDefault(PreviousStep).EllipseItems[Dock.Bottom], EllipseItems[Dock.Top]);
                 }
                 if (NextStep != null)
                 {
@@ -668,9 +668,9 @@ namespace OhmStudio.UI.Controls
                 {
                     UpdateCurve(EllipseItems[Dock.Left].LineItem, FirstOrDefault(FromStep).EllipseItems[Dock.Right], EllipseItems[Dock.Left]);
                 }
-                if (JumpStep != null)
+                if (JumpToStep != null)
                 {
-                    UpdateCurve(EllipseItems[Dock.Right].LineItem, EllipseItems[Dock.Right], FirstOrDefault(JumpStep).EllipseItems[Dock.Left]);
+                    UpdateCurve(EllipseItems[Dock.Right].LineItem, EllipseItems[Dock.Right], FirstOrDefault(JumpToStep).EllipseItems[Dock.Left]);
                 }
             }, DispatcherPriority.Render);
         }
