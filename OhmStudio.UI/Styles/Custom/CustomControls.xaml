@@ -42,7 +42,6 @@
     <converters:FlipToScaleXValueConverter x:Key="FlipToScaleXValueConverter" />
     <converters:FlipToScaleYValueConverter x:Key="FlipToScaleYValueConverter" />
     <converters:CircleProgressBarMarginConverter x:Key="CircleProgressBarMarginConverter" />
-    <converters:PathPickerPlaceHolderMarginConverter x:Key="PathPickerPlaceHolderMarginConverter" />
     <converters:DoNoThingConverter x:Key="DoNoThingConverter" />
     <converters:NotEqualityParameterToVisibilityConverter x:Key="NotEqualityParameterToVisibilityConverter" />
 
@@ -382,36 +381,34 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                 SnapsToDevicePixels="True">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBox Name="PART_TextBox"
-                                         attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
-                                         attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
-                                         Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
-                                         TextWrapping="{TemplateBinding TextWrapping}">
-                                    <TextBox.InputBindings>
-                                        <KeyBinding Key="Return"
-                                                    Command="{Binding Command, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    CommandParameter="{Binding CommandParameter, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    CommandTarget="{Binding CommandTarget, RelativeSource={RelativeSource TemplatedParent}}" />
-                                    </TextBox.InputBindings>
-                                </TextBox>
-                                <ContentControl Style="{StaticResource PlaceHolderWithTemplatedParent}" />
-                                <Button Grid.Column="1"
+                            <DockPanel>
+                                <Button Panel.ZIndex="1"
                                         Command="{TemplateBinding Command}"
                                         CommandParameter="{TemplateBinding CommandParameter}"
                                         CommandTarget="{TemplateBinding CommandTarget}"
+                                        DockPanel.Dock="Right"
                                         Style="{StaticResource RightMenuButton}">
                                     <TextBlock Name="Search"
                                                FontFamily="{StaticResource AliIconfont}"
-                                               ToolTip="{x:Null}">
-                                        &#xe60f;
-                                    </TextBlock>
+                                               Text="&#xe60f;"
+                                               ToolTip="{x:Null}" />
                                 </Button>
-                            </Grid>
+                                <controls:SimplePanel DockPanel.Dock="Left">
+                                    <TextBox Name="PART_TextBox"
+                                             attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
+                                             attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
+                                             Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                             TextWrapping="{TemplateBinding TextWrapping}">
+                                        <TextBox.InputBindings>
+                                            <KeyBinding Key="Return"
+                                                        Command="{Binding Command, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        CommandParameter="{Binding CommandParameter, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        CommandTarget="{Binding CommandTarget, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        </TextBox.InputBindings>
+                                    </TextBox>
+                                    <ContentControl Style="{StaticResource PlaceHolderWithTemplatedParent}" />
+                                </controls:SimplePanel>
+                            </DockPanel>
                         </Border>
                     </DockPanel>
                     <ControlTemplate.Triggers>
@@ -801,12 +798,10 @@
                                             BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
                                             BorderThickness="{TemplateBinding BorderThickness}"
                                             SnapsToDevicePixels="True">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition />
-                                            </Grid.RowDefinitions>
-                                            <StackPanel Orientation="Horizontal" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectionMode, Converter={StaticResource NotEqualityParameterToVisibilityConverter}, ConverterParameter={x:Static SelectionMode.Single}}">
+                                        <DockPanel>
+                                            <StackPanel DockPanel.Dock="Top"
+                                                        Orientation="Horizontal"
+                                                        Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectionMode, Converter={StaticResource NotEqualityParameterToVisibilityConverter}, ConverterParameter={x:Static SelectionMode.Single}}">
                                                 <StackPanel.Resources>
                                                     <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="CheckBox">
                                                         <Setter Property="IsHitTestVisible" Value="False" />
@@ -829,6 +824,7 @@
                                                      BorderBrush="Transparent"
                                                      BorderThickness="0"
                                                      DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     DockPanel.Dock="Bottom"
                                                      ItemContainerStyle="{DynamicResource ListBoxItemCheckBoxStyle}"
                                                      ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
                                                      SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}}"
@@ -848,7 +844,7 @@
                                             -->
                                             <!--  ItemContainerStyle="{DynamicResource ListBoxItemCheckBoxStyle}"  -->
                                             <!--  ItemTemplate="{StaticResource ListBoxItemCheckBoxDataTemplate}"  -->
-                                        </Grid>
+                                        </DockPanel>
                                     </Border>
                                 </theme:SystemDropShadowChrome>
                             </Popup>
@@ -1090,33 +1086,10 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                 SnapsToDevicePixels="True">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBox x:Name="PART_TextBox"
-                                         attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
-                                         attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
-                                         Text="{Binding Password, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         Visibility="{TemplateBinding TbVisibility}" />
-                                <PasswordBox x:Name="PART_PasswordBox"
-                                             attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type PasswordBox}}"
-                                             attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
-                                             attaches:PasswordBoxAttach.Password="{Binding Password, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             attaches:PasswordBoxAttach.PasswordAttach="True"
-                                             PasswordChar="{TemplateBinding PasswordChar}"
-                                             Visibility="{TemplateBinding PwVisibility}" />
-                                <ContentControl Style="{StaticResource PlaceHolderWithTemplatedParent}" />
-                                <CheckBox Grid.Column="1"
-                                          Content="&#xe603;"
-                                          IsChecked="{Binding IsCleared, RelativeSource={RelativeSource TemplatedParent}}"
-                                          IsTabStop="{Binding ClearButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
-                                          Style="{StaticResource CheckBoxStyle}"
-                                          ToolTip="{x:Static ohmProperties:Resources.Common_Clear}"
-                                          Visibility="{TemplateBinding ClearVisibility}" />
-                                <controls:SimplePanel Grid.Column="2" Visibility="{Binding CanShowPassword, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <DockPanel>
+                                <controls:SimplePanel Panel.ZIndex="2"
+                                                      DockPanel.Dock="Right"
+                                                      Visibility="{Binding CanShowPassword, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <CheckBox Content="&#xe6f9;"
                                               IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
                                               IsTabStop="{Binding ShowPasswordButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
@@ -1130,7 +1103,30 @@
                                               ToolTip="{x:Static ohmProperties:Resources.PasswordTextBox_ShowPassword}"
                                               Visibility="{Binding ElementName=PART_PasswordBox, Path=Visibility}" />
                                 </controls:SimplePanel>
-                            </Grid>
+                                <CheckBox Panel.ZIndex="1"
+                                          Content="&#xe603;"
+                                          DockPanel.Dock="Right"
+                                          IsChecked="{Binding IsCleared, RelativeSource={RelativeSource TemplatedParent}}"
+                                          IsTabStop="{Binding ClearButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Style="{StaticResource CheckBoxStyle}"
+                                          ToolTip="{x:Static ohmProperties:Resources.Common_Clear}"
+                                          Visibility="{TemplateBinding ClearVisibility}" />
+                                <controls:SimplePanel DockPanel.Dock="Left">
+                                    <TextBox x:Name="PART_TextBox"
+                                             attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
+                                             attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
+                                             Text="{Binding Password, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Visibility="{TemplateBinding TbVisibility}" />
+                                    <PasswordBox x:Name="PART_PasswordBox"
+                                                 attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type PasswordBox}}"
+                                                 attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
+                                                 attaches:PasswordBoxAttach.Password="{Binding Password, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 attaches:PasswordBoxAttach.PasswordAttach="True"
+                                                 PasswordChar="{TemplateBinding PasswordChar}"
+                                                 Visibility="{TemplateBinding PwVisibility}" />
+                                    <ContentControl Style="{StaticResource PlaceHolderWithTemplatedParent}" />
+                                </controls:SimplePanel>
+                            </DockPanel>
                         </Border>
                     </DockPanel>
                     <ControlTemplate.Triggers>
@@ -1170,36 +1166,33 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                 SnapsToDevicePixels="True">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBox Name="PART_TextBox"
-                                         attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
-                                         attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
-                                         IsReadOnly="{TemplateBinding IsReadOnly}"
-                                         Text="{Binding DateTimeText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
-                                <ContentControl Style="{StaticResource PlaceHolderWithTemplatedParent}" />
-
-                                <Button Grid.Column="1"
+                            <DockPanel>
+                                <Button Panel.ZIndex="1"
                                         Command="{Binding CalendarClickCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                        DockPanel.Dock="Right"
                                         Style="{StaticResource RightMenuButton}">
                                     <TextBlock Name="Calendar"
                                                FontFamily="{StaticResource AliIconfont}"
-                                               ToolTip="{x:Null}">
-                                        &#xe606;
-                                    </TextBlock>
+                                               Text="&#xe606;"
+                                               ToolTip="{x:Null}" />
                                 </Button>
-                                <Popup x:Name="PART_Popup"
-                                       AllowsTransparency="True"
-                                       IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                                       PlacementTarget="{Binding ElementName=Border}"
-                                       PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-                                       StaysOpen="False">
-                                    <controls:SystemDropShadowChrome Margin="0,0,5,5" Color="{DynamicResource ControlShadow}" />
-                                </Popup>
-                            </Grid>
+                                <controls:SimplePanel DockPanel.Dock="Left">
+                                    <TextBox Name="PART_TextBox"
+                                             attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
+                                             attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
+                                             IsReadOnly="{TemplateBinding IsReadOnly}"
+                                             Text="{Binding DateTimeText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
+                                    <ContentControl Style="{StaticResource PlaceHolderWithTemplatedParent}" />
+                                    <Popup x:Name="PART_Popup"
+                                           AllowsTransparency="True"
+                                           IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                           PlacementTarget="{Binding ElementName=Border}"
+                                           PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                                           StaysOpen="False">
+                                        <controls:SystemDropShadowChrome Margin="0,0,5,5" Color="{DynamicResource ControlShadow}" />
+                                    </Popup>
+                                </controls:SimplePanel>
+                            </DockPanel>
                         </Border>
                     </DockPanel>
                     <ControlTemplate.Triggers>
@@ -1306,7 +1299,7 @@
     </Style>
     <Style BasedOn="{StaticResource IconButtonBaseStyle}" TargetType="controls:IconButton" />
 
-    <Style x:Key="CollapseButton" TargetType="Button">
+    <Style x:Key="CollapseWhenNull" TargetType="Button">
         <Setter Property="attaches:DynamicStyleProvider.BasedOn" Value="{DynamicResource {x:Type Button}}" />
         <Setter Property="attaches:DynamicStyleProvider.Derived">
             <Setter.Value>
@@ -1334,47 +1327,44 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
-                        <Grid attaches:GridAttach.ColumnDefinitions="*,Auto,Auto,Auto">
-                            <DockPanel>
-                                <ContentControl Style="{StaticResource TitleWithTemplatedParent}" />
-                                <controls:SimplePanel>
-                                    <TextBox Name="PART_TextBox"
-                                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                             IsReadOnly="{TemplateBinding IsReadOnly}"
-                                             Text="{TemplateBinding FileName}"
-                                             TextWrapping="{TemplateBinding TextWrapping}" />
-                                    <ContentControl Style="{StaticResource PlaceHolderWithTemplatedParent}">
-                                        <ContentControl.Margin>
-                                            <MultiBinding Converter="{StaticResource PathPickerPlaceHolderMarginConverter}">
-                                                <Binding ElementName="PART_TextBox" Path="BorderThickness" />
-                                                <Binding ElementName="PART_TextBox" Path="Padding" />
-                                            </MultiBinding>
-                                        </ContentControl.Margin>
-                                    </ContentControl>
-                                </controls:SimplePanel>
-                            </DockPanel>
-                            <Button Grid.Column="1"
-                                    Margin="{TemplateBinding Spacing}"
-                                    Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OpenCommand}"
-                                    Content="{TemplateBinding OpenButtonContent}"
-                                    IsEnabled="{Binding ElementName=PART_TextBox, Path=Text, Converter={StaticResource NotNullOrEmptyToBoolConverter}}"
-                                    Style="{DynamicResource CollapseButton}"
-                                    ToolTip="{TemplateBinding OpenButtonToolTip}" />
-                            <Button Grid.Column="2"
-                                    Margin="{TemplateBinding Spacing}"
-                                    Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ExploreCommand}"
-                                    Content="{TemplateBinding ExploreButtonContent}"
-                                    IsEnabled="{Binding ElementName=PART_TextBox, Path=Text, Converter={StaticResource NotNullOrEmptyToBoolConverter}}"
-                                    Style="{DynamicResource CollapseButton}"
-                                    ToolTip="{TemplateBinding ExploreButtonToolTip}" />
-                            <Button Grid.Column="3"
-                                    Margin="{TemplateBinding Spacing}"
+                        <DockPanel>
+                            <Button Margin="{TemplateBinding Spacing}"
+                                    Panel.ZIndex="3"
                                     Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BrowseCommand}"
                                     Content="{TemplateBinding BrowseButtonContent}"
-                                    Style="{DynamicResource CollapseButton}"
+                                    DockPanel.Dock="Right"
+                                    Style="{DynamicResource CollapseWhenNull}"
                                     ToolTip="{TemplateBinding BrowseButtonToolTip}" />
-                        </Grid>
+                            <Button Margin="{TemplateBinding Spacing}"
+                                    Panel.ZIndex="2"
+                                    Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ExploreCommand}"
+                                    Content="{TemplateBinding ExploreButtonContent}"
+                                    DockPanel.Dock="Right"
+                                    IsEnabled="{Binding ElementName=PART_TextBox, Path=Text, Converter={StaticResource NotNullOrEmptyToBoolConverter}}"
+                                    Style="{DynamicResource CollapseWhenNull}"
+                                    ToolTip="{TemplateBinding ExploreButtonToolTip}" />
+                            <Button Margin="{TemplateBinding Spacing}"
+                                    Panel.ZIndex="1"
+                                    Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OpenCommand}"
+                                    Content="{TemplateBinding OpenButtonContent}"
+                                    DockPanel.Dock="Right"
+                                    IsEnabled="{Binding ElementName=PART_TextBox, Path=Text, Converter={StaticResource NotNullOrEmptyToBoolConverter}}"
+                                    Style="{DynamicResource CollapseWhenNull}"
+                                    ToolTip="{TemplateBinding OpenButtonToolTip}" />
+                            <TextBox x:Name="PART_TextBox"
+                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                     attaches:TextBoxAttach.PlaceHolder="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}"
+                                     attaches:TextBoxAttach.PlaceHolderIsHitTestVisible="{Binding Path=(attaches:TextBoxAttach.PlaceHolderIsHitTestVisible), RelativeSource={RelativeSource TemplatedParent}}"
+                                     attaches:TextBoxAttach.PlaceHolderOpacity="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}"
+                                     attaches:TextBoxAttach.Title="{Binding Path=(attaches:TextBoxAttach.Title), RelativeSource={RelativeSource TemplatedParent}}"
+                                     attaches:TextBoxAttach.TitleIsHitTestVisible="{Binding Path=(attaches:TextBoxAttach.TitleIsHitTestVisible), RelativeSource={RelativeSource TemplatedParent}}"
+                                     attaches:TextBoxAttach.TitlePlacement="{Binding Path=(attaches:TextBoxAttach.TitlePlacement), RelativeSource={RelativeSource TemplatedParent}}"
+                                     DockPanel.Dock="Left"
+                                     IsReadOnly="{TemplateBinding IsReadOnly}"
+                                     Text="{TemplateBinding FileName}"
+                                     TextWrapping="{TemplateBinding TextWrapping}" />
+                        </DockPanel>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -1453,17 +1443,10 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                 SnapsToDevicePixels="True">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBox Name="PART_TextBox"
-                                         attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
-                                         attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
-                                         IsReadOnly="{TemplateBinding IsReadOnly}"
-                                         Text="{Binding ValueText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
-                                <Grid Grid.Column="1" attaches:GridAttach.RowDefinitions="*,*">
+                            <DockPanel>
+                                <Grid Panel.ZIndex="1"
+                                      attaches:GridAttach.RowDefinitions="*,*"
+                                      DockPanel.Dock="Right">
                                     <Grid.Resources>
                                         <Style TargetType="Path">
                                             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -1483,8 +1466,14 @@
                                         <Path Data="M 0 0 L 3 3 L 6 0 Z" />
                                     </Button>
                                 </Grid>
-                                <!--<UniformGrid Grid.Column="1" Columns="1" />-->
-                            </Grid>
+                                <!--<UniformGrid Panel.ZIndex="1" Columns="1" />-->
+                                <TextBox Name="PART_TextBox"
+                                         attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
+                                         attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
+                                         DockPanel.Dock="Left"
+                                         IsReadOnly="{TemplateBinding IsReadOnly}"
+                                         Text="{Binding ValueText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
+                            </DockPanel>
                         </Border>
                     </DockPanel>
                     <ControlTemplate.Triggers>

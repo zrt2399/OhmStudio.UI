@@ -9,7 +9,7 @@ using OhmStudio.UI.Helpers;
 
 namespace OhmStudio.UI.Controls
 {
-    public class PathPicker : Control, ITextChanged
+    public class PathPicker : Control
     {
         static PathPicker()
         {
@@ -25,9 +25,6 @@ namespace OhmStudio.UI.Controls
         }
 
         TextBox PART_TextBox;
-        public event TextChangedEventHandler TextChanged;
-
-        string ITextChanged.Text => FileName;
 
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(nameof(Title), typeof(string), typeof(PathPicker), new PropertyMetadata(string.Empty));
@@ -45,7 +42,7 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(FileName), typeof(string), typeof(PathPicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public static readonly DependencyProperty FileNamesProperty =
-            DependencyProperty.Register(nameof(FileNames), typeof(string[]), typeof(PathPicker), new FrameworkPropertyMetadata(Array.Empty<string>(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            DependencyProperty.Register(nameof(FileNames), typeof(string[]), typeof(PathPicker), new FrameworkPropertyMetadata(Array.Empty<string>(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnFileNamesChanged));
 
         public static readonly DependencyProperty FilterProperty =
             DependencyProperty.Register(nameof(Filter), typeof(string), typeof(PathPicker), new PropertyMetadata(string.Empty));
@@ -194,10 +191,20 @@ namespace OhmStudio.UI.Controls
             set => SetValue(IsReadOnlyProperty, value);
         }
 
-        public string Spacing
+        public Thickness Spacing
         {
-            get => (string)GetValue(SpacingProperty);
+            get => (Thickness)GetValue(SpacingProperty);
             set => SetValue(SpacingProperty, value);
+        }
+
+        private static void OnFileNamesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((PathPicker)d).OnFileNamesChanged((string[])e.NewValue);
+        }
+
+        protected virtual void OnFileNamesChanged(string[] fileNames)
+        {
+            FileName = fileNames == null || fileNames.Length == 0 ? string.Empty : string.Join("|", fileNames);
         }
 
         private void Browse()
@@ -208,7 +215,7 @@ namespace OhmStudio.UI.Controls
                 folderBrowserDialog.Description = Title;
                 if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(folderBrowserDialog.SelectedPath))
                 {
-                    FileName = folderBrowserDialog.SelectedPath;
+                    FileNames = new string[] { folderBrowserDialog.SelectedPath };
                 }
             }
             else
@@ -232,21 +239,7 @@ namespace OhmStudio.UI.Controls
                 {
                     return;
                 }
-                if (Multiselect)
-                {
-                    if (fileDialog.FileNames != null)
-                    {
-                        FileNames = fileDialog.FileNames;
-                        FileName = string.Join("|", FileNames);
-                    }
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(fileDialog.FileName))
-                    {
-                        FileName = fileDialog.FileName;
-                    }
-                }
+                FileNames = Multiselect ? fileDialog.FileNames : new string[] { fileDialog.FileName };
             }
         }
 
@@ -268,23 +261,8 @@ namespace OhmStudio.UI.Controls
 
         public override void OnApplyTemplate()
         {
-            if (PART_TextBox != null)
-            {
-                PART_TextBox.TextChanged -= PART_TextBox_TextChanged;
-            }
             base.OnApplyTemplate();
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
-            PART_TextBox.TextChanged += PART_TextBox_TextChanged;
-        }
-
-        private void PART_TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextChanged?.Invoke(this, e);
-            if (!Multiselect)
-            {
-                var textBox = sender as TextBox;
-                FileNames = new string[] { textBox?.Text };
-            }
         }
 
         private void PathPicker_GotFocus(object sender, RoutedEventArgs e)
