@@ -56,8 +56,7 @@ namespace OhmStudio.UI.Demo.Models
                 {
                     treeViewModel.IsEditing = false;
                     string oldPath = treeViewModel.FullPath;
-                    DirectoryInfo directory = new DirectoryInfo(oldPath);
-                    string newPath = Path.Combine(directory.Parent?.FullName ?? string.Empty, treeViewModel.Header);
+                    string newPath = Path.Combine(Directory.GetParent(oldPath)?.FullName ?? string.Empty, treeViewModel.Header);
                     string filterate = new string(Path.GetInvalidFileNameChars());
 
                     if (Regex.IsMatch(treeViewModel.Header, $"[{filterate}]"))

@@ -77,6 +77,7 @@ namespace OhmStudio.UI.Helpers
                 return null;
             }
             ProcessStartInfo processStartInfo = new ProcessStartInfo(fileName);
+            //processStartInfo.WorkingDirectory = Directory.GetParent(fileName)?.FullName;
             Process process = new Process();
             process.StartInfo = processStartInfo;
             process.StartInfo.UseShellExecute = true;

@@ -21,7 +21,9 @@
                     <DockPanel x:Name="PART_TitleBar"
                                controlzEx:NonClientControlProperties.HitTestResult="CAPTION"
                                Background="Transparent">
-                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                        <StackPanel Panel.ZIndex="1"
+                                    DockPanel.Dock="Right"
+                                    Orientation="Horizontal">
                             <ContentPresenter x:Name="PART_RightWindowCommands"
                                               controlzEx:WindowChrome.IsHitTestVisibleInChrome="True"
                                               Content="{Binding RightWindowCommands, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />

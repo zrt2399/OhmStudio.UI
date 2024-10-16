@@ -113,9 +113,9 @@ namespace OhmStudio.UI.Demo.ViewModels
                     if (WorkflowItemModels.Count > 1)
                     {
                         var index = WorkflowItemModels.IndexOf(workflowItemModel);
-                        var last = WorkflowItemModels[index - 1];
-                        workflowItemModel.PreviousStep = last;
-                        last.NextStep = workflowItemModel;
+                        var previousStep = WorkflowItemModels[index - 1];
+                        workflowItemModel.PreviousStep = previousStep;
+                        previousStep.NextStep = workflowItemModel;
                     }
                 }
             });
@@ -316,7 +316,7 @@ namespace OhmStudio.UI.Demo.ViewModels
                 OnPropertyChanged(nameof(GlobalCornerRadius));
             }
         }
-
+ 
         public ICommand ZoomInCommand { get; }
 
         public ICommand ZoomOutCommand { get; }

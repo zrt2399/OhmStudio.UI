@@ -15,6 +15,11 @@ namespace OhmStudio.UI.Controls
     /// </summary>
     public class AppHost : Control
     {
+        private const int GWL_STYLE = -16;
+        private const int WS_CAPTION = 0x00C00000;
+        //private const int WS_THICKFRAME = 0x00040000;
+        private const int WS_BORDER = 0x00800000;
+
         private Process _process = null;
         private System.Windows.Forms.Panel PART_Host;
 
@@ -166,14 +171,15 @@ namespace OhmStudio.UI.Controls
 
             if (string.IsNullOrWhiteSpace(ExePath))
             {
-                KillProcess();
+                KillEmbedProcess();
                 return;
             }
             try
             {
                 ProcessStartInfo processStartInfo = new ProcessStartInfo(processPath);
                 //info.WindowStyle = ProcessWindowStyle.Minimized;//默认最大化，不弹出界面。
-                //info.Arguments = $"-popupwindow";//Unity的命令行参数
+                //info.Arguments = $"-popupwindow";//Unity的命令行参数 
+                //processStartInfo.WorkingDirectory = Directory.GetParent(processPath)?.FullName;
                 processStartInfo.Arguments = Arguments;
                 processStartInfo.CreateNoWindow = true;
 
@@ -194,24 +200,26 @@ namespace OhmStudio.UI.Controls
                     }
                     if (EmbededWindowHandle != IntPtr.Zero)
                     {
-                        if (!EmbedApp(hostHandle, EmbededWindowHandle))
+                        if (EmbedApp(hostHandle, EmbededWindowHandle))
                         {
-                            KillProcess();
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                SetBounds();
+                            });
+                        }
+                        else
+                        {
+                            KillEmbedProcess();
                         }
                     }
                 }, TaskCreationOptions.LongRunning);
             }
             catch (Exception)
             {
-                KillProcess();
+                KillEmbedProcess();
                 throw;
             }
         }
-
-        private const int GWL_STYLE = -16;
-        private const int WS_CAPTION = 0x00C00000;
-        //private const int WS_THICKFRAME = 0x00040000;
-        private const int WS_BORDER = 0x00800000;
 
         /// <summary>
         /// 将外进程嵌入到当前程序。
@@ -233,7 +241,7 @@ namespace OhmStudio.UI.Controls
             {
                 //把本窗口句柄与目标窗口句柄关联起来
                 var setTime = 0;
-                while (!isEmbedSuccess && setTime < 50)
+                while (!isEmbedSuccess && setTime < 100)
                 {
                     // Put it into this form
                     isEmbedSuccess = SetParent(processHwnd, panelHwnd) != IntPtr.Zero;
@@ -243,8 +251,6 @@ namespace OhmStudio.UI.Controls
 
                 // Remove border and whatnot
                 //Win32Api.SetWindowLong(processHwnd, Win32Api.GWL_STYLE, Win32Api.WS_CHILDWINDOW | Win32Api.WS_CLIPSIBLINGS | Win32Api.WS_CLIPCHILDREN | Win32Api.WS_VISIBLE);
-
-                SetBounds();
 
                 //Move the window to overlay it on this window
                 //Win32Api.MoveWindow(EmbededWindowHandle, 0, 0, (int)ActualWidth, (int)ActualHeight, true);
@@ -257,6 +263,9 @@ namespace OhmStudio.UI.Controls
         {
             if (process != null && !process.HasExited)
             {
+                process.CloseMainWindow();
+                //process.Close();
+                //process.Dispose();
                 process.Kill();
             }
         }
@@ -264,7 +273,7 @@ namespace OhmStudio.UI.Controls
         /// <summary>
         /// 关闭当前嵌入的进程。
         /// </summary>
-        public void KillProcess()
+        public void KillEmbedProcess()
         {
             KillProcess(_process);
             _process = null;

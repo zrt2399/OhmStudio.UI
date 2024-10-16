@@ -272,6 +272,11 @@ namespace OhmStudio.UI.Demo.Views
         {
             _dragStartPoint = e.GetPosition(null);
         }
+
+        private void Button_Click_20(object sender, RoutedEventArgs e)
+        {
+            appHost.ExePath = null;
+        }
     }
 
     public class BraceFoldingStrategy
