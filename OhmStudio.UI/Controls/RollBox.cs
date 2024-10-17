@@ -16,11 +16,11 @@ namespace OhmStudio.UI.Controls
     [ContentProperty(nameof(ItemsSource))]
     public class RollBox : Control
     {
-        DispatcherTimer dispatcherTimer = new DispatcherTimer();
-        ContentControl PART_CURR_Content;
-        //ContentControl PART_NEXT_Content;
-        ListBox PART_ListBox;
-        Button PART_PreviousButton;
+        private DispatcherTimer dispatcherTimer = new DispatcherTimer();
+        private ContentControl PART_CURR_Content;
+        //private ContentControl PART_NEXT_Content;
+        private ListBox PART_ListBox;
+        private Button PART_PreviousButton;
 
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register(nameof(ItemsSource), typeof(ObservableCollection<object>), typeof(RollBox), new PropertyMetadata(new ObservableCollection<object>(), (sender, e) =>

@@ -7,6 +7,8 @@ namespace OhmStudio.UI.Controls
 {
     public class NumericUpDown : Control
     {
+        private TextBox PART_TextBox;
+
         static NumericUpDown()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(typeof(NumericUpDown)));
@@ -20,8 +22,6 @@ namespace OhmStudio.UI.Controls
             IncreaseCommand = new RelayCommand(Increase);
             DecreaseCommand = new RelayCommand(Decrease);
         }
-
-        TextBox PART_TextBox;
 
         internal static readonly DependencyProperty ValueTextProperty =
             DependencyProperty.Register(nameof(ValueText), typeof(string), typeof(NumericUpDown), new PropertyMetadata("0"));

@@ -11,6 +11,12 @@ namespace OhmStudio.UI.Controls
 {
     public class DateTimePicker : Control, ITextChanged
     {
+        private TextBox PART_TextBox;
+        private Popup PART_Popup;
+        public event TextChangedEventHandler TextChanged;
+
+        string ITextChanged.Text => DateTimeText;
+
         public DateTimePicker()
         {
             GotFocus += DateTimePicker_GotFocus;
@@ -25,12 +31,6 @@ namespace OhmStudio.UI.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DateTimePicker), new FrameworkPropertyMetadata(typeof(DateTimePicker)));
         }
-
-        TextBox PART_TextBox;
-        Popup PART_Popup;
-        public event TextChangedEventHandler TextChanged;
-
-        string ITextChanged.Text => DateTimeText;
 
         public static readonly DependencyProperty IsDateOnlyProperty =
             DependencyProperty.Register(nameof(IsDateOnly), typeof(bool), typeof(DateTimePicker), new PropertyMetadata((sender, e) =>

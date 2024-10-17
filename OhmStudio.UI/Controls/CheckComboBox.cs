@@ -12,6 +12,10 @@ namespace OhmStudio.UI.Controls
 {
     public class CheckComboBox : ComboBox
     {
+        private ListBox PART_ListBox;
+        private TextBox PART_TextBox;
+        private bool _isUpdatingSelectedItems;
+
         public CheckComboBox()
         {
             SetEmpty();
@@ -25,12 +29,6 @@ namespace OhmStudio.UI.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CheckComboBox), new FrameworkPropertyMetadata(typeof(CheckComboBox)));
         }
-
-        private ListBox PART_ListBox;
-        private TextBox PART_TextBox;
-        private bool _isUpdatingSelectedItems;
-
-        public bool IsInit { get; private set; }
 
         public static readonly DependencyProperty SelectedItemsProperty =
             DependencyProperty.Register(nameof(SelectedItems), typeof(IList), typeof(CheckComboBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedItemsChanged));
@@ -103,6 +101,8 @@ namespace OhmStudio.UI.Controls
             get => (SelectionMode)GetValue(SelectionModeProperty);
             set => SetValue(SelectionModeProperty, value);
         }
+
+        public bool IsInit { get; private set; }
 
         public ICommand SelectAllCommand { get; }
 

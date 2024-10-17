@@ -451,6 +451,12 @@ namespace OhmStudio.UI.Controls
     /// </summary>
     public class WorkflowItem : CanvasItem
     {
+        private Thumb PART_Thumb;
+        private EllipseItem EllipseLeft;
+        private EllipseItem EllipseTop;
+        private EllipseItem EllipseRight;
+        private EllipseItem EllipseBottom;
+
         static WorkflowItem()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WorkflowItem), new FrameworkPropertyMetadata(typeof(WorkflowItem)));
@@ -479,12 +485,6 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty HighlightBrushProperty =
             DependencyProperty.Register(nameof(HighlightBrush), typeof(Brush), typeof(WorkflowItem), new PropertyMetadata(Brushes.Orange));
-
-        private Thumb PART_Thumb;
-        private EllipseItem EllipseLeft;
-        private EllipseItem EllipseTop;
-        private EllipseItem EllipseRight;
-        private EllipseItem EllipseBottom;
 
         internal Point PreviousMouseDownPoint { get; set; }
 

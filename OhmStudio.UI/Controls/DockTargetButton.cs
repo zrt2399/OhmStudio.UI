@@ -23,6 +23,9 @@ namespace OhmStudio.UI.Controls
 
     public class DockTargetButton : Button
     {
+        private static Path _previewBox;
+        private static DockTargetButton _current;
+
         private static readonly List<DockTargetButton> DockTargets = new();
 
         public static readonly DependencyProperty TargetDockProperty =
@@ -135,9 +138,6 @@ namespace OhmStudio.UI.Controls
             }
             DockTargets.Remove(this);
         }
-
-        private static Path _previewBox;
-        private static DockTargetButton _current;
 
         private void DockTargetButton_Loaded(object sender, RoutedEventArgs e)
         {

@@ -5,6 +5,12 @@ namespace OhmStudio.UI.Controls
 {
     public class PasswordTextBox : Control, ITextChanged
     {
+        private TextBox PART_TextBox;
+        private PasswordBox PART_PasswordBox;
+        public event TextChangedEventHandler TextChanged;
+
+        string ITextChanged.Text => Password;
+
         public PasswordTextBox()
         {
             GotFocus += PasswordTextBox_GotFocus;
@@ -14,12 +20,6 @@ namespace OhmStudio.UI.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PasswordTextBox), new FrameworkPropertyMetadata(typeof(PasswordTextBox)));
         }
-
-        TextBox PART_TextBox;
-        PasswordBox PART_PasswordBox;
-        public event TextChangedEventHandler TextChanged;
-
-        string ITextChanged.Text => Password;
 
         public const char DefaultPasswordChar = '●';
 

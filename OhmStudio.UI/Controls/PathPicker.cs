@@ -11,6 +11,8 @@ namespace OhmStudio.UI.Controls
 {
     public class PathPicker : Control
     {
+        private TextBox PART_TextBox;
+
         static PathPicker()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PathPicker), new FrameworkPropertyMetadata(typeof(PathPicker)));
@@ -23,8 +25,6 @@ namespace OhmStudio.UI.Controls
             OpenCommand = new RelayCommand(Open);
             GotFocus += PathPicker_GotFocus;
         }
-
-        TextBox PART_TextBox;
 
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(nameof(Title), typeof(string), typeof(PathPicker), new PropertyMetadata(string.Empty));
@@ -54,7 +54,7 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(UseSaveDialog), typeof(bool), typeof(PathPicker));
 
         public static readonly DependencyProperty BrowseButtonContentProperty =
-            DependencyProperty.Register(nameof(BrowseButtonContent), typeof(object), typeof(PathPicker), new PropertyMetadata(" . . . "));
+            DependencyProperty.Register(nameof(BrowseButtonContent), typeof(object), typeof(PathPicker), new PropertyMetadata("  ...  "));
 
         public static readonly DependencyProperty ExploreButtonContentProperty =
             DependencyProperty.Register(nameof(ExploreButtonContent), typeof(object), typeof(PathPicker));
@@ -87,7 +87,7 @@ namespace OhmStudio.UI.Controls
         public ICommand OpenCommand { get; }
 
         /// <summary>
-        /// Gets or sets the title of the showdialog window.
+        /// Gets or sets the title of the file dialog.
         /// </summary>
         public string Title
         {

@@ -29,21 +29,6 @@ namespace OhmStudio.UI.Controls
 
     public class WorkflowCanvas : Canvas
     {
-        static WorkflowCanvas()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(WorkflowCanvas), new FrameworkPropertyMetadata(typeof(WorkflowCanvas)));
-        }
-
-        public WorkflowCanvas()
-        {
-            _multiSelectionMask = new Rectangle();
-            _multiSelectionMask.Fill = "#44AACCEE".ToSolidColorBrush();
-            _multiSelectionMask.Stroke = "#FF0F80D9".ToSolidColorBrush();
-            _multiSelectionMask.StrokeDashArray = new DoubleCollection(new double[] { 2, 2 });
-            _multiSelectionMask.MouseLeftButtonDown += MultiSelectionRectangle_MouseLeftButtonDown;
-            SetZIndex(_multiSelectionMask, int.MaxValue - 1);
-        }
-
         //鼠标选中多个元素的Rectangle遮罩
         private Rectangle _multiSelectionMask;
 
@@ -61,6 +46,21 @@ namespace OhmStudio.UI.Controls
         private LineItem _currentLine;
 
         private bool _isUpdatingSelectedItems;
+
+        static WorkflowCanvas()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(WorkflowCanvas), new FrameworkPropertyMetadata(typeof(WorkflowCanvas)));
+        }
+
+        public WorkflowCanvas()
+        {
+            _multiSelectionMask = new Rectangle();
+            _multiSelectionMask.Fill = "#44AACCEE".ToSolidColorBrush();
+            _multiSelectionMask.Stroke = "#FF0F80D9".ToSolidColorBrush();
+            _multiSelectionMask.StrokeDashArray = new DoubleCollection(new double[] { 2, 2 });
+            _multiSelectionMask.MouseLeftButtonDown += MultiSelectionRectangle_MouseLeftButtonDown;
+            SetZIndex(_multiSelectionMask, int.MaxValue - 1);
+        }
 
         public static readonly DependencyProperty EditorParentProperty =
             DependencyProperty.Register(nameof(EditorParent), typeof(WorkflowEditor), typeof(WorkflowCanvas));

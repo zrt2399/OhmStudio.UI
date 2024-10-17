@@ -13,6 +13,9 @@ namespace OhmStudio.UI.Controls
 
     public class SearchBar : Control, ICommandSource, ITextChanged
     {
+        private TextBox PART_TextBox;
+        public event TextChangedEventHandler TextChanged;
+
         public SearchBar()
         {
             GotFocus += SearchBar_GotFocus;
@@ -22,9 +25,6 @@ namespace OhmStudio.UI.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SearchBar), new FrameworkPropertyMetadata(typeof(SearchBar)));
         }
-
-        TextBox PART_TextBox;
-        public event TextChangedEventHandler TextChanged;
 
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(nameof(Text), typeof(string), typeof(SearchBar), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));

@@ -1332,7 +1332,7 @@
                             </LayoutDocument>
                             <LayoutDocument Title="EmbeddedWindow">
                                 <Grid GridAttach.RowDefinitions="Auto,*">
-                                    <Button Click="Button_Click_20">ShutDownEmbeddedWindow</Button>
+                                    <Button Click="Button_Click_20">ShutDown the EmbeddedWindow</Button>
                                     <AppHost x:Name="appHost"
                                              Grid.Row="1"
                                              Padding="10"

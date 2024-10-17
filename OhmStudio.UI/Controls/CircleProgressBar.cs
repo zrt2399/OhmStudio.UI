@@ -20,15 +20,6 @@ namespace OhmStudio.UI.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CircleProgressBar), new FrameworkPropertyMetadata(typeof(CircleProgressBar)));
         }
 
-        void CircleProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            CircleProgressBar bar = sender as CircleProgressBar;
-            double currentAngle = bar.Angle;
-            double targetAngle = e.NewValue / bar.Maximum * 359.999;
-            DoubleAnimation anim = new DoubleAnimation(currentAngle, targetAngle, TimeSpan.FromMilliseconds(400));
-            bar.BeginAnimation(AngleProperty, anim, HandoffBehavior.SnapshotAndReplace);
-        }
-
         public string Title
         {
             get => (string)GetValue(TitleProperty);
@@ -64,5 +55,14 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty BrushStrokeThicknessProperty =
             DependencyProperty.Register("BrushStrokeThickness", typeof(double), typeof(CircleProgressBar), new PropertyMetadata(1.0));
+
+        private void CircleProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            CircleProgressBar bar = sender as CircleProgressBar;
+            double currentAngle = bar.Angle;
+            double targetAngle = e.NewValue / bar.Maximum * 359.999;
+            DoubleAnimation anim = new DoubleAnimation(currentAngle, targetAngle, TimeSpan.FromMilliseconds(400));
+            bar.BeginAnimation(AngleProperty, anim, HandoffBehavior.SnapshotAndReplace);
+        }
     }
 }
