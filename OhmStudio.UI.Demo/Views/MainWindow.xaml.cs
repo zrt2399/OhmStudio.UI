@@ -63,9 +63,9 @@ namespace OhmStudio.UI.Demo.Views
             dispatcherTimer.Start();
         }
 
-        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
         {
-            base.OnMouseWheel(e);
+            base.OnPreviewMouseWheel(e);
             if (KeyboardHelper.IsCtrlKeyDown)
             {
                 if (e.Delta > 0)
@@ -76,6 +76,7 @@ namespace OhmStudio.UI.Demo.Views
                 {
                     _mainViewModel.ZoomIn();
                 }
+                e.Handled = true;
             }
         }
 
