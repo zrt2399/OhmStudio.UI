@@ -6,7 +6,7 @@
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
     <sys:Double x:Key="TopLevelMenuPopupTopOpenedVerticalOffset">0</sys:Double>
-    <converters:DoNoThingConverter x:Key="NotNullOrEmptyToBoolConverter" />
+    <converters:DoNoThingConverter x:Key="DoNoThingConverter" />
 
     <MenuScrollingVisibilityConverter x:Key="MenuScrollingVisibilityConverter" />
     <Geometry x:Key="DownArrow">M 0,0 L 3.5,4 L 7,0 Z</Geometry>
