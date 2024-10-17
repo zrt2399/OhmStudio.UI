@@ -277,6 +277,8 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         public double ProgressBarValue { get; set; }
 
+        public bool IsIndeterminate { get; set; } = true;
+
         public double NumericUpDownValue { get; set; } = 1.99;
 
         [Range(0, 1024, ErrorMessage = "值必须在0-1024之间")]

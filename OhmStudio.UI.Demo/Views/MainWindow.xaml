@@ -516,54 +516,57 @@
                                 </TabControl>
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
-                                <UniformGrid Rows="2">
-                                    <GroupBox Margin="10" Header="ProgressBar">
-                                        <UniformGrid>
-                                            <ProgressBar Height="50"
-                                                         VerticalAlignment="Center"
-                                                         IsIndeterminate="True"
-                                                         Style="{x:Null}"
-                                                         Value="50" />
+                                <StackPanel>
+                                    <CheckBox Margin="10" IsChecked="{Binding IsIndeterminate}">IsIndeterminate</CheckBox>
+                                    <UniformGrid Rows="2">
+                                        <GroupBox Margin="10,0" Header="ProgressBar">
+                                            <UniformGrid>
+                                                <ProgressBar Height="50"
+                                                             VerticalAlignment="Center"
+                                                             IsIndeterminate="{Binding IsIndeterminate}"
+                                                             Style="{x:Null}"
+                                                           />
 
-                                            <ProgressBar Orientation="Vertical"
-                                                         ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
-                                                         Value="{Binding ProgressBarValue}" />
+                                                <ProgressBar Orientation="Vertical"
+                                                             ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
+                                                             Value="{Binding ProgressBarValue}" />
 
-                                            <ProgressBar Height="50"
-                                                         VerticalAlignment="Center"
-                                                         IsIndeterminate="True"
-                                                         Value="50" />
-                                            <ProgressBar VerticalAlignment="Center"
-                                                         ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
-                                                         Value="{Binding ProgressBarValue}" />
-                                        </UniformGrid>
-                                    </GroupBox>
-
-                                    <GroupBox Margin="10" Header="CircleProgressBar">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition />
-                                            </Grid.RowDefinitions>
-                                            <Slider IsSnapToTickEnabled="True"
-                                                    Maximum="100"
-                                                    Minimum="0"
-                                                    TickPlacement="Both"
-                                                    Value="{Binding ProgressBarValue}" />
-                                            <UniformGrid Grid.Row="1" Columns="4">
-                                                <CircleProgressBar BorderBrush="#FF06B025" Value="{Binding ProgressBarValue}" />
-                                                <CircleProgressBar Title="进度"
-                                                                   HorizontalContentAlignment="Left"
-                                                                   VerticalContentAlignment="Top"
-                                                                   Value="{Binding ProgressBarValue}" />
-                                                <CircleProgressBar BorderBrush="{DynamicResource ProgressBarProgress}" Value="50" />
-                                                <CircleProgressBar Title="计划" Value="3.14159" />
-                                                <LoadingLine />
-                                                <LoadingCircle />
+                                                <ProgressBar Height="50"
+                                                             VerticalAlignment="Center"
+                                                             IsIndeterminate="{Binding IsIndeterminate}"
+                                                            />
+                                                <ProgressBar VerticalAlignment="Center"
+                                                             ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
+                                                             Value="{Binding ProgressBarValue}" />
                                             </UniformGrid>
-                                        </Grid>
-                                    </GroupBox>
-                                </UniformGrid>
+                                        </GroupBox>
+
+                                        <GroupBox Margin="10" Header="CircleProgressBar">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <Slider IsSnapToTickEnabled="True"
+                                                        Maximum="100"
+                                                        Minimum="0"
+                                                        TickPlacement="Both"
+                                                        Value="{Binding ProgressBarValue}" />
+                                                <UniformGrid Grid.Row="1" Columns="4">
+                                                    <CircleProgressBar BorderBrush="#FF06B025" Value="{Binding ProgressBarValue}" />
+                                                    <CircleProgressBar Title="进度"
+                                                                       HorizontalContentAlignment="Left"
+                                                                       VerticalContentAlignment="Top"
+                                                                       Value="{Binding ProgressBarValue}" />
+                                                    <CircleProgressBar BorderBrush="{DynamicResource ProgressBarProgress}" Value="50" />
+                                                    <CircleProgressBar Title="计划" Value="3.14159" />
+                                                    <LoadingLine IsRunning="{Binding IsIndeterminate}" />
+                                                    <LoadingCircle IsRunning="{Binding IsIndeterminate}" />
+                                                </UniformGrid>
+                                            </Grid>
+                                        </GroupBox>
+                                    </UniformGrid>
+                                </StackPanel>
                             </LayoutDocument>
                             <LayoutDocument Title="DocumentWrapPanel">
                                 <Grid>
