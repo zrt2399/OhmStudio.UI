@@ -1,10 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
+                    xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
     <sys:Double x:Key="TopLevelMenuPopupTopOpenedVerticalOffset">0</sys:Double>
+    <converters:DoNoThingConverter x:Key="NotNullOrEmptyToBoolConverter" />
 
     <MenuScrollingVisibilityConverter x:Key="MenuScrollingVisibilityConverter" />
     <Geometry x:Key="DownArrow">M 0,0 L 3.5,4 L 7,0 Z</Geometry>
@@ -502,8 +504,9 @@
     </ControlTemplate>
 
     <Style x:Key="MenuItemBaseStyle" TargetType="{x:Type MenuItem}">
-        <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-        <Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <!--  DoNoThingConverter is unsure if it is useful in resolving uninitialized binding errors  -->
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}, Converter={StaticResource DoNoThingConverter}}" />
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}, Converter={StaticResource DoNoThingConverter}}" />
         <Setter Property="Background" Value="{DynamicResource MenuItemBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource MenuItemBorder}" />
         <Setter Property="BorderThickness" Value="1" />
