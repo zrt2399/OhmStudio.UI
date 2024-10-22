@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using ControlzEx;
@@ -19,7 +20,7 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty IsWindowTitleBarProperty =
             DependencyProperty.Register("IsWindowTitleBar", typeof(bool),
                 typeof(CustomizeTitleBar), new PropertyMetadata(true));
- 
+
         public bool ShowSystemMenu
         {
             get => (bool)GetValue(ShowSystemMenuProperty);
@@ -92,6 +93,8 @@ namespace OhmStudio.UI.Controls
                 {
                     if (ContextMenu != null)
                     {
+                        ContextMenu.PlacementTarget = this;
+                        ContextMenu.Placement = PlacementMode.MousePoint;
                         ContextMenu.IsOpen = true;
                     }
                 }
