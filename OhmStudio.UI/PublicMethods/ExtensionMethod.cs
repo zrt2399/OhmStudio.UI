@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
@@ -195,6 +196,20 @@ namespace OhmStudio.UI.PublicMethods
                 return true;
             }
             return false;
+        }
+
+        public static void ScrollToEnd(this Selector selector)
+        {
+            if (VisualTreeHelper.GetChildrenCount(selector) > 0) // 先检查子元素数量
+            {
+                if (VisualTreeHelper.GetChild(selector, 0) is Decorator border)
+                {
+                    if (border.Child is ScrollViewer scrollViewer)
+                    {
+                        scrollViewer.ScrollToEnd();
+                    }
+                }
+            }
         }
 
         public static SolidColorBrush ToSolidColorBrush(this string hexString)
