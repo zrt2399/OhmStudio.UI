@@ -13,7 +13,7 @@
               xmlns:omhui="http://ohmstudio.ui.com"
               xmlns:oxy="http://oxyplot.org/wpf"
               xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-              xmlns:viemodels="clr-namespace:OhmStudio.UI.Demo.ViewModels"
+              xmlns:viewmodels="clr-namespace:OhmStudio.UI.Demo.ViewModels"
               DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}"
               Title="{x:Static demo:App.Name}"
               Width="1280"
@@ -444,7 +444,7 @@
                                                 <!--<DataGridHyperlinkColumn Header="Header" Binding="{Binding Name}"></DataGridHyperlinkColumn>-->
                                                 <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                                                 <DataGridCheckBoxColumn Binding="{Binding IsExpanded}" Header="IsExpanded" />
-                                                <DataGridComboBoxColumn Header="Name1" ItemsSource="{EnumBindingSource viemodels:InstrumentType}" />
+                                                <DataGridComboBoxColumn Header="Name1" ItemsSource="{EnumBindingSource viewmodels:InstrumentType}" />
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </GroupBox>
@@ -1155,13 +1155,13 @@
 
                                                 <ComboBox VerticalAlignment="Top"
                                                           Foreground="Red"
-                                                          ItemsSource="{EnumBindingSource EnumType=viemodels:UserPermission}"
+                                                          ItemsSource="{EnumBindingSource EnumType=viewmodels:UserPermission}"
                                                           TextBoxAttach.PlaceHolder="IsEditable=False"
                                                           TextBoxAttach.Title="ComboBox："
                                                           TextBoxAttach.TitlePlacement="Top" />
                                                 <ComboBox VerticalAlignment="Top"
                                                           IsEditable="True"
-                                                          ItemsSource="{EnumBindingSource EnumType=viemodels:UserPermission}"
+                                                          ItemsSource="{EnumBindingSource EnumType=viewmodels:UserPermission}"
                                                           TextBoxAttach.PlaceHolder="IsEditable=True" />
 
                                                 <CheckComboBox VerticalAlignment="Top"
@@ -1280,7 +1280,7 @@
                                                                HorizontalContentAlignment="Right"
                                                                VerticalContentAlignment="Bottom"
                                                                ItemDisplayStringFormat="权限：{0}"
-                                                               ItemsSource="{EnumBindingSource EnumType=viemodels:UserPermission,
+                                                               ItemsSource="{EnumBindingSource EnumType=viewmodels:UserPermission,
                                                                                                IsIgnoreZero=True}"
                                                                SelectedAllString="{x:Null}"
                                                                SelectedItems="{Binding CurrentUserPermission}"
@@ -1441,7 +1441,7 @@
                                 </DockPanel>
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="ListBox" ToolTip="This is a ListView">
-                                <ListBox ItemsSource="{EnumBindingSource EnumType=viemodels:UserPermission}" SelectionMode="Multiple" />
+                                <ListBox ItemsSource="{EnumBindingSource EnumType=viewmodels:UserPermission}" SelectionMode="Multiple" />
                             </LayoutAnchorable>
                             <LayoutAnchorable Title="ListView" ToolTip="This is a ListView">
                                 <ListView ItemsSource="{Binding Result}">
