@@ -5,6 +5,7 @@
                     xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:o="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
                     xmlns:ohmProperties="clr-namespace:OhmStudio.UI.Properties"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
                     xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms">
 
@@ -16,6 +17,11 @@
         <!--  WorkflowEditor Styles  -->
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/Custom/WorkflowEditor.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
+    <system:Boolean x:Key="True">true</system:Boolean>
+    <system:Boolean x:Key="False">false</system:Boolean>
+    <system:Int32 x:Key="Zero">0</system:Int32>
+    <system:Double x:Key="ZeroDouble">0.0</system:Double>
 
     <Thickness x:Key="InputElementPadding">2</Thickness>
     <Thickness x:Key="InputElementBorderThickness">1</Thickness>
