@@ -23,7 +23,17 @@ namespace OhmStudio.UI.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value is not Visibility)
+            {
+                throw new ArgumentException("Invalid argument type. Expected argument: Visibility.", nameof(value));
+            }
+
+            if (targetType != typeof(bool))
+            {
+                throw new ArgumentException("Invalid return type. Expected type: bool", nameof(targetType));
+            }
+
+            return (Visibility)value == Visibility.Visible;
         }
     }
 
@@ -45,7 +55,17 @@ namespace OhmStudio.UI.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value is not Visibility)
+            {
+                throw new ArgumentException("Invalid argument type. Expected argument: Visibility.", nameof(value));
+            }
+
+            if (targetType != typeof(bool))
+            {
+                throw new ArgumentException("Invalid return type. Expected type: bool", nameof(targetType));
+            }
+
+            return (Visibility)value == Visibility.Collapsed;
         }
     }
 }

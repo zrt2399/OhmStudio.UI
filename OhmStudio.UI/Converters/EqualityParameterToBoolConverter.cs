@@ -13,7 +13,11 @@ namespace OhmStudio.UI.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value is bool boolValue)
+            {
+                return boolValue ? parameter : Binding.DoNothing;
+            }
+            return Binding.DoNothing;
         }
     }
 
@@ -26,7 +30,11 @@ namespace OhmStudio.UI.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value is bool boolValue)
+            {
+                return !boolValue ? parameter : Binding.DoNothing;
+            }
+            return Binding.DoNothing;
         }
     }
-} 
+}
