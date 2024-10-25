@@ -19,6 +19,11 @@ namespace OhmStudio.UI.Helpers
             return Path.IsPathRooted(path) && !Path.GetPathRoot(path).Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.OrdinalIgnoreCase);
         }
 
+        public static string GetParent(string path)
+        {
+            return Directory.GetParent(path)?.FullName ?? string.Empty;
+        }
+
         public static bool FileOrFolderIsExist(string fullPath, bool isFolder)
         {
             if (isFolder)
