@@ -19,27 +19,27 @@ namespace OhmStudio.UI.Attaches
 
     public class XamlThemeDictionary : ResourceDictionary
     {
-        public XamlThemeDictionary()
-        {
-            _instance = this;
-            UpdateTheme(Theme);
-            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
-        }
-
         private const string UIPath = "pack://application:,,,/OhmStudio.UI;component/";
 
         public static event EventHandler ThemeChanged;
 
-        private static XamlThemeDictionary _instance;
-        public static XamlThemeDictionary Instance
+        public XamlThemeDictionary()
+        {
+            _current = this;
+            UpdateTheme(Theme);
+            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+        }
+
+        private static XamlThemeDictionary _current;
+        public static XamlThemeDictionary Current
         {
             get
             {
-                if (_instance == null)
+                if (_current == null)
                 {
                     throw new InvalidOperationException("The XamlThemeResource is not loaded!");
                 }
-                return _instance;
+                return _current;
             }
         }
 

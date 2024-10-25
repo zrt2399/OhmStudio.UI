@@ -11,20 +11,20 @@ namespace OhmStudio.UI.Demo.Views
     /// </summary>
     public partial class UserLoginWindow : ChromeWindow
     {
+        private Random _random = new Random();
         public UserLoginWindow()
         {
             InitializeComponent();
         }
 
-        Random _random = new Random();
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ThemeType themeType = XamlThemeDictionary.Instance.Theme;
-            while (themeType == XamlThemeDictionary.Instance.Theme)
+            ThemeType themeType = XamlThemeDictionary.Current.Theme;
+            while (themeType == XamlThemeDictionary.Current.Theme)
             {
                 themeType = (ThemeType)_random.Next(0, Enum.GetValues(typeof(ThemeType)).Length);
             }
-            XamlThemeDictionary.Instance.Theme = themeType;
+            XamlThemeDictionary.Current.Theme = themeType;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
