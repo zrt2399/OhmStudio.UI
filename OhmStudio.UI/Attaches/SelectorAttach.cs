@@ -82,8 +82,16 @@ namespace OhmStudio.UI.Attaches
 
         private static void OnIsScrollToBottomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is Selector selector && selector.ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
+            if (d is Selector selector && selector.Items.SourceCollection is INotifyCollectionChanged notifyCollectionChanged)
             {
+                void SelectorAttach_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+                {
+                    if (e.Action == NotifyCollectionChangedAction.Add && selector.Items.Count > 0)
+                    {
+                        selector.ScrollToEnd();
+                    }
+                }
+
                 if ((bool)e.NewValue)
                 {
                     notifyCollectionChanged.CollectionChanged += SelectorAttach_CollectionChanged;
@@ -92,15 +100,6 @@ namespace OhmStudio.UI.Attaches
                 {
                     notifyCollectionChanged.CollectionChanged -= SelectorAttach_CollectionChanged;
                 }
-            }
-        }
-
-        private static void SelectorAttach_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            var selector = (Selector)sender;
-            if (e.Action == NotifyCollectionChangedAction.Add && selector.Items.Count > 0)
-            {
-                selector.ScrollToEnd();
             }
         }
     }
