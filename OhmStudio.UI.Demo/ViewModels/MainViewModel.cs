@@ -25,6 +25,7 @@ using OhmStudio.UI.Controls;
 using OhmStudio.UI.Converters;
 using OhmStudio.UI.Demo.Models;
 using OhmStudio.UI.Demo.Views;
+using OhmStudio.UI.Helpers;
 using OhmStudio.UI.Messaging;
 using OhmStudio.UI.Mvvm;
 using OhmStudio.UI.PublicMethods;

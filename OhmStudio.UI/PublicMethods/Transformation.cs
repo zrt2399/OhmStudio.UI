@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Windows.Media.Imaging;
-using OhmStudio.UI.Helpers;
 
 namespace OhmStudio.UI.PublicMethods
 {
@@ -174,16 +170,6 @@ namespace OhmStudio.UI.PublicMethods
         public static bool IsOdd(this long number)
         {
             return (number & 1L) == 1L;
-        }
-
-        public static Bitmap ToBitmap(this BitmapImage bitmapImage)
-        {
-            return ImageHelper.BitmapImageToBitmap(bitmapImage);
-        }
-
-        public static BitmapImage ToBitmapImage(this Bitmap bitmap, ImageFormat imageFormat = null, bool isDisposeBitmap = true)
-        {
-            return ImageHelper.BitmapToBitmapImage(bitmap, imageFormat, isDisposeBitmap);
         }
     }
 }

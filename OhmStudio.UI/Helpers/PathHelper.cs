@@ -10,21 +10,21 @@ using System.Windows.Media.Imaging;
 
 namespace OhmStudio.UI.Helpers
 {
-    public class PathHelper
+    public static class PathHelper
     {
         public static readonly BitmapSource FolderIcon = GetFolderIcon(string.Empty);
 
-        public static bool IsAbsolutePath(string path)
+        public static bool IsAbsolutePath(this string path)
         {
             return Path.IsPathRooted(path) && !Path.GetPathRoot(path).Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.OrdinalIgnoreCase);
         }
 
-        public static string GetParent(string path)
+        public static string GetParentDirectory(this string path)
         {
             return Directory.GetParent(path)?.FullName ?? string.Empty;
         }
 
-        public static bool FileOrFolderIsExist(string fullPath, bool isFolder)
+        public static bool Exists(string fullPath, bool isFolder)
         {
             if (isFolder)
             {
@@ -36,7 +36,7 @@ namespace OhmStudio.UI.Helpers
             }
         }
 
-        public static bool FileOrFolderIsExist(string fullPath, out bool isFolder)
+        public static bool Exists(string fullPath, out bool isFolder)
         {
             isFolder = false;
             if (File.Exists(fullPath))
@@ -54,16 +54,9 @@ namespace OhmStudio.UI.Helpers
             }
         }
 
-        public static bool FileOrFolderIsExist(string fullPath)
+        public static bool Exists(string fullPath)
         {
-            if (File.Exists(fullPath))
-            {
-                return true;
-            }
-            else
-            {
-                return Directory.Exists(fullPath);
-            }
+            return File.Exists(fullPath) || Directory.Exists(fullPath);
         }
 
         public static Process OpenFileLocation(string fullPath)

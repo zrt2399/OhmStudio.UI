@@ -12,14 +12,19 @@ using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Helpers
 {
-    public class ImageHelper
+    public enum ImageType
+    {
+        Bmp, Png, Jpeg
+    }
+
+    public static class ImageHelper
     {
         /// <summary>
         /// 图片转化。
         /// </summary>
         /// <param name="imagePath">图片路径</param>
         /// <returns></returns>
-        public static BitmapImage GetBitmapImage(Uri imagePath)
+        public static BitmapImage GetBitmapImage(this Uri imagePath)
         {
             if (imagePath == null || string.IsNullOrEmpty(imagePath.ToString().Trim()))
             {
@@ -51,26 +56,36 @@ namespace OhmStudio.UI.Helpers
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static async Task<Bitmap> GetBitmapAsync(ImageSource source)
+        public static async Task<Bitmap> GetBitmapAsync(this ImageSource source)
         {
             var uriString = source.ToString();
             Uri uri = new Uri(uriString);
-            if (uriString.IsContains("pack://siteoforigin:"))
+            if (uriString.IsContained("pack://siteoforigin:"))
             {
                 var localUri = Environment.CurrentDirectory + uri.LocalPath;
                 return new Bitmap(localUri);
             }
-            if (uriString.IsContains("pack://application:"))
+            if (uriString.IsContained("pack://application:"))
             {
                 return new Bitmap(Application.GetResourceStream(uri).Stream);
             }
-            if (uriString.IsContains("http:") || uriString.IsContains("https:"))
+            if (uriString.IsContained("http:") || uriString.IsContained("https:"))
             {
                 using Stream stream = (await WebRequest.Create(uri).GetResponseAsync()).GetResponseStream();
                 return new Bitmap(stream);
             }
             string file = uriString;
             return new Bitmap(file);
+        }
+
+        public static Bitmap ToBitmap(this BitmapImage bitmapImage)
+        {
+            return BitmapImageToBitmap(bitmapImage);
+        }
+
+        public static BitmapImage ToBitmapImage(this Bitmap bitmap, ImageFormat imageFormat = null, bool isDisposeBitmap = true)
+        {
+            return BitmapToBitmapImage(bitmap, imageFormat, isDisposeBitmap);
         }
 
         /// <summary>
@@ -123,7 +138,7 @@ namespace OhmStudio.UI.Helpers
         /// <param name="filePath"></param>
         /// <param name="imageType"></param>
         /// <param name="dpi"></param>
-        public static void SaveAsImage(UIElement uIElement, string filePath, ImageType imageType, int dpi = 300)
+        public static void SaveAsImage(this UIElement uIElement, string filePath, ImageType imageType, int dpi = 300)
         {
             // Calculate the render size based on the desired DPI
             var renderWidth = (int)(uIElement.RenderSize.Width * dpi / 96);
@@ -142,6 +157,16 @@ namespace OhmStudio.UI.Helpers
 
             using FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
             encoder.Save(fileStream);
+        }
+
+        public static Bitmap ToBitmap(this BitmapSource source)
+        {
+            return BitmapSourceToBitmap(source);
+        }
+
+        public static Bitmap ToBitmap(this BitmapSource source, int width, int height)
+        {
+            return BitmapSourceToBitmap(source, width, height);
         }
 
         /// <summary>

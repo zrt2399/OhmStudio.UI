@@ -15,11 +15,6 @@ using Expression = System.Linq.Expressions.Expression;
 
 namespace OhmStudio.UI.PublicMethods
 {
-    public enum ImageType
-    {
-        Bmp, Png, Jpeg
-    }
-
     public static class ExtensionMethod
     {
         public static void StartAnimation(this UIElement animatableElement, DependencyProperty dependencyProperty, Point toValue, double animationDurationSeconds, EventHandler completedEvent = null)
@@ -160,7 +155,7 @@ namespace OhmStudio.UI.PublicMethods
             }
         }
 
-        public static bool IsContains(this string str, string value, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+        public static bool IsContained(this string str, string value, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
         {
             return str.IndexOf(value, stringComparison) >= 0;
         }
@@ -215,11 +210,6 @@ namespace OhmStudio.UI.PublicMethods
         public static SolidColorBrush ToSolidColorBrush(this string hexString)
         {
             return new BrushConverter().ConvertFromString(hexString) as SolidColorBrush;
-        }
-
-        public static void SaveAsImage(this UIElement uIElement, string filePath, ImageType imageType, int dpi = 300)
-        {
-            ImageHelper.SaveAsImage(uIElement, filePath, imageType, dpi);
         }
 
         public static void InitCustomWindowStyle(this Window window)
