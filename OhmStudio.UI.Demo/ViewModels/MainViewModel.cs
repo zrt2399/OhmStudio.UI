@@ -362,10 +362,10 @@ namespace OhmStudio.UI.Demo.ViewModels
         [DoNotNotify]
         public ThemeType CurrentTheme
         {
-            get => XamlThemeDictionary.Instance.Theme;
+            get => XamlThemeDictionary.Current.Theme;
             set
             {
-                XamlThemeDictionary.Instance.Theme = value;
+                XamlThemeDictionary.Current.Theme = value;
                 OnPropertyChanged(() => CurrentTheme);
             }
         }
