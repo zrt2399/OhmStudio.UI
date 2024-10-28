@@ -84,7 +84,7 @@ namespace OhmStudio.UI.Attaches
             e.Row.Header = e.Row.GetIndex() + 1;
         }
 
-        static void SetColumnStyle<T>(DataGrid dataGrid, Style style, bool isEditingStyle)
+        private static void SetColumnStyle<T>(DataGrid dataGrid, Style style, bool isEditingStyle)
         {
             if (dataGrid.IsLoaded)
             {
@@ -118,47 +118,6 @@ namespace OhmStudio.UI.Attaches
                         }
                     }
                 }
-
-                //if (typeof(T) == typeof(DataGridComboBoxColumn))
-                //{
-                //    foreach (var item in dataGrid.Columns.OfType<DataGridComboBoxColumn>())
-                //    {
-                //        if (isEditingStyle)
-                //        {
-                //            if (!DataGridColumnAttach.GetIsIgnoreEditingElementStyle(item))
-                //            {
-                //                item.EditingElementStyle = style;
-                //            }
-                //        }
-                //        else
-                //        {
-                //            if (!DataGridColumnAttach.GetIsIgnoreElementStyle(item))
-                //            {
-                //                item.ElementStyle = style;
-                //            }
-                //        }
-                //    }
-                //}
-                //else
-                //{
-                //    foreach (var item in dataGrid.Columns.OfType<T>().OfType<DataGridBoundColumn>())
-                //    {
-                //        if (isEditingStyle)
-                //        {
-                //            if (!DataGridColumnAttach.GetIsIgnoreEditingElementStyle(item))
-                //            {
-                //                item.EditingElementStyle = style;
-                //            }
-                //        }
-                //        else
-                //        {
-                //            if (!DataGridColumnAttach.GetIsIgnoreElementStyle(item))
-                //            {
-                //                item.ElementStyle = style;
-                //            }
-                //        }
-                //    }
-                //}
             }
         }
 
