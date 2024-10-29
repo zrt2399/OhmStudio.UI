@@ -94,6 +94,7 @@ namespace OhmStudio.UI.Attaches
 
                 if ((bool)e.NewValue)
                 {
+                    notifyCollectionChanged.CollectionChanged -= SelectorAttach_CollectionChanged;
                     notifyCollectionChanged.CollectionChanged += SelectorAttach_CollectionChanged;
                 }
                 else

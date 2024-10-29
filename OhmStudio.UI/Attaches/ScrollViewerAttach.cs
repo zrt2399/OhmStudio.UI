@@ -23,19 +23,19 @@ namespace OhmStudio.UI.Attaches
 
             if ((Orientation)e.NewValue == Orientation.Horizontal)
             {
-                scrollViewer.PreviewMouseWheel += ScrollViewerPreviewMouseWheel;
+                scrollViewer.PreviewMouseWheel += PreviewMouseWheel;
             }
             else
             {
-                scrollViewer.PreviewMouseWheel -= ScrollViewerPreviewMouseWheel;
+                scrollViewer.PreviewMouseWheel -= PreviewMouseWheel;
             }
+        }
 
-            static void ScrollViewerPreviewMouseWheel(object sender, MouseWheelEventArgs args)
-            {
-                ScrollViewer scrollViewer2 = (ScrollViewer)sender;
-                scrollViewer2.ScrollToHorizontalOffset(Math.Min(Math.Max(0.0, scrollViewer2.HorizontalOffset - args.Delta), scrollViewer2.ScrollableWidth));
-                args.Handled = true;
-            }
+        private static void PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scrollViewer = (ScrollViewer)sender;
+            scrollViewer.ScrollToHorizontalOffset(Math.Min(Math.Max(0.0, scrollViewer.HorizontalOffset - e.Delta), scrollViewer.ScrollableWidth));
+            e.Handled = true;
         }
 
         public static void SetOrientation(DependencyObject element, Orientation value)
@@ -63,12 +63,12 @@ namespace OhmStudio.UI.Attaches
             }
         }
 
-        static void ScrollViewerPreviewMouseWheel(object sender, MouseWheelEventArgs args)
+        private static void ScrollViewerPreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (!args.Handled)
+            if (!e.Handled)
             {
-                args.Handled = true;
-                VisualHelper.GetParent<ScrollViewer>((UIElement)sender)?.RaiseEvent(new MouseWheelEventArgs(args.MouseDevice, args.Timestamp, args.Delta)
+                e.Handled = true;
+                VisualHelper.GetParent<ScrollViewer>((UIElement)sender)?.RaiseEvent(new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
                 {
                     RoutedEvent = UIElement.MouseWheelEvent,
                     Source = sender
