@@ -1,10 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
+                    xmlns:avalondock="https://github.com/Dirkster99/AvalonDock"
                     xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
-    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <avalondock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
     <Style x:Key="ToolBarMainPanelBorderStyle" TargetType="{x:Type Border}">
         <Style.Triggers>

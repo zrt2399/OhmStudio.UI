@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
+                    xmlns:avalondock="https://github.com/Dirkster99/AvalonDock"
                     xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
                     xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:ohmProperties="clr-namespace:OhmStudio.UI.Properties">
@@ -9,7 +10,7 @@
     <converters:EllipseItemMarginConverter x:Key="EllipseItemMarginConverter" />
     <converters:EllipseItemVisibilityConverter x:Key="EllipseItemVisibilityConverter" />
     <converters:UnscaleTransformConverter x:Key="UnscaleTransformConverter" />
-    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <avalondock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
     <Style x:Key="WorkflowCanvasBaseStyle" TargetType="controls:WorkflowCanvas">
         <!--<Setter Property="Focusable" Value="True" />

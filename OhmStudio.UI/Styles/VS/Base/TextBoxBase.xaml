@@ -1,12 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
+                    xmlns:avalondock="https://github.com/Dirkster99/AvalonDock"
                     xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
                     xmlns:converters="clr-namespace:OhmStudio.UI.Converters">
 
-    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <avalondock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <converters:TextBoxSuffixTextMarginConverter x:Key="TextBoxSuffixTextMarginConverter" />
     <converters:NotNullOrEmptyToVisibilityConverter x:Key="NotNullOrEmptyToVisibilityConverter" />
+    <converters:PlaceholderHorizontalAlignmentConverter x:Key="PlaceholderHorizontalAlignmentConverter" />
 
     <Style x:Key="TextBoxBaseStyle" TargetType="{x:Type TextBoxBase}">
         <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackground}" />
@@ -32,7 +34,7 @@
                     <StackPanel>
                         <AdornedElementPlaceholder x:Name="AdornedElementPlaceholder" />
                         <StackPanel x:Name="sp"
-                                    HorizontalAlignment="{Binding ElementName=AdornedElementPlaceholder, Path=AdornedElement.HorizontalContentAlignment}"
+                                    HorizontalAlignment="{Binding ElementName=AdornedElementPlaceholder, Path=AdornedElement, Converter={StaticResource PlaceholderHorizontalAlignmentConverter}}"
                                     IsHitTestVisible="False"
                                     Orientation="Horizontal">
                             <!--  Visibility="{Binding ElementName=AdornedElementPlaceholder, Path=AdornedElement.(TextBoxAttach.ShowValidationErrorInfo), Converter={StaticResource BoolToVisibilityConverter}}"  -->
@@ -81,7 +83,8 @@
                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
                     <DockPanel>
                         <ContentControl Style="{DynamicResource TitleWithTemplatedParent}" />
-                        <Border Background="{TemplateBinding Background}"
+                        <Border x:Name="PART_Border"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
