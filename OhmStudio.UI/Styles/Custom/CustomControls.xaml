@@ -46,6 +46,8 @@
     <converters:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter" />
     <converters:NotNullOrEmptyToBoolConverter x:Key="NotNullOrEmptyToBoolConverter" />
     <converters:NotNullOrEmptyToVisibilityConverter x:Key="NotNullOrEmptyToVisibilityConverter" />
+    <converters:NullOrEmptyToBoolConverter x:Key="NullOrEmptyToBoolConverter" />
+    <converters:NullOrEmptyToVisibilityConverter x:Key="NullOrEmptyToVisibilityConverter" />
     <converters:FlipToScaleXValueConverter x:Key="FlipToScaleXValueConverter" />
     <converters:FlipToScaleYValueConverter x:Key="FlipToScaleYValueConverter" />
     <converters:CircleProgressBarMarginConverter x:Key="CircleProgressBarMarginConverter" />
