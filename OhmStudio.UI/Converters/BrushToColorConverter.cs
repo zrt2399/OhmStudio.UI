@@ -13,12 +13,16 @@ namespace OhmStudio.UI.Converters
             {
                 return solidColorBrush.Color;
             }
-            return Brushes.Transparent.Color;
+            return Binding.DoNothing;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value is Color color)
+            {
+                return new SolidColorBrush(color);
+            }
+            return Binding.DoNothing;
         }
     }
 
@@ -30,12 +34,16 @@ namespace OhmStudio.UI.Converters
             {
                 return new SolidColorBrush(color);
             }
-            return new SolidColorBrush(Brushes.Transparent.Color);
+            return Binding.DoNothing;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value is SolidColorBrush solidColorBrush)
+            {
+                return solidColorBrush.Color;
+            }
+            return Binding.DoNothing;
         }
     }
 }
