@@ -21,8 +21,9 @@
 
     <system:Boolean x:Key="True">true</system:Boolean>
     <system:Boolean x:Key="False">false</system:Boolean>
-    <system:Int32 x:Key="Zero">0</system:Int32>
-    <system:Double x:Key="ZeroDouble">0.0</system:Double>
+    <system:Int32 x:Key="Int.Zero">0</system:Int32>
+    <system:Double x:Key="Double.Zero">0.0</system:Double>
+    <system:Double x:Key="Double.NaN">NaN</system:Double>
 
     <Thickness x:Key="InputElementPadding">2</Thickness>
     <Thickness x:Key="InputElementBorderThickness">1</Thickness>
@@ -53,6 +54,11 @@
     <converters:CircleProgressBarMarginConverter x:Key="CircleProgressBarMarginConverter" />
     <converters:DoNoThingConverter x:Key="DoNoThingConverter" />
     <converters:NotEqualityParameterToVisibilityConverter x:Key="NotEqualityParameterToVisibilityConverter" />
+    <converters:DropDownMinWidthConverter x:Key="DropDownMinWidthConverter" />
+    <converters:AllTrueConverter x:Key="AllTrueConverter" />
+    <converters:AllFalseConverter x:Key="AllFalseConverter" />
+    <converters:AnyTrueConverter x:Key="AnyTrueConverter" />
+    <converters:AnyFalseConverter x:Key="AnyFalseConverter" />
 
     <Style x:Key="ContentHostControl" TargetType="Control">
         <Setter Property="Margin" Value="0" />
@@ -107,7 +113,7 @@
         <Setter Property="Data" Value="{StaticResource LeftGeometry}" />
     </Style>
 
-    <Style x:Key="PathCustomButton" TargetType="Button">
+    <Style x:Key="PathCustomButton" TargetType="ButtonBase">
         <Setter Property="Width" Value="50" />
         <Setter Property="Height" Value="100" />
         <Setter Property="Margin" Value="30" />
@@ -120,7 +126,7 @@
         <Setter Property="Background" Value="#AA2E2E2E" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Button">
+                <ControlTemplate TargetType="ButtonBase">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -150,7 +156,7 @@
 
     <Style x:Key="RightMenuButton"
            BasedOn="{StaticResource PathCustomButton}"
-           TargetType="Button">
+           TargetType="ButtonBase">
         <Setter Property="Width" Value="Auto" />
         <Setter Property="Height" Value="Auto" />
         <Setter Property="Margin" Value="0" />
@@ -384,7 +390,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SearchBar">
                     <DockPanel>
-                        <ContentControl Style="{StaticResource TitleWithTemplatedParent}" />
+                        <ContentControl x:Name="Title" Style="{StaticResource TitleWithTemplatedParent}" />
                         <Border x:Name="Border"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -423,7 +429,16 @@
                                            PlacementTarget="{Binding ElementName=Border}"
                                            PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                            StaysOpen="False">
-                                        <theme:SystemDropShadowChrome x:Name="Shadow" Color="Transparent">
+                                        <theme:SystemDropShadowChrome x:Name="Shadow"
+                                                                      MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                                      Color="Transparent">
+                                            <theme:SystemDropShadowChrome.MinWidth>
+                                                <MultiBinding Converter="{StaticResource DropDownMinWidthConverter}">
+                                                    <Binding Path="MinDropDownWidth" RelativeSource="{RelativeSource Mode=TemplatedParent}" />
+                                                    <Binding Path="(attaches:TextBoxAttach.TitlePlacement)" RelativeSource="{RelativeSource Mode=TemplatedParent}" />
+                                                    <Binding ElementName="Title" Path="ActualWidth" />
+                                                </MultiBinding>
+                                            </theme:SystemDropShadowChrome.MinWidth>
                                             <Border Background="{DynamicResource CommonControlsComboBoxListBackground}"
                                                     BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
                                                     BorderThickness="1"

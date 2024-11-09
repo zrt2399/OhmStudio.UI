@@ -1105,21 +1105,20 @@
                                                 <DateTimePicker VerticalAlignment="Top" />
 
                                                 <SearchBar VerticalAlignment="Top"
+                                                           Command="{Binding SearchTestCommand}"
                                                            Foreground="Violet"
+                                                           IsDropDownOpen="{Binding IsDropDownOpen}"
+                                                           MinDropDownWidth="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth}"
                                                            TextBoxAttach.PlaceHolder="请输入搜索内容..."
                                                            TextBoxAttach.Title="SearchBar："
-                                                           TextBoxAttach.TitlePlacement="Top" />
-                                                <SearchBar VerticalAlignment="Top"
-                                                           Command="{Binding SearchTestCommand}"
-                                                           IsDropDownOpen="{Binding IsDropDownOpen}">
-                                                    <SearchBar.SearchedContent>
-                                                        <StackPanel Orientation="Vertical">
-                                                            <TextBlock>123abc</TextBlock>
-                                                            <TextBlock>456</TextBlock>
-                                                            <TextBlock>789</TextBlock>
-                                                        </StackPanel>
-                                                    </SearchBar.SearchedContent>
+                                                           TextBoxAttach.TitlePlacement="Top">
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock>123abc</TextBlock>
+                                                        <TextBlock>456</TextBlock>
+                                                        <TextBlock>789</TextBlock>
+                                                    </StackPanel>
                                                 </SearchBar>
+                                                <SearchBar VerticalAlignment="Top" />
 
                                                 <TextBox VerticalAlignment="Top"
                                                          HorizontalContentAlignment="Right"

@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Markup;
 
 namespace OhmStudio.UI.Controls
 {
@@ -11,6 +13,7 @@ namespace OhmStudio.UI.Controls
         event TextChangedEventHandler TextChanged;
     }
 
+    [ContentProperty(nameof(SearchedContent))]
     public class SearchBar : Control, ICommandSource, ITextChanged
     {
         private TextBox PART_TextBox;
@@ -40,6 +43,12 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty SearchedContentProperty =
             DependencyProperty.Register(nameof(SearchedContent), typeof(object), typeof(SearchBar));
+
+        public static readonly DependencyProperty MinDropDownWidthProperty =
+           DependencyProperty.Register(nameof(MinDropDownWidth), typeof(double), typeof(SearchBar), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+        public static readonly DependencyProperty MaxDropDownHeightProperty =
+            DependencyProperty.Register(nameof(MaxDropDownHeight), typeof(double), typeof(SearchBar), new FrameworkPropertyMetadata(double.PositiveInfinity, FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static readonly DependencyProperty CommandProperty =
             DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(SearchBar));
@@ -81,6 +90,20 @@ namespace OhmStudio.UI.Controls
         {
             get => GetValue(SearchedContentProperty);
             set => SetValue(SearchedContentProperty, value);
+        }
+
+        [TypeConverter(typeof(LengthConverter))]
+        public double MinDropDownWidth
+        {
+            get => (double)GetValue(MinDropDownWidthProperty);
+            set => SetValue(MinDropDownWidthProperty, value);
+        }
+
+        [TypeConverter(typeof(LengthConverter))]
+        public double MaxDropDownHeight
+        {
+            get => (double)GetValue(MaxDropDownHeightProperty);
+            set => SetValue(MaxDropDownHeightProperty, value);
         }
 
         public ICommand Command
