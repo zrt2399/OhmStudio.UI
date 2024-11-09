@@ -81,7 +81,7 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(SelectedDateTime), typeof(DateTime?), typeof(DateTimePicker), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, UpdateDateTimeText));
 
         public static readonly DependencyProperty IsDropDownOpenProperty =
-            DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(DateTimePicker));
+            DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(DateTimePicker), new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         internal static readonly DependencyProperty DateTimeTextProperty =
             DependencyProperty.Register(nameof(DateTimeText), typeof(string), typeof(DateTimePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -173,7 +173,7 @@ namespace OhmStudio.UI.Controls
                 IsDropDownOpen = false;//TDateTimeView 所在pop 关闭
                 //PART_TextBox?.Focus();
             };
-            (PART_Popup.Child as Decorator).Child = dateTimeView;
+            ((Decorator)PART_Popup.Child).Child = dateTimeView;
         }
 
         private void PART_TextBox_TextChanged(object sender, TextChangedEventArgs e)

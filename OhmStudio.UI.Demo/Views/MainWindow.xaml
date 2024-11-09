@@ -524,8 +524,7 @@
                                                 <ProgressBar Height="50"
                                                              VerticalAlignment="Center"
                                                              IsIndeterminate="{Binding IsIndeterminate}"
-                                                             Style="{x:Null}"
-                                                           />
+                                                             Style="{x:Null}" />
 
                                                 <ProgressBar Orientation="Vertical"
                                                              ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
@@ -533,8 +532,7 @@
 
                                                 <ProgressBar Height="50"
                                                              VerticalAlignment="Center"
-                                                             IsIndeterminate="{Binding IsIndeterminate}"
-                                                            />
+                                                             IsIndeterminate="{Binding IsIndeterminate}" />
                                                 <ProgressBar VerticalAlignment="Center"
                                                              ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
                                                              Value="{Binding ProgressBarValue}" />
@@ -1111,7 +1109,17 @@
                                                            TextBoxAttach.PlaceHolder="请输入搜索内容..."
                                                            TextBoxAttach.Title="SearchBar："
                                                            TextBoxAttach.TitlePlacement="Top" />
-                                                <SearchBar VerticalAlignment="Top" />
+                                                <SearchBar VerticalAlignment="Top"
+                                                           Command="{Binding SearchTestCommand}"
+                                                           IsDropDownOpen="{Binding IsDropDownOpen}">
+                                                    <SearchBar.SearchedContent>
+                                                        <StackPanel Orientation="Vertical">
+                                                            <TextBlock>123abc</TextBlock>
+                                                            <TextBlock>456</TextBlock>
+                                                            <TextBlock>789</TextBlock>
+                                                        </StackPanel>
+                                                    </SearchBar.SearchedContent>
+                                                </SearchBar>
 
                                                 <TextBox VerticalAlignment="Top"
                                                          HorizontalContentAlignment="Right"

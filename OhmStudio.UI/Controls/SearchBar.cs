@@ -35,13 +35,19 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty TextWrappingProperty =
             DependencyProperty.Register(nameof(TextWrapping), typeof(TextWrapping), typeof(SearchBar), new PropertyMetadata(TextWrapping.NoWrap));
 
-        public static readonly DependencyProperty CommandProperty = 
+        public static readonly DependencyProperty IsDropDownOpenProperty =
+            DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(SearchBar), new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public static readonly DependencyProperty SearchedContentProperty =
+            DependencyProperty.Register(nameof(SearchedContent), typeof(object), typeof(SearchBar));
+
+        public static readonly DependencyProperty CommandProperty =
             DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(SearchBar));
 
-        public static readonly DependencyProperty CommandParameterProperty = 
+        public static readonly DependencyProperty CommandParameterProperty =
             DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(SearchBar));
 
-        public static readonly DependencyProperty CommandTargetProperty = 
+        public static readonly DependencyProperty CommandTargetProperty =
             DependencyProperty.Register(nameof(CommandTarget), typeof(IInputElement), typeof(SearchBar));
 
         public string Text
@@ -63,6 +69,18 @@ namespace OhmStudio.UI.Controls
         {
             get => (TextWrapping)GetValue(TextWrappingProperty);
             set => SetValue(TextWrappingProperty, value);
+        }
+
+        public bool IsDropDownOpen
+        {
+            get => (bool)GetValue(IsDropDownOpenProperty);
+            set => SetValue(IsDropDownOpenProperty, value);
+        }
+
+        public object SearchedContent
+        {
+            get => GetValue(SearchedContentProperty);
+            set => SetValue(SearchedContentProperty, value);
         }
 
         public ICommand Command

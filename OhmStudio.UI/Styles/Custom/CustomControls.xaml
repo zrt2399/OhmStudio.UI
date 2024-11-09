@@ -385,7 +385,8 @@
                 <ControlTemplate TargetType="controls:SearchBar">
                     <DockPanel>
                         <ContentControl Style="{StaticResource TitleWithTemplatedParent}" />
-                        <Border Background="{TemplateBinding Background}"
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
@@ -416,6 +417,21 @@
                                         </TextBox.InputBindings>
                                     </TextBox>
                                     <ContentControl Style="{StaticResource PlaceHolderWithTemplatedParent}" />
+                                    <Popup x:Name="PART_Popup"
+                                           AllowsTransparency="True"
+                                           IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                           PlacementTarget="{Binding ElementName=Border}"
+                                           PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                                           StaysOpen="False">
+                                        <theme:SystemDropShadowChrome x:Name="Shadow" Color="Transparent">
+                                            <Border Background="{DynamicResource CommonControlsComboBoxListBackground}"
+                                                    BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
+                                                    BorderThickness="1"
+                                                    SnapsToDevicePixels="True">
+                                                <ContentPresenter Content="{TemplateBinding SearchedContent}" />
+                                            </Border>
+                                        </theme:SystemDropShadowChrome>
+                                    </Popup>
                                 </controls:SimplePanel>
                             </DockPanel>
                         </Border>
@@ -430,6 +446,11 @@
                             <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
                             <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />-->
                             <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
+                        </Trigger>
+                        <Trigger SourceName="PART_Popup" Property="Popup.HasDropShadow" Value="True">
+                            <Setter TargetName="Shadow" Property="Margin" Value="0,0,5,5" />
+                            <Setter TargetName="Shadow" Property="SnapsToDevicePixels" Value="True" />
+                            <Setter TargetName="Shadow" Property="Color" Value="{DynamicResource ControlShadow}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />
@@ -1198,7 +1219,7 @@
                                            PlacementTarget="{Binding ElementName=Border}"
                                            PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                            StaysOpen="False">
-                                        <controls:SystemDropShadowChrome Margin="0,0,5,5" Color="{DynamicResource ControlShadow}" />
+                                        <theme:SystemDropShadowChrome x:Name="Shadow" Color="Transparent" />
                                     </Popup>
                                 </controls:SimplePanel>
                             </DockPanel>
@@ -1214,6 +1235,11 @@
                             <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundHover}" />
                             <!--<Setter Property="Foreground" Value="{DynamicResource CommonControlsTextBoxTextHover}" />-->
                             <Setter Property="BorderBrush" Value="{DynamicResource CommonControlsTextBoxBorderHover}" />
+                        </Trigger>
+                        <Trigger SourceName="PART_Popup" Property="Popup.HasDropShadow" Value="True">
+                            <Setter TargetName="Shadow" Property="Margin" Value="0,0,5,5" />
+                            <Setter TargetName="Shadow" Property="SnapsToDevicePixels" Value="True" />
+                            <Setter TargetName="Shadow" Property="Color" Value="{DynamicResource ControlShadow}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter Property="Background" Value="{DynamicResource CommonControlsTextBoxBackgroundFocused}" />

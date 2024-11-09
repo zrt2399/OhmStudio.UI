@@ -46,6 +46,7 @@ namespace OhmStudio.UI.Demo.ViewModels
             ZoomInCommand = new RelayCommand(ZoomIn);
             ZoomOutCommand = new RelayCommand(ZoomOut);
             SearchCommand = new RelayCommand(() => UIMessageTip.Show("什么也没搜索到..."));
+            SearchTestCommand = new RelayCommand(() => IsDropDownOpen = true);
             TreeViewAddCommand = new RelayCommand(() =>
             {
                 var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
@@ -305,6 +306,8 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         public bool IsTopmost { get; set; }
 
+        public bool IsDropDownOpen { get; set; }
+
         public CornerRadius CornerRadius { get; set; }
 
         private int _globalCornerRadius;
@@ -319,12 +322,14 @@ namespace OhmStudio.UI.Demo.ViewModels
                 OnPropertyChanged(nameof(GlobalCornerRadius));
             }
         }
- 
+
         public ICommand ZoomInCommand { get; }
 
         public ICommand ZoomOutCommand { get; }
 
         public ICommand SearchCommand { get; }
+
+        public ICommand SearchTestCommand { get; }
 
         public ICommand TreeViewAddCommand { get; }
 
