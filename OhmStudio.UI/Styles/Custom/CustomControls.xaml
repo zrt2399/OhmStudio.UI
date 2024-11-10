@@ -53,7 +53,10 @@
     <converters:FlipToScaleYValueConverter x:Key="FlipToScaleYValueConverter" />
     <converters:CircleProgressBarMarginConverter x:Key="CircleProgressBarMarginConverter" />
     <converters:DoNoThingConverter x:Key="DoNoThingConverter" />
+    <converters:NotEqualityParameterToBoolConverter x:Key="NotEqualityParameterToBoolConverter" />
     <converters:NotEqualityParameterToVisibilityConverter x:Key="NotEqualityParameterToVisibilityConverter" />
+    <converters:EqualityParameterToBoolConverter x:Key="EqualityParameterToBoolConverter" />
+    <converters:EqualityParameterToVisibilityConverter x:Key="EqualityParameterToVisibilityConverter" />
     <converters:DropDownMinWidthConverter x:Key="DropDownMinWidthConverter" />
     <converters:AllTrueConverter x:Key="AllTrueConverter" />
     <converters:AllFalseConverter x:Key="AllFalseConverter" />
