@@ -1310,10 +1310,10 @@
                                             <StackPanel x:Name="stackPanel">
                                                 <PathPicker MinWidth="200"
                                                             ExploreButtonContent="打开文件夹所在位置"
-                                                            IsFolder="True"
                                                             OpenButtonContent="打开文件夹"
                                                             TextBoxAttach.PlaceHolder="请选择文件夹..."
-                                                            TextBoxAttach.Title="文件夹：" />
+                                                            TextBoxAttach.Title="文件夹："
+                                                            UseFolderDialog="True" />
                                                 <PathPicker MinWidth="200"
                                                             ExploreButtonContent="打开文件所在位置"
                                                             Filter="Excel 工作簿|*.xlsx"

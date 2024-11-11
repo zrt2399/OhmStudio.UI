@@ -415,7 +415,7 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         private void StatusManager_IsRunningChanged(object sender, EventArgs e)
         {
-            StatusBarContent = "IsRunning:" + sender;
+            StatusBarContent = "IsRunning:" + (sender as StatusManager).IsRunning;
         }
 
         public void ZoomIn()

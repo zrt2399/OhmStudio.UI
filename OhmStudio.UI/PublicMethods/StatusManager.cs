@@ -4,17 +4,27 @@ using System.Windows.Media;
 
 namespace OhmStudio.UI.PublicMethods
 {
-    public static class StatusManager
+    public class StatusManager
     {
-        static SolidColorBrush StatusBarBackgroundRunning => (SolidColorBrush)Application.Current.Resources[nameof(StatusBarBackgroundRunning)];
-        static SolidColorBrush WindowBorderBrushRunning => (SolidColorBrush)Application.Current.Resources[nameof(WindowBorderBrushRunning)];
-        static SolidColorBrush StatusBarBackgroundDefault => (SolidColorBrush)Application.Current.Resources[nameof(StatusBarBackgroundDefault)];
-        static SolidColorBrush WindowBorderBrushDefault => (SolidColorBrush)Application.Current.Resources[nameof(WindowBorderBrushDefault)];
+        private SolidColorBrush StatusBarBackgroundRunning => (SolidColorBrush)Application.Current.Resources[nameof(StatusBarBackgroundRunning)];
+        private SolidColorBrush WindowBorderBrushRunning => (SolidColorBrush)Application.Current.Resources[nameof(WindowBorderBrushRunning)];
+        private SolidColorBrush StatusBarBackgroundDefault => (SolidColorBrush)Application.Current.Resources[nameof(StatusBarBackgroundDefault)];
+        private SolidColorBrush WindowBorderBrushDefault => (SolidColorBrush)Application.Current.Resources[nameof(WindowBorderBrushDefault)];
 
         public static event EventHandler IsRunningChanged;
 
-        private static bool _isRunning;
-        public static bool IsRunning
+        private static StatusManager _current;
+        public static StatusManager Current
+        {
+            get
+            {
+                _current ??= new StatusManager();
+                return _current;
+            }
+        }
+
+        private bool _isRunning;
+        public bool IsRunning
         {
             get => _isRunning;
             set
@@ -25,16 +35,16 @@ namespace OhmStudio.UI.PublicMethods
                 }
                 _isRunning = value;
                 Update(value);
-                IsRunningChanged?.Invoke(value, EventArgs.Empty);
+                IsRunningChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        public static void Update()
+        public void Update()
         {
             Update(IsRunning);
         }
 
-        private static void Update(bool isRunning)
+        private void Update(bool isRunning)
         {
             if (Application.Current != null)
             {

@@ -55,7 +55,7 @@ namespace OhmStudio.UI.Attaches
                 }
                 UpdateTheme(_theme = value);
                 ThemeChanged?.Invoke(this, EventArgs.Empty);
-                StatusManager.Update();
+                StatusManager.Current.Update();
             }
         }
 

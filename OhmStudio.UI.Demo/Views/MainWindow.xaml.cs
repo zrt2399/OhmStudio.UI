@@ -132,7 +132,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            StatusManager.IsRunning = !StatusManager.IsRunning;
+            StatusManager.Current.IsRunning = !StatusManager.Current.IsRunning;
         }
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
