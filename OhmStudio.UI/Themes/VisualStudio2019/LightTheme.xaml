@@ -208,7 +208,7 @@
     <SolidColorBrush x:Key="GroupBoxBackground" Color="#00FFFFFF" />
     <SolidColorBrush x:Key="GroupBoxBorderBrush" Color="#FFCCCEDB" />
 
-    <SolidColorBrush x:Key="GridSplitterBackground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="GridSplitterBackground" Color="#FFE6E6E6" />
     <SolidColorBrush x:Key="GridSplitterPreviewFill" Color="#80000000" />
 
     <SolidColorBrush x:Key="GridViewBackground" Color="#FFF5F5F5" />

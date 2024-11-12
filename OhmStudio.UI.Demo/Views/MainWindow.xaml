@@ -326,6 +326,20 @@
                                     </TabItem>
                                 </TabControl>
                             </LayoutDocument>
+                            <LayoutDocument Title="GridSplitter">
+                                <Grid GridAttach.ColumnDefinitions="*,Auto,200">
+                                    <Grid GridAttach.RowDefinitions="*,Auto,*">
+                                        <GridSplitter Grid.Row="1"
+                                                      Height="6"
+                                                      HorizontalAlignment="Stretch"
+                                                      ShowsPreview="True" />
+                                    </Grid>
+                                    <GridSplitter Grid.Column="1"
+                                                  Width="6"
+                                                  HorizontalAlignment="Stretch"
+                                                  ShowsPreview="True" />
+                                </Grid>
+                            </LayoutDocument>
                             <LayoutDocument Title="DataGrid">
                                 <UniformGrid Rows="3">
                                     <UniformGrid.Resources>
