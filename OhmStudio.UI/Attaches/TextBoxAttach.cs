@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 using OhmStudio.UI.Controls;
 using OhmStudio.UI.PublicMethods;
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,17 +36,17 @@ namespace OhmStudio.UI.Attaches
             obj.SetValue(SelectedItemsAttachProperty, value);
         }
 
-        public static readonly DependencyProperty IsScrollToBottomProperty =
-            DependencyProperty.RegisterAttached("IsScrollToBottom", typeof(bool), typeof(SelectorAttach), new PropertyMetadata(false, OnIsScrollToBottomChanged));
+        public static readonly DependencyProperty IsAutoScrollToEndProperty =
+            DependencyProperty.RegisterAttached("IsAutoScrollToEnd", typeof(bool), typeof(SelectorAttach), new PropertyMetadata(false, OnIsAutoScrollToEndChanged));
 
-        public static void SetIsScrollToBottom(DependencyObject obj, bool value)
+        public static void SetIsAutoScrollToEnd(DependencyObject obj, bool value)
         {
-            obj.SetValue(IsScrollToBottomProperty, value);
+            obj.SetValue(IsAutoScrollToEndProperty, value);
         }
 
-        public static bool GetIsScrollToBottom(DependencyObject obj)
+        public static bool GetIsAutoScrollToEnd(DependencyObject obj)
         {
-            return (bool)obj.GetValue(IsScrollToBottomProperty);
+            return (bool)obj.GetValue(IsAutoScrollToEndProperty);
         }
 
         private static void SelectedChangedCallBack(DependencyObject obj, DependencyPropertyChangedEventArgs e)
@@ -80,27 +81,31 @@ namespace OhmStudio.UI.Attaches
             }
         }
 
-        private static void OnIsScrollToBottomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static readonly ConcurrentDictionary<object, Selector> CollectionToSelectorMap = new();
+
+        private static void OnIsAutoScrollToEndChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is Selector selector && selector.Items.SourceCollection is INotifyCollectionChanged notifyCollectionChanged)
             {
-                void SelectorAttach_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+                if (e.OldValue is bool oldValue && oldValue)
                 {
-                    if (e.Action == NotifyCollectionChangedAction.Add && selector.Items.Count > 0)
-                    {
-                        selector.ScrollToEnd();
-                    }
+                    notifyCollectionChanged.CollectionChanged -= SelectorAttach_CollectionChanged;
+                    CollectionToSelectorMap.TryRemove(notifyCollectionChanged, out _);
                 }
 
-                if ((bool)e.NewValue)
+                if (e.NewValue is bool newValue && newValue)
                 {
-                    notifyCollectionChanged.CollectionChanged -= SelectorAttach_CollectionChanged;
+                    CollectionToSelectorMap[notifyCollectionChanged] = selector;
                     notifyCollectionChanged.CollectionChanged += SelectorAttach_CollectionChanged;
                 }
-                else
-                {
-                    notifyCollectionChanged.CollectionChanged -= SelectorAttach_CollectionChanged;
-                }
+            }
+        }
+
+        private static void SelectorAttach_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add && CollectionToSelectorMap.TryGetValue(sender, out var selector) && selector.Items.Count > 0)
+            {
+                selector.ScrollToEnd();
             }
         }
     }
