@@ -1351,6 +1351,20 @@
                                         <GroupBox Margin="10" Header="Calendar">
                                             <Calendar BorderBrush="{DynamicResource EnvironmentMainWindowActiveDefaultBorder}" BorderThickness="1" />
                                         </GroupBox>
+                                        <GroupBox Margin="10" Header="ListBox">
+                                            <Grid GridAttach.RowDefinitions="Auto,100">
+                                                <UniformGrid Rows="1">
+                                                    <Button Command="{Binding AddTestCommand}">Add</Button>
+                                                    <Button Command="{Binding ResetNewCommand}">Reset new</Button>
+                                                    <Button Command="{Binding ResetNullCommand}">Reset null</Button>
+                                                    <CheckBox IsChecked="{Binding ElementName=selectorAttachListBox, Path=(SelectorAttach.IsAutoScrollToEnd)}">IsAutoScrollToEnd</CheckBox>
+                                                </UniformGrid>
+                                                <ListBox x:Name="selectorAttachListBox"
+                                                         Grid.Row="1"
+                                                         ItemsSource="{Binding SelectorAttachTest}"
+                                                         SelectorAttach.IsAutoScrollToEnd="True" />
+                                            </Grid>
+                                        </GroupBox>
                                     </WrapPanel>
                                 </ScrollViewer>
                             </LayoutDocument>

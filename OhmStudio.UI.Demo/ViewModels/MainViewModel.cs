@@ -17,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Bogus;
+using Bogus.DataSets;
 using LiveCharts;
 using Microsoft.Win32;
 using OhmStudio.UI.Attaches;
@@ -35,6 +36,8 @@ namespace OhmStudio.UI.Demo.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        private Random _random = new Random();
+
         public MainViewModel()
         {
             Messenger.Default.Register<string>(this, MessageType.AlertDialog, msg => AlertDialog.Show(msg));
@@ -120,6 +123,18 @@ namespace OhmStudio.UI.Demo.ViewModels
                         previousStep.NextStep = workflowItemModel;
                     }
                 }
+            });
+            AddTestCommand = new RelayCommand(() =>
+            {
+                SelectorAttachTest?.Add(_random.Next(int.MinValue, int.MaxValue).ToString());
+            });
+            ResetNewCommand = new RelayCommand(() =>
+            {
+                SelectorAttachTest = new ObservableCollection<string>();
+            });
+            ResetNullCommand = new RelayCommand(() =>
+            {
+                SelectorAttachTest = null;
             });
 
             Result.Columns.Add("Time");
@@ -261,6 +276,8 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         public ObservableCollection<FontFamilyItem> FontFamilyList { get; }
 
+        public ObservableCollection<string> SelectorAttachTest { get; set; }
+
         public IEnumerable<double> FontSizeList { get; } = Enumerable.Range(10, 11).Select(x => (double)x);
 
         public Employee Employee { get; set; } = new Employee();
@@ -344,6 +361,10 @@ namespace OhmStudio.UI.Demo.ViewModels
         public ICommand WorkflowEditorDropCommand { get; }
 
         public ICommand WorkflowEditorTestCommand { get; }
+
+        public ICommand AddTestCommand { get; }
+        public ICommand ResetNewCommand { get; }
+        public ICommand ResetNullCommand { get; }
 
         private ICommand _startCommand;
         public ICommand StartCommand

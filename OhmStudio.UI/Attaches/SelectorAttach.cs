@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -10,6 +12,8 @@ namespace OhmStudio.UI.Attaches
 {
     public class SelectorAttach
     {
+        private static readonly ConcurrentDictionary<object, Selector> CollectionToSelectorMap = new();
+
         public static readonly DependencyProperty SelectedItemsProperty =
             DependencyProperty.RegisterAttached("SelectedItems", typeof(IList), typeof(SelectorAttach), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
@@ -81,11 +85,17 @@ namespace OhmStudio.UI.Attaches
             }
         }
 
-        private static readonly ConcurrentDictionary<object, Selector> CollectionToSelectorMap = new();
-
         private static void OnIsAutoScrollToEndChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is Selector selector && selector.Items.SourceCollection is INotifyCollectionChanged notifyCollectionChanged)
+            if (d is not Selector selector)
+            {
+                return;
+            }
+            DependencyPropertyDescriptor property = DependencyPropertyDescriptor.FromProperty(ItemsControl.ItemsSourceProperty, typeof(Selector));
+            property?.RemoveValueChanged(selector, OnItemsSourceChanged);
+            property?.AddValueChanged(selector, OnItemsSourceChanged);
+
+            if (selector.ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
             {
                 if (e.OldValue is bool oldValue && oldValue)
                 {
@@ -98,6 +108,14 @@ namespace OhmStudio.UI.Attaches
                     CollectionToSelectorMap[notifyCollectionChanged] = selector;
                     notifyCollectionChanged.CollectionChanged += SelectorAttach_CollectionChanged;
                 }
+            }
+        }
+
+        private static void OnItemsSourceChanged(object sender, EventArgs e)
+        {
+            if (sender is Selector selector)
+            {
+                OnIsAutoScrollToEndChanged(selector, new DependencyPropertyChangedEventArgs(IsAutoScrollToEndProperty, true, GetIsAutoScrollToEnd(selector)));
             }
         }
 
