@@ -162,7 +162,9 @@ namespace OhmStudio.UI.Controls
         DataMatrix,
         QrScanLine,
         KeyboardReturn,
-        KeyboardReturnRound
+        KeyboardReturnRound,
+        VerticalAlignBottom,
+        VerticalAlignBottomRound,
     }
 
     public class PackIcon : Control
@@ -429,6 +431,8 @@ namespace OhmStudio.UI.Controls
             { PackIconKind.QrScanLine, new PathInfo (PackIconFlipOrientation.Normal,"M1050 400V150H150V400H250V250H950V400H1050zM150 650H1050V550H150V650zM1050 800H950V950H250V800H150V1050H1050V800z")  },
             { PackIconKind.KeyboardReturn, new PathInfo (PackIconFlipOrientation.Normal,"m 19,7 v 4 H 5.83 L 9.41,7.41 8,6 2,12 8,18 9.41,16.59 5.83,13 H 21 V 7 Z")  },
             { PackIconKind.KeyboardReturnRound, new PathInfo (PackIconFlipOrientation.Normal,"M 8.0058594 6.4179688 A 0.99702056 0.99702056 0 0 0 7.3007812 6.7109375 L 2.7109375 11.300781 A 0.996 0.996 0 0 0 2.7109375 12.710938 L 7.3007812 17.300781 A 0.99713105 0.99713105 0 0 0 8.7109375 15.890625 L 5.8300781 13 L 20 13 C 20.549999 13 21 12.549999 21 12 L 21 8 C 21 7.4500006 20.549999 7 20 7 C 19.450001 7 19 7.4500006 19 8 L 19 11 L 5.8300781 11 L 8.7109375 8.1191406 A 0.99702056 0.99702056 0 0 0 8.0058594 6.4179688 z")  },
+            { PackIconKind.VerticalAlignBottom, new PathInfo (PackIconFlipOrientation.Normal,"M 16,13 H 13 V 3 H 11 V 13 H 8 l 4,4 z M 4,19 v 2 h 16 v -2 z")  },
+            { PackIconKind.VerticalAlignBottomRound, new PathInfo (PackIconFlipOrientation.Normal,"M 12 3 C 11.450001 3 11 3.4500005 11 4 L 11 13 L 9.2109375 13 C 8.760938 13 8.5393753 13.53961 8.859375 13.849609 L 11.650391 16.640625 C 11.85039 16.840625 12.159375 16.840625 12.359375 16.640625 L 15.150391 13.849609 A 0.5 0.5 0 0 0 14.789062 13 L 13 13 L 13 4 C 13 3.4500006 12.549999 3 12 3 z M 5 19 C 4.4500006 19 4 19.450001 4 20 C 4 20.549999 4.4500006 21 5 21 L 19 21 C 19.549999 21 20 20.549999 20 20 C 20 19.450001 19.549999 19 19 19 L 5 19 z ")  },
 
         };
     }
