@@ -1368,7 +1368,7 @@
                                     </WrapPanel>
                                 </ScrollViewer>
                             </LayoutDocument>
-                            <LayoutDocument Title="EmbeddedWindow">
+                            <LayoutDocument Title="EmbeddedWindow" CanClose="False">
                                 <Grid GridAttach.RowDefinitions="Auto,*">
                                     <Button Click="Button_Click_20">ShutDown the EmbeddedWindow</Button>
                                     <AppHost x:Name="appHost"

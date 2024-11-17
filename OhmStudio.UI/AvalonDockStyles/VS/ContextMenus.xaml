@@ -3,8 +3,11 @@
                     xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
                     xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock"
                     xmlns:avalonDockProperties="clr-namespace:AvalonDock.Properties;assembly=AvalonDock"
+                    xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:reskeys="clr-namespace:OhmStudio.UI.AvalonDockThemes"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
+
+    <converters:AllTrueToVisibilityConverter x:Key="AllTrueToVisibilityConverter" />
 
     <Style x:Key="{x:Type avalonDockControls:ContextMenuEx}" TargetType="{x:Type ContextMenu}">
         <Setter Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ContextMenuBackground}}" />
@@ -170,9 +173,16 @@
     <ContextMenu x:Key="DocumentWellContextMenu"
                  ItemContainerStyle="{StaticResource {x:Type avalonDockControls:MenuItemEx}}"
                  Style="{StaticResource {x:Type avalonDockControls:ContextMenuEx}}">
-        <MenuItem Command="{Binding Path=CloseCommand}"
-                  Header="{x:Static avalonDockProperties:Resources.Document_Close}"
-                  Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={avalonDockConverters:BoolToVisibilityConverter}}" />
+        <MenuItem Command="{Binding Path=CloseCommand}" Header="{x:Static avalonDockProperties:Resources.Document_Close}">
+            <MenuItem.Visibility>
+                <MultiBinding Converter="{StaticResource AllTrueToVisibilityConverter}">
+                    <Binding Mode="OneWay"
+                             Path="IsEnabled"
+                             RelativeSource="{RelativeSource Self}" />
+                    <Binding Path="CanClose" />
+                </MultiBinding>
+            </MenuItem.Visibility>
+        </MenuItem>
         <MenuItem Command="{Binding Path=CloseAllButThisCommand}" Header="{x:Static avalonDockProperties:Resources.Document_CloseAllButThis}" />
         <MenuItem Command="{Binding Path=CloseAllCommand}" Header="{x:Static avalonDockProperties:Resources.Document_CloseAll}" />
         <MenuItem Command="{Binding Path=FloatCommand}" Header="{x:Static avalonDockProperties:Resources.Document_Float}" />
