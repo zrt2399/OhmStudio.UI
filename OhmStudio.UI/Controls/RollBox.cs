@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -240,7 +239,7 @@ namespace OhmStudio.UI.Controls
                 if (Equals(e.OriginalSource, this))
                 {
                     UIElement uIElement;
-                    if ((uIElement = GetFirstFocusable(PART_CURR_Content.Content)) != null)
+                    if ((uIElement = PART_CURR_Content.Content.GetFirstFocusable()) != null)
                     {
                         uIElement.Focus();
                         e.Handled = true;
@@ -257,19 +256,6 @@ namespace OhmStudio.UI.Controls
                     }
                 }
             }
-        }
-
-        private UIElement GetFirstFocusable(object obj)
-        {
-            if (obj is not UIElement uIElement)
-            {
-                return null;
-            }
-            if (uIElement.Focusable)
-            {
-                return uIElement;
-            }
-            return uIElement.FindChildrenOfType<UIElement>().FirstOrDefault(x => x.Focusable);
         }
     }
 }

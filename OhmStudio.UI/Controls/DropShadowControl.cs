@@ -2,16 +2,12 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using OhmStudio.UI.PublicMethods;
 
 namespace OhmStudio.UI.Controls
 {
     public class DropShadowControl : ContentControl
     {
-        static DropShadowControl()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(DropShadowControl), new FrameworkPropertyMetadata(typeof(DropShadowControl)));
-        }
-
         public static readonly DependencyProperty ShowShadowProperty =
            DependencyProperty.RegisterAttached(nameof(ShowShadow), typeof(bool), typeof(DropShadowControl), new FrameworkPropertyMetadata(true));
 
@@ -44,6 +40,28 @@ namespace OhmStudio.UI.Controls
 
         public static readonly DependencyProperty RenderingBiasProperty =
             DependencyProperty.RegisterAttached(nameof(RenderingBias), typeof(RenderingBias), typeof(DropShadowControl), new FrameworkPropertyMetadata(RenderingBias.Performance, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        static DropShadowControl()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DropShadowControl), new FrameworkPropertyMetadata(typeof(DropShadowControl)));
+        }
+
+        public DropShadowControl()
+        {
+            GotFocus += DropShadowControl_GotFocus;
+        }
+
+        private void DropShadowControl_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (!e.Handled && Equals(e.OriginalSource, this))
+            {
+                if (Content.GetFirstFocusable() is UIElement uIElement)
+                {
+                    uIElement.Focus();
+                    e.Handled = true;
+                }
+            }
+        }
 
         /// <summary>
         /// 是否显示阴影，默认值为true。

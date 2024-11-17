@@ -6,6 +6,8 @@
     <BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
 
     <Style x:Key="GroupBoxBaseStyle" TargetType="{x:Type GroupBox}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Background" Value="{DynamicResource GroupBoxBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource GroupBoxBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
@@ -34,6 +36,7 @@
                                                     BorderBrush="Transparent"
                                                     BorderThickness="{TemplateBinding BorderThickness}"
                                                     CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    Focusable="False"
                                                     RenderingBias="{Binding Path=(controls:DropShadowControl.RenderingBias), RelativeSource={RelativeSource TemplatedParent}}"
                                                     ShadowColor="{Binding Path=(controls:DropShadowControl.ShadowColor), RelativeSource={RelativeSource TemplatedParent}}"
                                                     ShadowDepth="{Binding Path=(controls:DropShadowControl.ShadowDepth), RelativeSource={RelativeSource TemplatedParent}}"
@@ -71,6 +74,8 @@
                                           Grid.Column="1"
                                           Grid.ColumnSpan="2"
                                           Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Grid>
                     <ControlTemplate.Triggers>

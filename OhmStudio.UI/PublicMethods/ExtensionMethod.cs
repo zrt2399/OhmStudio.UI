@@ -228,6 +228,19 @@ namespace OhmStudio.UI.PublicMethods
             }
         }
 
+        public static UIElement GetFirstFocusable(this object obj)
+        {
+            if (obj is not UIElement uIElement)
+            {
+                return null;
+            }
+            if (uIElement.Focusable)
+            {
+                return uIElement;
+            }
+            return uIElement.FindChildrenOfType<UIElement>().FirstOrDefault(x => x.Focusable);
+        }
+
         public static T GetParentOfType<T>(this DependencyObject obj)
         {
             DependencyObject parent = obj is Visual or Visual3D ? VisualTreeHelper.GetParent(obj) : LogicalTreeHelper.GetParent(obj);
