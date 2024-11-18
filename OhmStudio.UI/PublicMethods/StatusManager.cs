@@ -13,15 +13,7 @@ namespace OhmStudio.UI.PublicMethods
 
         public static event EventHandler IsRunningChanged;
 
-        private static StatusManager _current;
-        public static StatusManager Current
-        {
-            get
-            {
-                _current ??= new StatusManager();
-                return _current;
-            }
-        }
+        public static StatusManager Current = new StatusManager();
 
         private bool _isRunning;
         public bool IsRunning
