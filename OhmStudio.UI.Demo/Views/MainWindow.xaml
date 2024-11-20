@@ -184,10 +184,11 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <ComboBox Margin="6,0"
-                      ItemsSource="{Binding FontSizeList}"
-                      SelectedItem="{Binding CurrentFontSize}"
-                      TextBoxAttach.Title="字体大小：" />
+            <NumericUpDown Margin="6,0"
+                           Maximum="20"
+                           Minimum="10"
+                           TextBoxAttach.Title="字体大小："
+                           Value="{Binding CurrentFontSize}" />
             <ComboBox ItemsSource="{Binding Source={EnumBindingSource ThemeType}}"
                       SelectedItem="{Binding CurrentTheme}"
                       TextBoxAttach.Title="主题：" />

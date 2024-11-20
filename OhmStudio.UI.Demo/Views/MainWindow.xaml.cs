@@ -80,6 +80,16 @@ namespace OhmStudio.UI.Demo.Views
             }
         }
 
+        protected override async void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (e.Key == Key.Tab)
+            {
+                await Task.Delay(100);
+                _mainViewModel.StatusBarContent = $"当前获取焦点元素：{Keyboard.FocusedElement}";
+            }
+        }
+
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             foreach (var item in _mainViewModel.Employees)

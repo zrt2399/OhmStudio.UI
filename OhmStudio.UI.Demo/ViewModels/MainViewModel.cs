@@ -17,7 +17,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Bogus;
-using Bogus.DataSets;
 using LiveCharts;
 using Microsoft.Win32;
 using OhmStudio.UI.Attaches;
@@ -278,8 +277,6 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         public ObservableCollection<string> SelectorAttachTest { get; set; }
 
-        public IEnumerable<double> FontSizeList { get; } = Enumerable.Range(10, 11).Select(x => (double)x);
-
         public Employee Employee { get; set; } = new Employee();
 
         public object SelectedObject { get; set; }
@@ -386,15 +383,11 @@ namespace OhmStudio.UI.Demo.ViewModels
             set => _startCommand = value;
         }
 
-        [DoNotNotify]
+        [DoNotCheckEquality]
         public ThemeType CurrentTheme
         {
             get => XamlThemeDictionary.Current.Theme;
-            set
-            {
-                XamlThemeDictionary.Current.Theme = value;
-                OnPropertyChanged(() => CurrentTheme);
-            }
+            set => XamlThemeDictionary.Current.Theme = value;
         }
 
         private FontFamilyItem _currentFontFamily = _defaultFontFamilyItem;
@@ -414,20 +407,12 @@ namespace OhmStudio.UI.Demo.ViewModels
             }
         }
 
-        [DoNotNotify]
         public double CurrentFontSize
         {
-            get => (double)(Application.Current?.Resources[GlobalFontSize]);
-            set
-            {
-                if (FontSizeList.Contains(value))
-                {
-                    Application.Current.Resources[GlobalFontSize] = value;
-                    OnPropertyChanged(nameof(CurrentFontSize));
-                }
-            }
+            get => (double)Application.Current.Resources[GlobalFontSize];
+            set => Application.Current.Resources[GlobalFontSize] = value;
         }
-
+  
         private void XamlThemeDictionary_ThemeChanged(object sender, EventArgs e)
         {
             CurrentTheme = (sender as XamlThemeDictionary).Theme;
