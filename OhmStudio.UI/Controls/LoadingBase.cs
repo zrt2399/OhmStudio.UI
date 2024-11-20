@@ -18,11 +18,11 @@ namespace OhmStudio.UI.Controls
                 var loadingBase = (LoadingBase)sender;
                 if ((bool)args.NewValue)
                 {
-                    loadingBase.Storyboard?.Resume();
+                    loadingBase.Storyboard?.Begin();
                 }
                 else
                 {
-                    loadingBase.Storyboard?.Pause();
+                    loadingBase.Storyboard?.Stop();
                 }
             }));
 
@@ -309,7 +309,7 @@ namespace OhmStudio.UI.Controls
             Storyboard.Begin();
             if (!IsRunning)
             {
-                Storyboard.Pause();
+                Storyboard.Stop();
             }
         }
 
@@ -435,7 +435,7 @@ namespace OhmStudio.UI.Controls
             Storyboard.Begin();
             if (!IsRunning)
             {
-                Storyboard.Pause();
+                Storyboard.Stop();
             }
         }
 
