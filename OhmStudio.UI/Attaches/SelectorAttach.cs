@@ -53,6 +53,19 @@ namespace OhmStudio.UI.Attaches
             return (bool)obj.GetValue(IsAutoScrollToEndProperty);
         }
 
+        public static readonly DependencyProperty IgnoreAutoScrollOnMouseOverProperty =
+            DependencyProperty.RegisterAttached("IgnoreAutoScrollOnMouseOver", typeof(bool), typeof(SelectorAttach));
+
+        public static bool GetIgnoreAutoScrollOnMouseOver(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IgnoreAutoScrollOnMouseOverProperty);
+        }
+
+        public static void SetIgnoreAutoScrollOnMouseOver(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IgnoreAutoScrollOnMouseOverProperty, value);
+        }
+
         private static void SelectedChangedCallBack(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             if (obj is Selector selector)
@@ -121,9 +134,16 @@ namespace OhmStudio.UI.Attaches
 
         private static void SelectorAttach_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add && CollectionToSelectorMap.TryGetValue(sender, out var selector) && selector.Items.Count > 0)
+            if (CollectionToSelectorMap.TryGetValue(sender, out var selector))
             {
-                selector.ScrollToEnd();
+                if (selector.IsMouseOver && GetIgnoreAutoScrollOnMouseOver(selector))
+                {
+                    return;
+                }
+                if (e.Action == NotifyCollectionChangedAction.Add && selector.Items.Count > 0)
+                {
+                    selector.ScrollToEnd();
+                }
             }
         }
     }
