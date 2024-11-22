@@ -28,7 +28,7 @@ using OhmStudio.UI.Demo.Views;
 using OhmStudio.UI.Helpers;
 using OhmStudio.UI.Messaging;
 using OhmStudio.UI.Mvvm;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Utilities;
 using PropertyChanged;
 
 namespace OhmStudio.UI.Demo.ViewModels

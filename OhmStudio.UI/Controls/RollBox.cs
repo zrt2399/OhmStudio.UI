@@ -8,7 +8,7 @@ using System.Windows.Markup;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using OhmStudio.UI.Commands;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Utilities;
 
 namespace OhmStudio.UI.Controls
 {

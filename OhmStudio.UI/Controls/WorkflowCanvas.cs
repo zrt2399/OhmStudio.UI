@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using OhmStudio.UI.Helpers;
 using OhmStudio.UI.Messaging;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Utilities;
 
 namespace OhmStudio.UI.Controls
 {

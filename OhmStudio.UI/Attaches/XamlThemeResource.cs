@@ -2,7 +2,7 @@
 using System.Windows;
 using Microsoft.Win32;
 using OhmStudio.UI.Helpers;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Utilities;
 
 namespace OhmStudio.UI.Attaches
 {

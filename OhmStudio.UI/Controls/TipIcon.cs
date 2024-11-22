@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using OhmStudio.UI.Messaging;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Utilities;
 
 namespace OhmStudio.UI.Controls
 {
