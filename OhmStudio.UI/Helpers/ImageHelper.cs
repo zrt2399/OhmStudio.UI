@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Utilities;
 
 namespace OhmStudio.UI.Helpers
 {

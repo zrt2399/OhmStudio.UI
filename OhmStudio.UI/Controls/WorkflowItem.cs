@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using OhmStudio.UI.Commands;
 using OhmStudio.UI.Helpers;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Utilities;
 
 namespace OhmStudio.UI.Controls
 {

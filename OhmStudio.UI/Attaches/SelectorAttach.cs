@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Utilities;
 
 namespace OhmStudio.UI.Attaches
 {

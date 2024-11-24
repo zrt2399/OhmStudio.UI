@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace OhmStudio.UI.PublicMethods
+namespace OhmStudio.UI.Utilities
 {
     public static class Transformation
     {
@@ -71,7 +71,7 @@ namespace OhmStudio.UI.PublicMethods
 
             if (height % 8 != 0)
             {
-                height += 8 - (height % 8);
+                height += 8 - height % 8;
             }
 
             byte[] bytesTemp = new byte[height / 8 * width];
@@ -90,7 +90,7 @@ namespace OhmStudio.UI.PublicMethods
                             Color color = bitmap.GetPixel(i, j * 8 + k);
                             if (color.R == Color.Black.R && color.G == Color.Black.G && color.B == Color.Black.B)
                             {
-                                value = (value << 1) | 1;
+                                value = value << 1 | 1;
                             }
                             else
                             {

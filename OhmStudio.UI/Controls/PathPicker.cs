@@ -221,13 +221,14 @@ namespace OhmStudio.UI.Controls
             else
             {
                 FileDialog fileDialog;
+                var multiselect = Multiselect;
                 if (UseSaveDialog)
                 {
                     fileDialog = new SaveFileDialog();
                 }
                 else
                 {
-                    fileDialog = new OpenFileDialog() { Multiselect = Multiselect, CheckFileExists = true };
+                    fileDialog = new OpenFileDialog() { Multiselect = multiselect, CheckFileExists = true };
                 }
                 fileDialog.Title = Title;
                 fileDialog.CheckPathExists = true;
@@ -239,7 +240,7 @@ namespace OhmStudio.UI.Controls
                 {
                     return;
                 }
-                FileNames = Multiselect ? fileDialog.FileNames : new string[] { fileDialog.FileName };
+                FileNames = multiselect ? fileDialog.FileNames : new string[] { fileDialog.FileName };
             }
         }
 

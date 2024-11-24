@@ -10,7 +10,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
 using OhmStudio.UI.Attaches;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Utilities;
 
 namespace OhmStudio.UI.Controls
 {

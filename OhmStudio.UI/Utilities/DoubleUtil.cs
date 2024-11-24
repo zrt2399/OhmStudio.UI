@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 
-namespace OhmStudio.UI.PublicMethods
+namespace OhmStudio.UI.Utilities
 {
     public static class DoubleUtil
     {
@@ -164,7 +164,7 @@ namespace OhmStudio.UI.PublicMethods
 
         public static bool IsNaN(double value)
         {
-            NanUnion nanUnion = default(NanUnion);
+            NanUnion nanUnion = default;
             nanUnion.DoubleValue = value;
             ulong num = nanUnion.UintValue & 0xFFF0000000000000uL;
             ulong num2 = nanUnion.UintValue & 0xFFFFFFFFFFFFFuL;

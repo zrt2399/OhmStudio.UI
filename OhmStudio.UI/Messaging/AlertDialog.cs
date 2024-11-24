@@ -4,7 +4,7 @@ using System.Media;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Utilities;
 using OhmStudio.UI.Views;
 
 namespace OhmStudio.UI.Messaging

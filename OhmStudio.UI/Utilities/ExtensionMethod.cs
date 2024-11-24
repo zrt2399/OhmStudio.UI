@@ -13,7 +13,7 @@ using OhmStudio.UI.Controls;
 using OhmStudio.UI.Helpers;
 using Expression = System.Linq.Expressions.Expression;
 
-namespace OhmStudio.UI.PublicMethods
+namespace OhmStudio.UI.Utilities
 {
     public static class ExtensionMethod
     {
@@ -31,7 +31,7 @@ namespace OhmStudio.UI.PublicMethods
             animation.Completed += delegate (object sender, EventArgs e)
             {
                 animatableElement.SetValue(dependencyProperty, animatableElement.GetValue(dependencyProperty));
-                CancelAnimation(animatableElement, dependencyProperty);
+                animatableElement.CancelAnimation(dependencyProperty);
 
                 completedEvent?.Invoke(sender, e);
             };

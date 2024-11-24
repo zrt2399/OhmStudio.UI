@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Utilities;
 
 namespace OhmStudio.UI.Controls
 {

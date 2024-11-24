@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using AvalonDock.Controls;
 using AvalonDock.Layout;
-using OhmStudio.UI.PublicMethods;
+using OhmStudio.UI.Utilities;
 
 namespace OhmStudio.UI.Controls
 {

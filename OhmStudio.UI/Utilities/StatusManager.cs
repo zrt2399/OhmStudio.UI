@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 
-namespace OhmStudio.UI.PublicMethods
+namespace OhmStudio.UI.Utilities
 {
     public class StatusManager
     {
