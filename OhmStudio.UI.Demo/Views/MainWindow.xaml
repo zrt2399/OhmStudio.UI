@@ -528,6 +528,9 @@
                                                                ShowLineNumbers="True"
                                                                SyntaxHighlighting="C#" />
                                     </TabItem>
+                                    <TabItem Header="RichTextBox">
+                                        <RichTextBox />
+                                    </TabItem>
                                 </TabControl>
                             </LayoutDocument>
                             <LayoutDocument Title="ProgressBar">
@@ -536,7 +539,7 @@
                                     <UniformGrid Rows="2">
                                         <GroupBox Margin="10,0" Header="ProgressBar">
                                             <UniformGrid>
-                                                <ProgressBar Height="50"
+                                                <ProgressBar Height="40"
                                                              VerticalAlignment="Center"
                                                              IsIndeterminate="{Binding IsIndeterminate}"
                                                              Style="{x:Null}" />
@@ -545,7 +548,7 @@
                                                              ProgressBarAttach.Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, StringFormat=当前总进度：{0}%}"
                                                              Value="{Binding ProgressBarValue}" />
 
-                                                <ProgressBar Height="50"
+                                                <ProgressBar Height="40"
                                                              VerticalAlignment="Center"
                                                              IsIndeterminate="{Binding IsIndeterminate}" />
                                                 <ProgressBar VerticalAlignment="Center"

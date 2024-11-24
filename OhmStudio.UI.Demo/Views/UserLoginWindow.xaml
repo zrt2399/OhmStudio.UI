@@ -22,6 +22,7 @@
         <RunningBlock IsRunning="False">
             <Button>Button</Button>
         </RunningBlock>
+        <ProgressBar Height="4" IsIndeterminate="True" />
         <TextBox>TextBox</TextBox>
         <Button Click="Button_Click">随机切换主题</Button>
         <Button Click="Button_Click_1">提示</Button>
