@@ -1,40 +1,27 @@
-﻿<ResourceDictionary x:Class="OhmStudio.UI.Styles.Custom.TextBoxAttach"
-                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
-                    x:ClassModifier="public">
+                    xmlns:attaches="clr-namespace:OhmStudio.UI.Attaches"
+                    xmlns:converters="clr-namespace:OhmStudio.UI.Converters">
 
-    <Style x:Key="PlaceHolderWithTemplatedParent" TargetType="ContentControl">
-        <EventSetter Event="GotFocus" Handler="ContentControl_GotFocus" />
+    <converters:NotNullOrEmptyToVisibilityConverter x:Key="NotNullOrEmptyToVisibilityConverter" />
+
+    <Style x:Key="PlaceHolderWithTemplatedParent" TargetType="ContentPresenter">
         <Setter Property="Margin" Value="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}" />
         <Setter Property="VerticalAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
         <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
-        <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}" />
-        <Setter Property="Opacity" Value="{Binding Path=(TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}" />
-        <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.PlaceHolderIsHitTestVisible), RelativeSource={RelativeSource TemplatedParent}}" />
-        <Setter Property="Visibility" Value="{Binding Path=(TextBoxAttach.PlaceHolderVisibility), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="Content" Value="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="Opacity" Value="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="IsHitTestVisible" Value="{Binding Path=(attaches:TextBoxAttach.PlaceHolderIsHitTestVisible), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="Visibility" Value="{Binding Path=(attaches:TextBoxAttach.PlaceHolderVisibility), RelativeSource={RelativeSource TemplatedParent}}" />
 
-        <Style.Triggers>
-            <Trigger Property="IsHitTestVisible" Value="False">
-                <Setter Property="Focusable" Value="False" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
-    <Style x:Key="TitleWithTemplatedParent" TargetType="ContentControl">
-        <EventSetter Event="GotFocus" Handler="ContentControl_GotFocus" />
-        <Setter Property="DockPanel.Dock" Value="{Binding Path=(TextBoxAttach.TitlePlacement), RelativeSource={RelativeSource TemplatedParent}}" />
-        <Setter Property="Content" Value="{Binding Path=(TextBoxAttach.Title), RelativeSource={RelativeSource TemplatedParent}}" />
-        <Setter Property="IsHitTestVisible" Value="{Binding Path=(TextBoxAttach.TitleIsHitTestVisible), RelativeSource={RelativeSource TemplatedParent}}" />
+    <Style x:Key="TitleWithTemplatedParent" TargetType="ContentPresenter">
+        <Setter Property="DockPanel.Dock" Value="{Binding Path=(attaches:TextBoxAttach.TitlePlacement), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="Content" Value="{Binding Path=(attaches:TextBoxAttach.Title), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="IsHitTestVisible" Value="{Binding Path=(attaches:TextBoxAttach.TitleIsHitTestVisible), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="Visibility" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content, Converter={StaticResource NotNullOrEmptyToVisibilityConverter}}" />
 
-        <Style.Triggers>
-            <Trigger Property="IsHitTestVisible" Value="False">
-                <Setter Property="Focusable" Value="False" />
-            </Trigger>
-            <Trigger Property="Content" Value="{x:Null}">
-                <Setter Property="Visibility" Value="Collapsed" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

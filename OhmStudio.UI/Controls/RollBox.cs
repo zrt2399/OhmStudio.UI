@@ -8,7 +8,6 @@ using System.Windows.Markup;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using OhmStudio.UI.Commands;
-using OhmStudio.UI.Utilities;
 
 namespace OhmStudio.UI.Controls
 {
@@ -16,7 +15,7 @@ namespace OhmStudio.UI.Controls
     public class RollBox : Control
     {
         private DispatcherTimer dispatcherTimer = new DispatcherTimer();
-        private ContentControl PART_CURR_Content;
+        private ContentPresenter PART_CURR_Content;
         //private ContentControl PART_NEXT_Content;
         private ListBox PART_ListBox;
         private Button PART_PreviousButton;
@@ -179,7 +178,7 @@ namespace OhmStudio.UI.Controls
                 PART_ListBox.SelectionChanged -= PART_ListBox_SelectionChanged;
             }
             base.OnApplyTemplate();
-            PART_CURR_Content = GetTemplateChild("PART_CURR_Content") as ContentControl;
+            PART_CURR_Content = GetTemplateChild("PART_CURR_Content") as ContentPresenter;
             //PART_NEXT_Content = GetTemplateChild("PART_NEXT_Content") as ContentControl;
             PART_ListBox = GetTemplateChild("PART_ListBox") as ListBox;
             PART_PreviousButton = GetTemplateChild("PART_PreviousButton") as Button;
@@ -238,18 +237,18 @@ namespace OhmStudio.UI.Controls
             {
                 if (Equals(e.OriginalSource, this))
                 {
-                    UIElement uIElement;
-                    if ((uIElement = PART_CURR_Content.Content.GetFirstFocusable()) != null)
-                    {
-                        uIElement.Focus();
-                        e.Handled = true;
-                    }
+                    //UIElement uIElement;
+                    //if ((uIElement = PART_CURR_Content.Content.GetFirstFocusable()) != null)
+                    //{
+                    //    uIElement.Focus();
+                    //    e.Handled = true;
+                    //}
                     //else if ((uIElement = GetFirstFocusable(PART_NEXT_Content.Content)) != null)
                     //{
                     //    uIElement.Focus();
                     //    e.Handled = true;
                     //}
-                    else if (PART_PreviousButton != null)
+                    if (PART_PreviousButton != null)
                     {
                         PART_PreviousButton.Focus();
                         e.Handled = true;

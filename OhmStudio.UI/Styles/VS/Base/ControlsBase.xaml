@@ -19,10 +19,12 @@
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ProgressBarBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/RadioButtonBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ResizeGripBase.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/RichTextBoxBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ScrollViewerBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/StatusBarBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/TabControlBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/TextBoxBase.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/TextBlockBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ToolBarBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/ToolTipBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/OhmStudio.UI;Component/Styles/VS/Base/TreeViewBase.xaml" />
@@ -175,6 +177,10 @@
            BasedOn="{StaticResource ResizeGripBaseStyle}"
            TargetType="{x:Type ResizeGrip}" />
 
+    <Style x:Key="{x:Type RichTextBox}"
+           BasedOn="{StaticResource RichTextBoxBaseStyle}"
+           TargetType="{x:Type RichTextBox}" />
+
     <Style x:Key="{x:Type ScrollBar}"
            BasedOn="{StaticResource ScrollBarBaseStyle}"
            TargetType="{x:Type ScrollBar}" />
@@ -210,6 +216,10 @@
     <Style x:Key="{x:Type TextBox}"
            BasedOn="{StaticResource {x:Type TextBoxBase}}"
            TargetType="{x:Type TextBox}" />
+
+    <Style x:Key="{x:Type TextBlock}"
+           BasedOn="{StaticResource TextBlockBaseStyle}"
+           TargetType="{x:Type TextBlock}" />
 
     <Style x:Key="{x:Static ToolBar.SeparatorStyleKey}"
            BasedOn="{StaticResource ToolBarSeparatorBaseStyle}"

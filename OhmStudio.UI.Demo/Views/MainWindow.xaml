@@ -570,12 +570,18 @@
                                                         Value="{Binding ProgressBarValue}" />
                                                 <UniformGrid Grid.Row="1" Columns="4">
                                                     <CircleProgressBar BorderBrush="#FF06B025" Value="{Binding ProgressBarValue}" />
-                                                    <CircleProgressBar Title="进度"
-                                                                       HorizontalContentAlignment="Left"
+                                                    <CircleProgressBar HorizontalContentAlignment="Left"
                                                                        VerticalContentAlignment="Top"
-                                                                       Value="{Binding ProgressBarValue}" />
+                                                                       Value="{Binding ProgressBarValue}">
+                                                        <StackPanel>
+                                                            <TextBlock>进度</TextBlock>
+                                                            <TextBlock Text="{Binding ProgressBarValue, StringFormat={}{0}%}" />
+                                                        </StackPanel>
+                                                    </CircleProgressBar>
                                                     <CircleProgressBar BorderBrush="{DynamicResource ProgressBarProgress}" Value="50" />
-                                                    <CircleProgressBar Title="计划" Value="3.14159" />
+                                                    <CircleProgressBar Value="3.14159">
+                                                        <TextBlock Text="{Binding ProgressBarValue, StringFormat={}{0}%}" />
+                                                    </CircleProgressBar>
                                                     <LoadingLine IsRunning="{Binding IsIndeterminate}" />
                                                     <LoadingCircle IsRunning="{Binding IsIndeterminate}" />
                                                 </UniformGrid>
@@ -1237,7 +1243,7 @@
                                                          HorizontalContentAlignment="Right"
                                                          VerticalContentAlignment="Bottom"
                                                          Text="{Binding Range, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                                                         TextBoxAttach.TitleIsHitTestVisible="True">
+                                                         TextBoxAttach.TitleIsHitTestVisible="False">
                                                     <TextBoxAttach.Title>
                                                         <UniformGrid Columns="1">
                                                             <Button>TextBox1：</Button>

@@ -126,7 +126,7 @@
 
     <ControlTemplate x:Key="ComboBoxTemplate" TargetType="{x:Type ComboBox}">
         <DockPanel>
-            <ContentControl Style="{DynamicResource TitleWithTemplatedParent}" />
+            <ContentPresenter Style="{DynamicResource TitleWithTemplatedParent}" />
             <Grid Grid.IsSharedSizeScope="True" SnapsToDevicePixels="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -167,7 +167,7 @@
                               IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                               Style="{StaticResource ToolBarComboBoxTransparentButtonStyle}" />
 
-                <ContentControl Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
+                <ContentPresenter Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
 
                 <Popup Name="PART_Popup"
                        AllowsTransparency="True"

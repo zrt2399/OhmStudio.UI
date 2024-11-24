@@ -26,11 +26,11 @@ namespace OhmStudio.UI.Controls
         internal static readonly DependencyProperty ValueTextProperty =
             DependencyProperty.Register(nameof(ValueText), typeof(string), typeof(NumericUpDown), new PropertyMetadata("0"));
 
-        internal static readonly DependencyProperty IncreaseEnabledProperty =
-            DependencyProperty.Register(nameof(IncreaseEnabled), typeof(bool), typeof(NumericUpDown), new PropertyMetadata(true));
+        internal static readonly DependencyProperty IsIncreaseEnabledProperty =
+            DependencyProperty.Register(nameof(IsIncreaseEnabled), typeof(bool), typeof(NumericUpDown), new PropertyMetadata(true));
 
-        internal static readonly DependencyProperty DecreaseEnabledProperty =
-            DependencyProperty.Register(nameof(DecreaseEnabled), typeof(bool), typeof(NumericUpDown), new PropertyMetadata(true));
+        internal static readonly DependencyProperty IsDecreaseEnabledProperty =
+            DependencyProperty.Register(nameof(IsDecreaseEnabled), typeof(bool), typeof(NumericUpDown), new PropertyMetadata(true));
 
         public static readonly DependencyProperty IncrementProperty =
             DependencyProperty.Register(nameof(Increment), typeof(double), typeof(NumericUpDown), new PropertyMetadata(1d));
@@ -67,7 +67,7 @@ namespace OhmStudio.UI.Controls
                         numericUpDown.Value = newValue;
                     }
                     CoerceRange(numericUpDown);
-                    numericUpDown.IncreaseEnabled = numericUpDown.Value < newValue;
+                    numericUpDown.IsIncreaseEnabled = numericUpDown.Value < newValue;
                 }
             }));
 
@@ -81,7 +81,7 @@ namespace OhmStudio.UI.Controls
                         numericUpDown.Value = newValue;
                     }
                     CoerceRange(numericUpDown);
-                    numericUpDown.DecreaseEnabled = numericUpDown.Value > newValue;
+                    numericUpDown.IsDecreaseEnabled = numericUpDown.Value > newValue;
                 }
             }));
 
@@ -95,16 +95,16 @@ namespace OhmStudio.UI.Controls
             set => SetValue(ValueTextProperty, value);
         }
 
-        internal bool IncreaseEnabled
+        internal bool IsIncreaseEnabled
         {
-            get => (bool)GetValue(IncreaseEnabledProperty);
-            set => SetValue(IncreaseEnabledProperty, value);
+            get => (bool)GetValue(IsIncreaseEnabledProperty);
+            set => SetValue(IsIncreaseEnabledProperty, value);
         }
 
-        internal bool DecreaseEnabled
+        internal bool IsDecreaseEnabled
         {
-            get => (bool)GetValue(DecreaseEnabledProperty);
-            set => SetValue(DecreaseEnabledProperty, value);
+            get => (bool)GetValue(IsDecreaseEnabledProperty);
+            set => SetValue(IsDecreaseEnabledProperty, value);
         }
 
         public double Increment
@@ -233,8 +233,8 @@ namespace OhmStudio.UI.Controls
                 var integer = (long)Value;
                 ValueText = string.Format(StringFormat, integer == Value ? integer.ToString(ValueFormat) : Value.ToString(ValueFormat));
 
-                IncreaseEnabled = Value < Maximum;
-                DecreaseEnabled = Value > Minimum;
+                IsIncreaseEnabled = Value < Maximum;
+                IsDecreaseEnabled = Value > Minimum;
             }
         }
 
