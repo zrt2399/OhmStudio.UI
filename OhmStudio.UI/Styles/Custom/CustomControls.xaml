@@ -66,6 +66,7 @@
     <converters:AllFalseToVisibilityConverter x:Key="AllFalseToVisibilityConverter" />
     <converters:AnyTrueToVisibilityConverter x:Key="AnyTrueToVisibilityConverter" />
     <converters:AnyFalseToVisibilityConverter x:Key="AnyFalseToVisibilityConverter" />
+    <converters:InvertBoolConverter x:Key="InvertBoolConverter" />
 
     <Style x:Key="ContentHostControl" TargetType="Control">
         <Setter Property="Margin" Value="0" />

@@ -39,7 +39,6 @@
         <ListViewIndexConverter x:Key="ListViewIndexConverter" />
         <BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <BoolToCollapsedConverter x:Key="BoolToCollapsedConverter" />
-        <ReverseBoolConverter x:Key="ReverseBoolConverter" />
 
     </Window.Resources>
 
@@ -825,7 +824,7 @@
                                                 <WorkflowEditor.ItemContainerStyle>
                                                     <Style BasedOn="{StaticResource {x:Type WorkflowItem}}" TargetType="WorkflowItem">
                                                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                                        <Setter Property="IsDraggable" Value="{Binding IsLock, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}" />
+                                                        <Setter Property="IsDraggable" Value="{Binding IsLock, Mode=TwoWay, Converter={StaticResource InvertBoolConverter}}" />
                                                         <Setter Property="StepType" Value="{Binding StepType, Mode=TwoWay}" />
                                                         <Setter Property="Width" Value="{Binding Width, Mode=TwoWay}" />
                                                         <Setter Property="Height" Value="{Binding Height, Mode=TwoWay}" />

@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace OhmStudio.UI.Converters
 {
-    public class ReverseBoolConverter : IValueConverter
+    public class InvertBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

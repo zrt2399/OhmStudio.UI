@@ -9,8 +9,6 @@ namespace OhmStudio.UI.Views
     /// </summary>
     public partial class MessageWindow : Window
     {
-        public MessageBoxResult MessageBoxResult { get; private set; }
-
         public MessageWindow(MessageBoxButton messageBoxButton)
         {
             InitializeComponent();
@@ -37,6 +35,8 @@ namespace OhmStudio.UI.Views
                 btnNo.Visibility = Visibility.Visible;
             }
         }
+
+        public MessageBoxResult MessageBoxResult { get; private set; }
 
         protected override void OnSourceInitialized(EventArgs e)
         {
