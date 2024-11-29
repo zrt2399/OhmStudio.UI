@@ -84,9 +84,9 @@
                             <controls:DocumentWrapPanel x:Name="HeaderPanel"
                                                         Margin="0,0,0,2"
                                                         IsItemsHost="true"
-                                                        UseMouseWheelWrap="{Binding RelativeSource={RelativeSource AncestorType=avalonDock:DockingManager}, Path=(controls:DocumentWrapPanel.UseMouseWheelWrap)}"
                                                         IsWrap="{Binding RelativeSource={RelativeSource AncestorType=avalonDock:DockingManager}, Path=(controls:DocumentWrapPanel.IsWrap)}"
-                                                        KeyboardNavigation.TabIndex="1" />
+                                                        KeyboardNavigation.TabIndex="1"
+                                                        UseMouseWheelWrap="{Binding RelativeSource={RelativeSource AncestorType=avalonDock:DockingManager}, Path=(controls:DocumentWrapPanel.UseMouseWheelWrap)}" />
                             <avalonDockControls:DropDownButton x:Name="MenuDropDownButton"
                                                                Grid.Column="1"
                                                                Margin="0,0,0,2"
