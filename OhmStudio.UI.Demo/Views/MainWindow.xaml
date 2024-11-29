@@ -171,57 +171,82 @@
     </ChromeWindow.LeftWindowCommands>
 
     <ChromeWindow.RightWindowCommands>
-        <StackPanel Margin="0,6,0,0"
-                    VerticalAlignment="Top"
-                    Orientation="Horizontal">
-            <ComboBox ItemsSource="{Binding FontFamilyList}"
-                      SelectedItem="{Binding CurrentFontFamily}"
-                      TextBoxAttach.Title="全局字体：">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock FontFamily="{Binding FontFamily}" Text="{Binding Name}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <NumericUpDown Margin="6,0"
-                           Maximum="20"
-                           Minimum="10"
-                           TextBoxAttach.Title="字体大小："
-                           Value="{Binding CurrentFontSize}" />
-            <ComboBox ItemsSource="{Binding Source={EnumBindingSource ThemeType}}"
-                      SelectedItem="{Binding CurrentTheme}"
-                      TextBoxAttach.Title="主题：" />
-            <Border Width="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"
-                    Margin="6,0"
-                    Background="Purple"
-                    CornerRadiusAttach.IsCircular="True"
-                    ToolTip="admin">
-                <TextBlock HorizontalAlignment="Center" Foreground="White">ad</TextBlock>
-            </Border>
-            <Button Click="Button_Click_5"
-                    Focusable="False"
-                    Style="{StaticResource ToolBarButtonBaseStyle}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Name="txtLogin"
-                               Margin="0,0,4,0"
-                               Text="登录" />
-                    <PackIcon Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" Kind="SolidUserPlus" />
-                    <!--<LoadingCircle IsRunning="False">
-                        <i:Interaction.Triggers>
-                            <i:DataTrigger Binding="{Binding ElementName=txtLogin, Path=Text}" Value="登录">
-                                <i:ChangePropertyAction PropertyName="Visibility" Value="Collapsed" />
-                                <i:ChangePropertyAction PropertyName="IsRunning" Value="false" />
-                            </i:DataTrigger>
-                            <i:DataTrigger Binding="{Binding ElementName=txtLogin, Path=Text}" Value="登录中...">
-                                <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
-                                <i:ChangePropertyAction PropertyName="IsRunning" Value="true" />
-                            </i:DataTrigger>
-                        </i:Interaction.Triggers>
-                    </LoadingCircle>-->
-                </StackPanel>
-            </Button>
-        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Margin="0,6,0,0"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal">
+                <ComboBox ItemsSource="{Binding FontFamilyList}"
+                          SelectedItem="{Binding CurrentFontFamily}"
+                          TextBoxAttach.Title="全局字体：">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock FontFamily="{Binding FontFamily}" Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <NumericUpDown Margin="6,0"
+                               Maximum="20"
+                               Minimum="10"
+                               TextBoxAttach.Title="字体大小："
+                               Value="{Binding CurrentFontSize}" />
+                <ComboBox ItemsSource="{Binding Source={EnumBindingSource ThemeType}}"
+                          SelectedItem="{Binding CurrentTheme}"
+                          TextBoxAttach.Title="主题：" />
+                <Border Width="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"
+                        Margin="6,0"
+                        Background="Purple"
+                        CornerRadiusAttach.IsCircular="True"
+                        ToolTip="admin">
+                    <TextBlock HorizontalAlignment="Center" Foreground="White">ad</TextBlock>
+                </Border>
+                <Button Click="Button_Click_5"
+                        Focusable="False"
+                        Style="{StaticResource ToolBarButtonBaseStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="txtLogin"
+                                   Margin="0,0,4,0"
+                                   Text="登录" />
+                        <PackIcon Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" Kind="SolidUserPlus" />
+                        <!--<LoadingCircle IsRunning="False">
+                            <i:Interaction.Triggers>
+                                <i:DataTrigger Binding="{Binding ElementName=txtLogin, Path=Text}" Value="登录">
+                                    <i:ChangePropertyAction PropertyName="Visibility" Value="Collapsed" />
+                                    <i:ChangePropertyAction PropertyName="IsRunning" Value="false" />
+                                </i:DataTrigger>
+                                <i:DataTrigger Binding="{Binding ElementName=txtLogin, Path=Text}" Value="登录中...">
+                                    <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
+                                    <i:ChangePropertyAction PropertyName="IsRunning" Value="true" />
+                                </i:DataTrigger>
+                            </i:Interaction.Triggers>
+                        </LoadingCircle>-->
+                    </StackPanel>
+                </Button>
+            </StackPanel>
 
+            <WindowSystemButton x:Name="btnMenu"
+                                Command="{Binding OpenMenuCommand}"
+                                Data="M14 0v1H3V0h11z M14 4.5v1H3V4.5h11z M14 9v1H3V9h11z"
+                                ToolTip="更多" />
+            <Popup AllowsTransparency="True"
+                   IsOpen="{Binding IsMenuDropDownOpen}"
+                   PlacementTarget="{Binding ElementName=btnMenu}"
+                   PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                   StaysOpen="False">
+                <SystemDropShadowChrome Margin="0,0,5,5" Color="{DynamicResource ControlShadow}">
+                    <Border MinWidth="100"
+                            Background="{DynamicResource CommonControlsComboBoxListBackground}"
+                            BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
+                            BorderThickness="1">
+                        <StackPanel>
+                            <Button>设置</Button>
+                            <Button>更新</Button>
+                            <Button>反馈</Button>
+                            <Button>关于</Button>
+                        </StackPanel>
+                    </Border>
+                </SystemDropShadowChrome>
+            </Popup>
+        </StackPanel>
     </ChromeWindow.RightWindowCommands>
 
     <Grid>

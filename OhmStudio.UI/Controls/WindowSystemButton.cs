@@ -1,6 +1,6 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 
 namespace OhmStudio.UI.Controls
 {
@@ -9,6 +9,10 @@ namespace OhmStudio.UI.Controls
     /// </summary>
     public enum WindowSystemButtonType
     {
+        /// <summary>
+        /// The custom button.
+        /// </summary>
+        Custom,
         /// <summary>
         /// The minimize button.
         /// </summary>
@@ -52,7 +56,7 @@ namespace OhmStudio.UI.Controls
         /// </summary>
         public static readonly DependencyProperty WindowSystemButtonTypeProperty =
             DependencyProperty.Register(nameof(WindowSystemButtonType), typeof(WindowSystemButtonType),
-                typeof(WindowSystemButton), new FrameworkPropertyMetadata(WindowSystemButtonType.Minimize));
+                typeof(WindowSystemButton), new FrameworkPropertyMetadata(WindowSystemButtonType.Custom));
 
         /// <summary>
         /// The button type of <see cref="WindowSystemButton"/>.
@@ -63,39 +67,50 @@ namespace OhmStudio.UI.Controls
             set => SetValue(WindowSystemButtonTypeProperty, value);
         }
 
+        public static readonly DependencyProperty DataProperty =
+            DependencyProperty.Register(nameof(Data), typeof(Geometry), typeof(WindowSystemButton),
+                new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public Geometry Data
+        {
+            get => (Geometry)GetValue(DataProperty);
+            set => SetValue(DataProperty, value);
+        }
+
         /// <summary>
         /// 重写按钮点击事件。
         /// </summary>
-        /// <exception cref="ArgumentException"></exception>
         protected override void OnClick()
         {
             base.OnClick();
-            var window = Window.GetWindow(this);
-            if (window == null)
+            if (WindowSystemButtonType == WindowSystemButtonType.Custom)
             {
                 return;
             }
 
-            switch (WindowSystemButtonType)
+            if (Window.GetWindow(this) is Window window)
             {
-                case WindowSystemButtonType.Minimize:
-                    SystemCommands.MinimizeWindow(window);
-                    break;
+                switch (WindowSystemButtonType)
+                {
+                    case WindowSystemButtonType.Minimize:
+                        SystemCommands.MinimizeWindow(window);
+                        break;
 
-                case WindowSystemButtonType.Maximize:
-                    SystemCommands.MaximizeWindow(window);
-                    break;
+                    case WindowSystemButtonType.Maximize:
+                        SystemCommands.MaximizeWindow(window);
+                        break;
 
-                case WindowSystemButtonType.Restore:
-                    SystemCommands.RestoreWindow(window);
-                    break;
+                    case WindowSystemButtonType.Restore:
+                        SystemCommands.RestoreWindow(window);
+                        break;
 
-                case WindowSystemButtonType.Close:
-                    window.Close();
-                    break;
+                    case WindowSystemButtonType.Close:
+                        window.Close();
+                        break;
 
-                default:
-                    throw new ArgumentException("Invalid WindowSystemButtonType!");
+                    default:
+                        break;
+                }
             }
         }
     }

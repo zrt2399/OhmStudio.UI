@@ -67,7 +67,7 @@ namespace OhmStudio.UI.Utilities
         {
             if (!points.Any())
             {
-                return null;
+                return Geometry.Empty;
             }
 
             var geometry = new StreamGeometry();

@@ -49,6 +49,7 @@ namespace OhmStudio.UI.Demo.ViewModels
             ZoomOutCommand = new RelayCommand(ZoomOut);
             SearchCommand = new RelayCommand(() => UIMessageTip.Show("什么也没搜索到..."));
             SearchTestCommand = new RelayCommand(() => IsDropDownOpen = true);
+            OpenMenuCommand = new RelayCommand(() => IsMenuDropDownOpen = true);
             TreeViewAddCommand = new RelayCommand(() =>
             {
                 var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
@@ -322,6 +323,8 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         public bool IsDropDownOpen { get; set; }
 
+        public bool IsMenuDropDownOpen { get; set; }
+
         public CornerRadius CornerRadius { get; set; }
 
         private int _globalCornerRadius;
@@ -344,6 +347,8 @@ namespace OhmStudio.UI.Demo.ViewModels
         public ICommand SearchCommand { get; }
 
         public ICommand SearchTestCommand { get; }
+
+        public ICommand OpenMenuCommand { get; }
 
         public ICommand TreeViewAddCommand { get; }
 
@@ -412,7 +417,7 @@ namespace OhmStudio.UI.Demo.ViewModels
             get => (double)Application.Current.Resources[GlobalFontSize];
             set => Application.Current.Resources[GlobalFontSize] = value;
         }
-  
+
         private void XamlThemeDictionary_ThemeChanged(object sender, EventArgs e)
         {
             CurrentTheme = (sender as XamlThemeDictionary).Theme;
