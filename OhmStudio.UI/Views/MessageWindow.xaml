@@ -167,6 +167,7 @@
                          HorizontalScrollBarVisibility="Disabled"
                          IsReadOnly="True"
                          TextWrapping="Wrap"
+                         UseLayoutRounding="False"
                          VerticalScrollBarVisibility="Auto" />
             </Grid>
         </Grid>
