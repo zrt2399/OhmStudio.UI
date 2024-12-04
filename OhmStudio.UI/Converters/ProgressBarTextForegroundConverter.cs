@@ -21,7 +21,7 @@ namespace OhmStudio.UI.Converters
             var foreground = values[8] as Brush;
             var invertedForeground = Brushes.White /*values[9] as Brush*/;
 
-            if (textWidth == 0 || actualWidth == 0)
+            if (textWidth == 0 || double.IsNaN(textWidth) || actualWidth == 0 || double.IsNaN(actualWidth))
             {
                 return foreground;
             }
@@ -29,7 +29,7 @@ namespace OhmStudio.UI.Converters
             var totalPercent = ((value - min) / (max - min));
             var percentWidth = actualWidth * totalPercent;
             var innerWidth = percentWidth - ((actualWidth - textWidth) / 2);
-            if (innerWidth <= 0)
+            if (innerWidth <= 0 || double.IsNaN(innerWidth))
             {
                 return foreground;
             }
