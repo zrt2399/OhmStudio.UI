@@ -437,7 +437,7 @@
                                             </theme:SystemDropShadowChrome.MinWidth>
                                             <Border Background="{DynamicResource CommonControlsComboBoxListBackground}"
                                                     BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
-                                                    BorderThickness="1"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
                                                     SnapsToDevicePixels="True">
                                                 <ContentPresenter Content="{TemplateBinding SearchedContent}" />
                                             </Border>

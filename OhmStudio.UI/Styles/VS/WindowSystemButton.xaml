@@ -1,7 +1,8 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controlzEx="urn:controlzex"
-                    xmlns:ctrls="clr-namespace:OhmStudio.UI.Controls">
+                    xmlns:ctrls="clr-namespace:OhmStudio.UI.Controls"
+                    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
     <Style x:Key="WindowSystemButtonBaseStyle" TargetType="{x:Type ctrls:WindowSystemButton}">
         <Setter Property="Background" Value="{DynamicResource EnvironmentMainWindowButtonActive}" />
@@ -24,15 +25,32 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                        <Path Width="10"
-                              Height="10"
-                              Margin="{TemplateBinding Padding}"
-                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                              Data="{TemplateBinding Data}"
-                              Fill="{TemplateBinding Foreground}"
-                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                              Stretch="Uniform" />
+                        <ctrls:SimplePanel>
+                            <Path Width="10"
+                                  Height="10"
+                                  Margin="{TemplateBinding Padding}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Data="{TemplateBinding Data}"
+                                  Fill="{TemplateBinding Foreground}"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                  Stretch="Uniform" />
+                            <Popup x:Name="PART_Popup"
+                                   AllowsTransparency="True"
+                                   IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                   PlacementTarget="{Binding ElementName=Border}"
+                                   PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"
+                                   StaysOpen="False">
+                                <theme:SystemDropShadowChrome x:Name="Shadow" Color="Transparent">
+                                    <Border Background="{DynamicResource CommonControlsComboBoxListBackground}"
+                                            BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            SnapsToDevicePixels="True">
+                                        <ContentPresenter />
+                                    </Border>
+                                </theme:SystemDropShadowChrome>
+                            </Popup>
+                        </ctrls:SimplePanel>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
@@ -84,6 +102,11 @@
                             <Setter Property="Background" Value="{DynamicResource EnvironmentMainWindowButtonDown}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonDownBorder}" />
                             <Setter Property="Foreground" Value="{DynamicResource EnvironmentMainWindowButtonDownGlyph}" />
+                        </Trigger>
+                        <Trigger SourceName="PART_Popup" Property="Popup.HasDropShadow" Value="True">
+                            <Setter TargetName="Shadow" Property="Margin" Value="0,0,5,5" />
+                            <Setter TargetName="Shadow" Property="SnapsToDevicePixels" Value="True" />
+                            <Setter TargetName="Shadow" Property="Color" Value="{DynamicResource ControlShadow}" />
                         </Trigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>

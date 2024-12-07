@@ -223,29 +223,14 @@
                 </Button>
             </StackPanel>
 
-            <WindowSystemButton x:Name="btnMenu"
-                                Command="{Binding OpenMenuCommand}"
-                                Data="M14 0v1H3V0h11z M14 4.5v1H3V4.5h11z M14 9v1H3V9h11z"
-                                ToolTip="更多" />
-            <Popup AllowsTransparency="True"
-                   IsOpen="{Binding IsMenuDropDownOpen}"
-                   PlacementTarget="{Binding ElementName=btnMenu}"
-                   PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-                   StaysOpen="False">
-                <SystemDropShadowChrome Margin="0,0,5,5" Color="{DynamicResource ControlShadow}">
-                    <Border MinWidth="100"
-                            Background="{DynamicResource CommonControlsComboBoxListBackground}"
-                            BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
-                            BorderThickness="1">
-                        <StackPanel>
-                            <Button>设置</Button>
-                            <Button>更新</Button>
-                            <Button>反馈</Button>
-                            <Button>关于</Button>
-                        </StackPanel>
-                    </Border>
-                </SystemDropShadowChrome>
-            </Popup>
+            <WindowSystemButton Data="M14 0v1H3V0h11z M14 4.5v1H3V4.5h11z M14 9v1H3V9h11z" ToolTip="更多">
+                <StackPanel MinWidth="200">
+                    <Button>设置</Button>
+                    <Button>更新</Button>
+                    <Button>反馈</Button>
+                    <Button>关于</Button>
+                </StackPanel>
+            </WindowSystemButton>
         </StackPanel>
     </ChromeWindow.RightWindowCommands>
 

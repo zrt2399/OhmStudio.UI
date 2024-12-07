@@ -49,7 +49,6 @@ namespace OhmStudio.UI.Demo.ViewModels
             ZoomOutCommand = new RelayCommand(ZoomOut);
             SearchCommand = new RelayCommand(() => UIMessageTip.Show("什么也没搜索到..."));
             SearchTestCommand = new RelayCommand(() => IsDropDownOpen = true);
-            OpenMenuCommand = new RelayCommand(() => IsMenuDropDownOpen = true);
             TreeViewAddCommand = new RelayCommand(() =>
             {
                 var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
@@ -347,8 +346,6 @@ namespace OhmStudio.UI.Demo.ViewModels
         public ICommand SearchCommand { get; }
 
         public ICommand SearchTestCommand { get; }
-
-        public ICommand OpenMenuCommand { get; }
 
         public ICommand TreeViewAddCommand { get; }
 

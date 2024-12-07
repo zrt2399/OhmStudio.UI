@@ -42,6 +42,11 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty IsSingleInstanceProperty =
             DependencyProperty.Register(nameof(IsSingleInstance), typeof(bool), typeof(AppHost), new PropertyMetadata(true));
 
+        static AppHost()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(AppHost), new FrameworkPropertyMetadata(typeof(AppHost)));
+        }
+
         public string ExePath
         {
             get => (string)GetValue(ExePathProperty);
@@ -63,11 +68,6 @@ namespace OhmStudio.UI.Controls
         public bool IsInit { get; private set; }
 
         public IntPtr EmbededWindowHandle => _process?.MainWindowHandle ?? IntPtr.Zero;
-
-        static AppHost()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(AppHost), new FrameworkPropertyMetadata(typeof(AppHost)));
-        }
 
         public override void OnApplyTemplate()
         {

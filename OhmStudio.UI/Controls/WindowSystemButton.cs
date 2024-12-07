@@ -10,9 +10,9 @@ namespace OhmStudio.UI.Controls
     public enum WindowSystemButtonType
     {
         /// <summary>
-        /// The custom button.
+        /// The menu button.
         /// </summary>
-        Custom,
+        Menu,
         /// <summary>
         /// The minimize button.
         /// </summary>
@@ -51,12 +51,21 @@ namespace OhmStudio.UI.Controls
         {
         }
 
+        public static readonly DependencyProperty IsDropDownOpenProperty = 
+            DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(WindowSystemButton), new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public bool IsDropDownOpen
+        {
+            get => (bool)GetValue(IsDropDownOpenProperty);
+            set => SetValue(IsDropDownOpenProperty, value);
+        }
+
         /// <summary>
         /// Identifies the <see cref="WindowSystemButtonType"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty WindowSystemButtonTypeProperty =
             DependencyProperty.Register(nameof(WindowSystemButtonType), typeof(WindowSystemButtonType),
-                typeof(WindowSystemButton), new FrameworkPropertyMetadata(WindowSystemButtonType.Custom));
+                typeof(WindowSystemButton), new FrameworkPropertyMetadata(WindowSystemButtonType.Menu));
 
         /// <summary>
         /// The button type of <see cref="WindowSystemButton"/>.
@@ -83,8 +92,9 @@ namespace OhmStudio.UI.Controls
         protected override void OnClick()
         {
             base.OnClick();
-            if (WindowSystemButtonType == WindowSystemButtonType.Custom)
+            if (WindowSystemButtonType == WindowSystemButtonType.Menu)
             {
+                IsDropDownOpen = true;
                 return;
             }
 

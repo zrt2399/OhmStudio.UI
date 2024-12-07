@@ -183,7 +183,7 @@
                         <Border x:Name="DropDownBorder"
                                 Background="{DynamicResource CommonControlsComboBoxListBackground}"
                                 BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
-                                BorderThickness="1"
+                                BorderThickness="{TemplateBinding BorderThickness}"
                                 SnapsToDevicePixels="True">
                             <ScrollViewer Name="DropDownScrollViewer">
                                 <Grid Margin="0,2">
