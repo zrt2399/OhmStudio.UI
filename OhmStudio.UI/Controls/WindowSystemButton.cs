@@ -110,9 +110,12 @@ namespace OhmStudio.UI.Controls
         protected override void OnClick()
         {
             base.OnClick();
-            if (ButtonType == WindowSystemButtonType.Menu && IsMouseOver)
+            if (ButtonType == WindowSystemButtonType.Menu)
             {
-                IsDropDownOpen = true;
+                if (IsMouseOver)
+                {
+                    IsDropDownOpen = true;
+                }
                 return;
             }
 
