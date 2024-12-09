@@ -27,10 +27,10 @@
                             <ContentPresenter x:Name="PART_RightWindowCommands"
                                               controlzEx:WindowChrome.IsHitTestVisibleInChrome="True"
                                               Content="{Binding RightWindowCommands, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-                            <ctrls:WindowSystemButton x:Name="MinimizeButton" WindowSystemButtonType="Minimize" />
-                            <ctrls:WindowSystemButton x:Name="MaximizeButton" WindowSystemButtonType="Maximize" />
-                            <ctrls:WindowSystemButton x:Name="RestoreButton" WindowSystemButtonType="Restore" />
-                            <ctrls:WindowSystemButton x:Name="CloseButton" WindowSystemButtonType="Close" />
+                            <ctrls:WindowSystemButton x:Name="MinimizeButton" ButtonType="Minimize" />
+                            <ctrls:WindowSystemButton x:Name="MaximizeButton" ButtonType="Maximize" />
+                            <ctrls:WindowSystemButton x:Name="RestoreButton" ButtonType="Restore" />
+                            <ctrls:WindowSystemButton x:Name="CloseButton" ButtonType="Close" />
                         </StackPanel>
                         <Image x:Name="PART_Icon"
                                Width="20"

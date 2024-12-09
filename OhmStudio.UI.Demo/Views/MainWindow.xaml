@@ -223,12 +223,13 @@
                 </Button>
             </StackPanel>
 
-            <WindowSystemButton Data="M14 0v1H3V0h11z M14 4.5v1H3V4.5h11z M14 9v1H3V9h11z" ToolTip="更多">
+            <WindowSystemButton ToolTip="更多">
                 <StackPanel MinWidth="200">
                     <Button>设置</Button>
                     <Button>更新</Button>
                     <Button>反馈</Button>
                     <Button>关于</Button>
+                    <TextBlock>TextBlock</TextBlock>
                 </StackPanel>
             </WindowSystemButton>
         </StackPanel>

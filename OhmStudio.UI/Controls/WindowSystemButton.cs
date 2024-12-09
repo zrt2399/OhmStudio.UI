@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace OhmStudio.UI.Controls
@@ -36,6 +37,7 @@ namespace OhmStudio.UI.Controls
     /// </summary>
     public class WindowSystemButton : ButtonBase
     {
+        private Popup PART_Popup;
         /// <summary>
         /// The static class constructor of the <see cref="WindowSystemButton"/>.
         /// </summary>
@@ -51,7 +53,7 @@ namespace OhmStudio.UI.Controls
         {
         }
 
-        public static readonly DependencyProperty IsDropDownOpenProperty = 
+        public static readonly DependencyProperty IsDropDownOpenProperty =
             DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(WindowSystemButton), new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public bool IsDropDownOpen
@@ -61,19 +63,19 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="WindowSystemButtonType"/> dependency property.
+        /// Identifies the <see cref="ButtonType"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty WindowSystemButtonTypeProperty =
-            DependencyProperty.Register(nameof(WindowSystemButtonType), typeof(WindowSystemButtonType),
+        public static readonly DependencyProperty ButtonTypeProperty =
+            DependencyProperty.Register(nameof(ButtonType), typeof(WindowSystemButtonType),
                 typeof(WindowSystemButton), new FrameworkPropertyMetadata(WindowSystemButtonType.Menu));
 
         /// <summary>
         /// The button type of <see cref="WindowSystemButton"/>.
         /// </summary>
-        public WindowSystemButtonType WindowSystemButtonType
+        public WindowSystemButtonType ButtonType
         {
-            get => (WindowSystemButtonType)GetValue(WindowSystemButtonTypeProperty);
-            set => SetValue(WindowSystemButtonTypeProperty, value);
+            get => (WindowSystemButtonType)GetValue(ButtonTypeProperty);
+            set => SetValue(ButtonTypeProperty, value);
         }
 
         public static readonly DependencyProperty DataProperty =
@@ -86,13 +88,29 @@ namespace OhmStudio.UI.Controls
             set => SetValue(DataProperty, value);
         }
 
+        public override void OnApplyTemplate()
+        {
+            if (PART_Popup != null)
+            {
+                PART_Popup.PreviewMouseUp -= PART_Popup_PreviewMouseUp;
+            }
+            base.OnApplyTemplate();
+            PART_Popup = GetTemplateChild("PART_Popup") as Popup;
+            PART_Popup.PreviewMouseUp += PART_Popup_PreviewMouseUp;
+        }
+
+        private void PART_Popup_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            IsDropDownOpen = false;
+        }
+
         /// <summary>
         /// 重写按钮点击事件。
         /// </summary>
         protected override void OnClick()
         {
             base.OnClick();
-            if (WindowSystemButtonType == WindowSystemButtonType.Menu)
+            if (ButtonType == WindowSystemButtonType.Menu && IsMouseOver)
             {
                 IsDropDownOpen = true;
                 return;
@@ -100,7 +118,7 @@ namespace OhmStudio.UI.Controls
 
             if (Window.GetWindow(this) is Window window)
             {
-                switch (WindowSystemButtonType)
+                switch (ButtonType)
                 {
                     case WindowSystemButtonType.Minimize:
                         SystemCommands.MinimizeWindow(window);
