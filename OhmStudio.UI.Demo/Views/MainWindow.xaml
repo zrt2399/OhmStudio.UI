@@ -1224,8 +1224,7 @@
                                                                 Width="300"
                                                                 Height="50"
                                                                 HorizontalContentAlignment="Right"
-                                                                VerticalContentAlignment="Bottom"
-                                                                TextBoxAttach.TitleIsHitTestVisible="True">
+                                                                VerticalContentAlignment="Bottom">
                                                     <TextBoxAttach.Title>
                                                         <Button>DateTimePicker：</Button>
                                                     </TextBoxAttach.Title>
@@ -1238,7 +1237,6 @@
                                                            HorizontalContentAlignment="Right"
                                                            VerticalContentAlignment="Bottom"
                                                            TextBoxAttach.PlaceHolderOpacity="1"
-                                                           TextBoxAttach.TitleIsHitTestVisible="True"
                                                            TextWrapping="Wrap">
                                                     <TextBoxAttach.Title>
                                                         <Button>SearchBar：</Button>
@@ -1252,10 +1250,11 @@
                                                          Height="50"
                                                          HorizontalContentAlignment="Right"
                                                          VerticalContentAlignment="Bottom"
-                                                         Text="{Binding Range, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                                                         TextBoxAttach.TitleIsHitTestVisible="False">
+                                                         Text="{Binding Range, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}">
                                                     <TextBoxAttach.Title>
-                                                        <UniformGrid Columns="1">
+                                                        <UniformGrid Columns="1"
+                                                                     Focusable="False"
+                                                                     IsHitTestVisible="False">
                                                             <Button>TextBox1：</Button>
                                                             <Button>TextBox2：</Button>
                                                         </UniformGrid>
@@ -1269,8 +1268,7 @@
                                                              HorizontalContentAlignment="Right"
                                                              VerticalContentAlignment="Bottom"
                                                              PasswordChar="$"
-                                                             TextBoxAttach.PlaceHolderOpacity="1"
-                                                             TextBoxAttach.TitleIsHitTestVisible="True">
+                                                             TextBoxAttach.PlaceHolderOpacity="1">
                                                     <TextBoxAttach.Title>
                                                         <Button>PasswordBox：</Button>
                                                     </TextBoxAttach.Title>
@@ -1284,9 +1282,7 @@
                                                                  HorizontalContentAlignment="Right"
                                                                  VerticalContentAlignment="Bottom"
                                                                  PasswordChar="◉"
-                                                                 TextBoxAttach.PlaceHolderIsHitTestVisible="False"
-                                                                 TextBoxAttach.PlaceHolderOpacity="1"
-                                                                 TextBoxAttach.TitleIsHitTestVisible="True">
+                                                                 TextBoxAttach.PlaceHolderOpacity="1">
                                                     <TextBoxAttach.Title>
                                                         <Button>PasswordTextBox：</Button>
                                                     </TextBoxAttach.Title>
@@ -1301,8 +1297,7 @@
                                                           DisplayMemberPath="Name"
                                                           IsEditable="True"
                                                           IsReadOnly="True"
-                                                          ItemsSource="{Binding Employees}"
-                                                          TextBoxAttach.TitleIsHitTestVisible="True">
+                                                          ItemsSource="{Binding Employees}">
                                                     <ComboBox.ItemsPanel>
                                                         <ItemsPanelTemplate>
                                                             <VirtualizingStackPanel />
@@ -1326,7 +1321,6 @@
                                                                SelectedAllString="{x:Null}"
                                                                SelectedItems="{Binding CurrentUserPermission}"
                                                                Separator="；"
-                                                               TextBoxAttach.TitleIsHitTestVisible="True"
                                                                TextWrapping="Wrap"
                                                                VirtualizingPanel.ScrollUnit="Pixel">
                                                     <TextBoxAttach.Title>

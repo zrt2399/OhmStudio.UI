@@ -9,7 +9,6 @@ namespace OhmStudio.UI.Attaches
     {
         public const string PlaceHolder = null;
         public const double PlaceHolderOpacity = 0.6;
-        public const bool PlaceHolderIsHitTestVisible = false;
 
         public static readonly DependencyProperty TitlePlacementProperty =
           DependencyProperty.RegisterAttached("TitlePlacement", typeof(Dock), typeof(TextBoxAttach));
@@ -35,19 +34,6 @@ namespace OhmStudio.UI.Attaches
         public static void SetTitle(DependencyObject target, object value)
         {
             target.SetValue(TitleProperty, value);
-        }
-
-        public static readonly DependencyProperty TitleIsHitTestVisibleProperty =
-            DependencyProperty.RegisterAttached("TitleIsHitTestVisible", typeof(bool), typeof(TextBoxAttach));
-
-        public static bool GetTitleIsHitTestVisible(DependencyObject target)
-        {
-            return (bool)target.GetValue(TitleIsHitTestVisibleProperty);
-        }
-
-        public static void SetTitleIsHitTestVisible(DependencyObject target, bool value)
-        {
-            target.SetValue(TitleIsHitTestVisibleProperty, value);
         }
 
         public static readonly DependencyProperty PlaceHolderProperty =
@@ -178,7 +164,7 @@ namespace OhmStudio.UI.Attaches
             UpdateHolderVisibility(passwordBox, passwordBox.Password);
         }
 
-        static void UpdateHolderVisibility(DependencyObject target, string value)
+        private static void UpdateHolderVisibility(DependencyObject target, string value)
         {
             if (target != null)
             {
@@ -194,19 +180,6 @@ namespace OhmStudio.UI.Attaches
         public static void SetPlaceHolder(DependencyObject target, object value)
         {
             target.SetValue(PlaceHolderProperty, value);
-        }
-
-        public static readonly DependencyProperty PlaceHolderIsHitTestVisibleProperty =
-           DependencyProperty.RegisterAttached("PlaceHolderIsHitTestVisible", typeof(bool), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolderIsHitTestVisible));
-
-        public static bool GetPlaceHolderIsHitTestVisible(DependencyObject target)
-        {
-            return (bool)target.GetValue(PlaceHolderIsHitTestVisibleProperty);
-        }
-
-        public static void SetPlaceHolderIsHitTestVisible(DependencyObject target, bool value)
-        {
-            target.SetValue(PlaceHolderIsHitTestVisibleProperty, value);
         }
 
         public static readonly DependencyProperty PlaceHolderOpacityProperty =

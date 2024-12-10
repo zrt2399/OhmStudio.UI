@@ -11,7 +11,7 @@
         <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
         <Setter Property="Content" Value="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}" />
         <Setter Property="Opacity" Value="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}" />
-        <Setter Property="IsHitTestVisible" Value="{Binding Path=(attaches:TextBoxAttach.PlaceHolderIsHitTestVisible), RelativeSource={RelativeSource TemplatedParent}}" />
+
         <Setter Property="Visibility" Value="{Binding Path=(attaches:TextBoxAttach.PlaceHolderVisibility), RelativeSource={RelativeSource TemplatedParent}}" />
 
     </Style>
@@ -19,7 +19,7 @@
     <Style x:Key="TitleWithTemplatedParent" TargetType="ContentPresenter">
         <Setter Property="DockPanel.Dock" Value="{Binding Path=(attaches:TextBoxAttach.TitlePlacement), RelativeSource={RelativeSource TemplatedParent}}" />
         <Setter Property="Content" Value="{Binding Path=(attaches:TextBoxAttach.Title), RelativeSource={RelativeSource TemplatedParent}}" />
-        <Setter Property="IsHitTestVisible" Value="{Binding Path=(attaches:TextBoxAttach.TitleIsHitTestVisible), RelativeSource={RelativeSource TemplatedParent}}" />
+
         <Setter Property="Visibility" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content, Converter={StaticResource NotNullOrEmptyToVisibilityConverter}}" />
 
     </Style>

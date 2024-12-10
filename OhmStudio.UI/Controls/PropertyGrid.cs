@@ -157,7 +157,6 @@ namespace OhmStudio.UI.Controls
             {
                 TextBoxAttach.SetPlaceHolder(uIElement, placeHolder.PlaceHolder);
                 TextBoxAttach.SetPlaceHolderOpacity(uIElement, placeHolder.PlaceHolderOpacity);
-                TextBoxAttach.SetPlaceHolderIsHitTestVisible(uIElement, placeHolder.PlaceHolderIsHitTestVisible);
             }
         }
 
@@ -368,8 +367,6 @@ namespace OhmStudio.UI.Controls
         public string PlaceHolder { get; set; } = TextBoxAttach.PlaceHolder;
 
         public double PlaceHolderOpacity { get; set; } = TextBoxAttach.PlaceHolderOpacity;
-
-        public bool PlaceHolderIsHitTestVisible { get; set; } = TextBoxAttach.PlaceHolderIsHitTestVisible;
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
