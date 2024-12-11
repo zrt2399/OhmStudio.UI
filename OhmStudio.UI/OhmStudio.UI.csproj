@@ -16,7 +16,7 @@
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>WPFUI Library</Title>
-		<Authors>MarkWang</Authors>
+		<Authors>Yoyo</Authors>
 		<Copyright>Copyright © $(Authors) $([System.DateTime]::Today.ToString(yyyy))</Copyright>
 		<PackageTags>WPF;XAML;AvalonDock;UI;Theme</PackageTags>
 		<Description>WPF control&amp;AvalonDock styles and themes</Description>
