@@ -1,24 +1,25 @@
-﻿<Window x:Class="OhmStudio.UI.Views.MessageWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:converter="clr-namespace:OhmStudio.UI.Converters"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:OhmStudio.UI.Views"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ohmProperties="clr-namespace:OhmStudio.UI.Properties"
-        MinWidth="160"
-        MinHeight="140"
-        ResizeMode="NoResize"
-        SizeToContent="WidthAndHeight"
-        SnapsToDevicePixels="True"
-        UseLayoutRounding="True"
-        mc:Ignorable="d">
+﻿<controls:ChromeWindow x:Class="OhmStudio.UI.Views.MessageWindow"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:controls="clr-namespace:OhmStudio.UI.Controls"
+                       xmlns:converter="clr-namespace:OhmStudio.UI.Converters"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:local="clr-namespace:OhmStudio.UI.Views"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:ohmProperties="clr-namespace:OhmStudio.UI.Properties"
+                       MinWidth="160"
+                       MinHeight="140"
+                       ResizeMode="NoResize"
+                       SizeToContent="WidthAndHeight"
+                       SnapsToDevicePixels="True"
+                       UseLayoutRounding="True"
+                       mc:Ignorable="d">
 
     <Window.Resources>
 
-        <converter:DigitalCompensationConverter x:Key="DigitalCompensationConverter" />
+        <!--<converter:DigitalCompensationConverter x:Key="DigitalCompensationConverter" />-->
 
-        <Style x:Key="CloseButtonStyle" TargetType="Button">
+        <!--<Style x:Key="CloseButtonStyle" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -90,24 +91,24 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
+        </Style>-->
 
     </Window.Resources>
 
-    <WindowChrome.WindowChrome>
+    <!--<WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="{Binding ElementName=gridTitle, Path=ActualHeight, Converter={StaticResource DigitalCompensationConverter}, ConverterParameter=-5}"
                       GlassFrameThickness="1"
                       ResizeBorderThickness="6"
                       UseAeroCaptionButtons="False" />
-    </WindowChrome.WindowChrome>
+    </WindowChrome.WindowChrome>-->
 
     <Grid FocusManager.FocusedElement="{Binding ElementName=btnOK}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <!--<RowDefinition Height="Auto" />-->
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Name="gridTitle">
+        <!--<Grid Name="gridTitle">
             <TextBlock x:Name="txtTitle"
                        Margin="10,6,0,6"
                        HorizontalAlignment="Left"
@@ -135,8 +136,8 @@
                     Style="{StaticResource CloseButtonStyle}"
                     ToolTip="{x:Static ohmProperties:Resources.Common_Close}"
                     WindowChrome.IsHitTestVisibleInChrome="True" />
-        </Grid>
-        <Grid Grid.Row="1">
+        </Grid>-->
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
@@ -171,7 +172,7 @@
                          VerticalScrollBarVisibility="Auto" />
             </Grid>
         </Grid>
-        <Grid Grid.Row="2" Background="{DynamicResource MessageBoxButtonAreaBackground}">
+        <Grid Grid.Row="1" Background="{DynamicResource MessageBoxButtonAreaBackground}">
             <StackPanel HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
@@ -197,4 +198,4 @@
             </StackPanel>
         </Grid>
     </Grid>
-</Window>
+</controls:ChromeWindow>

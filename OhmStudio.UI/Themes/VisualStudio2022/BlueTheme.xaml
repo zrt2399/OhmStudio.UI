@@ -22,7 +22,7 @@
     <SolidColorBrush x:Key="StatusBarBackgroundRunning" Color="#FFA24B40" />
     <SolidColorBrush x:Key="WindowBorderBrushRunning" Color="#FF203D77" />
 
-    <SolidColorBrush x:Key="MessageBoxButtonAreaBackground" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="MessageBoxButtonAreaBackground" Color="#FFB3BDDD" />
     <SolidColorBrush x:Key="DataGridGroupItemHeaderBackground" Color="#FFC4D4FF" />
 
     <SolidColorBrush x:Key="ContextMenuBackground" Color="#FFEAF0FF" />

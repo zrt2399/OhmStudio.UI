@@ -123,7 +123,7 @@ namespace OhmStudio.UI.Demo.Views
         {
             Task.Run(() =>
             {
-                AlertDialog.ShowError("AlertDialog.ShowError(In Task)");
+                AlertDialog.ShowError("AlertDialog.ShowError(In the Task)", "Demo");
             });
             //Messenger.Default.Send("AlertDialog.Show", MessageType.AlertDialog);
         }

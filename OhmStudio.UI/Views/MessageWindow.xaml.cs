@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Shell;
+using OhmStudio.UI.Controls;
 
 namespace OhmStudio.UI.Views
 {
     /// <summary>
     /// MessageWindow.xaml 的交互逻辑。
     /// </summary>
-    public partial class MessageWindow : Window
+    public partial class MessageWindow : ChromeWindow
     {
         public MessageWindow(MessageBoxButton messageBoxButton)
         {
@@ -41,7 +42,7 @@ namespace OhmStudio.UI.Views
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
-            if (SizeToContent == SizeToContent.WidthAndHeight && WindowChrome.GetWindowChrome(this) != null)
+            if (SizeToContent != SizeToContent.Manual && WindowChrome.GetWindowChrome(this) != null)
             {
                 InvalidateMeasure();
             }
