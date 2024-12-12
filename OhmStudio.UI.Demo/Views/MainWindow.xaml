@@ -539,7 +539,7 @@
                                                                SyntaxHighlighting="C#" />
                                     </TabItem>
                                     <TabItem Header="RichTextBox">
-                                        <RichTextBox />
+                                        <RichTextBox VerticalScrollBarVisibility="Auto"/>
                                     </TabItem>
                                 </TabControl>
                             </LayoutDocument>
