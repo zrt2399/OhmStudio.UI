@@ -9,6 +9,7 @@
                        xmlns:ohmProperties="clr-namespace:OhmStudio.UI.Properties"
                        MinWidth="160"
                        MinHeight="140"
+                       d:Title="系统提示"
                        ResizeMode="NoResize"
                        SizeToContent="WidthAndHeight"
                        SnapsToDevicePixels="True"
