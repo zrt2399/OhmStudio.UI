@@ -35,6 +35,9 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty IsRealTimeProperty =
             DependencyProperty.Register(nameof(IsRealTime), typeof(bool), typeof(SearchBar));
 
+        public static readonly DependencyProperty IsDropDownOpenOnTextChangedProperty =
+            DependencyProperty.Register(nameof(IsDropDownOpenOnTextChanged), typeof(bool), typeof(SearchBar));
+
         public static readonly DependencyProperty TextWrappingProperty =
             DependencyProperty.Register(nameof(TextWrapping), typeof(TextWrapping), typeof(SearchBar), new PropertyMetadata(TextWrapping.NoWrap));
 
@@ -72,6 +75,12 @@ namespace OhmStudio.UI.Controls
         {
             get => (bool)GetValue(IsRealTimeProperty);
             set => SetValue(IsRealTimeProperty, value);
+        }
+ 
+        public bool IsDropDownOpenOnTextChanged
+        {
+            get => (bool)GetValue(IsDropDownOpenOnTextChangedProperty);
+            set => SetValue(IsDropDownOpenOnTextChangedProperty, value);
         }
 
         public TextWrapping TextWrapping
@@ -134,7 +143,7 @@ namespace OhmStudio.UI.Controls
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
             PART_TextBox.TextChanged += PART_TextBox_TextChanged;
         }
-
+ 
         private void PART_TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextChanged?.Invoke(this, e);
@@ -148,6 +157,11 @@ namespace OhmStudio.UI.Controls
                 {
                     Command?.Execute(CommandParameter);
                 }
+            }
+
+            if (IsDropDownOpenOnTextChanged)
+            {
+                IsDropDownOpen = true;
             }
         }
 

@@ -409,6 +409,8 @@
                                     <TextBox Name="PART_TextBox"
                                              attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
                                              attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
+                                             attaches:TextBoxAttach.PlaceHolder="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}"
+                                             attaches:TextBoxAttach.PlaceHolderOpacity="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}"
                                              Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                              TextWrapping="{TemplateBinding TextWrapping}">
                                         <TextBox.InputBindings>
@@ -418,7 +420,7 @@
                                                         CommandTarget="{Binding CommandTarget, RelativeSource={RelativeSource TemplatedParent}}" />
                                         </TextBox.InputBindings>
                                     </TextBox>
-                                    <ContentPresenter Style="{StaticResource PlaceHolderWithTemplatedParent}" />
+
                                     <Popup x:Name="PART_Popup"
                                            AllowsTransparency="True"
                                            IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
@@ -1158,11 +1160,13 @@
                                           IsTabStop="{Binding ClearButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
                                           Style="{StaticResource CheckBoxStyle}"
                                           ToolTip="{x:Static ohmProperties:Resources.Common_Clear}"
-                                          Visibility="{TemplateBinding ClearVisibility}" />
+                                          Visibility="{Binding ElementName=PART_TextBox, Path=Text, Converter={StaticResource NotNullOrEmptyToVisibilityConverter}}" />
                                 <controls:SimplePanel DockPanel.Dock="Left">
                                     <TextBox x:Name="PART_TextBox"
                                              attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
                                              attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
+                                             attaches:TextBoxAttach.PlaceHolder="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}"
+                                             attaches:TextBoxAttach.PlaceHolderOpacity="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}"
                                              Text="{Binding Password, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              Visibility="{TemplateBinding TbVisibility}" />
                                     <PasswordBox x:Name="PART_PasswordBox"
@@ -1170,9 +1174,11 @@
                                                  attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
                                                  attaches:PasswordBoxAttach.Password="{Binding Password, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                  attaches:PasswordBoxAttach.PasswordAttach="True"
+                                                 attaches:TextBoxAttach.PlaceHolder="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}"
+                                                 attaches:TextBoxAttach.PlaceHolderOpacity="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}"
                                                  PasswordChar="{TemplateBinding PasswordChar}"
                                                  Visibility="{TemplateBinding PwVisibility}" />
-                                    <ContentPresenter Style="{StaticResource PlaceHolderWithTemplatedParent}" />
+
                                 </controls:SimplePanel>
                             </DockPanel>
                         </Border>
@@ -1228,9 +1234,11 @@
                                     <TextBox Name="PART_TextBox"
                                              attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
                                              attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
+                                             attaches:TextBoxAttach.PlaceHolder="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}"
+                                             attaches:TextBoxAttach.PlaceHolderOpacity="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}"
                                              IsReadOnly="{TemplateBinding IsReadOnly}"
                                              Text="{Binding DateTimeText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
-                                    <ContentPresenter Style="{StaticResource PlaceHolderWithTemplatedParent}" />
+
                                     <Popup x:Name="PART_Popup"
                                            AllowsTransparency="True"
                                            IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"

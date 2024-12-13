@@ -7,8 +7,8 @@
 
     <system:Double x:Key="GlobalFontSize">12</system:Double>
 
-    <!--<Thickness x:Key="InputElementPadding">4</Thickness>
-    <Thickness x:Key="InputElementBorderThickness">1</Thickness>-->
+    <Thickness x:Key="InputElementPadding">4</Thickness>
+    <Thickness x:Key="InputElementBorderThickness">2</Thickness>
     <!--<system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">100</system:Double>
     <system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">100</system:Double>-->
 

@@ -257,6 +257,8 @@ namespace OhmStudio.UI.Demo.ViewModels
 
         public DateTime? CurrentDateTime { get; set; }
 
+        public string Password { get; set; } = "123456";
+
         public double WindowScale { get; set; } = 1;
 
         public ObservableCollection<Employee> Employees { get; set; }

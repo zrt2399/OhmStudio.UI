@@ -129,17 +129,6 @@ namespace OhmStudio.UI.Controls
             }));
 
         /// <summary>
-        /// 控制显示符号"x"。
-        /// </summary>
-        internal Visibility ClearVisibility
-        {
-            get => (Visibility)GetValue(ClearVisibilityProperty);
-            set => SetValue(ClearVisibilityProperty, value);
-        }
-        internal static readonly DependencyProperty ClearVisibilityProperty =
-            DependencyProperty.Register("ClearVisibility", typeof(Visibility), typeof(PasswordTextBox), new PropertyMetadata(Visibility.Collapsed));
-
-        /// <summary>
         /// 获取或设置当前保留的密码 <see cref="PasswordTextBox"/>。
         /// </summary>
         /// <returns>表示当前保留的密码的字符串 <see cref="PasswordTextBox"/>。默认值为 <see cref="string.Empty"/>。</returns>
@@ -186,8 +175,6 @@ namespace OhmStudio.UI.Controls
         private void PART_TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextChanged?.Invoke(this, e);
-            var textBox = sender as TextBox;
-            ClearVisibility = string.IsNullOrEmpty(textBox?.Text) ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void PasswordTextBox_GotFocus(object sender, RoutedEventArgs e)

@@ -228,7 +228,7 @@ namespace OhmStudio.UI.Controls
             }
         }
 
-        private void WorkflowItem_SelectedChanged(object sender, RoutedEventArgs e)
+        private void WorkflowItem_SelectedChanged(object sender, EventArgs e)
         {
             if (!_isUpdatingSelectedItems)
             {

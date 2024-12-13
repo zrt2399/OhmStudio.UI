@@ -158,6 +158,8 @@
                          Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness, Converter={StaticResource ComboBoxHostMarginConverter}}"
                          attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
                          attaches:DynamicStyleProvider.Derived="{DynamicResource ContentHostControl}"
+                         attaches:TextBoxAttach.PlaceHolder="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}"
+                         attaches:TextBoxAttach.PlaceHolderOpacity="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}"
                          Visibility="Collapsed" />
 
                 <ToggleButton x:Name="DropDownButton"
@@ -167,7 +169,7 @@
                               IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                               Style="{StaticResource ToolBarComboBoxTransparentButtonStyle}" />
 
-                <ContentPresenter Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
+                <!--<ContentPresenter Style="{DynamicResource PlaceHolderWithTemplatedParent}" />-->
 
                 <Popup Name="PART_Popup"
                        AllowsTransparency="True"

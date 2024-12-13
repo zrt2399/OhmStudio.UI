@@ -539,7 +539,7 @@
                                                                SyntaxHighlighting="C#" />
                                     </TabItem>
                                     <TabItem Header="RichTextBox">
-                                        <RichTextBox VerticalScrollBarVisibility="Auto"/>
+                                        <RichTextBox VerticalScrollBarVisibility="Auto" />
                                     </TabItem>
                                 </TabControl>
                             </LayoutDocument>
@@ -1142,6 +1142,7 @@
                                                            Command="{Binding SearchTestCommand}"
                                                            Foreground="Violet"
                                                            IsDropDownOpen="{Binding IsDropDownOpen}"
+                                                           IsDropDownOpenOnTextChanged="True"
                                                            MinDropDownWidth="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth}"
                                                            TextBoxAttach.PlaceHolder="请输入搜索内容..."
                                                            TextBoxAttach.Title="SearchBar："
@@ -1184,13 +1185,14 @@
                                                 <PasswordBox VerticalAlignment="Top" PasswordChar="#" />
 
                                                 <PasswordTextBox VerticalAlignment="Top"
-                                                                 CanShowPassword="False"
                                                                  Foreground="Indigo"
+                                                                 Password="{Binding Password}"
                                                                  PasswordChar="$"
                                                                  TextBoxAttach.PlaceHolder="请输入密码..."
                                                                  TextBoxAttach.Title="PasswordTextBox："
                                                                  TextBoxAttach.TitlePlacement="Top" />
                                                 <PasswordTextBox VerticalAlignment="Top"
+                                                                 CanShowPassword="False"
                                                                  ClearButtonIsTabStop="True"
                                                                  ShowPasswordButtonIsTabStop="True" />
 
@@ -1217,6 +1219,23 @@
                                                                SelectedItems="{Binding EmployeeSelectedItems}" />
                                                 <Button VerticalAlignment="Top" Click="Button_Click_17">显示选中项</Button>
                                             </WrapPanel>
+                                        </GroupBox>
+                                        <GroupBox Margin="10" Header="Control">
+                                            <StackPanel Orientation="Horizontal">
+                                                <ComboBox VerticalAlignment="Top">
+                                                    <ComboBoxItem IsSelected="True">(未选择)</ComboBoxItem>
+                                                </ComboBox>
+                                                <CheckComboBox VerticalAlignment="Top" />
+                                                <ComboBox VerticalAlignment="Top" IsEditable="True">
+                                                    <ComboBoxItem IsSelected="True">(未选择)</ComboBoxItem>
+                                                </ComboBox>
+                                                <Button VerticalAlignment="Top">(未选择)</Button>
+                                                <TextBox VerticalAlignment="Top" />
+                                                <PasswordBox VerticalAlignment="Top" />
+                                                <PasswordTextBox VerticalAlignment="Top" />
+                                                <DateTimePicker VerticalAlignment="Top" />
+                                                <SearchBar VerticalAlignment="Top" />
+                                            </StackPanel>
                                         </GroupBox>
                                         <GroupBox Margin="10" Header="InputControlWithButtonTitle">
                                             <WrapPanel>

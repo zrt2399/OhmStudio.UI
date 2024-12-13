@@ -39,19 +39,12 @@ namespace OhmStudio.UI.Controls
 
     public abstract class CanvasItem : ContentControl
     {
-        public event RoutedEventHandler Selected;
+        public event EventHandler Selected;
 
-        public event RoutedEventHandler Unselected;
+        public event EventHandler Unselected;
 
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(CanvasItem), new PropertyMetadata(OnIsSelectedChanged));
-
-        public CanvasItem()
-        {
-            DependencyPropertyDescriptor property = DependencyPropertyDescriptor.FromProperty(IsKeyboardFocusWithinProperty, typeof(CanvasItem));
-            //property?.RemoveValueChanged(this, OnIsKeyboardFocusWithinChanged);
-            property?.AddValueChanged(this, OnIsKeyboardFocusWithinChanged);
-        }
 
         public bool IsSelected
         {
@@ -61,8 +54,21 @@ namespace OhmStudio.UI.Controls
 
         public WorkflowCanvas CanvasParent { get; internal set; }
 
-        private void OnIsKeyboardFocusWithinChanged(object sender, EventArgs e)
+        private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            var canvasItem = (CanvasItem)d;
+            canvasItem.OnIsSelectedChanged(canvasItem.IsSelected);
+        }
+
+        protected virtual void OnIsSelectedChanged(bool isSelected)
+        {
+            var routedEventHandler = isSelected ? Selected : Unselected;
+            routedEventHandler?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected override void OnIsKeyboardFocusWithinChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnIsKeyboardFocusWithinChanged(e);
             if (CanvasParent != null && IsKeyboardFocusWithin)
             {
                 CanvasParent.BeginUpdateSelectedItems();
@@ -76,18 +82,6 @@ namespace OhmStudio.UI.Controls
                 }
                 CanvasParent.EndUpdateSelectedItems();
             }
-        }
-
-        private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var canvasItem = (CanvasItem)d;
-            canvasItem.OnIsSelectedChanged(canvasItem.IsSelected);
-        }
-
-        protected virtual void OnIsSelectedChanged(bool isSelected)
-        {
-            var routedEventHandler = isSelected ? Selected : Unselected;
-            routedEventHandler?.Invoke(this, new RoutedEventArgs());
         }
     }
 
