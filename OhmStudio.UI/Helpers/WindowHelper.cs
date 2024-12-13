@@ -6,33 +6,33 @@ using System.Windows.Interop;
 
 namespace OhmStudio.UI.Helpers
 {
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Windowplacement
+    {
+        public int length;
+        public int flags;
+        public int showCmd;
+        public Rect ptMinPosition;
+        public Rect ptMaxPosition;
+        public Rect rcNormalPosition;
+    }
+
+    // WINDOWPLACEMENT 结构体
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Rect
+    {
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
+    }
+
     public class WindowHelper
     {
         // 窗口显示命令常量
         public const int SwShownormal = 1;
         public const int SwShowminimized = 2;
         public const int SwShowmaximized = 3;
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Windowplacement
-        {
-            public int length;
-            public int flags;
-            public int showCmd;
-            public Rect ptMinPosition;
-            public Rect ptMaxPosition;
-            public Rect rcNormalPosition;
-        }
-
-        // WINDOWPLACEMENT 结构体
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Rect
-        {
-            public int Left;
-            public int Top;
-            public int Right;
-            public int Bottom;
-        }
 
         [DllImport("User32.dll")]
         public static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
@@ -45,12 +45,18 @@ namespace OhmStudio.UI.Helpers
 
         public static void ShowAndActivate(Process process)
         {
-            ShowAndActivate(process.MainWindowHandle);
+            if (process != null)
+            {
+                ShowAndActivate(process.MainWindowHandle);
+            }
         }
 
         public static void ShowAndActivate(Window window)
         {
-            ShowAndActivate(new WindowInteropHelper(window).Handle);
+            if (window != null)
+            {
+                ShowAndActivate(new WindowInteropHelper(window).Handle);
+            }
         }
 
         public static void ShowAndActivate(IntPtr windowIntPtr)
