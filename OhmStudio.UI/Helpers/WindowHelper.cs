@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Interop;
+using System.Windows.Interop; 
 
 namespace OhmStudio.UI.Helpers
 {
@@ -12,9 +12,19 @@ namespace OhmStudio.UI.Helpers
         public int length;
         public int flags;
         public int showCmd;
-        public Rect ptMinPosition;
-        public Rect ptMaxPosition;
-        public Rect rcNormalPosition;
+        public RECT ptMinPosition;
+        public RECT ptMaxPosition;
+        public RECT rcNormalPosition;
+    }
+
+    // WINDOWPLACEMENT 结构体
+    [StructLayout(LayoutKind.Sequential)]
+    public struct RECT
+    {
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
     }
 
     public class WindowHelper
@@ -23,16 +33,6 @@ namespace OhmStudio.UI.Helpers
         public const int SwShownormal = 1;
         public const int SwShowminimized = 2;
         public const int SwShowmaximized = 3;
-
-        // WINDOWPLACEMENT 结构体
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Rect
-        {
-            public int Left;
-            public int Top;
-            public int Right;
-            public int Bottom;
-        }
 
         [DllImport("User32.dll")]
         public static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
