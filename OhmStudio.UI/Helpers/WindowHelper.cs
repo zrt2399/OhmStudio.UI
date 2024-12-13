@@ -7,7 +7,7 @@ using System.Windows.Interop;
 namespace OhmStudio.UI.Helpers
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Windowplacement
+    public struct WindowPlacement
     {
         public int length;
         public int flags;
@@ -17,22 +17,22 @@ namespace OhmStudio.UI.Helpers
         public Rect rcNormalPosition;
     }
 
-    // WINDOWPLACEMENT 结构体
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Rect
-    {
-        public int Left;
-        public int Top;
-        public int Right;
-        public int Bottom;
-    }
-
     public class WindowHelper
     {
         // 窗口显示命令常量
         public const int SwShownormal = 1;
         public const int SwShowminimized = 2;
         public const int SwShowmaximized = 3;
+
+        // WINDOWPLACEMENT 结构体
+        [StructLayout(LayoutKind.Sequential)]
+        public struct Rect
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
 
         [DllImport("User32.dll")]
         public static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
@@ -41,7 +41,7 @@ namespace OhmStudio.UI.Helpers
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
         [DllImport("user32.dll")]
-        public static extern bool GetWindowPlacement(IntPtr hWnd, out Windowplacement lpwndpl);
+        public static extern bool GetWindowPlacement(IntPtr hWnd, out WindowPlacement windowPlacement);
 
         public static void ShowAndActivate(Process process)
         {
