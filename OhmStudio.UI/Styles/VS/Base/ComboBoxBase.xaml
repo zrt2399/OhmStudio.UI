@@ -4,7 +4,7 @@
                     xmlns:converters="clr-namespace:OhmStudio.UI.Converters"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
-    <converters:ComboBoxHostMarginConverter x:Key="ComboBoxHostMarginConverter" />
+    <converters:ComboBoxDropDownThicknessConverter x:Key="ComboBoxDropDownThicknessConverter" />
     <converters:BorderCornerRadiusConverter x:Key="BorderCornerRadiusConverter" />
 
     <Style x:Key="ToolBarComboBoxTransparentButtonStyle" TargetType="{x:Type ToggleButton}">
@@ -27,7 +27,7 @@
                                 Padding="2,0"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ComboBoxDropDownThicknessConverter}}"
                                 CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BorderCornerRadiusConverter}}"
                                 SnapsToDevicePixels="True">
                             <Path x:Name="ArrowDownPath"
@@ -127,84 +127,76 @@
     <ControlTemplate x:Key="ComboBoxTemplate" TargetType="{x:Type ComboBox}">
         <DockPanel>
             <ContentPresenter Style="{DynamicResource TitleWithTemplatedParent}" />
-            <Grid Grid.IsSharedSizeScope="True" SnapsToDevicePixels="True">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxButton" />
-                </Grid.ColumnDefinitions>
-                <Border Name="Border"
-                        Grid.ColumnSpan="2"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
-                        SnapsToDevicePixels="True" />
+            <Border Name="Border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                    SnapsToDevicePixels="True">
+                <Grid Grid.IsSharedSizeScope="True" SnapsToDevicePixels="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxButton" />
+                    </Grid.ColumnDefinitions>
 
-                <Border Name="SelectedContentBorder"
-                        Margin="{Binding ElementName=PART_EditableTextBox, Path=Margin}"
-                        Padding="{Binding ElementName=PART_EditableTextBox, Path=Padding}"
-                        SnapsToDevicePixels="True">
                     <ContentPresenter x:Name="ContentSite"
-                                      Margin="2,0"
+                                      Margin="{TemplateBinding Padding}"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                       Content="{TemplateBinding SelectionBoxItem}"
                                       ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                       ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                </Border>
 
-                <TextBox x:Name="PART_EditableTextBox"
-                         Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness, Converter={StaticResource ComboBoxHostMarginConverter}}"
-                         attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
-                         attaches:DynamicStyleProvider.Derived="{DynamicResource ContentHostControl}"
-                         attaches:TextBoxAttach.PlaceHolder="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}"
-                         attaches:TextBoxAttach.PlaceHolderOpacity="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}"
-                         Visibility="Collapsed" />
+                    <TextBox x:Name="PART_EditableTextBox"
+                             attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
+                             attaches:DynamicStyleProvider.Derived="{DynamicResource ContentHostControl}"
+                             Visibility="Collapsed" />
 
-                <ToggleButton x:Name="DropDownButton"
-                              Grid.ColumnSpan="2"
-                              BorderBrush="{TemplateBinding BorderBrush}"
-                              BorderThickness="{TemplateBinding BorderThickness}"
-                              IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                              Style="{StaticResource ToolBarComboBoxTransparentButtonStyle}" />
+                    <ToggleButton x:Name="DropDownButton"
+                                  Grid.ColumnSpan="2"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                  Style="{StaticResource ToolBarComboBoxTransparentButtonStyle}" />
 
-                <!--<ContentPresenter Style="{DynamicResource PlaceHolderWithTemplatedParent}" />-->
+                    <ContentPresenter Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
 
-                <Popup Name="PART_Popup"
-                       AllowsTransparency="True"
-                       IsOpen="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                       PlacementTarget="{Binding ElementName=Border}"
-                       PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-                       StaysOpen="False">
-                    <theme:SystemDropShadowChrome Name="Shadow"
-                                                  MinWidth="{Binding ElementName=Border, Path=ActualWidth}"
-                                                  MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                  Color="Transparent">
+                    <Popup Name="PART_Popup"
+                           AllowsTransparency="True"
+                           IsOpen="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                           PlacementTarget="{Binding ElementName=Border}"
+                           PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                           StaysOpen="False">
+                        <theme:SystemDropShadowChrome Name="Shadow"
+                                                      MinWidth="{Binding ElementName=Border, Path=ActualWidth}"
+                                                      MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                      Color="Transparent">
 
-                        <Border x:Name="DropDownBorder"
-                                Background="{DynamicResource CommonControlsComboBoxListBackground}"
-                                BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                SnapsToDevicePixels="True">
-                            <ScrollViewer Name="DropDownScrollViewer">
-                                <Grid Margin="0,2">
-                                    <Canvas Width="0"
-                                            Height="0"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Top">
-                                        <Rectangle Name="OpaqueRect"
-                                                   Width="{Binding ElementName=DropDownBorder, Path=ActualWidth}"
-                                                   Height="{Binding ElementName=DropDownBorder, Path=ActualHeight}"
-                                                   Fill="{Binding ElementName=DropDownBorder, Path=Background}" />
-                                    </Canvas>
-                                    <ItemsPresenter Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" />
-                                </Grid>
-                            </ScrollViewer>
-                        </Border>
-                    </theme:SystemDropShadowChrome>
-                </Popup>
-            </Grid>
+                            <Border x:Name="DropDownBorder"
+                                    Background="{DynamicResource CommonControlsComboBoxListBackground}"
+                                    BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    SnapsToDevicePixels="True">
+                                <ScrollViewer Name="DropDownScrollViewer">
+                                    <Grid Margin="0,2">
+                                        <Canvas Width="0"
+                                                Height="0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top">
+                                            <Rectangle Name="OpaqueRect"
+                                                       Width="{Binding ElementName=DropDownBorder, Path=ActualWidth}"
+                                                       Height="{Binding ElementName=DropDownBorder, Path=ActualHeight}"
+                                                       Fill="{Binding ElementName=DropDownBorder, Path=Background}" />
+                                        </Canvas>
+                                        <ItemsPresenter Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </Grid>
+                                </ScrollViewer>
+                            </Border>
+                        </theme:SystemDropShadowChrome>
+                    </Popup>
+                </Grid>
+            </Border>
         </DockPanel>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="False">
@@ -254,7 +246,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxListItemTextHover}" />
             </MultiTrigger>
             <Trigger Property="IsEditable" Value="True">
-                <Setter TargetName="SelectedContentBorder" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="ContentSite" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
                 <!--<Setter Property="IsTabStop" Value="False" />-->
                 <Setter TargetName="DropDownButton" Property="Grid.Column" Value="1" />

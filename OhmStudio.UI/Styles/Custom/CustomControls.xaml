@@ -79,6 +79,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="UseLayoutRounding" Value="False" />
     </Style>
 
     <Style x:Key="CustomControlBase" TargetType="Control">
@@ -807,98 +808,98 @@
                 <ControlTemplate TargetType="controls:CheckComboBox">
                     <DockPanel>
                         <ContentPresenter Style="{StaticResource TitleWithTemplatedParent}" />
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Border Name="Border"
-                                    Grid.ColumnSpan="2"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
-                                    SnapsToDevicePixels="True" />
-                            <TextBox Name="PART_TextBox"
-                                     Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness, Converter={StaticResource ComboBoxHostMarginConverter}}"
-                                     attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
-                                     attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
-                                     IsReadOnly="{TemplateBinding IsReadOnly}"
-                                     Text="{TemplateBinding SelectedText}"
-                                     TextWrapping="{TemplateBinding TextWrapping}" />
-                            <ToggleButton x:Name="DropDownButton"
-                                          Grid.Column="1"
-                                          BorderBrush="{TemplateBinding BorderBrush}"
-                                          BorderThickness="{TemplateBinding BorderThickness}"
-                                          IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                                          Style="{DynamicResource ToolBarComboBoxTransparentButtonStyle}" />
-                            <Popup Name="PART_Popup"
-                                   AllowsTransparency="True"
-                                   IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                                   PlacementTarget="{Binding ElementName=Border}"
-                                   PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-                                   StaysOpen="False">
-                                <theme:SystemDropShadowChrome Name="Shadow"
-                                                              MinWidth="{Binding ElementName=Border, Path=ActualWidth}"
-                                                              MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                              Color="Transparent">
-                                    <Border Background="{DynamicResource CommonControlsComboBoxListBackground}"
-                                            BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            SnapsToDevicePixels="True">
-                                        <DockPanel>
-                                            <StackPanel DockPanel.Dock="Top"
-                                                        Orientation="Horizontal"
-                                                        Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectionMode, Converter={StaticResource NotEqualityParameterToVisibilityConverter}, ConverterParameter={x:Static SelectionMode.Single}}">
-                                                <StackPanel.Resources>
-                                                    <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="CheckBox">
-                                                        <Setter Property="IsHitTestVisible" Value="False" />
-                                                        <Setter Property="Focusable" Value="False" />
-                                                        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
-                                                    </Style>
-                                                </StackPanel.Resources>
-                                                <Button Command="{Binding InvertSelectCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                    <CheckBox Content="{x:Static ohmProperties:Resources.Common_InvertSelect}" IsChecked="{x:Null}" />
-                                                </Button>
-                                                <Button Command="{Binding SelectAllCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                    <CheckBox Content="{x:Static ohmProperties:Resources.Common_SelectAll}" IsChecked="True" />
-                                                </Button>
-                                                <Button Command="{Binding UnselectAllCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                    <CheckBox Content="{x:Static ohmProperties:Resources.Common_UnselectAll}" IsChecked="False" />
-                                                </Button>
-                                            </StackPanel>
-                                            <ListBox x:Name="PART_ListBox"
-                                                     Grid.Row="1"
-                                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                     BorderBrush="Transparent"
-                                                     BorderThickness="0"
-                                                     DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource TemplatedParent}}"
-                                                     DockPanel.Dock="Bottom"
-                                                     ItemContainerStyle="{DynamicResource ListBoxItemCheckBoxStyle}"
-                                                     ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
-                                                     SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}}"
-                                                     SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}"
-                                                     SelectedValue="{TemplateBinding SelectedValue}"
-                                                     SelectedValuePath="{TemplateBinding SelectedValuePath}"
-                                                     SelectionMode="{TemplateBinding SelectionMode}"
-                                                     VirtualizingPanel.CacheLength="{Binding Path=(VirtualizingPanel.CacheLength), RelativeSource={RelativeSource TemplatedParent}}"
-                                                     VirtualizingPanel.CacheLengthUnit="{Binding Path=(VirtualizingPanel.CacheLengthUnit), RelativeSource={RelativeSource TemplatedParent}}"
-                                                     VirtualizingPanel.IsContainerVirtualizable="{Binding Path=(VirtualizingPanel.IsContainerVirtualizable), RelativeSource={RelativeSource TemplatedParent}}"
-                                                     VirtualizingPanel.IsVirtualizing="{Binding Path=(VirtualizingPanel.IsVirtualizing), RelativeSource={RelativeSource TemplatedParent}}"
-                                                     VirtualizingPanel.IsVirtualizingWhenGrouping="{Binding Path=(VirtualizingPanel.IsVirtualizingWhenGrouping), RelativeSource={RelativeSource TemplatedParent}}"
-                                                     VirtualizingPanel.ScrollUnit="{Binding Path=(VirtualizingPanel.ScrollUnit), RelativeSource={RelativeSource TemplatedParent}}" />
+                        <Border Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                SnapsToDevicePixels="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                                            <!--
-                                                VirtualizingPanel.VirtualizationMode="{Binding Path=(VirtualizingPanel.VirtualizationMode),RelativeSource={RelativeSource TemplatedParent}}"
-                                            -->
-                                            <!--  ItemContainerStyle="{DynamicResource ListBoxItemCheckBoxStyle}"  -->
-                                            <!--  ItemTemplate="{StaticResource ListBoxItemCheckBoxDataTemplate}"  -->
-                                        </DockPanel>
-                                    </Border>
-                                </theme:SystemDropShadowChrome>
-                            </Popup>
-                        </Grid>
+                                <TextBox Name="PART_TextBox"
+                                         attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
+                                         attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
+                                         IsReadOnly="{TemplateBinding IsReadOnly}"
+                                         Text="{TemplateBinding SelectedText}"
+                                         TextWrapping="{TemplateBinding TextWrapping}" />
+                                <ToggleButton x:Name="DropDownButton"
+                                              Grid.Column="1"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Style="{DynamicResource ToolBarComboBoxTransparentButtonStyle}" />
+                                <Popup Name="PART_Popup"
+                                       AllowsTransparency="True"
+                                       IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                       PlacementTarget="{Binding ElementName=Border}"
+                                       PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                                       StaysOpen="False">
+                                    <theme:SystemDropShadowChrome Name="Shadow"
+                                                                  MinWidth="{Binding ElementName=Border, Path=ActualWidth}"
+                                                                  MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                                  Color="Transparent">
+                                        <Border Background="{DynamicResource CommonControlsComboBoxListBackground}"
+                                                BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                SnapsToDevicePixels="True">
+                                            <DockPanel>
+                                                <StackPanel DockPanel.Dock="Top"
+                                                            Orientation="Horizontal"
+                                                            Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectionMode, Converter={StaticResource NotEqualityParameterToVisibilityConverter}, ConverterParameter={x:Static SelectionMode.Single}}">
+                                                    <StackPanel.Resources>
+                                                        <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="CheckBox">
+                                                            <Setter Property="IsHitTestVisible" Value="False" />
+                                                            <Setter Property="Focusable" Value="False" />
+                                                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
+                                                        </Style>
+                                                    </StackPanel.Resources>
+                                                    <Button Command="{Binding InvertSelectCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                        <CheckBox Content="{x:Static ohmProperties:Resources.Common_InvertSelect}" IsChecked="{x:Null}" />
+                                                    </Button>
+                                                    <Button Command="{Binding SelectAllCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                        <CheckBox Content="{x:Static ohmProperties:Resources.Common_SelectAll}" IsChecked="True" />
+                                                    </Button>
+                                                    <Button Command="{Binding UnselectAllCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                        <CheckBox Content="{x:Static ohmProperties:Resources.Common_UnselectAll}" IsChecked="False" />
+                                                    </Button>
+                                                </StackPanel>
+                                                <ListBox x:Name="PART_ListBox"
+                                                         Grid.Row="1"
+                                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                         BorderBrush="Transparent"
+                                                         BorderThickness="0"
+                                                         DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource TemplatedParent}}"
+                                                         DockPanel.Dock="Bottom"
+                                                         ItemContainerStyle="{DynamicResource ListBoxItemCheckBoxStyle}"
+                                                         ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                                         SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}}"
+                                                         SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}"
+                                                         SelectedValue="{TemplateBinding SelectedValue}"
+                                                         SelectedValuePath="{TemplateBinding SelectedValuePath}"
+                                                         SelectionMode="{TemplateBinding SelectionMode}"
+                                                         VirtualizingPanel.CacheLength="{Binding Path=(VirtualizingPanel.CacheLength), RelativeSource={RelativeSource TemplatedParent}}"
+                                                         VirtualizingPanel.CacheLengthUnit="{Binding Path=(VirtualizingPanel.CacheLengthUnit), RelativeSource={RelativeSource TemplatedParent}}"
+                                                         VirtualizingPanel.IsContainerVirtualizable="{Binding Path=(VirtualizingPanel.IsContainerVirtualizable), RelativeSource={RelativeSource TemplatedParent}}"
+                                                         VirtualizingPanel.IsVirtualizing="{Binding Path=(VirtualizingPanel.IsVirtualizing), RelativeSource={RelativeSource TemplatedParent}}"
+                                                         VirtualizingPanel.IsVirtualizingWhenGrouping="{Binding Path=(VirtualizingPanel.IsVirtualizingWhenGrouping), RelativeSource={RelativeSource TemplatedParent}}"
+                                                         VirtualizingPanel.ScrollUnit="{Binding Path=(VirtualizingPanel.ScrollUnit), RelativeSource={RelativeSource TemplatedParent}}" />
+
+                                                <!--
+                                                    VirtualizingPanel.VirtualizationMode="{Binding Path=(VirtualizingPanel.VirtualizationMode),RelativeSource={RelativeSource TemplatedParent}}"
+                                                -->
+                                                <!--  ItemContainerStyle="{DynamicResource ListBoxItemCheckBoxStyle}"  -->
+                                                <!--  ItemTemplate="{StaticResource ListBoxItemCheckBoxDataTemplate}"  -->
+                                            </DockPanel>
+                                        </Border>
+                                    </theme:SystemDropShadowChrome>
+                                </Popup>
+                            </Grid>
+                        </Border>
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -1055,6 +1056,7 @@
                     <Setter Property="Padding" Value="0" />
                     <Setter Property="Background" Value="Transparent" />
                     <Setter Property="IsReadOnly" Value="True" />
+                    <Setter Property="UseLayoutRounding" Value="False" />
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="Transparent" />
