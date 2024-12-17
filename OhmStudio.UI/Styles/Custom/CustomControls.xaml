@@ -1099,35 +1099,6 @@
     <Style x:Key="PasswordTextBoxBaseStyle"
            BasedOn="{StaticResource CustomControlBase}"
            TargetType="controls:PasswordTextBox">
-        <Style.Resources>
-            <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
-                <Setter Property="HorizontalAlignment" Value="Right" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-                <Setter Property="Foreground" Value="#FFABADB3" />
-                <Setter Property="Margin" Value="0,0,3,0" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="CheckBox">
-                            <TextBlock Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Margin}"
-                                       VerticalAlignment="Center"
-                                       FontFamily="{StaticResource AliIconfont}"
-                                       Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
-                                       ToolTip="{x:Null}" />
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Opacity" Value="0.7" />
-                                </Trigger>
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Opacity" Value="0.5" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </Style.Resources>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:PasswordTextBox">
@@ -1142,27 +1113,39 @@
                                 <controls:SimplePanel Panel.ZIndex="2"
                                                       DockPanel.Dock="Right"
                                                       Visibility="{Binding CanShowPassword, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <CheckBox Content="&#xe6f9;"
-                                              IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
-                                              IsTabStop="{Binding ShowPasswordButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
-                                              Style="{StaticResource CheckBoxStyle}"
-                                              ToolTip="{x:Static ohmProperties:Resources.PasswordTextBox_HidePassword}"
-                                              Visibility="{Binding ElementName=PART_TextBox, Path=Visibility}" />
-                                    <CheckBox Content="&#xe6fb;"
-                                              IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
-                                              IsTabStop="{Binding ShowPasswordButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
-                                              Style="{StaticResource CheckBoxStyle}"
-                                              ToolTip="{x:Static ohmProperties:Resources.PasswordTextBox_ShowPassword}"
-                                              Visibility="{Binding ElementName=PART_PasswordBox, Path=Visibility}" />
+
+                                    <ToggleButton IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  IsTabStop="{Binding ShowPasswordButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  Style="{StaticResource RightMenuButton}"
+                                                  ToolTip="{x:Static ohmProperties:Resources.PasswordTextBox_HidePassword}"
+                                                  Visibility="{Binding ElementName=PART_TextBox, Path=Visibility}">
+                                        <TextBlock FontFamily="{StaticResource AliIconfont}"
+                                                   Text="&#xe6f9;"
+                                                   ToolTip="{x:Null}" />
+                                    </ToggleButton>
+                                    <ToggleButton IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  IsTabStop="{Binding ShowPasswordButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  Style="{StaticResource RightMenuButton}"
+                                                  ToolTip="{x:Static ohmProperties:Resources.PasswordTextBox_ShowPassword}"
+                                                  Visibility="{Binding ElementName=PART_PasswordBox, Path=Visibility}">
+                                        <TextBlock FontFamily="{StaticResource AliIconfont}"
+                                                   Text="&#xe6fb;"
+                                                   ToolTip="{x:Null}" />
+                                    </ToggleButton>
                                 </controls:SimplePanel>
-                                <CheckBox Panel.ZIndex="1"
-                                          Content="&#xe603;"
-                                          DockPanel.Dock="Right"
-                                          IsChecked="{Binding IsCleared, RelativeSource={RelativeSource TemplatedParent}}"
-                                          IsTabStop="{Binding ClearButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
-                                          Style="{StaticResource CheckBoxStyle}"
-                                          ToolTip="{x:Static ohmProperties:Resources.Common_Clear}"
-                                          Visibility="{Binding ElementName=PART_TextBox, Path=Text, Converter={StaticResource NotNullOrEmptyToVisibilityConverter}}" />
+
+                                <ToggleButton Panel.ZIndex="1"
+                                              DockPanel.Dock="Right"
+                                              IsChecked="{Binding IsCleared, RelativeSource={RelativeSource TemplatedParent}}"
+                                              IsTabStop="{Binding ClearButtonIsTabStop, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Style="{StaticResource RightMenuButton}"
+                                              ToolTip="{x:Static ohmProperties:Resources.Common_Clear}"
+                                              Visibility="{Binding ElementName=PART_TextBox, Path=Text, Converter={StaticResource NotNullOrEmptyToVisibilityConverter}}">
+                                    <TextBlock FontFamily="{StaticResource AliIconfont}"
+                                               Text="&#xe603;"
+                                               ToolTip="{x:Null}" />
+                                </ToggleButton>
+
                                 <controls:SimplePanel DockPanel.Dock="Left">
                                     <TextBox x:Name="PART_TextBox"
                                              attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"

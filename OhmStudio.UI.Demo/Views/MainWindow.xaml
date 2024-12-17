@@ -1220,7 +1220,7 @@
                                                 <Button VerticalAlignment="Top" Click="Button_Click_17">显示选中项</Button>
                                             </WrapPanel>
                                         </GroupBox>
-                                        <GroupBox Margin="10" Header="Control">
+                                        <GroupBox Margin="10" Header="Control-Horizontal">
                                             <StackPanel Orientation="Horizontal">
                                                 <ComboBox VerticalAlignment="Top">
                                                     <ComboBoxItem IsSelected="True">(未选择)</ComboBoxItem>
@@ -1235,6 +1235,23 @@
                                                 <PasswordTextBox VerticalAlignment="Top" />
                                                 <DateTimePicker VerticalAlignment="Top" />
                                                 <SearchBar VerticalAlignment="Top" />
+                                            </StackPanel>
+                                        </GroupBox>
+                                        <GroupBox Margin="10" Header="Control-Vertical">
+                                            <StackPanel>
+                                                <ComboBox HorizontalAlignment="Left">
+                                                    <ComboBoxItem IsSelected="True">(未选择)</ComboBoxItem>
+                                                </ComboBox>
+                                                <CheckComboBox HorizontalAlignment="Left" />
+                                                <ComboBox HorizontalAlignment="Left" IsEditable="True">
+                                                    <ComboBoxItem IsSelected="True">(未选择)</ComboBoxItem>
+                                                </ComboBox>
+                                                <Button HorizontalAlignment="Left">(未选择)</Button>
+                                                <TextBox HorizontalAlignment="Left" />
+                                                <PasswordBox HorizontalAlignment="Left" />
+                                                <PasswordTextBox HorizontalAlignment="Left" />
+                                                <DateTimePicker HorizontalAlignment="Left" />
+                                                <SearchBar HorizontalAlignment="Left" />
                                             </StackPanel>
                                         </GroupBox>
                                         <GroupBox Margin="10" Header="InputControlWithButtonTitle">
