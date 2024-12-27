@@ -129,21 +129,31 @@ namespace OhmStudio.UI.Attaches
             if (sender is Selector selector)
             {
                 OnIsAutoScrollToEndChanged(selector, new DependencyPropertyChangedEventArgs(IsAutoScrollToEndProperty, true, GetIsAutoScrollToEnd(selector)));
+
+                if (GetIsAutoScrollToEnd(selector))
+                {
+                    ScrollToEnd(selector);
+                }
             }
         }
 
         private static void SelectorAttach_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (CollectionToSelectorMap.TryGetValue(sender, out var selector))
+            if (CollectionToSelectorMap.TryGetValue(sender, out var selector) && e.Action == NotifyCollectionChangedAction.Add)
             {
-                if (selector.IsMouseOver && GetIgnoreAutoScrollOnMouseOver(selector))
-                {
-                    return;
-                }
-                if (e.Action == NotifyCollectionChangedAction.Add && selector.Items.Count > 0)
-                {
-                    selector.ScrollToEnd();
-                }
+                ScrollToEnd(selector);
+            }
+        }
+
+        private static void ScrollToEnd(Selector selector)
+        {
+            if (selector.IsMouseOver && GetIgnoreAutoScrollOnMouseOver(selector))
+            {
+                return;
+            }
+            if (selector.Items.Count > 0)
+            {
+                selector.ScrollToEnd();
             }
         }
     }
