@@ -139,14 +139,17 @@
                         <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxButton" />
                     </Grid.ColumnDefinitions>
 
-                    <ContentPresenter x:Name="ContentSite"
-                                      Margin="{TemplateBinding Padding}"
-                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      Content="{TemplateBinding SelectionBoxItem}"
-                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    <Border x:Name="SelectedContentBorder" Padding="2,0">
+                        <ContentPresenter x:Name="ContentSite"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Content="{TemplateBinding SelectionBoxItem}"
+                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Border>
+
 
                     <TextBox x:Name="PART_EditableTextBox"
                              attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
@@ -246,7 +249,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource CommonControlsComboBoxListItemTextHover}" />
             </MultiTrigger>
             <Trigger Property="IsEditable" Value="True">
-                <Setter TargetName="ContentSite" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="SelectedContentBorder" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
                 <!--<Setter Property="IsTabStop" Value="False" />-->
                 <Setter TargetName="DropDownButton" Property="Grid.Column" Value="1" />
