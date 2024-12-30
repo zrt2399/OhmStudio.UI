@@ -63,6 +63,8 @@ namespace OhmStudio.UI.Demo.Views
             dispatcherTimer.Start();
         }
 
+        private string Version => Assembly.GetAssembly(typeof(ChromeWindow)).GetName().Version.ToString();
+
         protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
         {
             base.OnPreviewMouseWheel(e);
@@ -107,23 +109,22 @@ namespace OhmStudio.UI.Demo.Views
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var version = Assembly.GetAssembly(typeof(ChromeWindow)).GetName().Version.ToString();
+        { 
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 1; i <= 100; i++)
             {
                 stringBuilder.Append("Item:" + i + Environment.NewLine);
             }
 
-            var result = AlertDialog.Show(stringBuilder.ToString(), version, MessageBoxButton.YesNoCancel, MessageBoxImage.Error);
-            MessageBox.Show("点击了" + result, version);
+            var result = AlertDialog.Show(stringBuilder.ToString(), Version, MessageBoxButton.YesNoCancel, MessageBoxImage.Error);
+            MessageBox.Show("点击了" + result, Version);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Task.Run(() =>
             {
-                AlertDialog.ShowError("AlertDialog.ShowError(In the Task)", "Demo");
+                AlertDialog.ShowError("AlertDialog.ShowError(In the Task)", Version);
             });
             //Messenger.Default.Send("AlertDialog.Show", MessageType.AlertDialog);
         }

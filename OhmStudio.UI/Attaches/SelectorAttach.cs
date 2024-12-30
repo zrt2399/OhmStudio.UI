@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Threading;
 using OhmStudio.UI.Utilities;
 
 namespace OhmStudio.UI.Attaches
@@ -153,7 +154,10 @@ namespace OhmStudio.UI.Attaches
             }
             if (selector.Items.Count > 0)
             {
-                selector.ScrollToEnd();
+                selector.Dispatcher.InvokeAsync(() =>
+                {
+                    selector.ScrollToEnd();
+                }, DispatcherPriority.Render);
             }
         }
     }
