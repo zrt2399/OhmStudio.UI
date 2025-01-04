@@ -47,6 +47,12 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty SearchedContentProperty =
             DependencyProperty.Register(nameof(SearchedContent), typeof(object), typeof(SearchBar));
 
+        public static readonly DependencyProperty SearchedContentTemplateProperty =
+            DependencyProperty.Register(nameof(SearchedContentTemplate), typeof(DataTemplate), typeof(SearchBar));
+
+        public static readonly DependencyProperty SearchedContentTemplateSelectorProperty =
+            DependencyProperty.Register(nameof(SearchedContentTemplateSelector), typeof(DataTemplateSelector), typeof(SearchBar));
+
         public static readonly DependencyProperty MinDropDownWidthProperty =
            DependencyProperty.Register(nameof(MinDropDownWidth), typeof(double), typeof(SearchBar), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.AffectsMeasure));
 
@@ -99,6 +105,18 @@ namespace OhmStudio.UI.Controls
         {
             get => GetValue(SearchedContentProperty);
             set => SetValue(SearchedContentProperty, value);
+        }
+
+        public DataTemplate SearchedContentTemplate
+        {
+            get => (DataTemplate)GetValue(SearchedContentTemplateProperty);
+            set => SetValue(SearchedContentTemplateProperty, value);
+        }
+
+        public DataTemplateSelector SearchedContentTemplateSelector
+        {
+            get => (DataTemplateSelector)GetValue(SearchedContentTemplateSelectorProperty);
+            set => SetValue(SearchedContentTemplateSelectorProperty, value);
         }
 
         [TypeConverter(typeof(LengthConverter))]

@@ -442,7 +442,9 @@
                                                     BorderBrush="{DynamicResource CommonControlsComboBoxListBorder}"
                                                     BorderThickness="{TemplateBinding BorderThickness}"
                                                     SnapsToDevicePixels="True">
-                                                <ContentPresenter Content="{TemplateBinding SearchedContent}" />
+                                                <ContentPresenter Content="{TemplateBinding SearchedContent}"
+                                                                  ContentTemplate="{TemplateBinding SearchedContentTemplate}"
+                                                                  ContentTemplateSelector="{TemplateBinding SearchedContentTemplateSelector}" />
                                             </Border>
                                         </theme:SystemDropShadowChrome>
                                     </Popup>
