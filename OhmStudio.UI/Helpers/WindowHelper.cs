@@ -55,10 +55,10 @@ namespace OhmStudio.UI.Helpers
         public const uint FLASHW_TIMER = 4;
         public const uint FLASHW_TIMERNOFG = 12;
 
-        [DllImport("User32.dll")]
+        [DllImport("user32.dll")]
         public static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
 
-        [DllImport("User32.dll")]
+        [DllImport("user32.dll")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
         [DllImport("user32.dll")]
@@ -102,6 +102,10 @@ namespace OhmStudio.UI.Helpers
         {
             if (window != null)
             {
+                if (!window.IsVisible)
+                {
+                    window.Show();
+                }
                 ShowAndActivate(new WindowInteropHelper(window).Handle);
             }
         }

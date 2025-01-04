@@ -91,7 +91,7 @@ namespace OhmStudio.UI.Controls
         private static extern uint SetWindowLong(IntPtr hwnd, int nIndex, uint newLong);
         [DllImport("user32.dll", EntryPoint = "GetWindowLongW")]
         private static extern int GetWindowLong(IntPtr hwnd, int nIndex);
-        [DllImport("User32.dll")]
+        [DllImport("user32.dll")]
         private static extern bool MoveWindow(IntPtr handle, int x, int y, int width, int height, bool redraw);
 
         [DllImport("user32.dll")]

@@ -8,7 +8,7 @@
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                        xmlns:ohmProperties="clr-namespace:OhmStudio.UI.Properties"
                        MinWidth="160"
-                       MinHeight="140"
+                       MinHeight="150"
                        d:Title="系统提示"
                        ResizeMode="NoResize"
                        SizeToContent="WidthAndHeight"
@@ -146,7 +146,7 @@
             <Grid>
                 <Image x:Name="imageInfo"
                        Height="32"
-                       Margin="10,10,0,0"
+                       Margin="10,16,0,0"
                        VerticalAlignment="Top">
                     <Image.Style>
                         <Style TargetType="Image">
@@ -162,7 +162,7 @@
             <Grid Grid.Column="1">
                 <TextBox x:Name="txtMessage"
                          Padding="10,0"
-                         VerticalContentAlignment="Top"
+                         VerticalContentAlignment="Center"
                          Background="Transparent"
                          BorderBrush="Transparent"
                          BorderThickness="0"

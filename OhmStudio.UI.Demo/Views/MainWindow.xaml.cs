@@ -63,7 +63,7 @@ namespace OhmStudio.UI.Demo.Views
             dispatcherTimer.Start();
         }
 
-        private string Version => Assembly.GetAssembly(typeof(ChromeWindow)).GetName().Version.ToString();
+        private string Version { get; } = Assembly.GetAssembly(typeof(ChromeWindow)).GetName().Version.ToString();
 
         protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
         {
@@ -109,7 +109,7 @@ namespace OhmStudio.UI.Demo.Views
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
-        { 
+        {
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 1; i <= 100; i++)
             {
@@ -124,9 +124,14 @@ namespace OhmStudio.UI.Demo.Views
         {
             Task.Run(() =>
             {
-                AlertDialog.ShowError("AlertDialog.ShowError(In the Task)", Version);
+                AlertDialog.Show("AlertDialog.ShowError(In the Task)", Version);
             });
             //Messenger.Default.Send("AlertDialog.Show", MessageType.AlertDialog);
+        }
+
+        private void Button_Click_21(object sender, RoutedEventArgs e)
+        {
+            AlertDialog.ShowError("AlertDialog.ShowError\r\nAlertDialog.ShowError", Version);
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)

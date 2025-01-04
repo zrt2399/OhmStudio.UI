@@ -24,7 +24,7 @@ namespace OhmStudio.UI.Controls
         public const char DefaultPasswordChar = '●';
 
         public static readonly DependencyProperty PasswordCharProperty =
-            DependencyProperty.Register(nameof(PasswordChar), typeof(char), typeof(PasswordTextBox), new FrameworkPropertyMetadata(DefaultPasswordChar));
+            DependencyProperty.Register(nameof(PasswordChar), typeof(char), typeof(PasswordTextBox), new PropertyMetadata(DefaultPasswordChar));
 
         /// <summary>
         /// 获取或设置的掩码字符 <see cref="PasswordTextBox"/>。
@@ -54,6 +54,15 @@ namespace OhmStudio.UI.Controls
                     passwordTextBox.IsChecked = false;
                 }
             }));
+
+        public static readonly DependencyProperty MaxLengthProperty =
+            DependencyProperty.Register(nameof(MaxLength), typeof(int), typeof(PasswordTextBox), new PropertyMetadata(default(int)));
+
+        public int MaxLength
+        {
+            get => (int)GetValue(MaxLengthProperty);
+            set => SetValue(MaxLengthProperty, value);
+        }
 
         /// <summary>
         /// 控制TextBox显示或者隐藏----TextBox来显示明文。

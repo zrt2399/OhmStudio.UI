@@ -256,6 +256,7 @@
                                             <StackPanel Margin="0,10" Orientation="Horizontal">
                                                 <Button Margin="10,0" Click="Button_Click">Show MessageBoxResult</Button>
                                                 <Button Margin="10,0" Click="Button_Click_1">AlertDialog.Show</Button>
+                                                <Button Margin="10,0" Click="Button_Click_21">AlertDialog.ShowError</Button>
                                                 <Button Margin="10,0" Click="Button_Click_2">GC</Button>
                                             </StackPanel>
                                             <StackPanel Grid.Row="1"
@@ -1186,6 +1187,7 @@
 
                                                 <PasswordTextBox VerticalAlignment="Top"
                                                                  Foreground="Indigo"
+                                                                 MaxLength="10"
                                                                  Password="{Binding Password}"
                                                                  PasswordChar="$"
                                                                  TextBoxAttach.PlaceHolder="请输入密码..."
@@ -1252,6 +1254,12 @@
                                                 <PasswordTextBox HorizontalAlignment="Left" />
                                                 <DateTimePicker HorizontalAlignment="Left" />
                                                 <SearchBar HorizontalAlignment="Left" />
+                                            </StackPanel>
+                                        </GroupBox>
+                                        <GroupBox Margin="10" Header="EmptyBoxRectangle">
+                                            <StackPanel>
+                                                <Rectangle Style="{StaticResource EmptyBoxRectangle}" />
+                                                <EmptyBox />
                                             </StackPanel>
                                         </GroupBox>
                                         <GroupBox Margin="10" Header="InputControlWithButtonTitle">
