@@ -26,21 +26,18 @@ namespace OhmStudio.UI.Helpers
         /// <returns></returns>
         public static BitmapImage GetBitmapImage(this Uri imagePath)
         {
-            if (imagePath == null || string.IsNullOrEmpty(imagePath.ToString().Trim()))
+            if (imagePath == null || string.IsNullOrWhiteSpace(imagePath.ToString()) || !File.Exists(imagePath.LocalPath))
             {
                 return null;
             }
 
             BitmapImage bitmap = new BitmapImage();
-            if (File.Exists(imagePath.LocalPath))
-            {
-                bitmap.BeginInit();
-                bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                using Stream ms = new MemoryStream(File.ReadAllBytes(imagePath.LocalPath));
-                bitmap.StreamSource = ms;
-                bitmap.EndInit();
-                bitmap.Freeze();
-            }
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            using Stream ms = new MemoryStream(File.ReadAllBytes(imagePath.LocalPath));
+            bitmap.StreamSource = ms;
+            bitmap.EndInit();
+            bitmap.Freeze();
             return bitmap;
         }
 
@@ -67,7 +64,8 @@ namespace OhmStudio.UI.Helpers
             }
             if (uriString.IsContained("pack://application:"))
             {
-                return new Bitmap(Application.GetResourceStream(uri).Stream);
+                using Stream stream = Application.GetResourceStream(uri).Stream;
+                return new Bitmap(stream);
             }
             if (uriString.IsContained("http:") || uriString.IsContained("https:"))
             {

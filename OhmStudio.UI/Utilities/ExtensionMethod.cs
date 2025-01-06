@@ -129,9 +129,9 @@ namespace OhmStudio.UI.Utilities
             return logicalPixels * VisualTreeHelper.GetDpi(Application.Current.MainWindow).PixelsPerDip;
         }
 
-        public static bool ComparePropertiesWith<T>(this T t1, T t2, bool ignoreBaseProperties = false)
+        public static bool IsEqualTo<T>(this T t1, T t2, bool ignoreBase = false)
         {
-            return PropertyComparer<T>.CompareProperties(t1, t2, ignoreBaseProperties);
+            return PropertyComparer<T>.IsEqualTo(t1, t2, ignoreBase);
         }
 
         public static T CloneProperties<T>(this T t)
@@ -434,10 +434,10 @@ namespace OhmStudio.UI.Utilities
 
         private static readonly ConcurrentDictionary<CacheKey, Func<T, T, bool>> _cache = new ConcurrentDictionary<CacheKey, Func<T, T, bool>>();
 
-        public static bool CompareProperties(T obj1, T obj2, bool ignoreBaseProperties = false)
+        public static bool IsEqualTo(T obj1, T obj2, bool ignoreBase = false)
         {
             var type = typeof(T);
-            var cacheKey = new CacheKey(type, ignoreBaseProperties);
+            var cacheKey = new CacheKey(type, ignoreBase);
             if (_cache.TryGetValue(cacheKey, out var comparer))
             {
                 return comparer(obj1, obj2);
@@ -449,7 +449,7 @@ namespace OhmStudio.UI.Utilities
             Expression body = null;
 
             BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
-            if (ignoreBaseProperties)
+            if (ignoreBase)
             {
                 flags |= BindingFlags.DeclaredOnly;
             }
