@@ -48,8 +48,8 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Margin" Value="{DynamicResource ListBoxItemMargin}" />
         <Setter Property="Padding" Value="{DynamicResource ListBoxItemPadding}" />
-        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter Property="HorizontalContentAlignment" Value="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=HorizontalContentAlignment, FallbackValue=Left}" />
+        <Setter Property="VerticalContentAlignment" Value="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=VerticalContentAlignment, FallbackValue=Center}" />
         <Setter Property="Background" Value="{DynamicResource ListBoxItemStaticBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ListBoxItemStaticBorder}" />
         <Setter Property="Foreground" Value="{DynamicResource ListBoxItemStaticForeground}" />
