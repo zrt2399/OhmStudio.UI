@@ -1429,12 +1429,13 @@
                             <LayoutDocument Title="EmbeddedWindow" CanClose="False">
                                 <Grid GridAttach.RowDefinitions="Auto,*">
                                     <Button Click="Button_Click_20">ShutDown the EmbeddedWindow</Button>
+                                    <!--  ExePath="C:\Users\Xtone\Desktop\新建文件夹\FPS\FPS.exe"  -->
                                     <AppHost x:Name="appHost"
                                              Grid.Row="1"
                                              Padding="10"
                                              BorderBrush="Purple"
                                              BorderThickness="1"
-                                             ExePath="C:\Users\Xtone\Desktop\新建文件夹\FPS\FPS.exe" />
+                                             ExePath="notepad.exe" />
                                 </Grid>
                             </LayoutDocument>
                         </LayoutDocumentPane>
