@@ -80,7 +80,7 @@ namespace OhmStudio.UI.Attaches
 
         private static void UIElement_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (sender is UIElement uIElement && e.ClickCount >= GetMouseClickCount(uIElement))
+            if (sender is UIElement uIElement && e.ClickCount == GetMouseClickCount(uIElement))
             {
                 var ignoreElement = GetIgnoreElement(uIElement);
                 if (!string.IsNullOrEmpty(ignoreElement))
