@@ -131,6 +131,17 @@ namespace OhmStudio.UI.Utilities
 
         public static bool IsEqualTo<T>(this T t1, T t2, bool ignoreBase = false)
         {
+            if (t1 == null && t2 == null)
+            {
+                return true;
+            }
+
+            // 如果其中一个为 null，另一个不为 null，则不相等
+            if (t1 == null || t2 == null)
+            {
+                return false;
+            }
+
             return PropertyComparer<T>.IsEqualTo(t1, t2, ignoreBase);
         }
 
