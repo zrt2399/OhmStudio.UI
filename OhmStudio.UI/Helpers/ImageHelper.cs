@@ -22,23 +22,17 @@ namespace OhmStudio.UI.Helpers
         /// <summary>
         /// 图片转化。
         /// </summary>
-        /// <param name="imagePath">图片路径</param>
+        /// <param name="uri"></param>
         /// <returns></returns>
-        public static BitmapImage GetBitmapImage(this Uri imagePath)
+        public static BitmapImage GetBitmapImage(this Uri uri)
         {
-            if (imagePath == null || string.IsNullOrWhiteSpace(imagePath.ToString()) || !File.Exists(imagePath.LocalPath))
-            {
-                return null;
-            }
-
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            using Stream ms = new MemoryStream(File.ReadAllBytes(imagePath.LocalPath));
-            bitmap.StreamSource = ms;
-            bitmap.EndInit();
-            bitmap.Freeze();
-            return bitmap;
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+            bitmapImage.UriSource = uri;
+            bitmapImage.EndInit();
+            bitmapImage.Freeze();
+            return bitmapImage;
         }
 
         /// <summary>
@@ -51,11 +45,11 @@ namespace OhmStudio.UI.Helpers
         /// <summary>
         /// ImageSource转Bitmap。
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="bitmapSource"></param>
         /// <returns></returns>
-        public static async Task<Bitmap> GetBitmapAsync(this ImageSource source)
+        public static async Task<Bitmap> GetBitmapAsync(this ImageSource bitmapSource)
         {
-            var uriString = source.ToString();
+            var uriString = bitmapSource.ToString();
             Uri uri = new Uri(uriString);
             if (uriString.IsContained("pack://siteoforigin:"))
             {
@@ -93,12 +87,12 @@ namespace OhmStudio.UI.Helpers
         /// <returns></returns>
         public static Bitmap BitmapImageToBitmap(BitmapImage bitmapImage)
         {
-            using MemoryStream outStream = new MemoryStream();
-            BitmapEncoder enc = new BmpBitmapEncoder();
+            using MemoryStream memoryStream = new MemoryStream();
+            BitmapEncoder bitmapEncoder = new BmpBitmapEncoder();
             BitmapFrame bitmapFrame = BitmapFrame.Create(bitmapImage);
-            enc.Frames.Add(bitmapFrame);
-            enc.Save(outStream);
-            return new Bitmap(outStream);
+            bitmapEncoder.Frames.Add(bitmapFrame);
+            bitmapEncoder.Save(memoryStream);
+            return new Bitmap(memoryStream);
         }
 
         public static BitmapImage BitmapToBitmapImage(Bitmap bitmap, ImageFormat imageFormat = null, bool isDisposeBitmap = true)
@@ -109,16 +103,16 @@ namespace OhmStudio.UI.Helpers
             }
             try
             {
-                using MemoryStream stream = new MemoryStream();
-                bitmap.Save(stream, imageFormat ?? ImageFormat.Bmp);
-                stream.Position = 0;
-                BitmapImage result = new BitmapImage();
-                result.BeginInit();
-                result.CacheOption = BitmapCacheOption.OnLoad;
-                result.StreamSource = stream;
-                result.EndInit();
-                result.Freeze();
-                return result;
+                using MemoryStream memoryStream = new MemoryStream();
+                bitmap.Save(memoryStream, imageFormat ?? ImageFormat.Bmp);
+                memoryStream.Position = 0;
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.StreamSource = memoryStream;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+                return bitmapImage;
             }
             finally
             {
@@ -157,41 +151,41 @@ namespace OhmStudio.UI.Helpers
             encoder.Save(fileStream);
         }
 
-        public static Bitmap ToBitmap(this BitmapSource source)
+        public static Bitmap ToBitmap(this BitmapSource bitmapSource)
         {
-            return BitmapSourceToBitmap(source);
+            return BitmapSourceToBitmap(bitmapSource);
         }
 
-        public static Bitmap ToBitmap(this BitmapSource source, int width, int height)
+        public static Bitmap ToBitmap(this BitmapSource bitmapSource, int width, int height)
         {
-            return BitmapSourceToBitmap(source, width, height);
+            return BitmapSourceToBitmap(bitmapSource, width, height);
         }
 
         /// <summary>
         /// BitmapSource转Bitmap。
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="bitmapSource"></param>
         /// <returns></returns>
-        public static Bitmap BitmapSourceToBitmap(BitmapSource source)
+        public static Bitmap BitmapSourceToBitmap(BitmapSource bitmapSource)
         {
-            return BitmapSourceToBitmap(source, source.PixelWidth, source.PixelHeight);
+            return BitmapSourceToBitmap(bitmapSource, bitmapSource.PixelWidth, bitmapSource.PixelHeight);
         }
 
         /// <summary>
         /// Convert BitmapSource to Bitmap.
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="bitmapSource"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        public static Bitmap BitmapSourceToBitmap(BitmapSource source, int width, int height)
+        public static Bitmap BitmapSourceToBitmap(BitmapSource bitmapSource, int width, int height)
         {
             Bitmap bmp = null;
             try
             {
                 System.Drawing.Imaging.PixelFormat format = System.Drawing.Imaging.PixelFormat.Format24bppRgb;
                 /*set the translate type according to the in param(source)*/
-                switch (source.Format.ToString())
+                switch (bitmapSource.Format.ToString())
                 {
                     case "Rgb24":
                     case "Bgr24":
@@ -211,7 +205,7 @@ namespace OhmStudio.UI.Helpers
                 BitmapData data = bmp.LockBits(new Rectangle(System.Drawing.Point.Empty, bmp.Size),
                     ImageLockMode.WriteOnly,
                     format);
-                source.CopyPixels(Int32Rect.Empty, data.Scan0, data.Height * data.Stride, data.Stride);
+                bitmapSource.CopyPixels(Int32Rect.Empty, data.Scan0, data.Height * data.Stride, data.Stride);
                 bmp.UnlockBits(data);
             }
             catch

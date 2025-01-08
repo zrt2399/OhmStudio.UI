@@ -146,7 +146,7 @@
             <Grid>
                 <Image x:Name="imageInfo"
                        Height="32"
-                       Margin="10,16,0,0"
+                       Margin="10,18,0,0"
                        VerticalAlignment="Top">
                     <Image.Style>
                         <Style TargetType="Image">
