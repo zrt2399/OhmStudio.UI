@@ -19,11 +19,11 @@ namespace OhmStudio.UI.Controls
 
         private System.Windows.Controls.Image PART_Image;
         /// <summary>
-        /// gif动画的<see cref="Bitmap"/>
+        /// gif动画的<see cref="Bitmap"/>。
         /// </summary>
         private Bitmap gifBitmap;
         /// <summary>
-        /// 用于显示每一帧的<see cref="BitmapSource"/>
+        /// 用于显示每一帧的<see cref="BitmapSource"/>。
         /// </summary>
         private BitmapSource bitmapSource;
 
@@ -106,7 +106,7 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// 从<see cref="Bitmap"/>中获得用于显示的那一帧图像的<see cref="BitmapSource"/>
+        /// 从<see cref="Bitmap"/>中获得用于显示的那一帧图像的<see cref="BitmapSource"/>。
         /// </summary>
         /// <returns></returns>
         private BitmapSource GetBitmapSource()
@@ -131,7 +131,7 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// Start
+        /// Start.
         /// </summary>
         public void StartAnimate()
         {
@@ -139,7 +139,7 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// Stop
+        /// Stop.
         /// </summary>
         public void StopAnimate()
         {
@@ -147,7 +147,7 @@ namespace OhmStudio.UI.Controls
         }
 
         /// <summary>
-        /// 帧处理
+        /// 帧处理。
         /// </summary>
         private void OnFrameChanged(object sender, EventArgs e)
         {
@@ -158,7 +158,7 @@ namespace OhmStudio.UI.Controls
                 bitmapSource = GetBitmapSource();
                 PART_Image.Source = bitmapSource;
                 InvalidateVisual();
-            });
+            }, DispatcherPriority.Render);
         }
 
         public override void OnApplyTemplate()

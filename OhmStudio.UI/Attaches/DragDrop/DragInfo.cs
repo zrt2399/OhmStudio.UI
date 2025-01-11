@@ -10,12 +10,11 @@ using OhmStudio.UI.Attaches.DragDrop.Utilities;
 namespace OhmStudio.UI.Attaches.DragDrop
 {
     /// <summary>
-    /// Holds information about a the source of a drag drop operation.
+    /// Holds information about the source of a drag drop operation.
     /// </summary>
-    /// 
     /// <remarks>
-    /// The <see cref="DragInfo"/> class holds all of the framework's information about the source
-    /// of a drag. It is used by <see cref="IDragSource.StartDrag"/> to determine whether a drag 
+    /// The <see cref="DragInfo"/> class holds all the framework's information about the source
+    /// of a drag. It is used by <see cref="IDragSource.StartDrag"/> to determine whether a drag
     /// can start, and what the dragged data should be.
     /// </remarks>
     public class DragInfo : IDragInfo
@@ -80,16 +79,16 @@ namespace OhmStudio.UI.Attaches.DragDrop
         /// <param name="getPosition">A function of the input event which is used to get drag position points.</param>
         public DragInfo(object sender, object originalSource, MouseButton mouseButton, Func<IInputElement, Point> getPosition)
         {
-            this.MouseButton = mouseButton;
-            this.Effects = DragDropEffects.None;
-            this.VisualSource = sender as UIElement;
-            this.DragStartPosition = getPosition(this.VisualSource);
-            this.DragDropCopyKeyState = DragDropAttach.GetDragDropCopyKeyState(this.VisualSource);
+            MouseButton = mouseButton;
+            Effects = DragDropEffects.None;
+            VisualSource = sender as UIElement;
+            DragStartPosition = getPosition(VisualSource);
+            DragDropCopyKeyState = DragDropAttach.GetDragDropCopyKeyState(VisualSource);
 
-            var dataFormat = DragDropAttach.GetDataFormat(this.VisualSource);
+            var dataFormat = DragDropAttach.GetDataFormat(VisualSource);
             if (dataFormat != null)
             {
-                this.DataFormat = dataFormat;
+                DataFormat = dataFormat;
             }
 
             var sourceElement = originalSource as UIElement;
@@ -101,8 +100,8 @@ namespace OhmStudio.UI.Attaches.DragDrop
 
             if (sender is ItemsControl itemsControl)
             {
-                this.SourceGroup = itemsControl.FindGroup(this.DragStartPosition);
-                this.VisualSourceFlowDirection = itemsControl.GetItemsPanelFlowDirection();
+                SourceGroup = itemsControl.FindGroup(DragStartPosition);
+                VisualSourceFlowDirection = itemsControl.GetItemsPanelFlowDirection();
 
                 UIElement item = null;
                 if (sourceElement != null)
@@ -112,9 +111,9 @@ namespace OhmStudio.UI.Attaches.DragDrop
 
                 if (item == null)
                 {
-                    var itemPosition = this.DragStartPosition;
+                    var itemPosition = DragStartPosition;
 
-                    if (DragDropAttach.GetDragDirectlySelectedOnly(this.VisualSource))
+                    if (DragDropAttach.GetDragDirectlySelectedOnly(VisualSource))
                     {
                         item = itemsControl.GetItemContainerAt(itemPosition);
                     }
@@ -132,13 +131,13 @@ namespace OhmStudio.UI.Attaches.DragDrop
                 if (item != null)
                 {
                     // Remember the relative position of the item being dragged
-                    this.PositionInDraggedItem = getPosition(item);
+                    PositionInDraggedItem = getPosition(item);
 
                     var itemParent = ItemsControl.ItemsControlFromItemContainer(item);
 
                     if (itemParent != null)
                     {
-                        this.SourceCollection = itemParent.ItemsSource ?? itemParent.Items;
+                        SourceCollection = itemParent.ItemsSource ?? itemParent.Items;
                         if (itemParent != itemsControl)
                         {
                             if (item is TreeViewItem tvItem)
@@ -155,50 +154,51 @@ namespace OhmStudio.UI.Attaches.DragDrop
                             }
                         }
 
-                        this.SourceIndex = itemParent.ItemContainerGenerator.IndexFromContainer(item);
-                        this.SourceItem = itemParent.ItemContainerGenerator.ItemFromContainer(item);
+                        SourceIndex = itemParent.ItemContainerGenerator.IndexFromContainer(item);
+                        SourceItem = itemParent.ItemContainerGenerator.ItemFromContainer(item);
                     }
                     else
                     {
-                        this.SourceIndex = -1;
+                        SourceIndex = -1;
                     }
 
                     var selectedItems = itemsControl.GetSelectedItems().OfType<object>().Where(i => i != CollectionView.NewItemPlaceholder).ToList();
-                    this.SourceItems = selectedItems;
+                    SourceItems = selectedItems;
 
                     // Some controls (I'm looking at you TreeView!) haven't updated their
-                    // SelectedItem by this point. Check to see if there 1 or less item in 
+                    // SelectedItem by this point. Check to see if there 1 or less item in
                     // the SourceItems collection, and if so, override the control's SelectedItems with the clicked item.
                     //
                     // The control has still the old selected items at the mouse down event, so we should check this and give only the real selected item to the user.
-                    if (selectedItems.Count <= 1 || this.SourceItem != null && !selectedItems.Contains(this.SourceItem))
+                    if (selectedItems.Count <= 1 || SourceItem != null && !selectedItems.Contains(SourceItem))
                     {
-                        this.SourceItems = Enumerable.Repeat(this.SourceItem, 1);
+                        SourceItems = Enumerable.Repeat(SourceItem, 1);
                     }
 
-                    this.VisualSourceItem = item;
+                    VisualSourceItem = item;
                 }
                 else
                 {
-                    this.SourceCollection = itemsControl.ItemsSource ?? itemsControl.Items;
+                    SourceCollection = itemsControl.ItemsSource ?? itemsControl.Items;
                 }
             }
             else
             {
-                this.SourceItem = (sourceElement as FrameworkElement)?.DataContext ?? (sender as FrameworkElement)?.DataContext;
-                if (this.SourceItem != null)
+                SourceItem = (sourceElement as FrameworkElement)?.DataContext ?? (sender as FrameworkElement)?.DataContext;
+                if (SourceItem != null)
                 {
-                    this.SourceItems = Enumerable.Repeat(this.SourceItem, 1);
+                    SourceItems = Enumerable.Repeat(SourceItem, 1);
                 }
 
-                this.VisualSourceItem = sourceElement;
-                this.PositionInDraggedItem = sourceElement != null ? getPosition(sourceElement) : this.DragStartPosition;
+                VisualSourceItem = sourceElement;
+                PositionInDraggedItem = sourceElement != null ? getPosition(sourceElement) : DragStartPosition;
             }
 
-            this.SourceItems ??= Enumerable.Empty<object>();
+            SourceItems ??= Enumerable.Empty<object>();
         }
 
-        internal void RefreshSelectedItems(object sender)
+        /// <inheritdoc />
+        public virtual void RefreshSourceItems(object sender)
         {
             if (sender is not ItemsControl itemsControl)
             {
@@ -206,16 +206,16 @@ namespace OhmStudio.UI.Attaches.DragDrop
             }
 
             var selectedItems = itemsControl.GetSelectedItems().OfType<object>().Where(i => i != CollectionView.NewItemPlaceholder).ToList();
-            this.SourceItems = selectedItems;
+            SourceItems = selectedItems;
 
             // Some controls (I'm looking at you TreeView!) haven't updated their
-            // SelectedItem by this point. Check to see if there 1 or less item in 
+            // SelectedItem by this point. Check to see if there 1 or less item in
             // the SourceItems collection, and if so, override the control's SelectedItems with the clicked item.
             //
             // The control has still the old selected items at the mouse down event, so we should check this and give only the real selected item to the user.
-            if (selectedItems.Count <= 1 || this.SourceItem != null && !selectedItems.Contains(this.SourceItem))
+            if (selectedItems.Count <= 1 || SourceItem != null && !selectedItems.Contains(SourceItem))
             {
-                this.SourceItems = Enumerable.Repeat(this.SourceItem, 1);
+                SourceItems = Enumerable.Repeat(SourceItem, 1);
             }
         }
     }

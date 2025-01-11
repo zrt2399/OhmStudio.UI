@@ -148,7 +148,7 @@ namespace OhmStudio.UI.Attaches
 
         private static void ScrollToEnd(Selector selector)
         {
-            if (selector.IsMouseOver && GetIgnoreAutoScrollOnMouseOver(selector))
+            if (GetIgnoreAutoScrollOnMouseOver(selector) && selector.IsMouseOver)
             {
                 return;
             }

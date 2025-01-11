@@ -2,10 +2,11 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OhmStudio.UI.Utilities;
@@ -53,7 +54,7 @@ namespace OhmStudio.UI.Helpers
             Uri uri = new Uri(uriString);
             if (uriString.IsContained("pack://siteoforigin:"))
             {
-                var localUri = Environment.CurrentDirectory + uri.LocalPath;
+                var localUri = Path.Combine(Environment.CurrentDirectory, uri.LocalPath);
                 return new Bitmap(localUri);
             }
             if (uriString.IsContained("pack://application:"))
@@ -61,18 +62,23 @@ namespace OhmStudio.UI.Helpers
                 using Stream stream = Application.GetResourceStream(uri).Stream;
                 return new Bitmap(stream);
             }
-            if (uriString.IsContained("http:") || uriString.IsContained("https:"))
+            if (uriString.IsContained("http://") || uriString.IsContained("https://"))
             {
-                using Stream stream = (await WebRequest.Create(uri).GetResponseAsync()).GetResponseStream();
+                using var httpClient = new HttpClient();
+                HttpResponseMessage response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
+                response.EnsureSuccessStatusCode(); // 确保请求成功
+                using Stream stream = await response.Content.ReadAsStreamAsync();
+
+                //using Stream stream = (await WebRequest.Create(uri).GetResponseAsync()).GetResponseStream();
                 return new Bitmap(stream);
             }
             string file = uriString;
             return new Bitmap(file);
         }
 
-        public static Bitmap ToBitmap(this BitmapImage bitmapImage)
+        public static Bitmap ToBitmap(this BitmapImage bitmapImage, BitmapEncoder bitmapEncoder)
         {
-            return BitmapImageToBitmap(bitmapImage);
+            return BitmapImageToBitmap(bitmapImage, bitmapEncoder);
         }
 
         public static BitmapImage ToBitmapImage(this Bitmap bitmap, ImageFormat imageFormat = null, bool isDisposeBitmap = true)
@@ -80,22 +86,49 @@ namespace OhmStudio.UI.Helpers
             return BitmapToBitmapImage(bitmap, imageFormat, isDisposeBitmap);
         }
 
+        public static BitmapSource ToBitmapSource(this Stream stream, bool isDisposeStream = true)
+        {
+            return StreamToBitmapSource(stream, isDisposeStream);
+        }
+
         /// <summary>
-        /// BitmapImage转Bitmap。
+        ///  BitmapImage转Bitmap。
         /// </summary>
         /// <param name="bitmapImage"></param>
+        /// <param name="bitmapEncoder">编码器。</param>
         /// <returns></returns>
-        public static Bitmap BitmapImageToBitmap(BitmapImage bitmapImage)
+        public static Bitmap BitmapImageToBitmap(BitmapImage bitmapImage, BitmapEncoder bitmapEncoder)
         {
             using MemoryStream memoryStream = new MemoryStream();
-            BitmapEncoder bitmapEncoder = new BmpBitmapEncoder();
             BitmapFrame bitmapFrame = BitmapFrame.Create(bitmapImage);
             bitmapEncoder.Frames.Add(bitmapFrame);
             bitmapEncoder.Save(memoryStream);
             return new Bitmap(memoryStream);
         }
 
-        public static BitmapImage BitmapToBitmapImage(Bitmap bitmap, ImageFormat imageFormat = null, bool isDisposeBitmap = true)
+        public static BitmapSource StreamToBitmapSource(Stream stream, bool isDisposeStream = true)
+        {
+            IntPtr handle = IntPtr.Zero;
+            try
+            {
+                using var bitmap = new Bitmap(stream);
+                handle = bitmap.GetHbitmap();
+                return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            }
+            finally
+            {
+                if (handle != IntPtr.Zero)
+                {
+                    DeleteObject(handle);
+                }
+                if (isDisposeStream)
+                {
+                    stream.Dispose();
+                }
+            }
+        }
+
+        public static BitmapImage BitmapToBitmapImage(Bitmap bitmap, ImageFormat imageFormat = default, bool isDisposeBitmap = true)
         {
             if (bitmap == null)
             {
@@ -118,7 +151,7 @@ namespace OhmStudio.UI.Helpers
             {
                 if (isDisposeBitmap)
                 {
-                    bitmap?.Dispose();
+                    bitmap.Dispose();
                 }
             }
         }

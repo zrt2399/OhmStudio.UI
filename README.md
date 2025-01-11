@@ -10,6 +10,7 @@ AvalonDock UI Library
 |  ----  | ----  |
 | net462  | ✅ |
 | net5.0-windows  | ✅ |
+| net8.0-windows  | ✅ |
 
 # 💡 Install
 Nuget search to download OhmStudio.UI. Please use the latest version and I will update this package from time to time to fix any bugs that may occur during testing
@@ -43,10 +44,9 @@ Nuget search to download OhmStudio.UI. Please use the latest version and I will 
 <Thickness x:Key="ListViewItemPadding">4,2</Thickness>
 <Thickness x:Key="ListViewItemMargin">0,0,0,1</Thickness>
 ```
-#### Contribution
-
-- [OriginalAuthor：Wenveo](https://www.bilibili.com/video/BV1yW4y1N7Zq/?spm_id_from=333.999.0.0)
+#### Special Thanks
+- [GongSolutions.WPF.DragDrop](https://github.com/punker76/gong-wpf-dragdrop)
 - [AakStudio.Shell.UI](https://github.com/Wenveo/AakStudio.Shell.UI)
 - [AakStudio.Shell.UI.Themes.AvalonDock](https://github.com/Wenveo/AakStudio.Shell.UI.Themes.AvalonDock)
-
+- [OriginalAuthor：Wenveo](https://www.bilibili.com/video/BV1yW4y1N7Zq/?spm_id_from=333.999.0.0)
 The original author is no longer maintaining the change library. I am organizing and updating this package

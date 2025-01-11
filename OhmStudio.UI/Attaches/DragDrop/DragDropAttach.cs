@@ -14,6 +14,21 @@ namespace OhmStudio.UI.Attaches.DragDrop
     public static partial class DragDropAttach
     {
         /// <summary>
+        /// Get the <see cref="DataTemplate"/> for the drop hint, or return the default template if not set.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <returns></returns>
+        internal static DataTemplate TryGetDropHintDataTemplate(UIElement sender)
+        {
+            if (sender == null)
+            {
+                return null;
+            }
+
+            return GetDropHintDataTemplate(sender) ?? DropHintHelpers.GetDefaultDropHintTemplate();
+        }
+
+        /// <summary>
         /// Gets the drag handler from the drag info or from the sender, if the drag info is null
         /// </summary>
         /// <param name="dragInfo">the drag info object</param>
@@ -32,7 +47,7 @@ namespace OhmStudio.UI.Attaches.DragDrop
         /// <param name="dropInfo">the drop info object</param>
         /// <param name="sender">the sender from an event, e.g. drag over</param>
         /// <returns></returns>
-        private static IDropTarget TryGetDropHandler(IDropInfo dropInfo, UIElement sender)
+        internal static IDropTarget TryGetDropHandler(IDropInfo dropInfo, UIElement sender)
         {
             var dropHandler = (dropInfo?.VisualTarget != null ? GetDropHandler(dropInfo.VisualTarget) : null) ?? (sender != null ? GetDropHandler(sender) : null);
 
@@ -54,7 +69,7 @@ namespace OhmStudio.UI.Attaches.DragDrop
         /// </summary>
         /// <param name="sender">the sender from an event, e.g. drag over</param>
         /// <returns></returns>
-        private static IDropInfoBuilder TryGetDropInfoBuilder(DependencyObject sender)
+        internal static IDropInfoBuilder TryGetDropInfoBuilder(DependencyObject sender)
         {
             return sender != null ? GetDropInfoBuilder(sender) : null;
         }
@@ -250,9 +265,9 @@ namespace OhmStudio.UI.Attaches.DragDrop
                 var adornment = new ContentPresenter { Content = dragInfo.Data, ContentTemplate = template };
 
                 var preview = new DragDropEffectPreview(rootElement, adornment, GetEffectAdornerTranslation(dragInfo.VisualSource), dropInfo.Effects, dropInfo.EffectText, dropInfo.DestinationText)
-                              {
-                                  IsOpen = true
-                              };
+                {
+                    IsOpen = true
+                };
 
                 return preview;
             }
@@ -340,10 +355,10 @@ namespace OhmStudio.UI.Attaches.DragDrop
                                      new GradientStop(Colors.AliceBlue, 1.0)
                                  };
             var gradientBrush = new LinearGradientBrush(stopCollection)
-                                {
-                                    StartPoint = new Point(0, 0),
-                                    EndPoint = new Point(0, 1)
-                                };
+            {
+                StartPoint = new Point(0, 0),
+                EndPoint = new Point(0, 1)
+            };
             borderFactory.SetValue(Panel.BackgroundProperty, gradientBrush);
             borderFactory.SetValue(Border.BorderBrushProperty, Brushes.DimGray);
             borderFactory.SetValue(Border.CornerRadiusProperty, new CornerRadius(3));
@@ -451,7 +466,7 @@ namespace OhmStudio.UI.Attaches.DragDrop
             DragSourceDown(sender, dragInfo, e, elementPosition);
         }
 
-        private static void DragSourceDown(object sender, DragInfo dragInfo, InputEventArgs e, Point elementPosition)
+        private static void DragSourceDown(object sender, IDragInfo dragInfo, InputEventArgs e, Point elementPosition)
         {
             if (dragInfo.VisualSource is ItemsControl control && control.CanSelectMultipleItems())
             {
@@ -469,8 +484,8 @@ namespace OhmStudio.UI.Attaches.DragDrop
                 return;
             }
 
-            // If the sender is a list box that allows multiple selections, ensure that clicking on an 
-            // already selected item does not change the selection, otherwise dragging multiple items 
+            // If the sender is a list box that allows multiple selections, ensure that clicking on an
+            // already selected item does not change the selection, otherwise dragging multiple items
             // is made impossible.
             if ((Keyboard.Modifiers & ModifierKeys.Shift) == 0
                 //&& (Keyboard.Modifiers & ModifierKeys.Control) == 0 // #432
@@ -603,7 +618,7 @@ namespace OhmStudio.UI.Attaches.DragDrop
                     && (Math.Abs(position.X - dragStart.X) > GetMinimumHorizontalDragDistance(dragInfo.VisualSource) ||
                         Math.Abs(position.Y - dragStart.Y) > GetMinimumVerticalDragDistance(dragInfo.VisualSource)))
                 {
-                    dragInfo.RefreshSelectedItems(sender);
+                    dragInfo.RefreshSourceItems(sender);
 
                     var dragHandler = TryGetDragHandler(dragInfo, sender as UIElement);
                     if (dragHandler.CanStartDrag(dragInfo))
@@ -649,13 +664,20 @@ namespace OhmStudio.UI.Attaches.DragDrop
                                         }
                                     });
 
+                                DropHintHelpers.OnDragStart(dragInfo);
                                 var dragDropHandler = dragInfo.DragDropHandler ?? System.Windows.DragDrop.DoDragDrop;
                                 var dragDropEffects = dragDropHandler(dragInfo.VisualSource, dataObject, dragInfo.Effects);
                                 if (dragDropEffects == DragDropEffects.None)
                                 {
                                     dragHandler.DragCancelled();
+                                    DragDropPreview = null;
+                                    DragDropEffectPreview = null;
+                                    DropTargetAdorner = null;
+                                    DropHintHelpers.OnDropFinished();
+                                    Mouse.OverrideCursor = null;
                                 }
 
+                                DropHintHelpers.OnDropFinished();
                                 dragHandler.DragDropOperationFinished(dragDropEffects, dragInfo);
                             }
                             catch (Exception ex)
@@ -674,17 +696,6 @@ namespace OhmStudio.UI.Attaches.DragDrop
                         }
                     }
                 }
-            }
-        }
-
-        private static void DragSourceOnQueryContinueDrag(object sender, QueryContinueDragEventArgs e)
-        {
-            if (e.Action == DragAction.Cancel || e.EscapePressed || (e.KeyStates.HasFlag(DragDropKeyStates.LeftMouseButton) == e.KeyStates.HasFlag(DragDropKeyStates.RightMouseButton)))
-            {
-                DragDropPreview = null;
-                DragDropEffectPreview = null;
-                DropTargetAdorner = null;
-                Mouse.OverrideCursor = null;
             }
         }
 
@@ -718,7 +729,14 @@ namespace OhmStudio.UI.Attaches.DragDrop
             var dropInfo = dropInfoBuilder?.CreateDropInfo(sender, e, dragInfo, eventType) ?? new DropInfo(sender, e, dragInfo, eventType);
             var dropHandler = TryGetDropHandler(dropInfo, sender as UIElement);
 
-            dropHandler?.DragLeave(dropInfo);
+            if (dropHandler != null)
+            {
+                dropHandler.DragLeave(dropInfo);
+                if (_dragInProgress)
+                {
+                    DropHintHelpers.OnDragLeave(sender, dropHandler, dragInfo);
+                }
+            }
 
             DragDropEffectPreview = null;
             DropTargetAdorner = null;
@@ -763,6 +781,7 @@ namespace OhmStudio.UI.Attaches.DragDrop
             }
 
             dropHandler.DragOver(dropInfo);
+            DropHintHelpers.DragOver(sender, dropInfo);
 
             if (dragInfo is not null)
             {
@@ -789,7 +808,7 @@ namespace OhmStudio.UI.Attaches.DragDrop
             // If the target is an ItemsControl then update the drop target adorner.
             if (itemsControl != null)
             {
-                // Display the adorner in the control's ItemsPresenter. If there is no 
+                // Display the adorner in the control's ItemsPresenter. If there is no
                 // ItemsPresenter provided by the style, try getting hold of a
                 // ScrollContentPresenter and using that.
                 UIElement adornedElement;
@@ -831,6 +850,15 @@ namespace OhmStudio.UI.Attaches.DragDrop
                             if (adornerBrush != null)
                             {
                                 adorner.Pen.SetCurrentValue(Pen.BrushProperty, adornerBrush);
+                            }
+                        }
+
+                        if (adorner is DropTargetHighlightAdorner highlightAdorner)
+                        {
+                            var highlightBrush = GetDropTargetHighlightBrush(dropInfo.VisualTarget);
+                            if (highlightBrush != null)
+                            {
+                                highlightAdorner.Background = highlightBrush;
                             }
                         }
 
@@ -897,7 +925,7 @@ namespace OhmStudio.UI.Attaches.DragDrop
             DragDropPreview = null;
             DragDropEffectPreview = null;
             DropTargetAdorner = null;
-
+            DropHintHelpers.OnDropFinished();
             dropHandler.DragOver(dropInfo);
 
             if (itemsSorter != null && dropInfo.Data is IEnumerable enumerable and not string)
@@ -907,7 +935,6 @@ namespace OhmStudio.UI.Attaches.DragDrop
 
             dropHandler.Drop(dropInfo);
             dragHandler.Dropped(dropInfo);
-
             e.Effects = dropInfo.Effects;
             e.Handled = !dropInfo.NotHandled;
 
@@ -1007,12 +1034,12 @@ namespace OhmStudio.UI.Attaches.DragDrop
             get => dropTargetAdorner;
             set
             {
-                dropTargetAdorner?.Detatch();
+                dropTargetAdorner?.Detach();
                 dropTargetAdorner = value;
             }
         }
 
-        private static DragInfo _dragInfo;
+        private static IDragInfo _dragInfo;
         private static bool _dragInProgress;
         private static object _clickSupressItem;
 

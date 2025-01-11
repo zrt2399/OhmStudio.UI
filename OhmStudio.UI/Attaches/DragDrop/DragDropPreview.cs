@@ -47,7 +47,7 @@ namespace OhmStudio.UI.Attaches.DragDrop
             VerticalAlignment = VerticalAlignment.Top;
 
             _dragInfo = dragInfo;
-            Child = this.CreatePreviewPresenter(dragInfo, visualTarget, sender);
+            Child = CreatePreviewPresenter(dragInfo, visualTarget, sender);
             Translation = DragDropAttach.GetDragAdornerTranslation(dragInfo.VisualSource);
             AnchorPoint = DragDropAttach.GetDragMouseAnchorPoint(dragInfo.VisualSource);
         }
@@ -71,8 +71,8 @@ namespace OhmStudio.UI.Attaches.DragDrop
 
         public DataTemplate ItemTemplate
         {
-            get => (DataTemplate)this.GetValue(ItemTemplateProperty);
-            set => this.SetValue(ItemTemplateProperty, value);
+            get => (DataTemplate)GetValue(ItemTemplateProperty);
+            set => SetValue(ItemTemplateProperty, value);
         }
 
         /// <summary>Identifies the <see cref="ItemTemplateSelector"/> dependency property.</summary>
@@ -84,8 +84,8 @@ namespace OhmStudio.UI.Attaches.DragDrop
 
         public DataTemplateSelector ItemTemplateSelector
         {
-            get => (DataTemplateSelector)this.GetValue(ItemTemplateSelectorProperty);
-            set => this.SetValue(ItemTemplateSelectorProperty, value);
+            get => (DataTemplateSelector)GetValue(ItemTemplateSelectorProperty);
+            set => SetValue(ItemTemplateSelectorProperty, value);
         }
 
         /// <summary>Identifies the <see cref="ItemsPanel"/> dependency property.</summary>
@@ -97,34 +97,34 @@ namespace OhmStudio.UI.Attaches.DragDrop
 
         public ItemsPanelTemplate ItemsPanel
         {
-            get => (ItemsPanelTemplate)this.GetValue(ItemsPanelProperty);
-            set => this.SetValue(ItemsPanelProperty, value);
+            get => (ItemsPanelTemplate)GetValue(ItemsPanelProperty);
+            set => SetValue(ItemsPanelProperty, value);
         }
 
         public void Move(Point point)
         {
-            var translation = this.Translation;
+            var translation = Translation;
             var translationX = point.X + translation.X;
             var translationY = point.Y + translation.Y;
 
-            if (this.Child is not null)
+            if (Child is not null)
             {
-                var renderSize = this.Child.RenderSize;
+                var renderSize = Child.RenderSize;
 
                 var renderSizeWidth = renderSize.Width;
                 var renderSizeHeight = renderSize.Height;
 
                 // Only set if the template contains a Canvas.
-                if (!this._visualSourceItemBounds.IsEmpty)
+                if (!_visualSourceItemBounds.IsEmpty)
                 {
-                    renderSizeWidth = Math.Min(renderSizeWidth, this._visualSourceItemBounds.Width);
-                    renderSizeHeight = Math.Min(renderSizeHeight, this._visualSourceItemBounds.Height);
+                    renderSizeWidth = Math.Min(renderSizeWidth, _visualSourceItemBounds.Width);
+                    renderSizeHeight = Math.Min(renderSizeHeight, _visualSourceItemBounds.Height);
                 }
 
                 if (renderSizeWidth > 0 && renderSizeHeight > 0)
                 {
-                    var offsetX = renderSizeWidth * -this.AnchorPoint.X;
-                    var offsetY = renderSizeHeight * -this.AnchorPoint.Y;
+                    var offsetX = renderSizeWidth * -AnchorPoint.X;
+                    var offsetY = renderSizeHeight * -AnchorPoint.Y;
 
                     translationX += offsetX;
                     translationY += offsetY;
@@ -140,7 +140,7 @@ namespace OhmStudio.UI.Attaches.DragDrop
         {
             base.OnOpened(e);
 
-            if (PresentationSource.FromVisual(this.Child) is HwndSource hwndSource)
+            if (PresentationSource.FromVisual(Child) is HwndSource hwndSource)
             {
                 var windowHandle = hwndSource.Handle;
                 var wsEx = WindowStyleHelper.GetWindowStyleEx(windowHandle);
@@ -220,7 +220,7 @@ namespace OhmStudio.UI.Attaches.DragDrop
                 return;
             }
 
-            if (this._visualTarget != null && visualTarget != null && ReferenceEquals(this._visualTarget, visualTarget))
+            if (_visualTarget != null && visualTarget != null && ReferenceEquals(_visualTarget, visualTarget))
             {
                 return;
             }
@@ -261,7 +261,7 @@ namespace OhmStudio.UI.Attaches.DragDrop
                     itemsPanel = DragDropAttach.TryGetDragAdornerItemsPanel(visualTarget, sender);
 
                     UseDefaultDragAdorner = template is null && templateSelector is null && DragDropAttach.GetUseDefaultDragAdorner(visualSource);
-                    if (this.UseDefaultDragAdorner)
+                    if (UseDefaultDragAdorner)
                     {
                         template = dragInfo.VisualSourceItem.GetCaptureScreenDataTemplate(dragInfo.VisualSourceFlowDirection);
                         UseDefaultDragAdorner = template is not null;
@@ -293,14 +293,14 @@ namespace OhmStudio.UI.Attaches.DragDrop
 
             UIElement adornment = null;
 
-            if (this.ItemTemplate != null || this.ItemTemplateSelector != null)
+            if (ItemTemplate != null || ItemTemplateSelector != null)
             {
                 if (dragInfo.Data is IEnumerable enumerable and not string)
                 {
                     var items = enumerable.Cast<object>().ToList();
                     var itemsCount = items.Count;
                     var maxItemsCount = DragDropAttach.TryGetDragPreviewMaxItemsCount(dragInfo, sender);
-                    if (!this.UseDefaultDragAdorner && itemsCount <= maxItemsCount)
+                    if (!UseDefaultDragAdorner && itemsCount <= maxItemsCount)
                     {
                         // sort items if necessary before creating the preview
                         var sorter = DragDropAttach.TryGetDragPreviewItemsSorter(dragInfo, sender);
@@ -311,9 +311,9 @@ namespace OhmStudio.UI.Attaches.DragDrop
                             Tag = dragInfo
                         };
 
-                        itemsControl.SetBinding(ItemsControl.ItemTemplateProperty, new Binding(nameof(this.ItemTemplate)) { Source = this });
-                        itemsControl.SetBinding(ItemsControl.ItemTemplateSelectorProperty, new Binding(nameof(this.ItemTemplateSelector)) { Source = this });
-                        itemsControl.SetBinding(ItemsControl.ItemsPanelProperty, new Binding(nameof(this.ItemsPanel)) { Source = this });
+                        itemsControl.SetBinding(ItemsControl.ItemTemplateProperty, new Binding(nameof(ItemTemplate)) { Source = this });
+                        itemsControl.SetBinding(ItemsControl.ItemTemplateSelectorProperty, new Binding(nameof(ItemTemplateSelector)) { Source = this });
+                        itemsControl.SetBinding(ItemsControl.ItemsPanelProperty, new Binding(nameof(ItemsPanel)) { Source = this });
 
                         if (useVisualSourceItemSizeForDragAdorner)
                         {
@@ -335,8 +335,8 @@ namespace OhmStudio.UI.Attaches.DragDrop
                         Tag = dragInfo
                     };
 
-                    contentPresenter.SetBinding(ContentPresenter.ContentTemplateProperty, new Binding(nameof(this.ItemTemplate)) { Source = this });
-                    contentPresenter.SetBinding(ContentPresenter.ContentTemplateSelectorProperty, new Binding(nameof(this.ItemTemplateSelector)) { Source = this });
+                    contentPresenter.SetBinding(ContentPresenter.ContentTemplateProperty, new Binding(nameof(ItemTemplate)) { Source = this });
+                    contentPresenter.SetBinding(ContentPresenter.ContentTemplateSelectorProperty, new Binding(nameof(ItemTemplateSelector)) { Source = this });
 
                     if (useVisualSourceItemSizeForDragAdorner)
                     {
@@ -345,13 +345,13 @@ namespace OhmStudio.UI.Attaches.DragDrop
                         contentPresenter.SetCurrentValue(MinHeightProperty, bounds.Height);
                     }
 
-                    contentPresenter.Loaded += this.ContentPresenter_OnLoaded;
+                    contentPresenter.Loaded += ContentPresenter_OnLoaded;
 
                     adornment = contentPresenter;
                 }
             }
 
-            if (adornment != null && this.UseDefaultDragAdorner)
+            if (adornment != null && UseDefaultDragAdorner)
             {
                 adornment.Opacity = DragDropAttach.GetDefaultDragAdornerOpacity(visualSource);
             }
@@ -363,17 +363,17 @@ namespace OhmStudio.UI.Attaches.DragDrop
         {
             if (sender is ContentPresenter contentPresenter)
             {
-                contentPresenter.Loaded -= this.ContentPresenter_OnLoaded;
+                contentPresenter.Loaded -= ContentPresenter_OnLoaded;
 
                 // If the template contains a Canvas then we get a strange size.
-                if (this.UseDefaultDragAdorner && this._dragInfo?.VisualSourceItem.GetVisualDescendent<Canvas>() is not null)
+                if (UseDefaultDragAdorner && _dragInfo?.VisualSourceItem.GetVisualDescendent<Canvas>() is not null)
                 {
-                    _visualSourceItemBounds = this._dragInfo?.VisualSourceItem != null ? VisualTreeHelper.GetDescendantBounds(this._dragInfo.VisualSourceItem) : Rect.Empty;
+                    _visualSourceItemBounds = _dragInfo?.VisualSourceItem != null ? VisualTreeHelper.GetDescendantBounds(_dragInfo.VisualSourceItem) : Rect.Empty;
 
-                    contentPresenter.SetCurrentValue(MaxWidthProperty, this._visualSourceItemBounds.Width);
-                    contentPresenter.SetCurrentValue(MaxHeightProperty, this._visualSourceItemBounds.Height);
-                    SetCurrentValue(MaxWidthProperty, this._visualSourceItemBounds.Width);
-                    SetCurrentValue(MaxHeightProperty, this._visualSourceItemBounds.Height);
+                    contentPresenter.SetCurrentValue(MaxWidthProperty, _visualSourceItemBounds.Width);
+                    contentPresenter.SetCurrentValue(MaxHeightProperty, _visualSourceItemBounds.Height);
+                    SetCurrentValue(MaxWidthProperty, _visualSourceItemBounds.Width);
+                    SetCurrentValue(MaxHeightProperty, _visualSourceItemBounds.Height);
                 }
                 else
                 {
@@ -386,12 +386,12 @@ namespace OhmStudio.UI.Attaches.DragDrop
                             fe.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Top);
                         }
 
-                        _visualSourceItemBounds = this._dragInfo?.VisualSourceItem != null ? VisualTreeHelper.GetDescendantBounds(this._dragInfo.VisualSourceItem) : Rect.Empty;
+                        _visualSourceItemBounds = _dragInfo?.VisualSourceItem != null ? VisualTreeHelper.GetDescendantBounds(_dragInfo.VisualSourceItem) : Rect.Empty;
 
-                        contentPresenter.SetCurrentValue(MaxWidthProperty, this._visualSourceItemBounds.Width);
-                        contentPresenter.SetCurrentValue(MaxHeightProperty, this._visualSourceItemBounds.Height);
-                        SetCurrentValue(MaxWidthProperty, this._visualSourceItemBounds.Width);
-                        SetCurrentValue(MaxHeightProperty, this._visualSourceItemBounds.Height);
+                        contentPresenter.SetCurrentValue(MaxWidthProperty, _visualSourceItemBounds.Width);
+                        contentPresenter.SetCurrentValue(MaxHeightProperty, _visualSourceItemBounds.Height);
+                        SetCurrentValue(MaxWidthProperty, _visualSourceItemBounds.Width);
+                        SetCurrentValue(MaxHeightProperty, _visualSourceItemBounds.Height);
                     }
                 }
             }

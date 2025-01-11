@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Controls;
-using OhmStudio.UI.Attaches.DragDrop.Utilities;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
+using OhmStudio.UI.Attaches.DragDrop.Utilities;
 
 namespace OhmStudio.UI.Attaches.DragDrop
 {
     public class DropTargetInsertionAdorner : DropTargetAdorner
     {
-        public DropTargetInsertionAdorner(UIElement adornedElement, DropInfo dropInfo)
+        public DropTargetInsertionAdorner(UIElement adornedElement, IDropInfo dropInfo)
             : base(adornedElement, dropInfo)
         {
         }

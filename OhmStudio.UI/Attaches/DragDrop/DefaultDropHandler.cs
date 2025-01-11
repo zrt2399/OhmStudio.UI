@@ -60,6 +60,11 @@ namespace OhmStudio.UI.Attaches.DragDrop
 
         public static IEnumerable ExtractData(object data)
         {
+            if (data == null)
+            {
+                return Enumerable.Empty<object>();
+            }
+
             if (data is IEnumerable enumerable and not string)
             {
                 return enumerable;
@@ -205,6 +210,11 @@ namespace OhmStudio.UI.Attaches.DragDrop
 
         protected static bool TestCompatibleTypes(IEnumerable target, object data)
         {
+            if (data == null)
+            {
+                return false;
+            }
+
             bool InterfaceFilter(Type t, object o) => (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>));
 
             var enumerableInterfaces = target.GetType().FindInterfaces(InterfaceFilter, null);
@@ -220,6 +230,11 @@ namespace OhmStudio.UI.Attaches.DragDrop
             {
                 return target is IList or ICollectionView;
             }
+        }
+
+        public virtual void DropHint(IDropHintInfo dropHintInfo)
+        {
+            dropHintInfo.DropTargetHintAdorner = DropTargetAdorners.Hint;
         }
 
 #if !NETCOREAPP3_1_OR_GREATER
@@ -239,6 +254,15 @@ namespace OhmStudio.UI.Attaches.DragDrop
                 dropInfo.Effects = copyData ? DragDropEffects.Copy : DragDropEffects.Move;
                 var isTreeViewItem = dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.TargetItemCenter) && dropInfo.VisualTargetItem is TreeViewItem;
                 dropInfo.DropTargetAdorner = isTreeViewItem ? DropTargetAdorners.Highlight : DropTargetAdorners.Insert;
+
+                dropInfo.DropTargetHintState = DropHintState.Active;
+                dropInfo.DropTargetHintAdorner = DropTargetAdorners.Hint;
+            }
+            else
+            {
+                dropInfo.Effects = DragDropEffects.None;
+                dropInfo.DropTargetHintAdorner = DropTargetAdorners.Hint;
+                dropInfo.DropTargetHintState = DropHintState.Error;
             }
         }
 

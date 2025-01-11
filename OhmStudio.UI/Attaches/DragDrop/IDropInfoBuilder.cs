@@ -15,6 +15,6 @@ namespace OhmStudio.UI.Attaches.DragDrop
         /// <param name="e">The drag event arguments.</param>
         /// <param name="dragInfo">Information about the drag source, if the drag came from within the framework.</param>
         /// <param name="eventType">The type of the underlying event (tunneled or bubbled).</param>
-        IDropInfo CreateDropInfo(object sender, DragEventArgs e, DragInfo dragInfo, EventType eventType);
+        IDropInfo CreateDropInfo(object sender, DragEventArgs e, IDragInfo dragInfo, EventType eventType);
     }
 }
