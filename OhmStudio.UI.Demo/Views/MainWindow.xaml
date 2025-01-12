@@ -1651,19 +1651,18 @@
                 </Style>
             </StatusBar.Resources>
             <PackIcon Kind="MessageBulleted" />
-            <Button Width="Auto"
-                    Margin="4,0"
-                    Click="Button_Click_4">
+            <StatusBarItem Margin="4,0" Content="{Binding StatusBarContent}" />
+            <Button Width="Auto" Click="Button_Click_4">
                 切换状态
             </Button>
-            <StatusBarItem Content="{Binding StatusBarContent}" />
+            <StatusBarItem Margin="4,0" Content="{x:Static demo:App.FrameworkDisplayName}" />
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
+                    <Button Command="{Binding ZoomInCommand}" Content="-" />
                     <Button Margin="4,0"
-                            Command="{Binding ZoomInCommand}"
-                            Content="-" />
-                    <Button Command="{Binding ZoomOutCommand}" Content="+" />
-                    <TextBlock Margin="4,0" Text="{Binding WindowScale, StringFormat={}{0:P1}}" />
+                            Command="{Binding ZoomOutCommand}"
+                            Content="+" />
+                    <TextBlock Text="{Binding WindowScale, StringFormat={}{0:P1}}" />
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

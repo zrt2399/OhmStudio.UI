@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using System.Windows;
 using OhmStudio.UI.Messaging;
@@ -13,8 +14,10 @@ namespace OhmStudio.UI.Demo
     public partial class App : Application
     {
         public static readonly string Name = Assembly.GetExecutingAssembly().GetName().Name;
- 
+
         public static readonly string DocumentDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Name);
+
+        public static readonly string FrameworkDisplayName = Assembly.GetExecutingAssembly().GetCustomAttribute<TargetFrameworkAttribute>().FrameworkDisplayName; 
 
         protected override void OnStartup(StartupEventArgs e)
         {
