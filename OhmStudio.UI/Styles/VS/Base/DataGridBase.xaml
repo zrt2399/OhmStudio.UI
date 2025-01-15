@@ -194,7 +194,7 @@
                             <Setter Property="Foreground" Value="{DynamicResource HeaderMouseDownText}" />
                         </Trigger>
                         <Trigger Property="Height" Value="Auto">
-                            <Setter Property="MinHeight" Value="20" />
+                            <Setter Property="MinHeight" Value="22" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource HeaderDisabledText}" />
