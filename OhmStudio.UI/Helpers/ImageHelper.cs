@@ -59,7 +59,7 @@ namespace OhmStudio.UI.Helpers
             }
             if (uriString.IsContained("pack://application:"))
             {
-                using Stream stream = Application.GetResourceStream(uri).Stream;
+                Stream stream = Application.GetResourceStream(uri).Stream;
                 return new Bitmap(stream);
             }
             if (uriString.IsContained("http://") || uriString.IsContained("https://"))

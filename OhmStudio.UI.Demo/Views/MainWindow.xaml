@@ -1642,7 +1642,7 @@
                 </LayoutPanel>
             </LayoutRoot>
         </DockingManager>
-        <StatusBar Grid.Row="1" Padding="4">
+        <StatusBar Grid.Row="1" Padding="0,1">
             <StatusBar.Resources>
                 <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                     <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}" />
@@ -1650,12 +1650,11 @@
                     <Setter Property="CornerRadiusAttach.IsCircular" Value="True" />
                 </Style>
             </StatusBar.Resources>
-            <PackIcon Kind="MessageBulleted" />
-            <StatusBarItem Margin="4,0" Content="{Binding StatusBarContent}" />
+            <PackIcon Margin="4,0" Kind="MessageBulleted" />
             <Button Width="Auto" Click="Button_Click_4">
                 切换状态
             </Button>
-            <StatusBarItem Margin="4,0" Content="{x:Static demo:App.FrameworkDisplayName}" />
+            <StatusBarItem Margin="4,0" Content="{Binding StatusBarContent}" />
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
                     <Button Command="{Binding ZoomInCommand}" Content="-" />
@@ -1664,6 +1663,24 @@
                             Content="+" />
                     <TextBlock Text="{Binding WindowScale, StringFormat={}{0:P1}}" />
                 </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{x:Static local:MainWindow.Version}" />
+                    <TextBlock Margin="4,0,0,0" Text="{x:Static demo:App.FrameworkDisplayName}" />
+                </StackPanel>
+                <StatusBarItem.Style>
+                    <Style TargetType="StatusBarItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType=Window}}" Value="Minimized">
+                                <Setter Property="Margin" Value="0,0,16,0" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType=Window}}" Value="Normal">
+                                <Setter Property="Margin" Value="0,0,16,0" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StatusBarItem.Style>
             </StatusBarItem>
         </StatusBar>
     </Grid>

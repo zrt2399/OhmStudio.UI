@@ -63,7 +63,7 @@ namespace OhmStudio.UI.Demo.Views
             dispatcherTimer.Start();
         }
 
-        private string Version { get; } = Assembly.GetAssembly(typeof(ChromeWindow)).GetName().Version.ToString();
+        public static string Version { get; } = Assembly.GetAssembly(typeof(ChromeWindow)).GetName().Version.ToString();
 
         protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
         {
