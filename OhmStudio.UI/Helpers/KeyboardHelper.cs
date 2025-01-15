@@ -5,6 +5,7 @@ namespace OhmStudio.UI.Helpers
 {
     public static class KeyboardHelper
     {
+        //https://learn.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes
         [DllImport("user32.dll")]
         internal static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, uint dwExtraInfo);
 
