@@ -37,6 +37,13 @@ namespace OhmStudio.UI.Demo.ViewModels
     {
         private Random _random = new Random();
 
+        public bool Can;
+        private const string DefaultFontName = "默认";
+        public const string GlobalFontSize = nameof(GlobalFontSize);
+        public const string GlobalFontFamily = nameof(GlobalFontFamily);
+        private static readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily];
+        private static readonly FontFamilyItem _defaultFontFamilyItem = new FontFamilyItem() { Name = DefaultFontName, FontFamily = _defaultFontFamily };
+
         public MainViewModel()
         {
             Messenger.Default.Register<string>(this, MessageType.AlertDialog, msg => AlertDialog.Show(msg));
@@ -241,13 +248,6 @@ namespace OhmStudio.UI.Demo.ViewModels
 
             CurrentUserPermission = new List<UserPermission>() { UserPermission.Test, UserPermission.Edit, UserPermission.Settings };
         }
-
-        public bool Can;
-        private const string DefaultFontName = "默认";
-        public const string GlobalFontSize = nameof(GlobalFontSize);
-        public const string GlobalFontFamily = nameof(GlobalFontFamily);
-        private static readonly FontFamily _defaultFontFamily = (FontFamily)Application.Current.Resources[GlobalFontFamily];
-        private static readonly FontFamilyItem _defaultFontFamilyItem = new FontFamilyItem() { Name = DefaultFontName, FontFamily = _defaultFontFamily };
 
         public MainWindow MainWindow => Application.Current.MainWindow as MainWindow;
 
