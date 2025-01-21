@@ -11,7 +11,7 @@
 	<PropertyGroup>
 		<LangVersion>9.0</LangVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-		<Version>1.2.4.9</Version>
+		<Version>1.2.5.1</Version>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -25,6 +25,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<!--<PackageLicenseExpression>MIT</PackageLicenseExpression>-->
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<RepositoryUrl>https://github.com/zrt2399/OhmStudio.UI</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>

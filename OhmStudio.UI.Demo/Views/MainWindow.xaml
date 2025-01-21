@@ -10,7 +10,7 @@
               xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveChartsExt.Wpf"
               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
               xmlns:model="clr-namespace:OhmStudio.UI.Demo.Models"
-              xmlns:omhui="http://ohmstudio.ui.com"
+              xmlns:omhui="https://github.com/zrt2399/OhmStudio.UI"
               xmlns:oxy="http://oxyplot.org/wpf"
               xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
               xmlns:viewmodels="clr-namespace:OhmStudio.UI.Demo.ViewModels"
