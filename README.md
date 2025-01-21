@@ -44,7 +44,7 @@ Nuget search to download OhmStudio.UI. Please use the latest version and I will 
 <Thickness x:Key="ListViewItemPadding">4,2</Thickness>
 <Thickness x:Key="ListViewItemMargin">0,0,0,1</Thickness>
 ```
-#### Special Thanks
+# 🙏 Special Thanks
 - [GongSolutions.WPF.DragDrop](https://github.com/punker76/gong-wpf-dragdrop)
 - [AakStudio.Shell.UI](https://github.com/Wenveo/AakStudio.Shell.UI)
 - [AakStudio.Shell.UI.Themes.AvalonDock](https://github.com/Wenveo/AakStudio.Shell.UI.Themes.AvalonDock)
