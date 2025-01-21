@@ -107,6 +107,9 @@ namespace OhmStudio.UI.Controls
             set => SetValue(DefaultExtProperty, value);
         }
 
+        /// <summary>
+        /// When using UseFolderDialog, this property only supports .net8+.
+        /// </summary>
         public bool Multiselect
         {
             get => (bool)GetValue(MultiselectProperty);
@@ -211,12 +214,25 @@ namespace OhmStudio.UI.Controls
         {
             if (UseFolderDialog)
             {
+#if NET8_0_OR_GREATER
+                OpenFolderDialog openFolderDialog = new OpenFolderDialog();
+                openFolderDialog.Title = Title;
+                openFolderDialog.Multiselect = Multiselect;
+                if (openFolderDialog.ShowDialog() == true)
+                {
+                    FileNames = openFolderDialog.FolderNames;
+                }
+#else
                 var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
                 folderBrowserDialog.Description = Title;
-                if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(folderBrowserDialog.SelectedPath))
+#if NETCOREAPP
+                folderBrowserDialog.UseDescriptionForTitle = true;
+#endif
+                if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK /*&& !string.IsNullOrEmpty(folderBrowserDialog.SelectedPath)*/)
                 {
                     FileNames = new string[] { folderBrowserDialog.SelectedPath };
                 }
+#endif
             }
             else
             {
