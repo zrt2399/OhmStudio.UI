@@ -842,6 +842,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBox Name="PART_TextBox"
+                                         attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ComboBoxHostCornerConverter}}"
                                          attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
                                          attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
                                          IsReadOnly="{TemplateBinding IsReadOnly}"

@@ -25,7 +25,9 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<!--<PackageLicenseExpression>MIT</PackageLicenseExpression>-->
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/zrt2399/OhmStudio.UI</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/zrt2399/OhmStudio.UI</PackageProjectUrl>
 	</PropertyGroup>
 
 	<ItemGroup>

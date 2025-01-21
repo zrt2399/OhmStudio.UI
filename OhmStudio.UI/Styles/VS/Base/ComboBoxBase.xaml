@@ -5,7 +5,8 @@
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
     <converters:ComboBoxDropDownThicknessConverter x:Key="ComboBoxDropDownThicknessConverter" />
-    <converters:BorderCornerRadiusConverter x:Key="BorderCornerRadiusConverter" />
+    <converters:ComboBoxDropDownCornerConverter x:Key="ComboBoxDropDownCornerConverter" />
+    <converters:ComboBoxHostCornerConverter x:Key="ComboBoxHostCornerConverter" />
 
     <Style x:Key="ToolBarComboBoxTransparentButtonStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Width" Value="Auto" />
@@ -28,7 +29,7 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ComboBoxDropDownThicknessConverter}}"
-                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BorderCornerRadiusConverter}}"
+                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ComboBoxDropDownCornerConverter}}"
                                 SnapsToDevicePixels="True">
                             <Path x:Name="ArrowDownPath"
                                   HorizontalAlignment="Center"
@@ -150,8 +151,8 @@
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Border>
 
-
                     <TextBox x:Name="PART_EditableTextBox"
+                             attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ComboBoxHostCornerConverter}}"
                              attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
                              attaches:DynamicStyleProvider.Derived="{DynamicResource ContentHostControl}"
                              Visibility="Collapsed" />

@@ -131,7 +131,12 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_21(object sender, RoutedEventArgs e)
         {
-            AlertDialog.ShowError("AlertDialog.ShowError\r\nAlertDialog.ShowError", Version);
+            AlertDialog.ShowWarning("AlertDialog.ShowWarning\r\nAlertDialog.ShowWarning", Version);
+        }
+
+        private void Button_Click_22(object sender, RoutedEventArgs e)
+        {
+            AlertDialog.ShowError("AlertDialog.ShowError\r\nAlertDialog.ShowError\r\nAlertDialog.ShowError", Version);
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
