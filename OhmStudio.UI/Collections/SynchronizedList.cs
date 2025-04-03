@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OhmStudio.UI.Collections
 {
-    public class SynchronizedList<T> : IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable
+    public class SynchronizedList<T> : IList<T>, ICollection<T>, IReadOnlyList<T>, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
     {
         public SynchronizedList()
         {
