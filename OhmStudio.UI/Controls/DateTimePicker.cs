@@ -154,12 +154,14 @@ namespace OhmStudio.UI.Controls
             {
                 PART_TextBox.LostFocus -= PART_TextBox_LostFocus;
                 PART_TextBox.TextChanged -= PART_TextBox_TextChanged;
+                PART_TextBox.KeyDown -= PART_TextBox_KeyDown;
             }
             base.OnApplyTemplate();
             PART_TextBox = GetTemplateChild("PART_TextBox") as TextBox;
             PART_Popup = GetTemplateChild("PART_Popup") as Popup;
             PART_TextBox.LostFocus += PART_TextBox_LostFocus;
             PART_TextBox.TextChanged += PART_TextBox_TextChanged;
+            PART_TextBox.KeyDown += PART_TextBox_KeyDown;
             TDateTimeView dateTimeView = new TDateTimeView(this);// TDateTimeView  构造函数传入日期时间
             dateTimeView.DateTimeOK += (datetime) => //TDateTimeView 日期时间确定事件
             {
@@ -174,6 +176,22 @@ namespace OhmStudio.UI.Controls
                 //PART_TextBox?.Focus();
             };
             ((Decorator)PART_Popup.Child).Child = dateTimeView;
+        }
+
+        private void PART_TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var textBox = (TextBox)sender;
+                if (string.IsNullOrWhiteSpace(textBox.Text))
+                {
+                    SelectedDateTime = null;
+                }
+                else
+                {
+                    UpdateSelectedDateTime(textBox);
+                }
+            }
         }
 
         private void PART_TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -197,6 +215,23 @@ namespace OhmStudio.UI.Controls
             }
         }
 
+        private void UpdateSelectedDateTime(TextBox textBox)
+        {
+            if (DateTime.TryParse(textBox.Text.Trim(), out var result))
+            {
+                if (SelectedDateTime == result)
+                {
+                    UpdateDateTimeText();
+                }
+                SelectedDateTime = result;
+            }
+            else
+            {
+                //var format = textBoxDateTime.GetBindingExpression(TextBox.TextProperty)?.ParentBinding.StringFormat;
+                UpdateDateTimeText();
+            }
+        }
+
         private void UpdateDateTimeText()
         {
             if (DisplayDateStart != null && SelectedDateTime != null && SelectedDateTime < DisplayDateStart)
@@ -215,20 +250,7 @@ namespace OhmStudio.UI.Controls
 
         private void PART_TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            var textBox = (TextBox)sender;
-            if (DateTime.TryParse(textBox.Text.Trim(), out var result))
-            {
-                if (SelectedDateTime == result)
-                {
-                    UpdateDateTimeText();
-                }
-                SelectedDateTime = result;
-            }
-            else
-            {
-                //var format = textBoxDateTime.GetBindingExpression(TextBox.TextProperty)?.ParentBinding.StringFormat;
-                UpdateDateTimeText();
-            }
+            UpdateSelectedDateTime((TextBox)sender);
         }
 
         private void DateTimePicker_GotFocus(object sender, RoutedEventArgs e)

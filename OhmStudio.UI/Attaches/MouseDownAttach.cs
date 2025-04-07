@@ -19,7 +19,7 @@ namespace OhmStudio.UI.Attaches
     {
         public static readonly DependencyProperty IgnoreElementProperty =
             DependencyProperty.RegisterAttached("IgnoreElement", typeof(string),
-                typeof(MouseDownAttach));
+                typeof(MouseDownAttach), new PropertyMetadata(string.Empty));
 
         public static string GetIgnoreElement(DependencyObject element)
         {

@@ -7,7 +7,7 @@ namespace OhmStudio.UI.Attaches
 {
     public class TextBoxAttach
     {
-        public const string PlaceHolder = null;
+        public const string PlaceHolder = "";
         public const double PlaceHolderOpacity = 0.6;
 
         public static readonly DependencyProperty TitlePlacementProperty =
@@ -37,10 +37,10 @@ namespace OhmStudio.UI.Attaches
         }
 
         public static readonly DependencyProperty PlaceHolderProperty =
-            DependencyProperty.RegisterAttached("PlaceHolder", typeof(object), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolder, (sender, e) =>
+            DependencyProperty.RegisterAttached("PlaceHolder", typeof(string), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolder, (sender, e) =>
             {
-                var newValue = e.NewValue;
-                if (sender.IsPlaceHolderObject() && CheckIsEmpty(newValue))
+                string newValue = e.NewValue as string;
+                if (sender.IsPlaceHolderObject() && string.IsNullOrEmpty(newValue))
                 {
                     SetPlaceHolderVisibility(sender, Visibility.Collapsed);
                 }
@@ -61,7 +61,7 @@ namespace OhmStudio.UI.Attaches
                 {
                     var textBox = sender as TextBox;
                     textBox.TextChanged -= TextBox_TextChanged;
-                    if (!CheckIsEmpty(newValue))
+                    if (!string.IsNullOrEmpty(newValue))
                     {
                         UpdateHolderVisibility(textBox, textBox.Text);
                         textBox.TextChanged += TextBox_TextChanged;
@@ -71,7 +71,7 @@ namespace OhmStudio.UI.Attaches
                 {
                     var passwordBox = sender as PasswordBox;
                     passwordBox.PasswordChanged -= PasswordBox_PasswordChanged;
-                    if (!CheckIsEmpty(newValue))
+                    if (!string.IsNullOrEmpty(newValue))
                     {
                         UpdateHolderVisibility(passwordBox, passwordBox.Password);
                         passwordBox.PasswordChanged += PasswordBox_PasswordChanged;
@@ -80,7 +80,7 @@ namespace OhmStudio.UI.Attaches
                 else if (sender is ITextChanged textChanged)
                 {
                     textChanged.TextChanged -= ITextChanged;
-                    if (!CheckIsEmpty(newValue))
+                    if (!string.IsNullOrEmpty(newValue))
                     {
                         UpdateHolderVisibility(sender, textChanged.Text);
                         textChanged.TextChanged += ITextChanged;
@@ -93,19 +93,6 @@ namespace OhmStudio.UI.Attaches
             var dependencyObject = sender as DependencyObject;
             var textBox = e.Source as TextBox;
             UpdateHolderVisibility(dependencyObject, textBox?.Text);
-        }
-
-        private static bool CheckIsEmpty(object obj)
-        {
-            if (obj == null)
-            {
-                return true;
-            }
-            else if (obj is string value)
-            {
-                return string.IsNullOrEmpty(value);
-            }
-            return false;
         }
 
         private static void ComboBox_Loaded(object sender, RoutedEventArgs e)
@@ -121,7 +108,7 @@ namespace OhmStudio.UI.Attaches
             {
                 textBox.TextChanged -= ComboBoxTextBox_TextChanged;
                 comboBox.SelectionChanged -= ComboBox_SelectionChanged;
-                if (!CheckIsEmpty(GetPlaceHolder(comboBox)))
+                if (!string.IsNullOrEmpty(GetPlaceHolder(comboBox)))
                 {
                     UpdateHolderVisibility(comboBox, comboBox.IsEditable ? textBox.Text : comboBox.SelectedItem?.ToString());
                     textBox.TextChanged += ComboBoxTextBox_TextChanged;
@@ -172,12 +159,12 @@ namespace OhmStudio.UI.Attaches
             }
         }
 
-        public static object GetPlaceHolder(DependencyObject target)
+        public static string GetPlaceHolder(DependencyObject target)
         {
-            return target.GetValue(PlaceHolderProperty);
+            return (string)target.GetValue(PlaceHolderProperty);
         }
 
-        public static void SetPlaceHolder(DependencyObject target, object value)
+        public static void SetPlaceHolder(DependencyObject target, string value)
         {
             target.SetValue(PlaceHolderProperty, value);
         }

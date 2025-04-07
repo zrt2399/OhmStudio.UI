@@ -1269,33 +1269,30 @@
                                                                 Width="300"
                                                                 Height="50"
                                                                 HorizontalContentAlignment="Right"
-                                                                VerticalContentAlignment="Bottom">
+                                                                VerticalContentAlignment="Bottom"
+                                                                TextBoxAttach.PlaceHolder="请输入日期...">
                                                     <TextBoxAttach.Title>
                                                         <Button>DateTimePicker：</Button>
                                                     </TextBoxAttach.Title>
-                                                    <TextBoxAttach.PlaceHolder>
-                                                        <Button>请输入日期...</Button>
-                                                    </TextBoxAttach.PlaceHolder>
                                                 </DateTimePicker>
                                                 <SearchBar Width="300"
                                                            Height="50"
                                                            HorizontalContentAlignment="Right"
                                                            VerticalContentAlignment="Bottom"
+                                                           TextBoxAttach.PlaceHolder="请输入搜索内容..."
                                                            TextBoxAttach.PlaceHolderOpacity="1"
                                                            TextWrapping="Wrap">
                                                     <TextBoxAttach.Title>
                                                         <Button>SearchBar：</Button>
                                                     </TextBoxAttach.Title>
-                                                    <TextBoxAttach.PlaceHolder>
-                                                        <Button>请输入搜索内容...</Button>
-                                                    </TextBoxAttach.PlaceHolder>
                                                 </SearchBar>
                                                 <!--  TextBoxAttach.ShowValidationErrorInfo="False"  -->
                                                 <TextBox Width="300"
                                                          Height="50"
                                                          HorizontalContentAlignment="Right"
                                                          VerticalContentAlignment="Bottom"
-                                                         Text="{Binding Range, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}">
+                                                         Text="{Binding Range, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                                         TextBoxAttach.PlaceHolder="请输入文本...">
                                                     <TextBoxAttach.Title>
                                                         <UniformGrid Columns="1"
                                                                      Focusable="False"
@@ -1304,22 +1301,17 @@
                                                             <Button>TextBox2：</Button>
                                                         </UniformGrid>
                                                     </TextBoxAttach.Title>
-                                                    <TextBoxAttach.PlaceHolder>
-                                                        <Button>请输入文本...</Button>
-                                                    </TextBoxAttach.PlaceHolder>
                                                 </TextBox>
                                                 <PasswordBox Width="300"
                                                              Height="50"
                                                              HorizontalContentAlignment="Right"
                                                              VerticalContentAlignment="Bottom"
                                                              PasswordChar="$"
+                                                             TextBoxAttach.PlaceHolder="请输入密码..."
                                                              TextBoxAttach.PlaceHolderOpacity="1">
                                                     <TextBoxAttach.Title>
                                                         <Button>PasswordBox：</Button>
                                                     </TextBoxAttach.Title>
-                                                    <TextBoxAttach.PlaceHolder>
-                                                        <Button>请输入密码...</Button>
-                                                    </TextBoxAttach.PlaceHolder>
                                                 </PasswordBox>
                                                 <PasswordTextBox Name="passwordTextBox"
                                                                  Width="300"
@@ -1327,13 +1319,11 @@
                                                                  HorizontalContentAlignment="Right"
                                                                  VerticalContentAlignment="Bottom"
                                                                  PasswordChar="◉"
+                                                                 TextBoxAttach.PlaceHolder="请输入密码..."
                                                                  TextBoxAttach.PlaceHolderOpacity="1">
                                                     <TextBoxAttach.Title>
                                                         <Button>PasswordTextBox：</Button>
                                                     </TextBoxAttach.Title>
-                                                    <TextBoxAttach.PlaceHolder>
-                                                        <Button>请输入密码...</Button>
-                                                    </TextBoxAttach.PlaceHolder>
                                                 </PasswordTextBox>
                                                 <ComboBox Width="300"
                                                           Height="50"
@@ -1342,7 +1332,8 @@
                                                           DisplayMemberPath="Name"
                                                           IsEditable="True"
                                                           IsReadOnly="True"
-                                                          ItemsSource="{Binding Employees}">
+                                                          ItemsSource="{Binding Employees}"
+                                                          TextBoxAttach.PlaceHolder="IsReadOnly=True">
                                                     <ComboBox.ItemsPanel>
                                                         <ItemsPanelTemplate>
                                                             <VirtualizingStackPanel />
@@ -1351,9 +1342,6 @@
                                                     <TextBoxAttach.Title>
                                                         <Button>ComboBox：</Button>
                                                     </TextBoxAttach.Title>
-                                                    <TextBoxAttach.PlaceHolder>
-                                                        <Button>IsReadOnly="True"</Button>
-                                                    </TextBoxAttach.PlaceHolder>
                                                 </ComboBox>
                                                 <CheckComboBox Name="checkComboBox"
                                                                Width="300"

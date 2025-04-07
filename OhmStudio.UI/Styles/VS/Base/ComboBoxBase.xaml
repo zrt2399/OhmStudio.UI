@@ -151,6 +151,7 @@
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Border>
 
+                    <ContentPresenter Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
                     <TextBox x:Name="PART_EditableTextBox"
                              attaches:BorderAttach.CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ComboBoxHostCornerConverter}}"
                              attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
@@ -163,8 +164,6 @@
                                   BorderThickness="{TemplateBinding BorderThickness}"
                                   IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                   Style="{StaticResource ToolBarComboBoxTransparentButtonStyle}" />
-
-                    <ContentPresenter Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
 
                     <Popup Name="PART_Popup"
                            AllowsTransparency="True"

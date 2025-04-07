@@ -97,8 +97,8 @@
                                            Text="{Binding Path=(attaches:TextBoxAttach.SuffixText), RelativeSource={RelativeSource TemplatedParent}}"
                                            Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text, Converter={StaticResource NotNullOrEmptyToVisibilityConverter}}" />
                                 <controls:SimplePanel DockPanel.Dock="Left">
-                                    <ScrollViewer Name="PART_ContentHost" />
                                     <ContentPresenter Style="{DynamicResource PlaceHolderWithTemplatedParent}" />
+                                    <ScrollViewer Name="PART_ContentHost" />
                                 </controls:SimplePanel>
                             </DockPanel>
                         </Border>
