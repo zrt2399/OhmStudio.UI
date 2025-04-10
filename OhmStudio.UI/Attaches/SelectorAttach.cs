@@ -29,7 +29,7 @@ namespace OhmStudio.UI.Attaches
         }
 
         public static readonly DependencyProperty SelectedItemsAttachProperty =
-            DependencyProperty.RegisterAttached("SelectedItemsAttach", typeof(bool), typeof(SelectorAttach), new PropertyMetadata(false, SelectedChangedCallBack));
+            DependencyProperty.RegisterAttached("SelectedItemsAttach", typeof(bool), typeof(SelectorAttach), new PropertyMetadata(false, OnSelectedItemsAttachChanged));
 
         public static bool GetSelectedItemsAttach(DependencyObject obj)
         {
@@ -67,17 +67,14 @@ namespace OhmStudio.UI.Attaches
             obj.SetValue(IgnoreAutoScrollOnMouseOverProperty, value);
         }
 
-        private static void SelectedChangedCallBack(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        private static void OnSelectedItemsAttachChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             if (obj is Selector selector)
             {
+                selector.SelectionChanged -= Selector_SelectionChanged;
                 if ((bool)e.NewValue)
                 {
                     selector.SelectionChanged += Selector_SelectionChanged;
-                }
-                else
-                {
-                    selector.SelectionChanged -= Selector_SelectionChanged;
                 }
             }
         }
@@ -159,6 +156,51 @@ namespace OhmStudio.UI.Attaches
                     selector.ScrollToEnd();
                 }, DispatcherPriority.Render);
             }
+        }
+
+        public static readonly DependencyProperty IsAutoScrollToSelectedItemProperty =
+            DependencyProperty.RegisterAttached("IsAutoScrollToSelectedItem", typeof(bool), typeof(SelectorAttach), new PropertyMetadata(false, OnIsAutoScrollToSelectedItemChange));
+
+        public static void SetIsAutoScrollToSelectedItem(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsAutoScrollToSelectedItemProperty, value);
+        }
+
+        public static bool GetIsAutoScrollToSelectedItem(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsAutoScrollToSelectedItemProperty);
+        }
+
+        private static void OnIsAutoScrollToSelectedItemChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is Selector selector)
+            {
+                selector.SelectionChanged -= Selector_SelectedItemChanged;
+                if ((bool)e.NewValue)
+                {
+                    selector.SelectionChanged += Selector_SelectedItemChanged;
+                }
+            }
+        }
+
+        private static void Selector_SelectedItemChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selector = (Selector)sender;
+            if (GetIgnoreAutoScrollOnMouseOver(selector) && selector.IsMouseOver)
+            {
+                return;
+            }
+            selector.Dispatcher.InvokeAsync(() =>
+            {
+                if (selector is ListBox listBox)
+                {
+                    listBox.ScrollIntoView(listBox.SelectedItem);
+                }
+                else if (selector is DataGrid dataGrid)
+                {
+                    dataGrid.ScrollIntoView(dataGrid.SelectedItem);
+                }
+            }, DispatcherPriority.Render);
         }
     }
 }
