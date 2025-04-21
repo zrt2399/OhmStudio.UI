@@ -38,11 +38,11 @@ namespace OhmStudio.UI.Controls
         public static readonly DependencyProperty MultiselectProperty =
             DependencyProperty.Register(nameof(Multiselect), typeof(bool), typeof(PathPicker));
 
-        public static readonly DependencyProperty PathNameProperty =
-            DependencyProperty.Register(nameof(PathName), typeof(string), typeof(PathPicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty SelectedPathProperty =
+            DependencyProperty.Register(nameof(SelectedPath), typeof(string), typeof(PathPicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-        public static readonly DependencyProperty PathNamesProperty =
-            DependencyProperty.Register(nameof(PathNames), typeof(List<string>), typeof(PathPicker), new FrameworkPropertyMetadata(new List<string>(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnFileNamesChanged));
+        public static readonly DependencyProperty SelectedPathsProperty =
+            DependencyProperty.Register(nameof(SelectedPaths), typeof(List<string>), typeof(PathPicker), new FrameworkPropertyMetadata(new List<string>(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedPathsChanged));
 
         public static readonly DependencyProperty FilterProperty =
             DependencyProperty.Register(nameof(Filter), typeof(string), typeof(PathPicker), new PropertyMetadata(string.Empty));
@@ -116,16 +116,16 @@ namespace OhmStudio.UI.Controls
             set => SetValue(MultiselectProperty, value);
         }
 
-        public string PathName
+        public string SelectedPath
         {
-            get => (string)GetValue(PathNameProperty);
-            set => SetValue(PathNameProperty, value);
+            get => (string)GetValue(SelectedPathProperty);
+            set => SetValue(SelectedPathProperty, value);
         }
 
-        public List<string> PathNames
+        public List<string> SelectedPaths
         {
-            get => (List<string>)GetValue(PathNamesProperty);
-            set => SetValue(PathNamesProperty, value);
+            get => (List<string>)GetValue(SelectedPathsProperty);
+            set => SetValue(SelectedPathsProperty, value);
         }
 
         public string Filter
@@ -200,14 +200,14 @@ namespace OhmStudio.UI.Controls
             set => SetValue(SpacingProperty, value);
         }
 
-        private static void OnFileNamesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnSelectedPathsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((PathPicker)d).OnFileNamesChanged((List<string>)e.NewValue);
+            ((PathPicker)d).OnSelectedPathsChanged((List<string>)e.NewValue);
         }
 
-        protected virtual void OnFileNamesChanged(List<string> fileNames)
+        protected virtual void OnSelectedPathsChanged(List<string> paths)
         {
-            PathName = fileNames == null || fileNames.Count == 0 ? string.Empty : string.Join("|", fileNames);
+            SelectedPath = paths == null || paths.Count == 0 ? string.Empty : string.Join("|", paths);
         }
 
         private void Browse()
@@ -220,7 +220,7 @@ namespace OhmStudio.UI.Controls
                 openFolderDialog.Multiselect = Multiselect;
                 if (openFolderDialog.ShowDialog() == true)
                 {
-                    PathNames = openFolderDialog.FolderNames.ToList();
+                    SelectedPaths = openFolderDialog.FolderNames.ToList();
                 }
 #else
                 var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
@@ -230,7 +230,7 @@ namespace OhmStudio.UI.Controls
 #endif
                 if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK /*&& !string.IsNullOrEmpty(folderBrowserDialog.SelectedPath)*/)
                 {
-                    PathNames = new List<string> { folderBrowserDialog.SelectedPath };
+                    SelectedPaths = new List<string> { folderBrowserDialog.SelectedPath };
                 }
 #endif
             }
@@ -256,23 +256,23 @@ namespace OhmStudio.UI.Controls
                 {
                     return;
                 }
-                PathNames = multiselect ? fileDialog.FileNames.ToList() : new List<string> { fileDialog.FileName };
+                SelectedPaths = multiselect ? fileDialog.FileNames.ToList() : new List<string> { fileDialog.FileName };
             }
         }
 
         private void Explore()
         {
-            if (PathNames?.Count > 0)
+            if (SelectedPaths?.Count > 0)
             {
-                PathHelper.OpenFileLocation(PathNames.First());
+                PathHelper.OpenFileLocation(SelectedPaths.First());
             }
         }
 
         private void Open()
         {
-            if (PathNames?.Count > 0)
+            if (SelectedPaths?.Count > 0)
             {
-                PathHelper.OpenFlie(PathNames.First());
+                PathHelper.OpenFlie(SelectedPaths.First());
             }
         }
 

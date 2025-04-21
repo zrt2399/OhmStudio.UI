@@ -1430,7 +1430,7 @@
                                      attaches:TextBoxAttach.TitlePlacement="{Binding Path=(attaches:TextBoxAttach.TitlePlacement), RelativeSource={RelativeSource TemplatedParent}}"
                                      DockPanel.Dock="Left"
                                      IsReadOnly="{TemplateBinding IsReadOnly}"
-                                     Text="{TemplateBinding PathName}"
+                                     Text="{TemplateBinding SelectedPath}"
                                      TextWrapping="{TemplateBinding TextWrapping}" />
                         </DockPanel>
                     </Border>
