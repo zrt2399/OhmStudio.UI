@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,7 +43,7 @@ namespace OhmStudio.UI.Controls
             DependencyProperty.Register(nameof(SelectedPath), typeof(string), typeof(PathPicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public static readonly DependencyProperty SelectedPathsProperty =
-            DependencyProperty.Register(nameof(SelectedPaths), typeof(List<string>), typeof(PathPicker), new FrameworkPropertyMetadata(new List<string>(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedPathsChanged));
+            DependencyProperty.Register(nameof(SelectedPaths), typeof(IList), typeof(PathPicker), new FrameworkPropertyMetadata(default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedPathsChanged));
 
         public static readonly DependencyProperty FilterProperty =
             DependencyProperty.Register(nameof(Filter), typeof(string), typeof(PathPicker), new PropertyMetadata(string.Empty));
@@ -122,9 +123,9 @@ namespace OhmStudio.UI.Controls
             set => SetValue(SelectedPathProperty, value);
         }
 
-        public List<string> SelectedPaths
+        public IList SelectedPaths
         {
-            get => (List<string>)GetValue(SelectedPathsProperty);
+            get => (IList)GetValue(SelectedPathsProperty);
             set => SetValue(SelectedPathsProperty, value);
         }
 
@@ -202,12 +203,12 @@ namespace OhmStudio.UI.Controls
 
         private static void OnSelectedPathsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((PathPicker)d).OnSelectedPathsChanged((List<string>)e.NewValue);
+            ((PathPicker)d).OnSelectedPathsChanged((IList)e.NewValue);
         }
 
-        protected virtual void OnSelectedPathsChanged(List<string> paths)
+        protected virtual void OnSelectedPathsChanged(IList paths)
         {
-            SelectedPath = paths == null || paths.Count == 0 ? string.Empty : string.Join("|", paths);
+            SelectedPath = paths == null || paths.Count == 0 ? string.Empty : string.Join("|", paths.OfType<string>());
         }
 
         private void Browse()
@@ -262,17 +263,17 @@ namespace OhmStudio.UI.Controls
 
         private void Explore()
         {
-            if (SelectedPaths?.Count > 0)
+            if (SelectedPaths?.Count > 0 && SelectedPaths[0] is string path)
             {
-                PathHelper.OpenFileLocation(SelectedPaths.First());
+                PathHelper.OpenFileLocation(path);
             }
         }
 
         private void Open()
         {
-            if (SelectedPaths?.Count > 0)
+            if (SelectedPaths?.Count > 0 && SelectedPaths[0] is string path)
             {
-                PathHelper.OpenFlie(SelectedPaths.First());
+                PathHelper.OpenFlie(path);
             }
         }
 
