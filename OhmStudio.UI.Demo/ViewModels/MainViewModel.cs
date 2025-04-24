@@ -54,7 +54,7 @@ namespace OhmStudio.UI.Demo.ViewModels
 
             ZoomInCommand = new RelayCommand(ZoomIn);
             ZoomOutCommand = new RelayCommand(ZoomOut);
-            SearchCommand = new RelayCommand(() => UIMessageTip.Show("什么也没搜索到..."));
+            SearchCommand = new RelayCommand(() => MessageTip.Show("什么也没搜索到..."));
             SearchTestCommand = new RelayCommand(() => IsDropDownOpen = true);
             TreeViewAddCommand = new RelayCommand(() =>
             {

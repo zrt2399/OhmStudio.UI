@@ -17,7 +17,7 @@ namespace OhmStudio.UI.Messaging
         Error
     }
 
-    public static class UIMessageTip
+    public static class MessageTip
     {
         private const int Delay = 2000;
 
@@ -27,15 +27,19 @@ namespace OhmStudio.UI.Messaging
 
         public static void Show(string message, int delay = Delay) => Show(message, IconType.Info, delay);
 
-        public static void ShowOk(string message, int delay = Delay) => Show(message, IconType.OK, delay);
+        public static void ShowOK(string message, int delay = Delay) => Show(message, IconType.OK, delay);
 
         public static void ShowWarning(string message, int delay = Delay) => Show(message, IconType.Warning, delay);
 
         public static void ShowError(string message, int delay = Delay) => Show(message, IconType.Error, delay);
 
-        public static void Show(string message, IconType iconType, int delay = Delay)
+        public static async void Show(string message, IconType iconType, int delay = Delay)
         {
-            Application.Current?.Dispatcher?.Invoke(async () =>
+            if (Application.Current is not Application application || application.Dispatcher == null)
+            {
+                return;
+            }
+            if (application.Dispatcher.CheckAccess())
             {
                 if (GlobalDelay > 0)
                 {
@@ -94,7 +98,11 @@ namespace OhmStudio.UI.Messaging
                 popup.IsOpen = true;
                 await Task.Delay(delay);
                 popup.IsOpen = false;
-            });
+            }
+            else
+            {
+                application.Dispatcher.Invoke(() => Show(message, iconType, delay));
+            }
         }
     }
 }

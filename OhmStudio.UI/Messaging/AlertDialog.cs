@@ -16,10 +16,15 @@ namespace OhmStudio.UI.Messaging
     {
         public static MessageBoxResult Show(string message, string title = null, MessageBoxButton messageBoxButton = MessageBoxButton.OK, MessageBoxImage messageBoxImage = MessageBoxImage.Information, Window owner = null)
         {
-            MessageBoxResult messageBoxResult = MessageBoxResult.None;
-            try
+            if (Application.Current is not Application application || application.Dispatcher == null)
             {
-                Application.Current?.Dispatcher?.Invoke(() =>
+                return MessageBoxResult.None;
+            }
+
+            if (application.Dispatcher.CheckAccess())
+            {
+                MessageBoxResult messageBoxResult = MessageBoxResult.None;
+                try
                 {
                     MessageWindow messageWindow = new MessageWindow(messageBoxButton);
                     messageWindow.SetOwner(owner);
@@ -28,13 +33,17 @@ namespace OhmStudio.UI.Messaging
                     messageWindow.imageInfo.Source = GetImage(messageBoxImage);
                     messageWindow.ShowDialog();
                     messageBoxResult = messageWindow.MessageBoxResult;
-                });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                return messageBoxResult;
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return application.Dispatcher.Invoke(() => Show(message, title, messageBoxButton, messageBoxImage, owner));
             }
-            return messageBoxResult;
         }
 
         private static BitmapSource GetImage(MessageBoxImage messageBoxImage)

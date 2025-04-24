@@ -520,7 +520,7 @@ namespace OhmStudio.UI.Controls
 
             if (toEllipse.LineItem != null)
             {
-                UIMessageTip.ShowWarning("该节点已经存在连接关系，无法创建连接曲线，请删除后再试");
+                MessageTip.ShowWarning("该节点已经存在连接关系，无法创建连接曲线，请删除后再试");
             }
             else
             {

@@ -29,7 +29,7 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            UIMessageTip.Show("这是一个提示\r\n这是二个提示");
+            MessageTip.Show("这是一个提示\r\n这是二个提示");
             DialogResult = true;
         }
     }

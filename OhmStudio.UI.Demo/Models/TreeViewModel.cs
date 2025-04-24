@@ -62,7 +62,7 @@ namespace OhmStudio.UI.Demo.Models
                     if (Regex.IsMatch(treeViewModel.Header, $"[{filterate}]"))
                     {
                         treeViewModel.Header = treeViewModel.BeforeEditingName;
-                        UIMessageTip.ShowWarning($"文件夹和文件命名不能包含以下字符：\r\n{filterate}");
+                        MessageTip.ShowWarning($"文件夹和文件命名不能包含以下字符：\r\n{filterate}");
                         return;
                     }
                     if (oldPath == newPath)
@@ -85,7 +85,7 @@ namespace OhmStudio.UI.Demo.Models
                 catch (Exception ex)
                 {
                     treeViewModel.Header = treeViewModel.BeforeEditingName;
-                    UIMessageTip.ShowError("重命名异常：" + ex.Message);
+                    MessageTip.ShowError("重命名异常：" + ex.Message);
                 }
             });
             RenameVisibleCommand = new RelayCommand<TextBox>((textbox) =>

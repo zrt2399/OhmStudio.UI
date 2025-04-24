@@ -142,7 +142,7 @@ namespace OhmStudio.UI.Demo.Views
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             GC.Collect();
-            UIMessageTip.Show("GC完成");
+            MessageTip.Show("GC完成");
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -181,22 +181,22 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_9(object sender, RoutedEventArgs e)
         {
-            UIMessageTip.Show("UIMessageTip.Show");
+            MessageTip.Show("UIMessageTip.Show");
         }
 
         private void Button_Click_10(object sender, RoutedEventArgs e)
         {
-            UIMessageTip.ShowOk("UIMessageTip.ShowOk");
+            MessageTip.ShowOK("UIMessageTip.ShowOK");
         }
 
         private void Button_Click_11(object sender, RoutedEventArgs e)
         {
-            UIMessageTip.ShowWarning("UIMessageTip.ShowWarning");
+            MessageTip.ShowWarning("UIMessageTip.ShowWarning");
         }
 
         private void Button_Click_12(object sender, RoutedEventArgs e)
         {
-            UIMessageTip.ShowError("UIMessageTip.ShowError");
+            MessageTip.ShowError("UIMessageTip.ShowError");
         }
 
         private void Button_Click_13(object sender, RoutedEventArgs e)
@@ -206,7 +206,7 @@ namespace OhmStudio.UI.Demo.Views
             {
                 stringBuilder.Append(";UIMessageTip.ShowError");
             }
-            UIMessageTip.ShowError(stringBuilder.ToString());
+            MessageTip.ShowError(stringBuilder.ToString());
         }
 
         private void Button_Click_14(object sender, RoutedEventArgs e)
