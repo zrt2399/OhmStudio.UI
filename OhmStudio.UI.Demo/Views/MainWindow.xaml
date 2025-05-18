@@ -263,11 +263,11 @@
                                             <StackPanel Grid.Row="1"
                                                         Margin="0,10"
                                                         Orientation="Horizontal">
-                                                <Button Margin="10,0" Click="Button_Click_9">UIMessageTip.Show</Button>
-                                                <Button Margin="10,0" Click="Button_Click_10">UIMessageTip.ShowOk</Button>
-                                                <Button Margin="10,0" Click="Button_Click_11">UIMessageTip.ShowWarning</Button>
-                                                <Button Margin="10,0" Click="Button_Click_12">UIMessageTip.ShowError</Button>
-                                                <Button Margin="10,0" Click="Button_Click_13">UIMessageTip.ShowErrorMultiLine</Button>
+                                                <Button Margin="10,0" Click="Button_Click_9">MessageTip.Show</Button>
+                                                <Button Margin="10,0" Click="Button_Click_10">MessageTip.ShowSuccess</Button>
+                                                <Button Margin="10,0" Click="Button_Click_11">MessageTip.ShowWarning</Button>
+                                                <Button Margin="10,0" Click="Button_Click_12">MessageTip.ShowError</Button>
+                                                <Button Margin="10,0" Click="Button_Click_13">MessageTip.ShowErrorMultiLine</Button>
                                             </StackPanel>
                                             <StackPanel Grid.Row="2"
                                                         Margin="0,10"

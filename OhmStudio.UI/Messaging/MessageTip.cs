@@ -11,8 +11,8 @@ namespace OhmStudio.UI.Messaging
 {
     public enum IconType
     {
-        Info,
-        OK,
+        Information,
+        Success,
         Warning,
         Error
     }
@@ -25,9 +25,9 @@ namespace OhmStudio.UI.Messaging
 
         public static CornerRadius TipCornerRadius { get; set; } = new CornerRadius(4);
 
-        public static void Show(string message, int delay = Delay) => Show(message, IconType.Info, delay);
+        public static void Show(string message, int delay = Delay) => Show(message, IconType.Information, delay);
 
-        public static void ShowOK(string message, int delay = Delay) => Show(message, IconType.OK, delay);
+        public static void ShowSuccess(string message, int delay = Delay) => Show(message, IconType.Success, delay);
 
         public static void ShowWarning(string message, int delay = Delay) => Show(message, IconType.Warning, delay);
 
@@ -48,8 +48,8 @@ namespace OhmStudio.UI.Messaging
 
                 var borderBrush = iconType switch
                 {
-                    IconType.Info => "#8C8C8C".ToSolidColorBrush(),
-                    IconType.OK => "#6EBE28".ToSolidColorBrush(),
+                    IconType.Information => "#8C8C8C".ToSolidColorBrush(),
+                    IconType.Success => "#6EBE28".ToSolidColorBrush(),
                     IconType.Warning => "#DC9B28".ToSolidColorBrush(),
                     _ => "#E65050".ToSolidColorBrush()
                 };

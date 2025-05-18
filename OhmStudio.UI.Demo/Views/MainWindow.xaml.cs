@@ -181,30 +181,30 @@ namespace OhmStudio.UI.Demo.Views
 
         private void Button_Click_9(object sender, RoutedEventArgs e)
         {
-            MessageTip.Show("UIMessageTip.Show");
+            MessageTip.Show("MessageTip.Show");
         }
 
         private void Button_Click_10(object sender, RoutedEventArgs e)
         {
-            MessageTip.ShowOK("UIMessageTip.ShowOK");
+            MessageTip.ShowSuccess("MessageTip.ShowSuccess");
         }
 
         private void Button_Click_11(object sender, RoutedEventArgs e)
         {
-            MessageTip.ShowWarning("UIMessageTip.ShowWarning");
+            MessageTip.ShowWarning("MessageTip.ShowWarning");
         }
 
         private void Button_Click_12(object sender, RoutedEventArgs e)
         {
-            MessageTip.ShowError("UIMessageTip.ShowError");
+            MessageTip.ShowError("MessageTip.ShowError");
         }
 
         private void Button_Click_13(object sender, RoutedEventArgs e)
         {
-            StringBuilder stringBuilder = new StringBuilder("UIMessageTip.ShowError");
+            StringBuilder stringBuilder = new StringBuilder("MessageTip.ShowError");
             for (int i = 0; i < 50; i++)
             {
-                stringBuilder.Append(";UIMessageTip.ShowError");
+                stringBuilder.Append(";MessageTip.ShowError");
             }
             MessageTip.ShowError(stringBuilder.ToString());
         }
