@@ -9,7 +9,7 @@ namespace OhmStudio.UI.Controls
     public class IconBase : Control
     {
         public static readonly DependencyProperty IconTypeProperty =
-            DependencyProperty.Register(nameof(IconType), typeof(IconType), typeof(IconBase), new FrameworkPropertyMetadata(IconType.Info, FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.Register(nameof(IconType), typeof(IconType), typeof(IconBase), new FrameworkPropertyMetadata(IconType.Information, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public IconType IconType
         {
@@ -36,7 +36,7 @@ namespace OhmStudio.UI.Controls
 
         protected override void OnRender(DrawingContext drawingContext)
         {
-            if (IconType == IconType.Info)
+            if (IconType == IconType.Information)
             {
                 var background = new SolidColorBrush(Color.FromRgb(103, 148, 186));
                 var pen = new Pen(background, 2);
@@ -46,7 +46,7 @@ namespace OhmStudio.UI.Controls
                 drawingContext.DrawLine(exclamationPen, new Point(10, 4), new Point(10, 6));
                 drawingContext.DrawLine(exclamationPen, new Point(10, 8), new Point(10, 16));
             }
-            else if (IconType == IconType.OK)
+            else if (IconType == IconType.Success)
             {
                 StreamGeometry geometry = new StreamGeometry();
                 using (StreamGeometryContext ctx = geometry.Open())
