@@ -14,7 +14,6 @@
 		<Version>1.2.5.9</Version>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>WPFUI Library</Title>
 		<Authors>Yoyo</Authors>
 		<Copyright>Copyright © $(Authors) $([System.DateTime]::Today.ToString(yyyy))</Copyright>
@@ -40,6 +39,10 @@
 		<Reference Include="System.ComponentModel.DataAnnotations" />
 		<Reference Include="System.Net.Http" />
 	</ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<Resource Include="Assets\**">
