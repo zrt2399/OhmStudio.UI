@@ -17,7 +17,7 @@
             <TipIcon />
             <TipIcon IconType="Error" />
             <TipIcon IconType="Warning" />
-            <TipIcon IconType="OK" />
+            <TipIcon IconType="Success" />
         </StackPanel>
         <RunningBlock IsRunning="False">
             <Button>Button</Button>
