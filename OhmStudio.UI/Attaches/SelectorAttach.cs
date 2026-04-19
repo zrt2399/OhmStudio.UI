@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -13,7 +13,7 @@ namespace OhmStudio.UI.Attaches
 {
     public class SelectorAttach
     {
-        private static readonly ConcurrentDictionary<object, Selector> CollectionToSelectorMap = new();
+        private static readonly ConditionalWeakTable<object, WeakReference<Selector>> CollectionToSelectorMap = new();
 
         public static readonly DependencyProperty SelectedItemsProperty =
             DependencyProperty.RegisterAttached("SelectedItems", typeof(IList), typeof(SelectorAttach), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -102,21 +102,25 @@ namespace OhmStudio.UI.Attaches
             {
                 return;
             }
-            DependencyPropertyDescriptor property = DependencyPropertyDescriptor.FromProperty(ItemsControl.ItemsSourceProperty, typeof(Selector));
+            var property = DependencyPropertyDescriptor.FromProperty(ItemsControl.ItemsSourceProperty, typeof(Selector));
             property?.RemoveValueChanged(selector, OnItemsSourceChanged);
-            property?.AddValueChanged(selector, OnItemsSourceChanged);
+            if ((bool)e.NewValue)
+            {
+                property?.AddValueChanged(selector, OnItemsSourceChanged);
+            }
 
             if (selector.ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
             {
-                if (e.OldValue is bool oldValue && oldValue)
+                if ((bool)e.OldValue)
                 {
                     notifyCollectionChanged.CollectionChanged -= SelectorAttach_CollectionChanged;
-                    CollectionToSelectorMap.TryRemove(notifyCollectionChanged, out _);
+                    CollectionToSelectorMap.Remove(notifyCollectionChanged);
                 }
 
-                if (e.NewValue is bool newValue && newValue)
+                if ((bool)e.NewValue)
                 {
-                    CollectionToSelectorMap[notifyCollectionChanged] = selector;
+                    CollectionToSelectorMap.Remove(notifyCollectionChanged);
+                    CollectionToSelectorMap.Add(notifyCollectionChanged, new WeakReference<Selector>(selector));
                     notifyCollectionChanged.CollectionChanged += SelectorAttach_CollectionChanged;
                 }
             }
@@ -139,7 +143,18 @@ namespace OhmStudio.UI.Attaches
         {
             if (CollectionToSelectorMap.TryGetValue(sender, out var selector) && e.Action == NotifyCollectionChangedAction.Add)
             {
-                ScrollToEnd(selector);
+                if (selector.TryGetTarget(out var target))
+                {
+                    ScrollToEnd(target);
+                }
+                else
+                {
+                    if (sender is INotifyCollectionChanged notifyCollectionChanged)
+                    {
+                        notifyCollectionChanged.CollectionChanged -= SelectorAttach_CollectionChanged;
+                    }
+                    CollectionToSelectorMap.Remove(sender);
+                }
             }
         }
 
