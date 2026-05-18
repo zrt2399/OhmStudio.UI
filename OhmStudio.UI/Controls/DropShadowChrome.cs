@@ -6,52 +6,52 @@ using OhmStudio.UI.Utilities;
 
 namespace OhmStudio.UI.Controls
 {
-    public class DropShadowControl : ContentControl
+    public class DropShadowChrome : ContentControl
     {
         public static readonly DependencyProperty ShowShadowProperty =
-           DependencyProperty.RegisterAttached(nameof(ShowShadow), typeof(bool), typeof(DropShadowControl), new FrameworkPropertyMetadata(true));
+           DependencyProperty.RegisterAttached(nameof(ShowShadow), typeof(bool), typeof(DropShadowChrome), new FrameworkPropertyMetadata(true));
 
         public static readonly DependencyProperty ShadowBrushProperty =
-            DependencyProperty.RegisterAttached(nameof(ShadowBrush), typeof(SolidColorBrush), typeof(DropShadowControl), new FrameworkPropertyMetadata(Brushes.DarkGray, (sender, e) =>
+            DependencyProperty.RegisterAttached(nameof(ShadowBrush), typeof(SolidColorBrush), typeof(DropShadowChrome), new FrameworkPropertyMetadata(Brushes.DarkGray, (sender, e) =>
             {
-                if (sender is DropShadowControl dropShadowControl)
+                if (sender is DropShadowChrome dropShadowChrome)
                 {
-                    dropShadowControl.ShadowColor = e.NewValue is SolidColorBrush brush ? brush.Color : Brushes.Transparent.Color;
+                    dropShadowChrome.ShadowColor = e.NewValue is SolidColorBrush brush ? brush.Color : Brushes.Transparent.Color;
                 }
             }));
 
         public static readonly DependencyProperty ShadowColorProperty =
-            DependencyProperty.RegisterAttached(nameof(ShadowColor), typeof(Color), typeof(DropShadowControl), new FrameworkPropertyMetadata(Brushes.DarkGray.Color, FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.RegisterAttached(nameof(ShadowColor), typeof(Color), typeof(DropShadowChrome), new FrameworkPropertyMetadata(Brushes.DarkGray.Color, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.RegisterAttached(nameof(CornerRadius), typeof(CornerRadius), typeof(DropShadowControl), new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.RegisterAttached(nameof(CornerRadius), typeof(CornerRadius), typeof(DropShadowChrome), new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty ShadowDepthProperty =
-            DependencyProperty.RegisterAttached(nameof(ShadowDepth), typeof(double), typeof(DropShadowControl), new FrameworkPropertyMetadata(5d, FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.RegisterAttached(nameof(ShadowDepth), typeof(double), typeof(DropShadowChrome), new FrameworkPropertyMetadata(5d, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty BlurRadiusProperty =
-            DependencyProperty.RegisterAttached(nameof(BlurRadius), typeof(double), typeof(DropShadowControl), new FrameworkPropertyMetadata(5d, FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.RegisterAttached(nameof(BlurRadius), typeof(double), typeof(DropShadowChrome), new FrameworkPropertyMetadata(5d, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty ShadowDirectionProperty =
-            DependencyProperty.RegisterAttached(nameof(ShadowDirection), typeof(double), typeof(DropShadowControl), new FrameworkPropertyMetadata(315d, FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.RegisterAttached(nameof(ShadowDirection), typeof(double), typeof(DropShadowChrome), new FrameworkPropertyMetadata(315d, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty ShadowOpacityProperty =
-          DependencyProperty.RegisterAttached(nameof(ShadowOpacity), typeof(double), typeof(DropShadowControl), new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender));
+          DependencyProperty.RegisterAttached(nameof(ShadowOpacity), typeof(double), typeof(DropShadowChrome), new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty RenderingBiasProperty =
-            DependencyProperty.RegisterAttached(nameof(RenderingBias), typeof(RenderingBias), typeof(DropShadowControl), new FrameworkPropertyMetadata(RenderingBias.Performance, FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.RegisterAttached(nameof(RenderingBias), typeof(RenderingBias), typeof(DropShadowChrome), new FrameworkPropertyMetadata(RenderingBias.Performance, FrameworkPropertyMetadataOptions.AffectsRender));
 
-        static DropShadowControl()
+        static DropShadowChrome()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(DropShadowControl), new FrameworkPropertyMetadata(typeof(DropShadowControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DropShadowChrome), new FrameworkPropertyMetadata(typeof(DropShadowChrome)));
         }
 
-        public DropShadowControl()
+        public DropShadowChrome()
         {
-            GotFocus += DropShadowControl_GotFocus;
+            GotFocus += DropShadowChrome_GotFocus;
         }
 
-        private void DropShadowControl_GotFocus(object sender, RoutedEventArgs e)
+        private void DropShadowChrome_GotFocus(object sender, RoutedEventArgs e)
         {
             if (!e.Handled && Equals(e.OriginalSource, this))
             {

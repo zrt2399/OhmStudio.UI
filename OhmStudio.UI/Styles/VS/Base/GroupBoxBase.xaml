@@ -27,22 +27,22 @@
                             <RowDefinition />
                             <RowDefinition Height="6" />
                         </Grid.RowDefinitions>
-                        <controls:DropShadowControl Grid.Row="1"
-                                                    Grid.RowSpan="3"
-                                                    Grid.Column="0"
-                                                    Grid.ColumnSpan="4"
-                                                    Background="{TemplateBinding Background}"
-                                                    BlurRadius="{Binding Path=(controls:DropShadowControl.BlurRadius), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    BorderBrush="Transparent"
-                                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                                    CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Focusable="False"
-                                                    RenderingBias="{Binding Path=(controls:DropShadowControl.RenderingBias), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    ShadowColor="{Binding Path=(controls:DropShadowControl.ShadowColor), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    ShadowDepth="{Binding Path=(controls:DropShadowControl.ShadowDepth), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    ShadowDirection="{Binding Path=(controls:DropShadowControl.ShadowDirection), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    ShadowOpacity="{Binding Path=(controls:DropShadowControl.ShadowOpacity), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    ShowShadow="{Binding Path=(controls:DropShadowControl.ShowShadow), RelativeSource={RelativeSource TemplatedParent}}" />
+                        <controls:DropShadowChrome Grid.Row="1"
+                                                   Grid.RowSpan="3"
+                                                   Grid.Column="0"
+                                                   Grid.ColumnSpan="4"
+                                                   Background="{TemplateBinding Background}"
+                                                   BlurRadius="{Binding Path=(controls:DropShadowChrome.BlurRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   BorderBrush="Transparent"
+                                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                                   CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   Focusable="False"
+                                                   RenderingBias="{Binding Path=(controls:DropShadowChrome.RenderingBias), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   ShadowColor="{Binding Path=(controls:DropShadowChrome.ShadowColor), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   ShadowDepth="{Binding Path=(controls:DropShadowChrome.ShadowDepth), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   ShadowDirection="{Binding Path=(controls:DropShadowChrome.ShadowDirection), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   ShadowOpacity="{Binding Path=(controls:DropShadowChrome.ShadowOpacity), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   ShowShadow="{Binding Path=(controls:DropShadowChrome.ShowShadow), RelativeSource={RelativeSource TemplatedParent}}" />
 
                         <Border Grid.Row="1"
                                 Grid.RowSpan="3"

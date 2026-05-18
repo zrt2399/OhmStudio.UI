@@ -155,7 +155,7 @@ namespace OhmStudio.UI.Controls
         {
             if (uIElement.IsPlaceHolderObject() && propertyInfo.GetCustomAttribute<TextBoxPlaceHolderAttribute>() is TextBoxPlaceHolderAttribute placeHolder)
             {
-                TextBoxAttach.SetPlaceHolder(uIElement, placeHolder.PlaceHolder);
+                TextBoxAttach.SetPlaceHolderText(uIElement, placeHolder.PlaceHolder);
                 TextBoxAttach.SetPlaceHolderOpacity(uIElement, placeHolder.PlaceHolderOpacity);
             }
         }

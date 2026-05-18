@@ -73,11 +73,11 @@
                 <SearchBar Margin="10,0"
                            VerticalAlignment="Center"
                            Command="{Binding SearchCommand}"
-                           TextBoxAttach.PlaceHolder="请输入搜索内容..." />
+                           TextBoxAttach.PlaceHolderText="请输入搜索内容..." />
                 <!--<CheckComboBox />-->
                 <TextBox VerticalAlignment="Center"
                          Text="{Binding GlobalCornerRadius}"
-                         TextBoxAttach.Title="全局圆角：" />
+                         TextBoxAttach.Header="全局圆角：" />
                 <Border Margin="10,0,0,0"
                         VerticalAlignment="Center"
                         IsHitTestVisible="False">
@@ -177,7 +177,7 @@
                         Orientation="Horizontal">
                 <ComboBox ItemsSource="{Binding FontFamilyList}"
                           SelectedItem="{Binding CurrentFontFamily}"
-                          TextBoxAttach.Title="全局字体：">
+                          TextBoxAttach.Header="全局字体：">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock FontFamily="{Binding FontFamily}" Text="{Binding Name}" />
@@ -187,11 +187,11 @@
                 <NumericUpDown Margin="6,0"
                                Maximum="20"
                                Minimum="10"
-                               TextBoxAttach.Title="字体大小："
+                               TextBoxAttach.Header="字体大小："
                                Value="{Binding CurrentFontSize}" />
                 <ComboBox ItemsSource="{Binding Source={EnumBindingSource ThemeType}}"
                           SelectedItem="{Binding CurrentTheme}"
-                          TextBoxAttach.Title="主题：" />
+                          TextBoxAttach.Header="主题：" />
                 <Border Width="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"
                         Margin="6,0"
                         Background="Purple"
@@ -452,11 +452,11 @@
                                                   ScrollViewerAttach.Orientation="Horizontal">
                                             <DataGrid.RowDetailsTemplate>
                                                 <DataTemplate>
-                                                    <DropShadowControl Margin="4"
-                                                                       Background="Orange"
-                                                                       ShadowBrush="Orange">
+                                                    <DropShadowChrome Margin="4"
+                                                                      Background="Orange"
+                                                                      ShadowBrush="Orange">
                                                         <TextBlock Text="{Binding InstrumentType}" />
-                                                    </DropShadowControl>
+                                                    </DropShadowChrome>
                                                 </DataTemplate>
                                             </DataGrid.RowDetailsTemplate>
                                         </DataGrid>
@@ -692,7 +692,7 @@
                                 <UniformGrid Columns="1">
                                     <GroupBox Margin="10"
                                               Background="Orange"
-                                              DropShadowControl.ShadowColor="Orange"
+                                              DropShadowChrome.ShadowColor="Orange"
                                               Header="GroupBox">
                                         <GroupBox.BorderBrush>
                                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -703,22 +703,22 @@
                                         </GroupBox.BorderBrush>
                                         <TextBox>GroupBox</TextBox>
                                     </GroupBox>
-                                    <DropShadowControl Margin="10"
-                                                       Background="OrangeRed"
-                                                       BlurRadius="40"
-                                                       BorderThickness="2"
-                                                       CornerRadius="10"
-                                                       ShadowColor="IndianRed"
-                                                       ShadowDepth="0">
-                                        <DropShadowControl.BorderBrush>
+                                    <DropShadowChrome Margin="10"
+                                                      Background="OrangeRed"
+                                                      BlurRadius="40"
+                                                      BorderThickness="2"
+                                                      CornerRadius="10"
+                                                      ShadowColor="IndianRed"
+                                                      ShadowDepth="0">
+                                        <DropShadowChrome.BorderBrush>
                                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                                 <GradientStop Offset="0" Color="Yellow" />
                                                 <GradientStop Offset="0.5" Color="Orange" />
                                                 <GradientStop Offset="1" Color="Red" />
                                             </LinearGradientBrush>
-                                        </DropShadowControl.BorderBrush>
-                                        <TextBox Margin="10">DropShadowControl</TextBox>
-                                    </DropShadowControl>
+                                        </DropShadowChrome.BorderBrush>
+                                        <TextBox Margin="10">DropShadowChrome</TextBox>
+                                    </DropShadowChrome>
                                     <Border Margin="10" Background="Green">
                                         <TextBox Margin="10">Border</TextBox>
                                     </Border>
@@ -750,7 +750,7 @@
                                         </TextBlock>
                                         <TextBox Name="hightLight"
                                                  VerticalAlignment="Center"
-                                                 TextBoxAttach.Title="请输入搜索的关键字：">
+                                                 TextBoxAttach.Header="请输入搜索的关键字：">
                                             白
                                         </TextBox>
                                     </UniformGrid>
@@ -1135,9 +1135,9 @@
                                                                 IsDateOnly="True"
                                                                 SelectedDateTime="{Binding CurrentDateTime}"
                                                                 SelectedDateTimeFormat="yyyy-MM-dd"
-                                                                TextBoxAttach.PlaceHolder="请选择日期..."
-                                                                TextBoxAttach.Title="DateTimePicker："
-                                                                TextBoxAttach.TitlePlacement="Top" />
+                                                                TextBoxAttach.Header="DateTimePicker："
+                                                                TextBoxAttach.HeaderPlacement="Top"
+                                                                TextBoxAttach.PlaceHolderText="请选择日期..." />
                                                 <DateTimePicker VerticalAlignment="Top" />
 
                                                 <SearchBar VerticalAlignment="Top"
@@ -1146,9 +1146,9 @@
                                                            IsDropDownOpen="{Binding IsDropDownOpen}"
                                                            IsDropDownOpenOnTextChanged="True"
                                                            MinDropDownWidth="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth}"
-                                                           TextBoxAttach.PlaceHolder="请输入搜索内容..."
-                                                           TextBoxAttach.Title="SearchBar："
-                                                           TextBoxAttach.TitlePlacement="Top">
+                                                           TextBoxAttach.Header="SearchBar："
+                                                           TextBoxAttach.HeaderPlacement="Top"
+                                                           TextBoxAttach.PlaceHolderText="请输入搜索内容...">
                                                     <StackPanel Orientation="Vertical">
                                                         <TextBlock>123abc</TextBlock>
                                                         <TextBlock>456</TextBlock>
@@ -1161,10 +1161,10 @@
                                                          HorizontalContentAlignment="Right"
                                                          BorderThickness="0,0,0,2"
                                                          Text="{Binding CurrentDateTime}"
-                                                         TextBoxAttach.PlaceHolder="请输入文本..."
-                                                         TextBoxAttach.SuffixText="Time"
-                                                         TextBoxAttach.Title="TextBox："
-                                                         TextBoxAttach.TitlePlacement="Top" />
+                                                         TextBoxAttach.Header="TextBox："
+                                                         TextBoxAttach.HeaderPlacement="Top"
+                                                         TextBoxAttach.PlaceHolderText="请输入文本..."
+                                                         TextBoxAttach.SuffixText="Time" />
 
                                                 <TextBox VerticalAlignment="Top"
                                                          Foreground="CornflowerBlue"
@@ -1175,15 +1175,15 @@
                                                                Maximum="100"
                                                                Minimum="-100"
                                                                StringFormat="${0}"
-                                                               TextBoxAttach.Title="价格："
-                                                               TextBoxAttach.TitlePlacement="Top"
+                                                               TextBoxAttach.Header="价格："
+                                                               TextBoxAttach.HeaderPlacement="Top"
                                                                Value="{Binding NumericUpDownValue}" />
                                                 <NumericUpDown VerticalAlignment="Top" />
                                                 <PasswordBox VerticalAlignment="Top"
                                                              Foreground="Purple"
-                                                             TextBoxAttach.PlaceHolder="请输入密码..."
-                                                             TextBoxAttach.Title="PasswordBox："
-                                                             TextBoxAttach.TitlePlacement="Top" />
+                                                             TextBoxAttach.Header="PasswordBox："
+                                                             TextBoxAttach.HeaderPlacement="Top"
+                                                             TextBoxAttach.PlaceHolderText="请输入密码..." />
                                                 <PasswordBox VerticalAlignment="Top" PasswordChar="#" />
 
                                                 <PasswordTextBox VerticalAlignment="Top"
@@ -1191,9 +1191,9 @@
                                                                  MaxLength="10"
                                                                  Password="{Binding Password}"
                                                                  PasswordChar="$"
-                                                                 TextBoxAttach.PlaceHolder="请输入密码..."
-                                                                 TextBoxAttach.Title="PasswordTextBox："
-                                                                 TextBoxAttach.TitlePlacement="Top" />
+                                                                 TextBoxAttach.Header="PasswordTextBox："
+                                                                 TextBoxAttach.HeaderPlacement="Top"
+                                                                 TextBoxAttach.PlaceHolderText="请输入密码..." />
                                                 <PasswordTextBox VerticalAlignment="Top"
                                                                  CanShowPassword="False"
                                                                  ClearButtonIsTabStop="True"
@@ -1202,20 +1202,20 @@
                                                 <ComboBox VerticalAlignment="Top"
                                                           Foreground="Red"
                                                           ItemsSource="{EnumBindingSource EnumType=viewmodels:UserPermission}"
-                                                          TextBoxAttach.PlaceHolder="IsEditable=False"
-                                                          TextBoxAttach.Title="ComboBox："
-                                                          TextBoxAttach.TitlePlacement="Top" />
+                                                          TextBoxAttach.Header="ComboBox："
+                                                          TextBoxAttach.HeaderPlacement="Top"
+                                                          TextBoxAttach.PlaceHolderText="IsEditable=False" />
                                                 <ComboBox VerticalAlignment="Top"
                                                           IsEditable="True"
                                                           ItemsSource="{EnumBindingSource EnumType=viewmodels:UserPermission}"
-                                                          TextBoxAttach.PlaceHolder="IsEditable=True" />
+                                                          TextBoxAttach.PlaceHolderText="IsEditable=True" />
 
                                                 <CheckComboBox VerticalAlignment="Top"
                                                                DisplayMemberPath="Name"
                                                                Foreground="Orange"
                                                                ItemsSource="{Binding Employees}"
-                                                               TextBoxAttach.Title="CheckComboBox："
-                                                               TextBoxAttach.TitlePlacement="Top" />
+                                                               TextBoxAttach.Header="CheckComboBox："
+                                                               TextBoxAttach.HeaderPlacement="Top" />
                                                 <CheckComboBox VerticalAlignment="Top"
                                                                DisplayMemberPath="Description"
                                                                ItemsSource="{Binding Employees}"
@@ -1270,21 +1270,21 @@
                                                                 Height="50"
                                                                 HorizontalContentAlignment="Right"
                                                                 VerticalContentAlignment="Bottom"
-                                                                TextBoxAttach.PlaceHolder="请输入日期...">
-                                                    <TextBoxAttach.Title>
+                                                                TextBoxAttach.PlaceHolderText="请输入日期...">
+                                                    <TextBoxAttach.Header>
                                                         <Button>DateTimePicker：</Button>
-                                                    </TextBoxAttach.Title>
+                                                    </TextBoxAttach.Header>
                                                 </DateTimePicker>
                                                 <SearchBar Width="300"
                                                            Height="50"
                                                            HorizontalContentAlignment="Right"
                                                            VerticalContentAlignment="Bottom"
-                                                           TextBoxAttach.PlaceHolder="请输入搜索内容..."
                                                            TextBoxAttach.PlaceHolderOpacity="1"
+                                                           TextBoxAttach.PlaceHolderText="请输入搜索内容..."
                                                            TextWrapping="Wrap">
-                                                    <TextBoxAttach.Title>
+                                                    <TextBoxAttach.Header>
                                                         <Button>SearchBar：</Button>
-                                                    </TextBoxAttach.Title>
+                                                    </TextBoxAttach.Header>
                                                 </SearchBar>
                                                 <!--  TextBoxAttach.ShowValidationErrorInfo="False"  -->
                                                 <TextBox Width="300"
@@ -1292,26 +1292,26 @@
                                                          HorizontalContentAlignment="Right"
                                                          VerticalContentAlignment="Bottom"
                                                          Text="{Binding Range, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                                                         TextBoxAttach.PlaceHolder="请输入文本...">
-                                                    <TextBoxAttach.Title>
+                                                         TextBoxAttach.PlaceHolderText="请输入文本...">
+                                                    <TextBoxAttach.Header>
                                                         <UniformGrid Columns="1"
                                                                      Focusable="False"
                                                                      IsHitTestVisible="False">
                                                             <Button>TextBox1：</Button>
                                                             <Button>TextBox2：</Button>
                                                         </UniformGrid>
-                                                    </TextBoxAttach.Title>
+                                                    </TextBoxAttach.Header>
                                                 </TextBox>
                                                 <PasswordBox Width="300"
                                                              Height="50"
                                                              HorizontalContentAlignment="Right"
                                                              VerticalContentAlignment="Bottom"
                                                              PasswordChar="$"
-                                                             TextBoxAttach.PlaceHolder="请输入密码..."
-                                                             TextBoxAttach.PlaceHolderOpacity="1">
-                                                    <TextBoxAttach.Title>
+                                                             TextBoxAttach.PlaceHolderOpacity="1"
+                                                             TextBoxAttach.PlaceHolderText="请输入密码...">
+                                                    <TextBoxAttach.Header>
                                                         <Button>PasswordBox：</Button>
-                                                    </TextBoxAttach.Title>
+                                                    </TextBoxAttach.Header>
                                                 </PasswordBox>
                                                 <PasswordTextBox Name="passwordTextBox"
                                                                  Width="300"
@@ -1319,11 +1319,11 @@
                                                                  HorizontalContentAlignment="Right"
                                                                  VerticalContentAlignment="Bottom"
                                                                  PasswordChar="◉"
-                                                                 TextBoxAttach.PlaceHolder="请输入密码..."
-                                                                 TextBoxAttach.PlaceHolderOpacity="1">
-                                                    <TextBoxAttach.Title>
+                                                                 TextBoxAttach.PlaceHolderOpacity="1"
+                                                                 TextBoxAttach.PlaceHolderText="请输入密码...">
+                                                    <TextBoxAttach.Header>
                                                         <Button>PasswordTextBox：</Button>
-                                                    </TextBoxAttach.Title>
+                                                    </TextBoxAttach.Header>
                                                 </PasswordTextBox>
                                                 <ComboBox Width="300"
                                                           Height="50"
@@ -1333,15 +1333,15 @@
                                                           IsEditable="True"
                                                           IsReadOnly="True"
                                                           ItemsSource="{Binding Employees}"
-                                                          TextBoxAttach.PlaceHolder="IsReadOnly=True">
+                                                          TextBoxAttach.PlaceHolderText="IsReadOnly=True">
                                                     <ComboBox.ItemsPanel>
                                                         <ItemsPanelTemplate>
                                                             <VirtualizingStackPanel />
                                                         </ItemsPanelTemplate>
                                                     </ComboBox.ItemsPanel>
-                                                    <TextBoxAttach.Title>
+                                                    <TextBoxAttach.Header>
                                                         <Button>ComboBox：</Button>
-                                                    </TextBoxAttach.Title>
+                                                    </TextBoxAttach.Header>
                                                 </ComboBox>
                                                 <CheckComboBox Name="checkComboBox"
                                                                Width="300"
@@ -1356,9 +1356,9 @@
                                                                Separator="；"
                                                                TextWrapping="Wrap"
                                                                VirtualizingPanel.ScrollUnit="Pixel">
-                                                    <TextBoxAttach.Title>
+                                                    <TextBoxAttach.Header>
                                                         <Button>CheckComboBox：</Button>
-                                                    </TextBoxAttach.Title>
+                                                    </TextBoxAttach.Header>
                                                 </CheckComboBox>
                                                 <Button Width="300"
                                                         Height="50"
@@ -1374,27 +1374,27 @@
                                                             ExploreButtonContent="打开文件夹所在位置"
                                                             Multiselect="True"
                                                             OpenButtonContent="打开文件夹"
-                                                            TextBoxAttach.PlaceHolder="请选择文件夹..."
-                                                            TextBoxAttach.Title="文件夹："
+                                                            TextBoxAttach.Header="文件夹："
+                                                            TextBoxAttach.PlaceHolderText="请选择文件夹..."
                                                             UseFolderDialog="True" />
                                                 <PathPicker MinWidth="200"
                                                             ExploreButtonContent="打开文件所在位置"
                                                             Filter="Excel 工作簿|*.xlsx"
                                                             OpenButtonContent="打开文件"
-                                                            TextBoxAttach.PlaceHolder="请选择保存的文件路径..."
-                                                            TextBoxAttach.Title="保存文件："
+                                                            TextBoxAttach.Header="保存文件："
+                                                            TextBoxAttach.PlaceHolderText="请选择保存的文件路径..."
                                                             UseSaveDialog="True" />
                                                 <PathPicker MinWidth="200"
                                                             ExploreButtonContent="打开文件所在位置"
                                                             OpenButtonContent="打开文件"
-                                                            TextBoxAttach.PlaceHolder="请选择文件..."
-                                                            TextBoxAttach.Title="打开文件：" />
+                                                            TextBoxAttach.Header="打开文件："
+                                                            TextBoxAttach.PlaceHolderText="请选择文件..." />
                                                 <PathPicker MinWidth="200"
                                                             ExploreButtonContent="打开第一个文件所在位置"
                                                             Multiselect="True"
                                                             OpenButtonContent="打开第一个文件"
-                                                            TextBoxAttach.PlaceHolder="请选择单个或多个文件..."
-                                                            TextBoxAttach.Title="打开多个文件：" />
+                                                            TextBoxAttach.Header="打开多个文件："
+                                                            TextBoxAttach.PlaceHolderText="请选择单个或多个文件..." />
                                             </StackPanel>
                                         </GroupBox>
                                         <GroupBox Margin="10" Header="Calendar">

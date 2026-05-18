@@ -9,7 +9,7 @@
         <Setter Property="Margin" Value="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}" />
         <Setter Property="VerticalAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
         <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
-        <Setter Property="Content" Value="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="Content" Value="{Binding Path=(attaches:TextBoxAttach.PlaceHolderText), RelativeSource={RelativeSource TemplatedParent}}" />
         <Setter Property="Opacity" Value="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}" />
 
         <Setter Property="Visibility" Value="{Binding Path=(attaches:TextBoxAttach.PlaceHolderVisibility), RelativeSource={RelativeSource TemplatedParent}}" />
@@ -17,8 +17,8 @@
     </Style>
 
     <Style x:Key="TitleWithTemplatedParent" TargetType="ContentPresenter">
-        <Setter Property="DockPanel.Dock" Value="{Binding Path=(attaches:TextBoxAttach.TitlePlacement), RelativeSource={RelativeSource TemplatedParent}}" />
-        <Setter Property="Content" Value="{Binding Path=(attaches:TextBoxAttach.Title), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="DockPanel.Dock" Value="{Binding Path=(attaches:TextBoxAttach.HeaderPlacement), RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="Content" Value="{Binding Path=(attaches:TextBoxAttach.Header), RelativeSource={RelativeSource TemplatedParent}}" />
 
         <Setter Property="Visibility" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content, Converter={StaticResource NotNullOrEmptyToVisibilityConverter}}" />
 

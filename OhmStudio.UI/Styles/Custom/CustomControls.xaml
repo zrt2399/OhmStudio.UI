@@ -193,12 +193,12 @@
         <Setter Property="Background" Value="Transparent" />
     </Style>
 
-    <Style x:Key="DropShadowControlBaseStyle" TargetType="controls:DropShadowControl">
+    <Style x:Key="DropShadowChromeBaseStyle" TargetType="controls:DropShadowChrome">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:DropShadowControl">
+                <ControlTemplate TargetType="controls:DropShadowChrome">
                     <controls:SimplePanel>
                         <Border Name="ShadowBorder"
                                 Background="{TemplateBinding Background}"
@@ -234,7 +234,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style BasedOn="{StaticResource DropShadowControlBaseStyle}" TargetType="controls:DropShadowControl" />
+    <Style BasedOn="{StaticResource DropShadowChromeBaseStyle}" TargetType="controls:DropShadowChrome" />
 
     <Style x:Key="ClassicButton" TargetType="Button">
         <Setter Property="Foreground" Value="Black" />
@@ -251,25 +251,25 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <controls:DropShadowControl x:Name="DropShadowControl"
-                                                Background="{TemplateBinding Background}"
-                                                BlurRadius="8"
-                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
-                                                ShadowColor="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BrushToColorConverter}}"
-                                                ShadowDepth="0"
-                                                ShowShadow="False">
+                    <controls:DropShadowChrome x:Name="DropShadowChrome"
+                                               Background="{TemplateBinding Background}"
+                                               BlurRadius="8"
+                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                               BorderThickness="{TemplateBinding BorderThickness}"
+                                               CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                               ShadowColor="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BrushToColorConverter}}"
+                                               ShadowDepth="0"
+                                               ShowShadow="False">
                         <ContentPresenter Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </controls:DropShadowControl>
+                    </controls:DropShadowChrome>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="DropShadowControl" Property="ShowShadow" Value="True" />
+                            <Setter TargetName="DropShadowChrome" Property="ShowShadow" Value="True" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="DropShadowControl" Property="ShowShadow" Value="True" />
+                            <Setter TargetName="DropShadowChrome" Property="ShowShadow" Value="True" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" Value="{Binding Path=(attaches:ButtonAttach.PressedBackground), RelativeSource={RelativeSource Mode=Self}}" />
@@ -318,17 +318,17 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <controls:DropShadowControl Background="{TemplateBinding Background}"
-                                                BlurRadius="4"
-                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
-                                                ShadowColor="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BrushToColorConverter}}"
-                                                ShadowDepth="0">
+                    <controls:DropShadowChrome Background="{TemplateBinding Background}"
+                                               BlurRadius="4"
+                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                               BorderThickness="{TemplateBinding BorderThickness}"
+                                               CornerRadius="{Binding Path=(attaches:BorderAttach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                               ShadowColor="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BrushToColorConverter}}"
+                                               ShadowDepth="0">
                         <ContentPresenter Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </controls:DropShadowControl>
+                    </controls:DropShadowChrome>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="#FFE5F1FB" />
@@ -429,8 +429,8 @@
                                     <TextBox Name="PART_TextBox"
                                              attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
                                              attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
-                                             attaches:TextBoxAttach.PlaceHolder="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}"
                                              attaches:TextBoxAttach.PlaceHolderOpacity="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}"
+                                             attaches:TextBoxAttach.PlaceHolderText="{Binding Path=(attaches:TextBoxAttach.PlaceHolderText), RelativeSource={RelativeSource TemplatedParent}}"
                                              Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                              TextWrapping="{TemplateBinding TextWrapping}">
                                         <TextBox.InputBindings>
@@ -453,7 +453,7 @@
                                             <theme:SystemDropShadowChrome.MinWidth>
                                                 <MultiBinding Converter="{StaticResource DropDownMinWidthConverter}">
                                                     <Binding Path="MinDropDownWidth" RelativeSource="{RelativeSource Mode=TemplatedParent}" />
-                                                    <Binding Path="(attaches:TextBoxAttach.TitlePlacement)" RelativeSource="{RelativeSource Mode=TemplatedParent}" />
+                                                    <Binding Path="(attaches:TextBoxAttach.HeaderPlacement)" RelativeSource="{RelativeSource Mode=TemplatedParent}" />
                                                     <Binding ElementName="Title" Path="ActualWidth" />
                                                 </MultiBinding>
                                             </theme:SystemDropShadowChrome.MinWidth>
@@ -1172,8 +1172,8 @@
                                     <TextBox x:Name="PART_TextBox"
                                              attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
                                              attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
-                                             attaches:TextBoxAttach.PlaceHolder="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}"
                                              attaches:TextBoxAttach.PlaceHolderOpacity="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}"
+                                             attaches:TextBoxAttach.PlaceHolderText="{Binding Path=(attaches:TextBoxAttach.PlaceHolderText), RelativeSource={RelativeSource TemplatedParent}}"
                                              MaxLength="{TemplateBinding MaxLength}"
                                              Text="{Binding Password, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              Visibility="{TemplateBinding TbVisibility}" />
@@ -1182,8 +1182,8 @@
                                                  attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
                                                  attaches:PasswordBoxAttach.Password="{Binding Password, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                  attaches:PasswordBoxAttach.PasswordAttach="True"
-                                                 attaches:TextBoxAttach.PlaceHolder="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}"
                                                  attaches:TextBoxAttach.PlaceHolderOpacity="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}"
+                                                 attaches:TextBoxAttach.PlaceHolderText="{Binding Path=(attaches:TextBoxAttach.PlaceHolderText), RelativeSource={RelativeSource TemplatedParent}}"
                                                  MaxLength="{TemplateBinding MaxLength}"
                                                  PasswordChar="{TemplateBinding PasswordChar}"
                                                  Visibility="{TemplateBinding PwVisibility}" />
@@ -1243,8 +1243,8 @@
                                     <TextBox Name="PART_TextBox"
                                              attaches:DynamicStyleProvider.BasedOn="{DynamicResource {x:Type TextBox}}"
                                              attaches:DynamicStyleProvider.Derived="{StaticResource ContentHostControl}"
-                                             attaches:TextBoxAttach.PlaceHolder="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}"
                                              attaches:TextBoxAttach.PlaceHolderOpacity="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}"
+                                             attaches:TextBoxAttach.PlaceHolderText="{Binding Path=(attaches:TextBoxAttach.PlaceHolderText), RelativeSource={RelativeSource TemplatedParent}}"
                                              IsReadOnly="{TemplateBinding IsReadOnly}"
                                              Text="{Binding DateTimeText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -1424,10 +1424,10 @@
                             <TextBox x:Name="PART_TextBox"
                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                     attaches:TextBoxAttach.PlaceHolder="{Binding Path=(attaches:TextBoxAttach.PlaceHolder), RelativeSource={RelativeSource TemplatedParent}}"
+                                     attaches:TextBoxAttach.Header="{Binding Path=(attaches:TextBoxAttach.Header), RelativeSource={RelativeSource TemplatedParent}}"
+                                     attaches:TextBoxAttach.HeaderPlacement="{Binding Path=(attaches:TextBoxAttach.HeaderPlacement), RelativeSource={RelativeSource TemplatedParent}}"
                                      attaches:TextBoxAttach.PlaceHolderOpacity="{Binding Path=(attaches:TextBoxAttach.PlaceHolderOpacity), RelativeSource={RelativeSource TemplatedParent}}"
-                                     attaches:TextBoxAttach.Title="{Binding Path=(attaches:TextBoxAttach.Title), RelativeSource={RelativeSource TemplatedParent}}"
-                                     attaches:TextBoxAttach.TitlePlacement="{Binding Path=(attaches:TextBoxAttach.TitlePlacement), RelativeSource={RelativeSource TemplatedParent}}"
+                                     attaches:TextBoxAttach.PlaceHolderText="{Binding Path=(attaches:TextBoxAttach.PlaceHolderText), RelativeSource={RelativeSource TemplatedParent}}"
                                      DockPanel.Dock="Left"
                                      IsReadOnly="{TemplateBinding IsReadOnly}"
                                      Text="{TemplateBinding SelectedPath}"
@@ -1636,12 +1636,12 @@
     <Style BasedOn="{StaticResource AppHostBaseStyle}" TargetType="controls:AppHost" />
 
     <Style x:Key="EmptyBoxRectangle" TargetType="Rectangle">
-        <Setter Property="Width" Value="60" />
-        <Setter Property="Height" Value="40" />
         <Setter Property="Fill" Value="{DynamicResource EmptySimpleLogo}" />
     </Style>
 
     <Style x:Key="EmptyBoxBaseStyle" TargetType="controls:EmptyBox">
+        <Setter Property="IconWidth" Value="60" />
+        <Setter Property="IconHeight" Value="40" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -1653,7 +1653,9 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
                         <StackPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <Rectangle Style="{DynamicResource EmptyBoxRectangle}" />
+                            <Rectangle Width="{TemplateBinding IconWidth}"
+                                       Height="{TemplateBinding IconHeight}"
+                                       Style="{DynamicResource EmptyBoxRectangle}" />
                             <TextBlock Margin="0,10,0,0"
                                        HorizontalAlignment="Center"
                                        Text="{TemplateBinding Description}" />

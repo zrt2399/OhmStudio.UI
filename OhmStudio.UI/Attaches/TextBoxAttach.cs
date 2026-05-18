@@ -10,44 +10,43 @@ namespace OhmStudio.UI.Attaches
         public const string PlaceHolder = "";
         public const double PlaceHolderOpacity = 0.6;
 
-        public static readonly DependencyProperty TitlePlacementProperty =
-          DependencyProperty.RegisterAttached("TitlePlacement", typeof(Dock), typeof(TextBoxAttach));
+        public static readonly DependencyProperty HeaderPlacementProperty =
+            DependencyProperty.RegisterAttached("HeaderPlacement", typeof(Dock), typeof(TextBoxAttach));
 
-        public static Dock GetTitlePlacement(DependencyObject target)
+        public static Dock GetHeaderPlacement(DependencyObject target)
         {
-            return (Dock)target.GetValue(TitlePlacementProperty);
+            return (Dock)target.GetValue(HeaderPlacementProperty);
         }
 
-        public static void SetTitlePlacement(DependencyObject target, Dock value)
+        public static void SetHeaderPlacement(DependencyObject target, Dock value)
         {
-            target.SetValue(TitlePlacementProperty, value);
+            target.SetValue(HeaderPlacementProperty, value);
         }
 
-        public static readonly DependencyProperty TitleProperty =
-           DependencyProperty.RegisterAttached("Title", typeof(object), typeof(TextBoxAttach));
+        public static readonly DependencyProperty HeaderProperty =
+            DependencyProperty.RegisterAttached("Header", typeof(object), typeof(TextBoxAttach));
 
-        public static object GetTitle(DependencyObject target)
+        public static object GetHeader(DependencyObject target)
         {
-            return target.GetValue(TitleProperty);
+            return target.GetValue(HeaderProperty);
         }
 
-        public static void SetTitle(DependencyObject target, object value)
+        public static void SetHeader(DependencyObject target, object value)
         {
-            target.SetValue(TitleProperty, value);
+            target.SetValue(HeaderProperty, value);
         }
 
-        public static readonly DependencyProperty PlaceHolderProperty =
-            DependencyProperty.RegisterAttached("PlaceHolder", typeof(string), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolder, (sender, e) =>
+        public static readonly DependencyProperty PlaceHolderTextProperty =
+            DependencyProperty.RegisterAttached("PlaceHolderText", typeof(string), typeof(TextBoxAttach), new PropertyMetadata(PlaceHolder, (sender, e) =>
             {
-                string newValue = e.NewValue as string;
+                var newValue = e.NewValue as string;
                 if (sender.IsPlaceHolderObject() && string.IsNullOrEmpty(newValue))
                 {
                     SetPlaceHolderVisibility(sender, Visibility.Collapsed);
                 }
                 var type = sender.GetType();
-                if (type == typeof(ComboBox))
+                if (type == typeof(ComboBox) && sender is ComboBox comboBox)
                 {
-                    var comboBox = sender as ComboBox;
                     if (comboBox.IsLoaded)
                     {
                         InvokePlaceHolderChanged(comboBox);
@@ -57,9 +56,8 @@ namespace OhmStudio.UI.Attaches
                         comboBox.Loaded += ComboBox_Loaded;
                     }
                 }
-                else if (type == typeof(TextBox))
+                else if (type == typeof(TextBox) && sender is TextBox textBox)
                 {
-                    var textBox = sender as TextBox;
                     textBox.TextChanged -= TextBox_TextChanged;
                     if (!string.IsNullOrEmpty(newValue))
                     {
@@ -67,9 +65,8 @@ namespace OhmStudio.UI.Attaches
                         textBox.TextChanged += TextBox_TextChanged;
                     }
                 }
-                else if (type == typeof(PasswordBox))
+                else if (type == typeof(PasswordBox) && sender is PasswordBox passwordBox)
                 {
-                    var passwordBox = sender as PasswordBox;
                     passwordBox.PasswordChanged -= PasswordBox_PasswordChanged;
                     if (!string.IsNullOrEmpty(newValue))
                     {
@@ -97,9 +94,11 @@ namespace OhmStudio.UI.Attaches
 
         private static void ComboBox_Loaded(object sender, RoutedEventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox;
-            comboBox.Loaded -= ComboBox_Loaded;
-            InvokePlaceHolderChanged(comboBox);
+            if (sender is ComboBox comboBox)
+            {
+                comboBox.Loaded -= ComboBox_Loaded;
+                InvokePlaceHolderChanged(comboBox);
+            }
         }
 
         private static void InvokePlaceHolderChanged(ComboBox comboBox)
@@ -108,7 +107,7 @@ namespace OhmStudio.UI.Attaches
             {
                 textBox.TextChanged -= ComboBoxTextBox_TextChanged;
                 comboBox.SelectionChanged -= ComboBox_SelectionChanged;
-                if (!string.IsNullOrEmpty(GetPlaceHolder(comboBox)))
+                if (!string.IsNullOrEmpty(GetPlaceHolderText(comboBox)))
                 {
                     UpdateHolderVisibility(comboBox, comboBox.IsEditable ? textBox.Text : comboBox.SelectedItem?.ToString());
                     textBox.TextChanged += ComboBoxTextBox_TextChanged;
@@ -123,8 +122,7 @@ namespace OhmStudio.UI.Attaches
 
         private static void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox;
-            if (!comboBox.IsEditable)
+            if (sender is ComboBox { IsEditable: false } comboBox)
             {
                 UpdateHolderVisibility(comboBox, comboBox.SelectedItem?.ToString());
             }
@@ -132,8 +130,7 @@ namespace OhmStudio.UI.Attaches
 
         private static void ComboBoxTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            if (textBox.TemplatedParent is ComboBox comboBox && comboBox.IsEditable)
+            if (sender is TextBox { TemplatedParent: ComboBox { IsEditable: true } comboBox } textBox)
             {
                 UpdateHolderVisibility(comboBox, textBox.Text);
             }
@@ -141,14 +138,18 @@ namespace OhmStudio.UI.Attaches
 
         private static void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            UpdateHolderVisibility(textBox, textBox.Text);
+            if (sender is TextBox textBox)
+            {
+                UpdateHolderVisibility(textBox, textBox.Text);
+            }
         }
 
         private static void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            PasswordBox passwordBox = sender as PasswordBox;
-            UpdateHolderVisibility(passwordBox, passwordBox.Password);
+            if (sender is PasswordBox passwordBox)
+            {
+                UpdateHolderVisibility(passwordBox, passwordBox.Password);
+            }
         }
 
         private static void UpdateHolderVisibility(DependencyObject target, string value)
@@ -159,14 +160,14 @@ namespace OhmStudio.UI.Attaches
             }
         }
 
-        public static string GetPlaceHolder(DependencyObject target)
+        public static string GetPlaceHolderText(DependencyObject target)
         {
-            return (string)target.GetValue(PlaceHolderProperty);
+            return (string)target.GetValue(PlaceHolderTextProperty);
         }
 
-        public static void SetPlaceHolder(DependencyObject target, string value)
+        public static void SetPlaceHolderText(DependencyObject target, string value)
         {
-            target.SetValue(PlaceHolderProperty, value);
+            target.SetValue(PlaceHolderTextProperty, value);
         }
 
         public static readonly DependencyProperty PlaceHolderOpacityProperty =
