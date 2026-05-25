@@ -34,7 +34,7 @@
 		<PackageReference Include="Dirkster.AvalonDock" Version="4.72.1" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(DefineConstants.Contains(NETCOREAPP)) == false">
+	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
 		<Reference Include="PresentationFramework.Aero" />
 		<Reference Include="System.ComponentModel.DataAnnotations" />
 		<Reference Include="System.Net.Http" />

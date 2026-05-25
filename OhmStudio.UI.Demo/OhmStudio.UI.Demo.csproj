@@ -27,7 +27,7 @@
 		<PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(DefineConstants.Contains(NETCOREAPP)) == false">
+	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
 		<Reference Include="System.ComponentModel.DataAnnotations" />
 	</ItemGroup>
 
