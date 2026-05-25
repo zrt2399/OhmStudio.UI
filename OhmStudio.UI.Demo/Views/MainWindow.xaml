@@ -386,7 +386,7 @@
                                                 <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                                                 <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
                                                 <DataGridTextColumn Binding="{Binding Password}"
-                                                                    DataGridColumnAttach.IsIgnoreElementStyle="True"
+                                                                    DataGridColumnAttach.IgnoreElementStyle="True"
                                                                     ElementStyle="{StaticResource TextBlockPassword}"
                                                                     Header="密码" />
                                                 <DataGridTemplateColumn Header="密码">
@@ -1350,7 +1350,7 @@
                                                                VerticalContentAlignment="Bottom"
                                                                ItemDisplayStringFormat="权限：{0}"
                                                                ItemsSource="{EnumBindingSource EnumType=viewmodels:UserPermission,
-                                                                                               IsIgnoreZero=True}"
+                                                                                               IgnoreZero=True}"
                                                                SelectedAllString="{x:Null}"
                                                                SelectedItems="{Binding CurrentUserPermission}"
                                                                Separator="；"

@@ -4,30 +4,30 @@ namespace OhmStudio.UI.Attaches
 {
     public class DataGridColumnAttach
     {
-        public static readonly DependencyProperty IsIgnoreElementStyleProperty =
-            DependencyProperty.RegisterAttached("IsIgnoreElementStyle", typeof(bool), typeof(DataGridColumnAttach));
+        public static readonly DependencyProperty IgnoreElementStyleProperty =
+            DependencyProperty.RegisterAttached("IgnoreElementStyle", typeof(bool), typeof(DataGridColumnAttach));
 
-        public static bool GetIsIgnoreElementStyle(DependencyObject target)
+        public static bool GetIgnoreElementStyle(DependencyObject target)
         {
-            return (bool)target.GetValue(IsIgnoreElementStyleProperty);
+            return (bool)target.GetValue(IgnoreElementStyleProperty);
         }
 
-        public static void SetIsIgnoreElementStyle(DependencyObject target, bool value)
+        public static void SetIgnoreElementStyle(DependencyObject target, bool value)
         {
-            target.SetValue(IsIgnoreElementStyleProperty, value);
+            target.SetValue(IgnoreElementStyleProperty, value);
         }
 
-        public static readonly DependencyProperty IsIgnoreEditingElementStyleProperty =
-            DependencyProperty.RegisterAttached("IsIgnoreEditingElementStyle", typeof(bool), typeof(DataGridColumnAttach));
+        public static readonly DependencyProperty IgnoreEditingElementStyleProperty =
+            DependencyProperty.RegisterAttached("IgnoreEditingElementStyle", typeof(bool), typeof(DataGridColumnAttach));
 
-        public static bool GetIsIgnoreEditingElementStyle(DependencyObject target)
+        public static bool GetIgnoreEditingElementStyle(DependencyObject target)
         {
-            return (bool)target.GetValue(IsIgnoreEditingElementStyleProperty);
+            return (bool)target.GetValue(IgnoreEditingElementStyleProperty);
         }
 
-        public static void SetIsIgnoreEditingElementStyle(DependencyObject target, bool value)
+        public static void SetIgnoreEditingElementStyle(DependencyObject target, bool value)
         {
-            target.SetValue(IsIgnoreEditingElementStyleProperty, value);
+            target.SetValue(IgnoreEditingElementStyleProperty, value);
         }
     }
 }

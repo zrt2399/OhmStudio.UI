@@ -34,12 +34,12 @@ namespace OhmStudio.UI.Attaches
             EnumType = enumType;
         }
 
-        public EnumBindingSourceExtension(Type enumType, bool isIgnoreZero) : this(enumType)
+        public EnumBindingSourceExtension(Type enumType, bool ignoreZero) : this(enumType)
         {
-            IsIgnoreZero = isIgnoreZero;
+            IgnoreZero = ignoreZero;
         }
 
-        public bool IsIgnoreZero { get; set; }
+        public bool IgnoreZero { get; set; }
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -53,7 +53,7 @@ namespace OhmStudio.UI.Attaches
 
             if (actualEnumType == EnumType)
             {
-                if (IsIgnoreZero)
+                if (IgnoreZero)
                 {
                     return enumValues.Cast<object>().Where(x => Convert.ToInt64(x) != 0);
                 }

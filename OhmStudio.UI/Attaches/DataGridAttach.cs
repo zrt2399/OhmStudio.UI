@@ -104,7 +104,7 @@ namespace OhmStudio.UI.Attaches
                     var type = item.GetType();
                     if (isEditingStyle)
                     {
-                        if (!DataGridColumnAttach.GetIsIgnoreEditingElementStyle(item))
+                        if (!DataGridColumnAttach.GetIgnoreEditingElementStyle(item))
                         {
                             type.GetProperty("EditingElementStyle")?.SetValue(item, style);
                             //item.EditingElementStyle = style;
@@ -112,7 +112,7 @@ namespace OhmStudio.UI.Attaches
                     }
                     else
                     {
-                        if (!DataGridColumnAttach.GetIsIgnoreElementStyle(item))
+                        if (!DataGridColumnAttach.GetIgnoreElementStyle(item))
                         {
                             type.GetProperty("ElementStyle")?.SetValue(item, style);
                             //item.ElementStyle = style;
