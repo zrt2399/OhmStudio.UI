@@ -11,7 +11,7 @@
 	<PropertyGroup>
 		<LangVersion>9.0</LangVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-		<Version>1.2.5.9</Version>
+		<Version>1.2.6.0</Version>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<Title>WPFUI Library</Title>
@@ -20,9 +20,9 @@
 		<PackageTags>WPF;XAML;AvalonDock;UI;Theme</PackageTags>
 		<Description>WPF control&amp;AvalonDock styles and themes</Description>
 		<PackageIcon>ohm.png</PackageIcon>
-		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<!-- <PackageLicenseFile>LICENSE.txt</PackageLicenseFile> -->
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<!--<PackageLicenseExpression>MIT</PackageLicenseExpression>-->
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/zrt2399/OhmStudio.UI</RepositoryUrl>
