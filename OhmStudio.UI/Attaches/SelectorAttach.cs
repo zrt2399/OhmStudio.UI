@@ -169,7 +169,7 @@ namespace OhmStudio.UI.Attaches
                 selector.Dispatcher.InvokeAsync(() =>
                 {
                     selector.ScrollToEnd();
-                }, DispatcherPriority.Render);
+                }, DispatcherPriority.Loaded);
             }
         }
 
@@ -215,7 +215,7 @@ namespace OhmStudio.UI.Attaches
                 {
                     dataGrid.ScrollIntoView(dataGrid.SelectedItem);
                 }
-            }, DispatcherPriority.Render);
+            }, DispatcherPriority.Loaded);
         }
     }
 }
