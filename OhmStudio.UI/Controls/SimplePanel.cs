@@ -5,10 +5,10 @@ using System.Windows.Controls;
 namespace OhmStudio.UI.Controls
 {
     /// <summary>
-    ///     用以代替<see cref="Grid"/>。
+    /// Provides a lightweight alternative to the <see cref="Grid"/> control.
     /// </summary>
     /// <remarks>
-    ///     当不需要<see cref="Grid"/>的行、列分隔等功能时建议用此轻量级类代替。
+    /// It is recommended to use this class when the row and column division features of a <see cref="Grid"/> are not required.
     /// </remarks>
     public class SimplePanel : Panel
     {
