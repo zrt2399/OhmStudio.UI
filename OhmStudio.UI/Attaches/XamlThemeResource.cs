@@ -19,6 +19,7 @@ namespace OhmStudio.UI.Attaches
 
     public class XamlThemeDictionary : ResourceDictionary
     {
+        private ThemeType? _appliedTheme;
         private const string UIPath = "pack://application:,,,/OhmStudio.UI;component/";
 
         public static event EventHandler ThemeChanged;
@@ -26,9 +27,11 @@ namespace OhmStudio.UI.Attaches
         public XamlThemeDictionary()
         {
             _current = this;
-            UpdateTheme(Theme);
+            ApplyTheme(Theme);
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         }
+
+        private static ThemeType SystemTheme => SystemHelper.DetermineIfInLightThemeMode ? ThemeType.Light2022 : ThemeType.Dark2022;
 
         private static XamlThemeDictionary _current;
         public static XamlThemeDictionary Current
@@ -49,13 +52,12 @@ namespace OhmStudio.UI.Attaches
             get => _theme;
             set
             {
-                if (_theme == value)
+                if (_theme != value)
                 {
-                    return;
+                    ApplyTheme(value);
+                    _theme = value;
+                    ThemeChanged?.Invoke(this, EventArgs.Empty);
                 }
-                UpdateTheme(_theme = value);
-                ThemeChanged?.Invoke(this, EventArgs.Empty);
-                StatusManager.Current.Update();
             }
         }
 
@@ -71,18 +73,22 @@ namespace OhmStudio.UI.Attaches
         {
             if (Theme == ThemeType.SyncWithSystem)
             {
-                UpdateTheme(SystemHelper.DetermineIfInLightThemeMode ? ThemeType.Light2022 : ThemeType.Dark2022);
+                ApplyTheme(SystemTheme);
             }
         }
 
-        private void UpdateTheme(ThemeType themeType)
+        private void ApplyTheme(ThemeType themeType)
         {
             if (themeType == ThemeType.SyncWithSystem)
             {
-                SyncWithSystemTheme();  
+                themeType = SystemTheme;
+            }
+
+            if (_appliedTheme == themeType)
+            {
                 return;
             }
-            
+
             string url = themeType switch
             {
                 ThemeType.Blue2019 => "VisualStudio2019/BlueTheme.xaml",
@@ -103,6 +109,9 @@ namespace OhmStudio.UI.Attaches
             {
                 MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri(url) };
             }
+
+            _appliedTheme = themeType;
+            StatusManager.Current.Update();
         }
     }
 }
