@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="OhmStudio.UI.Demo/OhmStudio.UI.Demo.csproj" />
+  <Project Path="OhmStudio.UI/OhmStudio.UI.csproj" />
+</Solution>
