@@ -7,7 +7,7 @@
     <Style x:Key="WindowSystemButtonBaseStyle" TargetType="{x:Type ctrls:WindowSystemButton}">
         <Setter Property="Background" Value="{DynamicResource EnvironmentMainWindowButtonActive}" />
         <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonActiveBorder}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <!--<Setter Property="BorderThickness" Value="1" />-->
         <Setter Property="Foreground" Value="{DynamicResource EnvironmentMainWindowButtonActiveGlyph}" />
         <Setter Property="Width" Value="46" />
         <Setter Property="Height" Value="32" />
@@ -55,7 +55,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="Transparent" />
-                            <Setter Property="BorderBrush" Value="Transparent" />
+                            <!--<Setter Property="BorderBrush" Value="Transparent" />-->
                             <Setter Property="Opacity" Value="0.32" />
                         </Trigger>
                         <Trigger Property="ButtonType" Value="Menu">
@@ -91,22 +91,22 @@
                         </Trigger>
                         <Trigger Property="controlzEx:NonClientControlProperties.IsNCMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource EnvironmentMainWindowButtonHoverActive}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonHoverActiveBorder}" />
+                            <!--<Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonHoverActiveBorder}" />-->
                             <Setter Property="Foreground" Value="{DynamicResource EnvironmentMainWindowButtonHoverActiveGlyph}" />
                         </Trigger>
                         <Trigger Property="controlzEx:NonClientControlProperties.IsNCPressed" Value="True">
                             <Setter Property="Background" Value="{DynamicResource EnvironmentMainWindowButtonDown}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonDownBorder}" />
+                            <!--<Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonDownBorder}" />-->
                             <Setter Property="Foreground" Value="{DynamicResource EnvironmentMainWindowButtonDownGlyph}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource EnvironmentMainWindowButtonHoverActive}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonHoverActiveBorder}" />
+                            <!--<Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonHoverActiveBorder}" />-->
                             <Setter Property="Foreground" Value="{DynamicResource EnvironmentMainWindowButtonHoverActiveGlyph}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" Value="{DynamicResource EnvironmentMainWindowButtonDown}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonDownBorder}" />
+                            <!--<Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonDownBorder}" />-->
                             <Setter Property="Foreground" Value="{DynamicResource EnvironmentMainWindowButtonDownGlyph}" />
                         </Trigger>
                         <Trigger SourceName="PART_Popup" Property="Popup.HasDropShadow" Value="True">
@@ -120,7 +120,7 @@
                                 <Condition Binding="{Binding Path=IsActive, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" Value="False" />
                             </MultiDataTrigger.Conditions>
                             <Setter Property="Background" Value="{DynamicResource EnvironmentMainWindowButtonInactive}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonInactiveBorder}" />
+                            <!--<Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonInactiveBorder}" />-->
                             <Setter Property="Foreground" Value="{DynamicResource EnvironmentMainWindowButtonInactiveGlyph}" />
                         </MultiDataTrigger>
                         <MultiDataTrigger>
@@ -130,7 +130,7 @@
                                 <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
                             </MultiDataTrigger.Conditions>
                             <Setter Property="Background" Value="{DynamicResource EnvironmentMainWindowButtonHoverInactive}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonHoverInactiveBorder}" />
+                            <!--<Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonHoverInactiveBorder}" />-->
                             <Setter Property="Foreground" Value="{DynamicResource EnvironmentMainWindowButtonHoverInactiveGlyph}" />
                         </MultiDataTrigger>
                         <MultiDataTrigger>
@@ -140,7 +140,7 @@
                                 <Condition Binding="{Binding Path=(controlzEx:NonClientControlProperties.IsNCMouseOver), RelativeSource={RelativeSource Self}}" Value="True" />
                             </MultiDataTrigger.Conditions>
                             <Setter Property="Background" Value="{DynamicResource EnvironmentMainWindowButtonHoverInactive}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonHoverInactiveBorder}" />
+                            <!--<Setter Property="BorderBrush" Value="{DynamicResource EnvironmentMainWindowButtonHoverInactiveBorder}" />-->
                             <Setter Property="Foreground" Value="{DynamicResource EnvironmentMainWindowButtonHoverInactiveGlyph}" />
                         </MultiDataTrigger>
                         <!--<MultiDataTrigger>
